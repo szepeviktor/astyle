@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{586F786D-379C-4D22-B525-5A0E8E45C273}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AStyleWeb Doc", "AStyleWeb Doc", "{586F786D-379C-4D22-B525-5A0E8E45C273}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
