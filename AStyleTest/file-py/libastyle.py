@@ -32,8 +32,8 @@ OPT0 = ""
 # align-pointer=type (k1), add-brackets (j), break-blocks=all (F),
 #     min-conditional-indent=0 (m0)
 #     pad-oper (p), delete-empty-lines (xd)
-OPT1 = "-CSKNLwYM50m0yeoOcFpPHUxdEk1xC100"
-#OPT1 = "-CSKNLwYM50m0yejoOcFpPHUxdEk1xC100"
+#OPT1 = "-CSKNLwYM50m0yeoOcFpPHUxdEk1"
+OPT1 = "-CSKNLwYM50m0yejoOcFpPHUxdEk1"
 # align-pointer=middle (k2), add-one-line-brackets (J), break-blocks (f),
 #     min-conditional-indent=3 (m3), pad-paren-out(d)
 #     pad-oper (p), delete-empty-lines (xd)
@@ -287,6 +287,8 @@ def getch():
 				ch = sys.stdin.read(1)
 		finally:
 			termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+	if get_python_version_number() >= 3:
+		ch = ch.decode('utf-8')
 	print (ch)
 	return ch
 
@@ -422,6 +424,12 @@ def get_project_filepaths(project):
 def get_python_version():
 	version = "Python {0}.{1}".format(sys.version_info[0], sys.version_info[1])
 	return version
+
+# -----------------------------------------------------------------------------
+
+def get_python_version_number():
+	"""Return the Python version number"""
+	return sys.version_info[0]
 	
 # -----------------------------------------------------------------------------
 
@@ -528,6 +536,7 @@ def test_all_functions():
 	get_project_directory()
 	get_project_excludes(TESTPROJECT)
 	get_project_filepaths(TESTPROJECT)
+	get_python_version_number()
 	get_temp_directory()
 	get_test_directory()
 	is_executed_from_console()

@@ -26,9 +26,9 @@ def extract_project(project, all_files_option):
 	"""Call the procedure to extract the requested project.
 	   The main processing procedure called by other functions.
 	"""
+	global extract_all_files
 	if all_files_option == True:
 		extract_all_files = True
-		print ("extracting ALL files")
 	if project == libastyle.CODEBLOCKS:
 		extract_codeblocks()
 	elif project == libastyle.DRJAVA:
@@ -58,8 +58,11 @@ def call_7zip(filepath, outdir, fileext):
 	print ("extract " + prtfile)
 	exepath = libastyle.get_7zip_path()
 	extract = [exepath, "x", "-ry", "-o" + outdir, filepath]
-	if not extract_all_files:
+	if extract_all_files:
+		print ("extracting ALL files")
+	else:
 		extract.extend(fileext)
+		print ("extracting " + str(fileext))
 	filename = libastyle.get_temp_directory() + "/extract.txt"
 	outfile = open(filename, 'w')
 	retval = subprocess.call(extract, stdout=outfile)
