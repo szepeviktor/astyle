@@ -3826,7 +3826,7 @@ TEST(AlignPointerNone, Paren)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone, PointerToPointer)
+TEST(AlignPointerNone, PointerToPointer1)
 {
 	// test double pointer
 	char text[] =
@@ -3838,6 +3838,20 @@ TEST(AlignPointerNone, PointerToPointer)
 		"    char	**	bar1;\n"
 		"    char		**		bar1;\n"
 		"    char**bar1;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, PointerToPointer2)
+{
+	// test double pointer beginning a line
+	char text[] =
+		"\nvoid SQNativeClosure::Mark ( SQCollectable\n"
+		"                             ** chain )\n"
+		"{\n"
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -4314,7 +4328,7 @@ TEST(AlignPointerType, Paren)
 	delete [] textOut;
 }
 
-TEST(AlignPointerType, PointerToPointer)
+TEST(AlignPointerType, PointerToPointer1)
 {
 	// test double pointer
 	char textIn[] =
@@ -4339,6 +4353,20 @@ TEST(AlignPointerType, PointerToPointer)
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, PointerToPointer2)
+{
+	// test double pointer beginning a line
+	char text[] =
+		"\nvoid SQNativeClosure::Mark ( SQCollectable\n"
+		"                             ** chain )\n"
+		"{\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -4921,7 +4949,7 @@ TEST(AlignPointerMiddle, Paren)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle, PointerToPointer)
+TEST(AlignPointerMiddle, PointerToPointer1)
 {
 	// test double pointer
 	char textIn[] =
@@ -4946,6 +4974,20 @@ TEST(AlignPointerMiddle, PointerToPointer)
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, PointerToPointer2)
+{
+	// test double pointer beginning a line
+	char text[] =
+		"\nvoid SQNativeClosure::Mark ( SQCollectable\n"
+		"                             ** chain )\n"
+		"{\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -5580,7 +5622,7 @@ TEST(AlignPointerName, Paren)
 	delete [] textOut;
 }
 
-TEST(AlignPointerName, PointerToPointer)
+TEST(AlignPointerName, PointerToPointer1)
 {
 	// test double pointer
 	char textIn[] =
@@ -5603,6 +5645,20 @@ TEST(AlignPointerName, PointerToPointer)
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, PointerToPointer2)
+{
+	// test double pointer beginning a line
+	char text[] =
+		"\nvoid SQNativeClosure::Mark ( SQCollectable\n"
+		"                             **chain )\n"
+		"{\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }

@@ -34,8 +34,10 @@ import time
 project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
+# optionsX can be a bracket style or any other option
 #options = "-tapO"
-options = libastyle.OPT1
+options = libastyle.OPT0
+optionsX = "-xC50"
 
 # executable for test
 astyleexe = "astyled"
@@ -47,13 +49,14 @@ all_files_option = False
 # test number to start with (usually 1)
 start = 1
 
+# bracket options and the order they are tested (start with number 1)
+brackets = "__aa_bb_ll_gg_aa_ll_bb_gg_bb_aa_gg_ll_aa_"
+
 # -----------------------------------------------------------------------------
 
 def process_files():
 	"""Main processing function.
 	"""
-	# bracket options and the order they are tested
-	brackets = "__aa_bb_ll_gg_aa_ll_bb_gg_bb_aa_gg_ll_aa_"
 	# total files formatted in error
 	errors = 0
 	errtests = []
@@ -200,15 +203,18 @@ def print_run_header():
 	else:
 		print ("Using {0}".format(astyleexe), end=" ")
 	if options == libastyle.OPT0:
-		print ("OPT0")
+		print ("OPT0", end=" ")
 	elif options == libastyle.OPT1:
-		print ("OPT1")
+		print ("OPT1", end=" ")
 	elif options == libastyle.OPT2:
-		print ("OPT2")
+		print ("OPT2", end=" ")
 	elif options == libastyle.OPT3:
-		print ("OPT3")
+		print ("OPT3", end=" ")
 	else:
-		print (options)
+		print (options, end=" ")
+	if len(optionsX.strip()) > 0:
+		print (optionsX, end=" "),
+	print ()
 
 # -----------------------------------------------------------------------------
 
@@ -271,6 +277,10 @@ def set_astyle_args(filepath, excludes, brackets, index):
 	args.append("-vRQ")
 	if brackets[index] != '_':
 		args.append('-' + brackets[index])
+	if len(optionsX.strip()) > 0:
+		if optionsX[0] != '-':
+			libastyle.system_exit("optionsX must begin with a '-'")
+		args.append(optionsX)
 	# set excludes
 	for exclude in excludes:
 		args.append(exclude)

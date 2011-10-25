@@ -2578,6 +2578,23 @@ TEST(MaxCodeLength, BreakAfterSemiColon2)
 	delete [] textOut;
 }
 
+TEST(MaxCodeLength, BreakAfterSemiColon3)
+{
+	// Test max code length breaking on a semicolon.
+	// Should not break if next character is a semi-colon.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    for (StringHash::const_iterator it = vars->begin();\n"
+		"            it != vars->end(); ++it)\n"
+		"        lst->Append(text);\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(MaxCodeLength, BreakBeforeLogical)
 {
 	// Test max code length break before conditional (the default).
@@ -2748,8 +2765,8 @@ TEST(MaxCodeLength, BreakAfterComma1)
 		"\n"
 		"void foo()\n"
 		"{\n"
-		"    size_t utf1 = Utf16ToUtf8(utf16In, inLen, encoding,\n"
-		"                              firstBlock, utf8Out);\n"
+		"    size_t utf1 = Utf16ToUtf8(utf16In, inLen,\n"
+		"                              encoding, firstBlock, utf8Out);\n"
 		"}";
 	char options[] = "max-code-length=50";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -2775,6 +2792,48 @@ TEST(MaxCodeLength, BreakAfterComma2)
 		"    const string& line, int i, int tabIncrementIn,\n"
 		"    int minIndent)\n"
 		"{}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, BreakBeforeUnpaddedOperator)
+{
+	// Test max code length breaking before an unpadded operator.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    TRACE(_T(\"Add token name=\")+name+_T(\", args=\")+args+_T(\", return type=\"));\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    TRACE(_T(\"Add token name=\")+name+_T(\", args=\")+\n"
+		"          args+_T(\", return type=\"));\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, BreakBeforeUnpaddedComparisonOperator)
+{
+	// Test max code length breaking after an unpadded comparison operator.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if(data->GetKind()->GetAnotherKind()==FileTreeData::ftdkFile)\n"
+		"        menu = child->GetSubMenu();\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if(data->GetKind()->GetAnotherKind()==\n"
+		"            FileTreeData::ftdkFile)\n"
+		"        menu = child->GetSubMenu();\n"
+		"}";
 	char options[] = "max-code-length=50";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -2870,6 +2929,75 @@ TEST(MaxCodeLength, LineComment2)
 	delete [] textOut;
 }
 
+TEST(MaxCodeLength, LineComment3)
+{
+	// Max code length should not break immediately before a line comment.
+	// The break is in the whitespace before the comment.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (line[i] == '}')                                    // comment in column 60\n"
+		"    {\n"
+		"        foobar();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (line[i] ==\n"
+		"            '}')                                    // comment in column 60\n"
+		"    {\n"
+		"        foobar();\n"
+		"    }\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, LineComment4)
+{
+	// Max code length should not break immediately before a line comment.
+	// The break is within the comment.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (line[i] == '}')                     // comment in column 45\n"
+		"    {\n"
+		"        foobar();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (line[i] ==\n"
+		"            '}')                     // comment in column 45\n"
+		"    {\n"
+		"        foobar();\n"
+		"    }\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, LineComment5)
+{
+	// Max code length should break twice on the first try.
+	char textIn[] =
+		"\nvoid Foo(){ return IsBuiltinOpen(filename); } // synonym of IsBuiltinOpen()";
+	char text[] =
+		"\nvoid Foo() {\n"
+		"    return IsBuiltinOpen(\n"
+		"               filename);    // synonym of IsBuiltinOpen()\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
 
 TEST(MaxCodeLength, Comment1)
 {
@@ -2901,6 +3029,76 @@ TEST(MaxCodeLength, Comment2)
 		"}";
 	char options[] = "max-code-length=50";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, Comment3)
+{
+	// Max code length should not break immediately before a comment.
+	// The break is in the whitespace before the comment.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (line[i] == '}')                                    /* comment in column 60 */\n"
+		"    {\n"
+		"        foobar();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (line[i] ==\n"
+		"            '}')                                    /* comment in column 60 */\n"
+		"    {\n"
+		"        foobar();\n"
+		"    }\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, Comment4)
+{
+	// Max code length should not break immediately before a comment.
+	// The break is within the comment.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (line[i] == '}')                     /* comment in column 45 */\n"
+		"    {\n"
+		"        foobar();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (line[i] ==\n"
+		"            '}')                     /* comment in column 45 */\n"
+		"    {\n"
+		"        foobar();\n"
+		"    }\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, Comment5)
+{
+	// Max code length should break twice on the first try.
+	char textIn[] =
+		"\nvoid Foo(){ return IsBuiltinOpen(filename); } /* synonym of IsBuiltinOpen() */";
+	char text[] =
+		"\nvoid Foo() {\n"
+		"    return IsBuiltinOpen(\n"
+		"               filename);    /* synonym of IsBuiltinOpen() */\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -3106,6 +3304,65 @@ TEST(MaxCodeLength, ParenBreak2)
 	delete [] textOut;
 }
 
+TEST(MaxCodeLength, ParenBreak3)
+{
+	// Test max code length with pad parens.
+	// Should break before the paren.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    currentChar = (*newOperator) [newOperator->length() - 1];\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    currentChar =\n"
+		"        ( *newOperator ) [newOperator->length() - 1];\n"
+		"}";
+	char options[] = "max-code-length=50, pad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, BlockParenBreak1)
+{
+	// Max code length should not break within a block paren.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    languages[i].single_line_comment = languages[i+1].single_line_comment;\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    languages[i].single_line_comment =\n"
+		"        languages[i+1].single_line_comment;\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, BlockParenBreak2)
+{
+	// Max code length should not break within a padded block paren.
+	char textIn[] =
+		"\nconst char* TiXmlBase::errorString[ TIXML_ERROR_STRING_COUNT ] =\n"
+		"{\n"
+		"};";
+	char text[] =
+		"\nconst char*\n"
+		"TiXmlBase::errorString[ TIXML_ERROR_STRING_COUNT ] =\n"
+		"{\n"
+		"};";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(MaxCodeLength, BreakBlocks1)
 {
 	// Test max code length with break-blocks.
@@ -3114,7 +3371,7 @@ TEST(MaxCodeLength, BreakBlocks1)
 		"\nvoid foo()\n"
 		"{\n"
 		"    bar1 = fooFunction1(longVariable1, longVariable2, longVariable3);\n"
-		"    if (longVariable1 || longVariable2 || longVariable3)\n"
+		"    if (longVariable1x || longVariable2x || longVariable3x)\n"
 		"        bar();\n"
 		"    bar2 = fooFunction2(longVariable1, longVariable2, longVariable3);\n"
 		"}";
@@ -3124,8 +3381,8 @@ TEST(MaxCodeLength, BreakBlocks1)
 		"    bar1 = fooFunction1(longVariable1, longVariable2,\n"
 		"                        longVariable3);\n"
 		"\n"
-		"    if (longVariable1 || longVariable2\n"
-		"            || longVariable3)\n"
+		"    if (longVariable1x || longVariable2x\n"
+		"            || longVariable3x)\n"
 		"        bar();\n"
 		"\n"
 		"    bar2 = fooFunction2(longVariable1, longVariable2,\n"
@@ -3145,7 +3402,7 @@ TEST(MaxCodeLength, BreakBlocks2)
 		"\nvoid foo()\n"
 		"{\n"
 		"    bar1 = fooFunction1(longVariable1, longVariable2, longVariable3);\n"
-		"    if (longVariable1 || longVariable2 || longVariable3)\n"
+		"    if (longVariable1x || longVariable2x || longVariable3x)\n"
 		"        bar();\n"
 		"    else\n"
 		"        bar2();\n"
@@ -3157,8 +3414,8 @@ TEST(MaxCodeLength, BreakBlocks2)
 		"    bar1 = fooFunction1(longVariable1, longVariable2,\n"
 		"                        longVariable3);\n"
 		"\n"
-		"    if (longVariable1 || longVariable2\n"
-		"            || longVariable3)\n"
+		"    if (longVariable1x || longVariable2x\n"
+		"            || longVariable3x)\n"
 		"        bar();\n"
 		"    else\n"
 		"        bar2();\n"
@@ -3207,7 +3464,7 @@ TEST(MaxCodeLength, BreakBlocksAll1)
 		"\nvoid foo()\n"
 		"{\n"
 		"    bar1 = fooFunction1(longVariable1, longVariable2, longVariable3);\n"
-		"    if (longVariable1 || longVariable2 || longVariable3)\n"
+		"    if (longVariable1x || longVariable2x || longVariable3x)\n"
 		"        bar1();\n"
 		"    else\n"
 		"        bar2();\n"
@@ -3219,8 +3476,8 @@ TEST(MaxCodeLength, BreakBlocksAll1)
 		"    bar1 = fooFunction1(longVariable1, longVariable2,\n"
 		"                        longVariable3);\n"
 		"\n"
-		"    if (longVariable1 || longVariable2\n"
-		"            || longVariable3)\n"
+		"    if (longVariable1x || longVariable2x\n"
+		"            || longVariable3x)\n"
 		"        bar1();\n"
 		"\n"
 		"    else\n"
@@ -3282,16 +3539,54 @@ TEST(MaxCodeLength, BreakMinimum)
 	delete [] textOut;
 }
 
-TEST(MaxCodeLength, BreakMaximum)
+TEST(MaxCodeLength, BreakMaximum1)
 {
-	// Test max code length with a break above the maximum (should not break).
+	// Test max code length with a break equal the maximum (should not break).
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
-		"    bar (variable1, variable2, variable3, variable4, varX)\n"
+		"    bar (variable, variable, variable, variable, var);\n"
 		"}";
 	char options[] = "max-code-length=50";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, BreakMaximum2)
+{
+	// Test max code length with a break equal the maximum + 1 (should not break).
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar (variable, variable, variable, variable, varx);\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar (variable, variable, variable, variable, varx);\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, BreakMaximum3)
+{
+	// Should break twice on the first try.
+	char textIn[] =
+		"\nvoid DebuggerState::ShiftBreakpoints(const wxString& file, int startline, int nroflines)\n"
+		"{\n"
+		"}";
+	char text[] =
+		"\nvoid DebuggerState::ShiftBreakpoints(\n"
+		"    const wxString& file, int startline,\n"
+		"    int nroflines)\n"
+		"{\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -3300,16 +3595,18 @@ TEST(MaxCodeLength, BreakMaximumWithPad)
 {
 	// Test max code length with a break below the max but above the max with padding.
 	// The statement should break when the padding is accounted for.
+	// To test for failure the long line length must be greater than 50 but less than extraCharsAllowed.
+	// The current value is 52 (50 + 2).
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
-		"    m_DrawArea->Connect.threexxxxxxx(wxEVT_LEFT_DOWN,0,this);\n"
+		"    m_DrawArea->Connect.threexx(wxEVT_LEFT_DOWN,0,this);\n"
 		"}";
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
-		"    m_DrawArea->Connect.threexxxxxxx ( wxEVT_LEFT_DOWN,\n"
-		"                                       0, this );\n"
+		"    m_DrawArea->Connect.threexx ( wxEVT_LEFT_DOWN, 0,\n"
+		"                                  this );\n"
 		"}";
 	char options[] = "max-code-length=50, pad-paren, pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -3402,7 +3699,7 @@ TEST(MaxCodeLength, KeepOneLineBlocksSans)
 	delete [] textOut;
 }
 
-TEST(MaxCodeLength, AttachPointerToType)
+TEST(MaxCodeLength, AlignPointerToType1)
 {
 	// Test max code length with align-pointer=type.
 	// Aborted when formatPointerOrReference() method contained a call to appendCurrentChar().
@@ -3419,25 +3716,137 @@ TEST(MaxCodeLength, AttachPointerToType)
 	delete [] textOut;
 }
 
-TEST(MaxCodeLength, AddBrackets)
+TEST(MaxCodeLength, AlignPointerToType2)
+{
+	// Test max code length with align-pointer=type.
+	// Preceeding a dereference should break before the dereference.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    wxArrayString& self = *SqPlus::GetInstance<wxArrayString,false>(v, 1);\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    wxArrayString& self =\n"
+		"        *SqPlus::GetInstance<wxArrayString,false>(v, 1);\n"
+		"}";
+	char options[] = "max-code-length=50, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, AlignPointerToType3)
+{
+	// Test max code length with align-pointer=type for a reference.
+	// Preceeding a dereference should break before the dereference.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    wxArrayString* self = &SqPlus::GetInstance<wxArrayString,false>(v, 1);\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    wxArrayString* self =\n"
+		"        &SqPlus::GetInstance<wxArrayString,false>(v, 1);\n"
+		"}";
+	char options[] = "max-code-length=50, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, AddBrackets1)
 {
 	// Test max code length with add-brackets.
 	// Should not add an extra line or break the bracket when add-brackets is used.
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
-		"    if (multi_line_comment_beginxxx < line.Length())\n"
+		"    if (multi_line_comment_beginxxxx < line.Length())\n"
 		"        AnalyseLine();\n"
 		"}";
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
-		"    if (multi_line_comment_beginxxx <\n"
+		"    if (multi_line_comment_beginxxxx <\n"
 		"            line.Length()) {\n"
 		"        AnalyseLine();\n"
 		"    }\n"
 		"}";
 	char options[] = "max-code-length=50, add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, AddBrackets2)
+{
+	// Test max code length with add-brackets.
+	// Should break line when add-brackets is used.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(!ret)\n"
+		"        cbMessageBox(_(\"Couldn't save workspace \") + _(\"(Maybe the file is write-protected?\"));\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(!ret) {\n"
+		"        cbMessageBox(_(\"Couldn't save workspace \") +\n"
+		"                     _(\"(Maybe the file is write-protected?\"));\n"
+		"    }\n"
+		"}";
+	char options[] = "max-code-length=50, add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, AddBrackets3)
+{
+	// Test max code length with add-brackets.
+	// Should NOT break on the space padding following an added bracket.
+	// This will add an empty line after the conditional.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (first_multi_line_comment_xx < line.Length())\n"
+		"        AnalyseLine(language);\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (first_multi_line_comment_xx < line.Length()) {\n"
+		"        AnalyseLine(language);\n"
+		"    }\n"
+		"}";
+	char options[] = "max-code-length=50, add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, AddOneLineBrackets)
+{
+	// Test max code length with add-one-line-brackets.
+	// Should NOT break line when add-one-line-brackets is used.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(!ret)\n"
+		"        cbMessageBox(_(\"Couldn't save workspace \") + _(\"(Maybe the file is write-protected?\"));\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(!ret)\n"
+		"    { cbMessageBox(_(\"Couldn't save workspace \") + _(\"(Maybe the file is write-protected?\")); }\n"
+		"}";
+	char options[] = "max-code-length=50, add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3573,6 +3982,34 @@ TEST(MaxCodeLength, AttachBracket2)
 
 TEST(MaxCodeLength, AttachBracket3)
 {
+	// Test max code length when a bracket is attached inside a comment.
+	// Special problem where bracket wasn't attached on the first try
+	// due to the setting of "formattedLineCommentNum".
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(     id == XRCID(\"lstLibs\")) // Link libraries\n"
+		"        { myid =  wxXmlResource::GetXRCID(str_libs[myidx]); }\n"
+		"    else if(id == XRCID(\"lstIncludeDirs\") || id == XRCID(\"lstLibDirs\") || id == XRCID(\"lstResDirs\")) // Directories\n"
+		"       { myid =  wxXmlResource::GetXRCID(str_dirs[myidx]); }\n"
+		"}";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    if(     id == XRCID(\"lstLibs\")) { // Link libraries\n"
+		"        myid =  wxXmlResource::GetXRCID(str_libs[myidx]);\n"
+		"    } else if(id == XRCID(\"lstIncludeDirs\") || id == XRCID(\"lstLibDirs\")\n"
+		"              || id == XRCID(\"lstResDirs\")) { // Directories\n"
+		"        myid =  wxXmlResource::GetXRCID(str_dirs[myidx]);\n"
+		"    }\n"
+		"}";
+	char options[] = "max-code-length=100, style=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, AttachBracket4)
+{
 	// Test max code length when a bracket is changed from run-in to attached.
 	char textIn[] =
 		"\nvoid ClassBrowser::SetParser ( Parser* parser )\n"
@@ -3604,6 +4041,423 @@ TEST(MaxCodeLength, AttachBracket3)
 		"    }\n"
 		"}";
 	char options[] = "max-code-length=100, style=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, AttachBracket5)
+{
+	// Splitting a line with a following comment and the line follows a closing bracket.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"}\n"
+		"\n"
+		"void B_driver::CorrectCygwinPath(wxString& path){/* dummy */}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"}\n"
+		"\n"
+		"void B_driver::CorrectCygwinPath(wxString& path) {\n"
+		"    /* dummy */\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, AttachBracket6)
+{
+	// Test max code length when a bracket is attached.
+	// An array exceeds max-code-length when the bracket is attached.
+	char textIn[] =
+		"\nTiXmlBase::Entity TiXmlBase::entity[ NM_ENTITY ] =\n"
+		"{\n"
+		"    { \"&apos;\", 6, '\\'' }\n"
+		"};";
+	char text[] =
+		"\nTiXmlBase::Entity TiXmlBase::entity[ NM_ENTITY ] = {\n"
+		"    { \"&apos;\", 6, '\\'' }\n"
+		"};";
+	char options[] = "max-code-length=50, style=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, HorstmannBracket)
+{
+	// Test max code length with Horstmann brackets.
+	// Should split the line 3 times on the first try.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{   if (isFoo)\n"
+		"    {   Manager::Get()->GetLogManager()->DebugLog(F(_T(\"wxSmith: Error loading wxs file (Col: %d, Row:%d): \") + cbC2U(Doc.ErrorDesc()),Doc.ErrorCol(),Doc.ErrorRow()));\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{   if (isFoo)\n"
+		"    {   Manager::Get()->GetLogManager()->DebugLog(F(\n"
+		"                    _T(\"wxSmith: Error loading wxs file (Col: %d, Row:%d): \")\n"
+		"                    + cbC2U(Doc.ErrorDesc()),Doc.ErrorCol(),\n"
+		"                    Doc.ErrorRow()));\n"
+		"    }\n"
+		"}";
+	char options[] = "max-code-length=50, style=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, AlignToType1)
+{
+	// Should not break on a pointer when changing to pointer align to type (left).
+	char textIn[] =
+		"\nvoid SQNativeClosure::Mark ( SQCollectable *chain )\n"
+		"{\n"
+		"}";
+	char text[] =
+		"\nvoid SQNativeClosure::Mark (\n"
+		"    SQCollectable* chain )\n"
+		"{\n"
+		"}";
+	char options[] = "max-code-length=50, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, AlignToType2)
+{
+	// Should not break on a reference when changing to reference align to type (left)
+	// as indicated by pointer align to type.
+	char textIn[] =
+		"\nvoid SQNativeClosure::Mark ( SQCollectable &chain )\n"
+		"{\n"
+		"}";
+	char text[] =
+		"\nvoid SQNativeClosure::Mark (\n"
+		"    SQCollectable& chain )\n"
+		"{\n"
+		"}";
+	char options[] = "max-code-length=50, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, AlignToType3)
+{
+	// Should not break on a reference when changing to reference align to type (left).
+	char textIn[] =
+		"\nvoid SQNativeClosure::Mark ( SQCollectable &chain )\n"
+		"{\n"
+		"}";
+	char text[] =
+		"\nvoid SQNativeClosure::Mark (\n"
+		"    SQCollectable& chain )\n"
+		"{\n"
+		"}";
+	char options[] = "max-code-length=50, align-reference=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, BreakPastMaxCodeLength1)
+{
+	// Splitting a line with a break past the line end.
+	// Must use a PREVIOUS break if a break is past the maximum max-code-length.
+	// The following line should break after "wxArtProvider::GetBitmap(" (the first paren)
+	// instead of after "wxART_MAKE_ART_ID_FROM_STR(" (the second paren).
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    btnBack = new wxBitmapButton(Panel1, ID_BITMAPBUTTON2, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T(wxART_BUTTON))));\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    btnBack = new wxBitmapButton(Panel1,\n"
+		"                                 ID_BITMAPBUTTON2,\n"
+		"                                 wxArtProvider::GetBitmap(\n"
+		"                                     wxART_MAKE_ART_ID_FROM_STR(_T(wxART_BUTTON))));\n"
+		"}\n";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, BreakPastMaxCodeLength2)
+{
+	// Splitting a line with a break past the line end.
+	// Must use a PREVIOUS break if a break is past the maximum max-code-length.
+	// The break past max-code-length should be used for the NEXT break.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (!control)\n"
+		"        control = new wxTextCtrl(parent, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxTE_RICH | wxTE_NOHIDESEL | wxTE_AUTO_URL);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (!control)\n"
+		"        control = new wxTextCtrl(parent, -1,\n"
+		"                                 wxEmptyString, wxDefaultPosition, wxDefaultSize,\n"
+		"                                 wxTE_MULTILINE | wxTE_READONLY | wxTE_RICH |\n"
+		"                                 wxTE_NOHIDESEL | wxTE_AUTO_URL);\n"
+		"}\n";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, BreakPastMaxCodeLength3)
+{
+	// Splitting a line with a break past the line end.
+	// Must use a PREVIOUS break if a break is past the maximum max-code-length.
+	// The break past max-code-length should be used for the NEXT break.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    SetNodeText(s, TiXmlText(cbU2C(wxBase64::Encode(object.SerializeOut()))));\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    SetNodeText(s,\n"
+		"                TiXmlText(cbU2C(wxBase64::Encode(\n"
+		"                                    object.SerializeOut()))));\n"
+		"}\n";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, BreakPastMaxCodeLength4)
+{
+	// Splitting a line with a break past the line end.
+	// Must use a paren break if a whitespace break is past the maximum max-code-length.
+	// Otherwise the next run will break the code at the paren.
+	char textIn[] =
+		"\nDebuggerBreakpoint* DebuggerState::RemoveBreakpoint(DebuggerBreakpoint* bp, bool deleteit)\n"
+		"{\n"
+		"    return 0;\n"
+		"}\n";
+	char text[] =
+		"\nDebuggerBreakpoint*\n"
+		"DebuggerState::RemoveBreakpoint(\n"
+		"    DebuggerBreakpoint* bp, bool deleteit)\n"
+		"{\n"
+		"    return 0;\n"
+		"}\n";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, BreakPastMaxCodeLength5)
+{
+	// Splitting a line twice with a break past the line end
+	// when the currentLine is at the end of line.
+	// Tested with break blocks.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if((dir != Encrypt) && (dir != Decrypt))return RIJNDAEL_UNSUPPORTED_DIRECTION;\n"
+		"    // should be preceeded by an empty line\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if((dir != Encrypt)\n"
+		"            && (dir != Decrypt))return\n"
+		"                    RIJNDAEL_UNSUPPORTED_DIRECTION;\n"
+		"\n"
+		"    // should be preceeded by an empty line\n"
+		"}\n";
+	char options[] = "max-code-length=50, break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, BreakPastMaxCodeLength6)
+{
+	// Test max code length with a break equal the maximum + extraCharsAllowed.
+	// To test for failure the long line length must greater than maxCodeLength +
+	// extraCharsAllowed. There are two lines tested, ending with a "(" and a ",".
+	// The current values are 55 and 60 (greater than 50 + 3).
+	// It should not leave an empty line after the long line.
+	char text[] =
+		"\nAdvancedCompilerOptionsDlg::AdvancedCompilerOptionsDlg(\n"
+		"    wxWindow* parent, const wxString& compilerId)\n"
+		"{\n"
+		"    wxString ext = wxGetTextFromUser(\n"
+		"                       _(\"Please enter a semi separated list of extensions\"),\n"
+		"                       _(\"New extension\"));\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, BreakPastMaxCodeLength7)
+{
+	// Test max code length with a break equal the maximum + extraCharsAllowed.
+	// Should break on the paren after FindPageFromEditor.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (Manager::Get()->GetEditorManager()->FindPageFromEditor(m_pCodeCompletionLastEditor) == -1)\n"
+		"        return;\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (Manager::Get()->GetEditorManager()->FindPageFromEditor(\n"
+		"                m_pCodeCompletionLastEditor) == -1)\n"
+		"        return;\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, TwoBreaksWithComment1)
+{
+	// Test two breaks on a line with a line comment.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(old_a == a && old_b == b) // a long long comment to force a break\n"
+		"        return;\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if(old_a == a\n"
+		"            && old_b ==\n"
+		"            b) // a long long comment to force a break\n"
+		"        return;\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, TwoBreaksWithComment2)
+{
+	// Test single line block with two breaks on a line with a line comment.
+	char textIn[] =
+		"\nclass TiXmlNode\n"
+		"{\n"
+		"    char* foo() { return IterateChildren (_value.c_str (), previous); }   ///< STL std::string form.\n"
+		"}";
+	char text[] =
+		"\nclass TiXmlNode\n"
+		"{\n"
+		"    char* foo() {\n"
+		"        return IterateChildren (_value.c_str (),\n"
+		"                                previous);    ///< STL std::string form.\n"
+		"    }\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, Misc1)
+{
+	// Will split correctly if minimum code length is handled correctly.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    m_RegExes.Add(RegExStruct(_(\"Compiler error\"), cltError, _T(\"(^Error[ \\t]E[0-9]+)[ \\t](\") + FilePathWithSpaces + _T(\")[ \\t]([0-9]+)(:[ \\t].*)\"), 1, 2, 3, 4));\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    m_RegExes.Add(RegExStruct(_(\"Compiler error\"),\n"
+		"                              cltError, _T(\"(^Error[ \\t]E[0-9]+)[ \\t](\") +\n"
+		"                              FilePathWithSpaces +\n"
+		"                              _T(\")[ \\t]([0-9]+)(:[ \\t].*)\"), 1, 2, 3, 4));\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, Misc2)
+{
+	// Will not abort with pad-paren-out on the following line (checksum error).
+	// The paren before "parent" was deleted (caused by the inserted space).
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    PopulateListControl ( static_cast<wxFlatNotebook*>( parent ) );\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    PopulateListControl (\n"
+		"        static_cast<wxFlatNotebook*> ( parent ) );\n"
+		"}";
+	char options[] = "max-code-length=50, pad-paren-out";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, Misc3)
+{
+	// OK to break after a closing block paren.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    sort (&fileName[firstEntry],&fileName[fileName.size()]);\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    sort (&fileName[firstEntry],\n"
+		"          &fileName[fileName.size()]);\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, Misc4)
+{
+	// Test max code length with pointers.
+	// Should not break a pointer attached to a variable.
+	char textIn[] =
+		"\nTiXmlNode* TiXmlNode::ReplaceChild (TiXmlNode* replaceThisX, const TiXmlNode& withThis)\n"
+		"{\n"
+		"};";
+	char text[] =
+		"\nTiXmlNode* TiXmlNode::ReplaceChild (\n"
+		"    TiXmlNode* replaceThisX,\n"
+		"    const TiXmlNode& withThis)\n"
+		"{\n"
+		"};";
+	char options[] = "max-code-length=50";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
