@@ -461,14 +461,16 @@ def get_test_directory(endsep=False):
 # -----------------------------------------------------------------------------
 
 def is_executed_from_console():
-	"""Check if this run is from a console or from SciTE.
+	"""Check if this script is run is from the console or from an editor.
 	   If run from a console the sys.stdin will be a TTY.
+	   sys.stdin.fileno() seems to work OK for Windows.
+	   The AttributeError exception occurs when run from Visual Studio Shell.
 	"""
-	if os.isatty(sys.stdin.fileno()):
-		return True
-	else:
+	try:
+		return os.isatty(sys.stdin.fileno())
+	except AttributeError:
 		return False
-
+		
 # -----------------------------------------------------------------------------
 
 def set_error_color():

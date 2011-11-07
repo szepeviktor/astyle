@@ -3944,6 +3944,48 @@ TEST(MaxCodeLength, PadParen4)
 	delete [] textOut;
 }
 
+TEST(MaxCodeLength, PadParen5)
+{
+	// Test max code length with pad-paren.
+	// Should not break before the closing paren when the paren is padded.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    cbDebuggerPlugin* debugger = (cbDebuggerPlugin*)arr[i];\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    cbDebuggerPlugin* debugger =\n"
+		"        ( cbDebuggerPlugin* ) arr[i];\n"
+		"}";
+	char options[] = "max-code-length=50, pad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);  
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, PadParen6)
+{
+	// Test max code length with pad-paren.
+	// Should should break before "property" when the paren is padded.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    ctrl->SetValue( *((const wxDateTime*)property->DoGetValue().GetVoidPtr()) );\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    ctrl->SetValue ( * ( ( const wxDateTime* )\n"
+		"                         property->DoGetValue().GetVoidPtr() ) );\n"
+		"}";
+	char options[] = "max-code-length=50, pad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(MaxCodeLength, AttachBracket1)
 {
 	// Test max code length when a bracket is attached.
@@ -4457,6 +4499,26 @@ TEST(MaxCodeLength, Misc4)
 		"    const TiXmlNode& withThis)\n"
 		"{\n"
 		"};";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, Misc5)
+{
+	// Should not break before the closing paren of an empty paren.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    VersionEditorDialog.SetRevision(GetVersionState().Values.Revision);\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    VersionEditorDialog.SetRevision(\n"
+		"        GetVersionState().Values.Revision);\n"
+		"}";
 	char options[] = "max-code-length=50";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
