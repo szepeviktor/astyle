@@ -36,7 +36,7 @@ project = libastyle.CODEBLOCKS
 # select OPT0 thru OPT3, or use customized options
 # optionsX can be a bracket style or any other option
 #options = "-tapO"
-options = libastyle.OPT0
+options = libastyle.OPT1
 optionsX = "-xC50"
 
 # executable for test

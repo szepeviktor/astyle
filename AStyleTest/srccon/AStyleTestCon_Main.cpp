@@ -112,7 +112,7 @@ int main(int argc, char** argv)
 	{
 		if (g_isI18nTest)
 			// Change the following value to the number of tests (within 10).
-			TersePrinter::PrintTestTotals( 50 , __FILE__, __LINE__ );
+			TersePrinter::PrintTestTotals( 70 , __FILE__, __LINE__ );
 		else
 			// Change the following value to the number of tests (within 10).
 			TersePrinter::PrintTestTotals( 97 , __FILE__, __LINE__);

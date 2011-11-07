@@ -1,5 +1,7 @@
 // This module tests the Localizer and Translate classes.
 //
+// language ID http://msdn.microsoft.com/en-us/library/ee797784%28v=cs.20%29.aspx
+//
 // AStyleTestI18n tests the internationalization component of the ASConsole
 // class only. It uses the following source files from AStyleTestCon and
 // AStyleTest: AStyleTestCon.h, TersePrinter.h AStyleTestCon_Main.cpp,
@@ -117,6 +119,21 @@ TEST(ASLocalizer, ChineseTranslation)
 	EXPECT_TRUE(foundClassName) << className;
 }
 
+TEST(ASLocalizer, DutchTranslation)
+// Check that the correct polymorphic class is set by setTranslationClass().
+// setTranslationClass() is accessed thru setLanguageFromName();
+// Uses "find" because of the different return values from typeid.
+{
+	const Translation* translation;
+	// Dutch
+	ASLocalizer localizer;
+	localizer.setLanguageFromName("nl_NL");
+	translation = localizer.getTranslationClass();
+	string className = typeid(*translation).name();
+	bool foundClassName = className.find("Dutch") != string::npos;
+	EXPECT_TRUE(foundClassName) << className;
+}
+
 TEST(ASLocalizer, EnglishTranslation)
 // Check that the correct polymorphic class is set by setTranslationClass().
 // setTranslationClass() is accessed thru setLanguageFromName();
@@ -129,6 +146,21 @@ TEST(ASLocalizer, EnglishTranslation)
 	translation = localizer.getTranslationClass();
 	string className = typeid(*translation).name();
 	bool foundClassName = className.find("English") != string::npos;
+	EXPECT_TRUE(foundClassName) << className;
+}
+
+TEST(ASLocalizer, FinnishTranslation)
+// Check that the correct polymorphic class is set by setTranslationClass().
+// setTranslationClass() is accessed thru setLanguageFromName();
+// Uses "find" because of the different return values from typeid.
+{
+	const Translation* translation;
+	// Finnish
+	ASLocalizer localizer;
+	localizer.setLanguageFromName("fi_FI ");
+	translation = localizer.getTranslationClass();
+	string className = typeid(*translation).name();
+	bool foundClassName = className.find("Finnish") != string::npos;
 	EXPECT_TRUE(foundClassName) << className;
 }
 
@@ -177,18 +209,138 @@ TEST(ASLocalizer, HindiTranslation)
 	EXPECT_TRUE(foundClassName) << className;
 }
 
+TEST(ASLocalizer, ItalianTranslation)
+// Check that the correct polymorphic class is set by setTranslationClass().
+// setTranslationClass() is accessed thru setLanguageFromName();
+// Uses "find" because of the different return values from typeid.
+{
+	const Translation* translation;
+	// Italian
+	ASLocalizer localizer;
+	localizer.setLanguageFromName("it_IT");
+	translation = localizer.getTranslationClass();
+	string className = typeid(*translation).name();
+	bool foundClassName = className.find("Italian") != string::npos;
+	EXPECT_TRUE(foundClassName) << className;
+}
+
+TEST(ASLocalizer, JapaneseTranslation)
+// Check that the correct polymorphic class is set by setTranslationClass().
+// setTranslationClass() is accessed thru setLanguageFromName();
+// Uses "find" because of the different return values from typeid.
+{
+	const Translation* translation;
+	// Japanese
+	ASLocalizer localizer;
+	localizer.setLanguageFromName("ja_JP");
+	translation = localizer.getTranslationClass();
+	string className = typeid(*translation).name();
+	bool foundClassName = className.find("Japanese") != string::npos;
+	EXPECT_TRUE(foundClassName) << className;
+}
+
+TEST(ASLocalizer, KoreanTranslation)
+// Check that the correct polymorphic class is set by setTranslationClass().
+// setTranslationClass() is accessed thru setLanguageFromName();
+// Uses "find" because of the different return values from typeid.
+{
+	const Translation* translation;
+	// Korean
+	ASLocalizer localizer;
+	localizer.setLanguageFromName("ko_KR");
+	translation = localizer.getTranslationClass();
+	string className = typeid(*translation).name();
+	bool foundClassName = className.find("Korean") != string::npos;
+	EXPECT_TRUE(foundClassName) << className;
+}
+
+TEST(ASLocalizer, PolishTranslation)
+// Check that the correct polymorphic class is set by setTranslationClass().
+// setTranslationClass() is accessed thru setLanguageFromName();
+// Uses "find" because of the different return values from typeid.
+{
+	const Translation* translation;
+	// Polish
+	ASLocalizer localizer;
+	localizer.setLanguageFromName("pl_PL");
+	translation = localizer.getTranslationClass();
+	string className = typeid(*translation).name();
+	bool foundClassName = className.find("Polish") != string::npos;
+	EXPECT_TRUE(foundClassName) << className;
+}
+
+TEST(ASLocalizer, PortugueseTranslation)
+// Check that the correct polymorphic class is set by setTranslationClass().
+// setTranslationClass() is accessed thru setLanguageFromName();
+// Uses "find" because of the different return values from typeid.
+{
+	const Translation* translation;
+	// Portuguese
+	ASLocalizer localizer;
+	localizer.setLanguageFromName("pt_PT");
+	translation = localizer.getTranslationClass();
+	string className = typeid(*translation).name();
+	bool foundClassName = className.find("Portuguese") != string::npos;
+	EXPECT_TRUE(foundClassName) << className;
+}
+
+TEST(ASLocalizer, RussianTranslation)
+// Check that the correct polymorphic class is set by setTranslationClass().
+// setTranslationClass() is accessed thru setLanguageFromName();
+// Uses "find" because of the different return values from typeid.
+{
+	const Translation* translation;
+	// Korean
+	ASLocalizer localizer;
+	localizer.setLanguageFromName("ru_RU");
+	translation = localizer.getTranslationClass();
+	string className = typeid(*translation).name();
+	bool foundClassName = className.find("Russian") != string::npos;
+	EXPECT_TRUE(foundClassName) << className;
+}
+
 TEST(ASLocalizer, SpanishTranslation)
 // Check that the correct polymorphic class is set by setTranslationClass().
 // setTranslationClass() is accessed thru setLanguageFromName();
 // Uses "find" because of the different return values from typeid.
 {
 	const Translation* translation;
-	// Hindi
+	// Spanish
 	ASLocalizer localizer;
 	localizer.setLanguageFromName("es_ES");
 	translation = localizer.getTranslationClass();
 	string className = typeid(*translation).name();
 	bool foundClassName = className.find("Spanish") != string::npos;
+	EXPECT_TRUE(foundClassName) << className;
+}
+
+TEST(ASLocalizer, SwedishTranslation)
+// Check that the correct polymorphic class is set by setTranslationClass().
+// setTranslationClass() is accessed thru setLanguageFromName();
+// Uses "find" because of the different return values from typeid.
+{
+	const Translation* translation;
+	// Swedish
+	ASLocalizer localizer;
+	localizer.setLanguageFromName("sv_SE");
+	translation = localizer.getTranslationClass();
+	string className = typeid(*translation).name();
+	bool foundClassName = className.find("Swedish") != string::npos;
+	EXPECT_TRUE(foundClassName) << className;
+}
+
+TEST(ASLocalizer, UkrainianTranslation)
+// Check that the correct polymorphic class is set by setTranslationClass().
+// setTranslationClass() is accessed thru setLanguageFromName();
+// Uses "find" because of the different return values from typeid.
+{
+	const Translation* translation;
+	// Ukrainian
+	ASLocalizer localizer;
+	localizer.setLanguageFromName("uk_UA");
+	translation = localizer.getTranslationClass();
+	string className = typeid(*translation).name();
+	bool foundClassName = className.find("Ukrainian") != string::npos;
 	EXPECT_TRUE(foundClassName) << className;
 }
 
@@ -330,6 +482,13 @@ TEST_F(TranslationF, ChineseTraditional)
 	testTranslation(chinese);
 }
 
+TEST_F(TranslationF, Dutch)
+// Test the Dutch translation.
+{
+	Dutch dutch;
+	testTranslation(dutch);
+}
+
 TEST_F(TranslationF, English)
 // Test the English translation.
 {
@@ -347,6 +506,13 @@ TEST_F(TranslationF, English)
 		string translation = english.translate(m_ascii[i]);
 		EXPECT_TRUE(m_ascii[i] == translation) << "translation error \"" << asciiPrt << "\"";
 	}
+}
+
+TEST_F(TranslationF, Finnish)
+// Test the Finnish translation.
+{
+	Finnish finnish;
+	testTranslation(finnish);
 }
 
 TEST_F(TranslationF, French)
@@ -370,11 +536,68 @@ TEST_F(TranslationF, Hindi)
 	testTranslation(hindi);
 }
 
+TEST_F(TranslationF, Italian)
+// Test the Italian translation.
+{
+	Italian italian;
+	testTranslation(italian);
+}
+
+
+TEST_F(TranslationF, Japanese)
+// Test the Japanese translation.
+{
+	Japanese japanese;
+	testTranslation(japanese);
+}
+
+TEST_F(TranslationF, Korean)
+// Test the Korean translation.
+{
+	Korean korean;
+	testTranslation(korean);
+}
+
+TEST_F(TranslationF, Polish)
+// Test the Polish translation.
+{
+	Polish polish;
+	testTranslation(polish);
+}
+
+TEST_F(TranslationF, Portuguese)
+// Test the Portuguese translation.
+{
+	Portuguese portuguese;
+	testTranslation(portuguese);
+}
+
+TEST_F(TranslationF, Russian)
+// Test the Russian translation.
+{
+	Russian russian;
+	testTranslation(russian);
+}
+
 TEST_F(TranslationF, Spanish)
 // Test the Spanish translation.
 {
 	Spanish spanish;
 	testTranslation(spanish);
+}
+
+TEST_F(TranslationF, Swedish)
+// Test the Swedish translation.
+{
+	Swedish swedish;
+	testTranslation(swedish);
+}
+
+TEST_F(TranslationF, Ukrainian)
+// Test the Ukrainian translation.
+{
+	Ukrainian ukrainian;
+	testTranslation(ukrainian);
 }
 
 //----------------------------------------------------------------------------
