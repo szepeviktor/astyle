@@ -34,14 +34,17 @@ OPT0 = ""
 #     pad-oper (p), delete-empty-lines (xd)
 #OPT1 = "-CSKNLwYM50m0yeoOcFpPHUxdEk1"
 OPT1 = "-CSKNLwYM50m0yejoOcFpPHUxdEk1"
-# align-pointer=middle (k2), add-one-line-brackets (J), break-blocks (f),
+# align-pointer=type (k3), align-reference=type (W1), 
+#     add-one-line-brackets (J), break-blocks (f),
 #     min-conditional-indent=3 (m3), pad-paren-out(d)
 #     pad-oper (p), delete-empty-lines (xd)
-OPT2 = "-CSKNLwM60m3yeJoOcfpdHUxdEk3W1"
-# align-pointer=name (k3), , min-conditional-indent=1 (m1), pad-paren-in(D)
+# WITHOUT: keep-one-line-blocks (o), keep-one-line-statements (o),
+OPT2 = "-CSKNLwM60m3yeJcfpdHUxdEk3W1"
+# align-pointer=middle (k2), align-reference=name (W3),
+#     min-conditional-indent=1 (m1), pad-paren-in(D)
 # WITHOUT: add-brackets (j,J), break-blocks (f,F),
 #     pad-oper (p), delete-empty-lines (xd)
-OPT3 = "-CSKNLwM80m1yeoOcDHUEk2W3"
+OPT3 = "-CSKNLwM80m1yDHUEk2W3"
 
 # compile configurations
 DEBUG   = "debug"
@@ -271,8 +274,6 @@ def getch():
 			msvcrt.getch()
 		# read char
 		ch = msvcrt.getch()
-		if ch == '\000' or ch == '\xe0':		# function key
-			msvcrt.getch()
 	# LINUX uses termios and tty
 	else:
 		# clear buffer
@@ -283,7 +284,7 @@ def getch():
 		try:
 			tty.setraw(sys.stdin.fileno())
 			ch = sys.stdin.read(1)
-			if ch == '\x1b':			# alt key
+			if ch == '\x1b':			# alt key (27)
 				ch = sys.stdin.read(1)
 		finally:
 			termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
@@ -369,13 +370,16 @@ def get_project_excludes(project):
 	elif project == JEDIT:
 		None
 	elif project == KDEVELOP:
-		None  # excludes.append("--exclude=app_templates")
+		excludes.append("--exclude=app_templates")
+		excludes.append("--exclude=autotools/autotools_lex.cpp")
+		excludes.append("--exclude=qmake/qmake_lex.cpp")
+		excludes.append("--exclude=doxygen/config.cpp")
 	elif project == MONODEVELOP:
 		None
 	elif project == SCITE:
 		excludes.append("--exclude=lua")
 	elif project == SHARPDEVELOP:
-		# excludes.append("--exclude=ExpressionEvaluator_Tests.cs")
+		excludes.append("--exclude=Debugger.Tests")    # xml data
 		None
 	elif project == TESTPROJECT:
 		None

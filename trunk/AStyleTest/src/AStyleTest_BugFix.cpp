@@ -16,7 +16,103 @@ namespace
 // AStyle version 2.03 TEST functions
 //----------------------------------------------------------------------------
 
-TEST(BugFix_V203, BreakBlocksDeleteEmptyLines)
+TEST(BugFix_V203, FixCaseWithBreakElseIfs)
+{
+	// Fix the case statements broken by bug ib release 2.02.
+	// NOTE: The end of line comment has actually been moved one space.
+	// TODO: Remove this test when the "fix" code is removed from ASFormatter.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    switch(x)\n"
+		"    {\n"
+		"    case\n"
+		"            1:\n"
+		"        break;\n"
+		"    case 'r'\n"
+		"            :\n"
+		"        break;\n"
+		"    case 's'\n"
+		"            :    // comment\n"
+		"        break;\n"
+		"    case\n"
+		"            aspsJava:\n"
+		"        break;\n"
+		"    case\n"
+		"            FileTreeData::ftdkProject:\n"
+		"        break;\n"
+		"    case\n"
+		"            aspsHorstmann:     // Horstmann\n"
+		"        break;\n"
+		"    case\n"
+		"            (pttFunction):\n"
+		"        break;\n"
+		"    case\n"
+		"            _T(' '):\n"
+		"        break;\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    switch(x)\n"
+		"    {\n"
+		"    case 1:\n"
+		"        break;\n"
+		"    case 'r':\n"
+		"        break;\n"
+		"    case 's':    // comment\n"
+		"        break;\n"
+		"    case aspsJava:\n"
+		"        break;\n"
+		"    case FileTreeData::ftdkProject:\n"
+		"        break;\n"
+		"    case aspsHorstmann:    // Horstmann\n"
+		"        break;\n"
+		"    case (pttFunction):\n"
+		"        break;\n"
+		"    case _T(' '):\n"
+		"        break;\n"
+		"    }\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V203, CaseWithBreakElseIfs)
+{
+	// Test case statement with break-elseifs.
+	// It should not break the line after the 'case' statement.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    switch(x)\n"
+		"    {\n"
+		"    case 1:\n"
+		"        break;\n"
+		"    case 'r':\n"
+		"        break;\n"
+		"    case aspsJava:\n"
+		"        break;\n"
+		"    case FileTreeData::ftdkProject:\n"
+		"        break;\n"
+		"    case aspsHorstmann:     // Horstmann\n"
+		"        break;\n"
+		"    case (pttFunction):\n"
+		"        break;\n"
+		"    case _T(' '):\n"
+		"        break;\n"
+		"    }\n"
+		"}";
+	char options[] = "break-elseifs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V203, CaseWithBreakBlocksDeleteEmptyLines)
 {
 	// Test comment in a case statement with break-blocks and delete-empty-lines.
 	char textIn[] =

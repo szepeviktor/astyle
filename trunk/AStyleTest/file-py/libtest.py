@@ -38,7 +38,7 @@ def diff_formatted_files(filepaths, diffOLD=False):
 		msg = "Run {0} from the console to view the diffs"
 		print (msg.format(diffprog))
 		return
-	print ("Press m or n to skip, z to end")
+	print ("Press m or n to skip, q to quit")
 	numin = 0
 	processed = 0
 	for filepath in filepaths:
@@ -48,7 +48,7 @@ def diff_formatted_files(filepaths, diffOLD=False):
 		print ("{0} of {1} {2}".format(numin, len(filepaths), stripfile))
 		ch = libastyle.getch()
 		if ch == 'n' or ch == 'N' or ch == 'm' or ch == 'M': continue
-		if ch == 'z' : break
+		if ch == 'q' or ch == 'Q' : break
 		processed += 1
 		if diffOLD:
 			oldpath = get_old_filepath(filepath)
