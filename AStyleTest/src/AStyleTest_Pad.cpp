@@ -1674,6 +1674,27 @@ TEST(PadOperator, Misc6)
 	delete [] textOut;
 }
 
+TEST(PadOperator, Misc7)
+{
+	// test pad operator in an IF statement
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (iPages*ROWS_PAGE != iDatas)\n"
+		"        iPages+=1;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (iPages * ROWS_PAGE != iDatas)\n"
+		"        iPages += 1;\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(PadOperator, Sans1)
 {
 	// do not pad a pointer dereference or "address of"
@@ -1901,6 +1922,25 @@ TEST(PadOperator, Sans11)
 	delete [] textOut;
 }
 
+TEST(PadOperator, Sans12)
+{
+	// these operators and pointers should not change
+	char text[] =
+		"\nvoid SetXPM (const char* const* linesForm );\n"
+		"void Foo()\n"
+		"{\n"
+		"    if (a & b) c = d;\n"
+		"    if (a & b) { c = d; }\n"
+		"    if (a * b != c)\n"
+		"        x += 1;\n"
+		"    for (const int* node = first(); node; node = next)\n"
+		"        y += 1;\n"
+		"}\n";
+	char options[] = "pad-oper, align-pointer=type, keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
 TEST(PadOperator, CommaSemiColon)
 {
 	// semi-colons should ALWAYS be padded
@@ -2006,6 +2046,236 @@ TEST(PadOperator, BlockParensSans)
 		"    tabs += charLengths[size_t (*c)] - 1;\n"
 		"    targets[(CompileTargetBase*) cbp] = globalUsedLibs;\n"
 		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, ReferenceToPointer)
+{
+	// Test with a reference to pointer (*&).
+	// It should not be an operator.
+	char text[] =
+		"\nvoid foo(QObject*& o)\n"
+		"{}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+TEST(PadOperator, AlternateConditionals)
+{
+	// test padding of alternate conditionals 'and' and 'or'
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if((test == 1)and(counter < 3))\n"
+		"        ptr++;\n"
+		"\n"
+		"    if((test == 1)or(counter < 3))\n"
+		"        ptr++;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if((test == 1) and (counter < 3))\n"
+		"        ptr++;\n"
+		"\n"
+		"    if((test == 1) or (counter < 3))\n"
+		"        ptr++;\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, SharpAlternateConditionals2)
+{
+	// test padding of alternate conditionals 'and' and 'or'
+	// should not pad a semi-colon.
+	char textIn[] =
+		"\npublic class ReportingLanguage : Grammar\n"
+		"{\n"
+		"    BinOp.Rule1 = Symbol \"&&\"|\"||\"|and|or;\n"
+		"    BinOp.Rule1 = Symbol \"||\"|\"&&\"|or|and;\n"
+		"}\n";
+	char text[] =
+		"\npublic class ReportingLanguage : Grammar\n"
+		"{\n"
+		"    BinOp.Rule1 = Symbol \"&&\" | \"||\" | and | or;\n"
+		"    BinOp.Rule1 = Symbol \"||\" | \"&&\" | or | and;\n"
+		"}\n";
+	char options[] = "pad-oper, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, SharpSans1)
+{
+	// pad-oper should not pad C# pointers, dereferences and address-of.
+	char text[] =
+		"\npublic unsafe void GetValue()\n"
+		"{\n"
+		"    int i = 5;\n"
+		"    int* j = &i;\n"
+		"    ret = *((int*) j);\n"
+		"    if (int* eventItem =\n"
+		"                GetItemData)\n"
+		"        fooBar();\n"
+		"}\n";
+	char options[] = "pad-oper, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, SharpSansAlignPointer)
+{
+	// test pad-oper with align-pointer on C#
+	char textIn[] =
+		"\nbool foo()\n"
+		"{\n"
+		"    StringBuilder s = new StringBuilder(length*count);\n"
+		"    return (modifier&query) == query;\n"
+		"    foo((int)a*(int)b);\n"
+		"}\n";
+	char text[] =
+		"\nbool foo()\n"
+		"{\n"
+		"    StringBuilder s = new StringBuilder(length * count);\n"
+		"    return (modifier & query) == query;\n"
+		"    foo((int)a * (int)b);\n"
+		"}\n";
+	char options[] = "pad-oper, align-pointer=type, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, Array1)
+{
+	// test pad-oper in an array
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int a,b,c,d,e,f,g,h;\n"
+		"    int[4] = { a*b, c*d, e*f, g*h };\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int a, b, c, d, e, f, g, h;\n"
+		"    int[4] = { a * b, c * d, e * f, g * h };\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, Array2)
+{
+	// test pad-oper in an array
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxPoint next[] = {\n"
+		"        wxPoint (ceil (x+w*z))\n"
+		"    };\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    wxPoint next[] = {\n"
+		"        wxPoint (ceil (x + w * z))\n"
+		"    };\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, ArraySans1)
+{
+	// do not pad an array of dereferences
+	char text[] =
+		"\nwxColour foregrounds[stCount] =\n"
+		"{\n"
+		"    *wxBLACK,\n"
+		"    *wxWHITE,\n"
+		"    *wxWHITE,\n"
+		"    *wxBLACK\n"
+		"};";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, ArraySans2)
+{
+	// do not pad array holding pointers to chars
+	char text[] =
+		"\nchar* font[2] =\n"
+		"{\n"
+		"    (char*) \"B\",\n"
+		"    (char*) \"R\"\n"
+		"};";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, ArraySans3)
+{
+	// do not pad array array of addresses
+	char text[] =
+		"\nInfoSetter entryFunc[] = { &wxPdfInfo::SetTitle, &wxPdfInfo::SetAuthor };";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, ArraySans4)
+{
+	// do not pad the following pointer
+	char text[] =
+		"\nstatic const wxChar* foo[] = {\n"
+		"    wxT (\"Normal\"),\n"
+		"    (const wxChar*) NULL\n"
+		"};";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, EnumSans)
+{
+	// do not pad the following enumerator with a pointer
+	char text[] =
+		"enum { TypeID = VAR_TYPE_CONST_STRING, Size = sizeof(const SQChar*) };";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, StructSans)
+{
+	// do not pad the following struct with pointers
+	char text[] =
+		"struct TemporaryPropertiesList\n"
+		"{\n"
+		"    wxsProperty* Property;\n"
+		"    wxsPropertyContainer* Container;\n"
+		"};";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -2709,7 +2979,7 @@ TEST(UnpadParen, PadIn)
 	delete [] textOut;
 }
 
-TEST(UnpadParen, PadOper)
+TEST(UnpadParen, PadOper1)
 {
 	// test unpad parens with pad operator
 	char textIn[] =
@@ -2727,6 +2997,33 @@ TEST(UnpadParen, PadOper)
 		"    memmove(sizeof(T) * (pos));\n"
 		"    memmove(sizeof(T) & (pos));\n"
 		"    memmove(sizeof(T) & (pos));\n"
+		"}\n";
+	char options[] = "unpad-paren, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(UnpadParen, PadOper2)
+{
+	// test unpad parens with pad operator on alternate conditionals
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if((test == 1)and(counter < 3))\n"
+		"        ptr++;\n"
+		"\n"
+		"    if((test == 1)or(counter < 3))\n"
+		"        ptr++;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if((test == 1) and (counter < 3))\n"
+		"        ptr++;\n"
+		"\n"
+		"    if((test == 1) or (counter < 3))\n"
+		"        ptr++;\n"
 		"}\n";
 	char options[] = "unpad-paren, pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -3716,6 +4013,21 @@ TEST(AlignPointerNone, Dereference)
 	delete [] textOut;
 }
 
+TEST(AlignPointerNone, Dereference2)
+{
+	// dereference following a comment should NOT be changed
+	char text[] =
+		"\nvoid f(int** pp)\n"
+		"{\n"
+		"    // comment\n"
+		"    **pp = 0;\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerNone, GlobalVariables)
 {
 	// test with global variables
@@ -4014,6 +4326,24 @@ TEST(AlignPointerNone, UnpadParen)
 	delete [] textOut;
 }
 
+TEST(AlignPointerNone, CSharp)
+{
+	// should not chabge on C# file.
+	char text[] =
+		"\npublic unsafe void GetValue()\n"
+		"{\n"
+		"    int i = 5;\n"
+		"    int * j = &i;\n"
+		"    ret = *((int *) j);\n"
+		"    if (int* eventItem =\n"
+		"                GetItemData)\n"
+		"        fooBar();\n"
+		"}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
 TEST(AlignPointerType, LongOption)
 {
 	// test align pointer=type
@@ -4194,6 +4524,21 @@ TEST(AlignPointerType, Dereference)
 		"        fill( m, **it );\n"
 		"    }\n"
 		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, Dereference2)
+{
+	// dereference following a comment should NOT be changed
+	char text[] =
+		"\nvoid f(int** pp)\n"
+		"{\n"
+		"    // comment\n"
+		"    **pp = 0;\n"
+		"}";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -4605,6 +4950,27 @@ TEST(AlignPointerType, Catch)
 	delete [] textOut;
 }
 
+TEST(AlignPointerType, PostTemplate)
+{
+	// post template is a pointer or reference, not an operator
+	char textIn[] =
+		"\nvoid some_function(int * value,\n"
+		"                   int & num,\n"
+		"                   std::vector<int> * a\n"
+		"                   std::vector<int> & b)\n"
+		"{}\n";
+	char text[] =
+		"\nvoid some_function(int* value,\n"
+		"                   int& num,\n"
+		"                   std::vector<int>* a\n"
+		"                   std::vector<int>& b)\n"
+		"{}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerType, AndOperator)
 {
 	// should not unpad && operator
@@ -4682,6 +5048,35 @@ TEST(AlignPointerType, Sans2)
 		"    if (i > *maxcol) *maxcol = i;\n"
 		"}\n";
 	char options[] = "align-pointer=type, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, CSharp)
+{
+	// test align-pointer=type on C# file.
+	char textIn[] =
+		"\npublic unsafe void GetValue()\n"
+		"{\n"
+		"    int i = 5;\n"
+		"    int * j = &i;\n"
+		"    ret = *((int *) j);\n"
+		"    if (int * eventItem =\n"
+		"                GetItemData)\n"
+		"        fooBar();\n"
+		"}\n";
+	char text[] =
+		"\npublic unsafe void GetValue()\n"
+		"{\n"
+		"    int i = 5;\n"
+		"    int* j = &i;\n"
+		"    ret = *((int*) j);\n"
+		"    if (int* eventItem =\n"
+		"                GetItemData)\n"
+		"        fooBar();\n"
+		"}\n";
+	char options[] = "align-pointer=type, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -4815,6 +5210,21 @@ TEST(AlignPointerMiddle, Dereference)
 		"        fill( m, **it );\n"
 		"    }\n"
 		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, Dereference2)
+{
+	// dereference following a comment should NOT be changed
+	char text[] =
+		"\nvoid f(int ** pp)\n"
+		"{\n"
+		"    // comment\n"
+		"    **pp = 0;\n"
+		"}";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -5226,6 +5636,28 @@ TEST(AlignPointerMiddle, Catch)
 	delete [] textOut;
 }
 
+
+TEST(AlignPointerMiddle, PostTemplate)
+{
+	// post template is a pointer or reference, not an operator
+	char textIn[] =
+		"\nvoid some_function(int* value,\n"
+		"                   int &num,\n"
+		"                   std::vector<int> *a\n"
+		"                   std::vector<int>& b)\n"
+		"{}\n";
+	char text[] =
+		"\nvoid some_function(int * value,\n"
+		"                   int & num,\n"
+		"                   std::vector<int> * a\n"
+		"                   std::vector<int> & b)\n"
+		"{}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerMiddle, AndOperator)
 {
 	// should not unpad && operator
@@ -5308,6 +5740,34 @@ TEST(AlignPointerMiddle, Sans2)
 	delete [] textOut;
 }
 
+TEST(AlignPointerMiddle, CSharp)
+{
+	// test align-pointer=middle on C# file.
+	char textIn[] =
+		"\npublic unsafe void GetValue()\n"
+		"{\n"
+		"    int i = 5;\n"
+		"    int* j = &i;\n"
+		"    ret = *((int*) j);\n"
+		"    if (int *eventItem =\n"
+		"                GetItemData)\n"
+		"        fooBar();\n"
+		"}\n";
+	char text[] =
+		"\npublic unsafe void GetValue()\n"
+		"{\n"
+		"    int i = 5;\n"
+		"    int * j = &i;\n"
+		"    ret = *((int *) j);\n"
+		"    if (int * eventItem =\n"
+		"                GetItemData)\n"
+		"        fooBar();\n"
+		"}\n";
+	char options[] = "align-pointer=middle, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
 TEST(AlignPointerName, LongOption)
 {
 	// test align pointer=name
@@ -5488,6 +5948,21 @@ TEST(AlignPointerName, Dereference)
 		"        fill( m, **it );\n"
 		"    }\n"
 		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, Dereference2)
+{
+	// dereference following a comment should NOT be changed
+	char text[] =
+		"\nvoid f(int **pp)\n"
+		"{\n"
+		"    // comment\n"
+		"    **pp = 0;\n"
+		"}";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -5897,6 +6372,28 @@ TEST(AlignPointerName, Catch)
 	delete [] textOut;
 }
 
+
+TEST(AlignPointerName, PostTemplate)
+{
+	// post template is a pointer or reference, not an operator
+	char textIn[] =
+		"\nvoid some_function(int * value,\n"
+		"                   int& num,\n"
+		"                   std::vector<int>* a\n"
+		"                   std::vector<int> & b)\n"
+		"{}\n";
+	char text[] =
+		"\nvoid some_function(int *value,\n"
+		"                   int &num,\n"
+		"                   std::vector<int> *a\n"
+		"                   std::vector<int> &b)\n"
+		"{}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerName, AndOperator)
 {
 	// should not unpad && operator
@@ -5979,6 +6476,34 @@ TEST(AlignPointerName, Sans2)
 	delete [] textOut;
 }
 
+TEST(AlignPointerName, CSharp)
+{
+	// test align-pointer=type on C# file.
+	char textIn[] =
+		"\npublic unsafe void GetValue()\n"
+		"{\n"
+		"    int i = 5;\n"
+		"    int* j = &i;\n"
+		"    ret = *((int*) j);\n"
+		"    if (int* eventItem =\n"
+		"                GetItemData)\n"
+		"        fooBar();\n"
+		"}\n";
+	char text[] =
+		"\npublic unsafe void GetValue()\n"
+		"{\n"
+		"    int i = 5;\n"
+		"    int *j = &i;\n"
+		"    ret = *((int *) j);\n"
+		"    if (int *eventItem =\n"
+		"                GetItemData)\n"
+		"        fooBar();\n"
+		"}\n";
+	char options[] = "align-pointer=name, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
 TEST(AlignPointer, ShortLowerLimit)
 {
 	// test error handling for the short option lower limit
@@ -6037,27 +6562,6 @@ TEST(AlignPointer, Java)
 	delete [] textOut;
 }
 
-TEST(AlignPointer, Sharp)
-{
-	// align-pointer should have no effect on C#
-	// should pad-oper not align-pointer=type
-	char textIn[] =
-		"\nbool foo()\n"
-		"{\n"
-		"    StringBuilder s = new StringBuilder(length*count);\n"
-		"    return (modifier&query) == query;\n"
-		"}\n";
-	char text[] =
-		"\nbool foo()\n"
-		"{\n"
-		"    StringBuilder s = new StringBuilder(length * count);\n"
-		"    return (modifier & query) == query;\n"
-		"}\n";
-	char options[] = "mode=cs, pad-oper, align-pointer=type";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
 
 //-------------------------------------------------------------------------
 // AStyle Align Reference
@@ -6548,6 +7052,289 @@ TEST(AlignReferenceName, ShortOption)
 		"    const string &bar;     // comment\n"
 		"}\n";
 	char options[] = "-W3";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Align Pointer and Align Reference for special case of Reference to a Pointer (*&)
+// Cannot have a Pointer to a Reference (&*)
+//-------------------------------------------------------------------------
+TEST(AlignReferenceToPointer, PointerType_ReferenceDefault)
+{
+	// Test *& with align-pointer=type and align-reference default.
+	char textIn[] =
+		"\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string *> & operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string *>*> * & container)\n"
+		"{}";
+	char text[] =
+		"\nvoid deleteContainer2 (vector<BracketType>*& container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string*>& operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string*>*>*& container)\n"
+		"{}";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceToPointer, PointerType_ReferenceType)
+{
+	// Test *& with align-pointer=type and align-reference=type.
+	char textIn[] =
+		"\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string *> & operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string *>*> * & container)\n"
+		"{}";
+	char text[] =
+		"\nvoid deleteContainer2 (vector<BracketType>*& container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string*>& operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string*>*>*& container)\n"
+		"{}";
+	char options[] = "align-pointer=type, align-reference=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceToPointer, PointerType_ReferenceMiddle)
+{
+	// Test *& with align-pointer=type and align-reference=middle.
+	char textIn[] =
+		"\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string *>& operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string *>*> * &container)\n"
+		"{}";
+	char text[] =
+		"\nvoid deleteContainer2 (vector<BracketType>* & container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string*> & operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string*>*>* & container)\n"
+		"{}";
+	char options[] = "align-pointer=type, align-reference=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceToPointer, PointerType_ReferenceName)
+{
+	// Test *& with align-pointer=type and align-reference=name.
+	char textIn[] =
+		"\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string*>& operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string *>*> * & container)\n"
+		"{}";
+	char text[] =
+		"\nvoid deleteContainer2 (vector<BracketType>* &container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string*> &operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string*>*>* &container)\n"
+		"{}";
+	char options[] = "align-pointer=type, align-reference=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceToPointer, PointerMiddle_ReferenceType_)
+{
+	// Test *& with align-pointer=middle and align-reference=type.
+	// Conflicting alignments aligns both to pointer value.
+	char textIn[] =
+		"\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string*> & operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string *>*>* &container)\n"
+		"{}";
+	char text[] =
+		"\nvoid deleteContainer2 (vector<BracketType> *& container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string *>& operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string *>*> *& container)\n"
+		"{}";
+	char options[] = "align-pointer=middle, align-reference=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceToPointer, PointerMiddle_ReferenceDefault)
+{
+	// Test *& with align-pointer=middle and align-reference default.
+	char textIn[] =
+		"\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string*> &operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string*>*> *& container)\n"
+		"{}";
+	char text[] =
+		"\nvoid deleteContainer2 (vector<BracketType> *& container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string *> & operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string *>*> *& container)\n"
+		"{}";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceToPointer, PointerMiddle_ReferenceMiddle)
+{
+	// Test *& with align-pointer=middle and align-reference=middle.
+	char textIn[] =
+		"\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string*> &operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string*>*> *& container)\n"
+		"{}";
+	char text[] =
+		"\nvoid deleteContainer2 (vector<BracketType> *& container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string *> & operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string *>*> *& container)\n"
+		"{}";
+	char options[] = "align-pointer=middle, align-reference=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceToPointer, PointerMiddle_ReferenceName)
+{
+	// Test *& with align-pointer=middle and align-reference=name.
+	char textIn[] =
+		"\nvoid deleteContainer2 (vector<BracketType> *& container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string*> & operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string *>*>* &container)\n"
+		"{}";
+	char text[] =
+		"\nvoid deleteContainer2 (vector<BracketType> * &container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string *> &operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string *>*> * &container)\n"
+		"{}";
+	char options[] = "align-pointer=middle, align-reference=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceToPointer, PointerName_ReferenceType)
+{
+	// Test *& with align-pointer=name and align-reference=type.
+	// Conflicting alignments aligns both to pointer value.
+	char textIn[] =
+		"\nvoid deleteContainer2 (vector<BracketType>*& container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string*> & operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string *>*>* &container)\n"
+		"{}";
+	char text[] =
+		"\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string *>& operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string *>*> *&container)\n"
+		"{}";
+	char options[] = "align-pointer=name, align-reference=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceToPointer, PointerName_ReferenceMiddle)
+{
+	// Test *& with align-pointer=name and align-reference=middle.
+	// Conflicting alignments aligns both to pointer value.
+	char textIn[] =
+		"\nvoid deleteContainer2 (vector<BracketType>*& container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string*>& operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string*>*>* &container)\n"
+		"{}";
+	char text[] =
+		"\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string *> & operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string *>*> *&container)\n"
+		"{}";
+	char options[] = "align-pointer=name, align-reference=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceToPointer, PointerName_ReferenceDefault)
+{
+	// Test *& with align-pointer=middle and align-reference default.
+	char textIn[] =
+		"\nvoid deleteContainer2 (vector<BracketType>*& container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string*> & operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string*>*> * & container)\n"
+		"{}";
+	char text[] =
+		"\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string *> &operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string *>*> *&container)\n"
+		"{}";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceToPointer, PointerName_ReferenceName)
+{
+	// Test *& with align-pointer=name and align-reference=name.
+	char textIn[] =
+		"\nvoid deleteContainer2 (vector<BracketType>*& container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string*> & operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string*>*> * & container)\n"
+		"{}";
+	char text[] =
+		"\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+		"{}\n"
+		"void buildOperators (vector<const string *> &operators)\n"
+		"{}\n"
+		"void deleteContainer1 (vector<vector<const string *>*> *&container)\n"
+		"{}";
+	char options[] = "align-pointer=name, align-reference=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
