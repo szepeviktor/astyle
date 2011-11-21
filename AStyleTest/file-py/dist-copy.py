@@ -16,7 +16,7 @@ import subprocess
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-release = "2.02"
+release = "2.02.1"
 # inut from AStyle directory
 astyleDir = libastyle.get_astyle_directory()
 # output to Project directory

@@ -30,18 +30,18 @@ import time
 #  SCITE
 #  SHARPDEVELOP
 #  TESTPROJECT
-project = libastyle.CODEBLOCKS
+project = libastyle.JEDIT
 
 # select OPT0 thru OPT3, or use customized options
 # optionsX can be a bracket style or any other option
-options  = libastyle.OPT1
-optionsX = "-xC50"
+options  = libastyle.OPT2
+optionsX = ""
 
 # scite formatting options
 #options = "-tapOHUk3"
 
 # executables for test
-astyleexe1 = "astyled"
+astyleexe1 = "astyledn"
 astyleexe2 = "astyled"
 
 # extract all files options, use False for speed

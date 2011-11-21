@@ -31,20 +31,20 @@ import time
 #  SCITE
 #  SHARPDEVELOP		# can compile on Windows only
 #  TESTPROJECT
-project = libastyle.CODEBLOCKS
+project = libastyle.JEDIT
 
 # select OPT0 thru OPT3, or use customized options
 # optionsX can be a bracket style or any other option
 #options = "-tapO"
-options = libastyle.OPT1
-optionsX = "-xC50"
+options = libastyle.OPT2
+optionsX = "-o"
 
 # executable for test
 astyleexe = "astyled"
 
 # extract all files option, use False for speed, use True to compile
-#all_files_option = True
-all_files_option = False
+all_files_option = True
+#all_files_option = False
 
 # test number to start with (usually 1)
 start = 1

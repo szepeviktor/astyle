@@ -3961,7 +3961,7 @@ TEST(MaxCodeLength, PadParen5)
 		"}";
 	char options[] = "max-code-length=50, pad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);  
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
