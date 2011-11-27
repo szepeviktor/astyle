@@ -259,14 +259,21 @@ def convert_line_ends(distDir, toDos):
 def copy_astyle_doc(distDoc, toDos=False):
 	"""Copy astyle doc directory to a distribution directory.
 	"""
+	deleted = 0
 	docfiles = glob.glob(astyleDir + "/doc/*")
 	for filepath in docfiles:
-		shutil.copy(filepath, distDoc)
+		# don't copy these files
+		if filepath.find("Archive") != -1: 
+			deleted += 1
+			sep = filepath.rfind(os.sep)
+			print ("    " + filepath[sep+1:] + " - not copied")
+		else:
+			shutil.copy(filepath, distDoc)
 	convert_line_ends(distDoc, toDos)
 	# verify copy - had a problem with bad filenames
 	distfiles = (glob.glob(distDoc + "/*.html")
 					+ glob.glob(distDoc + "/*.css"))
-	if len(distfiles) != len(docfiles):
+	if len(distfiles) != len(docfiles) - deleted:
 		libastyle.system_exit("Error copying doc: " + str(len(distfiles)))
 	# change file permissions
 	for srcfile in distfiles:

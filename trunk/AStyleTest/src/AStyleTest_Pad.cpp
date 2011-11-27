@@ -3870,6 +3870,41 @@ TEST(FillEmptyLines, ForceTab)
 	delete [] textOut;
 }
 
+TEST(FillEmptyLines, ForceTabX)
+{
+	// test fill empty lines with force-tab-tab
+	char textIn[] =
+		"\nvoid foo1(bool isFoo)\n"
+		"{\n"
+		"    a = 1;\n"
+		"\n"
+		"    if (isFoo)\n"
+		"        b = 2;\n"
+		"\n"
+		"    bool shouldFill = (newOperator != &AS_COLON\n"
+		"                       && newOperator != &AS_PAREN);\n"
+		"                       \n"
+		"    c = 3;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo1(bool isFoo)\n"
+		"{\n"
+		"    a = 1;\n"
+		"    \n"
+		"    if (isFoo)\n"
+		"	b = 2;\n"
+		"	\n"
+		"    bool shouldFill = (newOperator != &AS_COLON\n"
+		"		       && newOperator != &AS_PAREN);\n"
+		"		       \n"
+		"    c = 3;\n"
+		"}\n";
+	char options[] = "fill-empty-lines, indent=force-tab-x";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(FillEmptyLines, EventTable)
 {
 	// test fill empty lines in an event table

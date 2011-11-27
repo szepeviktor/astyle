@@ -2447,6 +2447,51 @@ TEST(ConvertTabs, Misc6)
 	EXPECT_EQ('\t', text[42]);
 }
 
+TEST(ConvertTabs, ForceTabX1)
+{
+	// test convert-tabs in indent=force-tab-x
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int bar1;		// comment1\n"
+		"    int bar111;		/* comment2 */\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int bar1;           // comment1\n"
+		"    int bar111;         /* comment2 */\n"
+		"}\n";
+	char options[] = "indent=force-tab-x, convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+TEST(ConvertTabs, ForceTabX2)
+{
+	// test convert-tabs in indent=force-tab-x with comment continuation
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int bar1; /* comment1 */\n"
+		"    int bar2; /* comment2\n"
+		"		 comment3 */\n"
+		"    int bar3; /* comment3 */\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int bar1; /* comment1 */\n"
+		"    int bar2; /* comment2\n"
+		"                 comment3 */\n"
+		"    int bar3; /* comment3 */\n"
+		"}\n";
+	char options[] = "indent=force-tab-x, convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Max Code Length and Break After Conditional
 //-------------------------------------------------------------------------

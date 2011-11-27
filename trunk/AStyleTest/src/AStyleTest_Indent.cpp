@@ -730,6 +730,33 @@ TEST(IndentSwitches, ShortOption)
 	delete [] textOut;
 }
 
+TEST(IndentSwitches, IndentForceTabX)
+{
+	// test indent switch blocks indent=force-tab-x
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch(x)\n"
+		"    {\n"
+		"	case 1:\n"
+		"	{\n"
+		"	    bar = 1;\n"
+		"	}\n"
+		"	break;\n"
+		"\n"
+		"	default:\n"
+		"	{\n"
+		"	    bar = 9;\n"
+		"	}\n"
+		"	break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "indent-switches, indent=force-tab-x";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(IndentSwitches, RunIn)
 {
 	// test indent switch blocks with run-in brackets
@@ -1279,6 +1306,33 @@ TEST(IndentCases, Sans1)
 		"    }\n"
 		"}\n";
 	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentCases, Sans2)
+{
+	// test indent=force-tab-x without indent case blocks
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch(x)\n"
+		"    {\n"
+		"    case 1:\n"
+		"    {\n"
+		"	bar = 1;\n"
+		"    }\n"
+		"    break;\n"
+		"\n"
+		"    default:\n"
+		"    {\n"
+		"	bar = 9;\n"
+		"    }\n"
+		"    break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "indent=force-tab-x";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
