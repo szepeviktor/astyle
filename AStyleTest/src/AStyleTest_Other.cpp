@@ -204,7 +204,7 @@ TEST(Macro, wxWidgetsEventHandler)
 		"    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
 		"END_EVENT_TABLE()\n";
 	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -221,7 +221,7 @@ TEST(Macro, wxWidgetsEventHandlerNonIndentComment)
 		"//    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
 		"END_EVENT_TABLE()\n";
 	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -235,7 +235,7 @@ TEST(Macro, MfcDispatchMap)
 		"    DISP_FUNCTION_ID(CblahCtrl,\"AboutBox\",2,AboutBox,VT_EMPTY,VTS_NONE)\n"
 		"END_DISPATCH_MAP()\n";
 	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -250,7 +250,7 @@ TEST(Macro, MfcEventMap)
 		"    EVENT_CUSTOM(\"ControlError\", FireControlError, VTS_I4)\n"
 		"END_EVENT_MAP()\n";
 	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -266,7 +266,7 @@ TEST(Macro, MfcMessageMap)
 		"    ON_COMMAND(IDM_EXIT,  OnExit)\n"
 		"END_MESSAGE_MAP()\n";
 	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -280,7 +280,37 @@ TEST(Macro, MfcPropertyPages)
 		"    PROPPAGEID( CLSID_CColorPropPage )\n"
 		"END_PROPPAGEIDS(CblahCtrl)\n";
 	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Macro, IndentForceTabX)
+{
+	// wxWidgets event handler should be indented correctly with indent=force-tab-x
+	char text[] =
+		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
+		"END_EVENT_TABLE()\n"
+		"\n"
+		"void Foo()\n"
+		"{\n"
+		"    BEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"	EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"	EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
+		"    END_EVENT_TABLE()\n"
+		"\n"
+		"    lf (isFoo)\n"
+		"    {\n"
+		"	BEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"	    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"	    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
+		"	END_EVENT_TABLE()\n"
+		"    }\n"
+		"}"	;
+	char options[] = "indent=force-tab-x";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
