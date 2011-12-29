@@ -3,7 +3,7 @@
 /* Highlighting theme: Emacs Editor */
 
 body.hl	{ background-color:#ffffff; }
-pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:'MS Shell Dlg 2';}
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:12pt; font-family:'Consolas';}
 .hl.num { color:#000000; }
 .hl.esc { color:#bd8d8b; }
 .hl.str { color:#bd8d8b; }
