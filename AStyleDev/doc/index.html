@@ -50,13 +50,17 @@
     <p>
         <a href="jni.html">Calling Artistic Style as a Java Native Interface</a> contains information on calling Artistic
         Style as a shared library from a Java program using the Java Native Interface (JNI). It includes a Java sample program
-        that can be used to test the shared library. The Java Development Kit (JDK) must be installed to compile Artistic
-        Style.</p>
+        that can be used to test the shared library. The Java Development Kit (JDK) must be installed to compile Artistic Style.</p>
     <p>
         <a href="sharp.html">Calling Artistic Style from a C# Program</a> contains information on calling Artistic Style
         as a shared library from a C# program. It includes a C# sample program that can be used to test the shared library.</p>
+    <p>
+        <a href="python.html">Calling Artistic Style from a Python Script</a> contains information on calling Artistic
+        Style as a shared library from a Python scripy. It includes a Python script that can be used to test the shared
+        library.</p>
 
     <h3>
+        Source Code
         Downloads</h3>
 
     <p>
@@ -93,6 +97,23 @@
         the shared library using a C# program. Compile Artistic Style as a shared library using the macro ASTYLE_LIB.
         Copy the shared library to the same folder as the C# class files (C# does a Windows type search for the shared
         library, looking first in the startup program's directory). It will format C# files in the test-s directory.</p>
+
+    <h3>
+        Script Downloads</h3>
+
+    <p>
+        Test data is included with the download. The scripts can also be checked out of the repository. You must have
+        the appropriate software installed to run the scripts.</p>
+
+    <h4>
+        <a href="http://astyle.svn.sourceforge.net/viewvc/astyle/trunk/AStyleDev/downloads/examples-python_2.02.zip">Python
+            Scripts</a></h4>
+
+    <p>
+        This download contains three Python scripts. The script ExampleExe.py calls an Artistic Style executable to format
+        C++ source code. The scripts ExampleByte.py and ExampleUnicode.py call the Artistic Style shared library. The
+        executable and shared library must be compiled using the macro ASTYLE_LIB. Copy the executable and shared library
+        to the same folder as the Python scripts. They will format C++ files in the test-c directory included in the download.</p>
     <p>
         &nbsp;</p>
     <hr style="margin-left: -0.4in;" />

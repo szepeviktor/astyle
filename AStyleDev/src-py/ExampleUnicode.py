@@ -1,0 +1,244 @@
+#! /usr/bin/python
+
+# ExampleUnicode.py
+# This program calls the Artistic Style DLL to format the astyle source files.
+# The Artistic Style DLL must be in the same directory as this script.
+# The Artistic Style DLL must have the same bit size (32 or 64) as the Python executable.
+# It will work with either Python version 2 or 3 (unicode).
+# For Python 3 the files are converted to Unicode and encoded or decoded as needed.
+
+# to disable the print statement and use the print() function (version 3 format)
+from __future__ import print_function
+
+import os
+import sys
+from ctypes import *
+
+# -----------------------------------------------------------------------------
+
+def process_files():
+	"""Main processing function."""
+	options = "-A2tOP"
+	files = [ "../test-c/ASBeautifier.cpp",
+	          "../test-c/ASFormatter.cpp" ,
+	          "../test-c/astyle.h" ]
+
+	libc = initialize()
+	print("ExampleUnicode Python")
+	print("Python Version " + str(sys.version_info[0]) +
+		  "." + str(sys.version_info[1]))
+	version = get_astyle_version(libc)
+	print("Artistic Style Version " + version)
+	# process the input files
+	for file_path in files:
+		text_in = get_source_code(file_path)
+		formatted_text = format_astyle_source(libc, text_in, options)
+		if type(formatted_text) == type(None):
+			print("Error in formatting " + file_path)
+			continue
+		print("Formatted " + file_path)
+		save_source_code(formatted_text, file_path)
+
+# -----------------------------------------------------------------------------
+
+def format_astyle_source(libc, text_in, options):
+	"""Format the text_in by calling the AStyle shared object (DLL).
+	   The return value is a byte or Unicode string.
+	   If an error occurs, the return value is a NoneType object.
+	   For Python 3:
+	       The text is encoded to utf-8 before calling AStyle.
+	       The text is decoded from utf-8 after being returned.
+	       Using utf-8 will not cause an exception.
+	"""
+	# version 3 must be encoded to utf-8 bytes
+	# encoding to utf-8 will not cause an exception
+	if sys.version_info[0] >= 3:
+		text_in = text_in.encode('utf-8')
+		options = options.encode('utf-8')
+	astyle_main = libc.AStyleMain
+	astyle_main.restype = c_char_p
+	formatted_text = (
+			astyle_main(text_in, options, ERROR_HANDLER, MEMORY_ALLOCATION))
+	# if an error occurs, the return is a type(None) object
+	# Python3 must be decoded to Unicode
+	# decoding from utf-8 will not cause an exception
+	if (sys.version_info[0] >= 3
+	and type(formatted_text) != type(None)):
+		formatted_text = formatted_text.decode('utf-8')
+	return formatted_text
+
+# -----------------------------------------------------------------------------
+
+def get_astyle_version(libc):
+	"""Get the version number from the AStyle shared object (DLL).
+	   The AStyle return value is always byte type.
+	   It is converted to unicode for Python 3.
+	   Since the version is ascii the decoding will not cause an exception.
+	"""
+	astyle_version = libc.AStyleGetVersion
+	astyle_version.restype = c_char_p
+	version = astyle_version()
+	if sys.version_info[0] >= 3:
+		version = version.decode()
+	return version
+
+# -----------------------------------------------------------------------------
+
+def get_source_code(file_path):
+	"""Get the source code (unicode in Version 3).
+	   Opening the file as non-binary will read it as a unicode string.
+	   An exception is handled in case the file cannot be decoding using
+	   the system default codec.
+	   The return value is a unicode string.
+	"""
+	# version 3 will read unicode since the file is not declared as binary
+	# could also read the file as binary and use an explicit decode
+	file_in = open(file_path, 'r')
+	try:
+		text_in = file_in.read()
+	except UnicodeError as err:
+		# "'<codec>' codec can't decode byte 0x81 in position 40813: <message>"
+		print(err)
+		print("Cannot read " +  file_path)
+		sys.exit(1)
+	file_in.close()
+	return text_in
+
+# -----------------------------------------------------------------------------
+
+def initialize():
+	"""Set the file path and load the shared object (DLL).
+	   Return the handle to the shared object (DLL).
+	"""
+	# change directory to the path where this script is located
+	pydir = sys.path[0]
+	os.chdir(pydir)
+	# return the handle to the shared object
+	if os.name == "nt":
+		libc = load_windows_dll()
+	else:
+		libc = load_linux_so()
+	return libc
+
+# -----------------------------------------------------------------------------
+
+def load_linux_so():
+	"""Load the shared object for Linux platforms.
+	   The shared object must be in the same folder as this python script.
+	"""
+	so = os.path.join(sys.path[0], "libastyle.so")
+	try:
+		libc = cdll.LoadLibrary(so)
+	except OSError as err:
+		# "cannot open shared object file: No such file or directory"
+		print(err)
+		print("Cannot find " +  so)
+		sys.exit(1)
+	return libc
+
+# -----------------------------------------------------------------------------
+
+def load_windows_dll():
+	"""Load the dll for Windows platforms.
+	   The shared object must be in the same folder as this python script.
+	   An exception is handled if the dll bits do not match the Python
+	   executable bits (32 vs 64).
+	"""
+	dll = "AStyle.dll"
+	try:
+		libc = windll.LoadLibrary(dll)
+	except WindowsError as err:
+		print(err)
+		if err.args[0] == 126:      #  "The specified module could not be found"
+			print("Cannot find " +  dll)
+		if err.args[0] == 193:      #  "%1 is not a valid Win32 application"
+			print("You may be mixing 32 and 64 bit code")
+		sys.exit(1)
+	return libc
+
+# -----------------------------------------------------------------------------
+
+def save_source_code(text_out, file_path):
+	"""Save the source code as bytes.
+	   The variable text_out is Unicode in Python 3.
+	   The text_out will be encoded to a byte string using the default codec.
+	   An exception is handled in case the file cannot be encoded.
+	"""
+	# remove old .orig, if any
+	backup_path = file_path + ".orig"
+	if os.path.isfile(backup_path):
+		os.remove(backup_path)
+	# rename original to backup
+	os.rename(file_path, backup_path)
+	# version 3 will encode the file from unicode using the default codec
+	# could also use an explicit decode before wiiting the file
+	file_out = open(file_path, 'w')
+	try:
+		file_out.write(text_out)
+	except UnicodeError as err:
+		# "'<codec>' codec can't encode characters in position 0-2: <message>"
+		print(err)
+		print("Cannot write " +  file_path)
+		sys.exit(1)
+	file_out.close()
+
+# -----------------------------------------------------------------------------
+
+# // astyle ASTYLE_LIB declarations
+# typedef void (STDCALL *fpError)(int, char*);		 // pointer to callback error handler
+# typedef char* (STDCALL *fpAlloc)(unsigned long);	 // pointer to callback memory allocation
+# extern "C" EXPORT char* STDCALL AStyleMain(const char*, const char*, fpError, fpAlloc);
+# extern "C" EXPORT const char* STDCALL AStyleGetVersion (void);
+
+# -----------------------------------------------------------------------------
+
+# AStyle Error Handler Callback
+def ErrorHandler(num, err):
+	"""AStyle callback error handler.
+	   The return error string (err) is always byte type.
+	   It is converted to unicode for Python 3.
+	"""
+	print("Error in input {0}".format(num))
+	if sys.version_info[0] >= 3:
+		err = err.decode()
+	print(err)
+	sys.exit(1)
+
+# create the error handler callback function
+if os.name == "nt":
+	ErrorHandlerCallback = WINFUNCTYPE(None, c_int, c_char_p)
+else:
+	ErrorHandlerCallback = CFUNCTYPE(None, c_int, c_char_p)
+ERROR_HANDLER = ErrorHandlerCallback(ErrorHandler)
+
+# -----------------------------------------------------------------------------
+
+# AStyle Memory Allocation Callback
+# allocated memory must be global
+allocated = []
+def MemoryAllocation(size):
+	"""AStyle callback memory allocation.
+	   The size to allocate is always byte type.
+	   The allocated memory must be global.
+	   The previous allocated memory will be freed.
+	"""
+	arr_type = c_char * size    # create a c_char array
+	arr_obj = arr_type()        # create an array object
+	allocated.append(arr_obj)   # so the object will not be destroyed
+	if len(allocated) > 1:      # free memory for the previous object
+		del allocated[0]
+	return addressof(arr_obj)   # return a pointer
+
+# create the memory allocation callback function
+if os.name == "nt":
+	MemoryAllocationCallback = WINFUNCTYPE(c_char_p, c_ulong)
+else:
+	MemoryAllocationCallback = CFUNCTYPE(c_char_p, c_ulong)
+MEMORY_ALLOCATION = MemoryAllocationCallback(MemoryAllocation)
+
+# -----------------------------------------------------------------------------
+
+# make the module executable
+if __name__ == "__main__":
+	process_files()
+	sys.exit()
