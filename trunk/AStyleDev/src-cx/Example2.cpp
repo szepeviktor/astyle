@@ -50,7 +50,7 @@ int main(int, char**)
         // an error message has been displayed by the error handler
         if (textOut == NULL)
         {   cout << "Cannot format " << filePath << endl;
-            return 0;
+            return EXIT_FAILURE;
         }
 
         // return the formatted text
@@ -64,6 +64,7 @@ int main(int, char**)
 #ifdef __MINGW32__
     system("pause");
 #endif
+	return EXIT_SUCCESS;
 }
 
 // Error message function for this example
@@ -110,7 +111,7 @@ char* getText(string& filePath)
     in.read(bufferIn, bufferSizeIn);
     // get actual size - must be smaller than buffer size
     int textSizeIn = static_cast<int>(in.gcount());
-    if (textSizeIn == bufferSizeIn)
+    if (textSizeIn > bufferSizeIn)
     {   in.close();
         error("Read buffer is too small");
     }

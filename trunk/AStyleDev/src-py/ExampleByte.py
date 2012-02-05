@@ -5,14 +5,20 @@
 # The Artistic Style DLL must be in the same directory as this script.
 # The Artistic Style DLL must have the same bit size (32 or 64) as the Python executable.
 # It will work with either Python version 2 or 3 (unicode).
-# For Python 3 the files are retained un byte format and not converted to Unicode.
+# For Python 3 the files are retained in byte format and not converted to Unicode.
 
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
 
 import os
+import platform
 import sys
 from ctypes import *
+
+# global variables ------------------------------------------------------------
+
+isIronPython = False
+isUnicode = False
 
 # -----------------------------------------------------------------------------
 
@@ -24,26 +30,28 @@ def process_files():
 	          "../test-c/ASFormatter.cpp" ,
 	          "../test-c/astyle.h" ]
 
-	libc = initialize()
-	print("ExampleByte Python")
-	print("Python Version " + str(sys.version_info[0]) +
-		  "." + str(sys.version_info[1]))
-	version_bytes = get_astyle_version(libc)
-	print("Artistic Style Version " +
-		  version_bytes.decode('utf-8'))
+	#initialization
+	print("ExampleByte",
+			platform.python_implementation(),
+			platform.python_version(),
+			platform.architecture()[0])
+	initialize_platform()
+	libc = initialize_library()
+	version_bytes = get_astyle_version_bytes(libc)
+	print("Artistic Style Version " + version_bytes.decode('utf-8'))
 	# process the input files
 	for file_path in files:
 		bytes_in = get_source_code_bytes(file_path)
-		formatted_bytes = format_astyle_source(libc, bytes_in, option_bytes)
+		formatted_bytes = format_source_bytes(libc, bytes_in, option_bytes)
 		if type(formatted_bytes) is type(None):
-			print("Error in formatting " + file_path)
+			print("Error in formatting", file_path)
 			continue
-		print("Formatted " + file_path)
+		print("Formatted", file_path)
 		save_source_code_bytes(formatted_bytes, file_path)
 
 # -----------------------------------------------------------------------------
 
-def format_astyle_source(libc, bytes_in, option_bytes):
+def format_source_bytes(libc, bytes_in, option_bytes):
 	"""Format the bytes_in by calling the AStyle shared object (DLL).
 	   The variable bytes_in is expected to be a byte string.
 	   The return value is a byte string.
@@ -57,7 +65,7 @@ def format_astyle_source(libc, bytes_in, option_bytes):
 
 # -----------------------------------------------------------------------------
 
-def get_astyle_version(libc):
+def get_astyle_version_bytes(libc):
 	"""Get the version number from the AStyle shared object (DLL).
 	   The function return value is a byte string.
 	"""
@@ -75,14 +83,20 @@ def get_source_code_bytes(file_path):
 	"""
 	# read the file as a byte string by declaring it as binary
 	# version 3 will read unicode if not declared as binary
-	file_in = open(file_path, 'rb')
-	bytes_in = file_in.read()
+	try:
+		file_in = open(file_path, 'rb')
+		bytes_in = file_in.read()
+	except IOError as err:
+		# "No such file or directory: <file>"
+		print(err)
+		print("Cannot open", file_path)
+		sys.exit(1)
 	file_in.close()
 	return bytes_in
 
 # -----------------------------------------------------------------------------
 
-def initialize():
+def initialize_library():
 	"""Set the file path and load the shared object (DLL).
 	   Return the handle to the shared object (DLL).
 	"""
@@ -98,6 +112,27 @@ def initialize():
 
 # -----------------------------------------------------------------------------
 
+def initialize_platform():
+	"""Check the python_implementation and the python_version
+	   and change the global variables isIronPython and isUnicode
+	   if necessary.
+	   PyPy does not currently supprot Unicode.
+	   Jython will get errors and not run.
+	"""
+	global isIronPython, isUnicode
+	if platform.python_implementation() == "CPython":
+		if platform.python_version_tuple()[0] >= '3':
+			isUnicode = True
+	elif platform.python_implementation() == "IronPython":
+		isIronPython = True
+		isUnicode = True
+		# NOTE: IronPython is NOT currently supported.
+		# A bug in IronPython ctypes memory allocation needs to be fixed.
+		print("IronPython is not currently supported")
+		sys.exit(1)
+
+# -----------------------------------------------------------------------------
+
 def load_linux_so():
 	"""Load the shared object for Linux platforms.
 	   The shared object must be in the same folder as this python script.
@@ -108,7 +143,7 @@ def load_linux_so():
 	except OSError as err:
 		# "cannot open shared object file: No such file or directory"
 		print(err)
-		print("Cannot find " +  so)
+		print("Cannot find", so)
 		sys.exit(1)
 	return libc
 
@@ -123,12 +158,19 @@ def load_windows_dll():
 	dll = "AStyle.dll"
 	try:
 		libc = windll.LoadLibrary(dll)
+	# exception for CPython
 	except WindowsError as err:
 		print(err)
+		print("Cannot load library", dll)
 		if err.args[0] == 126:      #  "The specified module could not be found"
-			print("Cannot find " +  dll)
+			print("Cannot find", dll)
 		if err.args[0] == 193:      #  "%1 is not a valid Win32 application"
 			print("You may be mixing 32 and 64 bit code")
+		sys.exit(1)
+	# exception for IronPython - cannot determine the cause
+	except OSError as err:
+		print("Cannot load library", dll)
+		print("You may be mixing 32 and 64 bit code")
 		sys.exit(1)
 	return libc
 

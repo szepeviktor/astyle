@@ -9,6 +9,7 @@
 from __future__ import print_function
 
 import os
+import platform
 import subprocess
 import sys
 from ctypes import *
@@ -21,19 +22,17 @@ def process_files():
 	files = [ "../test-c/ASBeautifier.cpp",
 	          "../test-c/ASFormatter.cpp" ,
 	          "../test-c/astyle.h" ]
-	exe = initialize()
-	print("ExampleExe Python")
-	print("Python Version " + str(sys.version_info[0]) +
-		  "." + str(sys.version_info[1]))
-	# print information if the script is running in an editor
-	# if run from a console the sys.stdin will be a TTY
-	if os.name == "nt" and not os.isatty(sys.stdin.fileno()):
-		print("AStyle messages will not appear in an editor window.")
-		print("Run in a console program to see the messages.")
+
+	#initialization
+	print("ExampleExe",
+			platform.python_implementation(),
+			platform.python_version(),
+			platform.architecture()[0])
+	exe = initialize_exe()
 	display_astyle_version(exe)
 	# process the input files
 	for file_path in files:
-		format_astyle_source(exe, file_path, options)
+		format_source_code(exe, file_path, options)
 
 # -----------------------------------------------------------------------------
 
@@ -49,7 +48,7 @@ def display_astyle_version(exe):
 
 # -----------------------------------------------------------------------------
 
-def format_astyle_source(exe, file_path, options):
+def format_source_code(exe, file_path, options):
 	"""Format file_in by calling the AStyle executable.
 	   The unicode variables in Version 3 will be changed to
 	   byte variables by the operating system.
@@ -64,7 +63,7 @@ def format_astyle_source(exe, file_path, options):
 
 # -----------------------------------------------------------------------------
 
-def initialize():
+def initialize_exe():
 	"""Set the file path and executable name.
 	   Verify the executable is available.
 	   Return the executable name.

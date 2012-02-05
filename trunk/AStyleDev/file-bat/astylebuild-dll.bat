@@ -2,9 +2,14 @@
 REM build the AStyle Release Dll Configuration using the AStyle project file
 REM copy the output to the AStyleDev\build\%1\bin folder
 
-REM %1 should be the Visual Studio release date
+REM %1 should be the VS build directory, vs2008, vs2010
+REM %2 should be the configuration, Release or Debug
 set astyle=..\..\AStyle\build\%1
+if %2==Release (
 set bindir=..\build\%1\bin
+) else (
+set bindir=..\build\%1\debug
+)
 set sdk=no
 if %1 == vs2005  set sdk=v2.0.50727
 if %1 == vs2008  set sdk=v3.5
@@ -20,7 +25,7 @@ set bindir=..\..\%bindir%
 )
 
 echo BUILDING ASTYLE DLL
-%windir%\microsoft.net\framework\%sdk%\msbuild  /nologo  "/property:Configuration=Release"  "/property:Platform=Win32"  "%astyle%\AStyleDll.sln"
+%windir%\microsoft.net\framework\%sdk%\msbuild  /nologo  /noconsolelogger  "/property:Configuration=%2"  "/property:Platform=Win32"  "%astyle%\AStyleDll.sln"
 if %ERRORLEVEL% NEQ 0  set errors=yes
 
 REM don't copy if compile errors
