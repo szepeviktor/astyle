@@ -29,8 +29,7 @@ class AStyleInterface
 
     /**
     *  Call the AStyleGetVersion function in Artistic Style.
-    *  @return  A String containing the formatted source from Artistic Style,
-    *           or an empty string on error.
+    *  @return  A String containing the version number from Artistic Style.
     */
     public String getVersion()
     {   String version = new String();
