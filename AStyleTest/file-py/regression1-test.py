@@ -58,6 +58,7 @@ def process_files():
 	libastyle.set_text_color()
 	print (libastyle.get_python_version())
 	locale.setlocale(locale.LC_ALL, "")
+	verify_optionsX_variable()
 	print_run_header()
 	os.chdir(libastyle.get_file_py_directory())
 	libastyle.build_astyle_executable(get_astyle_config())
@@ -291,6 +292,17 @@ def verify_formatted_files(numformat, totformat):
 	if totformat != numformat:
 		message = "files != report ({0},{1})".format(numformat, totformat)
 		libastyle.system_exit(message)
+
+# -----------------------------------------------------------------------------
+
+def verify_optionsX_variable():
+	"""Check that the optionsX variable begins with a '-' 
+	"""
+	global optionsX
+	if len(optionsX) > 0:
+		optionsX = optionsX.strip()
+	if len(optionsX) > 0 and optionsX[0] != '-':
+		optionsX = '-' + optionsX
 
 # -----------------------------------------------------------------------------
 

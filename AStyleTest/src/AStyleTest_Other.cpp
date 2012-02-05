@@ -12,6 +12,100 @@ namespace
 {
 
 //----------------------------------------------------------------------------
+// AStyle C++11 Standard
+//----------------------------------------------------------------------------
+
+TEST(Cpp11Standard, RangeBasedForLoop1)
+{
+	// range-based for loop
+	// the colon should not unindent the line
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    for (auto it : s) {\n"
+		"        int i = it;\n"
+		"        printf (\"%d\", i);\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Cpp11Standard, RangeBasedForLoop2)
+{
+	// range-based for loop
+	// the colon should not unindent the line
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    for (auto it : s)\n"
+		"        int i = it;\n"
+		"    printf (\"%d\", i);\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Cpp11Standard, RangeBasedForLoop3)
+{
+	// range-based for loop with pad-oper
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    for (auto it:s)\n"
+		"        int i = it;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    for (auto it : s)\n"
+		"        int i = it;\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Cpp11Standard, EnumWithBaseType1)
+{
+	// enum with a base-type
+	// the colon should not unindent the line
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    enum foo:int { ... };\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Cpp11Standard, EnumWithBaseType2)
+{
+	// enum with a base-type formatted with pad-oper
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    enum foo:int { ... };\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    enum foo : int { ... };\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
 // AStyle Character Set Tests
 //----------------------------------------------------------------------------
 
@@ -1352,6 +1446,148 @@ TEST(PreCommandHeaders, SealedOverride)
 //----------------------------------------------------------------------------
 // AStyle Preprocessor
 //----------------------------------------------------------------------------
+
+TEST(Preprocessor, CppExternCBracket1)
+{
+	// Preprocessor C++ definition defined as 'extern "C"' with a bracket,
+	// the bracket should NOT cause an indentation.
+	char text[] =
+		"\n#ifdef __cplusplus\n"
+		"extern \"C\" {\n"
+		"#endif\n"
+		"\n"
+		"int main()\n"
+		"{\n"
+		"    return 0;\n"
+		"}\n"
+		"\n"
+		"#ifdef __cplusplus\n"
+		"}\n"
+		"#endif";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, CppExternCBracket2)
+{
+	// Preprocessor C++ definition defined as 'extern "C"' with a bracket,
+	// the bracket should NOT cause an indentation.
+	// The bracket is broken.
+	char text[] =
+		"\n#ifdef __cplusplus\n"
+		"extern \"C\"\n"
+		"{\n"
+		"#endif\n"
+		"\n"
+		"int main()\n"
+		"{\n"
+		"    return 0;\n"
+		"}\n"
+		"\n"
+		"#ifdef __cplusplus\n"
+		"}\n"
+		"#endif";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, CppExternCBracket3)
+{
+	// Preprocessor C++ definition defined as 'extern "C"' with a bracket,
+	// the bracket should NOT cause an indentation.
+	// "defined" is used instead of "ifdef".
+	char text[] =
+		"\n#if  defined ( __cplusplus )\n"
+		"extern \"C\"\n"
+		"{\n"
+		"#endif\n"
+		"\n"
+		"int main()\n"
+		"{\n"
+		"    return 0;\n"
+		"}\n"
+		"\n"
+		"##if  defined ( __cplusplus )\n"
+		"}\n"
+		"#endif";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, CppExternCBracket4)
+{
+	// Preprocessor C++ definition defined as 'extern "C"' with a bracket,
+	// the bracket should NOT cause an indentation.
+	// Has indented namespace after the "endif".
+	char text[] =
+		"\n#ifdef __cplusplus\n"
+		"extern \"C\" {\n"
+		"#endif\n"
+		"\n"
+		"int foo()\n"
+		"{\n"
+		"    return 0;\n"
+		"}\n"
+		"\n"
+		"#ifdef __cplusplus\n"
+		"}\n"
+		"#endif\n"
+		"\n"
+		"namespace FooBar {\n"
+		"    int bar()\n"
+		"    {\n"
+		"        return 0;\n"
+		"    }\n"
+		"}   // end namespace";
+	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, CppExternCBracket5)
+{
+	// Preprocessor C++ definition defined as 'extern "C"' with a bracket,
+	// the bracket should NOT cause an indentation.
+	// The define has additional data.
+	char text[] =
+		"\n#ifdef __cplusplus\n"
+		"\n"
+		"#define SQSTD_STREAM_TYPE_TAG 0x80000000\n"
+		"\n"
+		"struct SQStream {\n"
+		"    virtual SQInteger Len() = 0;\n"
+		"};\n"
+		"\n"
+		"extern \"C\" {\n"
+		"#endif\n"
+		"\n"
+		"int foo()\n"
+		"{\n"
+		"    return 0;\n"
+		"}\n"
+		"\n"
+		"#ifdef __cplusplus\n"
+		"}\n"
+		"#endif\n"
+		"\n"
+		"namespace FooBar {\n"
+		"    int bar()\n"
+		"    {\n"
+		"        return 0;\n"
+		"    }\n"
+		"}   // end namespace";
+	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
 
 TEST(Preprocessor, CommandType)
 {

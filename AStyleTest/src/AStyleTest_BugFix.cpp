@@ -16,6 +16,28 @@ namespace
 // AStyle version 2.03 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V203, StructReturnType)
+{
+	// Functions with a 'struct' return type and Linux style brackets
+	// should break the opening bracket on a function.
+	// The bracket on the struct definition should be attached.
+	char text[] =
+		"\nstruct foo {\n"
+		"    int foo;\n"
+		"    char bar;\n"
+		"};\n"
+		"\n"
+		"struct rt_wdb *\n"
+		"wdb_fopen_v(const char *filename, int version)\n"
+		"{\n"
+		"    struct db_i *dbip;\n"
+		"}";
+	char options[] = "style=k/r";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BugFix_V203, FixCaseWithBreakElseIfs)
 {
 	// Fix the case statements broken by bug ib release 2.02.

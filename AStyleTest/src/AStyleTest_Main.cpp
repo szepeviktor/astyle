@@ -49,7 +49,7 @@ int main(int argc, char** argv)
 	// example 9 will not work here because of user modifications.
 	// Change the following value to the number of tests (within 10).
 	if (useTersePrinter)
-		TersePrinter::PrintTestTotals(1680, __FILE__, __LINE__);
+		TersePrinter::PrintTestTotals(1690, __FILE__, __LINE__);
 #ifdef __WIN32
 	printf("%c", '\n');
 #endif
