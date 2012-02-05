@@ -30,18 +30,18 @@ import time
 #  SCITE
 #  SHARPDEVELOP
 #  TESTPROJECT
-project = libastyle.JEDIT
+project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 # optionsX can be a bracket style or any other option
-options  = libastyle.OPT2
-optionsX = ""
+options  = libastyle.OPT0
+optionsX = "-t"
 
 # scite formatting options
 #options = "-tapOHUk3"
 
 # executables for test
-astyleexe1 = "astyledn"
+astyleexe1 = "astyle2.1"
 astyleexe2 = "astyled"
 
 # extract all files options, use False for speed
@@ -62,6 +62,7 @@ def process_files():
 	libastyle.set_text_color()
 	print (libastyle.get_python_version())
 	locale.setlocale(locale.LC_ALL, "")
+	verify_optionsX_variable()
 	print_run_header()
 	os.chdir(libastyle.get_file_py_directory())
 	libastyle.build_astyle_executable(get_astyle_config())
@@ -267,7 +268,7 @@ def print_run_header():
 		print ("OPT3", end=" ")
 	else:
 		print (options, end=" ")
-	if len(optionsX.strip()) > 0:
+	if len(optionsX) > 0:
 		print (optionsX, end=" "),
 	print ()
 
@@ -310,8 +311,6 @@ def set_astyle_args(filepath, excludes, astyleexe):
 	if len(options.strip()) > 0:
 		args.append(options)
 	if len(optionsX.strip()) > 0:
-		if optionsX[0] != '-':
-			libastyle.system_exit("optionsX must begin with a '-'")
 		args.append(optionsX)
 	# set excludes
 	for exclude in excludes:
@@ -384,6 +383,17 @@ def verify_formatted_files(numformat, totformat):
 	if totformat != numformat:
 		message = "files != report ({0},{1})".format(numformat, totformat)
 		libastyle.system_exit(message)
+
+# -----------------------------------------------------------------------------
+
+def verify_optionsX_variable():
+	"""Check that the optionsX variable begins with a '-' 
+	"""
+	global optionsX
+	if len(optionsX) > 0:
+		optionsX = optionsX.strip()
+	if len(optionsX) > 0 and optionsX[0] != '-':
+		optionsX = '-' + optionsX
 
 # -----------------------------------------------------------------------------
 

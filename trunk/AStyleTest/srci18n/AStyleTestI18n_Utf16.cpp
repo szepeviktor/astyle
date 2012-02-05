@@ -360,7 +360,7 @@ TEST_F(Utf_8_16, Utf16_LE_To_Utf8)
 	// test Astyle Utf16ToUtf8() function return
 	char* utf8Out = new char[text16Len * 2];
 	size_t utf8ConvertedSize = g_console->Utf16ToUtf8(const_cast<char*>(text16Bit),
-							   text16Len, UTF_16LE, true, utf8Out);
+													  text16Len, UTF_16LE, true, utf8Out);
 	EXPECT_EQ(text8Len, utf8ConvertedSize);
 	// test Astyle Utf16ToUtf8() function text conversion
 	EXPECT_TRUE(strncmp(utf8Out, text8Bit, text8Len) == 0);
@@ -377,7 +377,7 @@ TEST_F(Utf_8_16, Utf16_BE_To_Utf8)
 	// test Astyle Utf16ToUtf8() function return
 	char* utf8Out = new char[text16Len * 2];
 	size_t utf8ConvertedSize = g_console->Utf16ToUtf8(const_cast<char*>(text16Bit),
-							   text16Len, UTF_16BE, true, utf8Out);
+													  text16Len, UTF_16BE, true, utf8Out);
 	EXPECT_EQ(text8Len, utf8ConvertedSize);
 	// test Astyle Utf16ToUtf8() function text conversion
 	EXPECT_TRUE(strncmp(utf8Out, text8Bit, text8Len) == 0);

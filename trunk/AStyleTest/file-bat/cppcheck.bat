@@ -22,7 +22,8 @@ REM --suppress=<spec>  Suppress a specific warning.
 set options= --enable=all --force --verbose --xml
 REM Checking uninitialized variables lists errors for variables in the "init" functions.
 REM For some reason using the filename and line don't work here?
-set suppress= --suppress=uninitVar
+REM The unusedFunction reports functions used by the test programs only.
+set suppress= --suppress=uninitVar  --suppress=unusedFunction
 
 "%progdir%\cppcheck" %options% %suppress% ..\..\AStyle\src
 
