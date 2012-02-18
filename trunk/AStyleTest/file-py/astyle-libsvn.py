@@ -58,6 +58,7 @@ def correct_libproj_directories(libproj_directories):
 	libproj_directories.remove("AStyle\\build\\cb-intel")
 	libproj_directories.remove("AStyle\\build\\cb-mingw")
 	libproj_directories.remove("AStyle\\regress")
+	libproj_directories.remove("AStyleDev\\build\\vs2008\\ExampleWide")
 
 	return libproj_directories
 
@@ -113,11 +114,11 @@ def find_diffs(libproj_directories, libsvn_directories):
 
 def get_batch_directory():
 	"""Get the AStyle/src directory for the os environment"""
+	home_directory = libastyle.get_home_directory()
 	if os.name == "nt":
-		return os.getenv("USERPROFILE") + "/batch"
+		return home_directory + "/batch"
 	else:
-		return os.getenv("HOME") + "/bin"
-
+		return home_directory + "/bin"
 
 # -----------------------------------------------------------------------------
 

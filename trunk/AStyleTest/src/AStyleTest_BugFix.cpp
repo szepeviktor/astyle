@@ -16,6 +16,43 @@ namespace
 // AStyle version 2.03 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V203, JavaWildcardGenericDefinitions)
+{
+	// In Java, wildcards can be used in generic definitions.
+	// <? should NOT be considered an operator if --pad-oper is used.
+	char text[] =
+		"\nabstract.void.bar1(<Child.extends.Parent>.x);\n"
+		"abstract.void.bar2(<?.extends.Parent>.x);\n"
+		"abstract.void.bar3( < ?.extends.Parent >.x );\n"
+		"InnerNode<?, ?> folder3 = (InnerNode<?, ?>)source.getChildAt(2);\n"
+		"public CheckBoxJList(Vector<?> listData);\n"
+		"public void compileEnded(File workDir, List<? extends File> excludedFiles) {};";
+	char options[] = "pad-oper, mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V203, QuoteContinuationPreprocessor)
+{
+	// A quote continuation with a preprocessor directive should
+	// not be processed as a preprocessor directive.
+	char text[] =
+		"\nconst char *dbus_includes = \"\\n\\\n"
+		"#include <dbus-c++/dbus.h>\\n\\\n"
+		"#include <cassert>\\n\\\n"
+		"\";\n"
+		"\n"
+		"void foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BugFix_V203, StructReturnType)
 {
 	// Functions with a 'struct' return type and Linux style brackets
