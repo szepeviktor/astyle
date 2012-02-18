@@ -2101,6 +2101,43 @@ TEST(Preprocessor, ArrayRunIn_RunIn)
 	delete [] textOut;
 }
 
+TEST(Preprocessor, CommentContinuation1)
+{
+	//  Comments within a preprocessor definition line can be
+	//  continued without the backslash/newline.
+	char text[] =
+		"\n#define MACRO(X,Y) \\\n"
+		"{                  \\\n"
+		"    /*  This comment breaks the indent engine.\n"
+		"     *  Compilers are ok with it */  \\\n"
+		"    {                      \\\n"
+		"        printf(X, Y);      \\\n"
+		"    }";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, CommentContinuation2)
+{
+	//  Comments within a preprocessor definition line can be
+	//  continued without the backslash/newline.
+	char text[] =
+		"\n#define MACRO(X,Y) \\\n"
+		"{                  \\\n"
+		"    /*  This comment breaks the indent engine.\n"
+		"     *  Another line.\n"
+		"     *  Compilers are ok with it */  \\\n"
+		"    {                      \\\n"
+		"        printf(X, Y);      \\\n"
+		"    }";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle Comments
 //----------------------------------------------------------------------------

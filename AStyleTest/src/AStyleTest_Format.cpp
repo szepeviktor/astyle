@@ -2492,6 +2492,23 @@ TEST(ConvertTabs, ForceTabX2)
 	delete [] textOut;
 }
 
+TEST(ConvertTabs, PreprocessorIndent)
+{
+	// Test convert-tabs in a preprocessor indent.
+	char textIn[] =
+		"\n#if (! defined (yyoverflow) \\\n"
+		"     && (! defined (__cplusplus) \\\n"
+		"\t || (defined (YYSTYPE_IS_TRIVIAL) && YYSTYPE_IS_TRIVIAL)))\n";
+	char text[] =
+		"\n#if (! defined (yyoverflow) \\\n"
+		"     && (! defined (__cplusplus) \\\n"
+		"     || (defined (YYSTYPE_IS_TRIVIAL) && YYSTYPE_IS_TRIVIAL)))\n";
+	char options[] = "indent-preprocessor, convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Max Code Length and Break After Conditional
 //-------------------------------------------------------------------------

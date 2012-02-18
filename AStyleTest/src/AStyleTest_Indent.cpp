@@ -1865,6 +1865,61 @@ TEST(IndentPreprocessor, SwitchCaseIndent)
 	delete [] textOut;
 }
 
+TEST(IndentPreprocessor, CommentContinuation1)
+{
+	//  Comments within a preprocessor definition line can be
+	//  continued without the backslash/newline.
+	char textIn[] =
+		"\n#define MACRO(X,Y) \\\n"
+		"{                  \\\n"
+		"    /*  This comment breaks the indent engine.\n"
+		"     *  Compilers are ok with it */  \\\n"
+		"    {                      \\\n"
+		"        printf(X, Y);      \\\n"
+		"    }";
+	char text[] =
+		"\n#define MACRO(X,Y) \\\n"
+		"    {                  \\\n"
+		"        /*  This comment breaks the indent engine.\n"
+		"         *  Compilers are ok with it */  \\\n"
+		"        {                      \\\n"
+		"            printf(X, Y);      \\\n"
+		"        }";
+	char options[] = "indent-preprocessor";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocessor, CommentContinuation2)
+{
+	//  Comments within a preprocessor definition line can be
+	//  continued without the backslash/newline.
+	char textIn[] =
+		"\n#define MACRO(X,Y) \\\n"
+		"{                  \\\n"
+		"    /*  This comment breaks the indent engine.\n"
+		"     *  Another line.\n"
+		"     *  Compilers are ok with it */  \\\n"
+		"    {                      \\\n"
+		"        printf(X, Y);      \\\n"
+		"    }";
+	char text[] =
+		"\n#define MACRO(X,Y) \\\n"
+		"    {                  \\\n"
+		"        /*  This comment breaks the indent engine.\n"
+		"         *  Another line.\n"
+		"         *  Compilers are ok with it */  \\\n"
+		"        {                      \\\n"
+		"            printf(X, Y);      \\\n"
+		"        }";
+	char options[] = "indent-preprocessor";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+
 //-------------------------------------------------------------------------
 // AStyle Column one comment
 //-------------------------------------------------------------------------

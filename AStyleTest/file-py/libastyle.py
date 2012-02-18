@@ -317,6 +317,18 @@ def get_file_py_directory(endsep=False):
 	# get the path where this file is located
 	pydir = sys.path[0]
 	if endsep: pydir += '/'
+	# verify it is executed from fixed disk and not a USB
+	if os.name == "nt":
+		if pydir[0:2] != "C:":
+			system_exit("File executed from drive " + pydir[0:2])
+	else:
+		if pydir[0:6] != "/home/":
+			sep =pydir[0:].find('/Projects/')
+			if sep == -1:
+				sep = len(pydir)
+			else:
+				sep += 1
+			system_exit("File executed from drive " + pydir[0:sep])
 	return  pydir
 
 # -----------------------------------------------------------------------------
@@ -340,9 +352,8 @@ def get_project_directory(endsep=False):
 	   Extract the Project directory from path[0]
 	   endsep = True will add an ending separator.
 	"""
-	# get the path where this file is located
-	pydir = sys.path[0]
 	# get project directory
+	pydir = get_file_py_directory()
 	testdir, tail = os.path.split(pydir)
 	projdir, tail = os.path.split(testdir)
 	if endsep: projdir += '/'
