@@ -2454,6 +2454,189 @@ TEST(PadParenOut, Comments)
 }
 
 //-------------------------------------------------------------------------
+// AStyle Pad First Paren Out
+//-------------------------------------------------------------------------
+
+TEST(PadFirstParenOut, LongOption)
+{
+	// Test pad first paren out.
+	char textIn[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo (bool isFoo)\n"
+		"{\n"
+		"    if (isFoo (a, b))\n"
+		"        bar (a, b);\n"
+		"}\n";
+	char options[] = "pad-first-paren-out";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadFirstParenOut, ShortOption)
+{
+	// test pad first paren out short option
+	char textIn[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo(a, b))\n"
+		"        bar(a, b);\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo (bool isFoo)\n"
+		"{\n"
+		"    if (isFoo (a, b))\n"
+		"        bar (a, b);\n"
+		"}\n";
+	char options[] = "-xd";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadFirstParenOut, MultipleParens)
+{
+	// Test with multiple opening parens.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    mode = ((inmode[j] == VOIDmode\n"
+		"             || (GET_MODE_SIZE(outmode[j]) > GET_MODE_SIZE(inmode[j])))\n"
+		"            ? outmode[j] : inmode[j]);\n"
+		"}";
+	char text[] =
+		"\nvoid Foo ()\n"
+		"{\n"
+		"    mode = ((inmode[j] == VOIDmode\n"
+		"             || (GET_MODE_SIZE (outmode[j]) > GET_MODE_SIZE (inmode[j])))\n"
+		"            ? outmode[j] : inmode[j]);\n"
+		"}";
+	char options[] = "pad-first-paren-out";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadFirstParenOut, UnpadParen)
+{
+	// Test with unpad paren.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    mode = ( ( inmode[j] == VOIDmode\n"
+		"               || ( GET_MODE_SIZE ( outmode[j] ) > GET_MODE_SIZE ( inmode[j] ) ) )\n"
+		"             ? outmode[j] : inmode[j] );\n"
+		"}";
+	char text[] =
+		"\nvoid Foo ()\n"
+		"{\n"
+		"    mode = ((inmode[j] == VOIDmode\n"
+		"             || (GET_MODE_SIZE (outmode[j]) > GET_MODE_SIZE (inmode[j])))\n"
+		"            ? outmode[j] : inmode[j]);\n"
+		"}";
+	char options[] = "pad-first-paren-out, unpad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadFirstParenOut, PadParen)
+{
+	// Test with pad paren. Pad paren should be used.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    mode = ((inmode[j] == VOIDmode\n"
+		"             || (GET_MODE_SIZE (outmode[j]) > GET_MODE_SIZE (inmode[j])))\n"
+		"            ? outmode[j] : inmode[j]);\n"
+		"}";
+	char text[] =
+		"\nvoid Foo ()\n"
+		"{\n"
+		"    mode = ( ( inmode[j] == VOIDmode\n"
+		"               || ( GET_MODE_SIZE ( outmode[j] ) > GET_MODE_SIZE ( inmode[j] ) ) )\n"
+		"             ? outmode[j] : inmode[j] );\n"
+		"}";
+	char options[] = "pad-first-paren-out, pad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadFirstParenOut, PadParenOut)
+{
+	// Test with pad paren out. Pad paren out should be used.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    mode = ((inmode[j] == VOIDmode\n"
+		"             || (GET_MODE_SIZE (outmode[j]) > GET_MODE_SIZE (inmode[j])))\n"
+		"            ? outmode[j] : inmode[j]);\n"
+		"}";
+	char text[] =
+		"\nvoid Foo ()\n"
+		"{\n"
+		"    mode = ( (inmode[j] == VOIDmode\n"
+		"              || (GET_MODE_SIZE (outmode[j]) > GET_MODE_SIZE (inmode[j]) ) )\n"
+		"             ? outmode[j] : inmode[j]);\n"
+		"}";
+	char options[] = "pad-first-paren-out, pad-paren-out";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadFirstParenOut, PadParenIn)
+{
+	// Test with pad paren in. Pad paren in should also be used.
+	char textIn[] =
+		"\nvoid Foo ()\n"
+		"{\n"
+		"    mode = ((inmode[j] == VOIDmode\n"
+		"             || (GET_MODE_SIZE (outmode[j]) > GET_MODE_SIZE (inmode[j])))\n"
+		"            ? outmode[j] : inmode[j]);\n"
+		"}";
+	char text[] =
+		"\nvoid Foo ()\n"
+		"{\n"
+		"    mode = ( ( inmode[j] == VOIDmode\n"
+		"               || ( GET_MODE_SIZE ( outmode[j] ) > GET_MODE_SIZE ( inmode[j] ) ) )\n"
+		"             ? outmode[j] : inmode[j] );\n"
+		"}";
+	char options[] = "pad-first-paren-out, pad-paren-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadFirstParenOut, Comments)
+{
+	// EOL comments remain in the same column if possible
+	// moved comments retain the original spacing
+	char textIn[] =
+		"\nvoid foo(bool isFoo)  // comment ok\n"
+		"{\n"
+		"    if(isFoo(a, b))     // comment must move\n"
+		"        bar(a, b);      // comment ok\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo (bool isFoo) // comment ok\n"
+		"{\n"
+		"    if (isFoo (a, b))   // comment must move\n"
+		"        bar (a, b);     // comment ok\n"
+		"}\n";
+	char options[] = "pad-first-paren-out";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
 // AStyle Pad Paren In
 //-------------------------------------------------------------------------
 
@@ -3149,7 +3332,7 @@ TEST(DeleteEmptyLines, ShortOption)
 		"    foo1 = 1;\n"
 		"    foo2 = 2;\n"
 		"}\n";
-	char options[] = "-xd";
+	char options[] = "-xe";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
