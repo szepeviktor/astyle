@@ -61,6 +61,7 @@
 					<Add option="-Wundef" />
 					<Add option="-Wfloat-equal" />
 					<Add option="-Winline" />
+					<Add option="-Wunreachable-code" />
 					<Add option="-Wmissing-declarations" />
 					<Add option="-Wmissing-include-dirs" />
 					<Add option="-Wswitch-enum" />
@@ -71,10 +72,11 @@
 					<Add option="-std=c++98" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-Wint-to-pointer-cast" />
+					<Add option="-Woverloaded-virtual" />
+					<Add option="-Wwrite-strings" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fno-rtti" />
-					<Add option="-Wwrite-strings" />
-					<Add option="-Woverloaded-virtual" />
 				</Compiler>
 			</Target>
 			<Target title="Profile">

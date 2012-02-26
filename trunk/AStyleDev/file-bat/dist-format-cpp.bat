@@ -6,8 +6,8 @@ set srcdir1=..\src-c
 set srcdir2=..\src-cx
 
 
-"%progdir%\AStyle"  -A9k1  -Qz1  --options=none  %srcdir1%\*.cpp
-"%progdir%\AStyle"  -A9k1  -Qz1  --options=none  %srcdir2%\*.cpp  %srcdir2%\*.h
+"%progdir%\AStyle"  -A9ck1  -Qz1  --options=none  %srcdir1%\*.cpp
+"%progdir%\AStyle"  -A9ck1  -Qz1  --options=none  %srcdir2%\*.cpp  %srcdir2%\*.h
 
 echo -
 echo -

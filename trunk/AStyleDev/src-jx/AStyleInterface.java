@@ -28,17 +28,28 @@ public class AStyleInterface
     public static final int INDENT_TABS   = 1;
     public static final int INDENT_FTABS  = 2;
 
-    // alignPointers valid pointer alignments
-    public static final int ALIGN_NONE     = 0;
-    public static final int ALIGN_TYPE     = 1;
-    public static final int ALIGN_MIDDLE   = 2;
-    public static final int ALIGN_NAME     = 3;
-
     // minConditionalOption valid options
     public static final int  MINCOND_ZERO = 0;
     public static final int  MINCOND_ONE = 1;
     public static final int  MINCOND_TWO = 2;
     public static final int  MINCOND_ONEHALF = 3;
+
+    // alignPointer valid pointer alignments
+    public static final int PTR_ALIGN_NONE     = 0;
+    public static final int PTR_ALIGN_TYPE     = 1;
+    public static final int PTR_ALIGN_MIDDLE   = 2;
+    public static final int PTR_ALIGN_NAME     = 3;
+
+    // alignReference valid reference alignments
+    public static final int REF_ALIGN_NONE     = PTR_ALIGN_NONE;
+    public static final int REF_ALIGN_TYPE     = PTR_ALIGN_TYPE;
+    public static final int REF_ALIGN_MIDDLE   = PTR_ALIGN_MIDDLE;
+    public static final int REF_ALIGN_NAME     = PTR_ALIGN_NAME;
+    public static final int REF_SAME_AS_PTR    = PTR_ALIGN_NAME + 1;
+
+    // maxCodeLength min and max
+    public static final int MAX_CODE_LENGTH_MIN = 50;
+    public static final int MAX_CODE_LENGTH_MAX = 200;
 
     // fileMode variable file modes
     public static final int FILEMODE_CPP   = 0;
@@ -50,11 +61,13 @@ public class AStyleInterface
     // comments are the command line option used to set the variable
 
     // bracket style option
-    private int     bracketStyle = STYLE_NONE;   // --style=?
+    private int     bracketStyle = STYLE_NONE;      // --style=?
 
     // tabs/spaces options
+    private int     indentType   = INDENT_SPACES;   // --indent=?
     private int     indentLength = 4;               // --indent=?, --indent=force-tab=#
-    private int     indentType   = INDENT_SPACES;   // --indent=?, --indent=force-tab=#
+    private boolean useTabLength = false;           // --indent=force-tab-x=#
+    private int     tabLength    = 8;               // --indent=force-tab-x=#
 
     // indentation options
     private boolean classIndent        = false;     // --indent-classes
@@ -68,15 +81,18 @@ public class AStyleInterface
     private int minConditionalOption = MINCOND_TWO; // --min-conditional-indent=#
 
     // padding options
-    private boolean breakHeaderBlocks   = false;    // --break-blocks, --break-blocks=all
-    private boolean breakClosingBlocks  = false;    // --break-blocks=all
-    private boolean padOperators        = false;    // --pad-oper
-    private boolean padParensOutside    = false;    // --pad-paren, --pad-paren-out
-    private boolean padParensInside     = false;    // --pad-paren, --pad-paren-in
-    private boolean padHeaders          = false;    // --pad-header
-    private boolean unpadParens         = false;    // --unpad-paren
-    private boolean deleteEmptyLines    = false;    // --delete-empty-lines
-    private boolean fillEmptyLines      = false;    // --fill-empty-lines
+    private boolean breakHeaderBlocks  = false;    // --break-blocks, --break-blocks=all
+    private boolean breakClosingBlocks = false;    // --break-blocks=all
+    private boolean padOperator        = false;    // --pad-oper
+    private boolean padParenOutside    = false;    // --pad-paren, --pad-paren-out
+    private boolean padFirstParenOut   = false;    // --pad-first-paren-out
+    private boolean padParenInside     = false;    // --pad-paren, --pad-paren-in
+    private boolean padHeader          = false;    // --pad-header
+    private boolean unpadParen         = false;    // --unpad-paren
+    private boolean deleteEmptyLines   = false;    // --delete-empty-lines
+    private boolean fillEmptyLines     = false;    // --fill-empty-lines
+    private int     alignPointer       = PTR_ALIGN_NONE;    // --align-pointer= none, type, middle, name
+    private int     alignReference     = REF_SAME_AS_PTR;   // --align-reference= none, type, middle, name same as pointer
 
     // formatting options
     private boolean breakCloseBrackets   = false;   // --break-closing-brackets
@@ -86,15 +102,18 @@ public class AStyleInterface
     private boolean breakOneLineStmts    = true;    // --keep-one-line-statements
     private boolean breakOneLineBlocks   = true;    // --keep-one-line-blocks
     private boolean convertTabs          = false;   // --convert-tabs
-    private int     alignPointers        = ALIGN_NONE; // align-pointer= none, type, middle, name
+    private int     maxCodeLength        = 0;       // --max-code-length=#
+    private boolean breakAfterLogical    = false;   // --break-after-logical
 
     // file mode option
     private int     fileMode = FILEMODE_CPP;        // --mode=?
 
     // default values for integer variables, saved by constructor
     private int    defaultIndentLength;             // default indentLength
+    private int    defaultTabLength;                // default tabLength
     private int    defaultMaxInStatementIndent;     // default maxInStatementIndent
     private int    defaultMinConditionalOption;     // default minConditionalOption
+//    private int    defaultMaxCodeLength;            // default maxCodeLength
 
     /**
     * The constructor saves the integer default values.
@@ -103,8 +122,10 @@ public class AStyleInterface
     public AStyleInterface()
     {   // save integer default values
         defaultIndentLength         = indentLength;
+		defaultTabLength = tabLength;
         defaultMaxInStatementIndent = maxInStatementIndent;
         defaultMinConditionalOption = minConditionalOption;
+//		defaultMaxCodeLength = maxCodeLength;
     }
 
     /**
@@ -158,7 +179,7 @@ public class AStyleInterface
             else if (bracketStyle == STYLE_LISP)
                 options.append("style=lisp");
             else
-                options.append("bracketStyle="      // force an error message
+                options.append("bracketStyle="         // force an error message
                                + String.valueOf(bracketStyle));
             options.append(separator);
         }
@@ -178,8 +199,25 @@ public class AStyleInterface
             options.append(separator);
         }
         else if (indentType == INDENT_FTABS)
-        {   options.append("indent=force-tab=" + String.valueOf(indentLength));
-            options.append(separator);
+        {   // check conditions to use default force-tab setting
+            if (indentLength == defaultIndentLength)
+            {   if (!useTabLength)
+                {   options.append("indent=force-tab");
+                    options.append(separator);
+                }
+            }
+            else
+            {   options.append("indent=force-tab=" + String.valueOf(indentLength));
+                options.append(separator);
+            }
+            // check conditions to use different tab setting
+            if (useTabLength)
+            {   if (tabLength == defaultTabLength)
+                    options.append("indent=force-tab-x");
+                else
+                    options.append("indent=force-tab-x=" + String.valueOf(tabLength));
+                options.append(separator);
+            }
         }
         else
         {   options.append("indentType="               // force an error message
@@ -235,29 +273,33 @@ public class AStyleInterface
             options.append(separator);
         }
         // end break-blocks check
-        if (padOperators)
+        if (padOperator)
         {   options.append("pad-oper");
             options.append(separator);
         }
         // begin pad parens check
-        if (padParensOutside && padParensInside)
+        if (padParenOutside && padParenInside)
         {   options.append("pad-paren");
             options.append(separator);
         }
-        else if (padParensOutside)
+        else if (padParenOutside)
         {   options.append("pad-paren-out");
             options.append(separator);
         }
-        else if (padParensInside)
+        else if (padParenInside)
         {   options.append("pad-paren-in");
             options.append(separator);
         }
         // end pad parens check
-        if (padHeaders)
+        if (padFirstParenOut)
+        {   options.append("pad-first-paren-out");
+            options.append(separator);
+        }
+        if (padHeader)
         {   options.append("pad-header");
             options.append(separator);
         }
-        if (unpadParens)
+        if (unpadParen)
         {   options.append("unpad-paren");
             options.append(separator);
         }
@@ -268,6 +310,48 @@ public class AStyleInterface
         if (fillEmptyLines)
         {   options.append("fill-empty-lines");
             options.append(separator);
+        }
+        if (alignPointer != PTR_ALIGN_NONE)
+        {   if (alignPointer == PTR_ALIGN_TYPE)
+                options.append("align-pointer=type");
+            else if (alignPointer == PTR_ALIGN_MIDDLE)
+                options.append("align-pointer=middle");
+            else if (alignPointer == PTR_ALIGN_NAME)
+                options.append("align-pointer=name");
+            else
+            {   options.append("align-pointer="        // force an error message
+                               + String.valueOf(alignPointer));
+            }
+            options.append(separator);
+        }
+        if (alignReference != REF_SAME_AS_PTR)
+        {   if (alignReference == REF_ALIGN_NONE)
+            {   options.append("align-reference=none");
+                options.append(separator);
+            }
+            else if (alignReference == REF_ALIGN_TYPE)
+            {   if (alignPointer != PTR_ALIGN_TYPE)
+                {   options.append("align-reference=type");
+                    options.append(separator);
+                }
+            }
+            else if (alignReference == REF_ALIGN_MIDDLE)
+            {   if (alignPointer != PTR_ALIGN_MIDDLE)
+                {   options.append("align-reference=middle");
+                    options.append(separator);
+                }
+            }
+            else if (alignReference == REF_ALIGN_NAME)
+            {   if (alignPointer != PTR_ALIGN_NAME)
+                {   options.append("align-reference=name");
+                    options.append(separator);
+                }
+            }
+            else
+            {   options.append("align-reference="      // force an error message
+                               + String.valueOf(alignReference));
+                options.append(separator);
+            }
         }
         if (breakCloseBrackets)
         {   options.append("break-closing-brackets");
@@ -297,20 +381,17 @@ public class AStyleInterface
         {   options.append("convert-tabs");
             options.append(separator);
         }
-        // begin align pointers check
-        if (alignPointers == ALIGN_TYPE)
-        {   options.append("align-pointer=type");
+        if (maxCodeLength > 0)
+        {   if (maxCodeLength >= MAX_CODE_LENGTH_MIN && maxCodeLength <= MAX_CODE_LENGTH_MAX)
+                options.append("max-code-length=" + String.valueOf(maxCodeLength));
+            else
+                options.append("maxCodeLength=" + String.valueOf(maxCodeLength));
             options.append(separator);
+            if (breakAfterLogical)
+            {   options.append("break-after-logical");
+                options.append(separator);
+            }
         }
-        else if (alignPointers == ALIGN_MIDDLE)
-        {   options.append("align-pointer=middle");
-            options.append(separator);
-        }
-        else if (alignPointers == ALIGN_NAME)
-        {   options.append("align-pointer=name");
-            options.append(separator);
-        }
-        // end align pointers check
         // add the file mode, default is C++
         if (fileMode == FILEMODE_CPP)
         {   if (options.length() > 0)          // delete the last separator
@@ -356,54 +437,61 @@ public class AStyleInterface
     */
     private void setTestOptionsX()
     {   // bracket Style options
-        bracketStyle = STYLE_NONE;
+        //~ bracketStyle = STYLE_ALLMAN;
 
-        // tabs / spaces options
-        indentLength = 3;
-        indentType   = INDENT_TABS;
+        //~ // tabs / spaces options
+        //~ indentType   = INDENT_TABS;
+        //~ indentLength = 3;
+        //~ useTabLength = true;
+        //~ tabLength=6;
+
+        //~ // indentation options
+        //~ classIndent          = true;
+        //~ switchIndent         = true;
+        //~ caseIndent           = true;
+        //~ namespaceIndent      = true;
+        //~ labelIndent          = true;
+        //~ preprocessorIndent   = true;
+        //~ col1CommentIndent    = true;
+        //~ maxInStatementIndent = 50;
+        //~ minConditionalOption = 0;
+
+        //~ // padding options
+        //~ breakHeaderBlocks    = true;
+        //~ breakClosingBlocks   = true;
+        //~ padOperator          = true;
+        //~ padParenOutside      = true;
+        //~ padFirstParenOut     = true;
+        //~ padParenInside       = true;
+        //~ padHeader            = true;
+        //~ unpadParen           = true;
+        //~ deleteEmptyLines     = true;
+        //~ fillEmptyLines       = true;
+        //~ alignPointer         = PTR_ALIGN_TYPE;
+        //~ alignReference       = REF_ALIGN_NAME;
+
+        //~ // formatting options
+        //~ breakCloseBrackets   = true;
+        //~ breakElseIfs         = true;
+        //~ addBrackets          = true;
+        //~ addOneLineBrackets   = true;
+        //~ breakOneLineBlocks   = false;
+        //~ breakOneLineStmts    = false;
+        //~ convertTabs          = true;
+        //~ maxCodeLength        = 100;
+        //~ breakAfterLogical    = true;
+
+        //~ // generate some errors
+        //~ bracketStyle   = 20;
+        //~ maxInStatementIndent = 90;
+        //~ minConditionalOption = 9;
+        //~ maxCodeLength = 500;
+        // cannot have both invalid indentLength and invalid indentType
+        //~ indentLength      = 21;
+        //~ indentType        = 6;
 
         // fileMode option - FILEMODE_JAVA is required for Java files
         fileMode = FILEMODE_JAVA;
-
-        // indentation options
-        classIndent          = true;
-        switchIndent         = true;
-        caseIndent           = true;
-        namespaceIndent      = true;
-        labelIndent          = true;
-        preprocessorIndent   = true;
-        col1CommentIndent    = true;
-        maxInStatementIndent = 50;
-        minConditionalOption = 0;
-
-        // padding options
-        breakHeaderBlocks    = true;
-        breakClosingBlocks   = true;
-        padOperators         = true;
-        padParensOutside     = true;
-        padParensInside      = true;
-        padHeaders           = true;
-        unpadParens          = true;
-        deleteEmptyLines     = true;
-        fillEmptyLines       = true;
-
-        // formatting options
-        breakCloseBrackets   = true;
-        breakElseIfs         = true;
-        addBrackets          = true;
-        addOneLineBrackets   = true;
-        breakOneLineStmts    = false;
-        breakOneLineBlocks   = false;
-        convertTabs          = true;
-        alignPointers        = ALIGN_TYPE;
-
-        // generate some errors
-        /*  bracketStyle   = 20;
-        maxInStatementIndent = 90;
-        minConditionalOption = 9;
-        // cannot have both invalid indentLength and invalid indentType
-        //indentLength      = 21;
-        indentType        = 6;  */
     }
 
     // methods to call Artistic Style ---------------------------------------------------

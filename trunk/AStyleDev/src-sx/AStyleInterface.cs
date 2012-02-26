@@ -28,17 +28,28 @@ public class AStyleInterface
     public const int INDENT_TABS   = 1;
     public const int INDENT_FTABS  = 2;
 
-    // alignPointers valid pointer alignments
-    public const int ALIGN_NONE     = 0;
-    public const int ALIGN_TYPE     = 1;
-    public const int ALIGN_MIDDLE   = 2;
-    public const int ALIGN_NAME     = 3;
-
     // minConditionalOption valid options
     public const int  MINCOND_ZERO = 0;
     public const int  MINCOND_ONE = 1;
     public const int  MINCOND_TWO = 2;
     public const int  MINCOND_ONEHALF = 3;
+
+    // alignPointers valid pointer alignments
+    public const int PTR_ALIGN_NONE     = 0;
+    public const int PTR_ALIGN_TYPE     = 1;
+    public const int PTR_ALIGN_MIDDLE   = 2;
+    public const int PTR_ALIGN_NAME     = 3;
+
+    // alignReference valid reference alignments
+    public const int REF_ALIGN_NONE     = PTR_ALIGN_NONE;
+    public const int REF_ALIGN_TYPE     = PTR_ALIGN_TYPE;
+    public const int REF_ALIGN_MIDDLE   = PTR_ALIGN_MIDDLE;
+    public const int REF_ALIGN_NAME     = PTR_ALIGN_NAME;
+    public const int REF_SAME_AS_PTR    = PTR_ALIGN_NAME + 1;
+
+    // maxCodeLength min and max
+    public const int MAX_CODE_LENGTH_MIN = 50;
+    public const int MAX_CODE_LENGTH_MAX = 200;
 
     // fileMode valid file modes
     public const int FILEMODE_CPP   = 0;
@@ -53,11 +64,13 @@ public class AStyleInterface
     // comments are the command line option used to set the variable
 
     // bracket style option
-    private int  bracketStyle = STYLE_NONE;      // --style=?
+    private int  bracketStyle = STYLE_NONE;        // --style=?
 
     // tabs/spaces options
-    private int  indentLength = 4;                  // --indent=?, --indent=force-tab=#
-    private int  indentType   = INDENT_SPACES;      // --indent=?, --indent=force-tab=#
+    private int  indentType   = INDENT_SPACES;     // --indent=?, --indent=force-tab=#
+    private int  indentLength = 4;                 // --indent=?, --indent=force-tab=#
+    private bool useTabLength = false;             // --indent=force-tab-x=#
+    private int  tabLength    = 8;                 // --indent=force-tab-x=#
 
     // indentation options
     private bool classIndent         = false;      // --indent-classes
@@ -73,13 +86,16 @@ public class AStyleInterface
     // padding options
     private bool breakHeaderBlocks   = false;      // --break-blocks, --break-blocks=all
     private bool breakClosingBlocks  = false;      // --break-blocks=all
-    private bool padOperators        = false;      // --pad-oper
-    private bool padParensOutside    = false;      // --pad-paren, --pad-paren-out
-    private bool padParensInside     = false;      // --pad-paren, --pad-paren-in
-    private bool padHeaders          = false;      // --pad-header
-    private bool unpadParens         = false;      // --unpad-paren
+    private bool padOperator         = false;      // --pad-oper
+    private bool padParenOutside     = false;      // --pad-paren, --pad-paren-out
+    private bool padFirstParenOut    = false;      // --pad-first-paren-out
+    private bool padParenInside      = false;      // --pad-paren, --pad-paren-in
+    private bool padHeader           = false;      // --pad-header
+    private bool unpadParen          = false;      // --unpad-paren
     private bool deleteEmptyLines    = false;      // --delete-empty-lines
     private bool fillEmptyLines      = false;      // --fill-empty-lines
+    private int  alignPointer        = PTR_ALIGN_NONE;    // --align-pointer= none, type, middle, name
+    private int  alignReference      = REF_SAME_AS_PTR;   // --align-reference= none, type, middle, name same as pointer
 
     // formatting options
     private bool breakCloseBrackets   = false;      // --break-closing-brackets
@@ -89,15 +105,18 @@ public class AStyleInterface
     private bool breakOneLineStmts    = true;       // --keep-one-line-statements
     private bool breakOneLineBlocks   = true;       // --keep-one-line-blocks
     private bool convertTabs          = false;      // --convert-tabs
-    private int alignPointers         = ALIGN_NONE; // align-pointer= none, type, middle, name
+    private int  maxCodeLength        = 0;          // --max-code-length=#
+    private bool breakAfterLogical    = false;      // --break-after-logical
 
     // file mode option
     private int     fileMode = FILEMODE_CPP;        // --mode=?
 
     // default values for integer variables, saved by constructor
-    private int    defaultIndentLength;             // default indentLength
-    private int    defaultMaxInStatementIndent;     // default maxInStatementIndent
-    private int    defaultMinConditionalOption;     // default minConditionalOption
+    private int  defaultIndentLength;               // default indentLength
+    private int  defaultTabLength;                  // default tabLength
+    private int  defaultMaxInStatementIndent;       // default maxInStatementIndent
+    private int  defaultMinConditionalOption;       // default minConditionalOption
+//    private int  defaultMaxCodeLength;              // default maxCodeLength
 
     /// Constructor
     public AStyleInterface()
@@ -106,8 +125,10 @@ public class AStyleInterface
         AStyleError = new AStyleErrorDelgate(OnAStyleError);
         // save integer default values
         defaultIndentLength         = indentLength;
+        defaultTabLength            = tabLength;
         defaultMaxInStatementIndent = maxInStatementIndent;
         defaultMinConditionalOption = minConditionalOption;
+//        defaultMaxCodeLength        = maxCodeLength;
     }
 
     /// Display error messages for the class.
@@ -152,7 +173,7 @@ public class AStyleInterface
             else if (bracketStyle == STYLE_LISP)
                 options += "style=lisp";
             else
-                options += "bracketStyle="      // force an error message
+                options += "bracketStyle="         // force an error message
                            + bracketStyle;
             options += separator;
         }
@@ -172,8 +193,25 @@ public class AStyleInterface
             options += separator;
         }
         else if (indentType == INDENT_FTABS)
-        {   options += "indent=force-tab=" + indentLength;
-            options += separator;
+        {   // check conditions to use default force-tab setting
+            if (indentLength == defaultIndentLength)
+            {   if (!useTabLength)
+                {   options += "indent=force-tab";
+                    options += separator;
+                }
+            }
+            else
+            {   options += "indent=force-tab=" + indentLength;
+                options += separator;
+            }
+            // check conditions to use different tab setting
+            if (useTabLength)
+            {   if (tabLength == defaultTabLength)
+                    options += "indent=force-tab-x";
+                else
+                    options += "indent=force-tab-x=" + tabLength;
+                options += separator;
+            }
         }
         else
         {   options += "indentType="               // force an error message
@@ -229,29 +267,33 @@ public class AStyleInterface
             options += separator;
         }
         // end break-blocks check
-        if (padOperators)
+        if (padOperator)
         {   options += "pad-oper";
             options += separator;
         }
         // begin pad parens check
-        if (padParensOutside && padParensInside)
+        if (padParenOutside && padParenInside)
         {   options += "pad-paren";
             options += separator;
         }
-        else if (padParensOutside)
+        else if (padParenOutside)
         {   options += "pad-paren-out";
             options += separator;
         }
-        else if (padParensInside)
+        else if (padParenInside)
         {   options += "pad-paren-in";
             options += separator;
         }
         // end pad parens check
-        if (padHeaders)
+        if (padFirstParenOut)
+        {   options += "pad-first-paren-out";
+            options += separator;
+        }
+        if (padHeader)
         {   options += "pad-header";
             options += separator;
         }
-        if (unpadParens)
+        if (unpadParen)
         {   options += "unpad-paren";
             options += separator;
         }
@@ -262,6 +304,48 @@ public class AStyleInterface
         if (fillEmptyLines)
         {   options += "fill-empty-lines";
             options += separator;
+        }
+        if (alignPointer != PTR_ALIGN_NONE)
+        {   if (alignPointer == PTR_ALIGN_TYPE)
+                options += "align-pointer=type";
+            else if (alignPointer == PTR_ALIGN_MIDDLE)
+                options += "align-pointer=middle";
+            else if (alignPointer == PTR_ALIGN_NAME)
+                options += "align-pointer=name";
+            else
+            {   options += "align-pointer="        // force an error message
+                           + alignPointer;
+            }
+            options += separator;
+        }
+        if (alignReference != REF_SAME_AS_PTR)
+        {   if (alignReference == REF_ALIGN_NONE)
+            {   options += "align-reference=none";
+                options += separator;
+            }
+            else if (alignReference == REF_ALIGN_TYPE)
+            {   if (alignPointer != PTR_ALIGN_TYPE)
+                {   options += "align-reference=type";
+                    options += separator;
+                }
+            }
+            else if (alignReference == REF_ALIGN_MIDDLE)
+            {   if (alignPointer != PTR_ALIGN_MIDDLE)
+                {   options += "align-reference=middle";
+                    options += separator;
+                }
+            }
+            else if (alignReference == REF_ALIGN_NAME)
+            {   if (alignPointer != PTR_ALIGN_NAME)
+                {   options += "align-reference=name";
+                    options += separator;
+                }
+            }
+            else
+            {   options += "align-reference="      // force an error message
+                           + alignReference;
+                options += separator;
+            }
         }
         if (breakCloseBrackets)
         {   options += "break-closing-brackets";
@@ -291,20 +375,17 @@ public class AStyleInterface
         {   options += "convert-tabs";
             options += separator;
         }
-        // begin align pointers check
-        if (alignPointers == ALIGN_TYPE)
-        {   options += "align-pointer=type";
+        if (maxCodeLength > 0)
+        {   if (maxCodeLength >= MAX_CODE_LENGTH_MIN && maxCodeLength <= MAX_CODE_LENGTH_MAX)
+                options += "max-code-length=" + maxCodeLength;
+            else
+                options += "maxCodeLength=" + maxCodeLength;
             options += separator;
+            if (breakAfterLogical)
+            {   options += "break-after-logical";
+                options += separator;
+            }
         }
-        else if (alignPointers == ALIGN_MIDDLE)
-        {   options += "align-pointer=middle";
-            options += separator;
-        }
-        else if (alignPointers == ALIGN_NAME)
-        {   options += "align-pointer=name";
-            options += separator;
-        }
-        // end align pointers check
         // add the file mode, default is C++
         if (fileMode == FILEMODE_CPP)
         {   if (options.Length > 0)            // delete the last separator
@@ -341,54 +422,61 @@ public class AStyleInterface
     /// This will not be used by an actual program.
     private void setTestOptionsX()
     {   // bracket Style options
-        bracketStyle = STYLE_NONE;
+        //~ bracketStyle = STYLE_ALLMAN;
 
-        // tabs / spaces options
-        indentLength = 3;
-        indentType   = INDENT_TABS;
+        //~ // tabs / spaces options
+        //~ indentType   = INDENT_TABS;
+        //~ indentLength = 3;
+        //~ useTabLength = true;
+        //~ tabLength=6;
+
+        //~ // indentation options
+        //~ classIndent        = true;
+        //~ switchIndent       = true;
+        //~ caseIndent         = true;
+        //~ namespaceIndent    = true;
+        //~ labelIndent        = true;
+        //~ preprocessorIndent = true;
+        //~ col1CommentIndent  = true;
+        //~ maxInStatementIndent = 50;
+        //~ minConditionalOption = 0;
+
+        //~ // padding options
+        //~ breakHeaderBlocks  = true;
+        //~ breakClosingBlocks = true;
+        //~ padOperator        = true;
+        //~ padParenOutside    = true;
+        //~ padFirstParenOut   = true;
+        //~ padParenInside     = true;
+        //~ padHeader          = true;
+        //~ unpadParen         = true;
+        //~ deleteEmptyLines   = true;
+        //~ fillEmptyLines     = true;
+        //~ alignPointer       = PTR_ALIGN_TYPE;
+        //~ alignReference     = REF_ALIGN_NAME;
+
+        //~ // formatting options
+        //~ breakCloseBrackets = true;
+        //~ breakElseIfs       = true;
+        //~ addBrackets        = true;
+        //~ addOneLineBrackets = true;
+        //~ breakOneLineStmts  = false;
+        //~ breakOneLineBlocks = false;
+        //~ convertTabs        = true;
+        //~ maxCodeLength      = 100;
+        //~ breakAfterLogical  = true;
+
+        //~ // generate some errors
+        //~ bracketStyle   = 20;
+        //~ maxInStatementIndent = 90;
+        //~ minConditionalOption = 50;
+        //~ maxCodeLength = 500;
+        //~ // cannot have both invalid indentLength and invalid indentType
+        //~ indentLength      = 21;
+        //~ indentType        = 6;
 
         // fileMode option - FILEMODE_SHARP is required for C# files
         fileMode = FILEMODE_SHARP;
-
-        // indentation options
-        classIndent        = true;
-        switchIndent       = true;
-        caseIndent         = true;
-        namespaceIndent    = true;
-        labelIndent        = true;
-        preprocessorIndent = true;
-        col1CommentIndent  = true;
-        maxInStatementIndent = 50;
-        minConditionalOption = 0;
-
-        // padding options
-        breakHeaderBlocks  = true;
-        breakClosingBlocks = true;
-        padOperators       = true;
-        padParensOutside   = true;
-        padParensInside    = true;
-        padHeaders         = true;
-        unpadParens        = true;
-        deleteEmptyLines   = true;
-        fillEmptyLines     = true;
-
-        // formatting options
-        breakCloseBrackets = true;
-        breakElseIfs       = true;
-        addBrackets        = true;
-        addOneLineBrackets = true;
-        breakOneLineStmts  = false;
-        breakOneLineBlocks = false;
-        convertTabs        = true;
-        alignPointers      = ALIGN_TYPE;
-
-        // generate some errors
-        /*  bracketStyle   = 20;
-        maxInStatementIndent = 90;
-        minConditionalOption = 50;
-        // cannot have both invalid indentLength and invalid indentType
-        //indentLength      = 21;
-        indentType        = 6;  */
     }
 
     // functions to call Artistic Style ---------------------------------------------------
