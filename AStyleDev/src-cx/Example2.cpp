@@ -64,7 +64,7 @@ int main(int, char**)
 #ifdef __MINGW32__
     system("pause");
 #endif
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
 
 // Error message function for this example

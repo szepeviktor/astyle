@@ -53,10 +53,11 @@
 					<Add option="-std=c++98" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-Wint-to-pointer-cast" />
+					<Add option="-Woverloaded-virtual" />
+					<Add option="-Wwrite-strings" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fno-rtti" />
-					<Add option="-Wwrite-strings" />
-					<Add option="-Woverloaded-virtual" />
 				</Compiler>
 			</Target>
 			<Target title="Profile">

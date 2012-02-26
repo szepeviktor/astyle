@@ -31,11 +31,6 @@ class AStyleInterface
 public:
     // NOTE: enumerators are always static
 
-    enum IndentType { INDENT_SPACES,
-                      INDENT_TABS,
-                      INDENT_FTABS
-                    };
-
     enum BracketStyle  { STYLE_NONE,
                          STYLE_ALLMAN,
                          STYLE_JAVA,
@@ -51,11 +46,10 @@ public:
                          STYLE_LISP
                        };
 
-    enum PointerAlign { ALIGN_NONE,
-                        ALIGN_TYPE,
-                        ALIGN_MIDDLE,
-                        ALIGN_NAME
-                      };
+    enum IndentType { INDENT_SPACES,
+                      INDENT_TABS,
+                      INDENT_FTABS
+                    };
 
     enum MinConditional { MINCOND_ZERO = 0,
                           MINCOND_ONE = 1,
@@ -63,6 +57,27 @@ public:
                           MINCOND_ONEHALF = 3,
                           MINCOND_END
                         };
+
+    // these MUST be the same as Artistic Style
+    enum PointerAlign { PTR_ALIGN_NONE,
+                        PTR_ALIGN_TYPE,
+                        PTR_ALIGN_MIDDLE,
+                        PTR_ALIGN_NAME,
+                        PTR_ALIGN_END
+                      };
+
+    // these MUST be the same as Artistic Style
+    enum ReferenceAlign { REF_ALIGN_NONE = PTR_ALIGN_NONE,
+                          REF_ALIGN_TYPE = PTR_ALIGN_TYPE,
+                          REF_ALIGN_MIDDLE = PTR_ALIGN_MIDDLE,
+                          REF_ALIGN_NAME = PTR_ALIGN_NAME,
+                          REF_SAME_AS_PTR,
+                          REF_ALIGN_END
+                        };
+
+    enum MaxCodeLength { MAX_CODE_LENGTH_MIN = 50,
+                         MAX_CODE_LENGTH_MAX = 200
+                       };
 
     enum FileMode { FILEMODE_CPP,
                     FILEMODE_JAVA,
@@ -84,11 +99,13 @@ private:
     // comments are the command line option used to set the variable
 
     // bracket style option
-    BracketStyle bracketStyle;			// --style=?
+    BracketStyle bracketStyle;          // --style=?
 
     // tabs/spaces options
-    int  indentLength;                  // --indent=? --indent=force-tab=#
-    IndentType indentType;              // --indent=? --indent=force-tab=#
+    IndentType indentType;              // --indent=*
+    int  indentLength;                  // --indent=*
+    bool useTabLength;                  // --indent=force-tab-x=#
+    int  tabLength;                     // --indent=force-tab-x=#
 
     // indentation options
     bool classIndent;                   // --indent-classes
@@ -98,37 +115,43 @@ private:
     bool labelIndent;                   // --indent-labels
     bool preprocessorIndent;            // --indent-preprocessor
     bool col1CommentIndent;             // --indent-col1-comments
-    int  maxInStatementIndent;          // --max-instatement-indent=#
     int  minConditionalOption;          // --min-conditional-indent=#
+    int  maxInStatementIndent;          // --max-instatement-indent=#
 
     // padding options
     bool breakHeaderBlocks;             // --break-blocks, --break-blocks=all
     bool breakClosingBlocks;            // --break-blocks=all
-    bool padOperators;                  // --pad-oper
-    bool padParensOutside;              // --pad-paren, --pad-paren-out
-    bool padParensInside;               // --pad-paren, --pad-paren-in
-    bool padHeaders;                    // --pad-header
-    bool unpadParens;                   // --unpad-paren
+    bool padOperator;                   // --pad-oper
+    bool padParenOutside;               // --pad-paren, --pad-paren-out
+    bool padFirstParenOut;              // --pad-first-paren-out
+    bool padParenInside;                // --pad-paren, --pad-paren-in
+    bool padHeader;                     // --pad-header
+    bool unpadParen;                    // --unpad-paren
     bool deleteEmptyLines;              // --delete-empty-lines
     bool fillEmptyLines;                // --fill-empty-lines
+    PointerAlign alignPointer;          // --align-pointer= none, type, middle, name
+    ReferenceAlign alignReference;      // --align-reference= none, type, middle, name same as pointer
 
     // formatting options
     bool breakCloseBrackets;            // --break-closing-brackets
     bool breakElseIfs;                  // --break-elseifs
     bool addBrackets;                   // --add-brackets
     bool addOneLineBrackets;            // --add-one-line-brackets
-    bool breakOneLineStmts;             // --keep-one-line-statements
     bool breakOneLineBlocks;            // --keep-one-line-blocks
+    bool breakOneLineStmts;             // --keep-one-line-statements
     bool convertTabs;                   // --convert-tabs
-    PointerAlign alignPointers;         // --align-pointer= none, type, middle, name
+    int  maxCodeLength;                 // --max-code-length=#
+    bool breakAfterLogical;             // --break-after-logical
 
     // file mode option
     FileMode fileMode;                  // --mode=?
 
     // default values for integer variables, saved by constructor
     int defaultIndentLength;            // default indentLength
-    int defaultMaxInStatementIndent;    // default maxInStatementIndent
+    int defaultTabLength;               // default tabLength
     int defaultMinConditionalOption;    // default minConditionalIndent
+    int defaultMaxInStatementIndent;    // default maxInStatementIndent
+//    int defaultMaxCodeLength;           // default maxCodeLength
 
 private:
     // private functions

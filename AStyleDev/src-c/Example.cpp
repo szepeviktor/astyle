@@ -78,7 +78,7 @@ int main(int, char**)
 #ifdef __MINGW32__
     system("pause");
 #endif
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
 
 // Error handler for the Artistic Style formatter
