@@ -59,15 +59,21 @@ def convert_class_functions(line):
 		line = ''
 	elif line.find("ASBeautifier::init") != -1:
 		line = ''
+	elif line.find("clearFormattedLineSplitPoints") != -1:
+		line = ''
 	elif line.find("getCaseIndent") != -1:
 		line = ''
 	elif line.find("getEmptyLineFill") != -1:
+		line = ''
+	elif line.find("getForceTabIndentation") != -1:
 		line = ''
 	elif line.find("getIndentLength") != -1:
 		line = ''
 	elif line.find("getIndentString") != -1:
 		line = ''
 	elif line.find("getPreprocessorIndent") != -1:
+		line = ''
+	elif line.find("getTabLength") != -1:
 		line = ''
 	else:
 		line = "unidentified function: " + line
