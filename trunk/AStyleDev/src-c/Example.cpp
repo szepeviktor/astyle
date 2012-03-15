@@ -12,7 +12,7 @@
 using namespace std;
 
 // allow for different calling conventions in Linux and Windows
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_LIB)
 #define STDCALL __stdcall
 #else
 #define STDCALL
@@ -20,16 +20,16 @@ using namespace std;
 
 // functions to call AStyleMain
 extern "C"
-char* STDCALL  AStyleMain(const char* pSourceIn,
-                          const char* pOptions,
-                          void(STDCALL* fpError)(int, char*),
-                          char*(STDCALL* fpAlloc)(unsigned long));
+char* STDCALL AStyleMain(const char* pSourceIn,
+                         const char* pOptions,
+                         void(STDCALL* fpError)(int, char*),
+                         char*(STDCALL* fpAlloc)(unsigned long));
 void  STDCALL ASErrorHandler(int errorNumber, char* errorMessage);
 char* STDCALL ASMemoryAlloc(unsigned long memoryNeeded);
 
 // other functions
 extern "C"
-char* STDCALL  AStyleGetVersion();
+char* STDCALL AStyleGetVersion();
 void error(const char* why, const char* what = "");
 string getProjectDirectory(string& subPath);
 char* getText(string& filePath);

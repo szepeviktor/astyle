@@ -2,6 +2,8 @@
 REM build the AStyle Release Java Configuration using the AStyle project file
 REM copy the output to the AStyleDev\test-j(x) folder
 
+REM %1 should be the Visual Studio version (release date before vs11) 
+REM the %sdk% below can be obtained from the macro $(MSBuildRuntimeVersion)
 set astyle=..\..\AStyle\build\vs2005
 set bindir1=..\src-j
 set bindir2=..\src-jx
@@ -9,6 +11,7 @@ set sdk=v3.5
 if %astyle:~-6% == vs2005  set sdk=v2.0.50727
 if %astyle:~-6% == vs2008  set sdk=v3.5
 if %astyle:~-6% == vs2010  set sdk=v4.0.30319
+if %astyle:~-6% == vs11    set sdk=v4.0.30319
 set errors=no
 
 echo BUILDING ASTYLE JAVA

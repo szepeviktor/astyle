@@ -1,19 +1,21 @@
 @echo off
 REM build the AStyle Release Dll Configuration using the AStyle project file
-REM copy the output to the AStyleDev\build\%1\bin folder
+REM copy the output to the AStyleDev\build\%1\bin or debug  folder
+REM always uses the release build of the Dll
+REM %1 should be the Visual Studio version number (release date before vs11) 
+REM %2 should be the Visual Studio configuration (Release or Debug) 
 
-REM %1 should be the VS build directory, vs2008, vs2010
-REM %2 should be the configuration, Release or Debug
 set astyle=..\..\AStyle\build\%1
-if %2==Release (
+REM TEMPORARY? for vs11 preview? Uses vs2010 instead of vs11
+if %1 == vs11  set astyle=..\..\AStyle\build\vs2010
+REM END TEMPORARY
 set bindir=..\build\%1\bin
-) else (
-set bindir=..\build\%1\debug
-)
-set sdk=no
+if %2 == Debug  set bindir=..\build\%1\debug
+REM the %sdk% below can be obtained from the macro $(MSBuildRuntimeVersion)
+REM default is vs2010
+set sdk=v4.0.30319
 if %1 == vs2005  set sdk=v2.0.50727
 if %1 == vs2008  set sdk=v3.5
-if %1 == vs2010  set sdk=v4.0.30319
 set errors=no
 set called=no
 
@@ -25,7 +27,7 @@ set bindir=..\..\%bindir%
 )
 
 echo BUILDING ASTYLE DLL
-%windir%\microsoft.net\framework\%sdk%\msbuild  /nologo  /noconsolelogger  "/property:Configuration=%2"  "/property:Platform=Win32"  "%astyle%\AStyleDll.sln"
+%windir%\microsoft.net\framework\%sdk%\msbuild  /nologo  /noconsolelogger  "/property:Configuration=Release"  "/property:Platform=Win32"  "%astyle%\AStyleDll.sln"
 if %ERRORLEVEL% NEQ 0  set errors=yes
 
 REM don't copy if compile errors
@@ -35,14 +37,9 @@ echo COPYING
 if not exist "%bindir%"  mkdir "%bindir%"
 xcopy "%astyle%\bin\AStyle.dll"  "%bindir%\"  /y /q
 if %ERRORLEVEL% NEQ 0  set errors=yes
-xcopy "%astyle%\bin\AStyle.lib"  "%bindir%\"  /y /q
-if %ERRORLEVEL% NEQ 0  set errors=yes
 )
 
 if %errors%==yes (
-if %sdk%==no (
-echo Invalid call parameter %1.
-)
 echo * * * *  ERRORS IN PROCESSING SCRIPT  * * * *
 )
 
