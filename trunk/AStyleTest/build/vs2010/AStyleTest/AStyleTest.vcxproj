@@ -328,16 +328,6 @@
   <ItemGroup>
     <None Include="..\..\..\srcx\gtest-options.lst" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GTestLib\GTestLib.vcxproj">
-      <Project>{c9032bce-2092-41de-8a7c-7e1d5ff5025c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="AStyleLib.vcxproj">
-      <Project>{8f7f6b41-5f56-4898-bd1f-22e08ea19818}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

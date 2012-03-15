@@ -16,6 +16,28 @@ namespace
 // AStyle version 2.03 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V203, DoubleTemplateDefinition)
+{
+	// Test formatting of template within a template.
+	// Problem was the >> ending.
+	char text[] =
+		"\nnamespace whatever\n"
+		"{\n"
+		"template <class Source, class Target, class TransformPolicy = GenericTransform<Source, Target>>\n"
+		"class ObjectModelConnection : public IObjectModelConnection, public TransformPolicy\n"
+		"{\n"
+		"public:\n"
+		"    ObjectModelConnection()\n"
+		"    {\n"
+		"    }\n"
+		"};\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BugFix_V203, JavaWildcardGenericDefinitions)
 {
 	// In Java, wildcards can be used in generic definitions.
