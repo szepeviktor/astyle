@@ -22,15 +22,18 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\..\src-sx\AStyleInterface.cs" />
@@ -48,7 +51,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>if not exist $(OutDir)AStyle.dll  call ..\..\..\file-bat\astylebuild-dll.bat vs2008 $(ConfigurationName)
-if exist $(OutDir)AStyle.lib  del $(OutDir)AStyle.lib</PreBuildEvent>
+    <PreBuildEvent>if not exist $(OutDir)AStyle.dll  call ..\..\..\file-bat\astylebuild-cs.bat  vs2008  $(ConfigurationName)
+</PreBuildEvent>
   </PropertyGroup>
 </Project>

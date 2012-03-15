@@ -198,7 +198,7 @@ def load_windows_dll():
 	# exception for IronPython - cannot determine the cause
 	except OSError as err:
 		print("Cannot load library", dll)
-		print("You may be mixing 32 and 64 bit code")
+		print("If the library is available you may be mixing 32 and 64 bit code")
 		sys.exit(1)
 	return libc
 

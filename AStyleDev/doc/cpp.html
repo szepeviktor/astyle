@@ -43,11 +43,12 @@
         Syntax</h4>
 
     <div class="code">
-        <pre><span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
-<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL  <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
-                          <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
-                          <span class="hl kwb">void</span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
-                          <span class="hl kwb">char</span><span class="hl opt">*(</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
+        <pre>
+<span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
+<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
+                         <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
+                         <span class="hl kwb">void</span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
+                         <span class="hl kwb">char</span><span class="hl opt">*(</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
 </pre>
     </div>
 
@@ -104,7 +105,7 @@
 
     <p>
         The STDCALL macro is defined for Windows as <i>__stdcall</i>. It is needed if AStyle is compiled as a Windows
-        static library or DLL. For Linux it is defined but does not have a value.</p>
+        shared library (DLL). For Linux it is defined but does not have a value.</p>
     <p>
         The calling program is responsible for freeing the memory allocated by <i>fpAlloc</i> when it is no longer needed.</p>
 
@@ -119,8 +120,9 @@
         Syntax</h4>
 
     <div class="code">
-        <pre><span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
-<span class="hl kwb">char</span><span class="hl sym">*</span> STDCALL  <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
+        <pre>
+<span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
+<span class="hl kwb">char</span><span class="hl sym">*</span> STDCALL <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
 </pre>
     </div>
 
@@ -135,7 +137,7 @@
 
     <p>
         The STDCALL macro is defined for Windows as <i>__stdcall</i>. It is needed if AStyle is compiled as a Windows
-        static library or DLL. For Linux it is defined but does not have a value.</p>
+        shared library (DLL). For Linux it is defined but does not have a value.</p>
 
     <h3>
         Example</h3>
@@ -148,8 +150,7 @@
     <p>
         &nbsp;</p>
     <div class="code">
-        <pre>
-        
+        <pre>        
 <span class="hl slc">// Example.cpp</span>
 
 <span class="hl com">/* This program calls the Artistic Style GUI formatter (AStyleMain)</span>
@@ -172,16 +173,16 @@
 
 <span class="hl slc">// functions to call AStyleMain</span>
 <span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
-<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL  <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
-                          <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
-                          <span class="hl kwb">void</span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
-                          <span class="hl kwb">char</span><span class="hl opt">*(</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
+<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
+                         <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
+                         <span class="hl kwb">void</span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
+                         <span class="hl kwb">char</span><span class="hl opt">*(</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
 <span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">);</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl opt">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl opt">);</span>
 
 <span class="hl slc">// other functions</span>
 <span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
-<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL  <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
+<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
 <span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> why<span class="hl opt">,</span> <span class="hl kwb">const char</span><span class="hl opt">*</span> what <span class="hl opt">=</span> <span class="hl str">&quot;&quot;</span><span class="hl opt">);</span>
 string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span>string<span class="hl opt">&amp;</span> subPath<span class="hl opt">);</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> <span class="hl kwd">getText</span><span class="hl opt">(</span>string<span class="hl opt">&amp;</span> filePath<span class="hl opt">);</span>
@@ -216,7 +217,7 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</sp
         <span class="hl slc">// an error message has been displayed by the error handler</span>
         <span class="hl kwa">if</span> <span class="hl opt">(</span>textOut <span class="hl opt">==</span> NULL<span class="hl opt">)</span>
         <span class="hl opt">{</span>   cout <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;Cannot format &quot;</span> <span class="hl opt">&lt;&lt;</span> filePath <span class="hl opt">&lt;&lt;</span> endl<span class="hl opt">;</span>
-            <span class="hl kwa">return</span> <span class="hl num">0</span><span class="hl opt">;</span>
+            <span class="hl kwa">return</span> EXIT_FAILURE<span class="hl opt">;</span>
         <span class="hl opt">}</span>
 
         <span class="hl slc">// return the formatted text</span>
@@ -230,6 +231,7 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</sp
 <span class="hl ppc">#ifdef __MINGW32__</span>
     <span class="hl kwd">system</span><span class="hl opt">(</span><span class="hl str">&quot;pause&quot;</span><span class="hl opt">);</span>
 <span class="hl ppc">#endif</span>
+    <span class="hl kwa">return</span> EXIT_SUCCESS<span class="hl opt">;</span>
 <span class="hl opt">}</span>
 
 <span class="hl slc">// Error handler for the Artistic Style formatter</span>
@@ -289,7 +291,7 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</sp
     in<span class="hl opt">.</span><span class="hl kwd">read</span><span class="hl opt">(</span>bufferIn<span class="hl opt">,</span> bufferSizeIn<span class="hl opt">);</span>
     <span class="hl slc">// get actual size - must be smaller than buffer size</span>
     <span class="hl kwb">int</span> textSizeIn <span class="hl opt">=</span> <span class="hl kwa">static_cast</span><span class="hl opt">&lt;</span><span class="hl kwb">int</span><span class="hl opt">&gt;(</span>in<span class="hl opt">.</span><span class="hl kwd">gcount</span><span class="hl opt">());</span>
-    <span class="hl kwa">if</span> <span class="hl opt">(</span>textSizeIn <span class="hl opt">==</span> bufferSizeIn<span class="hl opt">)</span>
+    <span class="hl kwa">if</span> <span class="hl opt">(</span>textSizeIn <span class="hl opt">&gt;</span> bufferSizeIn<span class="hl opt">)</span>
     <span class="hl opt">{</span>   in<span class="hl opt">.</span><span class="hl kwd">close</span><span class="hl opt">();</span>
         <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Read buffer is too small&quot;</span><span class="hl opt">);</span>
     <span class="hl opt">}</span>
