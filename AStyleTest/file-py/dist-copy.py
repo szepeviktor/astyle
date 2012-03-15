@@ -291,18 +291,6 @@ def copy_astyle_src(distSrc, toDos=False):
 	for srcpath in srcfiles:
 		shutil.copy(srcpath, distSrc)
 	convert_line_ends(distSrc, toDos)
-	# remove BOM if not Windows
-	if not toDos:
-		bomFile = distSrc + "ASLocalizer.cpp"
-		bomTemp = distSrc + "ASLocalizer_TMP.cpp"
-		outFile = open(bomTemp, 'w')
-		tailList = ["tail", "--bytes=+4", bomFile]
-		retval = subprocess.call(tailList, stdout=outFile)
-		if retval:
-			libastyle.system_exit("Bad tail return: "  + str(retval))
-		shutil.move(bomTemp, bomFile)
-		sep = bomFile.rfind(os.sep)
-		print ("    " + bomFile[sep+1:] + " - BOM removed")
 	# verify copy - had a problem with bad filenames
 	distfiles = (glob.glob(distSrc + "/*.cpp")
 					+ glob.glob(distSrc + "/*.h"))
@@ -360,7 +348,7 @@ def copy_vs20xx_directories(astyleBuildDir, distAStyleBuild):
 					shutil.copy(filter, distAStyleProj)
 
 		print ("build/" + vsdir[1:-1] + " copied")
-
+	
 # -----------------------------------------------------------------------------
 
 def remove_dist_directories():

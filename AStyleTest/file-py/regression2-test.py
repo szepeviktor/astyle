@@ -34,19 +34,19 @@ project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 # optionsX can be a bracket style or any other option
-options  = libastyle.OPT0
-optionsX = "-Uxd"
+options  = libastyle.OPT2
+optionsX = ""
 
 # scite formatting options
 #options = "-tapOHUk3"
 
 # executables for test
-astyleexe1 = "astyle21b"
+astyleexe1 = "astyle23c"
 astyleexe2 = "astyled"
 
 # extract all files options, use False for speed
-all_files_option = True
-#all_files_option = False
+#all_files_option = True
+all_files_option = False
 
 # select one of the following to format files in the OLD directory
 formatOLD = True

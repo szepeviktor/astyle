@@ -33,7 +33,7 @@ OPT0 = ""
 #     min-conditional-indent=0 (m0)
 #     pad-oper (p), delete-empty-lines (xd)
 #OPT1 = "-CSKNLwYM50m0yeoOcFpPHUxdEk1"
-OPT1 = "-CSKNLwYM50m0yejoOcFpPHUxdEk1"
+OPT1 = "-CSKNLwYM50m0yejoOcFpPHUEk1"
 # align-pointer=type (k3), align-reference=type (W1), 
 #     add-one-line-brackets (J), break-blocks (f),
 #     min-conditional-indent=3 (m3), pad-paren-out(d)

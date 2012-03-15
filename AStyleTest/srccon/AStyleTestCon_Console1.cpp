@@ -1107,7 +1107,7 @@ TEST(OperatorVectorSequence, BuildOperators)
 	// build the operators vector
 	ASResource resource;
 	vector<const string*> operators;
-	resource.buildOperators(&operators);
+	resource.buildOperators(&operators, C_TYPE);
 	// test the operators vector sequence
 	// vector sequence is descending length of the operators
 	size_t prevOperatorLength = 9;

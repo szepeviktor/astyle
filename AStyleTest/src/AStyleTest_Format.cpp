@@ -2510,6 +2510,81 @@ TEST(ConvertTabs, PreprocessorIndent)
 }
 
 //-------------------------------------------------------------------------
+// AStyle Close Templates Tabs
+//-------------------------------------------------------------------------
+
+TEST(CloseTemplates, LongOption)
+{
+	// Test close-templates long option.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    vector<string<int> > vec\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    vector<string<int>> vec\n"
+		"}";
+	char options[] = "close-templates";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CloseTemplates, ShortOption)
+{
+	// Test close-templates short option.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    vector<string<int> > vec\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    vector<string<int>> vec\n"
+		"}";
+	char options[] = "-xy";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CloseTemplates, Sans)
+{
+	// Templates should NOT be closed without the option.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    vector<string<int> > vec\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(CloseTemplates, Padded)
+{
+	// Test close-templates with padding inside the templates.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    vector<string< int > > vec\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    vector<string< int >> vec\n"
+		"}";
+	char options[] = "close-templates";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
 // AStyle Max Code Length and Break After Conditional
 //-------------------------------------------------------------------------
 

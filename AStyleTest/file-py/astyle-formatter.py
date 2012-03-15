@@ -44,40 +44,32 @@ def convert_class_functions(line):
 	"""Convert class initializer functions to the corresponding variable."""
 	first_paren = line.find('(')
 	if first_paren == -1:
-		return line
+		return []
 	if line.find("initContainer") != -1:
 		line = line[first_paren + 1:]
 		first_comma = line.find(',')
 		if first_comma != -1:
 			line = line[:first_comma]
-		line = line.strip()
-	elif line.find("->") != -1:
-		line = ''
-	elif line.find("buildLanguageVectors") != -1:
-		line = ''
-	elif line.find("fixOptionVariableConflicts") != -1:
-		line = ''
-	elif line.find("ASBeautifier::init") != -1:
-		line = ''
-	elif line.find("clearFormattedLineSplitPoints") != -1:
-		line = ''
-	elif line.find("getCaseIndent") != -1:
-		line = ''
-	elif line.find("getEmptyLineFill") != -1:
-		line = ''
-	elif line.find("getForceTabIndentation") != -1:
-		line = ''
-	elif line.find("getIndentLength") != -1:
-		line = ''
-	elif line.find("getIndentString") != -1:
-		line = ''
-	elif line.find("getPreprocessorIndent") != -1:
-		line = ''
-	elif line.find("getTabLength") != -1:
-		line = ''
-	else:
-		line = "unidentified function: " + line
-	return line
+		variable_name = line.strip()
+		return [variable_name]
+	if line.find("clearFormattedLineSplitPoints") != -1:
+		return ['maxAndOr', 'maxComma', 'maxCommaPending', 
+				'maxParen', 'maxParenPending', 'maxSemi', 
+				'maxSemiPending', 'maxWhiteSpace', 
+				'maxWhiteSpacePending']
+	if (line.find("->") != -1
+	or line.find("buildLanguageVectors") != -1
+	or line.find("fixOptionVariableConflicts") != -1
+	or line.find("ASBeautifier::init") != -1
+	or line.find("getCaseIndent") != -1
+	or line.find("getEmptyLineFill") != -1
+	or line.find("getForceTabIndentation") != -1
+	or line.find("getIndentLength") != -1
+	or line.find("getIndentString") != -1
+	or line.find("getPreprocessorIndent") != -1
+	or line.find("getTabLength") != -1):
+		return []
+	return ["unidentified function: " + line]
 
 # -----------------------------------------------------------------------------
 
@@ -136,13 +128,9 @@ def get_constructor_variables(class_variables, formatter_path):
 			class_lines[1] = lines
 			break
 		# get the variable name
-		variable_name = line
-		if line.find('(') != -1:
-			variable_name = convert_class_functions(line)
-		else:
-			first_space = line.find(' ')
-			if first_space != -1:
-				variable_name = line[0:first_space].strip()
+		first_space = line.find(' ')
+		if first_space != -1:
+			variable_name = line[0:first_space].strip()
 		if len(variable_name) == 0:
 			continue
 		class_variables.append(variable_name)
@@ -240,13 +228,16 @@ def get_initializer_variables(class_variables, formatter_path):
 			class_lines_init[1] = lines_init
 			break
 		# get the variable name
-		variable_name = line
 		if line.find('(') != -1:
-			variable_name = convert_class_functions(line)
-		else:
-			first_space = line.find(' ')
-			if first_space != -1:
-				variable_name = line[:first_space].strip()
+			variables = convert_class_functions(line)
+			if len(variables) == 0:
+				continue
+			class_variables += variables
+			class_total_init += len(variables)
+			continue
+		first_space = line.find(' ')
+		if first_space != -1:
+			variable_name = line[:first_space].strip()
 		if len(variable_name) == 0:
 			continue
 		class_variables.append(variable_name)

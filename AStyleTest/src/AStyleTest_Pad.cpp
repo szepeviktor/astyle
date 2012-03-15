@@ -1370,10 +1370,9 @@ TEST(PadOperator, LongOption)
 		"    a=b;\n"
 		"    a<b;\n"
 		"    a>b;\n"
-		"    a^b;\n"
+		"    x=a^b;\n"
 		"    a|b;\n"
 		"    x=a&b;\n"     // without the equal sign it is a reference
-		"    a^b;\n"
 		"}\n";             // 'operator' and 'return' are not tested
 	char text[] =
 		"\nvoid foo()\n"
@@ -1419,10 +1418,9 @@ TEST(PadOperator, LongOption)
 		"    a = b;\n"
 		"    a < b;\n"
 		"    a > b;\n"
-		"    a ^ b;\n"
+		"    x = a ^ b;\n"
 		"    a | b;\n"
 		"    x = a & b;\n"   // without the equal sign it is a reference
-		"    a ^ b;\n"
 		"}\n";               // 'operator' and 'return' are not tested
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -4544,9 +4542,34 @@ TEST(AlignPointerNone, UnpadParen)
 	delete [] textOut;
 }
 
+TEST(AlignPointerNone, CppCLI)
+{
+	// should not change a C++/CLI file.
+	char text[] =
+		"\nclass referencetype\n"
+		"{\n"
+		"protected:\n"
+		"    String^ stringVar;\n"
+		"    array<int> ^ intArr;\n"
+		"    List<double> ^doubleList;\n"
+		"    String^ s1 = \"abc\";\n"
+		"    Object  ^  o1 = s1;\n"
+		"    Object  ^o2 = s2;\n"
+		"public:\n"
+		"    referencetype(String^ str, int *pointer, int number)\n"
+		"    {\n"
+		"        System::Console::WriteLine(str->Trim() + number);\n"
+		"    }\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerNone, CSharp)
 {
-	// should not chabge on C# file.
+	// should not change a C# file.
 	char text[] =
 		"\npublic unsafe void GetValue()\n"
 		"{\n"
@@ -5168,7 +5191,7 @@ TEST(AlignPointerType, Catch)
 	delete [] textOut;
 }
 
-TEST(AlignPointerType, PostTemplate)
+TEST(AlignPointerType, PostTemplate1)
 {
 	// post template is a pointer or reference, not an operator
 	char textIn[] =
@@ -5183,6 +5206,29 @@ TEST(AlignPointerType, PostTemplate)
 		"                   std::vector<int>* a\n"
 		"                   std::vector<int>& b)\n"
 		"{}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, PostTemplate2)
+{
+	// post template is a pointer or reference, not an operator
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    vector<string*>* tempStack1;\n"
+		"    vector<string*> * tempStack1;\n"
+		"    vector<string*> *tempStack1;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    vector<string*>* tempStack1;\n"
+		"    vector<string*>* tempStack1;\n"
+		"    vector<string*>* tempStack1;\n"
+		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -5266,6 +5312,47 @@ TEST(AlignPointerType, Sans2)
 		"    if (i > *maxcol) *maxcol = i;\n"
 		"}\n";
 	char options[] = "align-pointer=type, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, CppCLI)
+{
+	// test align-pointer=type on C++/CLI file.
+	char textIn[] =
+		"\nclass referencetype\n"
+		"{\n"
+		"protected:\n"
+		"    String^ stringVar;\n"
+		"    array<int> ^ intArr;\n"
+		"    List<double> ^doubleList;\n"
+		"    String^ s1 = \"abc\";\n"
+		"    Object  ^  o1 = s1;\n"
+		"    Object  ^o2 = s2;\n"
+		"public:\n"
+		"    referencetype(String^ str, int *pointer, int number)\n"
+		"    {\n"
+		"        System::Console::WriteLine(str->Trim() + number);\n"
+		"    }\n"
+		"};\n";
+	char text[] =
+		"\nclass referencetype\n"
+		"{\n"
+		"protected:\n"
+		"    String^ stringVar;\n"
+		"    array<int>^ intArr;\n"
+		"    List<double>^ doubleList;\n"
+		"    String^ s1 = \"abc\";\n"
+		"    Object^    o1 = s1;\n"
+		"    Object^  o2 = s2;\n"
+		"public:\n"
+		"    referencetype(String^ str, int* pointer, int number)\n"
+		"    {\n"
+		"        System::Console::WriteLine(str->Trim() + number);\n"
+		"    }\n"
+		"};\n";
+	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -5855,7 +5942,7 @@ TEST(AlignPointerMiddle, Catch)
 }
 
 
-TEST(AlignPointerMiddle, PostTemplate)
+TEST(AlignPointerMiddle, PostTemplate1)
 {
 	// post template is a pointer or reference, not an operator
 	char textIn[] =
@@ -5870,6 +5957,29 @@ TEST(AlignPointerMiddle, PostTemplate)
 		"                   std::vector<int> * a\n"
 		"                   std::vector<int> & b)\n"
 		"{}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, PostTemplate2)
+{
+	// post template is a pointer or reference, not an operator
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    vector<string*>* tempStack1;\n"
+		"    vector<string*> * tempStack1;\n"
+		"    vector<string*> *tempStack1;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    vector<string *> * tempStack1;\n"
+		"    vector<string *> * tempStack1;\n"
+		"    vector<string *> * tempStack1;\n"
+		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -5953,6 +6063,47 @@ TEST(AlignPointerMiddle, Sans2)
 		"    if (i > *maxcol) *maxcol = i;\n"
 		"}\n";
 	char options[] = "align-pointer=middle, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, CppCLI)
+{
+	// test align-pointer=middle on C++/CLI file.
+	char textIn[] =
+		"\nclass referencetype\n"
+		"{\n"
+		"protected:\n"
+		"    String^ stringVar;\n"
+		"    array<int> ^ intArr;\n"
+		"    List<double> ^doubleList;\n"
+		"    String^ s1 = \"abc\";\n"
+		"    Object  ^  o1 = s1;\n"
+		"    Object  ^o2 = s2;\n"
+		"public:\n"
+		"    referencetype(String^ str, int *pointer, int number)\n"
+		"    {\n"
+		"        System::Console::WriteLine(str->Trim() + number);\n"
+		"    }\n"
+		"};\n";
+	char text[] =
+		"\nclass referencetype\n"
+		"{\n"
+		"protected:\n"
+		"    String ^ stringVar;\n"
+		"    array<int> ^ intArr;\n"
+		"    List<double> ^ doubleList;\n"
+		"    String ^ s1 = \"abc\";\n"
+		"    Object  ^  o1 = s1;\n"
+		"    Object ^ o2 = s2;\n"
+		"public:\n"
+		"    referencetype(String ^ str, int * pointer, int number)\n"
+		"    {\n"
+		"        System::Console::WriteLine(str->Trim() + number);\n"
+		"    }\n"
+		"};\n";
+	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -6591,7 +6742,7 @@ TEST(AlignPointerName, Catch)
 }
 
 
-TEST(AlignPointerName, PostTemplate)
+TEST(AlignPointerName, PostTemplate1)
 {
 	// post template is a pointer or reference, not an operator
 	char textIn[] =
@@ -6606,6 +6757,29 @@ TEST(AlignPointerName, PostTemplate)
 		"                   std::vector<int> *a\n"
 		"                   std::vector<int> &b)\n"
 		"{}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, PostTemplate2)
+{
+	// post template is a pointer or reference, not an operator
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    vector<string*>* tempStack1;\n"
+		"    vector<string*> * tempStack1;\n"
+		"    vector<string*> *tempStack1;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    vector<string *> *tempStack1;\n"
+		"    vector<string *> *tempStack1;\n"
+		"    vector<string *> *tempStack1;\n"
+		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -6689,6 +6863,47 @@ TEST(AlignPointerName, Sans2)
 		"    if (i > *maxcol) *maxcol = i;\n"
 		"}\n";
 	char options[] = "align-pointer=name, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, CppCLI)
+{
+	// test align-pointer=name on C++/CLI file.
+	char textIn[] =
+		"\nclass referencetype\n"
+		"{\n"
+		"protected:\n"
+		"    String ^ stringVar;\n"
+		"    array<int> ^ intArr;\n"
+		"    List<double> ^ doubleList;\n"
+		"    String ^ s1 = \"abc\";\n"
+		"    Object  ^  o1 = s1;\n"
+		"    Object ^ o2 = s2;\n"
+		"public:\n"
+		"    referencetype(String ^ str, int * pointer, int number)\n"
+		"    {\n"
+		"        System::Console::WriteLine(str->Trim() + number);\n"
+		"    }\n"
+		"};\n";
+	char text[] =
+		"\nclass referencetype\n"
+		"{\n"
+		"protected:\n"
+		"    String ^stringVar;\n"
+		"    array<int> ^intArr;\n"
+		"    List<double> ^doubleList;\n"
+		"    String ^s1 = \"abc\";\n"
+		"    Object    ^o1 = s1;\n"
+		"    Object ^o2 = s2;\n"
+		"public:\n"
+		"    referencetype(String ^str, int *pointer, int number)\n"
+		"    {\n"
+		"        System::Console::WriteLine(str->Trim() + number);\n"
+		"    }\n"
+		"};\n";
+	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
