@@ -2571,12 +2571,12 @@ TEST(CloseTemplates, Padded)
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
-		"    vector<string< int > > vec\n"
+		"    vector< string< int > > vec\n"
 		"}";
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
-		"    vector<string< int >> vec\n"
+		"    vector<string<int>> vec\n"
 		"}";
 	char options[] = "close-templates";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);

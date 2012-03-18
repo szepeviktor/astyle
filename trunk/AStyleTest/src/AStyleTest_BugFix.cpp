@@ -16,6 +16,68 @@ namespace
 // AStyle version 2.03 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V203, TrimContinuationLine)
+{
+	// A line end should not be trimmed if it ends with a '\'.
+	// The line ending with "\\." should NOT be trimmed
+	char textIn[] =
+		"\nboost::bimap<int,int> = boost::list_of<boost::bimap<int,int>::relation>\n"
+		"                        ( 1, 2 ) // \\ \n"
+		"                        ( 3, 4 )       \n"
+		"                        ( 5, 6 );      \n";
+	char text[] =
+		"\nboost::bimap<int,int> = boost::list_of<boost::bimap<int,int>::relation>\n"
+		"                        ( 1, 2 ) // \\ \n"
+		"                        ( 3, 4 )\n"
+		"                        ( 5, 6 );\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V203, SansBreakAfterLeadingComments1)
+{
+	// Should NOT break after leading comments.
+	char text[] =
+		"\n/* a */ int p1 = 0;\n"
+		"/* a */ int p2 = 0;\n"
+		"\n"
+		"/* a */ void f()\n"
+		"{\n"
+		"}\n"
+		"\n"
+		"/* a */ int p3 = 0;\n"
+		"/* a */ int p4 = 0;";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V203, SansBreakAfterLeadingComments2)
+{
+	// SHOULD break if the comments are not leading.
+	char text[] =
+		"\n/* a */\n"
+		"int p1 = 0;\n"
+		"/* a */ int p2 = 0;\n"
+		"\n"
+		"/* a */\n"
+		"void f()\n"
+		"{\n"
+		"}\n"
+		"\n"
+		"/* a */\n"
+		"int p3 = 0;\n"
+		"/* a */ int p4 = 0;";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+
 TEST(BugFix_V203, DoubleTemplateDefinition)
 {
 	// Test formatting of template within a template.
