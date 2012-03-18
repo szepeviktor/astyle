@@ -15,12 +15,12 @@ REM  v - verbose
 REM  Q - formatted
 REM z1 - windows lineends
 
-set options=  -A1tHCOk1  -M50  -Qz1  --options=none
-set optionsh= -A3tHCOk1  -M50  -Qz1  --options=none
+REM OLD OPTIONS
+REM set options=  -A1tHCOk1  -M50  -Qz1  --options=none
+REM set optionsh= -A3tHCOk1  -M50  -Qz1  --options=none
 
-REM NEW
-REM set options=  -A1tHCOk1W3  -M50  -Qz1  --options=none
-REM set optionsh= -A3tHCOk1W3  -M50  -Qz1  --options=none
+set options=  -A1tHCOk1W3  -M50  -Qz1  --options=none
+set optionsh= -A3tHCOk1W3  -M50  -Qz1  --options=none
 
 echo Formatting AStyle
 echo source %options%  
