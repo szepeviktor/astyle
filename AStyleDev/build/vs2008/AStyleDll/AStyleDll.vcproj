@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)debug"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="2"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="ASTYLE_LIB;WIN32;_DEBUG;_WINDOWS;_USRDLL"
+				PreprocessorDefinitions="ASTYLE_LIB;_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -98,7 +98,7 @@
 			OutputDirectory="$(SolutionDir)bin"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="2"
+			CharacterSet="0"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -121,7 +121,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="2"
 				FavorSizeOrSpeed="1"
-				PreprocessorDefinitions="ASTYLE_LIB;WIN32;NDEBUG;_WINDOWS;_USRDLL"
+				PreprocessorDefinitions="ASTYLE_LIB;NDEBUG"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="false"
 				UsePrecompiledHeader="0"
