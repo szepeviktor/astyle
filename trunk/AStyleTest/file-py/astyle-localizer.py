@@ -29,6 +29,7 @@ def process_files():
 	print ("Checking astyle_main strings to TranslationF.")
 	total_astyle_strings = len(astyle_strings)
 	print ("There are {0} translated strings in astyle_main.".format(total_astyle_strings))
+	print ()
 
 	find_string_diffs(astyle_strings, test_strings)
 

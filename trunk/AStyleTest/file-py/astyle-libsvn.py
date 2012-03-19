@@ -30,6 +30,7 @@ def process_files():
 	print ("Checking libPROJ.bat directories to libSVN.bat.")
 	total_variables = len(libproj_directories)
 	print ("There are {0} directories in libPROJ.bat.".format(total_variables))
+	print ()
 
 	find_diffs(libproj_directories, libsvn_directories)
 

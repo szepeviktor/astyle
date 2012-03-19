@@ -30,6 +30,7 @@ def process_files():
 	print ("Checking ASConsole header to class constructor.")
 	total_variables = len(header_variables)
 	print ("There are {0} variables in the header list.".format(total_variables))
+	print ()
 
 	find_class_diffs(header_variables, class_variables)
 
@@ -93,13 +94,13 @@ def get_constructor_variables(class_variables, console_path):
 		if line.startswith("//"):
 			continue
 		# start between the following lines
-		if line.find("ASConsole(ASFormatter& formatterArg)") != -1:
+		if line.find("ASConsole(ASFormatter") != -1:
 			class_lines[0] = lines + 1
 			class_variables.append("formatter")
 			class_total += 1
 			continue
-		if (class_lines[0]  == 0
-		or class_lines[0]  >= lines):
+		if (class_lines[0] == 0
+		or class_lines[0] >= lines):
 			continue
 		# find ending bracket
 		if line.find('}') != -1:
@@ -155,7 +156,7 @@ def get_header_variables(header_variables, header_path):
 			header_lines[1] = lines
 			break
 		# find variables end
-		if line.find("ASConsole(ASFormatter& formatterArg)") != -1:
+		if line.find("ASConsole(ASFormatter") != -1:
 			header_lines[1] = lines -1
 			break
 		# find ending comment
@@ -206,7 +207,7 @@ def get_header_variables(header_variables, header_path):
 		first_sqbr = variable_name.find('[')
 		if first_sqbr != -1:
 			variable_name = variable_name[:first_sqbr].strip()
-		if variable_name[0] == '*':
+		if variable_name[0] == '*' or variable_name[0] == '&':
 			variable_name = variable_name[1:]
 		header_variables.append(variable_name)
 		header_total += 1

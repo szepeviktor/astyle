@@ -32,6 +32,7 @@ def process_files():
 	print ("Checking ASBeautifier protected variables to activeBeautifierStack.")
 	total_variables = len(header_variables)
 	print ("There are {0} protected variables in the header list.".format(total_variables))
+	print ()
 
 	find_class_diffs(header_variables, beautifier_variables)
 

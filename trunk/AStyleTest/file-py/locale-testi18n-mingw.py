@@ -11,7 +11,7 @@ import time
 
 # global variables ------------------------------------------------------------
 # always uses the debug configuration
-testdir = "../build/cb-mingw"
+builddir = libastyle.get_astyletest_directory() + "/build/cb-mingw"
 
 # -----------------------------------------------------------------------------
 
@@ -19,8 +19,6 @@ def process_files():
 	"""Main processing function.
 	"""
 	# initialization
-	if os.name != "nt":
-		libastyle.system_exit("This script is for Windows only!")
 	libastyle.set_text_color()
 	print (libastyle.get_python_version())
 	verify_os()
@@ -29,7 +27,7 @@ def process_files():
 	# for some reason the subprocess call must be one long statement and quoted as follows???
 	# the country LCID is added by the subprocess call
 	exepath = "C:/Windows/AppPatch/AppLoc.exe"
-	i18npath = testdir + "/bin/AStyleTestI18nd.exe"
+	i18npath = builddir + "/bin/AStyleTestI18nd.exe"
 	command = exepath + ' ' + i18npath + ' ' + "\"--terse_printer --no_close\"" + ' '
 
 	# run tests
@@ -57,7 +55,7 @@ def build_testi18n_executable():
 	arg1 = "--build"
 	arg2 = "--target=Debug"
 	arg3 = "--no-batch-window-close"
-	cbpath = testdir + "/MinGW AStyleTestI18n.workspace"
+	cbpath = builddir + "/MinGW AStyleTestI18n.workspace"
 	cbbuild = ([buildpath, arg1, arg2, arg3, cbpath])
 	buildfile = libastyle.get_temp_directory() + "/build.txt"
 	outfile = open(buildfile, 'w')

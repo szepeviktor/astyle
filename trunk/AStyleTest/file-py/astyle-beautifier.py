@@ -6,7 +6,6 @@
 from __future__ import print_function
 
 import libastyle		#local directory
-import os
 
 # global variables ------------------------------------------------------------
 
@@ -19,7 +18,7 @@ def process_files():
 	"""Main processing function."""
 
 	header_variables = []		# variables in astyle.h
-	class_variables = []			# variables in the class constructor
+	class_variables = []		# variables in the class constructor
 	copy_variables = []			# variables in the copy constructor
 	header_path = libastyle.get_astyle_directory() + "/src/astyle.h"
 	beautifier_path = libastyle.get_astyle_directory() + "/src/ASBeautifier.cpp"
@@ -35,6 +34,7 @@ def process_files():
 	print ("Checking ASBeautifier header to class constructor and copy constructor.")
 	total_variables = len(header_variables)
 	print ("There are {0} variables in the header list.".format(total_variables))
+	print ()
 
 	find_class_diffs(header_variables, class_variables)
 	find_copy_diffs(header_variables, copy_variables)

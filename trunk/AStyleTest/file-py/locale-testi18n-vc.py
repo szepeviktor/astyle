@@ -12,7 +12,7 @@ import time
 # global variables ------------------------------------------------------------
 # change the following for the correct VS version
 # always uses the debug configuration
-testdir = "../build/vs2010"
+builddir = libastyle.get_astyletest_directory() + "/build/vs2010"
 
 # -----------------------------------------------------------------------------
 
@@ -20,8 +20,6 @@ def process_files():
 	"""Main processing function.
 	"""
 	# initialization
-	if os.name != "nt":
-		libastyle.system_exit("This script is for Windows only!")
 	libastyle.set_text_color()
 	print (libastyle.get_python_version())
 	verify_os()
@@ -30,7 +28,7 @@ def process_files():
 	# for some reason the subprocess call must be one long statement and quoted as follows???
 	# the country LCID is added by the subprocess call
 	exepath = "C:/Windows/AppPatch/AppLoc.exe"
-	i18npath = testdir + "/debug/AStyleTestI18nd.exe"
+	i18npath = builddir + "/debug/AStyleTestI18nd.exe"
 	command = exepath + ' ' + i18npath + ' ' + "\"--terse_printer --no_close\"" + ' '
 
 	# run tests
@@ -55,11 +53,11 @@ def build_testi18n_executable():
 	# Compile the astyle executable for Windows.
 	sdk = "v3.5"
 	vsdir = "vs2008"
-	if testdir.find("vs2010") != -1:
+	if builddir.find("vs2010") != -1:
 		sdk = "v4.0.30319"
 		vsdir = "vs2010"
 	# remove the cache file as a precaution
-	cachepath = (testdir
+	cachepath = (builddir
 			+ "/AStyle.sln.cache")
 	if os.path.isfile(cachepath):
 		os.remove(cachepath)
@@ -69,7 +67,7 @@ def build_testi18n_executable():
 			+ sdk
 			+ "/MSBuild.exe")
 	configProp = "/property:Configuration=Debug"
-	slnpath = (testdir
+	slnpath = (builddir
 			+ "/AStyleTestI18n.sln")
 	platform = "/property:Platform=Win32"
 	msbuild = ([buildpath, configProp, platform, slnpath])

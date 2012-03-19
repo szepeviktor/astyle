@@ -32,6 +32,7 @@ def process_files():
 	print ("Checking header variables to non-paren, pre-block, and pre-command.")
 	total_variables = len(header_variables)
 	print ("There are {0} variables in the header list.".format(total_variables))
+	print ()
 
 	find_header_diffs(header_variables, np_header_variables)
 	find_pre_block_diffs(header_variables, pre_block_variables)

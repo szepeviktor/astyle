@@ -7,6 +7,7 @@
 from __future__ import print_function
 
 import os
+import platform
 import subprocess
 import sys
 
@@ -34,7 +35,7 @@ OPT0 = ""
 #     pad-oper (p), delete-empty-lines (xd)
 #OPT1 = "-CSKNLwYM50m0yeoOcFpPHUxdEk1"
 OPT1 = "-CSKNLwYM50m0yejoOcFpPHUEk1"
-# align-pointer=type (k3), align-reference=type (W1), 
+# align-pointer=type (k3), align-reference=type (W1),
 #     add-one-line-brackets (J), break-blocks (f),
 #     min-conditional-indent=3 (m3), pad-paren-out(d)
 #     pad-oper (p), delete-empty-lines (xd)
@@ -323,7 +324,7 @@ def get_file_py_directory(endsep=False):
 			system_exit("File executed from drive " + pydir[0:2])
 	else:
 		if pydir[0:6] != "/home/":
-			sep =pydir[0:].find('/Projects/')
+			sep = pydir[0:].find('/Projects/')
 			if sep == -1:
 				sep = len(pydir)
 			else:
@@ -354,8 +355,14 @@ def get_project_directory(endsep=False):
 	"""
 	# get project directory
 	pydir = get_file_py_directory()
-	testdir, tail = os.path.split(pydir)
-	projdir, tail = os.path.split(testdir)
+	projdir = pydir
+	tail = pydir
+	while len(tail) > 0:
+		head, tail = os.path.split(projdir)
+		if tail == 'Projects': break
+		projdir = head
+	if len(tail) == 0:
+		system_exit("Cannot find project directory " + pydir[0:])
 	if endsep: projdir += '/'
 	return  projdir
 
@@ -437,7 +444,13 @@ def get_project_filepaths(project):
 # -----------------------------------------------------------------------------
 
 def get_python_version():
-	version = "Python {0}.{1}".format(sys.version_info[0], sys.version_info[1])
+	version = ""
+	if platform.python_implementation() == "CPython":
+		version = "Python"
+	else:
+		version = platform.python_implementation()
+	version += " {0}.{1}  ".format(sys.version_info[0], sys.version_info[1])
+	version += "({0})".format(platform.architecture()[0])
 	return version
 
 # -----------------------------------------------------------------------------
@@ -445,7 +458,7 @@ def get_python_version():
 def get_python_version_number():
 	"""Return the Python version number"""
 	return sys.version_info[0]
-	
+
 # -----------------------------------------------------------------------------
 
 def get_temp_directory(endsep=False):
@@ -485,39 +498,39 @@ def is_executed_from_console():
 		return os.isatty(sys.stdin.fileno())
 	except AttributeError:
 		return False
-		
+
 # -----------------------------------------------------------------------------
 
 def set_error_color():
 	"""Change text color if script is run from the console.
 	"""
-	if is_executed_from_console():
-		if os.name == "nt":
-			os.system("color 0C")
-		else:
-			os.system("echo -n '[1;31m'")
+	#if is_executed_from_console():
+	if os.name == "nt":
+		os.system("color 0C")
+	else:
+		os.system("echo -n '[1;31m'")
 
 # -----------------------------------------------------------------------------
 
 def set_ok_color():
 	"""Change text color if script is run from the console.
 	"""
-	if is_executed_from_console():
-		if os.name == "nt":
-			os.system("color 0A")
-		else:
-			os.system("echo -n '[1;32m'")
+	#if is_executed_from_console():
+	if os.name == "nt":
+		os.system("color 0A")
+	else:
+		os.system("echo -n '[1;32m'")
 
 # -----------------------------------------------------------------------------
 
 def set_text_color():
 	"""Change text color if script is run from the console.
 	"""
-	if is_executed_from_console():
-		if os.name == "nt":
-			os.system("color 0E")
-		else:
-			os.system("echo -n '[1;33m'")
+	#if is_executed_from_console():
+	if os.name == "nt":
+		os.system("color 0E")
+	else:
+		os.system("echo -n '[1;33m'")
 
 # -----------------------------------------------------------------------------
 
@@ -532,8 +545,8 @@ def system_exit(message=''):
 		print ("\nPress any key to end . . .")
 		getch()
 	else:
-		print ("End of script !")
-	sys.exit()
+		print ("\nEnd of script !")
+	os._exit(0)
 
 # -----------------------------------------------------------------------------
 

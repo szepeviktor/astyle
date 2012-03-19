@@ -31,6 +31,7 @@ def process_files():
 	print ("Checking ASFormatter header to class constructor.")
 	total_variables = len(header_variables)
 	print ("There are {0} variables in the header list.".format(total_variables))
+	print ()
 
 	find_class_diffs(header_variables, class_variables)
 
