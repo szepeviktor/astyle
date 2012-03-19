@@ -320,7 +320,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\AStyleTest.h" />
-    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest-test-part.h" />
     <ClInclude Include="..\..\..\..\LeakFinder\LeakFinder.h" />
     <ClInclude Include="..\..\..\..\LeakFinder\StackWalker.h" />
     <ClInclude Include="..\..\..\srcx\TersePrinter.h" />

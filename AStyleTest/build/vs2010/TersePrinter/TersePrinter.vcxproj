@@ -189,12 +189,6 @@
   <ItemGroup>
     <None Include="..\..\..\srcx\gtest-options.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GTestLib\GTestLib.vcxproj">
-      <Project>{c9032bce-2092-41de-8a7c-7e1d5ff5025c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

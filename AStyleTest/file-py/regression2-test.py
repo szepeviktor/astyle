@@ -41,7 +41,7 @@ optionsX = ""
 #options = "-tapOHUk3"
 
 # executables for test
-astyleexe1 = "astyle23c"
+astyleexe1 = "astyle23d"
 astyleexe2 = "astyled"
 
 # extract all files options, use False for speed

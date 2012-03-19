@@ -61,9 +61,6 @@
     <ClInclude Include="..\..\..\src\AStyleTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\gtest\include\gtest\gtest-test-part.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\LeakFinder\LeakFinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
