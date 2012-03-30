@@ -8,6 +8,7 @@ from __future__ import print_function
 import libastyle		#local directory
 import locale
 import os
+import platform
 import sys
 
 # -----------------------------------------------------------------------------
@@ -17,6 +18,9 @@ def enumerate_locales():
 	"""
 	if os.name != "nt":
 		libastyle.system_exit("This script is for Windows only!")
+
+	if platform.python_implementation() == "IronPython":
+		libastyle.system_exit("IronPython is not currently supported")
 
 	libastyle.set_text_color()
 	print (libastyle.get_python_version())
@@ -57,7 +61,7 @@ def enumerate_locales():
 			locale.setlocale(locale.LC_ALL, language)
 		except locale.Error:
 			print ("unsupported locale: " + language)
-		# print locale.getlocale(locale.LC_CTYPE)
+		# print (locale.getlocale(locale.LC_CTYPE))
 		localeName = locale.setlocale(locale.LC_ALL, None)
 
 		localeNames.append( localeName)

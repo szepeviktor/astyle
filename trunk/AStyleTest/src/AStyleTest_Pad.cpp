@@ -2912,7 +2912,7 @@ TEST(PadHeader, Switch)
 	delete [] textOut;
 }
 
-TEST(PadHeader, SwitchUnpadParens)
+TEST(PadHeader, SwitchUnpad)
 {
 	// Switch and case with statements should be padded,
 	// even with unpad parens.
@@ -2931,6 +2931,125 @@ TEST(PadHeader, SwitchUnpadParens)
 		"    case (a + b) * c:\n"
 		"        //...\n"
 		"    }\n"
+		"}";
+	char options[] = "pad-header, unpad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadHeader, Return)
+{
+	// A 'return' statement may or may not be a paren header.
+	char textIn[] =
+		"\nint max(int a, int b)\n"
+		"{\n"
+		"    if (a > 0)\n"
+		"        return 0;\n"
+		"    return(a > b ? a : b);\n"
+		"}";
+	char text[] =
+		"\nint max(int a, int b)\n"
+		"{\n"
+		"    if (a > 0)\n"
+		"        return 0;\n"
+		"    return (a > b ? a : b);\n"
+		"}";
+	char options[] = "pad-header";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadHeader, ReturnUnpad1)
+{
+	// A 'return' statement should be padded even with unpad parens.
+	char textIn[] =
+		"\nint max (int a, int b)\n"
+		"{\n"
+		"    if (a > 0)\n"
+		"        return 0;\n"
+		"    return (a > b ? a : b);\n"
+		"}";
+	char text[] =
+		"\nint max(int a, int b)\n"
+		"{\n"
+		"    if (a > 0)\n"
+		"        return 0;\n"
+		"    return (a > b ? a : b);\n"
+		"}";
+	char options[] = "pad-header, unpad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadHeader, ReturnUnpad2)
+{
+	// A 'return' statement should be padded even with unpad parens.
+	// The paren inside should be unpadded.
+	char textIn[] =
+		"\nint max (int a, int b)\n"
+		"{\n"
+		"    return( crc_table);\n"
+		"}";
+	char text[] =
+		"\nint max(int a, int b)\n"
+		"{\n"
+		"    return (crc_table);\n"
+		"}";
+	char options[] = "pad-header, unpad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadHeader, Throw1)
+{
+	// A 'throw' statement may or may not be a paren header.
+	// Should not pad a 'throw' in the definition.
+	char textIn[] =
+		"\nvoid with_type() throw(int) {\n"
+		"    throw(1);\n"
+		"}";
+	char text[] =
+		"\nvoid with_type() throw(int) {\n"
+		"    throw (1);\n"
+		"}";
+	char options[] = "pad-header";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadHeader, Throw2)
+{
+	// A 'throw' statement may or may not be a paren header.
+	// Should not pad a 'throw' in the definition (following a 'const').
+	char textIn[] =
+		"\nvoid with_type() throw(int) {\n"
+		"    throw(1);\n"
+		"}";
+	char text[] =
+		"\nvoid with_type() throw(int) {\n"
+		"    throw (1);\n"
+		"}";
+	char options[] = "pad-header";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadHeader, ThrowUnpad)
+{
+	// A 'throw' statement should be padded even with unpad parens.
+	char textIn[] =
+		"\nvoid with_type() throw(int) {\n"
+		"    throw(1);\n"
+		"}";
+	char text[] =
+		"\nvoid with_type() throw(int) {\n"
+		"    throw (1);\n"
 		"}";
 	char options[] = "pad-header, unpad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -3007,12 +3126,25 @@ TEST(UnpadParen, Comments)
 
 TEST(UnpadParen, ReturnSans)
 {
-	// don't unpad a return
+	// don't unpad a 'return'
 	char text[] =
 		"\nvoid foo(bool isFoo)\n"
 		"{\n"
 		"    return (2 * x);\n"
 		"}\n";
+	char options[] = "unpad-paren";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(UnpadParen, ThrowSans)
+{
+	// don't unpad a 'throw'
+	char text[] =
+		"\nvoid with_type() throw(int) {\n"
+		"    throw 1;\n"
+		"}";
 	char options[] = "unpad-paren";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -3207,6 +3339,23 @@ TEST(UnpadParen, PadOper2)
 		"        ptr++;\n"
 		"}\n";
 	char options[] = "unpad-paren, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(UnpadParen, Throw)
+{
+	// Unpad a 'throw' enclosed in parens.
+	char textIn[] =
+		"\nvoid with_type() throw(int) {\n"
+		"    throw (1);\n"
+		"}";
+	char text[] =
+		"\nvoid with_type() throw(int) {\n"
+		"    throw(1);\n"
+		"}";
+	char options[] = "unpad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
