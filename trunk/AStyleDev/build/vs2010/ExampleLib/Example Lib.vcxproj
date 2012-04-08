@@ -48,8 +48,6 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
-      <Message>Running target pre-build steps</Message>
-      <Command>if not exist ..\debug\AStyleLibd.lib  call ..\..\..\file-bat\astylebuilddbg-lib.bat vs2010</Command>
     </PreBuildEvent>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -80,8 +78,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
-      <Message>Running target pre-build steps</Message>
-      <Command>if not exist ..\bin\AStyleLib.lib  call ..\..\..\file-bat\astylebuild-lib.bat vs2010</Command>
     </PreBuildEvent>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
