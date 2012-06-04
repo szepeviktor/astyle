@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{85b4b447-bee9-4a5d-b41d-85b1f5f921d9}</ProjectGuid>
+    <ProjectGuid>{3810f85d-29ae-490a-a78c-9c4ba2dc741e}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>..\..\..\src-py\ExampleUnicode.py</StartupFile>
     <SearchPath>
@@ -12,9 +12,6 @@
     <OutputPath>.</OutputPath>
     <Name>Example Py</Name>
     <RootNamespace>Example Py</RootNamespace>
-    <IsWindowsApplication>False</IsWindowsApplication>
-    <InterpreterId>80659ab7-4d53-4e0c-8588-a766116cbd46</InterpreterId>
-    <InterpreterVersion>2.7</InterpreterVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,8 +22,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\src-py\AutoFormatSublime.py" />
     <Compile Include="..\..\..\src-py\ExampleByte.py" />
     <Compile Include="..\..\..\src-py\ExampleExe.py" />
+    <Compile Include="..\..\..\src-py\ExampleJythonTest.py" />
     <Compile Include="..\..\..\src-py\ExampleUnicode.py" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
