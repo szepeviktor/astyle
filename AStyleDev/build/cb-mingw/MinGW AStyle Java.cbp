@@ -25,8 +25,8 @@
 					<Add option="-fno-exceptions" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="C:\Program Files\Java\jdk1.6.0_15\include" />
-					<Add directory="C:\Program Files\Java\jdk1.6.0_15\include\win32" />
+					<Add directory="C:\Program Files\Java\jdk1.7.0_03\include" />
+					<Add directory="C:\Program Files\Java\jdk1.7.0_03\include\win32" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -66,8 +66,8 @@
 					<Add option="-Wwrite-strings" />
 					<Add option="-Woverloaded-virtual" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="C:\Program Files\Java\jdk1.6.0_15\include" />
-					<Add directory="C:\Program Files\Java\jdk1.6.0_15\include\win32" />
+					<Add directory="C:\Program Files\Java\jdk1.7.0_03\include" />
+					<Add directory="C:\Program Files\Java\jdk1.7.0_03\include\win32" />
 				</Compiler>
 			</Target>
 		</Build>
