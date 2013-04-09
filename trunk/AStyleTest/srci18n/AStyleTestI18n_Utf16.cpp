@@ -211,7 +211,7 @@ TEST_F(DetectEncodingF, Utf32LE_Abort)
 	fileNames.push_back(getTestDirectory() + "/UTF-32LE.cpp");
 	createTestFile(fileNames.back(), textBOM, textsize);
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
 				"Cannot process UTF-32 encoding");
@@ -239,7 +239,7 @@ TEST_F(DetectEncodingF, Utf32BE_Abort)
 	fileNames.push_back(getTestDirectory() + "/UTF-32BE.cpp");
 	createTestFile(fileNames.back(), textBOM, textsize);
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
 				"Cannot process UTF-32 encoding");

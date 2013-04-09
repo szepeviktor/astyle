@@ -2,9 +2,12 @@
 // headers
 //----------------------------------------------------------------------------
 
-#include "gtest/gtest.h"
-#include "TersePrinter.h"
 #include "AStyleTest.h"
+#include "TersePrinter.h"
+
+#ifdef LEAK_DETECTOR
+#include "vld.h"
+#endif
 
 //----------------------------------------------------------------------------
 // global variables
@@ -49,7 +52,7 @@ int main(int argc, char** argv)
 	// example 9 will not work here because of user modifications.
 	// Change the following value to the number of tests (within 10).
 	if (useTersePrinter)
-		TersePrinter::PrintTestTotals(1730, __FILE__, __LINE__);
+		TersePrinter::PrintTestTotals(1890, __FILE__, __LINE__);
 #ifdef __WIN32
 	printf("%c", '\n');
 #endif

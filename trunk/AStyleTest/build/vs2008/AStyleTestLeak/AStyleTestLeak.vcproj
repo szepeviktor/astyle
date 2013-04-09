@@ -208,7 +208,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\AStyleTest_LeakFinder.cpp"
+				RelativePath="..\..\..\src\AStyleTest_LeakFinder_vs2008.cpp"
 				>
 			</File>
 		</Filter>

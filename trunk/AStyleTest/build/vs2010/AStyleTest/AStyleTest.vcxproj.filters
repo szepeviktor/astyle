@@ -23,9 +23,6 @@
     <ClCompile Include="..\..\..\src\AStyleTest_Indent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\AStyleTest_LeakFinder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\AStyleTest_Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -56,15 +53,10 @@
     <ClCompile Include="..\..\..\src\AStyleTest_Styles2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\srcx\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\AStyleTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\LeakFinder\LeakFinder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\LeakFinder\StackWalker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\srcx\TersePrinter.h">

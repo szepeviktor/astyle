@@ -1,6 +1,7 @@
 #! /usr/bin/python
-# Check ASBeautifier protected variables to verify all variables are
-# replaced in the activeBeautifierStack.
+""" Check ASBeautifier protected variables to verify all variables are
+    replaced in the activeBeautifierStack.
+"""
 
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
@@ -9,8 +10,8 @@ import libastyle		#local directory
 
 # global variables ------------------------------------------------------------
 
-print_detail = False				# print line numbers and total variables
-print_variables = False			# print the variables in the lists
+__print_detail = False				# print line numbers and total variables
+__print_variables = False			# print the variables in the lists
 
 # -----------------------------------------------------------------------------
 
@@ -23,22 +24,22 @@ def process_files():
 	beautifier_path = libastyle.get_astyle_directory() + "/src/ASBeautifier.cpp"
 
 	libastyle.set_text_color()
-	print (libastyle.get_python_version())
+	print(libastyle.get_python_version())
 	get_header_variables(header_variables, header_path)
 	get_beautifier_variables(beautifier_variables, beautifier_path)
 	header_variables.sort()
 	beautifier_variables.sort()
 
-	print ("Checking ASBeautifier protected variables to activeBeautifierStack.")
+	print("Checking ASBeautifier protected variables to activeBeautifierStack.")
 	total_variables = len(header_variables)
-	print ("There are {0} protected variables in the header list.".format(total_variables))
-	print ()
+	print("There are {0} protected variables in the header list.".format(total_variables))
+	print()
 
 	find_class_diffs(header_variables, beautifier_variables)
 
-	if print_variables:
-		print (header_variables)
-		print (beautifier_variables)
+	if __print_variables:
+		print(header_variables)
+		print(beautifier_variables)
 
 # -----------------------------------------------------------------------------
 
@@ -52,27 +53,27 @@ def find_class_diffs(header_variables, beautifier_variables):
 	if len(missing_header) > 0:
 		missing_header = list(missing_header)
 		missing_header.sort()
-		print (str(len(missing_header)) + " missing protected header variables:")
-		print (missing_header)
+		print(str(len(missing_header)) + " missing protected header variables:")
+		print(missing_header)
 
 	if len(missing_class) > 0:
 		missing_class = list(missing_class)
 		missing_class.sort()
-		print (str(len(missing_class)) + " missing activeBeautifierStack beautifier variables:")
-		print (missing_class)
+		print(str(len(missing_class)) + " missing activeBeautifierStack beautifier variables:")
+		print(missing_class)
 
-	diffs= len(missing_header) + len(missing_class)
+	diffs = len(missing_header) + len(missing_class)
 	if diffs == 0:
-		print ("There are NO diffs in the activeBeautifierStack variables!!!")
+		print("There are NO diffs in the activeBeautifierStack variables!!!")
 	else:
-		print ("There are {0} diffs in the activeBeautifierStack variables.".format(diffs))
+		print("There are {0} diffs in the activeBeautifierStack variables.".format(diffs))
 
 # -----------------------------------------------------------------------------
 
 def get_beautifier_variables(beautifier_variables, beautifier_path):
 	"""Read the beautifier file and save the variable updates."""
 
-	beautifier_lines = [0,0]		# line numbers for activeBeautifierStack
+	beautifier_lines = [0, 0]		# line numbers for activeBeautifierStack
 	beautifier_total = 0			# total variables activeBeautifierStack
 	lines = 0						# current input line number
 	file_in = open(beautifier_path, 'r')
@@ -104,15 +105,15 @@ def get_beautifier_variables(beautifier_variables, beautifier_path):
 		beautifier_total += 1
 
 	file_in.close()
-	if print_detail:
-		print ("{0} {1} activeBeautifierStack".format(beautifier_lines, beautifier_total))
+	if __print_detail:
+		print("{0} {1} activeBeautifierStack".format(beautifier_lines, beautifier_total))
 
 # -----------------------------------------------------------------------------
 
 def get_header_variables(header_variables, header_path):
 	"""Read the header file and save the protected variables."""
 
-	header_lines = [0,0]		# line numbers for header
+	header_lines = [0, 0]	# line numbers for header
 	header_total = 0			# total variables for header
 	lines = 0					# current input line number
 	file_in = open(header_path, 'r')
@@ -144,8 +145,8 @@ def get_header_variables(header_variables, header_path):
 		header_total += 1
 
 	file_in.close()
-	if print_detail:
-		print ("{0} {1} header protected".format(header_lines, header_total))
+	if __print_detail:
+		print("{0} {1} header protected".format(header_lines, header_total))
 
 # -----------------------------------------------------------------------------
 

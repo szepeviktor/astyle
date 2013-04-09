@@ -17,7 +17,7 @@ void TersePrinter::OnTestIterationStart(const UnitTest& unit_test, int /*iterati
 #ifdef __BORLANDC__
 	ColoredPrintf(COLOR_YELLOW, "%s", "No mock tests.\n");
 #endif
-#if !GTEST_HAS_DEATH_TEST || LEAK_FINDER
+#if !GTEST_HAS_DEATH_TEST || LEAK_DETECTOR || LEAK_FINDER
 	ColoredPrintf(COLOR_YELLOW, "%s", "No death tests.\n");
 #endif
 	ColoredPrintf(COLOR_GREEN, "%s", "Using terse printer.\n");
@@ -260,13 +260,13 @@ void TersePrinter::PrintTestTotals(int all_test_total_check, const char* file, i
 		start++;
 	string file_name = file_path.substr(start);
 	// Check the totals.
-	if (g_test_to_run < all_test_total_check - 9)
+	if (g_test_to_run < all_test_total_check - 20)
 	{
 		ColoredPrintf(COLOR_YELLOW,
 		              "\nMISSING TESTS: %d (%d)  %s(%d)\n",
 		              all_test_total_check, g_test_to_run, file_name.c_str(), line);
 	}
-	else if (g_test_to_run > all_test_total_check + 9)
+	else if (g_test_to_run > all_test_total_check + 20)
 	{
 		ColoredPrintf(COLOR_YELLOW,
 		              "\nUpdate test variable: %d (%d)  %s(%d)\n",

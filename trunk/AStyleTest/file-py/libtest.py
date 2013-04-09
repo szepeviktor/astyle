@@ -1,6 +1,7 @@
 #! /usr/bin/python
-# Test functions to print and parse the astyle report file.
-# Test functions to extract the formatted files and call a diff viewer.
+""" Test functions to print and parse the astyle report file.
+    Test functions to extract the formatted files and call a diff viewer.
+"""
 
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
@@ -18,44 +19,44 @@ def call_diff_program(filepath1, filepath2):
 	diff = [libastyle.get_diff_path(), filepath1, filepath2]
 	try:
 		subprocess.check_call(diff)
-	except subprocess.CalledProcessError as e:
-		libastyle.system_exit("Bad diff return: " + str(e.returncode))
+	except subprocess.CalledProcessError as err:
+		libastyle.system_exit("Bad diff return: " + str(err.returncode))
 	except OSError:
 		libastyle.system_exit("Cannot find executable: " + diff[0])
 
 # -----------------------------------------------------------------------------
 
-def diff_formatted_files(filepaths, diffOLD=False):
+def diff_formatted_files(filepaths, diff_old=False):
 	"""Call the diff program for formatted files.
-	   diffOLD=True will diff files from the "OLD" directory.
+	   diff_old=True will diff files from the "OLD" directory.
 	   Otherwise diff ".orig" files from the current directory.
 	   This function requires keyboard input.
 	   It cannot be run from an editor.
 	"""
 	if not libastyle.is_executed_from_console():
-		if diffOLD: diffprog = "diff2-print.py"
+		if diff_old: diffprog = "diff2-print.py"
 		else: diffprog = "diff1-print.py"
 		msg = "Run {0} from the console to view the diffs"
-		print (msg.format(diffprog))
+		print(msg.format(diffprog))
 		return
-	print ("Press m or n to skip, q to quit")
+	print("Press m or n to skip, q to quit")
 	numin = 0
 	processed = 0
 	for filepath in filepaths:
 		numin += 1
 		filepath = filepath.replace('\\', '/')
 		stripfile = strip_test_directory_prefix(filepath)
-		print ("{0} of {1} {2}".format(numin, len(filepaths), stripfile))
-		ch = libastyle.getch()
-		if ch == 'n' or ch == 'N' or ch == 'm' or ch == 'M': continue
-		if ch == 'q' or ch == 'Q' : break
+		print("{0} of {1} {2}".format(numin, len(filepaths), stripfile))
+		ch_in = libastyle.getch()
+		if ch_in == 'n' or ch_in == 'N' or ch_in == 'm' or ch_in == 'M': continue
+		if ch_in == 'q' or ch_in == 'Q' : break
 		processed += 1
-		if diffOLD:
+		if diff_old:
 			oldpath = get_old_filepath(filepath)
 			call_diff_program(filepath, oldpath)
 		else:
 			call_diff_program(filepath, filepath + ".orig")
-	print ("{0} of {1} diffs processed".format(processed, len(filepaths)))
+	print("{0} of {1} diffs processed".format(processed, len(filepaths)))
 
 # -----------------------------------------------------------------------------
 
@@ -95,10 +96,10 @@ def get_astyle_totals(filename):
 		and re.search("unchanged", line) != None):
 			totline = line.split()
 			 # get the thousands separator from the total number of lines
-			sep = get_thousands_sep(totline[-2])  
+			sep = get_thousands_sep(totline[-2])
 			# cannot extract if the separator is a space (French)
 			if sep == None:
-				print ("Cannot extract totals from file")
+				print("Cannot extract totals from file")
 				return (0, 0, 0, 0)
 			#extract the totals
 #			totline[0] = totline[0].translate(None, sep)		# changed for version 3.2
@@ -188,13 +189,13 @@ def open_filein(filename, mode):
 
 # -----------------------------------------------------------------------------
 
-def strip_test_directory_prefix(file):
+def strip_test_directory_prefix(file_in):
 	"""Strip the test directory prefix from a directory or file for printing.
 	"""
 	prefix = libastyle.get_test_directory(True)
 	start = len(prefix)
-	if start > len(file): start = 0
-	return file[start:]
+	if start > len(file_in): start = 0
+	return file_in[start:]
 
 # -----------------------------------------------------------------------------
 
@@ -209,7 +210,7 @@ def test_all_functions():
 	# begin tests -----------------------------------------
 	files = get_formatted_files(testfile)
 		# calls extract_directory_from_line()
-	print ("No files will be displayed in the comparison program.")
+	print("No files will be displayed in the comparison program.")
 	diff_formatted_files(files)
 		# calls call_diff_program()
 		# calls strip_test_directory_prefix()
@@ -244,7 +245,7 @@ def test_file_write(filename):
 # make the module executable
 if __name__ == "__main__":
 	libastyle.set_text_color()
-	print (libastyle.get_python_version())
+	print(libastyle.get_python_version())
 	test_all_functions()
 	libastyle.system_exit()
 

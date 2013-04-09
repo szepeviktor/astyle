@@ -224,20 +224,86 @@ TEST(BracketsRunInCpp, EmptyBrackets)
 {
 	// test run-in brackets option
 	// do not change empty brackets
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {}\n"
+		"    FooClass() : ed(ed) {\n"
+		"    }\n"
+		"    FooClass() : ed(ed)\n"
+		"    {}\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {}\n"
+		"FooClass() : ed(ed) {\n"
+		"}\n"
+		"FooClass() : ed(ed)\n"
+		"{}\n";
 	char text[] =
 		"\nclass FooClass\n"
 		"{\n"
 		"public:\n"
 		"    FooClass() : ed(ed) {}\n"
 		"    FooClass() : ed(ed)\n"
+		"    {\n"
+		"    }\n"
+		"    FooClass() : ed(ed)\n"
 		"    {}\n"
 		"};\n"
 		"\n"
 		"FooClass() : ed(ed) {}\n"
 		"FooClass() : ed(ed)\n"
+		"{\n"
+		"}\n"
+		"FooClass() : ed(ed)\n"
 		"{}\n";
 	char options[] = "brackets=run-in";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsRunInCpp, EmptyBracketsWithComments)
+{
+	// test run-in brackets option with ending comments
+	// do not change empty brackets
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {} // comment\n"
+		"    FooClass() : ed(ed) { // comment\n"
+		"    }\n"
+		"    FooClass() : ed(ed) // comment\n"
+		"    {}\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {} // comment\n"
+		"FooClass() : ed(ed) { // comment\n"
+		"}\n"
+		"FooClass() : ed(ed) // comment\n"
+		"{}\n";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {} // comment\n"
+		"    FooClass() : ed(ed)   // comment\n"
+		"    {\n"
+		"    }\n"
+		"    FooClass() : ed(ed) // comment\n"
+		"    {}\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {} // comment\n"
+		"FooClass() : ed(ed)   // comment\n"
+		"{\n"
+		"}\n"
+		"FooClass() : ed(ed) // comment\n"
+		"{}\n";
+	char options[] = "brackets=run-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -599,6 +665,7 @@ TEST(BracketsRunInCpp, ClassContinuation_IndentClass)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
 TEST(BracketsRunInCpp, RunInIndent1)
 {
 	// test run-in brackets option with run-in brackets
@@ -1086,7 +1153,6 @@ TEST(BracketsRunInCpp, CommentsRunIn3)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-
 
 TEST(BracketsRunInCpp, MultipleCommentsBreak)
 {
@@ -2668,6 +2734,7 @@ TEST(BracketsArrayRunInCpp, RunIn2)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
 TEST(BracketsArrayRunInCpp, RunIn3)
 {
 	// test array formatting with multiple brackets

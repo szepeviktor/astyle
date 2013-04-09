@@ -11,15 +11,13 @@
 // headers
 //-------------------------------------------------------------------------
 
+#include "astyle.h"		// precompiled header
+#include "astyle_main.h"
+#include "gtest/gtest.h"
 
 #include <stdlib.h>
-#include <vector>
-#include <iostream>  // for cout
 #include <fstream>
 #include <errno.h>
-
-#include "gtest/gtest.h"
-#include "astyle_main.h"
 
 using namespace astyle;
 

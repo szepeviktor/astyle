@@ -82,7 +82,28 @@ TEST(BracketsNoneJava, EmptyBrackets)
 		"\npublic class FooClass\n"
 		"{\n"
 		"    public FooClass() {}\n"
+		"    public FooClass() {\n"
+		"    }\n"
 		"    public FooClass()\n"
+		"    {}\n"
+		"}\n";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsNoneJava, EmptyBracketsWithComments)
+{
+	// test default brackets option (do not change) with ending comments
+	// do not change empty brackets
+	char text[] =
+		"\npublic class FooClass // comment\n"
+		"{\n"
+		"    public FooClass() {} // comment\n"
+		"    public FooClass() { // comment\n"
+		"    }\n"
+		"    public FooClass() // comment\n"
 		"    {}\n"
 		"}\n";
 	char options[] = "mode=java";
@@ -213,6 +234,7 @@ TEST(BracketsNoneJava, EnumConstructorAttach)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
 TEST(BracketsNoneJava, EnumConstructorRunIn)
 {
 	// test default brackets option with an enum constructor
@@ -323,19 +345,59 @@ TEST_F(BracketsBreakJavaF, ShortOption)
 TEST(BracketsBreakJava, EmptyBrackets)
 {
 	// test break brackets option
-	// do not change empty brackets
+	char textIn[] =
+		"\npublic class FooClass\n"
+		"{\n"
+		"    public FooClass() {}\n"
+		"    public FooClass() {\n"
+		"    }\n"
+		"    public FooClass()\n"
+		"    {}\n"
+		"}\n";
 	char text[] =
 		"\npublic class FooClass\n"
 		"{\n"
 		"    public FooClass() {}\n"
 		"    public FooClass()\n"
+		"    {\n"
+		"    }\n"
+		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
 	char options[] = "brackets=break, mode=java";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
+TEST(BracketsBreakJava, EmptyBracketsWithComments)
+{
+	// test break brackets option with ending comments
+	char textIn[] =
+		"\npublic class FooClass // comment\n"
+		"{\n"
+		"    public FooClass() {} // comment\n"
+		"    public FooClass() { // comment\n"
+		"    }\n"
+		"    public FooClass() // comment\n"
+		"    {}\n"
+		"}\n";
+	char text[] =
+		"\npublic class FooClass // comment\n"
+		"{\n"
+		"    public FooClass() {} // comment\n"
+		"    public FooClass()   // comment\n"
+		"    {\n"
+		"    }\n"
+		"    public FooClass() // comment\n"
+		"    {}\n"
+		"}\n";
+	char options[] = "brackets=break, mode=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BracketsBreakJava, Break)
 {
 	// test break brackets option with broken brackets
@@ -586,15 +648,49 @@ TEST_F(BracketsAttachJavaF, BreakClosing)
 TEST(BracketsAttachJava, EmptyBrackets)
 {
 	// test attach brackets option
-	// do not change empty brackets
-	char text[] =
+	char textIn[] =
 		"\npublic class FooClass {\n"
 		"    public FooClass() {}\n"
+		"    public FooClass() {\n"
+		"    }\n"
 		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
+	char text[] =
+		"\npublic class FooClass {\n"
+		"    public FooClass() {}\n"
+		"    public FooClass() {\n"
+		"    }\n"
+		"    public FooClass() {\n"
+		"    }\n"
+		"}\n";
 	char options[] = "brackets=attach, mode=java";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsAttachJava, EmptyBracketsWithComments)
+{
+	// test attach brackets option with ending comments
+	char textIn[] =
+		"\npublic class FooClass { // comment\n"
+		"    public FooClass() {} // comment\n"
+		"    public FooClass() { // comment\n"
+		"    }\n"
+		"    public FooClass() // comment\n"
+		"    {}\n"
+		"}\n";
+	char text[] =
+		"\npublic class FooClass { // comment\n"
+		"    public FooClass() {} // comment\n"
+		"    public FooClass() { // comment\n"
+		"    }\n"
+		"    public FooClass() { // comment\n"
+		"    }\n"
+		"}\n";
+	char options[] = "brackets=attach, mode=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -843,19 +939,59 @@ TEST_F(BracketsLinuxJavaF, BreakClosing)
 TEST(BracketsLinuxJava, EmptyBrackets)
 {
 	// test linux brackets option
-	// do not change empty brackets
+	char textIn[] =
+		"\npublic class FooClass\n"
+		"{\n"
+		"    public FooClass() {}\n"
+		"    public FooClass() {\n"
+		"    }\n"
+		"    public FooClass()\n"
+		"    {}\n"
+		"}\n";
 	char text[] =
 		"\npublic class FooClass\n"
 		"{\n"
 		"    public FooClass() {}\n"
 		"    public FooClass()\n"
+		"    {\n"
+		"    }\n"
+		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
 	char options[] = "brackets=linux, mode=java";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
+TEST(BracketsLinuxJava, EmptyBracketsWithComments)
+{
+	// test linux brackets option with ending comments
+	char textIn[] =
+		"\npublic class FooClass // comment\n"
+		"{\n"
+		"    public FooClass() {} // comment\n"
+		"    public FooClass() { // comment\n"
+		"    }\n"
+		"    public FooClass() // comment\n"
+		"    {}\n"
+		"}\n";
+	char text[] =
+		"\npublic class FooClass // comment\n"
+		"{\n"
+		"    public FooClass() {} // comment\n"
+		"    public FooClass()   // comment\n"
+		"    {\n"
+		"    }\n"
+		"    public FooClass() // comment\n"
+		"    {}\n"
+		"}\n";
+	char options[] = "brackets=linux, mode=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BracketsLinuxJava, Break)
 {
 	// test linux brackets option with broken brackets
@@ -1102,14 +1238,52 @@ TEST(BracketsStroustrupJava, EmptyBrackets)
 {
 	// test stroustrup brackets option
 	// do not change empty brackets
+	char textIn[] =
+		"\npublic class FooClass {\n"
+		"    public FooClass() {}\n"
+		"    public FooClass() {\n"
+		"    }\n"
+		"    public FooClass()\n"
+		"    {}\n"
+		"}\n";
 	char text[] =
 		"\npublic class FooClass {\n"
 		"    public FooClass() {}\n"
 		"    public FooClass()\n"
+		"    {\n"
+		"    }\n"
+		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
 	char options[] = "brackets=stroustrup, mode=java";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsStroustrupJava, EmptyBracketsWithComments)
+{
+	// test stroustrup brackets option with ending comments
+	// do not change empty brackets
+	char textIn[] =
+		"\npublic class FooClass { // comment\n"
+		"    public FooClass() {} // comment\n"
+		"    public FooClass() { // comment\n"
+		"    }\n"
+		"    public FooClass() // comment\n"
+		"    {}\n"
+		"}\n";
+	char text[] =
+		"\npublic class FooClass { // comment\n"
+		"    public FooClass() {} // comment\n"
+		"    public FooClass()   // comment\n"
+		"    {\n"
+		"    }\n"
+		"    public FooClass() // comment\n"
+		"    {}\n"
+		"}\n";
+	char options[] = "brackets=stroustrup, mode=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -1234,15 +1408,51 @@ TEST_F(BracketsRunInJavaF, ShortOption)
 TEST(BracketsRunInJava, EmptyBrackets)
 {
 	// test run-in brackets option
-	// do not change empty brackets
+	char textIn[] =
+		"\npublic class FooClass\n"
+		"{   public FooClass() {}\n"
+		"    public FooClass() {\n"
+		"    }\n"
+		"    public FooClass()\n"
+		"    {}\n"
+		"}\n";
 	char text[] =
 		"\npublic class FooClass\n"
 		"{   public FooClass() {}\n"
 		"    public FooClass()\n"
+		"    {\n"
+		"    }\n"
+		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
 	char options[] = "brackets=run-in, mode=java";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsRunInJava, EmptyBracketsWithComments)
+{
+	// test run-in brackets option with ending comments
+	char textIn[] =
+		"\npublic class FooClass // comment\n"
+		"{   public FooClass() {} // comment\n"
+		"    public FooClass() { // comment\n"
+		"    }\n"
+		"    public FooClass() // comment\n"
+		"    {}\n"
+		"}\n";
+	char text[] =
+		"\npublic class FooClass // comment\n"
+		"{   public FooClass() {} // comment\n"
+		"    public FooClass()   // comment\n"
+		"    {\n"
+		"    }\n"
+		"    public FooClass() // comment\n"
+		"    {}\n"
+		"}\n";
+	char options[] = "brackets=run-in, mode=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -1417,6 +1627,7 @@ struct BracketsOtherJavaF : public ::testing::Test
 		textIn = textStr.c_str();
 	}
 };
+
 TEST_F(BracketsOtherJavaF, IndentNamespaces)
 {
 	// indent namespaces should NOT affect java formatting
@@ -1619,6 +1830,22 @@ TEST(BracketsOtherJava, NewOperator2)
 // AStyle Java Array Bracket Options
 //-------------------------------------------------------------------------
 
+TEST(BracketsArrayJava, None_BracketInParens)
+{
+	// Array brackets should not pad the '( {"unchecked"})'.
+	char text[] =
+		"\npublic void Foo()\n"
+		"{   try\n"
+		"    {   @SuppressWarnings({\"unchecked\"})\n"
+		"        t(transferable);\n"
+		"    }\n"
+		"}";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BracketsArrayJava, None_InStatement)
 {
 	// the following "new Type" array should have an in statement indent
@@ -1677,6 +1904,24 @@ TEST(BracketsArrayJava, None_OneLineBlock2)
 	delete [] textOut;
 }
 
+TEST(BracketsArrayJava, Break_BracketInParens)
+{
+	// Array brackets should not pad the '( {"unchecked"})'.
+	char text[] =
+		"\npublic void Foo()\n"
+		"{\n"
+		"    try\n"
+		"    {\n"
+		"        @SuppressWarnings({\"unchecked\"})\n"
+		"        t(transferable);\n"
+		"    }\n"
+		"}";
+	char options[] = "brackets=break, mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BracketsArrayJava, Break_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
@@ -1695,6 +1940,22 @@ TEST(BracketsArrayJava, Break_OneLineBlock2)
 	delete [] textOut;
 }
 
+TEST(BracketsArrayJava, Attach_BracketInParens)
+{
+	// Array brackets should not pad the '( {"unchecked"})'.
+	char text[] =
+		"\npublic void Foo() {\n"
+		"    try {\n"
+		"        @SuppressWarnings({\"unchecked\"})\n"
+		"        t(transferable);\n"
+		"    }\n"
+		"}";
+	char options[] = "brackets=attach, mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BracketsArrayJava, Attach_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
@@ -1706,6 +1967,22 @@ TEST(BracketsArrayJava, Attach_OneLineBlock2)
 		"    }\n"
 		"}\n";
 	char options[] = "brackets=attach, mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsArrayJava, RunIn_BracketInParens)
+{
+	// Array brackets should not pad the beginning bracket '( {"unchecked"})'.
+	char text[] =
+		"\npublic void Foo()\n"
+		"{   try\n"
+		"    {   @SuppressWarnings({\"unchecked\"})\n"
+		"        t(transferable);\n"
+		"    }\n"
+		"}";
+	char options[] = "brackets=run-in, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1822,7 +2099,6 @@ TEST(BracketsArrayJava, InStatement_CommentClear)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-
 
 //----------------------------------------------------------------------------
 

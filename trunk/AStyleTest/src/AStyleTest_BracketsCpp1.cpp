@@ -198,12 +198,42 @@ TEST(BracketsNoneCpp, EmptyBrackets)
 		"{\n"
 		"public:\n"
 		"    FooClass() : ed(ed) {}\n"
+		"    FooClass() : ed(ed) {\n"
+		"    }\n"
 		"    FooClass() : ed(ed)\n"
 		"    {}\n"
 		"};\n"
 		"\n"
 		"FooClass() : ed(ed) {}\n"
+		"FooClass() : ed(ed) {\n"
+		"}\n"
 		"FooClass() : ed(ed)\n"
+		"{}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsNoneCpp, EmptyBracketsWithComments)
+{
+	// test default brackets option (do not change) with ending comments
+	// do not change empty brackets
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {} // comment\n"
+		"    FooClass() : ed(ed) { // comment\n"
+		"    }\n"
+		"    FooClass() : ed(ed) // comment\n"
+		"    {}\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {} // comment\n"
+		"FooClass() : ed(ed) { // comment\n"
+		"}\n"
+		"FooClass() : ed(ed) // comment\n"
 		"{}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -1176,21 +1206,86 @@ TEST_F(BracketsBreakCppF, NamespaceClass)
 TEST(BracketsBreakCpp, EmptyBrackets)
 {
 	// test break brackets option
-	// do not change empty brackets
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {}\n"
+		"    FooClass() : ed(ed) {\n"
+		"    }\n"
+		"    FooClass() : ed(ed)\n"
+		"    {}\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {}\n"
+		"FooClass() : ed(ed) {\n"
+		"}\n"
+		"FooClass() : ed(ed)\n"
+		"{}\n";
 	char text[] =
 		"\nclass FooClass\n"
 		"{\n"
 		"public:\n"
 		"    FooClass() : ed(ed) {}\n"
 		"    FooClass() : ed(ed)\n"
+		"    {\n"
+		"    }\n"
+		"    FooClass() : ed(ed)\n"
 		"    {}\n"
 		"};\n"
 		"\n"
 		"FooClass() : ed(ed) {}\n"
 		"FooClass() : ed(ed)\n"
+		"{\n"
+		"}\n"
+		"FooClass() : ed(ed)\n"
 		"{}\n";
 	char options[] = "brackets=break";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsBreakCpp, EmptyBracketsWithComments)
+{
+	// test break brackets option with ending comments
+	// do not change empty brackets
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {} // comment\n"
+		"    FooClass() : ed(ed) { // comment\n"
+		"    }\n"
+		"    FooClass() : ed(ed) // comment\n"
+		"    {}\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {} // comment\n"
+		"FooClass() : ed(ed) { // comment\n"
+		"}\n"
+		"FooClass() : ed(ed) // comment\n"
+		"{}\n";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {} // comment\n"
+		"    FooClass() : ed(ed)   // comment\n"
+		"    {\n"
+		"    }\n"
+		"    FooClass() : ed(ed) // comment\n"
+		"    {}\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {} // comment\n"
+		"FooClass() : ed(ed)   // comment\n"
+		"{\n"
+		"}\n"
+		"FooClass() : ed(ed) // comment\n"
+		"{}\n";
+	char options[] = "brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -1482,6 +1577,7 @@ TEST(BracketsBreakCpp, Misc3)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
 TEST(BracketsBreakCpp, ClassContinuation)
 {
 	// test with class continuaton and broken brackets
@@ -1690,8 +1786,6 @@ TEST(BracketsBreakCpp, CommentsHorstmann1)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-
-
 
 TEST(BracketsBreakCpp, CommentsBreak2)
 {
@@ -2219,20 +2313,77 @@ TEST_F(BracketsAttachCppF, BreakClosing)
 TEST(BracketsAttachCpp, EmptyBrackets)
 {
 	// test attach brackets option
-	// do not change empty brackets
-	char text[] =
+	char textIn[] =
 		"\nclass FooClass {\n"
 		"public:\n"
 		"    FooClass() : ed(ed) {}\n"
+		"    FooClass() : ed(ed) {\n"
+		"    }\n"
 		"    FooClass() : ed(ed)\n"
 		"    {}\n"
 		"};\n"
 		"\n"
 		"FooClass() : ed(ed) {}\n"
+		"FooClass() : ed(ed) {\n"
+		"}\n"
 		"FooClass() : ed(ed)\n"
 		"{}\n";
+	char text[] =
+		"\nclass FooClass {\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {}\n"
+		"    FooClass() : ed(ed) {\n"
+		"    }\n"
+		"    FooClass() : ed(ed) {\n"
+		"    }\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {}\n"
+		"FooClass() : ed(ed) {\n"
+		"}\n"
+		"FooClass() : ed(ed) {\n"
+		"}\n";
 	char options[] = "brackets=attach";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsAttachCpp, EmptyBracketsWithComments)
+{
+	// test attach brackets option with ending comments
+	char textIn[] =
+		"\nclass FooClass {\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {} // comment\n"
+		"    FooClass() : ed(ed) { // comment\n"
+		"    }\n"
+		"    FooClass() : ed(ed) // comment\n"
+		"    {}\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {} // comment\n"
+		"FooClass() : ed(ed) { // comment\n"
+		"}\n"
+		"FooClass() : ed(ed) // comment\n"
+		"{}\n";
+	char text[] =
+		"\nclass FooClass {\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {} // comment\n"
+		"    FooClass() : ed(ed) { // comment\n"
+		"    }\n"
+		"    FooClass() : ed(ed) { // comment\n"
+		"    }\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {} // comment\n"
+		"FooClass() : ed(ed) { // comment\n"
+		"}\n"
+		"FooClass() : ed(ed) { // comment\n"
+		"}\n";
+	char options[] = "brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -3402,21 +3553,83 @@ TEST_F(BracketsLinuxCppF, BreakClosing)
 TEST(BracketsLinuxCpp, EmptyBrackets)
 {
 	// test linux brackets option
-	// do not change empty brackets
-	char text[] =
+	char textIn[] =
 		"\nclass FooClass\n"
 		"{\n"
 		"public:\n"
 		"    FooClass() : ed(ed) {}\n"
+		"    FooClass() : ed(ed) {\n"
+		"    }\n"
 		"    FooClass() : ed(ed)\n"
 		"    {}\n"
 		"};\n"
 		"\n"
 		"FooClass() : ed(ed) {}\n"
+		"FooClass() : ed(ed) {\n"
+		"}\n"
+		"FooClass() : ed(ed)\n"
+		"{}\n";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {}\n"
+		"    FooClass() : ed(ed) {\n"
+		"    }\n"
+		"    FooClass() : ed(ed) {\n"
+		"    }\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {}\n"
+		"FooClass() : ed(ed)\n"
+		"{\n"
+		"}\n"
 		"FooClass() : ed(ed)\n"
 		"{}\n";
 	char options[] = "brackets=linux";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsLinuxCpp, EmptyBracketsWithComments)
+{
+	// test linux brackets option with ending comments
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {} // comment\n"
+		"    FooClass() : ed(ed) { // comment\n"
+		"    }\n"
+		"    FooClass() : ed(ed) // comment\n"
+		"    {}\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {} // comment\n"
+		"FooClass() : ed(ed) { // comment\n"
+		"}\n"
+		"FooClass() : ed(ed) // comment\n"
+		"{}\n";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {} // comment\n"
+		"    FooClass() : ed(ed) { // comment\n"
+		"    }\n"
+		"    FooClass() : ed(ed) { // comment\n"
+		"    }\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {} // comment\n"
+		"FooClass() : ed(ed)   // comment\n"
+		"{\n"
+		"}\n"
+		"FooClass() : ed(ed) // comment\n"
+		"{}\n";
+	char options[] = "brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -4726,20 +4939,79 @@ TEST_F(BracketsStroustrupCppF, BreakClosing)
 TEST(BracketsStroustrupCpp, EmptyBrackets)
 {
 	// test stroustrup brackets option
-	// do not change empty brackets
-	char text[] =
+	char textIn[] =
 		"\nclass FooClass {\n"
 		"public:\n"
 		"    FooClass() : ed(ed) {}\n"
+		"    FooClass() : ed(ed) {\n"
+		"    }\n"
 		"    FooClass() : ed(ed)\n"
 		"    {}\n"
 		"};\n"
 		"\n"
 		"FooClass() : ed(ed) {}\n"
+		"FooClass() : ed(ed) {\n"
+		"}\n"
+		"FooClass() : ed(ed)\n"
+		"{}\n";
+	char text[] =
+		"\nclass FooClass {\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {}\n"
+		"    FooClass() : ed(ed) {\n"
+		"    }\n"
+		"    FooClass() : ed(ed) {\n"
+		"    }\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {}\n"
+		"FooClass() : ed(ed)\n"
+		"{\n"
+		"}\n"
 		"FooClass() : ed(ed)\n"
 		"{}\n";
 	char options[] = "brackets=stroustrup";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsStroustrupCpp, EmptyBracketsWithComments)
+{
+	// test stroustrup brackets option with ending comments
+	char textIn[] =
+		"\nclass FooClass {\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {} // comment\n"
+		"    FooClass() : ed(ed) { // comment\n"
+		"    }\n"
+		"    FooClass() : ed(ed) // comment\n"
+		"    {}\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {} // comment\n"
+		"FooClass() : ed(ed) { // comment\n"
+		"}\n"
+		"FooClass() : ed(ed) // comment\n"
+		"{}\n";
+	char text[] =
+		"\nclass FooClass {\n"
+		"public:\n"
+		"    FooClass() : ed(ed) {} // comment\n"
+		"    FooClass() : ed(ed) { // comment\n"
+		"    }\n"
+		"    FooClass() : ed(ed) { // comment\n"
+		"    }\n"
+		"};\n"
+		"\n"
+		"FooClass() : ed(ed) {} // comment\n"
+		"FooClass() : ed(ed)   // comment\n"
+		"{\n"
+		"}\n"
+		"FooClass() : ed(ed) // comment\n"
+		"{}\n";
+	char options[] = "brackets=stroustrup";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -5035,6 +5307,7 @@ TEST(BracketsStroustrupCpp, ClassContinuation)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
 TEST(BracketsStroustrupCpp, Formatting1)
 {
 	// test stroustrup brackets option, for non-function top level objects

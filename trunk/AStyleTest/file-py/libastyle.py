@@ -1,7 +1,8 @@
 #! /usr/bin/python
-# Library files for AStyle test modules.
-# All directories and filepaths should be in this module.
-# Executed as stand-alone it will run a series of tests.
+""" Library files for AStyle test modules.
+    All directories and filepaths should be in this module.
+    Executed as stand-alone it will run a series of tests.
+"""
 
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
@@ -10,6 +11,7 @@ import os
 import platform
 import subprocess
 import sys
+import time
 
 if os.name == "nt": import msvcrt		# Windows only for getch()
 else: import termios, tty				# Linux only for getch()
@@ -18,34 +20,44 @@ else: import termios, tty				# Linux only for getch()
 
 # test project IDs
 CODEBLOCKS   = "CodeBlocks"
-DRJAVA       = "DrJava"			# Java
-JEDIT        = "jEdit"			# Java
-KDEVELOP     = "KDevelop"
-MONODEVELOP  = "MonoDevelop"	# C#
+DRJAVA       = "DrJava"         # Java - Cannot compile
+GWORKSPACE   = "GWorkspace"     # Objective C
+JEDIT        = "jEdit"          # Java
+#KDEVELOP     = "KDevelop"      # C++- To complicated to compile on Windows
+#MONODEVELOP  = "MonoDevelop"   # C# - To complicated to compile on Windows
 SCITE        = "SciTE"
-SHARPDEVELOP = "SharpDevelop"	# C#
+SHARPDEVELOP = "SharpDevelop"   # C# - Compile on Windows only
 TESTPROJECT  = "TestProject"
 
 # astyle test options
-# NOTE: release 2.01, use after  astyle25b because of min-conditional-indent
+
+# OPT0
 # no options
 OPT0 = ""
+
+# OPT1
 # align-pointer=type (k1), add-brackets (j), break-blocks=all (F),
-#     min-conditional-indent=0 (m0)
-#     pad-oper (p), delete-empty-lines (xd)
-#OPT1 = "-CSKNLwYM50m0yeoOcFpPHUxdEk1"
-OPT1 = "-CSKNLwYM50m0yejoOcFpPHUEk1"
-# align-pointer=type (k3), align-reference=type (W1),
+#     min-conditional-indent=0 (m0), pad-oper (p)
+OPT1 = "-CSKNLwYM50m0FpPHUEk1yejOocxy"
+
+# OPT2
+# align-pointer=name (k3), align-reference=type (W1),
 #     add-one-line-brackets (J), break-blocks (f),
 #     min-conditional-indent=3 (m3), pad-paren-out(d)
-#     pad-oper (p), delete-empty-lines (xd)
-# WITHOUT: keep-one-line-blocks (o), keep-one-line-statements (o),
-OPT2 = "-CSKNLwM60m3yeJcfpdHUxdEk3W1"
+#     pad-oper (p), delete-empty-lines (xe)
+# WITHOUT: keep-one-line-blocks (O), keep-one-line-statements (o),
+OPT2 = "-CSKNLwM60m3fpdHUxeEk3W1yeJc"
+
+# OPT3
 # align-pointer=middle (k2), align-reference=name (W3),
 #     min-conditional-indent=1 (m1), pad-paren-in(D)
 # WITHOUT: add-brackets (j,J), break-blocks (f,F),
 #     pad-oper (p), delete-empty-lines (xd)
-OPT3 = "-CSKNLwM80m1yDHUEk2W3"
+OPT3 = "-CSKNLwM80m1DHUEk2W3y"
+
+# TEST SEPARATELY
+# max-code-length (xC), break-after-logical (xL)
+# -xC# -xL
 
 # compile configurations
 DEBUG   = "debug"
@@ -55,6 +67,10 @@ STATIC  = "static"
 # Visual Studio release
 #VS_RELEASE = "vs2008"
 VS_RELEASE = "vs2010"
+#VS_RELEASE = "vs2012"
+
+# test directory name
+TEST_DIRECTORY = "TestData"
 
 # -----------------------------------------------------------------------------
 
@@ -62,11 +78,11 @@ def build_astyle_executable(config):
 	"""Build the astyle executable.
 	"""
 	if config == DEBUG:
-		print ("Building AStyle Debug")
+		print("Building AStyle Debug")
 	elif config == RELEASE:
-		print ("Building AStyle Release")
+		print("Building AStyle Release")
 	elif config == STATIC and os.name == "nt":
-		print ("Building AStyle Static")
+		print("Building AStyle Static")
 	else:
 		system_exit("Bad arg in build_astyle_executable(): " + config)
 	astylepath = get_astyle_build_directory(config)
@@ -84,13 +100,15 @@ def compile_astyle_linux(astylepath, config):
 		build = ["make", "debug"]
 	else:
 		build = ["make", "release"]
-	buildfile = get_temp_directory() + "/build.txt"
+	buildfile = get_temp_directory() + "build." + config + ".tmp"
+	if os.path.exists(buildfile):
+		remove_build_file(buildfile)
 	outfile = open(buildfile, 'w')
 	retval = subprocess.call(build, cwd=astylepath, stdout=outfile)
 	if retval:
 		system_exit("Bad build return: " + str(retval))
 	outfile.close()
-	os.remove(buildfile)
+	remove_build_file(buildfile)
 
 # -----------------------------------------------------------------------------
 
@@ -102,6 +120,9 @@ def compile_astyle_windows(astylepath, config):
 	if astylepath.find("vs2010") != -1:
 		sdk = "v4.0.30319"
 		vsdir = "vs2010"
+	elif astylepath.find("vs2012") != -1:
+		sdk = "v4.0.30319"
+		vsdir = "vs2012"
 	# remove the cache file as a precaution
 	cachepath = (get_astyle_directory()
 			+ "/build/"
@@ -114,25 +135,30 @@ def compile_astyle_windows(astylepath, config):
 			+ "/Microsoft.NET/Framework/"
 			+ sdk
 			+ "/MSBuild.exe")
+	if not os.path.isfile(buildpath):
+		message = "Cannot find build path: " + buildpath
+		system_exit(message)
 	if config == DEBUG:
-		configProp = "/property:Configuration=Debug"
+		config_prop = "/property:Configuration=Debug"
 	elif config == STATIC:
-		configProp = "/property:Configuration=Static"
+		config_prop = "/property:Configuration=Static"
 	else:
-		configProp = "/property:Configuration=Release"
+		config_prop = "/property:Configuration=Release"
 	slnpath = (get_astyle_directory()
 			+ "/build/"
 			+ vsdir
 			+ "/AStyle.sln")
-	platform = "/property:Platform=Win32"
-	msbuild = ([buildpath, configProp, platform, slnpath])
-	buildfile = get_temp_directory() + "/build.txt"
+	platform_prop = "/property:Platform=Win32"
+	msbuild = ([buildpath, config_prop, platform_prop, slnpath])
+	buildfile = get_temp_directory() + "/build." + config + ".tmp"
+	if os.path.exists(buildfile):
+		remove_build_file(buildfile)
 	outfile = open(buildfile, 'w')
 	retval = subprocess.call(msbuild, stdout=outfile)
 	if retval:
 		system_exit("Bad msbuild return: " + str(retval))
 	outfile.close()
-	os.remove(buildfile)
+	remove_build_file(buildfile)
 
 # -----------------------------------------------------------------------------
 
@@ -274,25 +300,22 @@ def getch():
 		while msvcrt.kbhit():
 			msvcrt.getch()
 		# read char
-		ch = msvcrt.getch()
+		ch_in = msvcrt.getch()
 	# LINUX uses termios and tty
 	else:
 		# clear buffer
 		sys.stdin.flush()
 		# read char
-		fd = sys.stdin.fileno()
-		old_settings = termios.tcgetattr(fd)
+		fd_in = sys.stdin.fileno()
+		old_settings = termios.tcgetattr(fd_in)
 		try:
 			tty.setraw(sys.stdin.fileno())
-			ch = sys.stdin.read(1)
-			if ch == '\x1b':			# alt key (27)
-				ch = sys.stdin.read(1)
+			ch_in = sys.stdin.read(1)
+			if ch_in == '\x1b':			# alt key (27)
+				ch_in = sys.stdin.read(1)
 		finally:
-			termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-	if get_python_version_number() >= 3:
-		ch = ch.decode('utf-8')
-	print (ch)
-	return ch
+			termios.tcsetattr(fd_in, termios.TCSADRAIN, old_settings)
+	return ch_in
 
 # -----------------------------------------------------------------------------
 
@@ -301,7 +324,7 @@ def get_diff_path():
 	   endexe = True will add an ending '.exe' to Windows.
 	"""
 	if os.name == "nt":
-		exepath = "/Program Files (x86)/" + "/WinMerge/WinMergeU.exe"
+		exepath = "/Program Files/" + "/WinMerge/WinMergeU.exe"
 		if not os.path.isfile(exepath):
 			message = "Cannot find diff path: " + exepath
 			system_exit(message)
@@ -324,13 +347,23 @@ def get_file_py_directory(endsep=False):
 			system_exit("File executed from drive " + pydir[0:2])
 	else:
 		if pydir[0:6] != "/home/":
-			sep = pydir[0:].find('/Projects/')
+			sep = pydir[0:].find("/Projects/")
 			if sep == -1:
 				sep = len(pydir)
 			else:
 				sep += 1
 			system_exit("File executed from drive " + pydir[0:sep])
 	return  pydir
+
+# -----------------------------------------------------------------------------
+
+def get_formatted_time():
+	"""Get the current time for printing.
+	"""
+	tm = time.strftime("%I:%M")
+	if tm[0] == '0':
+		tm = tm.replace('0',' ',1)
+	return tm
 
 # -----------------------------------------------------------------------------
 
@@ -377,32 +410,24 @@ def get_project_excludes(project):
 	if project == CODEBLOCKS:
 		# excludes because of %pythoncode
 		# advprops.h is __WXPYTHON__ at line 192
+		# sqplus.h aborts on verifyBeautifierStacks because of unmatched paren
 		# propgrid.cpp is the macro IMPLEMENT_GET_VALUE
 		excludes.append("--exclude=wx/wxscintilla.h")
 		excludes.append("--exclude=wx/propgrid/advprops.h")
 		excludes.append("--exclude=wx/propgrid/manager.h")
 		excludes.append("--exclude=wx/propgrid/propgrid.h")
-		excludes.append("--exclude=propgrid/propgrid.cpp")
-	elif project == DRJAVA:
-		None
-	elif project == JEDIT:
-		None
-	elif project == KDEVELOP:
-		excludes.append("--exclude=app_templates")
-		excludes.append("--exclude=autotools/autotools_lex.cpp")
-		excludes.append("--exclude=qmake/qmake_lex.cpp")
-		excludes.append("--exclude=doxygen/config.cpp")
-	elif project == MONODEVELOP:
-		None
+		excludes.append("--exclude=sqplus/sqplus.h")
+		#excludes.append("--exclude=propgrid/propgrid.cpp")
+#	elif project == KDEVELOP:
+#		excludes.append("--exclude=app_templates")
+#		excludes.append("--exclude=autotools/autotools_lex.cpp")
+#		excludes.append("--exclude=qmake/qmake_lex.cpp")
+#		excludes.append("--exclude=doxygen/config.cpp")
 	elif project == SCITE:
 		excludes.append("--exclude=lua")
 	elif project == SHARPDEVELOP:
 		excludes.append("--exclude=Debugger.Tests")    # xml data
-		None
-	elif project == TESTPROJECT:
-		None
-	else:
-		system_exit("Bad get_project_excludes() project id: " + project)
+		excludes.append("--exclude=QueryMethod.cs")
 	return excludes
 
 # -----------------------------------------------------------------------------
@@ -413,30 +438,33 @@ def get_project_filepaths(project):
 	   Returns a list of filepaths to process.
 	"""
 	filepaths = []
-	testDirectory = get_test_directory()
+	test_directory = get_test_directory()
 	if project == CODEBLOCKS:
-		filepaths.append(testDirectory + "/CodeBlocks/src/*.cpp")
-		# filepath.append(testDirectory + "/CodeBlocks/src/*.cxx")
-		filepaths.append(testDirectory + "/CodeBlocks/src/*.h")
+		filepaths.append(test_directory + "/CodeBlocks/src/*.cpp")
+		# filepath.append(test_directory + "/CodeBlocks/src/*.cxx")
+		filepaths.append(test_directory + "/CodeBlocks/src/*.h")
 	elif project == DRJAVA:
-		filepaths.append(testDirectory + "/DrJava/*.java")
+		filepaths.append(test_directory + "/DrJava/*.java")
+	elif project == GWORKSPACE:
+		filepaths.append(test_directory + "/GWorkspace/*.m")
+		filepaths.append(test_directory + "/GWorkspace/*.h")
 	elif project == JEDIT:
-		filepaths.append(testDirectory + "/jEdit/*.java")
-	elif project == KDEVELOP:
-		filepaths.append(testDirectory + "/KDevelop/*.cpp")
-		filepaths.append(testDirectory + "/KDevelop/*.h")
-	elif project == MONODEVELOP:
-		filepaths.append(testDirectory + "/MonoDevelop/src/*.cs")
+		filepaths.append(test_directory + "/jEdit/*.java")
+#	elif project == KDEVELOP:
+#		filepaths.append(test_directory + "/KDevelop/*.cpp")
+#		filepaths.append(test_directory + "/KDevelop/*.h")
+#	elif project == MONODEVELOP:
+#		filepaths.append(test_directory + "/MonoDevelop/src/*.cs")
 	elif project == SCITE:
-		filepaths.append(testDirectory + "/SciTE/*.cxx")
-		filepaths.append(testDirectory + "/SciTE/*.h")
+		filepaths.append(test_directory + "/SciTE/*.cxx")
+		filepaths.append(test_directory + "/SciTE/*.h")
 	elif project == SHARPDEVELOP:
-		filepaths.append(testDirectory + "/SharpDevelop/src/*.cs")
+		filepaths.append(test_directory + "/SharpDevelop/src/*.cs")
 	elif project == TESTPROJECT:
 		# the test file paths can be changed depending n the circumstances
 		# if the test is not CodeBlocks change extract_testproject() in libextract.py
-		filepaths.append(testDirectory + "/TestProject/scite/gtk/*.cxx")
-		filepaths.append(testDirectory + "/TestProject/scite/gtk/*.h")
+		filepaths.append(test_directory + "/TestProject/scite/gtk/*.cxx")
+		filepaths.append(test_directory + "/TestProject/scite/gtk/*.h")
 	else:
 		system_exit("Bad get_project_filepaths() project id: " + project)
 	return filepaths
@@ -444,6 +472,7 @@ def get_project_filepaths(project):
 # -----------------------------------------------------------------------------
 
 def get_python_version():
+	"""Return the Python version number as a string."""
 	version = ""
 	if platform.python_implementation() == "CPython":
 		version = "Python"
@@ -456,12 +485,12 @@ def get_python_version():
 # -----------------------------------------------------------------------------
 
 def get_python_version_number():
-	"""Return the Python version number"""
+	"""Return the Python version number as a number."""
 	return sys.version_info[0]
 
 # -----------------------------------------------------------------------------
 
-def get_temp_directory(endsep=False):
+def get_temp_directory():
 	"""Get the temporary directory for the os environment.
 	   endsep = True will add an ending separator.
 	"""
@@ -469,8 +498,7 @@ def get_temp_directory(endsep=False):
 		tempdir =  os.getenv("TEMP")
 		tempdir = tempdir.replace('\\', '/')
 	else:
-		tempdir = "/tmp"
-	if endsep: tempdir += '/'
+		tempdir = "./"
 	return  tempdir
 
 # -----------------------------------------------------------------------------
@@ -479,7 +507,7 @@ def get_test_directory(endsep=False):
 	"""Get the test directory for the os environment.
 	   endsep = True will add an ending separator.
 	"""
-	testdir = get_project_directory()  + "/TestData"
+	testdir = get_project_directory()  + '/'  + TEST_DIRECTORY
 	if not os.path.isdir(testdir):
 		message = "Cannot find test directory: " + testdir
 		system_exit(message)
@@ -501,36 +529,65 @@ def is_executed_from_console():
 
 # -----------------------------------------------------------------------------
 
+def remove_build_file(buildfile):
+	"""Remove the build.CONFIG.tmp file from the astyle compile.
+	   If the file cannot be removed it is probably in use by another script.
+	   Wait until the other script finishes the compile to fix the problem.
+	"""
+	try:
+		os.remove(buildfile)
+	except WindowsError as err:
+		print()
+		print(err)
+		message = ("The file '{0}' must be removed "
+					"before continuing").format(buildfile)
+		system_exit(message)
+
+# -----------------------------------------------------------------------------
+
 def set_error_color():
 	"""Change text color if script is run from the console.
 	"""
-	#if is_executed_from_console():
-	if os.name == "nt":
-		os.system("color 0C")
-	else:
-		os.system("echo -n '[1;31m'")
+	if is_executed_from_console():
+		if os.name == "nt":
+			os.system("color 0C")
+		else:
+			os.system("echo -n '[1;31m'")
 
 # -----------------------------------------------------------------------------
 
 def set_ok_color():
 	"""Change text color if script is run from the console.
 	"""
-	#if is_executed_from_console():
-	if os.name == "nt":
-		os.system("color 0A")
-	else:
-		os.system("echo -n '[1;32m'")
+	if is_executed_from_console():
+		if os.name == "nt":
+			os.system("color 0A")
+		else:
+			os.system("echo -n '[1;32m'")
+
+# -----------------------------------------------------------------------------
+
+def set_test_directory(test_directory):
+	"""Change the name of the global test directory.
+	"""
+	global TEST_DIRECTORY
+	TEST_DIRECTORY = test_directory
+	testdir = get_project_directory()  + '/'  + TEST_DIRECTORY
+	testdir = testdir.replace('\\', '/')
+	if not os.path.isdir(testdir):
+		print("Creating: " + testdir)
+		os.mkdir(testdir)
 
 # -----------------------------------------------------------------------------
 
 def set_text_color():
 	"""Change text color if script is run from the console.
 	"""
-	#if is_executed_from_console():
-	if os.name == "nt":
-		os.system("color 0E")
-	else:
-		os.system("echo -n '[1;33m'")
+	if is_executed_from_console():
+		if os.name == "nt":
+			os.system("color 0E")
+		else:
+			os.system("echo -n '[1;33m'")
 
 # -----------------------------------------------------------------------------
 
@@ -539,13 +596,13 @@ def system_exit(message=''):
 	"""
 	if len(message.strip()) > 0:
 		set_error_color()
-		print (message)
+		print(message)
 	# pause if script is run from the console
 	if is_executed_from_console():
-		print ("\nPress any key to end . . .")
+		print("\nPress any key to end . . .")
 		getch()
 	else:
-		print ("\nEnd of script !")
+		print("\nEnd of script !")
 	os._exit(0)
 
 # -----------------------------------------------------------------------------
@@ -580,6 +637,6 @@ def test_all_functions():
 # run tests if executed as stand-alone
 if __name__ == "__main__":
 	set_text_color()
-	print (get_python_version())
+	print(get_python_version())
 	test_all_functions()
 	system_exit()

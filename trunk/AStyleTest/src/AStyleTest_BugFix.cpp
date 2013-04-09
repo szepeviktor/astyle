@@ -16,6 +16,124 @@ namespace
 // AStyle version 2.03 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V203, NegativeParenStack)
+{
+	// In a preprocessor directive it is possible for the parenStack to go negative.
+	// This can cause formatting problems later on.
+	// In this case the :Manager::" on the last line will not be indented correctly.
+	char textIn[] =
+		"\nstatic wxRegEx reNextI(_T(\"[0-9]\"),\n"
+		"#ifndef __WXMAC__\n"
+		"    wxRE_ADVANCED);\n"
+		"#else\n"
+		"    wxRE_EXTENDED);\n"
+		"#endif\n"
+		"\n"
+		"class GdbCmd_AddBreakpointCondition\n"
+		"{\n"
+		"    void ParseOutput()\n"
+		"    {\n"
+		"        if (cbMessageBox() == wxID_YES)\n"
+		"        {\n"
+		"            m_pDriver->QueueCommand();\n"
+		"        }\n"
+		"        else if (alreadySet)\n"
+		"        {\n"
+		"            m_pDriver->RemoveBreakpoint(m_BP);\n"
+		"            ((cbEditor *)Manager::GetEditorManager()->SetDebugLine(-1);\n"
+		"        }\n"
+		"    }\n"
+		"};";
+	char text[] =
+		"\nstatic wxRegEx reNextI(_T(\"[0-9]\"),\n"
+		"#ifndef __WXMAC__\n"
+		"                       wxRE_ADVANCED);\n"
+		"#else\n"
+		"                       wxRE_EXTENDED);\n"
+		"#endif\n"
+		"\n"
+		"class GdbCmd_AddBreakpointCondition {\n"
+		"    void ParseOutput() {\n"
+		"        if (cbMessageBox() == wxID_YES) {\n"
+		"            m_pDriver->QueueCommand();\n"
+		"        } else if (alreadySet) {\n"
+		"            m_pDriver->RemoveBreakpoint(m_BP);\n"
+		"            ((cbEditor *)\n"
+		"             Manager::GetEditorManager()->SetDebugLine(-1);\n"
+		"        }\n"
+		"    }\n"
+		"};";
+	char options[] = "brackets=attach, max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V203, InStatementIndentExceedsLimit)
+{
+	// Indenting an instatement array that exceeds the max-instatement-indent.
+	// It should NOT revert to a lesser indent.
+	// Tabs are used to check the in-statement indent
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    static const PRUint32 UTF8CharLenTable[] = {0, 1, 0, 0, 0, 0, 2, 3,\n"
+		"            3, 3, 4, 4, 5, 5, 6, 6\n"
+		"                                               };\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    static const PRUint32 UTF8CharLenTable[] = {0, 1, 0, 0, 0, 0, 2, 3,\n"
+		"                                                3, 3, 4, 4, 5, 5, 6, 6\n"
+		"                                               };\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V203, JavaAnonmyousMethod1)
+{
+	// Indenting a java anonymous function,
+	// "_dialog.dispose();" should be correct.
+	char text[] =
+		"\nprotected void _addButtons() {\n"
+		"    _buttonPanel.add(new JButton(new Action(\"Generate\") {\n"
+		"        public void actionPerformed(ActionEvent e) {\n"
+		"            result[0] = true;\n"
+		"            _dialog.dispose();\n"
+		"        }\n"
+		"    }));\n"
+		"}";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V203, JavaAnonmyousMethod2)
+{
+	// Indenting a java anonymous function,
+	// "public boolean accept(File dir, String name)" should be correct.
+	char text[] =
+		"\npublic String [] getSavedLayouts()\n"
+		"{\n"
+		"    File[] files = dir.listFiles(new FilenameFilter()\n"
+		"    {\n"
+		"        public boolean accept(File dir, String name)\n"
+		"        {\n"
+		"            return name.endsWith(\".xml\");\n"
+		"        }\n"
+		"    });\n"
+		"}";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BugFix_V203, TrimContinuationLine)
 {
 	// A line end should not be trimmed if it ends with a '\'.
@@ -193,6 +311,9 @@ TEST(BugFix_V203, FixCaseWithBreakElseIfs)
 		"    case\n"
 		"            _T(' '):\n"
 		"        break;\n"
+		"    default\n"
+		"            :\n"
+		"        break;\n"
 		"    }\n"
 		"}";
 	char text[] =
@@ -215,6 +336,8 @@ TEST(BugFix_V203, FixCaseWithBreakElseIfs)
 		"    case (pttFunction):\n"
 		"        break;\n"
 		"    case _T(' '):\n"
+		"        break;\n"
+		"    default:\n"
 		"        break;\n"
 		"    }\n"
 		"}";
@@ -832,7 +955,7 @@ TEST(BugFix_V201, Switch_FillEmptyLines_BreakBlocks)
 		"    {\n"
 		"        if (insideThis(object))\n"
 		"            return false;\n"
-		"        break();\n"
+		"        break;\n"
 		"    }\n"
 		"    }\n"
 		"}";
@@ -845,7 +968,7 @@ TEST(BugFix_V201, Switch_FillEmptyLines_BreakBlocks)
 		"        if (insideThis(object))\n"
 		"            return false;\n"
 		"            \n"
-		"        break();\n"
+		"        break;\n"
 		"    }\n"
 		"    }\n"
 		"}";
@@ -965,7 +1088,7 @@ TEST(BugFix_V201, SwitchBracketInPreprocessor2)
 TEST(BugFix_V201, PopParenStackOnBracket)
 {
 	// Test that paren stack is popped when an attached bracket preceeding a comment is broken.
-	// In the test case it caused the bracket following line "public bool ShowingDialog {"
+	// In the test case it caused the bracket following line "public bool ShowingDialog"
 	// to not be broken.
 	char textIn[] =
 		"\nvoid OnRootMonitorDisposed() {\n"

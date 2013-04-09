@@ -1089,12 +1089,17 @@ TEST(Other, GetNumberFormat)
 	EXPECT_EQ(result, number) << "german locale (assumes default formatting)";
 	// WINDOWS French locale 1036 - for other formats change the user locale
 	result = "123 456 789";
-	result[3] = result[7] = static_cast<int>(-96);		// non-breaking space
 	number = g_console->getNumberFormat(123456789, 1036);
+	// check if non-breaking spaces were used
+	if (number[3] == '\xA0')
+		result[3] = result[7] = '\xA0';
 	EXPECT_EQ(result, number) << "french locale (assumes default formatting)";
 	// WINDOWS French Swiss locale 4018 - for other formats change the user locale
 	result = "123'456'789";
 	number = g_console->getNumberFormat(123456789, 4108);
+	// check if non-breaking spaces were used
+	if (number[3] == '\xA0')
+		result[3] = result[7] = '\xA0';
 	EXPECT_EQ(result, number) << "french swiss locale (assumes default formatting)";
 	deleteConsoleGlobalObject();
 }

@@ -157,6 +157,50 @@ TEST(Tabs, Spaces_Invalid3)
 	delete [] textOut;
 }
 
+TEST(Tabs, Spaces_CSharpLambda)
+{
+	// test C# with a lambda indent
+	// TODO: doesn't work, should be indented like textIn
+	char textIn[] =
+		"\nvoid UpdateErrorList(IEnumerable<CompilerError> errors)\n"
+		"{\n"
+		"    Dispatcher.Invoke(\n"
+		"        (Action)(\n"
+		"            () =>\n"
+		"            {\n"
+		"                var tasks = errors.Select(error => new Task()).ToList();\n"
+		"                if (tasks.Count > 0)\n"
+		"                {\n"
+		"                    TaskService.ClearExceptCommentTasks();\n"
+		"                    TaskService.AddRange(tasks);\n"
+		"                }\n"
+		"            }\n"
+		"        )\n"
+		"    );\n"
+		"}\n";
+	char text[] =
+		"\nvoid UpdateErrorList(IEnumerable<CompilerError> errors)\n"
+		"{\n"
+		"    Dispatcher.Invoke(\n"
+		"        (Action)(\n"
+		"            () =>\n"
+		"    {\n"
+		"        var tasks = errors.Select(error => new Task()).ToList();\n"
+		"        if (tasks.Count > 0)\n"
+		"        {\n"
+		"            TaskService.ClearExceptCommentTasks();\n"
+		"            TaskService.AddRange(tasks);\n"
+		"        }\n"
+		"    }\n"
+		"        )\n"
+		"    );\n"
+		"}\n";
+	char options[] = "indent=spaces, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(Tabs, Tab_Default)
 {
 	// test default tab indent of 4 spaces per tab
@@ -289,6 +333,50 @@ TEST(Tabs, Tab_Invalid3)
 	delete [] textOut;
 }
 
+TEST(Tabs, Tab_CSharpLambda)
+{
+	// test C# with a lambda indent
+	// TODO: doesn't work, should be indented like textIn
+	char textIn[] =
+		"\nvoid UpdateErrorList(IEnumerable<CompilerError> errors)\n"
+		"{\n"
+		"	Dispatcher.Invoke(\n"
+		"	    (Action)(\n"
+		"	        () =>\n"
+		"	        {\n"
+		"		        var tasks = errors.Select(error => new Task()).ToList();\n"
+		"		        if (tasks.Count > 0)\n"
+		"		        {\n"
+		"			        TaskService.ClearExceptCommentTasks();\n"
+		"			        TaskService.AddRange(tasks);\n"
+		"		        }\n"
+		"	        }\n"
+		"	    )\n"
+		"	);\n"
+		"}\n";
+	char text[] =
+		"\nvoid UpdateErrorList(IEnumerable<CompilerError> errors)\n"
+		"{\n"
+		"	Dispatcher.Invoke(\n"
+		"	    (Action)(\n"
+		"	        () =>\n"
+		"	{\n"
+		"		var tasks = errors.Select(error => new Task()).ToList();\n"
+		"		if (tasks.Count > 0)\n"
+		"		{\n"
+		"			TaskService.ClearExceptCommentTasks();\n"
+		"			TaskService.AddRange(tasks);\n"
+		"		}\n"
+		"	}\n"
+		"	    )\n"
+		"	);\n"
+		"}\n";
+	char options[] = "indent=tab, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(Tabs, ForceTab_Default)
 {
 	// test default force tab indent of 4 spaces per tab
@@ -418,6 +506,50 @@ TEST(Tabs, ForceTab_Invalid3)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_TRUE(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(Tabs, ForceTab_CSharpLambda)
+{
+	// test C# with a lambda indent
+	// TODO: doesn't work, should be indented like textIn
+	char textIn[] =
+		"\nvoid UpdateErrorList(IEnumerable<CompilerError> errors)\n"
+		"{\n"
+		"	Dispatcher.Invoke(\n"
+		"		(Action)(\n"
+		"			() =>\n"
+		"			{\n"
+		"				var tasks = errors.Select(error => new Task()).ToList();\n"
+		"				if (tasks.Count > 0)\n"
+		"				{\n"
+		"					TaskService.ClearExceptCommentTasks();\n"
+		"					TaskService.AddRange(tasks);\n"
+		"				}\n"
+		"			}\n"
+		"		)\n"
+		"	);\n"
+		"}\n";
+	char text[] =
+		"\nvoid UpdateErrorList(IEnumerable<CompilerError> errors)\n"
+		"{\n"
+		"	Dispatcher.Invoke(\n"
+		"		(Action)(\n"
+		"			() =>\n"
+		"	{\n"
+		"		var tasks = errors.Select(error => new Task()).ToList();\n"
+		"		if (tasks.Count > 0)\n"
+		"		{\n"
+		"			TaskService.ClearExceptCommentTasks();\n"
+		"			TaskService.AddRange(tasks);\n"
+		"		}\n"
+		"	}\n"
+		"		)\n"
+		"	);\n"
+		"}\n";
+	char options[] = "indent=force-tab, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 

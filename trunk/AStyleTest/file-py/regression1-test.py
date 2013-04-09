@@ -1,10 +1,11 @@
 #! /usr/bin/python
-# Run the AStyle regression test.
-# Tests the output of a new program against an older one.
-# Change the global variables to the desired values.
-# Variables astyleexe1 & 2 should be an old and new version of the program.
-# Changes will cause files in the second run to be formatted.
-# The differences can be checked with a diff program.
+""" Run the AStyle regression test.
+    Tests the output of a new program against an older one.
+    Change the global variables to the desired values.
+    Variables astyleexe1 & 2 should be an old and new version of the program.
+    Changes will cause files in the second run to be formatted.
+    The differences can be checked with a diff program.
+"""
 
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
@@ -22,31 +23,30 @@ import time
 
 # select one of the following from libastyle
 #   CODEBLOCKS
-#   DRJAVA
+#   DRJAVA          # Cannot compile
+#   GWORKSPACE      # Compile on Linux only
 #   JEDIT
-#   KDEVELOP
-#   MONODEVELOP
-#  SCITE
-#  SHARPDEVELOP
-# TESTPROJECT
-project = libastyle.TESTPROJECT
+#   SCITE
+#   SHARPDEVELOP    # Compile on Windows only
+#  TESTPROJECT
+__project = libastyle.GWORKSPACE
 
 # select OPT0 thru OPT3, or use customized options
-# optionsX can be a bracket style or any other option
-options = libastyle.OPT0
-optionsX = ""
+# options_x can be a bracket style or any other option
+__options = libastyle.OPT0
+__options_x = ""
 
-# executables for test
-astyleexe1 = "astyle2"
-astyleexe2 = "astyled"
+# executables for test - astyleexe1 is old version, astyleexe2 is new version
+__astyleexe1 = "astyled"
+__astyleexe2 = "astyled"
 
 # extract all files options, use False for speed
-#all_files_option = True
-all_files_option = False
+#__all_files_option = True
+__all_files_option = False
 
 # select one of the following to unarchive files
-extractfiles = True
-#extractfiles = False
+__extract_files = True
+#__extract_files = False
 
 # -----------------------------------------------------------------------------
 
@@ -56,33 +56,33 @@ def process_files():
 	# initialization
 	starttime = time.time()
 	libastyle.set_text_color()
-	print (libastyle.get_python_version())
+	print(libastyle.get_python_version())
 	locale.setlocale(locale.LC_ALL, "")
-	verify_optionsX_variable()
+	verify_options_x_variable()
 	print_run_header()
 	os.chdir(libastyle.get_file_py_directory())
 	libastyle.build_astyle_executable(get_astyle_config())
-	verify_astyle_executables(astyleexe1, astyleexe2)
-	filepaths = libastyle.get_project_filepaths(project)
-	excludes = libastyle.get_project_excludes(project)
+	verify_astyle_executables(__astyleexe1, __astyleexe2)
+	filepaths = libastyle.get_project_filepaths(__project)
+	excludes = libastyle.get_project_excludes(__project)
 	testfile = "test.txt"
-	if extractfiles:
-		print ("\nExtracting files")
-		libextract.extract_project(project, all_files_option)
+	if __extract_files:
+		print("\nExtracting files")
+		libextract.extract_project(__project, __all_files_option)
 
 	# run test 1
-	print_test_header(1, astyleexe1)
-	astyle = set_astyle_args(filepaths, excludes, astyleexe1)
-	print_formatting_message(astyle, project)
+	print_test_header(1, __astyleexe1)
+	astyle = set_astyle_args(filepaths, excludes, __astyleexe1)
+	print_formatting_message(astyle, __project)
 	call_artistic_style(astyle, testfile)
 	print_astyle_totals(testfile)
 
 	# run test 2
-	print_test_header(2, astyleexe2)
-	astyle = set_astyle_args(filepaths, excludes, astyleexe2)
-	print_formatting_message(astyle, project)
+	print_test_header(2, __astyleexe2)
+	astyle = set_astyle_args(filepaths, excludes, __astyleexe2)
+	print_formatting_message(astyle, __project)
 	call_artistic_style(astyle, testfile)
-	totformat, totfiles = print_astyle_totals(testfile)
+	totformat, unused = print_astyle_totals(testfile)
 	files = libtest.get_formatted_files(testfile)
 	verify_formatted_files(len(files), totformat)
 
@@ -98,8 +98,8 @@ def call_artistic_style(astyle, testfile):
 	outfile = open(testfile, 'w')
 	try:
 		subprocess.check_call(astyle, stdout=outfile)
-	except subprocess.CalledProcessError as e:
-		libastyle.system_exit("Bad astyle return: " + str(e.returncode))
+	except subprocess.CalledProcessError as err:
+		libastyle.system_exit("Bad astyle return: " + str(err.returncode))
 	except OSError:
 		libastyle.system_exit("Cannot find executable: " + astyle[0])
 	outfile.close()
@@ -110,8 +110,8 @@ def get_astyle_config():
 	"""Get the build configuration from the executalbe name.
 	"""
 	config = libastyle.DEBUG
-	if (astyleexe1.lower() == "astyle"
-	or astyleexe2.lower() == "astyle"):
+	if (__astyleexe1.lower() == "astyle"
+	or __astyleexe2.lower() == "astyle"):
 		config = libastyle.RELEASE
 	return config
 
@@ -131,13 +131,13 @@ def print_astyle_totals(filename):
 	   Returns files formatted and total files from the report total line.
 	"""
 	# the native locale should be set to get the numeric formatting
-	formatted, totfiles, min, sec = libtest.get_astyle_totals(filename)
-	if min == 0:
+	formatted, totfiles, minute, sec = libtest.get_astyle_totals(filename)
+	if minute == 0:
 		printline = "{0:n} formatted; {1:n} files; {2} seconds"
-		print (printline.format(formatted, totfiles, sec))
+		print(printline.format(formatted, totfiles, sec))
 	else:
 		printline = "{0:n} formatted; {1:n} files; {2} min {3} seconds"
-		print (printline.format(formatted, totfiles, min, sec))
+		print(printline.format(formatted, totfiles, minute, sec))
 	return (formatted, totfiles)
 
 # -----------------------------------------------------------------------------
@@ -146,62 +146,62 @@ def print_formatting_message(args, project):
 	"""Print the formatting message at the start of a test.
 	   Input is the command list used to call astyle.
 	"""
-	print ("Formatting " +  project, end=" ")
+	print("Formatting " +  project, end=" ")
 	# print args starting with a '-' except for excludes
 	for arg in args:
 		if not arg[0] == '-': continue
 		if arg[:9] == "--exclude": continue
-		print (arg, end=" ")
-	print ()
+		print(arg, end=" ")
+	print()
 
 # -----------------------------------------------------------------------------
 
 def print_run_header():
 	"""Print run header information.
 	"""
-	print ("Testing {0}".format(project))
+	print("Regression-1 for Test {0}".format(__project))
 	if os.name == "nt":
-		print ("Using ({0}) {1} {2}".format(libastyle.VS_RELEASE,
-				astyleexe1, astyleexe2), end=" ")
+		print("Using ({0}) {1} {2}".format(libastyle.VS_RELEASE,
+				__astyleexe1, __astyleexe2), end=" ")
 	else:
-		print ("Using {0} {1}".format(astyleexe1, astyleexe2), end=" ")
-	if options == libastyle.OPT0:
-		print ("OPT0", end=" ")
-	elif options == libastyle.OPT1:
-		print ("OPT1", end=" ")
-	elif options == libastyle.OPT2:
-		print ("OPT2", end=" ")
-	elif options == libastyle.OPT3:
-		print ("OPT3", end=" ")
+		print("Using {0} {1}".format(__astyleexe1, __astyleexe2), end=" ")
+	if __options == libastyle.OPT0:
+		print("OPT0", end=" ")
+	elif __options == libastyle.OPT1:
+		print("OPT1", end=" ")
+	elif __options == libastyle.OPT2:
+		print("OPT2", end=" ")
+	elif __options == libastyle.OPT3:
+		print("OPT3", end=" ")
 	else:
-		print (options, end=" ")
-	if len(optionsX.strip()) > 0:
-		print (optionsX, end=" ")
-	print ()
+		print(__options, end=" ")
+	if len(__options_x.strip()) > 0:
+		print(__options_x, end=" ")
+	print()
 
 # -----------------------------------------------------------------------------
 
 def print_run_total(starttime):
 	"""Print total information for the entire run.
 	"""
-	print ()
+	print()
 	stoptime = time.time()
 	runtime = int(stoptime - starttime + 0.5)
-	min =  int(runtime / 60)
+	minute =  int(runtime / 60)
 	sec =  int(runtime % 60)
 	if min == 0:
-		print ("{0} seconds total run time".format(sec))
+		print("{0} seconds total run time".format(sec))
 	else:
-		print ("{0} min {1} seconds total run time".format(min, sec))
-	print ()
+		print("{0} min {1} seconds total run time".format(minute, sec))
+	print()
 
 # -----------------------------------------------------------------------------
 
 def print_test_header(testnum, astyleexe):
 	"""Print header information for a test.
 	"""
-	print ()
-	print ("TEST {0} with {1}".format(testnum, astyleexe))
+	print()
+	print("TEST {0} with {1}".format(testnum, astyleexe))
 
 # -----------------------------------------------------------------------------
 
@@ -211,16 +211,16 @@ def set_astyle_args(filepath, excludes, astyleexe):
 	astylepath = get_astyle_path(astyleexe)
 	args = [astylepath]
 	# set filepaths
-	for file in filepath:
-		args.append(file)
+	for file_in in filepath:
+		args.append(file_in)
 	# set options
 	args.append("-vRQ")
-	if len(options.strip()) > 0:
-		args.append(options)
-	if len(optionsX.strip()) > 0:
-		if optionsX[0] != '-':
-			libastyle.system_exit("optionsX must begin with a '-'")
-		args.append(optionsX)
+	if len(__options.strip()) > 0:
+		args.append(__options)
+	if len(__options_x.strip()) > 0:
+		if __options_x[0] != '-':
+			libastyle.system_exit("options_x must begin with a '-'")
+		args.append(__options_x)
 	# set excludes
 	for exclude in excludes:
 		args.append(exclude)
@@ -247,7 +247,7 @@ def verify_astyle_executables(exe1, exe2):
 	if not os.path.exists(exe1path):
 		# try to copy exe1 from the "regress" directory
 		if os.path.exists(regress1path):
-			print ("Copying " + exe1)
+			print("Copying " + exe1)
 			shutil.copy(regress1path, exe1path)
 		else:
 			libastyle.system_exit("Cannot find executable 1: " + exe1path)
@@ -295,14 +295,14 @@ def verify_formatted_files(numformat, totformat):
 
 # -----------------------------------------------------------------------------
 
-def verify_optionsX_variable():
-	"""Check that the optionsX variable begins with a '-' 
+def verify_options_x_variable():
+	"""Check that the options_x variable begins with a '-'
 	"""
-	global optionsX
-	if len(optionsX) > 0:
-		optionsX = optionsX.strip()
-	if len(optionsX) > 0 and optionsX[0] != '-':
-		optionsX = '-' + optionsX
+	global __options_x
+	if len(__options_x) > 0:
+		__options_x = __options_x.strip()
+	if len(__options_x) > 0 and __options_x[0] != '-':
+		__options_x = '-' + __options_x
 
 # -----------------------------------------------------------------------------
 
