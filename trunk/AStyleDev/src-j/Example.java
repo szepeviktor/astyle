@@ -19,7 +19,7 @@ public class Example
 
         // options to pass to AStyle
         // mode=java is required for Java files
-        String options = "style=java mode=java";
+        String options = "style=java, indent=tab, mode=java";
 
         // create an object
         AStyleInterface astyle = new AStyleInterface();

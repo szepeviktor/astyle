@@ -1,9 +1,10 @@
 #! /usr/bin/python
 
-# ExampleExe.py
-# This program calls the Artistic Style executable to format the astyle source files.
-# The Artistic Style executable must be in the same directory as this script.
-# It will work with either Python version 2 or 3 (unicode).
+""" ExampleExe.py
+    This program calls the Artistic Style executable to format the AStyle source files.
+    The Artistic Style executable must be in the same directory as this script.
+    It will work with either Python version 2 or 3 (unicode).
+"""
 
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
@@ -12,7 +13,6 @@ import os
 import platform
 import subprocess
 import sys
-from ctypes import *
 
 # -----------------------------------------------------------------------------
 
@@ -25,9 +25,9 @@ def process_files():
 
 	#initialization
 	print("ExampleExe",
-			platform.python_implementation(),
-			platform.python_version(),
-			platform.architecture()[0])
+		  platform.python_implementation(),
+		  platform.python_version(),
+		  platform.architecture()[0])
 	exe = initialize_exe()
 	display_astyle_version(exe)
 	# process the input files
@@ -44,7 +44,7 @@ def display_astyle_version(exe):
 	retval = subprocess.call(astyle)
 	if retval:
 		print("Bad astyle return: " + str(retval))
-		sys.exit(1)
+		os._exit(1)
 
 # -----------------------------------------------------------------------------
 
@@ -59,7 +59,7 @@ def format_source_code(exe, file_path, options):
 	retval = subprocess.call(astyle)
 	if retval:
 		print("Bad astyle return: " + str(retval))
-		sys.exit(1)
+		os._exit(1)
 
 # -----------------------------------------------------------------------------
 
@@ -79,7 +79,7 @@ def initialize_exe():
 	# verify the astyle executable is available
 	if not os.path.isfile(exe):
 		print("Cannot find " +  exe)
-		sys.exit(1)
+		os._exit(1)
 	return exe
 
 # -----------------------------------------------------------------------------
@@ -87,4 +87,4 @@ def initialize_exe():
 # make the module executable
 if __name__ == "__main__":
 	process_files()
-	sys.exit()
+	os._exit(0)

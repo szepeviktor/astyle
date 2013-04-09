@@ -1,11 +1,12 @@
 #! /usr/bin/python
 
-# ExampleUnicode.py
-# This program calls the Artistic Style DLL to format the astyle source files.
-# The Artistic Style DLL must be in the same directory as this script.
-# The Artistic Style DLL must have the same bit size (32 or 64) as the Python executable.
-# It will work with either Python version 2 or 3 (unicode).
-# For Python 3 the files are converted to Unicode and encoded or decoded as needed.
+""" ExampleUnicode.py
+    This program calls the Artistic Style DLL to format the AStyle source files.
+    The Artistic Style DLL must be in the same directory as this script.
+    The Artistic Style DLL must have the same bit size (32 or 64) as the Python executable.
+    It will work with either Python version 2 or 3 (unicode).
+    For Python 3 the files are converted to Unicode and encoded or decoded as needed.
+"""
 
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
@@ -17,8 +18,9 @@ from ctypes import *
 
 # global variables ------------------------------------------------------------
 
-isIronPython = False
-isUnicode = False
+# will be updated from the platform properties by initialize_platform()
+__is_iron_python = False
+__is_unciode = False
 
 # -----------------------------------------------------------------------------
 
@@ -31,9 +33,9 @@ def process_files():
 
 	#initialization
 	print("ExampleUnicode",
-			platform.python_implementation(),
-			platform.python_version(),
-			platform.architecture()[0])
+		  platform.python_implementation(),
+		  platform.python_version(),
+		  platform.architecture()[0])
 	initialize_platform()
 	libc = initialize_library()
 	version = get_astyle_version(libc)
@@ -62,20 +64,20 @@ def format_source_code(libc, text_in, options):
 	# version 3 must be encoded to utf-8 bytes
 	# encoding to utf-8 will not cause an exception
 	# IronPython must also be converted to bytes
-	if isIronPython:
+	if __is_iron_python:
 		text_in = bytes(text_in.encode('utf-8'))
 		options = bytes(options.encode('utf-8'))
-	elif isUnicode:
+	elif __is_unciode:
 		text_in = text_in.encode('utf-8')
 		options = options.encode('utf-8')
 	astyle_main = libc.AStyleMain
 	astyle_main.restype = c_char_p
 	formatted_text = (
-			astyle_main(text_in, options, ERROR_HANDLER, MEMORY_ALLOCATION))
+		astyle_main(text_in, options, ERROR_HANDLER, MEMORY_ALLOCATION))
 	# if an error occurs, the return is a type(None) object
 	# Python3 must be decoded to Unicode
 	# decoding from utf-8 will not cause an exception
-	if (isUnicode
+	if (__is_unciode
 	and type(formatted_text) != type(None)):
 		formatted_text = formatted_text.decode('utf-8')
 	return formatted_text
@@ -91,7 +93,7 @@ def get_astyle_version(libc):
 	astyle_version = libc.AStyleGetVersion
 	astyle_version.restype = c_char_p
 	version = astyle_version()
-	if isUnicode:
+	if __is_unciode:
 		version = version.decode('utf-8')
 	return version
 
@@ -113,12 +115,12 @@ def get_source_code(file_path):
 		# "No such file or directory: <file>"
 		print(err)
 		print("Cannot open", file_path)
-		sys.exit(1)
+		os._exit(1)
 	except UnicodeError as err:
 		# "'<codec>' codec can't decode byte 0x81 in position 40813: <message>"
 		print(err)
 		print("Cannot read", file_path)
-		sys.exit(1)
+		os._exit(1)
 	file_in.close()
 	return text_in
 
@@ -142,22 +144,22 @@ def initialize_library():
 
 def initialize_platform():
 	"""Check the python_implementation and the python_version
-	   and change the global variables isIronPython and isUnicode
+	   and change the global variables is_iron_python and is_unciode
 	   if necessary.
-	   PyPy does not currently supprot Unicode.
+	   PyPy does not currently support Unicode.
 	   Jython will get errors and not run.
 	"""
-	global isIronPython, isUnicode
+	global __is_iron_python, __is_unciode
 	if platform.python_implementation() == "CPython":
 		if platform.python_version_tuple()[0] >= '3':
-			isUnicode = True
+			__is_unciode = True
 	elif platform.python_implementation() == "IronPython":
-		isIronPython = True
-		isUnicode = True
+		__is_iron_python = True
+		__is_unciode = True
 		# NOTE: IronPython is NOT currently supported.
 		# A bug in IronPython ctypes memory allocation needs to be fixed.
 		print("IronPython is not currently supported")
-		sys.exit(1)
+		os._exit(1)
 
 # -----------------------------------------------------------------------------
 
@@ -165,14 +167,14 @@ def load_linux_so():
 	"""Load the shared object for Linux platforms.
 	   The shared object must be in the same folder as this python script.
 	"""
-	so = os.path.join(sys.path[0], "libastyle.so")
+	shared = os.path.join(sys.path[0], "libastyle.so")
 	try:
-		libc = cdll.LoadLibrary(so)
+		libc = cdll.LoadLibrary(shared)
 	except OSError as err:
 		# "cannot open shared object file: No such file or directory"
 		print(err)
-		print("Cannot find", so)
-		sys.exit(1)
+		print("Cannot find", shared)
+		os._exit(1)
 	return libc
 
 # -----------------------------------------------------------------------------
@@ -188,18 +190,18 @@ def load_windows_dll():
 		libc = windll.LoadLibrary(dll)
 	# exception for CPython
 	except WindowsError as err:
-		print(err)
+		# print(err)
 		print("Cannot load library", dll)
 		if err.args[0] == 126:      #  "The specified module could not be found"
 			print("Cannot find", dll)
 		if err.args[0] == 193:      #  "%1 is not a valid Win32 application"
 			print("You may be mixing 32 and 64 bit code")
-		sys.exit(1)
+		os._exit(1)
 	# exception for IronPython - cannot determine the cause
 	except OSError as err:
 		print("Cannot load library", dll)
 		print("If the library is available you may be mixing 32 and 64 bit code")
-		sys.exit(1)
+		os._exit(1)
 	return libc
 
 # -----------------------------------------------------------------------------
@@ -225,7 +227,7 @@ def save_source_code(text_out, file_path):
 		# "'<codec>' codec can't encode characters in position 0-2: <message>"
 		print(err)
 		print("Cannot write", file_path)
-		sys.exit(1)
+		os._exit(1)
 	file_out.close()
 
 # -----------------------------------------------------------------------------
@@ -245,12 +247,12 @@ def ErrorHandler(num, err):
 	   It is converted to unicode for Python 3.
 	"""
 	print("Error in input {0}".format(num))
-	if isUnicode:
+	if __is_unciode:
 		err = err.decode()
 	print(err)
-	sys.exit(1)
+	os._exit(1)
 
-# create the error handler callback function
+# global to create the error handler callback function
 if os.name == "nt":
 	ErrorHandlerCallback = WINFUNCTYPE(None, c_int, c_char_p)
 else:
@@ -261,21 +263,21 @@ ERROR_HANDLER = ErrorHandlerCallback(ErrorHandler)
 
 # AStyle Memory Allocation Callback
 # allocated memory must be global
-allocated = []
+__allocated = []
 def MemoryAllocation(size):
 	"""AStyle callback memory allocation.
 	   The size to allocate is always byte type.
 	   The allocated memory must be global.
 	   The previous allocated memory will be freed.
 	"""
-	arr_type = c_char * size    # create a c_char array
-	arr_obj = arr_type()        # create an array object
-	allocated.append(arr_obj)   # so the object will not be destroyed
-	if len(allocated) > 1:      # free memory for the previous object
-		del allocated[0]
-	return addressof(arr_obj)   # return a pointer
+	arr_type = c_char * size      # create a c_char array
+	arr_obj = arr_type()          # create an array object
+	__allocated.append(arr_obj)   # so the object will not be destroyed
+	if len(__allocated) > 1:      # free memory for the previous object
+		del __allocated[0]
+	return addressof(arr_obj)     # return a pointer
 
-# create the memory allocation callback function
+# global to create the memory allocation callback function
 if os.name == "nt":
 	MemoryAllocationCallback = WINFUNCTYPE(c_char_p, c_ulong)
 else:
@@ -287,4 +289,4 @@ MEMORY_ALLOCATION = MemoryAllocationCallback(MemoryAllocation)
 # make the module executable
 if __name__ == "__main__":
 	process_files()
-	sys.exit()
+	os._exit(0)

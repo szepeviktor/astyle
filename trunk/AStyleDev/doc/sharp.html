@@ -378,14 +378,21 @@
 
 <span class="hl slc">/// AStyleInterface contains methods to call the Artistic Style formatter.</span>
 <span class="hl kwa">public class</span> AStyleInterface
-<span class="hl opt">{</span>   <span class="hl slc">// Cannot use String as a return value because Mono runtime will attempt to</span>
+<span class="hl opt">{</span>   <span class="hl slc">// Dll name</span>
+<span class="hl ppc">#if (DEBUG)</span>
+    <span class="hl kwa">private</span> <span class="hl kwb">const</span> String dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyled&quot;</span><span class="hl opt">;</span>
+<span class="hl ppc">#else</span>
+    <span class="hl kwa">private</span> <span class="hl kwb">const</span> String dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle&quot;</span><span class="hl opt">;</span>
+<span class="hl ppc">#endif</span>
+
+    <span class="hl slc">// Cannot use String as a return value because Mono runtime will attempt to</span>
     <span class="hl slc">// free the returned pointer resulting in a runtime crash.</span>
-    <span class="hl opt">[</span><span class="hl kwd">DllImport</span><span class="hl opt">(</span><span class="hl str">&quot;astyle&quot;</span><span class="hl opt">,</span> CallingConvention <span class="hl opt">=</span> CallingConvention<span class="hl opt">.</span>StdCall<span class="hl opt">)]</span>
+    <span class="hl opt">[</span><span class="hl kwd">DllImport</span><span class="hl opt">(</span>dllName<span class="hl opt">,</span> CallingConvention <span class="hl opt">=</span> CallingConvention<span class="hl opt">.</span>StdCall<span class="hl opt">)]</span>
     <span class="hl kwa">private static</span> extern IntPtr <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
 
     <span class="hl slc">// Cannot use String as a return value because Mono runtime will attempt to</span>
     <span class="hl slc">// free the returned pointer resulting in a runtime crash.</span>
-    <span class="hl opt">[</span><span class="hl kwd">DllImport</span><span class="hl opt">(</span><span class="hl str">&quot;astyle&quot;</span><span class="hl opt">,</span> CallingConvention <span class="hl opt">=</span> CallingConvention<span class="hl opt">.</span>StdCall<span class="hl opt">)]</span>
+    <span class="hl opt">[</span><span class="hl kwd">DllImport</span><span class="hl opt">(</span>dllName<span class="hl opt">,</span> CallingConvention <span class="hl opt">=</span> CallingConvention<span class="hl opt">.</span>StdCall<span class="hl opt">)]</span>
     <span class="hl kwa">private static</span> extern IntPtr AStyleMain
     <span class="hl opt">(</span>
         <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span>LPStr<span class="hl opt">)]</span> String sIn<span class="hl opt">,</span>
@@ -429,6 +436,12 @@
         <span class="hl opt">{</span>   Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span>e<span class="hl opt">.</span><span class="hl kwd">ToString</span><span class="hl opt">());</span>
             Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;You may be mixing 32 and 64 bit code!&quot;</span><span class="hl opt">);</span>
         <span class="hl opt">}</span>
+        <span class="hl kwa">catch</span> <span class="hl opt">(</span>DllNotFoundException<span class="hl opt">)</span>
+        <span class="hl opt">{</span>   <span class="hl slc">//Console.WriteLine(e.ToString());</span>
+            Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot load native library: &quot;</span> <span class="hl opt">+</span> dllName<span class="hl opt">);</span>
+           Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
+            Environment<span class="hl opt">.</span><span class="hl kwd">Exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
+        <span class="hl opt">}</span>
         <span class="hl kwa">catch</span> <span class="hl opt">(</span>Exception e<span class="hl opt">)</span>
         <span class="hl opt">{</span>   Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span>e<span class="hl opt">.</span><span class="hl kwd">ToString</span><span class="hl opt">());</span>
         <span class="hl opt">}</span>
@@ -452,7 +465,13 @@
             Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
             Environment<span class="hl opt">.</span><span class="hl kwd">Exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
         <span class="hl opt">}</span>
-        <span class="hl kwa">catch</span> <span class="hl opt">(</span>Exception e<span class="hl opt">)</span>
+        <span class="hl kwa">catch</span> <span class="hl opt">(</span>DllNotFoundException<span class="hl opt">)</span>
+        <span class="hl opt">{</span>   <span class="hl slc">//Console.WriteLine(e.ToString());</span>
+            Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot load native library: &quot;</span> <span class="hl opt">+</span> dllName<span class="hl opt">);</span>
+           Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
+            Environment<span class="hl opt">.</span><span class="hl kwd">Exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
+        <span class="hl opt">}</span>
+         <span class="hl kwa">catch</span> <span class="hl opt">(</span>Exception e<span class="hl opt">)</span>
         <span class="hl opt">{</span>   Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span>e<span class="hl opt">.</span><span class="hl kwd">ToString</span><span class="hl opt">());</span>
             Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
             Environment<span class="hl opt">.</span><span class="hl kwd">Exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
@@ -471,7 +490,6 @@
     <span class="hl opt">}</span>
 
 <span class="hl opt">}</span>   <span class="hl slc">// class AStyleInterface</span>
-
 </pre>
     </div>
     <p>

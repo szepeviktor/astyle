@@ -1,11 +1,12 @@
 #! /usr/bin/python
 
-# ExampleByte.py
-# This program calls the Artistic Style DLL to format the astyle source files.
-# The Artistic Style DLL must be in the same directory as this script.
-# The Artistic Style DLL must have the same bit size (32 or 64) as the Python executable.
-# It will work with either Python version 2 or 3 (unicode).
-# For Python 3 the files are retained in byte format and not converted to Unicode.
+""" ExampleByte.py
+    This program calls the Artistic Style DLL to format the AStyle source files.
+    The Artistic Style DLL must be in the same directory as this script.
+    The Artistic Style DLL must have the same bit size (32 or 64) as the Python executable.
+    It will work with either Python version 2 or 3 (unicode).
+    For Python 3 the files are retained in byte format and not converted to Unicode.
+"""
 
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
@@ -17,8 +18,9 @@ from ctypes import *
 
 # global variables ------------------------------------------------------------
 
-isIronPython = False
-isUnicode = False
+# will be updated from the platform properties by initialize_platform()
+__is_iron_python = False
+__is_unicode = False
 
 # -----------------------------------------------------------------------------
 
@@ -32,9 +34,9 @@ def process_files():
 
 	#initialization
 	print("ExampleByte",
-			platform.python_implementation(),
-			platform.python_version(),
-			platform.architecture()[0])
+		  platform.python_implementation(),
+		  platform.python_version(),
+		  platform.architecture()[0])
 	initialize_platform()
 	libc = initialize_library()
 	version_bytes = get_astyle_version_bytes(libc)
@@ -60,7 +62,7 @@ def format_source_bytes(libc, bytes_in, option_bytes):
 	astyle_main = libc.AStyleMain
 	astyle_main.restype = c_char_p
 	formatted_bytes = (
-			astyle_main(bytes_in, option_bytes, ERROR_HANDLER, MEMORY_ALLOCATION))
+		astyle_main(bytes_in, option_bytes, ERROR_HANDLER, MEMORY_ALLOCATION))
 	return formatted_bytes
 
 # -----------------------------------------------------------------------------
@@ -90,7 +92,7 @@ def get_source_code_bytes(file_path):
 		# "No such file or directory: <file>"
 		print(err)
 		print("Cannot open", file_path)
-		sys.exit(1)
+		os._exit(1)
 	file_in.close()
 	return bytes_in
 
@@ -114,22 +116,22 @@ def initialize_library():
 
 def initialize_platform():
 	"""Check the python_implementation and the python_version
-	   and change the global variables isIronPython and isUnicode
+	   and change the global variables is_iron_python and is_unicode
 	   if necessary.
-	   PyPy does not currently supprot Unicode.
+	   PyPy does not currently support Unicode.
 	   Jython will get errors and not run.
 	"""
-	global isIronPython, isUnicode
+	global __is_iron_python, __is_unicode
 	if platform.python_implementation() == "CPython":
 		if platform.python_version_tuple()[0] >= '3':
-			isUnicode = True
+			__is_unicode = True
 	elif platform.python_implementation() == "IronPython":
-		isIronPython = True
-		isUnicode = True
+		__is_iron_python = True
+		__is_unicode = True
 		# NOTE: IronPython is NOT currently supported.
 		# A bug in IronPython ctypes memory allocation needs to be fixed.
 		print("IronPython is not currently supported")
-		sys.exit(1)
+		os._exit(1)
 
 # -----------------------------------------------------------------------------
 
@@ -137,14 +139,14 @@ def load_linux_so():
 	"""Load the shared object for Linux platforms.
 	   The shared object must be in the same folder as this python script.
 	"""
-	so = os.path.join(sys.path[0], "libastyle.so")
+	shared = os.path.join(sys.path[0], "libastyle.so")
 	try:
-		libc = cdll.LoadLibrary(so)
+		libc = cdll.LoadLibrary(shared)
 	except OSError as err:
 		# "cannot open shared object file: No such file or directory"
 		print(err)
-		print("Cannot find", so)
-		sys.exit(1)
+		print("Cannot find", shared)
+		os._exit(1)
 	return libc
 
 # -----------------------------------------------------------------------------
@@ -166,12 +168,12 @@ def load_windows_dll():
 			print("Cannot find", dll)
 		if err.args[0] == 193:      #  "%1 is not a valid Win32 application"
 			print("You may be mixing 32 and 64 bit code")
-		sys.exit(1)
+		os._exit(1)
 	# exception for IronPython - cannot determine the cause
 	except OSError as err:
 		print("Cannot load library", dll)
 		print("You may be mixing 32 and 64 bit code")
-		sys.exit(1)
+		os._exit(1)
 	return libc
 
 # -----------------------------------------------------------------------------
@@ -213,7 +215,7 @@ def ErrorHandler(num, err):
 	if sys.version_info[0] >= 3:
 		err = err.decode('utf-8')
 	print(err)
-	sys.exit(1)
+	os._exit(1)
 
 # create the error handler callback function
 if os.name == "nt":
@@ -226,19 +228,19 @@ ERROR_HANDLER = ErrorHandlerCallback(ErrorHandler)
 
 # AStyle Memory Allocation Callback
 # allocated memory must be global
-allocated = []
+__allocated = []
 def MemoryAllocation(size):
 	"""AStyle callback memory allocation.
 	   The size to allocate is always byte type.
 	   The allocated memory must be global.
 	   The previous allocated memory will be freed.
 	"""
-	arr_type = c_char * size    # create a c_char array
-	arr_obj = arr_type()        # create an array object
-	allocated.append(arr_obj)   # so the object will not be destroyed
-	if len(allocated) > 1:      # free memory for the previous object
-		del allocated[0]
-	return addressof(arr_obj)   # return a pointer
+	arr_type = c_char * size      # create a c_char array
+	arr_obj = arr_type()          # create an array object
+	__allocated.append(arr_obj)   # so the object will not be destroyed
+	if len(__allocated) > 1:      # free memory for the previous object
+		del __allocated[0]
+	return addressof(arr_obj)     # return a pointer
 
 # create the memory allocation callback function
 if os.name == "nt":
@@ -252,4 +254,4 @@ MEMORY_ALLOCATION = MemoryAllocationCallback(MemoryAllocation)
 # make the module executable
 if __name__ == "__main__":
 	process_files()
-	sys.exit()
+	os._exit(0)

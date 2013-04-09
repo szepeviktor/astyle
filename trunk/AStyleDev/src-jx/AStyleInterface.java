@@ -122,10 +122,10 @@ public class AStyleInterface
     public AStyleInterface()
     {   // save integer default values
         defaultIndentLength         = indentLength;
-		defaultTabLength = tabLength;
+        defaultTabLength = tabLength;
         defaultMaxInStatementIndent = maxInStatementIndent;
         defaultMinConditionalOption = minConditionalOption;
-//		defaultMaxCodeLength = maxCodeLength;
+//      defaultMaxCodeLength = maxCodeLength;
     }
 
     /**

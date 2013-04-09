@@ -481,14 +481,21 @@ public class AStyleInterface
 
     // functions to call Artistic Style ---------------------------------------------------
 
+    // Dll name
+#if (DEBUG)
+    private const String dllName = "astyled";
+#else
+    private const String dllName = "astyle";
+#endif
+
     // Cannot use String as a return value because Mono runtime will attempt to
     // free the returned pointer resulting in a runtime crash.
-    [DllImport("astyle", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(dllName, CallingConvention = CallingConvention.StdCall)]
     private static extern IntPtr AStyleGetVersion();
 
     // Cannot use String as a return value because Mono runtime will attempt to
     // free the returned pointer resulting in a runtime crash.
-    [DllImport("astyle", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(dllName, CallingConvention = CallingConvention.StdCall)]
     private static extern IntPtr AStyleMain
     (
         [MarshalAs(UnmanagedType.LPStr)] String sIn,
@@ -530,6 +537,12 @@ public class AStyleInterface
         {   DisplayErrorMessage(e.ToString());
             DisplayErrorMessage("You may be mixing 32 and 64 bit code!");
         }
+        catch (DllNotFoundException)
+        {   //DisplayErrorMessage(e.ToString());
+            DisplayErrorMessage("Cannot load native library: " + dllName);
+            DisplayErrorMessage("The program has terminated!");
+            Environment.Exit(1);
+        }
         catch (Exception e)
         {   DisplayErrorMessage(e.ToString());
         }
@@ -565,6 +578,12 @@ public class AStyleInterface
         catch (BadImageFormatException e)
         {   DisplayErrorMessage(e.ToString());
             DisplayErrorMessage("You may be mixing 32 and 64 bit code!");
+            DisplayErrorMessage("The program has terminated!");
+            Environment.Exit(1);
+        }
+        catch (DllNotFoundException)
+        {   //DisplayErrorMessage(e.ToString());
+            DisplayErrorMessage("Cannot load native library: " + dllName);
             DisplayErrorMessage("The program has terminated!");
             Environment.Exit(1);
         }

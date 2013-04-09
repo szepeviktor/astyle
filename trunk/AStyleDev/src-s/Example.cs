@@ -19,7 +19,7 @@ public class Example
 
         // options to pass to AStyle
         // mode=cs is required for C# files
-        String options = "brackets=linux mode=cs";
+        String options = "style=java, indent=tab, mode=cs";
 
         // create an object
         AStyleInterface AStyle = new AStyleInterface();

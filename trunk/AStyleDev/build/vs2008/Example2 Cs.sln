@@ -1,18 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example2 Cs", "Example2Cs\Example2 Cs.csproj", "{15DF1B81-89D7-4C47-B0BC-B18C4B587FCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example2 Cs", "Example2Cs\Example2 Cs.csproj", "{C673F874-4875-4B1A-9DE9-7EDA572A373D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x86 = Debug|x86
-		Release|x86 = Release|x86
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{15DF1B81-89D7-4C47-B0BC-B18C4B587FCF}.Debug|x86.ActiveCfg = Debug|x86
-		{15DF1B81-89D7-4C47-B0BC-B18C4B587FCF}.Debug|x86.Build.0 = Debug|x86
-		{15DF1B81-89D7-4C47-B0BC-B18C4B587FCF}.Release|x86.ActiveCfg = Release|x86
-		{15DF1B81-89D7-4C47-B0BC-B18C4B587FCF}.Release|x86.Build.0 = Release|x86
+		{C673F874-4875-4B1A-9DE9-7EDA572A373D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C673F874-4875-4B1A-9DE9-7EDA572A373D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C673F874-4875-4B1A-9DE9-7EDA572A373D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C673F874-4875-4B1A-9DE9-7EDA572A373D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

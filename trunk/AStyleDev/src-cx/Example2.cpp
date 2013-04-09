@@ -139,7 +139,7 @@ void setText(const char* textOut, string& filePathStr)
         error("Cannot open output file", filePath);
 
     // write the text
-    int textSizeOut = strlen(textOut);
+    size_t textSizeOut = strlen(textOut);
     out.write(textOut, textSizeOut);
     out.close();
 }
