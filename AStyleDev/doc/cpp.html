@@ -33,11 +33,15 @@
         are then passed via the function call. After the source files are formatted they will be returned to the calling
         program, which must then save the source file and take other appropriate action.</p>
     <p>
-        Windows users can also use the option ASTYLE_STATIC to remove the STDCALL definition. This is usually done 
-        when compiling as a static library.</p>
+        Visual Studio users can also use the option ASTYLE_NO_VCX (no Visual C exports) to remove the 
+        __declspec(dllexport) definition from Visual C. Use this only for static libraries or when the AStyle source 
+        is included in the compile. Do NOT use this when compiled as a shared (dynamic) library. It is effective only 
+        for Visual Studio 2012 and higher. It will NOT work with previous versions. It has no effect with other 
+        compilers since they require a separate option to create the import library and export files.<o:p></o:p>
+    </p>
     <p>
         The source can also be included in a program or another shared library (DLL) instead of being compiled by 
-        itself. It should be compiled with the options ASTYLE_LIB and ASTYLE_STATIC to get the function call instead 
+        itself. It should be compiled with the options ASTYLE_LIB (and ASTYLE_NO_VCX for Visual C) to get the function call instead 
         of the console build. Then include it with the other source modules and call it using the AStyleMain function.</p>
 
     <h3>
@@ -172,7 +176,7 @@
 <span class="hl kwa">using namespace</span> std<span class="hl opt">;</span>
 
 <span class="hl slc">// allow for different calling conventions in Linux and Windows</span>
-<span class="hl ppc">#if defined(_WIN32) &amp;&amp; !defined(ASTYLE_STATIC)</span>
+<span class="hl ppc">#ifdef _WIN32</span>
 <span class="hl ppc">#define STDCALL __stdcall</span>
 <span class="hl ppc">#else</span>
 <span class="hl ppc">#define STDCALL</span>
@@ -326,7 +330,7 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</sp
         <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot open output file&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">);</span>
 
     <span class="hl slc">// write the text</span>
-    <span class="hl kwb">int</span> textSizeOut <span class="hl opt">=</span> <span class="hl kwd">strlen</span><span class="hl opt">(</span>textOut<span class="hl opt">);</span>
+    <span class="hl kwb">size_t</span> textSizeOut <span class="hl opt">=</span> <span class="hl kwd">strlen</span><span class="hl opt">(</span>textOut<span class="hl opt">);</span>
     out<span class="hl opt">.</span><span class="hl kwd">write</span><span class="hl opt">(</span>textOut<span class="hl opt">,</span> textSizeOut<span class="hl opt">);</span>
     out<span class="hl opt">.</span><span class="hl kwd">close</span><span class="hl opt">();</span>
 <span class="hl opt">}</span>

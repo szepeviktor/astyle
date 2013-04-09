@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="AStyleJ">
-				<Option output="bin\AStylej" prefix_auto="0" extension_auto="1" />
+				<Option output="bin/AStylej" prefix_auto="0" extension_auto="1" />
 				<Option object_output="objJava" />
 				<Option deps_output="dep" />
 				<Option type="3" />
@@ -25,8 +25,8 @@
 					<Add option="-fno-exceptions" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="C:\Program Files\Java\jdk1.7.0_03\include" />
-					<Add directory="C:\Program Files\Java\jdk1.7.0_03\include\win32" />
+					<Add directory="C:/Program Files/Java/jdk1.7.0/include" />
+					<Add directory="C:/Program Files/Java/jdk1.7.0/include/win32" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -38,8 +38,8 @@
 				</ExtraCommands>
 			</Target>
 			<Target title="Lint">
-				<Option output="bin\AStylejl" prefix_auto="1" extension_auto="1" />
-				<Option object_output="objJaval\" />
+				<Option output="bin/AStylejl" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objJaval/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -66,21 +66,21 @@
 					<Add option="-Wwrite-strings" />
 					<Add option="-Woverloaded-virtual" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="C:\Program Files\Java\jdk1.7.0_03\include" />
-					<Add directory="C:\Program Files\Java\jdk1.7.0_03\include\win32" />
+					<Add directory="C:/Program Files/Java/jdk1.7.0/include" />
+					<Add directory="C:/Program Files/Java/jdk1.7.0/include/win32" />
 				</Compiler>
 			</Target>
 		</Build>
 		<VirtualTargets>
 			<Add alias="All" targets="AStyleJ;" />
 		</VirtualTargets>
-		<Unit filename="..\..\..\AStyle\src\ASBeautifier.cpp" />
-		<Unit filename="..\..\..\AStyle\src\ASEnhancer.cpp" />
-		<Unit filename="..\..\..\AStyle\src\ASFormatter.cpp" />
-		<Unit filename="..\..\..\AStyle\src\ASResource.cpp" />
-		<Unit filename="..\..\..\AStyle\src\astyle.h" />
-		<Unit filename="..\..\..\AStyle\src\astyle_main.cpp" />
-		<Unit filename="..\..\..\AStyle\src\astyle_main.h" />
+		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
+		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
+		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
+		<Unit filename="../../../AStyle/src/ASResource.cpp" />
+		<Unit filename="../../../AStyle/src/astyle.h" />
+		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
+		<Unit filename="../../../AStyle/src/astyle_main.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

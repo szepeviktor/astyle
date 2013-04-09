@@ -5,14 +5,21 @@ using System.Runtime.InteropServices;
 
 /// AStyleInterface contains methods to call the Artistic Style formatter.
 public class AStyleInterface
-{   // Cannot use String as a return value because Mono runtime will attempt to
+{   // Dll name
+#if (DEBUG)
+    private const String dllName = "astyled";
+#else
+    private const String dllName = "astyle";
+#endif
+
+    // Cannot use String as a return value because Mono runtime will attempt to
     // free the returned pointer resulting in a runtime crash.
-    [DllImport("astyle", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(dllName, CallingConvention = CallingConvention.StdCall)]
     private static extern IntPtr AStyleGetVersion();
 
     // Cannot use String as a return value because Mono runtime will attempt to
     // free the returned pointer resulting in a runtime crash.
-    [DllImport("astyle", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(dllName, CallingConvention = CallingConvention.StdCall)]
     private static extern IntPtr AStyleMain
     (
         [MarshalAs(UnmanagedType.LPStr)] String sIn,
@@ -56,6 +63,12 @@ public class AStyleInterface
         {   Console.WriteLine(e.ToString());
             Console.WriteLine("You may be mixing 32 and 64 bit code!");
         }
+        catch (DllNotFoundException)
+        {   //Console.WriteLine(e.ToString());
+            Console.WriteLine("Cannot load native library: " + dllName);
+            Console.WriteLine("The program has terminated!");
+            Environment.Exit(1);
+        }
         catch (Exception e)
         {   Console.WriteLine(e.ToString());
         }
@@ -76,6 +89,12 @@ public class AStyleInterface
         catch (BadImageFormatException e)
         {   Console.WriteLine(e.ToString());
             Console.WriteLine("You may be mixing 32 and 64 bit code!");
+            Console.WriteLine("The program has terminated!");
+            Environment.Exit(1);
+        }
+        catch (DllNotFoundException)
+        {   //Console.WriteLine(e.ToString());
+            Console.WriteLine("Cannot load native library: " + dllName);
             Console.WriteLine("The program has terminated!");
             Environment.Exit(1);
         }

@@ -6,7 +6,7 @@
 using namespace std;
 
 // allow for different calling conventions in Linux and Windows
-#if defined(_WIN32) && !defined(ASTYLE_STATIC)
+#ifdef _WIN32
 #define STDCALL __stdcall
 #else
 #define STDCALL

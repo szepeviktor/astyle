@@ -1,7 +1,7 @@
 @REM formats the astylex Java source code
 @echo off
 
-set progdir=C:\Program Files (x86)\AStyle
+set progdir=C:\Program Files\AStyle
 set srcdir1=..\src-j
 set srcdir2=..\src-jx
 

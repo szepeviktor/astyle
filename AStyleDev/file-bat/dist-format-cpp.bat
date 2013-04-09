@@ -1,7 +1,7 @@
 @REM formats the AStyleX C++ source code
 @echo off
 
-set progdir=C:\Program Files (x86)\AStyle
+set progdir=C:\Program Files\AStyle
 set srcdir1=..\src-c
 set srcdir2=..\src-cx
 

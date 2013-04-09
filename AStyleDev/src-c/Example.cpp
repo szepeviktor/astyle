@@ -12,7 +12,7 @@
 using namespace std;
 
 // allow for different calling conventions in Linux and Windows
-#if defined(_WIN32) && !defined(ASTYLE_STATIC)
+#ifdef _WIN32
 #define STDCALL __stdcall
 #else
 #define STDCALL
@@ -166,7 +166,7 @@ void setText(const char* textOut, string& filePathStr)
         error("Cannot open output file", filePath);
 
     // write the text
-    int textSizeOut = strlen(textOut);
+    size_t textSizeOut = strlen(textOut);
     out.write(textOut, textSizeOut);
     out.close();
 }
