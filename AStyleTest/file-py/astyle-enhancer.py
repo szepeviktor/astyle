@@ -1,6 +1,7 @@
 #! /usr/bin/python
-# Check ASEnhancer constructor to class variables
-#     in the header file to verify all variables are initialized .
+""" Check ASEnhancer constructor to class variables
+    in the header file to verify all variables are initialized.
+"""
 
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
@@ -9,8 +10,8 @@ import libastyle		#local directory
 
 # global variables ------------------------------------------------------------
 
-print_detail = False				# print line numbers and total variables
-print_variables = False			# print the variables in the lists
+__print_detail = False				# print line numbers and total variables
+__print_variables = False			# print the variables in the lists
 
 # -----------------------------------------------------------------------------
 
@@ -23,21 +24,21 @@ def process_files():
 	enhancer_path = libastyle.get_astyle_directory() + "/src/ASEnhancer.cpp"
 
 	libastyle.set_text_color()
-	print (libastyle.get_python_version())
+	print(libastyle.get_python_version())
 	get_header_variables(header_variables, header_path)
 	get_constructor_variables(class_variables, enhancer_path)
 	get_initializer_variables(class_variables, enhancer_path)
 
-	print ("Checking ASEnhancer header to class constructor.")
+	print("Checking ASEnhancer header to class constructor.")
 	total_variables = len(header_variables)
-	print ("There are {0} variables in the header list.".format(total_variables))
-	print ()
+	print("There are {0} variables in the header list.".format(total_variables))
+	print()
 
 	find_class_diffs(header_variables, class_variables)
 
-	if print_variables:
-		print (header_variables)
-		print (class_variables)
+	if __print_variables:
+		print(header_variables)
+		print(class_variables)
 
 # -----------------------------------------------------------------------------
 
@@ -70,27 +71,27 @@ def find_class_diffs(header_variables, class_variables):
 	if len(missing_header) > 0:
 		missing_header = list(missing_header)
 		missing_header.sort()
-		print (str(len(missing_header)) + " missing header variables:")
-		print (missing_header)
+		print(str(len(missing_header)) + " missing header variables:")
+		print(missing_header)
 
 	if len(missing_class) > 0:
 		missing_class = list(missing_class)
 		missing_class.sort()
-		print (str(len(missing_class)) + " missing class constructor variables:")
-		print (missing_class)
+		print(str(len(missing_class)) + " missing class constructor variables:")
+		print(missing_class)
 
-	diffs= len(missing_header) + len(missing_class)
+	diffs = len(missing_header) + len(missing_class)
 	if diffs == 0:
-		print ("There are NO diffs in the class constructor variables!!!")
+		print("There are NO diffs in the class constructor variables!!!")
 	else:
-		print ("There are {0} diffs in the class constructor variables.".format(diffs))
+		print("There are {0} diffs in the class constructor variables.".format(diffs))
 
 # -----------------------------------------------------------------------------
 
 def get_constructor_variables(class_variables, enhancer_path):
 	"""Read the ASEnhancer file and save the class constuctor variables."""
 
-	class_lines = [0,0]		# line numbers for class constructor
+	class_lines = [0, 0]		# line numbers for class constructor
 	class_total = 0			# total variables for class constructor
 	lines = 0					# current input line number
 	file_in = open(enhancer_path, 'r')
@@ -128,15 +129,15 @@ def get_constructor_variables(class_variables, enhancer_path):
 		class_total += 1
 
 	file_in.close()
-	if print_detail:
-		print ("{0} {1} class constructor".format(class_lines, class_total))
+	if __print_detail:
+		print("{0} {1} class constructor".format(class_lines, class_total))
 
 # -----------------------------------------------------------------------------
 
 def get_header_variables(header_variables, header_path):
 	"""Read the header file and save the ASEnhancer variables."""
 
-	header_lines = [0,0]			# line numbers for header
+	header_lines = [0, 0]		# line numbers for header
 	header_total = 0				# total variables for header
 	header_brackets = 0		#  unmatched brackets in the header
 	lines = 0						# current input line number
@@ -185,7 +186,7 @@ def get_header_variables(header_variables, header_path):
 		if line.find("switchVariables") != -1:
 			continue
 		# get the variable name
-		semi_colon = line.find(';');
+		semi_colon = line.find(';')
 		if semi_colon == -1:
 			continue
 		last_space = line[:semi_colon].rfind(' ')
@@ -198,15 +199,15 @@ def get_header_variables(header_variables, header_path):
 		header_total += 1
 
 	file_in.close()
-	if print_detail:
-		print ("{0} {1} header".format(header_lines, header_total))
+	if __print_detail:
+		print("{0} {1} header".format(header_lines, header_total))
 
 # -----------------------------------------------------------------------------
 
 def get_initializer_variables(class_variables, enhancer_path):
 	"""Read the ASEnhancer file and save the class initializer variables."""
 
-	class_lines_init = [0,0]		# line numbers for class init() function
+	class_lines_init = [0, 0]		# line numbers for class init() function
 	class_total_init = 0			# total variables for class init() function
 	lines_init = 0					# current input line number
 	find_init_bracket = False		# looking for bracket after init funcyion
@@ -254,8 +255,8 @@ def get_initializer_variables(class_variables, enhancer_path):
 		class_total_init += 1
 
 	file_in_init.close()
-	if print_detail:
-		print ("{0} {1} class initializer".format(class_lines_init, class_total_init))
+	if __print_detail:
+		print("{0} {1} class initializer".format(class_lines_init, class_total_init))
 
 # -----------------------------------------------------------------------------
 

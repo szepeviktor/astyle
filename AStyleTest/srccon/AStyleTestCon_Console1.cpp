@@ -353,7 +353,7 @@ TEST(ProcessOptions, FileOptionsVector_Error)
 	optionsIn.push_back("--options=" + optionsFileName);
 	optionsIn.push_back("--ascii");		// output in English
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid file options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -381,7 +381,7 @@ TEST(ProcessOptions, FileOptionsVector_FileError1)
 	optionsIn.push_back("--options=" + optionsFileName);
 	optionsIn.push_back("--ascii");		// output in English
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with options file error
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -401,7 +401,7 @@ TEST(ProcessOptions, FileOptionsVector_FileError2)
 	optionsIn.push_back("--options=");
 	optionsIn.push_back("--ascii");		// output in English
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with options file error
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -516,7 +516,7 @@ TEST(ProcessOptions, ConsoleOptions_Error)
 	optionsIn.push_back("--indent-classes");
 	optionsIn.push_back("--ascii");		// output in English
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid command line options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -573,7 +573,7 @@ TEST(ProcessOptions, HelpOption)
 	vector<string> optionsIn;
 	optionsIn.push_back("--help");
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for help option display
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_SUCCESS),
@@ -591,7 +591,7 @@ TEST(ProcessOptions, HelpOption_Short1)
 	vector<string> optionsIn;
 	optionsIn.push_back("-h");
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for help option display
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_SUCCESS),
@@ -609,7 +609,7 @@ TEST(ProcessOptions, HelpOption_Short2)
 	vector<string> optionsIn;
 	optionsIn.push_back("-?");
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for help option display
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_SUCCESS),
@@ -687,7 +687,7 @@ TEST(ProcessOptions, VersionOption)
 	vector<string> optionsIn;
 	optionsIn.push_back("--version");
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for version option display
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_SUCCESS),
@@ -705,7 +705,7 @@ TEST(ProcessOptions, VersionOption_Short)
 	vector<string> optionsIn;
 	optionsIn.push_back("-V");
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for version option display
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_SUCCESS),
@@ -1293,7 +1293,7 @@ TEST(RemovedOptions_V202, AllOptions)
 	optionsIn.push_back("-G");
 	optionsIn.push_back("--ascii");		// output in English
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid command line options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 				::testing::ExitedWithCode(EXIT_FAILURE),

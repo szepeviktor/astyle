@@ -11,9 +11,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\AStyleTest_LeakFinder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

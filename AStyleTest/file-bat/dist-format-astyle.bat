@@ -1,7 +1,7 @@
 @REM formats the astyle source code
 @echo off
 
-set PATH=PATH;"C:\Program Files (x86)\AStyle
+set PATH=PATH;"C:\Program Files\AStyle
 set prog=AStyle
 
 REM  t - indent=tab
@@ -12,6 +12,7 @@ REM k1 - align-pointer=type
 REM W3 - align-reference=name
 REM M50- max-instatement-indent=50
 REM  v - verbose
+REM  p - pad-oper
 REM  Q - formatted
 REM z1 - windows lineends
 
@@ -24,7 +25,7 @@ set optionsh= -A3tHCOk1W3  -M50  -Qz1  --options=none
 
 echo Formatting AStyle
 echo source %options%  
-echo headers%optionsh%
+echo headers %optionsh%
 echo -
 
 %prog%  %options%  ..\..\AStyle\src\*.cpp

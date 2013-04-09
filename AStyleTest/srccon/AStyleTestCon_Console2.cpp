@@ -178,7 +178,7 @@ TEST_F(GetFilePathsF, FilePathsError)
 	string regex = "No file to process " + astyleOptionsVector.back() +
 				   "\nDid you intend to use --recursive?";
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -208,7 +208,7 @@ TEST_F(GetFilePathsF, FilePathsErrorRecursive)
 	}
 	string regex = "No file to process " + astyleOptionsVector.back();
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -236,7 +236,7 @@ TEST_F(GetFilePathsF, FilePathsErrorSansFilename)
 	}
 	string regex = "Missing filename in " + astyleOptionsVector.back();
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -268,7 +268,7 @@ TEST_F(GetFilePathsF, FilePathsErrorRecursiveSansWildcard)
 	regex.append("Did you intend quote the filename?\n");
 #endif
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -299,7 +299,7 @@ TEST_F(GetFilePathsF, FilePathsErrorInDirectoryName)
 	string regex = "Cannot open directory " + astyleOptionsVector.back();
 	regex = regex.substr(0, regex.length() - 6);	// remove the wilscard
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -694,7 +694,7 @@ TEST_F(RecursiveF, ExcludeErrors)
 				   "Exclude .unmatched.  ubdir1a\n"
 				   "Did you intend to use --recursive";
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with unmatched excludes
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -720,7 +720,7 @@ TEST_F(RecursiveF, ExcludeErrorsRecursive)
 	string regex = "Exclude .unmatched.  ecursive1.cpp\n"
 				   "Exclude .unmatched.  ubdir1a";
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with unmatched excludes
 	EXPECT_EXIT(g_console->processFiles(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -1431,7 +1431,7 @@ TEST(Other, ErrorExit)
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// death test without error message
 	EXPECT_EXIT(g_console->error(),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -1446,7 +1446,7 @@ TEST(Other, ErrorExitWihMessage)
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// death test with error message
 	EXPECT_EXIT(g_console->error("why", "what"),
 				::testing::ExitedWithCode(EXIT_FAILURE),
@@ -1461,7 +1461,7 @@ TEST(Other, VerifyCinPeek)
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
 	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !LEAK_FINDER
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// set the position of the get pointer past the end of file.
 	cin.seekg (1, ios_base::end);
 	EXPECT_EXIT(g_console->verifyCinPeek(),

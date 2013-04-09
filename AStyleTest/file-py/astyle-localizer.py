@@ -1,6 +1,7 @@
 #! /usr/bin/python
-# Check astyle_main.cpp "settext" translations to the test variables in AStyleTestI18n_Localizer.cpp.
-# The test for the individual languages are done by AStyleTestI18n_Localizer.cpp.
+""" Check astyle_main.cpp "settext" translations to the test variables in AStyleTestI18n_Localizer.cpp.
+    The test for the individual languages are done by AStyleTestI18n_Localizer.cpp.
+"""
 
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
@@ -9,8 +10,8 @@ import libastyle		#local directory
 
 # global variables ------------------------------------------------------------
 
-print_detail = False				# print line numbers and total variables
-print_strings = False			# print the variables in the lists
+__print_detail = False				# print line numbers and total variables
+__print_variables = False		# print the variables in the lists
 
 # -----------------------------------------------------------------------------
 
@@ -22,22 +23,22 @@ def process_files():
 	astyle_path = libastyle.get_astyle_directory() + "/src/astyle_main.cpp"
 	test_path = libastyle.get_astyletest_directory() + "/srci18n/AStyleTestI18n_Localizer.cpp"
 	libastyle.set_text_color()
-	print (libastyle.get_python_version())
+	print(libastyle.get_python_version())
 	get_astyle_strings(astyle_strings, astyle_path)
 	get_test_strings(test_strings, test_path)
 
-	print ("Checking astyle_main strings to TranslationF.")
+	print("Checking astyle_main strings to TranslationF.")
 	total_astyle_strings = len(astyle_strings)
-	print ("There are {0} translated strings in astyle_main.".format(total_astyle_strings))
-	print ()
+	print("There are {0} translated strings in astyle_main.".format(total_astyle_strings))
+	print()
 
 	find_string_diffs(astyle_strings, test_strings)
 
-	if print_strings:
+	if __print_variables:
 		astyle_strings.sort()
 		test_strings.sort()
-		print (astyle_strings)
-		print (test_strings)
+		print(astyle_strings)
+		print(test_strings)
 
 # -----------------------------------------------------------------------------
 
@@ -51,20 +52,20 @@ def find_string_diffs(astyle_strings, test_strings):
 	if len(missing_test) > 0:
 		missing_test = list(missing_test)
 		missing_test.sort()
-		print (str(len(missing_test)) + " missing test strings", end=" ")
-		print (missing_test)
+		print(str(len(missing_test)) + " missing test strings", end=" ")
+		print(missing_test)
 
 	if len(missing_astyle) > 0:
 		missing_astyle = list(missing_astyle)
 		missing_astyle.sort()
-		print (str(len(missing_astyle)) + " test not in astyle  ", end=" ")
-		print (missing_astyle)
+		print(str(len(missing_astyle)) + " test not in astyle  ", end=" ")
+		print(missing_astyle)
 
-	diffs= len(missing_test) + len(missing_astyle)
+	diffs = len(missing_test) + len(missing_astyle)
 	if diffs == 0:
-		print ("There are NO diffs in the test strings!!!")
+		print("There are NO diffs in the test strings!!!")
 	else:
-		print ("There are {0} diffs in the test strings.".format(diffs))
+		print("There are {0} diffs in the test strings.".format(diffs))
 
 # -----------------------------------------------------------------------------
 
@@ -87,7 +88,7 @@ def get_astyle_strings(astyle_strings, astyle_path):
 		start = line.find('_("')
 		if start == -1:
 			continue
-		start += 3;
+		start += 3
 		end = line.find('")', start)
 		if end == -1:
 			continue
@@ -96,15 +97,15 @@ def get_astyle_strings(astyle_strings, astyle_path):
 		astyle_total += 1
 
 	file_in.close()
-	if print_detail:
-		print ("{0} astyle strings".format(astyle_total))
+	if __print_detail:
+		print("{0} astyle strings".format(astyle_total))
 
 # -----------------------------------------------------------------------------
 
 def get_test_strings(test_strings, test_path):
 	"""Read the AStyleTestI18n_Localizer.cpp file and save the test strings."""
 
-	test_lines = [0,0]		# line numbers for TranslationF constructor
+	test_lines = [0, 0]		# line numbers for TranslationF constructor
 	test_total = 0				# total variables for header
 	test_brackets = 0		#  unmatched brackets in the header
 	lines = 0						# current input line number
@@ -147,8 +148,8 @@ def get_test_strings(test_strings, test_path):
 		test_total += 1
 
 	file_in.close()
-	if print_detail:
-		print ("{0} {1} test strings".format(test_lines, test_total))
+	if __print_detail:
+		print("{0} {1} test strings".format(test_lines, test_total))
 
 # -----------------------------------------------------------------------------
 

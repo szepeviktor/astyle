@@ -69,7 +69,7 @@
 				AdditionalDependencies="AStyleConLibd.lib gtestd.lib"
 				OutputFile="$(OutDir)\$(ProjectName)d.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\debug"
+				AdditionalLibraryDirectories="$(OutDir)"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="&quot;$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb&quot;"
 				SubSystem="1"
@@ -148,7 +148,7 @@
 				AdditionalDependencies="AStyleConLibd.lib gtestd.lib"
 				OutputFile="$(OutDir)\$(ProjectName)d.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\$(PlatformName)\debug"
+				AdditionalLibraryDirectories="$(OutDir)"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(ProjectDir)$(PlatformName)\$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
@@ -226,7 +226,7 @@
 				AdditionalDependencies="AStyleConLib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\bin"
+				AdditionalLibraryDirectories="$(OutDir)"
 				GenerateDebugInformation="false"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -306,7 +306,7 @@
 				AdditionalDependencies="AStyleConLib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\$(PlatformName)\bin"
+				AdditionalLibraryDirectories="$(OutDir)"
 				GenerateDebugInformation="false"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -384,7 +384,7 @@
 				AdditionalDependencies="AStyleConLibd.lib LeakFinder_VC9.lib"
 				OutputFile="$(OutDir)\$(ProjectName)l.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\debug;&quot;..\..\..\..\LeakFinder\Debug_VC9&quot;"
+				AdditionalLibraryDirectories="$(OutDir);&quot;..\..\..\..\LeakFinder\Debug_VC9&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="&quot;$(ProjectDir)$(ConfigurationName)\$(TargetName).pdb&quot;"
 				SubSystem="1"
@@ -462,7 +462,7 @@
 				AdditionalDependencies="AStyleConLibd.lib LeakFinder_VC9.lib"
 				OutputFile="$(OutDir)\$(ProjectName)l.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\$(PlatformName)\debug&quot;;&quot;..\..\..\..\LeakFinder\$(PlatformName)\Debug_VC9&quot;"
+				AdditionalLibraryDirectories="$(OutDir);&quot;..\..\..\..\LeakFinder\$(PlatformName)\Debug_VC9&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="&quot;$(ProjectDir)$(PlatformName)\$(ConfigurationName)\$(TargetName).pdb&quot;"
 				SubSystem="1"
@@ -500,7 +500,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\src\AStyleTest_LeakFinder.cpp"
+				RelativePath="..\..\..\src\AStyleTest_LeakFinder_vs2008.cpp"
 				>
 			</File>
 			<File

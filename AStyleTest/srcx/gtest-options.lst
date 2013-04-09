@@ -1,5 +1,5 @@
 Added Options:
-	--terse-printer				prints failed tests only
+	--terse_printer				prints failed tests only
 
 Test Selection:
 	--gtest_filter				run only specific tests

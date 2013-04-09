@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0f509776-0419-456f-bacc-56430ef64926}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>..\..\..\file-py\astyle-resource.py</StartupFile>
+    <StartupFile>..\..\..\file-py\astyle-libsvn.py</StartupFile>
     <SearchPath>C:\Users\jimp\Projects\AStyleTest\file-py</SearchPath>
     <WorkingDirectory>
     </WorkingDirectory>

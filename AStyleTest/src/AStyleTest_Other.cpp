@@ -898,7 +898,7 @@ TEST(Quote, Sharp_Verbatim1)
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
-		"    string program = @\"using System;\n"
+		"    string program = @\"using System;\n"   // begin string
 		"class Test {\n"
 		"  void M(DerivedClass d) {\n"
 		"    \n"
@@ -910,7 +910,7 @@ TEST(Quote, Sharp_Verbatim1)
 		"class DerivedClass : BaseClass<string> {\n"
 		"			\n"
 		"}\n"
-		";\n"
+		"\";\n"                                     // end of string
 		"}\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -923,7 +923,7 @@ TEST(Quote, CSharp_Verbatim2)
 	// test C# verbatim quotes with """" and ""
 	// whitespace should not change
 	char text[] =
-		"\nconst string CodeEmptyResourceSetName = @\"using System.Resources;\n"
+		"\nstring Resource = @\"using System;\n"    // begin string
 		"class A {\n"
 		"    void B()\n"
 		"    {\n"
@@ -931,7 +931,7 @@ TEST(Quote, CSharp_Verbatim2)
 		"        mgr.GetString(\"\"TestKey\"\");\n"
 		"    }\n"
 		"}\n"
-		";\n";
+		"\";";                                      // end of string
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -1990,6 +1990,82 @@ TEST(Preprocessor, Detached_PragmaOpenMP)
 	delete [] textOut;
 }
 
+TEST(Preprocessor, LineStatement1)
+{
+	// If the #line statement is not recognized the LambdaExpression
+	// line will be incorrectly indented.
+	char text[] =
+		"\nvoid case_544()\n"
+		"#line 3902 \"cs-parser.jay\"\n"
+		"{\n"
+		"    if (!async_block) {\n"
+		"        if (current_anonymous_method is\n"
+		"                LambdaExpression) {\n"
+		"            report.Error (4034);\n"
+		"        }\n"
+		"    }\n"
+		"}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, LineStatement2)
+{
+	// The #line statement should be trimmed of extra spaces at the end.
+	char textIn[] =
+		"\nvoid case_544()\n"
+		"#line 3902 \"cs-parser.jay\"  \n"	// line has ending spaces
+		"{\n"
+		"    if (current_anonymous_method is LambdaExpression) {\n"
+		"        report.Error (4034);\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid case_544()\n"
+		"#line 3902 \"cs-parser.jay\"\n"	// line has no ending spaces
+		"{\n"
+		"    if (current_anonymous_method is LambdaExpression) {\n"
+		"        report.Error (4034);\n"
+		"    }\n"
+		"}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, LineStatement3)
+{
+	// The #line statement with break-blocks should not add extra empty lines.
+	char textIn[] =
+		"\nvoid case_544()\n"
+		"{\n"
+		"    if ( la.kind == 11 ) {\n"
+		"        lexer.NextToken();\n"
+		"    }\n"
+		"#line  402 \"cs.ATG\"\n"
+		"    newType.EndLocation = t.EndLocation;\n"
+		"    BlockEnd();\n"
+		"}";
+	char text[] =
+		"\nvoid case_544()\n"
+		"{\n"
+		"    if ( la.kind == 11 ) {\n"
+		"        lexer.NextToken();\n"
+		"    }\n"
+		"\n"
+		"#line  402 \"cs.ATG\"\n"
+		"    newType.EndLocation = t.EndLocation;\n"
+		"    BlockEnd();\n"
+		"}";
+	char options[] = "break-blocks, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(Preprocessor, ArrayType)
 {
 	// EXPECT_TRUE indentation
@@ -2721,7 +2797,6 @@ TEST(Comment, BracketsRunIn_NamespaceClassIndent_RunIn)
 	delete [] textOut;
 }
 
-
 TEST(Comment, Namespace_Misc1)
 {
 	// comments should indent with namespaces
@@ -3377,7 +3452,6 @@ TEST(Continuation, BracketsRunIn_RunIn)
 	delete [] textOut;
 }
 
-
 TEST(Continuation, InlineTab1)
 {
 	// continuation lines
@@ -3969,7 +4043,6 @@ TEST(AlignmentOperator, CoutBeginLine)
 	delete [] textOut;
 }
 
-
 TEST(AlignmentOperator, Cout2)
 {
 	// Alignment of the operator<<
@@ -4364,6 +4437,24 @@ TEST(Assembler, MS2)
 	delete [] textOut;
 }
 
+TEST(Assembler, NoParensOrSemiColons)
+{
+	// assembler
+	char text[] =
+		"\nvoid FOO()\n"
+		"{\n"
+		"    __asm__ {\n"
+		"        emit 0Fh    // Store low  32-bits of counter in EAX.\n"
+		"        emit 31h    // Store high 32-bits of counter in EDX.\n"
+		"        ret\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle Multiple Varables separated by commas
 //----------------------------------------------------------------------------
@@ -4441,7 +4532,6 @@ TEST(MultipleVariableAssignments, Sans)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-
 
 TEST(MultipleVariable, Standard)
 {

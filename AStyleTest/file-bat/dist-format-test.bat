@@ -1,7 +1,7 @@
 @REM formats the astyletest source code in the test directory
 @echo off
 
-set PATH=PATH;"C:\Program Files (x86)\AStyle
+set PATH=PATH;"C:\Program Files\AStyle
 set prog=AStyle
 
 REM  T - indent=force-tabs

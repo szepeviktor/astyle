@@ -3,7 +3,7 @@
 REM build SharpDevelop using the releasebuild.bat file
 
 REM set directory
-set testdata=..\..\TestData
+set testdata=..\..\TestDataSys
 
 cd   "%testdata%\SharpDevelop"
 

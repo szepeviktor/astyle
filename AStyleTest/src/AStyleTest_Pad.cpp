@@ -423,6 +423,62 @@ TEST(BreakBlocks, WithSwitch4)
 	delete [] textOut;
 }
 
+TEST(BreakBlocks, WithKeepOneLineStmts)
+{
+	// Break blocks with keep-one-line-statements.
+	// See the following test for this condition without keep-one-line-statements.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar(); if (isBar1) anotherBar1(); else if (isBar2) anotherBar2();\n"
+		"    if (isBar1) anotherBar1(); else if (isBar2) anotherBar2();\n"
+		"    bar3();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar(); if (isBar1) anotherBar1(); else if (isBar2) anotherBar2();\n"
+		"\n"
+		"    if (isBar1) anotherBar1(); else if (isBar2) anotherBar2();\n"
+		"\n"
+		"    bar3();\n"
+		"}\n";
+	char options[] = "break-blocks, keep-one-line-statements";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakBlocks, WithKeepOneLineStmtsSans)
+{
+	// Break blocks without keep-one-line-statements.
+	// See the previous test for this condition with keep-one-line-statements.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar(); if (isBar1) anotherBar1(); else if (isBar2) anotherBar2();\n"
+		"    if (isBar1) anotherBar1(); else if (isBar2) anotherBar2();\n"
+		"    bar3();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"\n"
+		"    if (isBar1) anotherBar1();\n"
+		"    else if (isBar2) anotherBar2();\n"
+		"\n"
+		"    if (isBar1) anotherBar1();\n"
+		"    else if (isBar2) anotherBar2();\n"
+		"\n"
+		"    bar3();\n"
+		"}\n";
+	char options[] = "break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BreakBlocks, WithPreprocessor)
 {
 	// do NOT break blocks at a preprocessor directive
@@ -825,6 +881,23 @@ TEST(BreakBlocks, Sans3)
 	delete [] textOut;
 }
 
+TEST(BreakBlocks, Sans4)
+{
+	// Don't break blocks if "get" and "set" are not headers.
+	char text[] =
+		"\npublic void Foo()\n"
+		"{\n"
+		"    CheckReservedNameConflict(GetMethod.Prefix,\n"
+		"                              get == null ? null : get.Spec);\n"
+		"    CheckReservedNameConflict(SetMethod.Prefix,\n"
+		"                              set == null ? null : set.Spec);\n"
+		"}";
+	char options[] = "break-blocks, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Break All Blocks
 //-------------------------------------------------------------------------
@@ -1008,6 +1081,64 @@ TEST(BreakAllBlocks, WithDoWhile)
 		"    while (false);\n"
 		"\n"
 		"    bar2();\n"
+		"}\n";
+	char options[] = "break-blocks=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakAllBlocks, WithKeepOneLineStmts)
+{
+	// Break all blocks with keep-one-line-statements.
+	// See the following test for this condition without keep-one-line-statements.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar(); if (isBar1) anotherBar1(); else if (isBar2) anotherBar2();\n"
+		"    if (isBar1) anotherBar1(); else if (isBar2) anotherBar2();\n"
+		"    bar3();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar(); if (isBar1) anotherBar1(); else if (isBar2) anotherBar2();\n"
+		"\n"
+		"    if (isBar1) anotherBar1(); else if (isBar2) anotherBar2();\n"
+		"\n"
+		"    bar3();\n"
+		"}\n";
+	char options[] = "break-blocks=all, keep-one-line-statements";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakAllBlocks, WithKeepOneLineStmtsSans)
+{
+	// Break all blocks without keep-one-line-statements.
+	// See the previous test for this condition with keep-one-line-statements.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar(); if (isBar1) anotherBar1(); else if (isBar2) anotherBar2();\n"
+		"    if (isBar1) anotherBar1(); else if (isBar2) anotherBar2();\n"
+		"    bar3();\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"\n"
+		"    if (isBar1) anotherBar1();\n"
+		"\n"
+		"    else if (isBar2) anotherBar2();\n"
+		"\n"
+		"    if (isBar1) anotherBar1();\n"
+		"\n"
+		"    else if (isBar2) anotherBar2();\n"
+		"\n"
+		"    bar3();\n"
 		"}\n";
 	char options[] = "break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1358,7 +1489,7 @@ TEST(PadOperator, LongOption)
 		"    a<?b;\n"
 		"    a>?b;\n"
 		"    a->b;\n"      // should not pad
-		"    a&&b;\n"
+		"    x=a&&b;\n"
 		"    a||b;\n"
 		"    a::b;\n"      // should not pad
 		"    a+b;\n"
@@ -1406,7 +1537,7 @@ TEST(PadOperator, LongOption)
 		"    a <? b;\n"
 		"    a >? b;\n"
 		"    a->b;\n"        // should not pad
-		"    a && b;\n"
+		"    x = a && b;\n"
 		"    a || b;\n"
 		"    a::b;\n"        // should not pad
 		"    a + b;\n"
@@ -1939,6 +2070,7 @@ TEST(PadOperator, Sans12)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
 TEST(PadOperator, CommaSemiColon)
 {
 	// semi-colons should ALWAYS be padded
@@ -2062,6 +2194,7 @@ TEST(PadOperator, ReferenceToPointer)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
 TEST(PadOperator, AlternateConditionals)
 {
 	// test padding of alternate conditionals 'and' and 'or'
@@ -2280,6 +2413,43 @@ TEST(PadOperator, StructSans)
 	delete [] textOut;
 }
 
+TEST(PadOperator, SansTemplate1)
+{
+	// do not mistake the following operators for a template (negative paren count)
+	char textIn[] =
+		"void Foo()\n"
+		"{\n"
+		"    while (len--)\n"
+		"        crc = ((crc<<8) & 0xFF00) ^ ((crc>>8) & 0xFF);\n"
+		"}";
+	char text[] =
+		"void Foo()\n"
+		"{\n"
+		"    while (len--)\n"
+		"        crc = ((crc << 8) & 0xFF00) ^ ((crc >> 8) & 0xFF);\n"
+		"}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, SansTemplate2)
+{
+	// do not mistake the following operators for a template
+	// the end of line comment should not have a space removed
+	char text[] =
+		"void ShrinkIfNeeded()\n"
+		"{\n"
+		"    if(_values.size() <= _values.capacity() >> 2)  // shrink the array\n"
+		"        _values.shrinktofit();\n"
+		"}";
+	char options[] = "pad-oper, close-templates";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Pad Paren
 //-------------------------------------------------------------------------
@@ -2341,6 +2511,48 @@ TEST(PadParen, Comments)
 		"{\n"
 		"    if ( isFoo ( a, b ) ) // comment must move\n"
 		"        bar ( a, b );     // comment ok\n"
+		"}\n";
+	char options[] = "pad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadParen, IncrementOperator)
+{
+	// The increment operator following a parem should not be padded.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"  if (current >= Vector.size())\n"
+		"      parenStack->back()++;\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if ( current >= Vector.size() )\n"
+		"        parenStack->back()++;\n"
+		"}\n";
+	char options[] = "pad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadParen, DecrementOperator)
+{
+	// The decrement operator following a parem should not be padded.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"  if (current >= Vector.size())\n"
+		"      parenStack->back()--;\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if ( current >= Vector.size() )\n"
+		"        parenStack->back()--;\n"
 		"}\n";
 	char options[] = "pad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -2803,6 +3015,7 @@ TEST(PadHeader, Sans)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
 TEST(PadHeader, UnpadParen)
 {
 	// test pad header with unpad paren
@@ -4284,9 +4497,9 @@ TEST(FillEmptyLines, SQL)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Align Pointer
-// default Align Pointer value REF_SAME_AS_PTR is tested here
+// AStyle Align Pointer None
 //-------------------------------------------------------------------------
+
 TEST(AlignPointerNone, LongOption)
 {
 	// pointers and references should not be changed
@@ -4388,6 +4601,21 @@ TEST(AlignPointerNone, Dereference2)
 		"    **pp = 0;\n"
 		"}";
 	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, Dereference3)
+{
+	// a dereference following a cast should not be space padded
+	char text[] =
+		"\nvoid Foo();\n"
+		"{\n"
+		"    wxImageHandler *handler = (wxImageHandler *)\n"
+		"                              *node;\n"
+		"}";
+	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -4505,7 +4733,7 @@ TEST(AlignPointerNone, Paren)
 
 TEST(AlignPointerNone, PointerToPointer1)
 {
-	// test double pointer
+	// test pointer to pointer
 	char text[] =
 		"\nint main(int argc, char **argv)\n"
 		"{\n"
@@ -4524,7 +4752,7 @@ TEST(AlignPointerNone, PointerToPointer1)
 
 TEST(AlignPointerNone, PointerToPointer2)
 {
-	// test double pointer beginning a line
+	// test pointer to pointer beginning a line
 	char text[] =
 		"\nvoid SQNativeClosure::Mark ( SQCollectable\n"
 		"                             ** chain )\n"
@@ -4532,6 +4760,35 @@ TEST(AlignPointerNone, PointerToPointer2)
 		"}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, PointerToPointer3)
+{
+	// test pointer to pointer with space separation
+	char textIn[] =
+		"\nint main(int argc, char * *argv)\n"
+		"{\n"
+		"    char    * *bar1;\n"
+		"    char  * *  bar1;\n"
+		"    char * *    bar1;\n"
+		"    char	*	*	bar1;\n"
+		"    char		*	*		bar1;\n"
+		"    char* *bar1;\n"
+		"}\n";
+	char text[] =
+		"\nint main(int argc, char **argv)\n"
+		"{\n"
+		"    char    **bar1;\n"
+		"    char  **  bar1;\n"
+		"    char **    bar1;\n"
+		"    char	**	bar1;\n"
+		"    char		**		bar1;\n"
+		"    char**bar1;\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -4590,13 +4847,118 @@ TEST(AlignPointerNone, EndOfLine2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone, Comment)
+TEST(AlignPointerNone, EndOfLine3)
+{
+	// test reference at end of line
+	char text[] =
+		"\nwxPdfColour&\n"
+		"wxPdfColour::operator= ( const wxPdfColour&\n"
+		"                         colour )\n"
+		"{}";
+	char options[] = "pad-paren";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, BeginLine1)
+{
+	// a pointer begins the line
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    const wxChar\n"
+		"    **Names1;\n"
+		"    const wxChar\n"
+		"    ** Names2;\n"
+		"    const wxChar\n"
+		"    **   Names3;\n"
+		"\n"
+		"    const wxChar\n"
+		"    *Names4;\n"
+		"    const wxChar\n"
+		"    * Names5;\n"
+		"    const wxChar\n"
+		"    *   Names6;\n"
+		"\n"
+		"    const wxChar\n"
+		"    &   Names7;\n"
+		"    const wxChar\n"
+		"    ^   Names8;\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, BeginLine2)
+{
+	// a pointer begins the line and is followed by a comment
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    const wxChar\n"
+		"    **Names1;      //!< An array of names\n"
+		"    const wxChar\n"
+		"    ** Names2;     //!< An array of names\n"
+		"    const wxChar\n"
+		"    **   Names3;   //!< An array of names\n"
+		"\n"
+		"    const wxChar\n"
+		"    *Names4;       //!< An array of names\n"
+		"    const wxChar\n"
+		"    * Names5;      //!< An array of names\n"
+		"    const wxChar\n"
+		"    *   Names6;    //!< An array of names\n"
+		"\n"
+		"    const wxChar\n"
+		"    &   Names7;    //!< An array of names\n"
+		"    const wxChar\n"
+		"    ^   Names8;    //!< An array of names\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, Comment1)
 {
 	// test pointer with comment after
 	char text[] =
 		"\nvoid Foo(WordList*/*keyword*/,\n"
 		"         WordList**/*keyword*/) {\n"
 		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, Comment2)
+{
+	// test pointer with comment after and a default variable
+	char text[] =
+		"\nvoid BuildModuleMenu(const ModuleType /*type*/,\n"
+		"                     wxMenu* /*menu*/,\n"
+		"                     const FileTreeData* /*data*/ = 0)\n"
+		"{}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, BeforeEqual)
+{
+	// don't convert '& =' to '&='
+	char text[] =
+		"\nvoid SetMasks1(const wxString& = _(\",\"));\n"
+		"void SetMasks1(const wxString & = _(\",\"));\n"
+		"void SetMasks1(const wxString  &  = _(\",\"));\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -4644,7 +5006,7 @@ TEST(AlignPointerNone, ConversionOperator)
 
 TEST(AlignPointerNone, ScopeResolution)
 {
-	// should not change scope resolution operator
+	// should not change a scope resolution operator
 	char text[] =
 		"\nstruct CV {\n"
 		"    VarType TClassType::*var;\n"
@@ -4676,6 +5038,23 @@ TEST(AlignPointerNone, PadParenOutside)
 	char* textOut = AStyleMain(textOut1, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut1;
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, PadParenEmpty)
+{
+	// an empty pad paren should not change align
+	char text[] =
+		"\nconst class nullptr_t\n"
+		"{\n"
+		"public:\n"
+		"    template<typename T> operator T *() const {\n"
+		"        return (T *) 0;\n"
+		"    }\n"
+		"};";
+	char options[] = "pad-paren-out";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -4734,6 +5113,33 @@ TEST(AlignPointerNone, CSharp)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
+TEST(AlignPointerNone, RvalueReference)
+{
+	// test on an rvalue reference.
+	char text[] =
+		"\nMemoryBlock&& f(MemoryBlock &&block)\n"
+		"{\n"
+		"    A&& a_ref2 = a;\n"
+		"    B &&a_ref4 = B();\n"
+		"    return block;\n"
+		"}\n"
+		"\n"
+		"template <typename T>\n"
+		"void print_type_and_value(T && t)\n"
+		"{\n"
+		"    S<T&&>::print(std::forward<T>(t));\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Align Pointer Type
+//-------------------------------------------------------------------------
+
 TEST(AlignPointerType, LongOption)
 {
 	// test align pointer=type
@@ -4935,6 +5341,21 @@ TEST(AlignPointerType, Dereference2)
 	delete [] textOut;
 }
 
+TEST(AlignPointerType, Dereference3)
+{
+	// a dereference following a cast should not be space padded
+	char text[] =
+		"\nvoid Foo();\n"
+		"{\n"
+		"    wxImageHandler* handler = (wxImageHandler*)\n"
+		"                              *node;\n"
+		"}";
+	char options[] = "align-pointer=type, pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerType, GlobalVariables)
 {
 	// test with global variables
@@ -5065,7 +5486,7 @@ TEST(AlignPointerType, Paren)
 
 TEST(AlignPointerType, PointerToPointer1)
 {
-	// test double pointer
+	// test pointer to pointer
 	char textIn[] =
 		"\nint main(int argc, char **argv)\n"
 		"{\n"
@@ -5094,7 +5515,7 @@ TEST(AlignPointerType, PointerToPointer1)
 
 TEST(AlignPointerType, PointerToPointer2)
 {
-	// test double pointer beginning a line
+	// test pointer to pointer beginning a line
 	char text[] =
 		"\nvoid SQNativeClosure::Mark ( SQCollectable\n"
 		"                             ** chain )\n"
@@ -5102,6 +5523,35 @@ TEST(AlignPointerType, PointerToPointer2)
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, PointerToPointer3)
+{
+	// test pointer to pointer with space separation
+	char textIn[] =
+		"\nint main(int argc, char * *argv)\n"
+		"{\n"
+		"    char    * *bar1;\n"
+		"    char  * *  bar1;\n"
+		"    char* *    bar1;\n"
+		"    char	*	*	bar1;\n"
+		"    char		*	*		bar1;\n"
+		"    char* *bar1;\n"
+		"}\n";
+	char text[] =
+		"\nint main(int argc, char** argv)\n"
+		"{\n"
+		"    char**    bar1;\n"
+		"    char**    bar1;\n"
+		"    char**    bar1;\n"
+		"    char**		bar1;\n"
+		"    char**				bar1;\n"
+		"    char** bar1;\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -5166,7 +5616,131 @@ TEST(AlignPointerType, EndOfLine2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerType, Comment)
+TEST(AlignPointerType, EndOfLine3)
+{
+	// test reference at end of line
+	char text[] =
+		"\nwxPdfColour&\n"
+		"wxPdfColour::operator= ( const wxPdfColour&\n"
+		"                         colour )\n"
+		"{}";
+	char options[] = "align-pointer=type, pad-paren";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, BeginLine1)
+{
+	// a pointer begins the line
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    const wxChar\n"
+		"    **Names1;\n"
+		"    const wxChar\n"
+		"    ** Names2;\n"
+		"    const wxChar\n"
+		"    **   Names3;\n"
+		"\n"
+		"    const wxChar\n"
+		"    *Names4;\n"
+		"    const wxChar\n"
+		"    * Names5;\n"
+		"    const wxChar\n"
+		"    *   Names6;\n"
+		"\n"
+		"    const wxChar\n"
+		"    &   Names7;\n"
+		"    const wxChar\n"
+		"    ^   Names8;\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    const wxChar\n"
+		"    ** Names1;\n"
+		"    const wxChar\n"
+		"    ** Names2;\n"
+		"    const wxChar\n"
+		"    **   Names3;\n"
+		"\n"
+		"    const wxChar\n"
+		"    * Names4;\n"
+		"    const wxChar\n"
+		"    * Names5;\n"
+		"    const wxChar\n"
+		"    *   Names6;\n"
+		"\n"
+		"    const wxChar\n"
+		"    &   Names7;\n"
+		"    const wxChar\n"
+		"    ^   Names8;\n"
+		"};";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, BeginLine2)
+{
+	// a pointer begins the line and is followed by a comment
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    const wxChar\n"
+		"    **Names1;      //!< An array of names\n"
+		"    const wxChar\n"
+		"    ** Names2;     //!< An array of names\n"
+		"    const wxChar\n"
+		"    **   Names3;   //!< An array of names\n"
+		"\n"
+		"    const wxChar\n"
+		"    *Names4;       //!< An array of names\n"
+		"    const wxChar\n"
+		"    * Names5;      //!< An array of names\n"
+		"    const wxChar\n"
+		"    *   Names6;    //!< An array of names\n"
+		"\n"
+		"    const wxChar\n"
+		"    &   Names7;    //!< An array of names\n"
+		"    const wxChar\n"
+		"    ^   Names8;    //!< An array of names\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    const wxChar\n"
+		"    ** Names1;     //!< An array of names\n"
+		"    const wxChar\n"
+		"    ** Names2;     //!< An array of names\n"
+		"    const wxChar\n"
+		"    **   Names3;   //!< An array of names\n"
+		"\n"
+		"    const wxChar\n"
+		"    * Names4;      //!< An array of names\n"
+		"    const wxChar\n"
+		"    * Names5;      //!< An array of names\n"
+		"    const wxChar\n"
+		"    *   Names6;    //!< An array of names\n"
+		"\n"
+		"    const wxChar\n"
+		"    &   Names7;    //!< An array of names\n"
+		"    const wxChar\n"
+		"    ^   Names8;    //!< An array of names\n"
+		"};";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, Comment1)
 {
 	// test pointer with comment after
 	char textIn[] =
@@ -5177,6 +5751,42 @@ TEST(AlignPointerType, Comment)
 		"\nvoid Foo(WordList* /*keyword*/,\n"
 		"         WordList** /*keyword*/) {\n"
 		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, Comment2)
+{
+	// test pointer with comment after and a default variable
+	char textIn[] =
+		"\nvoid BuildModuleMenu(const ModuleType /*type*/,\n"
+		"                     wxMenu * /*menu*/,\n"
+		"                     const FileTreeData * /*data*/ = 0)\n"
+		"{}";
+	char text[] =
+		"\nvoid BuildModuleMenu(const ModuleType /*type*/,\n"
+		"                     wxMenu* /*menu*/,\n"
+		"                     const FileTreeData* /*data*/ = 0)\n"
+		"{}";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, BeforeEqual)
+{
+	// don't convert '& =' to '&='
+	char textIn[] =
+		"\nvoid SetMasks1(const wxString& = _(\",\"));\n"
+		"void SetMasks1(const wxString & = _(\",\"));\n"
+		"void SetMasks1(const wxString  &  = _(\",\"));\n";
+	char text[] =
+		"\nvoid SetMasks1(const wxString& = _(\",\"));\n"
+		"void SetMasks1(const wxString& = _(\",\"));\n"
+		"void SetMasks1(const wxString&    = _(\",\"));\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -5245,7 +5855,7 @@ TEST(AlignPointerType, ConversionOperator)
 
 TEST(AlignPointerType, ScopeResolution)
 {
-	// should pad scope resolution operator
+	// should not pad a scope resolution operator
 	char textIn[] =
 		"\nstruct CV {\n"
 		"    VarType TClassType::*var;\n"
@@ -5293,6 +5903,31 @@ TEST(AlignPointerType, PadParenOutside)
 	char* textOut = AStyleMain(textOut1, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut1;
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, PadParenEmpty)
+{
+	// an empty pad paren should align on the type
+	char textIn[] =
+		"\nconst class nullptr_t\n"
+		"{\n"
+		"public:\n"
+		"    template<typename T> operator T *() const {\n"
+		"        return (T *) 0;\n"
+		"    }\n"
+		"};";
+	char text[] =
+		"\nconst class nullptr_t\n"
+		"{\n"
+		"public:\n"
+		"    template<typename T> operator T* () const {\n"
+		"        return (T*) 0;\n"
+		"    }\n"
+		"};";
+	char options[] = "align-pointer=type, pad-paren-out";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -5384,7 +6019,7 @@ TEST(AlignPointerType, PostTemplate2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerType, AndOperator)
+TEST(AlignPointerType, AndOperator1)
 {
 	// should not unpad && operator
 	char text[] =
@@ -5404,6 +6039,20 @@ TEST(AlignPointerType, AndOperator)
 	delete [] textOut;
 }
 
+TEST(AlignPointerType, AndOperator2)
+{
+	// should not unpad && operator
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    ac >= 0 && ac < buflen - 1 ? next = buf.GetChar;\n"
+		"}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerType, Sans1)
 {
 	// these are not pointers
@@ -5412,7 +6061,7 @@ TEST(AlignPointerType, Sans1)
 		"{\n"
 		"    a *= b;\n"
 		"    a &= b;\n"
-		"    a && b;\n"
+		"    x = a && b;\n"
 		"    x = a * b;\n"
 		"    x = a & b;\n"
 		"    bar[boo*foo-1] = 2;\n"
@@ -5431,7 +6080,7 @@ TEST(AlignPointerType, Sans2)
 		"{\n"
 		"    a*=b;\n"
 		"    a&=b;\n"
-		"    a&&b;\n"
+		"    x=a&&b;\n"
 		"    x=a*b;\n"
 		"    x=a&b;\n"
 		"    if (len*tab>longest) bar();\n"
@@ -5448,7 +6097,7 @@ TEST(AlignPointerType, Sans2)
 		"{\n"
 		"    a *= b;\n"
 		"    a &= b;\n"
-		"    a && b;\n"
+		"    x = a && b;\n"
 		"    x = a * b;\n"
 		"    x = a & b;\n"
 		"    if (len * tab > longest) bar();\n"
@@ -5462,6 +6111,19 @@ TEST(AlignPointerType, Sans2)
 		"}\n";
 	char options[] = "align-pointer=type, pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, Sans3)
+{
+	// data on the next line is not a pointer
+	char text[] =
+		"\nDuration duration = new Duration(\n"
+		"    new TimeSpan(TimeSpan.TicksPerMillisecond *\n"
+		"                 100));";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -5535,6 +6197,45 @@ TEST(AlignPointerType, CSharp)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
+TEST(AlignPointerType, RvalueReference)
+{
+	// test align-pointer=type on an rvalue reference.
+	char textIn[] =
+		"\nMemoryBlock &&f(MemoryBlock &&block)\n"
+		"{\n"
+		"    A && a_ref2 = a;\n"
+		"    B &&a_ref4 = B();\n"
+		"    return block;\n"
+		"}\n"
+		"\n"
+		"template <typename T>\n"
+		"void print_type_and_value(T && t)\n"
+		"{\n"
+		"    S<T&&>::print(std::forward<T>(t));\n"
+		"}";
+	char text[] =
+		"\nMemoryBlock&& f(MemoryBlock&& block)\n"
+		"{\n"
+		"    A&&  a_ref2 = a;\n"
+		"    B&& a_ref4 = B();\n"
+		"    return block;\n"
+		"}\n"
+		"\n"
+		"template <typename T>\n"
+		"void print_type_and_value(T&&  t)\n"
+		"{\n"
+		"    S<T&&>::print(std::forward<T>(t));\n"
+		"}";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Align Pointer Middle
+//-------------------------------------------------------------------------
 
 TEST(AlignPointerMiddle, LongOption)
 {
@@ -5685,6 +6386,21 @@ TEST(AlignPointerMiddle, Dereference2)
 	delete [] textOut;
 }
 
+TEST(AlignPointerMiddle, Dereference3)
+{
+	// a dereference following a cast should not be space padded
+	char text[] =
+		"\nvoid Foo();\n"
+		"{\n"
+		"    wxImageHandler * handler = (wxImageHandler *)\n"
+		"                               *node;\n"
+		"}";
+	char options[] = "align-pointer=middle, pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerMiddle, GlobalVariables)
 {
 	// test with global variables
@@ -5815,14 +6531,14 @@ TEST(AlignPointerMiddle, Paren)
 
 TEST(AlignPointerMiddle, PointerToPointer1)
 {
-	// test double pointer
+	// test pointer to pointer pointer
 	char textIn[] =
 		"\nint main(int argc, char **argv)\n"
 		"{\n"
 		"    char    **bar1;\n"
 		"    char  **  bar1;\n"
 		"    char**    bar1;\n"
-		"    char	**	bar1;\n"
+		"    char	*	*	bar1;\n"
 		"    char		**		bar1;\n"
 		"    char**bar1;\n"
 		"}\n";
@@ -5844,7 +6560,7 @@ TEST(AlignPointerMiddle, PointerToPointer1)
 
 TEST(AlignPointerMiddle, PointerToPointer2)
 {
-	// test double pointer beginning a line
+	// test pointer pointer beginning a line
 	char text[] =
 		"\nvoid SQNativeClosure::Mark ( SQCollectable\n"
 		"                             ** chain )\n"
@@ -5852,6 +6568,35 @@ TEST(AlignPointerMiddle, PointerToPointer2)
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, PointerToPointer3)
+{
+	// test pointer to pointer pointer with space separation
+	char textIn[] =
+		"\nint main(int argc, char **argv)\n"
+		"{\n"
+		"    char    * *bar1;\n"
+		"    char  * *  bar1;\n"
+		"    char* *    bar1;\n"
+		"    char	*	*	bar1;\n"
+		"    char		*	*		bar1;\n"
+		"    char* *bar1;\n"
+		"}\n";
+	char text[] =
+		"\nint main(int argc, char ** argv)\n"
+		"{\n"
+		"    char  **  bar1;\n"
+		"    char  **  bar1;\n"
+		"    char  **  bar1;\n"
+		"    char	**	bar1;\n"
+		"    char		**		bar1;\n"
+		"    char ** bar1;\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -5916,7 +6661,165 @@ TEST(AlignPointerMiddle, EndOfLine2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle, Comment)
+TEST(AlignPointerMiddle, EndOfLine3)
+{
+	// test reference at end of line
+	char text[] =
+		"\nwxPdfColour &\n"
+		"wxPdfColour::operator= ( const wxPdfColour &\n"
+		"                         colour )\n"
+		"{}";
+	char options[] = "align-pointer=middle, pad-paren";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, EndOfLine4)
+{
+	// test pointer at end of line with extra spacing
+	// the extra spacing should not change or it will cause formatting on subsequent runs
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    char*\n"
+		"    foo1;\n"
+		"\n"
+		"    char *\n"
+		"    foo2;\n"
+		"\n"
+		"    char   *\n"
+		"    foo3;\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    char *\n"
+		"    foo1;\n"
+		"\n"
+		"    char *\n"
+		"    foo2;\n"
+		"\n"
+		"    char   *\n"
+		"    foo3;\n"
+		"};";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, BeginLine1)
+{
+	// a pointer begins the line
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    const wxChar\n"
+		"    **Names1;\n"
+		"    const wxChar\n"
+		"    ** Names2;\n"
+		"    const wxChar\n"
+		"    **   Names3;\n"
+		"\n"
+		"    const wxChar\n"
+		"    *Names4;\n"
+		"    const wxChar\n"
+		"    * Names5;\n"
+		"    const wxChar\n"
+		"    *   Names6;\n"
+		"\n"
+		"    const wxChar\n"
+		"    &   Names7;\n"
+		"    const wxChar\n"
+		"    ^   Names8;\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    const wxChar\n"
+		"    ** Names1;\n"
+		"    const wxChar\n"
+		"    ** Names2;\n"
+		"    const wxChar\n"
+		"    **   Names3;\n"
+		"\n"
+		"    const wxChar\n"
+		"    * Names4;\n"
+		"    const wxChar\n"
+		"    * Names5;\n"
+		"    const wxChar\n"
+		"    *   Names6;\n"
+		"\n"
+		"    const wxChar\n"
+		"    &   Names7;\n"
+		"    const wxChar\n"
+		"    ^   Names8;\n"
+		"};";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, BeginLine2)
+{
+	// a pointer begins the line and is followed by a comment
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    const wxChar\n"
+		"    **Names1;      //!< An array of names\n"
+		"    const wxChar\n"
+		"    ** Names2;     //!< An array of names\n"
+		"    const wxChar\n"
+		"    **   Names3;   //!< An array of names\n"
+		"\n"
+		"    const wxChar\n"
+		"    *Names4;       //!< An array of names\n"
+		"    const wxChar\n"
+		"    * Names5;      //!< An array of names\n"
+		"    const wxChar\n"
+		"    *   Names6;    //!< An array of names\n"
+		"\n"
+		"    const wxChar\n"
+		"    &   Names7;    //!< An array of names\n"
+		"    const wxChar\n"
+		"    ^   Names8;    //!< An array of names\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    const wxChar\n"
+		"    ** Names1;     //!< An array of names\n"
+		"    const wxChar\n"
+		"    ** Names2;     //!< An array of names\n"
+		"    const wxChar\n"
+		"    **   Names3;   //!< An array of names\n"
+		"\n"
+		"    const wxChar\n"
+		"    * Names4;      //!< An array of names\n"
+		"    const wxChar\n"
+		"    * Names5;      //!< An array of names\n"
+		"    const wxChar\n"
+		"    *   Names6;    //!< An array of names\n"
+		"\n"
+		"    const wxChar\n"
+		"    &   Names7;    //!< An array of names\n"
+		"    const wxChar\n"
+		"    ^   Names8;    //!< An array of names\n"
+		"};";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, Comment1)
 {
 	// test pointer with comment after
 	char textIn[] =
@@ -5927,6 +6830,42 @@ TEST(AlignPointerMiddle, Comment)
 		"\nvoid Foo(WordList * /*keyword*/,\n"
 		"         WordList ** /*keyword*/) {\n"
 		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, Comment2)
+{
+	// test pointer with comment after and a default variable
+	char textIn[] =
+		"\nvoid BuildModuleMenu(const ModuleType /*type*/,\n"
+		"                     wxMenu* /*menu*/,\n"
+		"                     const FileTreeData* /*data*/ = 0)\n"
+		"{}";
+	char text[] =
+		"\nvoid BuildModuleMenu(const ModuleType /*type*/,\n"
+		"                     wxMenu * /*menu*/,\n"
+		"                     const FileTreeData * /*data*/ = 0)\n"
+		"{}";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, BeforeEqual)
+{
+	// don't convert '& =' to '&='
+	char textIn[] =
+		"\nvoid SetMasks1(const wxString& = _(\",\"));\n"
+		"void SetMasks1(const wxString & = _(\",\"));\n"
+		"void SetMasks1(const wxString  &  = _(\",\"));\n";
+	char text[] =
+		"\nvoid SetMasks1(const wxString & = _(\",\"));\n"
+		"void SetMasks1(const wxString & = _(\",\"));\n"
+		"void SetMasks1(const wxString  &  = _(\",\"));\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -5993,9 +6932,9 @@ TEST(AlignPointerMiddle, ConversionOperator)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle, ScopeResolution)
+TEST(AlignPointerMiddle, ScopeResolution1)
 {
-	// should pad scope resolution operator
+	// should not pad a scope resolution operator
 	char textIn[] =
 		"\nstruct CV {\n"
 		"    VarType TClassType::*var;\n"
@@ -6012,6 +6951,24 @@ TEST(AlignPointerMiddle, ScopeResolution)
 		"} cv;\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, ScopeResolution2)
+{
+	// should not pad a scope resolution operator
+	char text[] =
+		"\nclass Foo\n"
+		"{\n"
+		"public:\n"
+		"    template<typename C, typename T> operator T C::*\n"
+		"    () const {\n"
+		"        return (T C::*)0;\n"
+		"    }\n"
+		"};";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -6043,6 +7000,31 @@ TEST(AlignPointerMiddle, PadParenOutside)
 	char* textOut = AStyleMain(textOut1, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut1;
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, PadParenEmpty)
+{
+	// an empty pad paren should align in the middle
+	char textIn[] =
+		"\nconst class nullptr_t\n"
+		"{\n"
+		"public:\n"
+		"    template<typename T> operator T* () const {\n"
+		"        return (T*) 0;\n"
+		"    }\n"
+		"};";
+	char text[] =
+		"\nconst class nullptr_t\n"
+		"{\n"
+		"public:\n"
+		"    template<typename T> operator T * () const {\n"
+		"        return (T *) 0;\n"
+		"    }\n"
+		"};";
+	char options[] = "align-pointer=middle, pad-paren-out";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -6090,7 +7072,6 @@ TEST(AlignPointerMiddle, Catch)
 	delete [] textOut;
 }
 
-
 TEST(AlignPointerMiddle, PostTemplate1)
 {
 	// post template is a pointer or reference, not an operator
@@ -6135,7 +7116,7 @@ TEST(AlignPointerMiddle, PostTemplate2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle, AndOperator)
+TEST(AlignPointerMiddle, AndOperator1)
 {
 	// should not unpad && operator
 	char text[] =
@@ -6155,6 +7136,20 @@ TEST(AlignPointerMiddle, AndOperator)
 	delete [] textOut;
 }
 
+TEST(AlignPointerMiddle, AndOperator2)
+{
+	// should not unpad && operator
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    ac >= 0 && ac < buflen - 1 ? next = buf.GetChar;\n"
+		"}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerMiddle, Sans1)
 {
 	// these are not pointers
@@ -6163,7 +7158,7 @@ TEST(AlignPointerMiddle, Sans1)
 		"{\n"
 		"    a *= b;\n"
 		"    a &= b;\n"
-		"    a && b;\n"
+		"    x = a && b;\n"
 		"    x = a * b;\n"
 		"    x = a & b;\n"
 		"    bar[boo*foo-1] = 2;\n"
@@ -6182,7 +7177,7 @@ TEST(AlignPointerMiddle, Sans2)
 		"{\n"
 		"    a*=b;\n"
 		"    a&=b;\n"
-		"    a&&b;\n"
+		"    x=a&&b;\n"
 		"    x=a*b;\n"
 		"    x=a&b;\n"
 		"    if (len*tab>longest) bar();\n"
@@ -6199,7 +7194,7 @@ TEST(AlignPointerMiddle, Sans2)
 		"{\n"
 		"    a *= b;\n"
 		"    a &= b;\n"
-		"    a && b;\n"
+		"    x = a && b;\n"
 		"    x = a * b;\n"
 		"    x = a & b;\n"
 		"    if (len * tab > longest) bar();\n"
@@ -6286,6 +7281,46 @@ TEST(AlignPointerMiddle, CSharp)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
+TEST(AlignPointerMiddle, RvalueReference)
+{
+	// test align-pointer=middle on an rvalue reference.
+	char textIn[] =
+		"\nMemoryBlock &&f(MemoryBlock&& block)\n"
+		"{\n"
+		"    A &&a_ref2 = a;\n"
+		"    B&& a_ref4 = B();\n"
+		"    return block;\n"
+		"}\n"
+		"\n"
+		"template <typename T>\n"
+		"void print_type_and_value(T&& t)\n"
+		"{\n"
+		"    S<T&&>::print(std::forward<T>(t));\n"
+		"}";
+	char text[] =
+		"\nMemoryBlock && f(MemoryBlock && block)\n"
+		"{\n"
+		"    A && a_ref2 = a;\n"
+		"    B && a_ref4 = B();\n"
+		"    return block;\n"
+		"}\n"
+		"\n"
+		"template <typename T>\n"
+		"void print_type_and_value(T && t)\n"
+		"{\n"
+		"    S<T&&>::print(std::forward<T>(t));\n"
+		"}";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Align Pointer Name
+//-------------------------------------------------------------------------
+
 TEST(AlignPointerName, LongOption)
 {
 	// test align pointer=name
@@ -6487,6 +7522,21 @@ TEST(AlignPointerName, Dereference2)
 	delete [] textOut;
 }
 
+TEST(AlignPointerName, Dereference3)
+{
+	// a dereference following a cast should not be space padded
+	char text[] =
+		"\nvoid Foo();\n"
+		"{\n"
+		"    wxImageHandler *handler = (wxImageHandler *)\n"
+		"                              *node;\n"
+		"}";
+	char options[] = "align-pointer=name, pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerName, GlobalVariables)
 {
 	// test with global variables
@@ -6617,7 +7667,7 @@ TEST(AlignPointerName, Paren)
 
 TEST(AlignPointerName, PointerToPointer1)
 {
-	// test double pointer
+	// test pointer to pointer
 	char textIn[] =
 		"\nint main(int argc, char** argv)\n"
 		"{\n"
@@ -6644,7 +7694,7 @@ TEST(AlignPointerName, PointerToPointer1)
 
 TEST(AlignPointerName, PointerToPointer2)
 {
-	// test double pointer beginning a line
+	// test pointer to pointer beginning a line
 	char text[] =
 		"\nvoid SQNativeClosure::Mark ( SQCollectable\n"
 		"                             **chain )\n"
@@ -6652,6 +7702,35 @@ TEST(AlignPointerName, PointerToPointer2)
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, PointerToPointer3)
+{
+	// test pointer to pointer with space separation
+	char textIn[] =
+		"\nint main(int argc, char** argv)\n"
+		"{\n"
+		"    char* *    bar1;\n"
+		"    char  * *  bar1;\n"
+		"    char    * *bar1;\n"
+		"    char	*	*	bar1;\n"
+		"    char		*	*		bar1;\n"
+		"    char* *bar1;\n"
+		"}\n";
+	char text[] =
+		"\nint main(int argc, char **argv)\n"
+		"{\n"
+		"    char    **bar1;\n"
+		"    char    **bar1;\n"
+		"    char    **bar1;\n"
+		"    char		**bar1;\n"
+		"    char				**bar1;\n"
+		"    char **bar1;\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -6716,7 +7795,131 @@ TEST(AlignPointerName, EndOfLine2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerName, Comment)
+TEST(AlignPointerName, EndOfLine3)
+{
+	// test reference at end of line
+	char text[] =
+		"\nwxPdfColour &\n"
+		"wxPdfColour::operator= ( const wxPdfColour &\n"
+		"                         colour )\n"
+		"{}";
+	char options[] = "align-pointer=name, pad-paren";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, BeginLine1)
+{
+	// a pointer begins the line
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    const wxChar\n"
+		"    **Names1;\n"
+		"    const wxChar\n"
+		"    ** Names2;\n"
+		"    const wxChar\n"
+		"    **   Names3;\n"
+		"\n"
+		"    const wxChar\n"
+		"    *Names4;\n"
+		"    const wxChar\n"
+		"    * Names5;\n"
+		"    const wxChar\n"
+		"    *   Names6;\n"
+		"\n"
+		"    const wxChar\n"
+		"    &   Names7;\n"
+		"    const wxChar\n"
+		"    ^   Names8;\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    const wxChar\n"
+		"    **Names1;\n"
+		"    const wxChar\n"
+		"    **Names2;\n"
+		"    const wxChar\n"
+		"    **Names3;\n"
+		"\n"
+		"    const wxChar\n"
+		"    *Names4;\n"
+		"    const wxChar\n"
+		"    *Names5;\n"
+		"    const wxChar\n"
+		"    *Names6;\n"
+		"\n"
+		"    const wxChar\n"
+		"    &Names7;\n"
+		"    const wxChar\n"
+		"    ^Names8;\n"
+		"};";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, BeginLine2)
+{
+	// a pointer begins the line and is followed by a comment
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    const wxChar\n"
+		"    **Names1;      //!< An array of names\n"
+		"    const wxChar\n"
+		"    ** Names2;     //!< An array of names\n"
+		"    const wxChar\n"
+		"    **   Names3;   //!< An array of names\n"
+		"\n"
+		"    const wxChar\n"
+		"    *Names4;       //!< An array of names\n"
+		"    const wxChar\n"
+		"    * Names5;      //!< An array of names\n"
+		"    const wxChar\n"
+		"    *   Names6;    //!< An array of names\n"
+		"\n"
+		"    const wxChar\n"
+		"    &   Names7;    //!< An array of names\n"
+		"    const wxChar\n"
+		"    ^   Names8;    //!< An array of names\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"public:\n"
+		"    const wxChar\n"
+		"    **Names1;      //!< An array of names\n"
+		"    const wxChar\n"
+		"    **Names2;      //!< An array of names\n"
+		"    const wxChar\n"
+		"    **Names3;      //!< An array of names\n"
+		"\n"
+		"    const wxChar\n"
+		"    *Names4;       //!< An array of names\n"
+		"    const wxChar\n"
+		"    *Names5;       //!< An array of names\n"
+		"    const wxChar\n"
+		"    *Names6;       //!< An array of names\n"
+		"\n"
+		"    const wxChar\n"
+		"    &Names7;       //!< An array of names\n"
+		"    const wxChar\n"
+		"    ^Names8;       //!< An array of names\n"
+		"};";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, Comment1)
 {
 	// test pointer with comment after
 	char textIn[] =
@@ -6727,6 +7930,42 @@ TEST(AlignPointerName, Comment)
 		"\nvoid Foo(WordList */*keyword*/,\n"
 		"         WordList **/*keyword*/) {\n"
 		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, Comment2)
+{
+	// test pointer with comment after and a default variable
+	char textIn[] =
+		"\nvoid BuildModuleMenu(const ModuleType /*type*/,\n"
+		"                     wxMenu* /*menu*/,\n"
+		"                     const FileTreeData * /*data*/ = 0)\n"
+		"{}";
+	char text[] =
+		"\nvoid BuildModuleMenu(const ModuleType /*type*/,\n"
+		"                     wxMenu * /*menu*/,\n"
+		"                     const FileTreeData * /*data*/ = 0)\n"
+		"{}";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, BeforeEqual)
+{
+	// don't convert '& =' to '&='
+	char textIn[] =
+		"\nvoid SetMasks1(const wxString& = _(\",\"));\n"
+		"void SetMasks1(const wxString & = _(\",\"));\n"
+		"void SetMasks1(const wxString  &  = _(\",\"));\n";
+	char text[] =
+		"\nvoid SetMasks1(const wxString & = _(\",\"));\n"
+		"void SetMasks1(const wxString & = _(\",\"));\n"
+		"void SetMasks1(const wxString   & = _(\",\"));\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -6793,9 +8032,9 @@ TEST(AlignPointerName, ConversionOperator)
 	delete [] textOut;
 }
 
-TEST(AlignPointerName, ScopeResolution)
+TEST(AlignPointerName, ScopeResolution1)
 {
-	// should not pad scope resolution operator
+	// should not pad a scope resolution operator
 	char textIn[] =
 		"\nstruct CV {\n"
 		"    VarType TClassType::*var;\n"
@@ -6812,6 +8051,24 @@ TEST(AlignPointerName, ScopeResolution)
 		"} cv;\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, ScopeResolution2)
+{
+	// should not pad a scope resolution operator
+	char text[] =
+		"\nclass Foo\n"
+		"{\n"
+		"public:\n"
+		"    template<typename C, typename T> operator T C::*\n"
+		"    () const {\n"
+		"        return (T C::*)0;\n"
+		"    }\n"
+		"};";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -6843,6 +8100,31 @@ TEST(AlignPointerName, PadParenOutside)
 	char* textOut = AStyleMain(textOut1, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut1;
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, PadParenEmpty)
+{
+	// an empty pad paren should not pad a pointer
+	char textIn[] =
+		"\nconst class nullptr_t\n"
+		"{\n"
+		"public:\n"
+		"    template<typename T> operator T* () const {\n"
+		"        return (T*) 0;\n"
+		"    }\n"
+		"};";
+	char text[] =
+		"\nconst class nullptr_t\n"
+		"{\n"
+		"public:\n"
+		"    template<typename T> operator T *() const {\n"
+		"        return (T *) 0;\n"
+		"    }\n"
+		"};";
+	char options[] = "align-pointer=name, pad-paren-out";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -6890,7 +8172,6 @@ TEST(AlignPointerName, Catch)
 	delete [] textOut;
 }
 
-
 TEST(AlignPointerName, PostTemplate1)
 {
 	// post template is a pointer or reference, not an operator
@@ -6935,7 +8216,7 @@ TEST(AlignPointerName, PostTemplate2)
 	delete [] textOut;
 }
 
-TEST(AlignPointerName, AndOperator)
+TEST(AlignPointerName, AndOperator1)
 {
 	// should not unpad && operator
 	char text[] =
@@ -6955,6 +8236,20 @@ TEST(AlignPointerName, AndOperator)
 	delete [] textOut;
 }
 
+TEST(AlignPointerName, AndOperator2)
+{
+	// should not unpad && operator
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    ac >= 0 && ac < buflen - 1 ? next = buf.GetChar;\n"
+		"}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerName, Sans1)
 {
 	// these are not pointers
@@ -6963,7 +8258,7 @@ TEST(AlignPointerName, Sans1)
 		"{\n"
 		"    a *= b;\n"
 		"    a &= b;\n"
-		"    a && b;\n"
+		"    x = a && b;\n"
 		"    x = a * b;\n"
 		"    x = a & b;\n"
 		"    bar[boo*foo-1] = 2;\n"
@@ -6982,7 +8277,7 @@ TEST(AlignPointerName, Sans2)
 		"{\n"
 		"    a*=b;\n"
 		"    a&=b;\n"
-		"    a&&b;\n"
+		"    x=a&&b;\n"
 		"    x=a*b;\n"
 		"    x=a&b;\n"
 		"    if (len*tab>longest) bar();\n"
@@ -6999,7 +8294,7 @@ TEST(AlignPointerName, Sans2)
 		"{\n"
 		"    a *= b;\n"
 		"    a &= b;\n"
-		"    a && b;\n"
+		"    x = a && b;\n"
 		"    x = a * b;\n"
 		"    x = a & b;\n"
 		"    if (len * tab > longest) bar();\n"
@@ -7086,6 +8381,42 @@ TEST(AlignPointerName, CSharp)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
+TEST(AlignPointerName, RvalueReference)
+{
+	// test align-pointer=name on an rvalue reference.
+	char textIn[] =
+		"\nMemoryBlock&& f(MemoryBlock&& block)\n"
+		"{\n"
+		"    A && a_ref2 = a;\n"
+		"    B&& a_ref4 = B();\n"
+		"    return block;\n"
+		"}\n"
+		"\n"
+		"template <typename T>\n"
+		"void print_type_and_value(T && t)\n"
+		"{\n"
+		"    S<T&&>::print(std::forward<T>(t));\n"
+		"}";
+	char text[] =
+		"\nMemoryBlock &&f(MemoryBlock &&block)\n"
+		"{\n"
+		"    A  &&a_ref2 = a;\n"
+		"    B &&a_ref4 = B();\n"
+		"    return block;\n"
+		"}\n"
+		"\n"
+		"template <typename T>\n"
+		"void print_type_and_value(T  &&t)\n"
+		"{\n"
+		"    S<T&&>::print(std::forward<T>(t));\n"
+		"}";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointer, ShortLowerLimit)
 {
 	// test error handling for the short option lower limit
@@ -7147,8 +8478,27 @@ TEST(AlignPointer, Java)
 
 //-------------------------------------------------------------------------
 // AStyle Align Reference
-// default value REF_SAME_AS_PTR is tested with Align Pointer
+// Align Reference is tested with Align Pointer
 //-------------------------------------------------------------------------
+
+TEST(AlignReferenceNone, ShortOption)
+{
+	// test align-reference=none short option
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char options[] = "-W0";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignReferenceNone, PointerNone)
 {
 	// references should not be changed
@@ -7221,10 +8571,32 @@ TEST(AlignReferenceNone, PointerName)
 	delete [] textOut;
 }
 
-TEST(AlignReferenceNone, ShortOption)
+TEST(AlignReferenceNone, PointerName_Rvalue)
 {
-	// test align-reference=none short option
+	// Rvalue references should not be changed.
 	char text[] =
+		"\nMemoryBlock&& f(MemoryBlock &&block)\n"
+		"{\n"
+		"    A&& a_ref2 = a;\n"
+		"    B &&a_ref4 = B();\n"
+		"    return block;\n"
+		"}\n"
+		"\n"
+		"template <typename T>\n"
+		"void print_type_and_value(T && t)\n"
+		"{\n"
+		"    S<T&&>::print(std::forward<T>(t));\n"
+		"}";
+	char options[] = "align-reference=none, align-pointer=name";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceType, ShortOption)
+{
+	// test align-reference=type short option
+	char textIn[] =
 		"\nstring foo(const string *bar)   // comment\n"
 		"{\n"
 		"    const string& bar;     // comment\n"
@@ -7233,11 +8605,21 @@ TEST(AlignReferenceNone, ShortOption)
 		"    const string  &  bar;  // comment\n"
 		"    const string&bar;      // comment\n"
 		"}\n";
-	char options[] = "-W0";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	char text[] =
+		"\nstring foo(const string *bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string& bar;     // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string&    bar;  // comment\n"
+		"    const string& bar;     // comment\n"
+		"}\n";
+	char options[] = "-W1";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
 TEST(AlignReferenceType, PointerNone)
 {
 	// test align-reference=type
@@ -7291,6 +8673,7 @@ TEST(AlignReferenceType, PointerType)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
 TEST(AlignReferenceType, PointerMiddle)
 {
 	// test align-reference=type
@@ -7317,6 +8700,7 @@ TEST(AlignReferenceType, PointerMiddle)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
 TEST(AlignReferenceType, PointerName)
 {
 	// test align-reference=type
@@ -7344,9 +8728,44 @@ TEST(AlignReferenceType, PointerName)
 	delete [] textOut;
 }
 
-TEST(AlignReferenceType, ShortOption)
+TEST(AlignReferenceType, PointerName_Rvalue)
 {
-	// test align-reference=type short option
+	// test align-reference=type with rvalue reference
+	char textIn[] =
+		"\nMemoryBlock &&f(MemoryBlock &&block)\n"
+		"{\n"
+		"    A && a_ref2 = a;\n"
+		"    B &&a_ref4 = B();\n"
+		"    return block;\n"
+		"}\n"
+		"\n"
+		"template <typename T>\n"
+		"void print_type_and_value(T && t)\n"
+		"{\n"
+		"    S<T&&>::print(std::forward<T>(t));\n"
+		"}";
+	char text[] =
+		"\nMemoryBlock&& f(MemoryBlock&& block)\n"
+		"{\n"
+		"    A&&  a_ref2 = a;\n"
+		"    B&& a_ref4 = B();\n"
+		"    return block;\n"
+		"}\n"
+		"\n"
+		"template <typename T>\n"
+		"void print_type_and_value(T&&  t)\n"
+		"{\n"
+		"    S<T&&>::print(std::forward<T>(t));\n"
+		"}";
+	char options[] = "align-reference=type, align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceMiddle, ShortOption)
+{
+	// test align-reference=middle short option
 	char textIn[] =
 		"\nstring foo(const string *bar)   // comment\n"
 		"{\n"
@@ -7359,13 +8778,13 @@ TEST(AlignReferenceType, ShortOption)
 	char text[] =
 		"\nstring foo(const string *bar)   // comment\n"
 		"{\n"
-		"    const string& bar;     // comment\n"
-		"    const string& bar;     // comment\n"
-		"    const string&    bar;  // comment\n"
-		"    const string&    bar;  // comment\n"
-		"    const string& bar;     // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string & bar;    // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string & bar;    // comment\n"
 		"}\n";
-	char options[] = "-W1";
+	char options[] = "-W2";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -7400,30 +8819,39 @@ TEST(AlignReferenceMiddle, PointerNone)
 
 TEST(AlignReferenceMiddle, PointerType)
 {
-	// test align-reference=middle
+	// test align-reference=middle with rvalue reference
 	char textIn[] =
-		"\nstring foo(const string *bar)   // comment\n"
+		"\nMemoryBlock &&f(MemoryBlock&& block)\n"
 		"{\n"
-		"    const string& bar;     // comment\n"
-		"    const string &bar;     // comment\n"
-		"    const string    &bar;  // comment\n"
-		"    const string  &  bar;  // comment\n"
-		"    const string&bar;      // comment\n"
-		"}\n";
+		"    A &&a_ref2 = a;\n"
+		"    B&& a_ref4 = B();\n"
+		"    return block;\n"
+		"}\n"
+		"\n"
+		"template <typename T>\n"
+		"void print_type_and_value(T&& t)\n"
+		"{\n"
+		"    S<T&&>::print(std::forward<T>(t));\n"
+		"}";
 	char text[] =
-		"\nstring foo(const string* bar)   // comment\n"
+		"\nMemoryBlock && f(MemoryBlock && block)\n"
 		"{\n"
-		"    const string & bar;    // comment\n"
-		"    const string & bar;    // comment\n"
-		"    const string  &  bar;  // comment\n"
-		"    const string  &  bar;  // comment\n"
-		"    const string & bar;    // comment\n"
-		"}\n";
+		"    A && a_ref2 = a;\n"
+		"    B && a_ref4 = B();\n"
+		"    return block;\n"
+		"}\n"
+		"\n"
+		"template <typename T>\n"
+		"void print_type_and_value(T && t)\n"
+		"{\n"
+		"    S<T&&>::print(std::forward<T>(t));\n"
+		"}";
 	char options[] = "align-reference=middle, align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
 TEST(AlignReferenceMiddle, PointerMiddle)
 {
 	// test align-reference=middle
@@ -7450,6 +8878,7 @@ TEST(AlignReferenceMiddle, PointerMiddle)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
 TEST(AlignReferenceMiddle, PointerName)
 {
 	// test align-reference=middle
@@ -7477,11 +8906,11 @@ TEST(AlignReferenceMiddle, PointerName)
 	delete [] textOut;
 }
 
-TEST(AlignReferenceMiddle, ShortOption)
+TEST(AlignReferenceMiddle, PointerName_Rvalue)
 {
-	// test align-reference=middle short option
+	// test align-reference=middle
 	char textIn[] =
-		"\nstring foo(const string *bar)   // comment\n"
+		"\nstring foo(const string* bar)   // comment\n"
 		"{\n"
 		"    const string& bar;     // comment\n"
 		"    const string &bar;     // comment\n"
@@ -7498,7 +8927,34 @@ TEST(AlignReferenceMiddle, ShortOption)
 		"    const string  &  bar;  // comment\n"
 		"    const string & bar;    // comment\n"
 		"}\n";
-	char options[] = "-W2";
+	char options[] = "align-reference=middle, align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceName, ShortOption)
+{
+	// test align-reference=name short option
+	char textIn[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string& bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string  &  bar;  // comment\n"
+		"    const string&bar;      // comment\n"
+		"}\n";
+	char text[] =
+		"\nstring foo(const string* bar)   // comment\n"
+		"{\n"
+		"    const string &bar;     // comment\n"
+		"    const string &bar;     // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string    &bar;  // comment\n"
+		"    const string &bar;     // comment\n"
+		"}\n";
+	char options[] = "-W3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -7612,28 +9068,36 @@ TEST(AlignReferenceName, Pointername)
 	delete [] textOut;
 }
 
-TEST(AlignReferenceName, ShortOption)
+TEST(AlignReferenceName, PointerType_Rvalue)
 {
-	// test align-reference=name short option
+	// test align-reference=name with rvalue reference
 	char textIn[] =
-		"\nstring foo(const string* bar)   // comment\n"
+		"\nMemoryBlock&& f(MemoryBlock&& block)\n"
 		"{\n"
-		"    const string& bar;     // comment\n"
-		"    const string &bar;     // comment\n"
-		"    const string    &bar;  // comment\n"
-		"    const string  &  bar;  // comment\n"
-		"    const string&bar;      // comment\n"
-		"}\n";
+		"    A && a_ref2 = a;\n"
+		"    B&& a_ref4 = B();\n"
+		"    return block;\n"
+		"}\n"
+		"\n"
+		"template <typename T>\n"
+		"void print_type_and_value(T && t)\n"
+		"{\n"
+		"    S<T&&>::print(std::forward<T>(t));\n"
+		"}";
 	char text[] =
-		"\nstring foo(const string* bar)   // comment\n"
+		"\nMemoryBlock &&f(MemoryBlock &&block)\n"
 		"{\n"
-		"    const string &bar;     // comment\n"
-		"    const string &bar;     // comment\n"
-		"    const string    &bar;  // comment\n"
-		"    const string    &bar;  // comment\n"
-		"    const string &bar;     // comment\n"
-		"}\n";
-	char options[] = "-W3";
+		"    A  &&a_ref2 = a;\n"
+		"    B &&a_ref4 = B();\n"
+		"    return block;\n"
+		"}\n"
+		"\n"
+		"template <typename T>\n"
+		"void print_type_and_value(T  &&t)\n"
+		"{\n"
+		"    S<T&&>::print(std::forward<T>(t));\n"
+		"}";
+	char options[] = "align-reference=name, align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
