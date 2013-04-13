@@ -33,7 +33,7 @@ def process_files():
 	command = exepath + ' ' + i18npath + ' ' + "\"--terse_printer --no_close\"" + ' '
 	# verify files
 	if not os.path.exists(exepath):
-		libastyle.system_exit("AppLoc not installed")
+		libastyle.system_exit("AppLoc not installed: " + exepath)
 
 	# run tests
 	print("\nWAIT for a test to finish before running the next")
@@ -70,6 +70,9 @@ def build_testi18n_executable():
 			+ "/Microsoft.NET/Framework/"
 			+ sdk
 			+ "/MSBuild.exe")
+	if not os.path.isfile(buildpath):
+		message = "Cannot find MSBuild executable: " + buildpath
+		libastyle.system_exit(message)
 	configProp = "/property:Configuration=Debug"
 	slnpath = (__builddir
 			+ "/AStyleTestI18n.sln")
