@@ -4,8 +4,6 @@ set progdir=C:\Program Files\Cppcheck
 
 "%progdir%\cppcheck"  --version
 
-:: "%progdir%\cppcheck"  --help
-
 REM  --enable=all               Enable all checks
 REM           style             Check the coding style
 REM           information       Enable information messages
@@ -29,8 +27,11 @@ REM The useInitializationList reports classes where an initialization list is no
 set suppress1= --suppress=uninitMemberVar --suppress=useInitializationList
 set suppress2= --suppress=copyCtorPointerCopying:../../AStyle/src/ASBeautifier.cpp
 
-"%progdir%\cppcheck" %options% %suppress1%  %suppress2%  ..\..\AStyle\src
+"%progdir%\cppcheck"  %options%  %suppress1%  %suppress2%  ..\..\AStyle\src
 
+:: "%progdir%\cppcheck"  --help
+
+:: "%progdir%\cppcheck" --check-config  ..\..\AStyle\src
 
 echo -
 pause

@@ -32,7 +32,7 @@ def process_files():
 	command = exepath + ' ' + i18npath + ' ' + "\"--terse_printer --no_close\"" + ' '
 	# verify files
 	if not os.path.exists(exepath):
-		libastyle.system_exit("AppLoc not installed")
+		libastyle.system_exit("AppLoc not installed: " + exepath)
 
 	# run tests
 	print("\nWAIT for a test to finish before running the next")
@@ -53,9 +53,12 @@ def build_testi18n_executable():
 	"""Build the MinGW AStyleTestI18n debug executable.
 	"""
 	print("Building MinGW AStyleTestI18n Debug")
-	print("Close the build window to continue ...")
 	# Compile the astyle executable for Windows.
-	buildpath =  "C:/Program Files (x86)/CodeBlocks/codeblocks.exe"
+	buildpath =  "C:/Program Files/CodeBlocks/codeblocks.exe"
+	if not os.path.isfile(buildpath):
+		message = "Cannot find CodeBlocks executable: " + buildpath
+		libastyle.system_exit(message)
+	print("Close the build window to continue ...")
 	arg1 = "--build"
 	arg2 = "--target=Debug"
 	arg3 = "--no-batch-window-close"
