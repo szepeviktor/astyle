@@ -25,8 +25,7 @@ extern int _CRT_glob;
 // anonymous namespace
 //----------------------------------------------------------------------------
 
-namespace
-{
+namespace {
 
 //----------------------------------------------------------------------------
 // AStyle test getFilePaths(), wildcmp(), and fileName vector

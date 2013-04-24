@@ -8,8 +8,7 @@
 // anonymous namespace
 //----------------------------------------------------------------------------
 
-namespace
-{
+namespace {
 
 //-------------------------------------------------------------------------
 // AStyle Break Closing Brackets
@@ -3102,6 +3101,9 @@ TEST(ConvertTabs, ForceTabX2)
 TEST(ConvertTabs, PreprocessorIndent)
 {
 	// Test convert-tabs in a preprocessor indent.
+	// NOTE: The defines do NOT have a #endif closing the define.
+	// This will cause a memory leak if the activeBeautifierStack and
+	// waitingBeautifierStack are not deleted properly in ASBeautifier.
 	char textIn[] =
 		"\n#if (! defined (yyoverflow) \\\n"
 		"     && (! defined (__cplusplus) \\\n"

@@ -15,8 +15,7 @@
 //----------------------------------------------------------------------------
 
 // defined in astyle_main.cpp
-namespace astyle
-{
+namespace astyle {
 extern const char* g_version;
 }
 
@@ -24,8 +23,7 @@ extern const char* g_version;
 // anonymous namespace
 //----------------------------------------------------------------------------
 
-namespace
-{
+namespace {
 
 //----------------------------------------------------------------------------
 // AStyle PrintF Class

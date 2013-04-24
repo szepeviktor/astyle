@@ -8,8 +8,7 @@
 // anonymous namespace
 //----------------------------------------------------------------------------
 
-namespace
-{
+namespace {
 
 //----------------------------------------------------------------------------
 // AStyle C++ text for style tests
@@ -1115,7 +1114,8 @@ TEST(Style1TBSCpp, NestedClass)
 		"        class C\n"
 		"        {\n"
 		"        public:\n"
-		"            void foo(bool isFoo) {\n"
+		"            void foo(bool isFoo)\n"
+		"            {\n"
 		"                if (isFoo) {\n"
 		"                    bar();\n"
 		"                } else {\n"
@@ -1146,7 +1146,8 @@ TEST(Style1TBSCpp, NestedClass_IndentClass)
 		"                class C\n"
 		"                {\n"
 		"                    public:\n"
-		"                        void foo(bool isFoo) {\n"
+		"                        void foo(bool isFoo)\n"
+		"                        {\n"
 		"                            if (isFoo) {\n"
 		"                                bar();\n"
 		"                            } else {\n"
@@ -1235,7 +1236,8 @@ TEST(Style1TBSCpp, NestedNamespaceClass)
 		"        class C\n"
 		"        {\n"
 		"        public:\n"
-		"            void foo(bool isFoo) {\n"
+		"            void foo(bool isFoo)\n"
+		"            {\n"
 		"                if (isFoo) {\n"
 		"                    bar();\n"
 		"                } else {\n"
@@ -1273,7 +1275,8 @@ TEST(Style1TBSCpp, NestedNamespaceClass_IndentNamespace)
 		"                    class C\n"
 		"                    {\n"
 		"                    public:\n"
-		"                        void foo(bool isFoo) {\n"
+		"                        void foo(bool isFoo)\n"
+		"                        {\n"
 		"                            if (isFoo) {\n"
 		"                                bar();\n"
 		"                            } else {\n"
@@ -1311,7 +1314,8 @@ TEST(Style1TBSCpp, NestedNamespaceClass_IndentNamespaceClass)
 		"                            class C\n"
 		"                            {\n"
 		"                                public:\n"
-		"                                    void foo(bool isFoo) {\n"
+		"                                    void foo(bool isFoo)\n"
+		"                                    {\n"
 		"                                        if (isFoo) {\n"
 		"                                            bar();\n"
 		"                                        } else {\n"

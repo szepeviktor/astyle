@@ -240,9 +240,12 @@ def call_7zip(dist_base, compressed_file):
 	# stdout file must have full path since 'cwd' is used in call
 	filename = libastyle.get_file_py_directory(True) + "compress.txt"
 	outfile = open(filename, 'w')
-	retval = subprocess.call(compress, cwd=dist_base, stdout=outfile)
-	if retval:
-		libastyle.system_exit("Bad 7zip return: "  + str(retval))
+	try:
+		subprocess.check_call(compress, cwd=dist_base, stdout=outfile)
+	except subprocess.CalledProcessError as err:
+		libastyle.system_exit("Bad 7zip return: " + str(err.returncode))		
+	except OSError:
+		libastyle.system_exit("Cannot find executable: " + compress[0])		
 	outfile.close()
 	os.remove(filename)
 	print(compressed_file + " created")
@@ -251,7 +254,8 @@ def call_7zip(dist_base, compressed_file):
 
 def convert_line_ends(dist_dir, to_dos):
 	"""Convert line ends to dos (CRLF) or linux (LF).
-	   All files in a directory are converted
+	   Needs tofrodos package.
+	   All files in a directory are converted.
 	"""
 	files = glob.glob(dist_dir + "*")
 	if os.name == "nt":
@@ -263,10 +267,13 @@ def convert_line_ends(dist_dir, to_dos):
 		else:     call_list = ["fromdos"] + files
 
 	# call the conversion program
-	retval = subprocess.call(call_list)
-	if retval:
-		libastyle.system_exit("Bad tofro return: " + str(retval))
-
+	try:
+		retval = subprocess.check_call(call_list)
+	except subprocess.CalledProcessError as err:
+		libastyle.system_exit("Bad tofro return: " + str(err.returncode))
+	except OSError:
+		libastyle.system_exit("Cannot find executable: " + call_list[0])
+		
 # -----------------------------------------------------------------------------
 
 def copy_astyle_doc(dist_doc, to_dos=False):

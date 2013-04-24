@@ -23,30 +23,30 @@ import time
 # global variables ------------------------------------------------------------
 
 # select one of the following from libastyle
-#   CODEBLOCKS
-#   DRJAVA			# Cannot compile
-#   GWORKSPACE      # Compile on Linux only
-#   JEDIT
-#   SCITE
-#   SHARPDEVELOP	# Compile on Windows only
-#   TESTPROJECT
+# CODEBLOCKS
+# DRJAVA            # Java - Cannot compile
+# GWORKSPACE        # Objective C
+# JEDIT             # Java
+# SCITE 
+# SHARPDEVELOP      # C# - Compile on Windows only
+# TESTPROJECT
 __project = libastyle.SHARPDEVELOP
 
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a bracket style or any other option
-__options  = libastyle.OPT1
-__options_x = "-xC50xL"
+__options  = libastyle.OPT2
+__options_x = ""
 
 # scite formatting options
 #__options = "-tapOHUk3"
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle235"
-__astyleexe2 = "astyle"
+__astyleexe1 = "astyle24b"
+__astyleexe2 = "astyled"
 
 # select one of the following to format files in the OLD directory
-#__formatOLD = True
-__formatOLD = False
+__formatOLD = True
+#__formatOLD = False
 
 # extract all files options, use False for speed
 #__all_files_option = True
@@ -72,22 +72,22 @@ def process_files():
 	testfile = "test.txt"
 	# run test 1
 	if __formatOLD:
-		print("\nExtracting Test 1")
+		print("\nTest 1 Extract")
 		libextract.extract_project(__project, __all_files_option)
 		print_test_header(1, __astyleexe1)
 		astyle = set_astyle_args(filepaths, excludes, __astyleexe1)
 		print_formatting_message(astyle, __project)
 		call_artistic_style(astyle, testfile)
 		print_astyle_totals(testfile)
+		print("\nTest 1 Rename")
+		libextract.remove_test_directory(__project + "OLD")
+		libextract.rename_test_directory(__project, __project + "OLD")
 	else:
 		verify_test_directory(__project + "OLD")
 		print("\nNo Test 1")
 
 	# run test 2
-	print("\nExtracting Test 2")
-	if __formatOLD:
-		libextract.remove_test_directory(__project + "OLD")
-		libextract.rename_test_directory(__project, __project + "OLD")
+	print("\nTest 2 Extract")
 	libextract.extract_project(__project, __all_files_option)
 	print_test_header(2, __astyleexe2)
 	astyle = set_astyle_args(filepaths, excludes, __astyleexe2)

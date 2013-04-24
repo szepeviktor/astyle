@@ -32,8 +32,7 @@ extern bool g_testedCodepage1252;
 // declarations for this module only
 //-------------------------------------------------------------------------
 
-namespace astyle
-{
+namespace astyle {
 extern char g_fileSeparator;
 }
 
@@ -103,8 +102,7 @@ void standardizePath(string& path)
 // anonymous namespace
 //----------------------------------------------------------------------------
 
-namespace
-{
+namespace {
 
 //----------------------------------------------------------------------------
 // AStyle test i18n processing with multi-byte Japanese language

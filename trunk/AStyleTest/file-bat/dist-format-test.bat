@@ -4,28 +4,30 @@
 set PATH=PATH;"C:\Program Files\AStyle
 set prog=AStyle
 
-REM  T - indent=force-tabs
+REM  t - indent=tab
 REM  H - pad-header
 REM  C - indent-classes
 REM  O - keep-one-line-blocks
 REM k1 - align-pointer=type
+REM W3 - align-reference=name
 REM M50- max-instatement-indent=50
 REM  v - verbose
-REM  w - indent-preprocessor
+REM  p - pad-oper
 REM  Q - formatted
+REM  w - indent-preprocessor
+REM xn - indent-namespaces
+REM xi - indent inlines
 REM z1 - windows lineends
 
-set options=  -A1THCOwk1  -M50  -Qz1  --options=none
-set optionsh= -A3THCOwk1  -M50  -Qz1  --options=none
+set options=  -A1xnxiTHCOwk1  -M50  -Qz1  --options=none
 
 echo Formatting AStyleTest
-echo source %options%
-echo headers%optionsh%
+echo options %options%
 echo -
 
 %prog%  %options%  ..\src\*.cpp
 echo -
-%prog%  %optionsh%  ..\src\*.h
+%prog%  %options%  ..\src\*.h
 echo -
 %prog%  %options%  ..\srccon\*.cpp
 echo -

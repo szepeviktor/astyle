@@ -11,7 +11,6 @@
 // headers
 //-------------------------------------------------------------------------
 
-#include "astyle.h"		// precompiled header
 #include "astyle_main.h"
 #include "gtest/gtest.h"
 
@@ -27,8 +26,7 @@ using namespace astyle;
 
 // global variables in astyle_main.cpp
 // NOTE: the Embarcadero compiler needs the astyle:: qualifier for some reason
-namespace astyle
-{
+namespace astyle {
 extern astyle::ASConsole* g_console;
 extern ostream* _err;
 }
