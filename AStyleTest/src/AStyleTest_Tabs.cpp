@@ -8,8 +8,7 @@
 // anonymous namespace
 //----------------------------------------------------------------------------
 
-namespace
-{
+namespace {
 
 //-----------------------------------------------------------------------------
 // AStyle Tab Options
@@ -141,6 +140,7 @@ TEST(Tabs, Spaces_Invalid2)
 	EXPECT_TRUE(textOut != NULL);
 	delete [] textOut;
 }
+
 TEST(Tabs, Spaces_Invalid3)
 {
 	// test with an indent that is above maximum
@@ -801,6 +801,743 @@ TEST(Tabs, ForceTabX_Horstmann4)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
+//-----------------------------------------------------------------------------
+// AStyle Attach Namespaces Option
+//-----------------------------------------------------------------------------
+
+TEST(AttachNamespaces, LongOption)
+{
+	// test attach namespaces long option
+	char textIn[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"}";
+	char text[] =
+		"\nnamespace FooName {\n"
+		"\n"
+		"}";
+	char options[] = "attach-namespaces";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachNamespaces, ShortOption)
+{
+	// test attach namespaces short option
+	char textIn[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"}";
+	char text[] =
+		"\nnamespace FooName {\n"
+		"\n"
+		"}";
+	char options[] = "-xn";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachNamespaces, BreakBrackets)
+{
+	// test attach namespaces with break brackets
+	char textIn[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"}";
+	char text[] =
+		"\nnamespace FooName {\n"
+		"\n"
+		"}";
+	char options[] = "attach-namespaces, brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachNamespaces, AttachBrackets)
+{
+	// test attach namespaces with attach brackets
+	char textIn[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"}";
+	char text[] =
+		"\nnamespace FooName {\n"
+		"\n"
+		"}";
+	char options[] = "attach-namespaces, brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachNamespaces, LinuxBrackets)
+{
+	// test attach namespaces with linux brackets
+	char textIn[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"}";
+	char text[] =
+		"\nnamespace FooName {\n"
+		"\n"
+		"}";
+	char options[] = "attach-namespaces, brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachNamespaces, StroustrupBrackets)
+{
+	// test attach namespaces with stroustrup brackets
+	char textIn[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"}";
+	char text[] =
+		"\nnamespace FooName {\n"
+		"\n"
+		"}";
+	char options[] = "attach-namespaces, brackets=stroustrup";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachNamespaces, RunInBrackets)
+{
+	// test attach namespaces with run-in brackets
+	char textIn[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"}";
+	char text[] =
+		"\nnamespace FooName {\n"
+		"\n"
+		"}";
+	char options[] = "attach-namespaces, brackets=run-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachNamespaces, NestedNamespace)
+{
+	// test attach namespaces with nested namespaces
+	char textIn[] =
+		"\nnamespace A\n"
+		"{\n"
+		"namespace B\n"
+		"{\n"
+		"namespace C\n"
+		"{\n"
+		"}\n"
+		"}\n"
+		"}\n";
+	char text[] =
+		"\nnamespace A {\n"
+		"namespace B {\n"
+		"namespace C {\n"
+		"}\n"
+		"}\n"
+		"}\n";
+	char options[] = "attach-namespaces";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachNamespaces, SharpNamespace)
+{
+	// test attach namespaces with nested namespaces
+	char textIn[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"}";
+	char text[] =
+		"\nnamespace FooName {\n"
+		"}";
+	char options[] = "attach-namespaces, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	ASSERT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-----------------------------------------------------------------------------
+// AStyle Attach Classes Option
+//-----------------------------------------------------------------------------
+
+TEST(AttachClasses, LongOption)
+{
+	// test attach classes long option
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"};";
+	char text[] =
+		"\nclass FooClass {\n"
+		"};";
+	char options[] = "attach-classes";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachClasses, ShortOption)
+{
+	// test attach classes short option
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"};";
+	char text[] =
+		"\nclass FooClass {\n"
+		"};";
+	char options[] = "-xc";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachClasses, BreakBrackets)
+{
+	// test attach classes with break brackets
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"};";
+	char text[] =
+		"\nclass FooClass {\n"
+		"};";
+	char options[] = "attach-classes, brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachClasses, AttachBrackets)
+{
+	// test attach classes with attach brackets
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"};";
+	char text[] =
+		"\nclass FooClass {\n"
+		"};";
+	char options[] = "attach-classes, brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachClasses, LinuxBrackets)
+{
+	// test attach classes with linux brackets
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"};";
+	char text[] =
+		"\nclass FooClass {\n"
+		"};";
+	char options[] = "attach-classes, brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachClasses, StroustrupBrackets)
+{
+	// test attach classes with stroustrup brackets
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"};";
+	char text[] =
+		"\nclass FooClass {\n"
+		"};";
+	char options[] = "attach-classes, brackets=stroustrup";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachClasses, RunInBrackets)
+{
+	// test attach classes with run-in brackets
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"};";
+	char text[] =
+		"\nclass FooClass {\n"
+		"};";
+	char options[] = "attach-classes, brackets=run-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachClasses, NestedClasses)
+{
+	// test attach classes with nested classes
+	char textIn[] =
+		"\nclass A\n"
+		"{\n"
+		"class B\n"
+		"{\n"
+		"class C\n"
+		"{\n"
+		"};\n"
+		"};\n"
+		"};\n";
+	char text[] =
+		"\nclass A {\n"
+		"    class B {\n"
+		"        class C {\n"
+		"        };\n"
+		"    };\n"
+		"};\n";
+	char options[] = "attach-classes";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachClasses, AttachNamespaces)
+{
+	// test attach classes with attach namespaces
+	char textIn[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"class  FooClass\n"
+		"{\n"
+		"};\n"
+		"};\n";
+	char text[] =
+		"\nnamespace FooName {\n"
+		"class  FooClass {\n"
+		"};\n"
+		"};\n";
+	char options[] = "attach-classes, attach-namespaces";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachClasses, JavaClass)
+{
+	// test attach classes with a Java class
+	char textIn[] =
+		"\npublic class FooClass\n"
+		"{\n"
+		"}\n";
+	char text[] =
+		"\npublic class FooClass {\n"
+		"}\n";
+	char options[] = "attach-classes, mode=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachClasses, SharpClass)
+{
+	// test attach classes with a C# class
+	char textIn[] =
+		"\npublic class FooClass\n"
+		"{\n"
+		"}\n";
+	char text[] =
+		"\npublic class FooClass {\n"
+		"}\n";
+	char options[] = "attach-classes, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachClasses, SharpInterface)
+{
+	// test attach classes with a C# interface
+	char textIn[] =
+		"public interface FooInterface\n"
+		"{\n"
+		"}";
+	char text[] =
+		"public interface FooInterface {\n"
+		"}";
+	char options[] = "attach-classes, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	ASSERT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-----------------------------------------------------------------------------
+// AStyle Attach Inlines Option
+//-----------------------------------------------------------------------------
+
+TEST(AttachInlines, LongOption)
+{
+	// test attach inlines long option
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    bool Foo(char ch)\n"
+		"    {\n"
+		"        if (isFoo1(ch))\n"
+		"        {\n"
+		"            if (isFoo2(ch))\n"
+		"            {\n"
+		"                return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    bool Foo(char ch) {\n"
+		"        if (isFoo1(ch)) {\n"
+		"            if (isFoo2(ch)) {\n"
+		"                return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"};";
+	char options[] = "attach-inlines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachInlines, ShortOption)
+{
+	// test attach inlines short option
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    bool Foo(char ch)\n"
+		"    {\n"
+		"        if (isFoo1(ch))\n"
+		"        {\n"
+		"            if (isFoo2(ch))\n"
+		"            {\n"
+		"                return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    bool Foo(char ch) {\n"
+		"        if (isFoo1(ch)) {\n"
+		"            if (isFoo2(ch)) {\n"
+		"                return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"};";
+	char options[] = "-xi";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachInlines, BreakBrackets)
+{
+	// test attach inlines with break brackets
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    bool Foo(char ch)\n"
+		"    {\n"
+		"        if (isFoo1(ch))\n"
+		"        {\n"
+		"            if (isFoo2(ch))\n"
+		"            {\n"
+		"                return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    bool Foo(char ch) {\n"
+		"        if (isFoo1(ch)) {\n"
+		"            if (isFoo2(ch)) {\n"
+		"                return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"};";
+	char options[] = "attach-inlines, brackets=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachInlines, AttachBrackets)
+{
+	// test attach inlines with attach brackets
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    bool Foo(char ch)\n"
+		"    {\n"
+		"        if (isFoo1(ch))\n"
+		"        {\n"
+		"            if (isFoo2(ch))\n"
+		"            {\n"
+		"                return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"};";
+	char text[] =
+		"\nclass FooClass {\n"
+		"    bool Foo(char ch) {\n"
+		"        if (isFoo1(ch)) {\n"
+		"            if (isFoo2(ch)) {\n"
+		"                return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"};";
+	char options[] = "attach-inlines, brackets=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachInlines, LinuxBrackets)
+{
+	// test attach inlines with linux brackets
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    bool Foo(char ch)\n"
+		"    {\n"
+		"        if (isFoo1(ch))\n"
+		"        {\n"
+		"            if (isFoo2(ch))\n"
+		"            {\n"
+		"                return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    bool Foo(char ch) {\n"
+		"        if (isFoo1(ch)) {\n"
+		"            if (isFoo2(ch)) {\n"
+		"                return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"};";
+	char options[] = "attach-inlines, brackets=linux";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachInlines, StroustrupBrackets)
+{
+	// test attach inlines with stroustrup brackets
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    bool Foo(char ch)\n"
+		"    {\n"
+		"        if (isFoo1(ch))\n"
+		"        {\n"
+		"            if (isFoo2(ch))\n"
+		"            {\n"
+		"                return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"};";
+	char text[] =
+		"\nclass FooClass {\n"
+		"    bool Foo(char ch) {\n"
+		"        if (isFoo1(ch)) {\n"
+		"            if (isFoo2(ch)) {\n"
+		"                return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"};";
+	char options[] = "attach-inlines, brackets=stroustrup";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachInlines, RunInBrackets)
+{
+	// test attach inlines with run-in brackets
+	// run-in brackets should NOT be attached
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    bool Foo(char ch)\n"
+		"    {\n"
+		"        if (isFoo1(ch))\n"
+		"        {\n"
+		"            if (isFoo2(ch))\n"
+		"            {\n"
+		"                return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{   bool Foo(char ch)\n"
+		"    {   if (isFoo1(ch))\n"
+		"        {   if (isFoo2(ch))\n"
+		"            {   return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"};";
+	char options[] = "attach-inlines, brackets=run-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachInlines, StructInClass)
+{
+	// test attach inlines with a struct in a class
+	// the brackets are attached
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    struct switchVariables\n"
+		"    {\n"
+		"        int  switchBracketCount;\n"
+		"        int  Foo()\n"
+		"        {\n"
+		"            bool unindentCase;\n"
+		"        }\n"
+		"    }\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    struct switchVariables\n"
+		"    {\n"
+		"        int  switchBracketCount;\n"
+		"        int  Foo() {\n"
+		"            bool unindentCase;\n"
+		"        }\n"
+		"    }\n"
+		"};";
+	char options[] = "attach-inlines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachInlines, JavaClass)
+{
+	// test attach inlines with a Java class
+	// Java class should NOT be changed
+	char text[] =
+		"\npublic class FooClass\n"
+		"{\n"
+		"    public bool Foo(char ch)\n"
+		"    {\n"
+		"        if (isFoo1(ch))\n"
+		"        {\n"
+		"            if (isFoo2(ch))\n"
+		"            {\n"
+		"                return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"}";
+	char options[] = "attach-inlines, mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachInlines, SharpClass)
+{
+	// test attach inlines with a C# class
+	// C# class should NOT be changed
+	char text[] =
+		"\npublic class FooClass\n"
+		"{\n"
+		"    public bool Foo(char ch)\n"
+		"    {\n"
+		"        if (isFoo1(ch))\n"
+		"        {\n"
+		"            if (isFoo2(ch))\n"
+		"            {\n"
+		"                return false;\n"
+		"            }\n"
+		"            return true;\n"
+		"        }\n"
+		"        return false;\n"
+		"    }\n"
+		"}";
+	char options[] = "attach-inlines, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //----------------------------------------------------------------------------
 
 }  // namespace

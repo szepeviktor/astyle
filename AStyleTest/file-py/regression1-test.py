@@ -67,7 +67,7 @@ def process_files():
 	excludes = libastyle.get_project_excludes(__project)
 	testfile = "test.txt"
 	if __extract_files:
-		print("\nExtracting files")
+		print("\nExtracting")
 		libextract.extract_project(__project, __all_files_option)
 
 	# run test 1

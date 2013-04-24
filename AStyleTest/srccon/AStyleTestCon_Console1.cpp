@@ -15,8 +15,7 @@
 // anonymous namespace
 //----------------------------------------------------------------------------
 
-namespace
-{
+namespace {
 
 //----------------------------------------------------------------------------
 // AStyle processOptions() for console and file options
