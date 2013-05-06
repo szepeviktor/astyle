@@ -31,13 +31,13 @@ import time
 #   SCITE
 #   SHARPDEVELOP    # Compile on Windows only
 #   TESTPROJECT
-__project = libastyle.CODEBLOCKS
+__project = libastyle.JEDIT
 
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a bracket style or any other option
 #__options = "-tapO"
-__options = libastyle.OPT3
-__options_x = "-xC51"
+__options = libastyle.OPT0
+__options_x = ""
 
 # executable for test
 __astyleexe = "astyle"
@@ -304,7 +304,7 @@ def set_astyle_args(filepath, excludes, brackets, index):
 	for file_in in filepath:
 		args.append(file_in)
 	# set options
-	args.append("-vRQ")
+	args.append("-vRQn")
 	if len(__options) > 0:
 		args.append(__options)
 	if len(__options_x.strip()) > 0:

@@ -370,7 +370,6 @@ struct TranslationF : public ::testing::Test
 		m_ascii.push_back("For help on options type 'astyle -h'");
 		m_ascii.push_back("Cannot open options file");
 		m_ascii.push_back("Cannot open directory");
-		m_ascii.push_back("Cannot process the input stream");
 		m_ascii.push_back("Missing filename in %s\n");
 		m_ascii.push_back("Recursive option with no wildcard");
 		m_ascii.push_back("Did you intend quote the filename");
