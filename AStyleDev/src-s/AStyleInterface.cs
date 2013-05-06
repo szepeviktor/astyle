@@ -81,7 +81,7 @@ public class AStyleInterface
     public String GetVersion()
     {   String sVersion = String.Empty;
         try
-        {   IntPtr  pVersion = AStyleGetVersion();
+        {   IntPtr pVersion = AStyleGetVersion();
             if (pVersion != IntPtr.Zero)
             {   sVersion = Marshal.PtrToStringAnsi(pVersion);
             }
