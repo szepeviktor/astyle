@@ -30,12 +30,12 @@ import time
 # SCITE 
 # SHARPDEVELOP      # C# - Compile on Windows only
 # TESTPROJECT
-__project = libastyle.SHARPDEVELOP
+__project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a bracket style or any other option
-__options  = libastyle.OPT2
-__options_x = ""
+__options  = libastyle.OPT0
+__options_x = "-n"
 
 # scite formatting options
 #__options = "-tapOHUk3"

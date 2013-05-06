@@ -7,9 +7,15 @@
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
 
+import codecs
 import libastyle		# local directory
 import os
+import platform
 import subprocess
+
+# global variables ------------------------------------------------------------
+
+__expected_version = "1.59"
 
 # -----------------------------------------------------------------------------
 
@@ -234,7 +240,7 @@ def process_localizer(localizerList):
 	"""
 	lines = 0				# current input line number
 	src_path = "../../AStyle/src/ASLocalizer.cpp"
-	file_in = open(src_path, 'r')
+	file_in = codecs.open(src_path, "rb", "utf-8")
 	# get exceptions
 	for line_in in file_in:
 		lines += 1
@@ -286,7 +292,8 @@ def run_cppcheck(suppressionFileName):
 	if os.name == "nt":
 		exepath = "C:/Program Files/Cppcheck/cppcheck.exe"
 	else:
-		exepath = "cppcheck.exe"
+		exepath = "cppcheck"
+	verify_cppcheck_version(exepath)
 	cppcheck = [exepath]
 	cppcheck.append("--enable=all")
 	cppcheck.append("--force")
@@ -295,6 +302,7 @@ def run_cppcheck(suppressionFileName):
 	cppcheck.append("--suppressions-list=" + suppressionFileName)
 	cppcheck.append("..\..\AStyle\src")
 	# shell=True keeps the console window open, but will not display if run from an editor
+	# subprocess.check_output() doesn't work from an editor
 	try:
 		if libastyle.is_executed_from_console():
 			subprocess.check_call(cppcheck, shell=True)
@@ -305,6 +313,23 @@ def run_cppcheck(suppressionFileName):
 	except OSError:
 		libastyle.system_exit("Cannot find executable: " + cppcheck[0])
 
+# -----------------------------------------------------------------------------
+
+def verify_cppcheck_version(exepath):
+	"""Verify the Cppcheck version number to the expected version.
+	   A lower version number may result in unexpected warnings.
+	   The expected version number is global.
+	"""
+	# check_output always returns byte code
+	version = subprocess.check_output([exepath, "--version"])
+	version = version.lstrip(b"Cppcheck ")
+	version = version.rstrip(b"\r\n")
+	if platform.python_version_tuple()[0] >= '3':
+		version = version.decode()
+	if version < __expected_version:
+		print("Cppcheck version", version, 
+		        "is less than expected version", __expected_version, "\n")
+	
 # -----------------------------------------------------------------------------
 
 # make the module executable
