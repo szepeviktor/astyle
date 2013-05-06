@@ -49,21 +49,23 @@
         Handling Python 3 Unicode</h3>
 
     <p>
-        Python 3 uses Unicode strings instead of byte strings like Python 2. This can be handled a couple of
-        ways when processing disk files and sending them to Artistic Style.
+        Python 3 uses Unicode strings instead of byte strings like Python 2. This can be handled a couple of ways when
+        processing disk files and sending them to Artistic Style.
     </p>
     <p>
         One way is to declare the file as binary. This will read the file as a byte string instead of a Unicode string.
         In this case you don't need to be concerned with file encoding and the file can be saved or sent to Artistic Style
         without decoding. The disadvantage of doing this is there are byte strings that you have to keep track of and
-        the file is not Unicode. The Python script ExampleByte.py uses this method. The names of byte strings contain the word "byte" so they can be easily identified.</p>
+        the strings not Unicode. The Python script ExampleByte.py uses this method. The names of byte strings contain
+        the word "byte" so they can be easily identified.</p>
     <p>
-        Another way is to read the file as a Unicode string. When this is done it will have to be encoded to be sent to
-        Artistic Style or to be saved. This is probably the more common way of handling the problem. The advantage is
-        you can work with the file in Unicode. The disadvantage is the encoding and decoding that has to be done and the
-        exceptions
-        that should be handled. The file ExampleUnicode.py uses this method. This is the method used in the following
-        example and that is described in the following discussion.</p>
+        Another way is to use the version 3 default and read the file as a Unicode string. The file is read using the
+        default system encoding. If a file uses a different encoding, it can be decoded using the Python "codecs" class
+        (e.g. codecs.open()). Unicode strings will have to be encoded to be sent to Artistic Style or to be saved. Files
+        sent to Artistic Style can always be encoded with UTF-8. The advantage of this method is you can work with the
+        file in Unicode. The disadvantage is the encoding and decoding that has to be done and the exceptions that should
+        be handled. The file ExampleUnicode.py uses this method. This is the method used in the following example and
+        that is described in the following discussion.</p>
 
     <h3>
         AStyleMain Function Call</h3>
