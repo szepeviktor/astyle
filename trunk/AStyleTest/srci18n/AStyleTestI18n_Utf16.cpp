@@ -39,15 +39,14 @@ void convertToBigEndian(char* textIn, size_t textLen)
 }
 
 #ifdef _WIN32
-string WideCharToUtf8Str(wchar_t* wcIn, size_t wcLen)
+string WideCharToUtf8Str(wchar_t* wcIn)
 // convert wide char text (16 bit) to an 8 bit utf-8 string
 {
-	size_t mbLen = WideCharToMultiByte(CP_UTF8, 0, wcIn, wcLen, NULL, 0, NULL, 0);
+	size_t mbLen = WideCharToMultiByte(CP_UTF8, 0, wcIn, -1, NULL, 0, NULL, 0);
 	if (!mbLen)
 		systemAbort("Bad WideCharToMultiByte in Utf16ToUtf8Str()");
-	LPSTR mbOut = new char[mbLen + 1];
-	WideCharToMultiByte(CP_UTF8, 0, wcIn, wcLen, mbOut, mbLen, NULL, 0);
-	mbOut[mbLen] = '\0';
+	char* mbOut = new char[mbLen];
+	WideCharToMultiByte(CP_UTF8, 0, wcIn, -1, mbOut, mbLen, NULL, 0);
 	string mbStr(mbOut);
 	delete []mbOut;
 	return mbStr;
@@ -274,26 +273,26 @@ struct Utf_8_16 : public ::testing::Test
 			L"\xfeff"						// 16 bit LE byte order mark (BOM)
 			L"\nvoid foo()\n"
 			L"{\n"
-			L" 	// 文件已经 被修改\n"		// Chinese
+			L"    // 文件已经 被修改\n"		// Chinese
 			L"	Chinese(\"导出结束\");\n"
 			L"\n"
-			L" 	// アイウオ カキク\n"		// Japanese
-			L"	Japanese(\"スセタチ\");\n"
+			L"    // アイウオ カキク\n"		// Japanese
+			L"    Japanese(\"スセタチ\");\n"
 			L"\n"
-			L" 	// 선택된 컨트롤\n"		// Korean
-			L"	Korean(\"비트맵 에디터\");\n"
+			L"    // 선택된 컨트롤\n"		// Korean
+			L"    Korean(\"비트맵 에디터\");\n"
 			L"\n"
-			L"	// ΓΔΘΛ αβγλ\n"				// Greek
-			L"	Greek(\"ξπρσ ΞΦΨΩ\");\n"
+			L"    // ΓΔΘΛ αβγλ\n"			// Greek
+			L"    Greek(\"ξπρσ ΞΦΨΩ\");\n"
 			L"\n"
-			L"	// АБВГ ДЕЁЖ\n"				// Russian
-			L"	Russian(\"ЗИЙК ЛПФЦ\");\n"
+			L"    // АБВГ ДЕЁЖ\n"			// Russian
+			L"    Russian(\"ЗИЙК ЛПФЦ\");\n"
 			L"\n"
-			L"	// ÄÄ ÖÖ ÜÜ ßßßß\n"			// German (ß can cause problem with conversions)
-			L"	German(\"ää öö üü\");\n"
+			L"    // ÄÄ ÖÖ ÜÜ ßßßß\n"		// German (ß can cause problem with conversions)
+			L"    German(\"ää öö üü\");\n"
 			L"}\n";
 		// compute 8 bit values using native functions
-		text8BitStr = WideCharToUtf8Str(textIn, wcslen(textIn));
+		text8BitStr = WideCharToUtf8Str(textIn);
 		text8Bit = text8BitStr.c_str();
 		text8Len = text8BitStr.length();
 		// compute 16 bit values using native functions
@@ -320,8 +319,9 @@ struct Utf_8_16 : public ::testing::Test
 TEST_F(Utf_8_16, Utf8_To_Utf16_LE)
 // test AStyle Utf8 to Utf16 LE conversion functions
 {
+	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
 	// test Astyle Utf16Length() function
-	size_t utf16ComputedSize = g_console->Utf16Length(text8Bit, text8Len);
+	size_t utf16ComputedSize = g_console->Utf16LengthFromUtf8(text8Bit, text8Len);
 	EXPECT_EQ(text16Len, utf16ComputedSize);
 	// test Astyle Utf8ToUtf16() function return
 	char* utf16Out = new char[text8Len * 3];
@@ -336,9 +336,10 @@ TEST_F(Utf_8_16, Utf8_To_Utf16_LE)
 TEST_F(Utf_8_16, Utf8_To_Utf16_BE)
 // test AStyle Utf8 to Utf16 BE conversion functions
 {
+	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
 	convertToBigEndian(text16Bit, text16Len);
 	// test Astyle Utf16Length() function
-	size_t utf16ComputedSize = g_console->Utf16Length(text8Bit, text8Len);
+	size_t utf16ComputedSize = g_console->Utf16LengthFromUtf8(text8Bit, text8Len);
 	EXPECT_EQ(text16Len, utf16ComputedSize);
 	// test Astyle Utf8ToUtf16() function return
 	char* utf16Out = new char[text8Len * 3];
@@ -353,8 +354,9 @@ TEST_F(Utf_8_16, Utf8_To_Utf16_BE)
 TEST_F(Utf_8_16, Utf16_LE_To_Utf8)
 // test AStyle Utf16 LE to Utf8 conversion functions
 {
+	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
 	// test Astyle Utf8Length() function
-	size_t utf8ComputedSize = g_console->Utf8Length(text16Bit, text16Len, UTF_16LE);
+	size_t utf8ComputedSize = g_console->Utf8LengthFromUtf16(text16Bit, text16Len, UTF_16LE);
 	EXPECT_EQ(text8Len, utf8ComputedSize);
 	// test Astyle Utf16ToUtf8() function return
 	char* utf8Out = new char[text16Len * 2];
@@ -369,9 +371,10 @@ TEST_F(Utf_8_16, Utf16_LE_To_Utf8)
 TEST_F(Utf_8_16, Utf16_BE_To_Utf8)
 // test AStyle Utf16 BE to Utf8 conversion functions
 {
+	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
 	convertToBigEndian(text16Bit, text16Len);
 	// test Astyle Utf8Length() function
-	size_t utf8ComputedSize = g_console->Utf8Length(text16Bit, text16Len, UTF_16BE);
+	size_t utf8ComputedSize = g_console->Utf8LengthFromUtf16(text16Bit, text16Len, UTF_16BE);
 	EXPECT_EQ(text8Len, utf8ComputedSize);
 	// test Astyle Utf16ToUtf8() function return
 	char* utf8Out = new char[text16Len * 2];

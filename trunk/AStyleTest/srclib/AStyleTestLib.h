@@ -1,5 +1,5 @@
-#ifndef ASTYLE_TEST_H
-#define ASTYLE_TEST_H
+#ifndef ASTYLE_TESTLIB_H
+#define ASTYLE_TESTLIB_H
 
 //-------------------------------------------------------------------------
 // headers
@@ -8,6 +8,16 @@
 // test source files when changes are made to the astyle.h header.
 
 #include <gtest/gtest.h>
+#ifndef __BORLANDC__        // can't use gmock
+#include "gmock/gmock.h"
+#endif
+
+// must be AFTER gmock.h
+// use this to test the Linux compile with MinGW
+#ifdef MINGW_LINUX
+#undef _WIN32
+#endif
+
 #include <stdlib.h>
 #include <iostream>		// for cout
 #include <string.h>		// need both string and string.h for GCC
@@ -48,12 +58,6 @@ extern "C" EXPORT char* STDCALL AStyleMain(const char*, const char*, fpError, fp
 extern "C" EXPORT const char* STDCALL AStyleGetVersion (void);
 
 //-----------------------------------------------------------------------------
-// declarations for AStyleMainUtf16 library build
-//-----------------------------------------------------------------------------
-
-extern "C" EXPORT wchar_t* STDCALL AStyleMainUtf16(const wchar_t*, const wchar_t*, fpError, fpAlloc);
-
-//-----------------------------------------------------------------------------
 // declarations for AStyleTest callback functions
 //-----------------------------------------------------------------------------
 
@@ -67,4 +71,4 @@ int   getErrorHandler2Calls();
 
 //-------------------------------------------------------------------------
 
-#endif // closes ASTYLE_TEST_H
+#endif // closes ASTYLE_TESTLIB_H

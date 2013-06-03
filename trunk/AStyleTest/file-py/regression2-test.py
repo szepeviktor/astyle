@@ -30,27 +30,27 @@ import time
 # SCITE 
 # SHARPDEVELOP      # C# - Compile on Windows only
 # TESTPROJECT
-__project = libastyle.CODEBLOCKS
+__project = libastyle.SHARPDEVELOP
 
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a bracket style or any other option
 __options  = libastyle.OPT0
-__options_x = "-n"
+__options_x = ""
 
 # scite formatting options
 #__options = "-tapOHUk3"
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle24b"
-__astyleexe2 = "astyled"
+__astyleexe1 = "astyle24c"
+__astyleexe2 = "astyle"
 
 # select one of the following to format files in the OLD directory
-__formatOLD = True
-#__formatOLD = False
+#__formatOLD = True
+__formatOLD = False
 
 # extract all files options, use False for speed
-#__all_files_option = True
-__all_files_option = False
+__all_files_option = True
+#__all_files_option = False
 
 # -----------------------------------------------------------------------------
 
@@ -310,7 +310,7 @@ def set_astyle_args(filepath, excludes, astyleexe):
 	for file_in in filepath:
 		args.append(file_in)
 	# set options
-	args.append("-vRQ")
+	args.append("-vRQn")
 	if len(__options.strip()) > 0:
 		args.append(__options)
 	if len(__options_x.strip()) > 0:

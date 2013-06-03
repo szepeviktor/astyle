@@ -73,9 +73,12 @@ def call_7zip(filepath, outdir, fileext):
 	fd, filename = tempfile.mkstemp(prefix="extract.", suffix=".tmp",
 								dir=libastyle.get_temp_directory() , text=True)
 #	print(os.path.basename(filename))
-	retval = subprocess.call(extract, stdout=fd)
-	if retval:
-		libastyle.system_exit("Bad 7zip return: " + str(retval))
+	try:
+		subprocess.check_call(extract, stdout=fd)
+	except subprocess.CalledProcessError as err:
+		libastyle.system_exit("Bad 7zip return: " + str(err.returncode))
+	except OSError:
+		libastyle.system_exit("Cannot find executable: " + exepath)
 	os.close(fd)
 	os.remove(filename)
 

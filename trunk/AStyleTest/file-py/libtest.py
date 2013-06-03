@@ -144,7 +144,7 @@ def  get_formatted_files(filename):
 			continue
 		# formatted file line (start of line with a following space)
 		if re.match("Formatted ", line) != None:
-			subline = line[:-1].split()
+			subline = line[:-1].split(None, 1)
 			formatted.append(directory + os.sep + subline[1])
 
 	infile.close()
