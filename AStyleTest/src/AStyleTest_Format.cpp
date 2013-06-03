@@ -1792,7 +1792,6 @@ TEST(AddBrackets, ShortOption)
 	delete [] textOut;
 }
 
-
 TEST(AddBrackets, All)
 {
 	// test add brackets for all headers
@@ -2351,7 +2350,6 @@ TEST(AddOneLineBrackets, ShortOption)
 	delete [] textOut;
 }
 
-
 TEST(AddOneLineBrackets, All)
 {
 	// test add one line brackets for all headers
@@ -2756,6 +2754,631 @@ TEST(AddOneLineBrackets, Sans)
 		"        readCount = ReadMemory(size);\n"
 		"}\n";
 	char options[] = "add-one-line-brackets, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Remove Brackets
+//-------------------------------------------------------------------------
+
+TEST(RemoveBrackets, LongOption)
+{
+	// test remove brackets
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"    else if (isFoo3) {\n"
+		"        bar3();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"        bar2();\n"
+		"    else if (isFoo3)\n"
+		"        bar3();\n"
+		"}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, ShortOption)
+{
+	// test remove brackets
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"    else if (isFoo3) {\n"
+		"        bar3();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"        bar2();\n"
+		"    else if (isFoo3)\n"
+		"        bar3();\n"
+		"}";
+	char options[] = "-xj";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, WithEmptyLine1)
+{
+	// test with a preceeding empty line
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"    {\n"
+		"\n"
+		"        bar2();\n"
+		"    }\n"
+		"    else if (isFoo3) {\n"
+		"    \n"
+		"        bar3();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"\n"
+		"        bar2();\n"
+		"    else if (isFoo3)\n"
+		"\n"
+		"        bar3();\n"
+		"}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, WithEmptyLine2)
+{
+	// test with a following empty line
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"    {\n"
+		"        bar2();\n"
+		"\n"
+		"    }\n"
+		"    else if (isFoo3) {\n"
+		"        bar3();\n"
+		"    \n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"        bar2();\n"
+		"\n"
+		"    else if (isFoo3)\n"
+		"        bar3();\n"
+		"\n"
+		"}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, Sans)
+{
+	// don't remove if not a single statement
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"    {\n"
+		"        bar2();\n"
+		"        bar2a();\n"
+		"    }\n"
+		"    else if (isFoo3) {\n"
+		"        bar3();\n"
+		"        bar3a();\n"
+		"    }\n"
+		"}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, OneLineBlock1)
+{
+	// test with a one line block and keep-one-line-blocks
+	// should NOT break the one-line block
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"    { bar2(); }\n"
+		"    else if (isFoo3) { bar3(); }\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"        bar2();\n"
+		"    else if (isFoo3)  bar3();\n"
+		"}";
+	char options[] = "remove-brackets, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, OneLineBlockSans1)
+{
+	// test with a one line block and NOT keep-one-line-blocks
+	// should break the one-line block
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"    { bar2(); }\n"
+		"    else if (isFoo3) { bar3(); }\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"        bar2();\n"
+		"    else if (isFoo3)\n"
+		"        bar3();\n"
+		"}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, OneLineBlockSans2)
+{
+	// test with a one line block to NOT remove brackets
+	// with keep-one-line-blocks
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"    { bar2();  bar4(); }\n"
+		"    else if (isFoo3) { bar3(); bar4(); }\n"
+		"}";
+	char options[] = "remove-brackets, keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, OneLineBlockSans3)
+{
+	// test with a one line block to NOT remove brackets
+	// without keep-one-line-blocks
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"    { bar2();  bar4(); }\n"
+		"    else if (isFoo3) { bar3(); bar4(); }\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"    {\n"
+		"        bar2();\n"
+		"        bar4();\n"
+		"    }\n"
+		"    else if (isFoo3) {\n"
+		"        bar3();\n"
+		"        bar4();\n"
+		"    }\n"
+		"}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, BreakBlocks1)
+{
+	// test remove brackets with break blocks
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    bar5();\n"
+		"    if (isFoo2)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"    else if (isFoo3) {\n"
+		"        bar3();\n"
+		"    }\n"
+		"    bar6();\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    bar5();\n"
+		"\n"
+		"    if (isFoo2)\n"
+		"        bar2();\n"
+		"    else if (isFoo3)\n"
+		"        bar3();\n"
+		"\n"
+		"    bar6();\n"
+		"}";
+	char options[] = "remove-brackets, break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, BreakBlocks2)
+{
+	// test remove brackets with break all blocks
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    bar5();\n"
+		"    if (isFoo2)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"    else if (isFoo3) {\n"
+		"        bar3();\n"
+		"    }\n"
+		"    bar6();\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    bar5();\n"
+		"\n"
+		"    if (isFoo2)\n"
+		"        bar2();\n"
+		"\n"
+		"    else if (isFoo3)\n"
+		"        bar3();\n"
+		"\n"
+		"    bar6();\n"
+		"}";
+	char options[] = "remove-brackets, break-blocks=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, CommentSans1)
+{
+	// don't remove if a preceeding comment
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    // comment"
+		"    if (isFoo2)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"    else if (isFoo3) {\n"
+		"        /* comment\n"
+		"           comment */\n"
+		"        bar3();\n"
+		"    }\n"
+		"}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, CommentSans2)
+{
+	// don't remove if a preceeding column 1 comment
+	char text[] =
+		"\nvoid Foo() {\n"
+		"    if(result)\n"
+		"    {\n"
+		"//        Manager::Get()->GetLogManager();\n"
+		"    }\n"
+		"    else\n"
+		"    {\n"
+		"//        Manager::Get()->GetLogManager();\n"
+		"    }\n"
+		"}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, FollowingHeaderSans)
+{
+	// don't remove if a following header
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo1)\n"
+		"    {\n"
+		"        if (isFoo2)\n"
+		"        {\n"
+		"            bar2();\n"
+		"        }\n"
+		"        else if (isFoo3) {\n"
+		"            bar3();\n"
+		"        }\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo1)\n"
+		"    {\n"
+		"        if (isFoo2)\n"
+		"            bar2();\n"
+		"        else if (isFoo3)\n"
+		"            bar3();\n"
+		"    }\n"
+		"}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, AddBracketsSans)
+{
+	// should NOT remove brackets if add brackets is also requested
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"    else if (isFoo3) {\n"
+		"        bar3();\n"
+		"    }\n"
+		"}";
+	char options[] = "remove-brackets, add-brackets";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, AddOneLineBracketsSans)
+{
+	// should NOT remove brackets if add one line brackets is also requested
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"    else if (isFoo3) {\n"
+		"        bar3();\n"
+		"    }\n"
+		"}";
+	char options[] = "remove-brackets, add-one-line-brackets";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, OtherHeaders)
+{
+	// test remove brackets with other headers
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    for (i = 0; i < 10; i++)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"    while (i > 0 && i < 10)\n"
+		"    {\n"
+		"        bar3();\n"
+		"    }\n"
+		"    do {\n"				// NOT removed from do-while
+		"        bar4();\n"
+		"    } while (int x < 9);\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    for (i = 0; i < 10; i++)\n"
+		"        bar2();\n"
+		"    while (i > 0 && i < 10)\n"
+		"        bar3();\n"
+		"    do {\n"				// NOT removed from do-while
+		"        bar4();\n"
+		"    } while (int x < 9);\n"
+		"}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, SharpOtherHeaders)
+{
+	// test remove brackets with other C# headers
+	char textIn[] =
+		"\nprivate void Foo()\n"
+		"{\n"
+		"    foreach (T x in list)\n"
+		"    {\n"
+		"        foo = bar;\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nprivate void Foo()\n"
+		"{\n"
+		"    foreach (T x in list)\n"
+		"        foo = bar;\n"
+		"}";
+	char options[] = "remove-brackets, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, OTBSSans)
+{
+	// should NOT remove brackets if "One True Brace Style" is requested
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2) {\n"
+		"        bar2();\n"
+		"    } else if (isFoo3) {\n"
+		"        bar3();\n"
+		"    }\n"
+		"}";
+	char options[] = "remove-brackets, style=otbs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, BreakClosingBrackets)
+{
+	// test remove brackets with break closing brackets
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    } else if (isFoo3) {\n"
+		"        bar3();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"        bar2();\n"
+		"    else if (isFoo3)\n"
+		"        bar3();\n"
+		"}";
+	char options[] = "remove-brackets, break-closing-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, UnbrokenElse)
+{
+	// test remove brackets with a unbroken "else if" statement
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    } else if (isFoo3) {\n"
+		"        bar3();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"        bar2();\n"
+		"    else if (isFoo3)\n"
+		"        bar3();\n"
+		"}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, Preprocessor)
+{
+	// test remove brackets with a preprocessor directive
+	// the brackets should NOT be removed
+	char text[] =
+		"\nvoid Foo() {\n"
+		"#define if(_RET_SUCCEED(exp)) { result = (exp); }\n"
+		"}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, BracketInQuote)
+{
+	// test remove brackets within a quote
+	// should not remove the bracket in the quotes
+	char textIn[] =
+		"\nprivate void Foo() {\n"
+		"    if (closingBrackets > 0) {\n"
+		"        wrapper.Append(new string('}', closingBrackets));\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nprivate void Foo() {\n"
+		"    if (closingBrackets > 0)\n"
+		"        wrapper.Append(new string('}', closingBrackets));\n"
+		"}";
+	char options[] = "remove-brackets, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, BracketInComment1)
+{
+	// test remove with brackets within a line comment
+	// should not remove the brackets
+	char text[] =
+		"\nprivate void Foo() {\n"
+		"    if (closingBrackets > 0) {\n"
+		"        wrapper.Append(closingBrackets); // }\n"
+		"    }\n"
+		"}";
+	char options[] = "remove-brackets, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, BracketInComment2)
+{
+	// test remove with brackets within a comment
+	// should not remove the brackets
+	char text[] =
+		"\nprivate void Foo() {\n"
+		"    if (closingBrackets > 0) {\n"
+		"        wrapper.Append(closingBrackets); /* } */\n"
+		"    }\n"
+		"}";
+	char options[] = "remove-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -5790,29 +6413,6 @@ TEST(MaxCodeLength, BreakPastMaxCodeLength8)
 		"        isFoo();\n"
 		"}";
 	char options[] = "max-code-length=50, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(MaxCodeLength, TwoBreaksWithComment1)
-{
-	// Test two breaks on a line with a line comment.
-	char textIn[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"    if(old_a == a && old_b == b) // a long long comment to force a break\n"
-		"        return;\n"
-		"}";
-	char text[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"    if(old_a == a\n"
-		"            && old_b ==\n"
-		"            b) // a long long comment to force a break\n"
-		"        return;\n"
-		"}";
-	char options[] = "max-code-length=50";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

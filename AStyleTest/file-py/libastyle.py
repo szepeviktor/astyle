@@ -38,7 +38,7 @@ OPT0 = ""
 # OPT1
 # align-pointer=type (k1), add-brackets (j), break-blocks=all (F),
 #     min-conditional-indent=0 (m0), pad-oper (p)
-OPT1 = "-CSKNLwYM50m0FpPHUEk1yejOocxy"
+OPT1 = "-CSKNLwYM50m0FpPHUEk1yejOoc"
 
 # OPT2
 # align-pointer=name (k3), align-reference=type (W1),
@@ -51,9 +51,10 @@ OPT2 = "-CSKNLwM60m3fpdHUxeEk3W1yeJc"
 # OPT3
 # align-pointer=middle (k2), align-reference=name (W3),
 #     min-conditional-indent=1 (m1), pad-paren-in(D)
+#     remove-brackets (xj),
 # WITHOUT: add-brackets (j,J), break-blocks (f,F),
 #     pad-oper (p), delete-empty-lines (xd)
-OPT3 = "-CSKNLwM80m1DHUEk2W3y"
+OPT3 = "-CSKNLwM80m1DHUEk2W3yxj"
 
 # TEST SEPARATELY
 # max-code-length (xC), break-after-logical (xL)
@@ -166,11 +167,7 @@ def get_7zip_path():
 	"""Get the 7zip executable path for the os environment.
 	"""
 	if os.name == "nt":
-		# exepath = os.getenv("PROGRAMFILES") + "/7-Zip/7z.exe"
-		exepath = "C:/Program Files" + "/7-Zip/7z.exe"
-		if not os.path.isfile(exepath):
-			message = "Cannot find 7zip path: " + exepath
-			system_exit(message)
+		exepath = os.getenv("PROGRAMFILES", "C:/Program Files") + "/7-Zip/7z.exe"
 	else:
 		exepath = "7z"
 	return exepath
@@ -410,13 +407,15 @@ def get_project_excludes(project):
 	if project == CODEBLOCKS:
 		# excludes because of %pythoncode
 		# advprops.h is __WXPYTHON__ at line 192
-		# sqplus.h aborts on verifyBeautifierStacks because of unmatched paren
 		# propgrid.cpp is the macro IMPLEMENT_GET_VALUE
+		# sqplus.h aborts on verifyBeautifierStacks because of unmatched paren
+		# sqvm.cpp doesn't compile because of _RET_SUCCEED macro used with --remove-brackets
 		excludes.append("--exclude=wx/wxscintilla.h")
 		excludes.append("--exclude=wx/propgrid/advprops.h")
 		excludes.append("--exclude=wx/propgrid/manager.h")
 		excludes.append("--exclude=wx/propgrid/propgrid.h")
 		excludes.append("--exclude=sqplus/sqplus.h")
+		excludes.append("--exclude=squirrel/sqvm.cpp")
 		#excludes.append("--exclude=propgrid/propgrid.cpp")
 #	elif project == KDEVELOP:
 #		excludes.append("--exclude=app_templates")

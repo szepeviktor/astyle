@@ -1259,7 +1259,7 @@ TEST(AttachInlines, ShortOption)
 		"        return false;\n"
 		"    }\n"
 		"};";
-	char options[] = "-xi";
+	char options[] = "-xl";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

@@ -15,31 +15,35 @@ REM  v - verbose
 REM  p - pad-oper
 REM  Q - formatted
 REM  w - indent-preprocessor
-REM xn - indent-namespaces
-REM xi - indent inlines
+REM xn - attach-namespaces
+REM xl - attach inlines
 REM z1 - windows lineends
 
-set options=  -A1xnxiTHCOwk1  -M50  -Qz1  --options=none
+set options=  -A1xnTHCOwk1  -M50  -Qz1  --options=none
 
 echo Formatting AStyleTest
 echo options %options%
-echo -
+echo.
 
 %prog%  %options%  ..\src\*.cpp
-echo -
+echo.
 %prog%  %options%  ..\src\*.h
-echo -
+echo.
 %prog%  %options%  ..\srccon\*.cpp
-echo -
+echo.
 %prog%  %options%  ..\srccon\*.h
-echo -
+echo.
 %prog%  %options%  ..\srci18n\*.cpp
-echo -
+echo.
+%prog%  %options%  ..\srclib\*.cpp
+echo.
+%prog%  %options%  ..\srclib\*.h
+echo.
 REM override force-tabs with tabs
 %prog%  %options%  -t  ..\srcx\*.cpp
-echo -
+echo.
 %prog%  %options%  -t  ..\srcx\*.h
 
-echo -
+echo.
 echo * * * *  end of format  * * * *
 pause

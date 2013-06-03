@@ -214,7 +214,7 @@ def set_astyle_args(filepath, excludes, astyleexe):
 	for file_in in filepath:
 		args.append(file_in)
 	# set options
-	args.append("-vRQ")
+	args.append("-vRQn")
 	if len(__options.strip()) > 0:
 		args.append(__options)
 	if len(__options_x.strip()) > 0:

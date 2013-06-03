@@ -193,95 +193,6 @@ TEST(VirginLine, Brackets)
 }
 
 //----------------------------------------------------------------------------
-// AStyle Input Error Tests
-// Test error reporting conditions in astyle_main
-//----------------------------------------------------------------------------
-
-TEST(AStyleMainInputError, NullErrorHandlerPointer)
-{
-	// test error handling for NULL error handler pointer
-	// this cannot call the error handler, EXPECT_TRUE only for NULL return
-	// memory has NOT been allocated for this error
-	char text[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"    bar();\n"
-		"}\n";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, NULL, memoryAlloc);
-	EXPECT_TRUE(textOut == NULL);
-}
-
-TEST(AStyleMainInputError, NullPointerToSource)
-{
-	// test error handling for NULL pointer to source
-	// memory has NOT been allocated for this error
-	char options[] = "";
-	int errorsIn = getErrorHandler2Calls();
-	char* textOut = AStyleMain(NULL, options, errorHandler2, memoryAlloc);
-	int errorsOut = getErrorHandler2Calls();
-	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut == NULL);
-}
-
-TEST(AStyleMainInputError, NullPointerToOptions)
-{
-	// test error handling for NULL pointer to options
-	// memory has NOT been allocated for this error
-	char text[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"    bar();\n"
-		"}\n";
-	int errorsIn = getErrorHandler2Calls();
-	char* textOut = AStyleMain(text, NULL, errorHandler2, memoryAlloc);
-	int errorsOut = getErrorHandler2Calls();
-	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut == NULL);
-}
-
-TEST(AStyleMainInputError, NullPointerToMemoryAlloc)
-{
-	// test error handling for NULL memory allocation pointer
-	// memory has NOT been allocated for this error
-	char text[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"    bar();\n"
-		"}\n";
-	char options[] = "";
-	int errorsIn = getErrorHandler2Calls();
-	char* textOut = AStyleMain(text, options, errorHandler2, NULL);
-	int errorsOut = getErrorHandler2Calls();
-	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut == NULL);
-}
-
-TEST(AStyleMainInputError, InvalidOption)
-{
-	// test error handling for an invalid option
-	// memory HAS been allocated for this error
-	// the source will be formatted without the option
-	char textIn[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"    bar();\n"
-		"}\n";
-	char text[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"	bar();\n"
-		"}\n";
-	char options[] = "invalid-option, indent=tab";
-	int errorsIn = getErrorHandler2Calls();
-	char* textOut = AStyleMain(textIn, options, errorHandler2, memoryAlloc);
-	int errorsOut = getErrorHandler2Calls();
-	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-//----------------------------------------------------------------------------
 // AStyle Macro formatting
 // Test wxWidgets and MFC macros recognized by AStyle
 //----------------------------------------------------------------------------
@@ -539,6 +450,44 @@ TEST(ConsoleShortOption, Recursive2Short)
 		"    bar();\n"
 		"}\n";
 	char options[] = "-R";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(ConsoleShortOption, IgnoreExcludeErrorsShort)
+{
+	// test ignore-exclude-errors short option
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-i";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != NULL);
+	delete [] textOut;
+}
+
+TEST(ConsoleShortOption, IgnoreExcludeErrorsXShort)
+{
+	// test ignore-exclude-errors-x short option
+	// should get an error unless it has been duplicated by another option
+	// the source will be formatted without the option
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}\n";
+	char options[] = "-xi";
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
@@ -1199,7 +1148,6 @@ TEST(Enum, InStatementIndent2)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-
 
 TEST(Enum, Java)
 {

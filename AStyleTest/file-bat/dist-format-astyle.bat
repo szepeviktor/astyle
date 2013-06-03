@@ -15,19 +15,19 @@ REM  v - verbose
 REM  p - pad-oper
 REM  Q - formatted
 REM  w - indent-preprocessor
-REM xn - indent-namespaces
-REM xi - indent inlines
+REM xn - attach-namespaces
+REM xl - attach inlines
 REM z1 - windows lineends
 
-set options=  -A1xnxitHCOwk1W3  -M50  -Qz1  --options=none
+set options=  -A1xnxltHCOwk1W3  -M60  -Qz1  --options=none
 
 echo Formatting AStyle
 echo options %options%  
-echo -
+echo.
 
 %prog%  %options%  ..\..\AStyle\src\*.cpp  ..\..\AStyle\src\*.h 
 
 
-echo -
+echo.
 echo * * * *  end of format  * * * *
 pause
