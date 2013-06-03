@@ -126,9 +126,11 @@
         <i>options<span class="hl opt"></span></i><br />
         A byte string containing the formatting options. They should be in the same format as in the default options file.
         The options may be set apart by new-lines, commas, tabs or spaces. The long options do not need the "--" prefix.
-        If the file is not a C/C++ file the file mode option "mode=java" or "mode=cs" must be included. Otherwise
-        the default mode of C/C++ is used. For Python 3 the options are explicitly declared as byte format with a "b"
-        preceding the string.</p>
+        Comments may be used but they must be terminated by a new-line "\n" character.</p>
+    <p>
+        If the file is not a C/C++ file the file mode option "mode=java" or "mode=cs" must be included. Otherwise the
+        default mode of C/C++ is used. For Python 3 the options are explicitly declared as byte format with a "b" preceding
+        the string.</p>
     <p>
         <i>ERROR_HANDLER</i><br />
         A pointer to the error handling function. This function is called if there are errors in the text_in or options.

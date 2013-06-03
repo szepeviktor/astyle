@@ -54,8 +54,7 @@
         Syntax</h4>
 
     <div class="code">
-        <pre>
-<span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
+        <pre><span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
                          <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
                          <span class="hl kwb">void</span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
@@ -69,9 +68,10 @@
     <p>
         <i>pSourceIn</i><br />A pointer to the source file to be formatted.</p>
     <p>
-        <i>pOptions</i><br />A pointer to the formatting options. They should be in the same format as in the default
-        options file. The options may be set apart by new-lines, commas, tabs or spaces. The long options do not need the "--"
-        prefix.</p>
+        <i>pOptions</i><br />
+        A pointer to the formatting options. They should be in the same format as in the default options file. The options
+        may be set apart by new-lines, commas, tabs or spaces. The long options do not need the "--" prefix. Comments
+        may be used but they must be terminated by a new-line "\n" character.</p>
     <p>
         If the file to be formatted is a Java or C# file, the file mode option must be included (e.g. mode=java or mode=cs).</p>
     <p>
@@ -131,8 +131,7 @@
         Syntax</h4>
 
     <div class="code">
-        <pre>
-<span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
+        <pre><span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
 <span class="hl kwb">char</span><span class="hl sym">*</span> STDCALL <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
 </pre>
     </div>

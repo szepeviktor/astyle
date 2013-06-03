@@ -135,9 +135,9 @@ def initialize_library():
 	os.chdir(pydir)
 	# return the handle to the shared object
 	if os.name == "nt":
-		libc = load_windows_dll()
+		libc = load_windows_dll(pydir)
 	else:
-		libc = load_linux_so()
+		libc = load_linux_so(pydir)
 	return libc
 
 # -----------------------------------------------------------------------------
@@ -173,13 +173,13 @@ def load_linux_so():
 	except OSError as err:
 		# "cannot open shared object file: No such file or directory"
 		print(err)
-		print("Cannot find", shared)
+		print("Cannot find ", shared)
 		os._exit(1)
 	return libc
 
 # -----------------------------------------------------------------------------
 
-def load_windows_dll():
+def load_windows_dll(pydir):
 	"""Load the dll for Windows platforms.
 	   The shared object must be in the same folder as this python script.
 	   An exception is handled if the dll bits do not match the Python
@@ -192,10 +192,12 @@ def load_windows_dll():
 	except WindowsError as err:
 		# print(err)
 		print("Cannot load library", dll)
-		if err.args[0] == 126:      #  "The specified module could not be found"
-			print("Cannot find", dll)
-		if err.args[0] == 193:      #  "%1 is not a valid Win32 application"
+		if err.winerror == 126:		#  "The specified module could not be found"
+			print("Cannot find {0} in {1}".format(dll, pydir))
+		elif err.winerror == 193:	#  "%1 is not a valid Win32 application"
 			print("You may be mixing 32 and 64 bit code")
+		else:
+			print(err.strerror)
 		os._exit(1)
 	# exception for IronPython - cannot determine the cause
 	except OSError as err:

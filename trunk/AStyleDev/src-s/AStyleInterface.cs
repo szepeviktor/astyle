@@ -12,23 +12,28 @@ public class AStyleInterface
     private const String dllName = "astyle";
 #endif
 
-    // Cannot use String as a return value because Mono runtime will attempt to
-    // free the returned pointer resulting in a runtime crash.
+	/// AStyleGetVersion DllImport
+    /// Cannot use String as a return value because Mono runtime will attempt to
+    /// free the returned pointer resulting in a runtime crash.
+    /// NOTE: CharSet.Unicode is NOT used here.
     [DllImport(dllName, CallingConvention = CallingConvention.StdCall)]
     private static extern IntPtr AStyleGetVersion();
 
-    // Cannot use String as a return value because Mono runtime will attempt to
-    // free the returned pointer resulting in a runtime crash.
-    [DllImport(dllName, CallingConvention = CallingConvention.StdCall)]
-    private static extern IntPtr AStyleMain
+	/// AStyleMainUtf16 DllImport
+    /// Cannot use String as a return value because Mono runtime will attempt to
+    /// free the returned pointer resulting in a runtime crash.
+    /// NOTE: CharSet.Unicode and wide strings are used here.
+    [DllImport(dllName, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
+    private static extern IntPtr AStyleMainUtf16
     (
-        [MarshalAs(UnmanagedType.LPStr)] String sIn,
-        [MarshalAs(UnmanagedType.LPStr)] String sOptions,
+        [MarshalAs(UnmanagedType.LPWStr)] String sIn,
+        [MarshalAs(UnmanagedType.LPWStr)] String sOptions,
         AStyleErrorDelgate errorFunc,
         AStyleMemAllocDelgate memAllocFunc
     );
 
-    // AStyleMain callbacks
+    /// AStyleMainUtf16 callbacks
+    /// NOTE: Wide strings are NOT used here.
     private delegate IntPtr AStyleMemAllocDelgate(int size);
     private delegate void AStyleErrorDelgate
     (
@@ -36,7 +41,7 @@ public class AStyleInterface
         [MarshalAs(UnmanagedType.LPStr)] String error
     );
 
-    // AStyleMain Delegates
+    /// AStyleMainUtf16 Delegates
     private AStyleMemAllocDelgate AStyleMemAlloc;
     private AStyleErrorDelgate AStyleError;
 
@@ -46,16 +51,16 @@ public class AStyleInterface
         AStyleError = new AStyleErrorDelgate(OnAStyleError);
     }
 
-    /// Call the AStyleMain function in Artistic Style.
+    /// Call the AStyleMainUtf16 function in Artistic Style.
     /// An empty string is returned on error.
     public String FormatSource(String textIn, String options)
     {   // Return the allocated string
-        // Memory space is allocated by OnAStyleMemAlloc, a callback function from AStyle
+        // Memory space is allocated by OnAStyleMemAlloc, a callback function
         String sTextOut = String.Empty;
         try
-        {   IntPtr pText = AStyleMain(textIn, options, AStyleError, AStyleMemAlloc);
+        {   IntPtr pText = AStyleMainUtf16(textIn, options, AStyleError, AStyleMemAlloc);
             if (pText != IntPtr.Zero)
-            {   sTextOut = Marshal.PtrToStringAnsi(pText);
+            {   sTextOut = Marshal.PtrToStringUni(pText);
                 Marshal.FreeHGlobal(pText);
             }
         }
@@ -106,12 +111,12 @@ public class AStyleInterface
         return sVersion;
     }
 
-    // Allocate the memory for the Artistic Style return string.
+    /// Allocate the memory for the Artistic Style return string.
     private IntPtr OnAStyleMemAlloc(int size)
     {   return Marshal.AllocHGlobal(size);
     }
 
-    // Display errors from Artistic Style .
+    /// Display errors from Artistic Style .
     private void OnAStyleError(int errorNumber, String errorMessage)
     {   Console.WriteLine("AStyle error " + errorNumber + " - " + errorMessage);
     }

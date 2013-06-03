@@ -1,49 +1,57 @@
-@REM make example2 program distribution directories
+@REM make example program distribution directories
 @echo off
 
-set distcpp=..\example2-cpp_2.03
-set distjava=..\example2-java_2.03
-set distsharp=..\example2-sharp_2.03
-set distpython=..\examples-python_2.03
+set distdir=..\examples
+set distcpp=example-cpp_2.04
+set distjava=example-java_2.04
+set distsharp=example-sharp_2.04
+set distpython=examples-python_2.04
+set zippath=%PROGRAMFILES%\7-Zip\7z.exe
 
-REM copy astyle-cpp2
+REM create the distribution directory
+echo create %distdir%
+if not exist %distdir%  md  %distdir%
+cd %distdir%
+
+REM copy astyle-cpp
 echo -
 if not exist %distcpp%  md  %distcpp%
-if exist %distcpp%\src-cx\*  del %distcpp%\src-cx\*  /q
+if exist %distcpp%\src-c\*  del %distcpp%\src-c\*  /q
 if exist %distcpp%\test-c\*  del %distcpp%\test-c\*  /q
-xcopy ..\src-cx\*.cpp  %distcpp%\src-cx\  /q
-if errorlevel 2 pause
-xcopy ..\src-cx\*.h    %distcpp%\src-cx\  /q
+xcopy ..\src-c\*.cpp  %distcpp%\src-c\  /q
 if errorlevel 2 pause
 xcopy ..\test-c\*.cpp  %distcpp%\test-c\  /q
 if errorlevel 2 pause
 xcopy ..\test-c\*.h    %distcpp%\test-c\  /q
 if errorlevel 2 pause
-echo %distcpp:~3% copied
+"%zippath%"  "a"  "%distcpp%.zip"  "%distcpp%\*" > NUL
+echo %distcpp%.zip created
 set distcpp=
 
-REM copy astyle-java2
+REM copy astyle-java
 echo -
 if not exist %distjava%  md  %distjava%
-if exist %distjava%\src-jx\*  del %distjava%\src-jx\*  /q
+if exist %distjava%\src-j\*  del %distjava%\src-j\*  /q
 if exist %distjava%\test-j\*  del %distjava%\test-j\*  /q
-xcopy ..\src-jx\*.java  %distjava%\src-jx\  /q
+xcopy ..\src-j\*.java  %distjava%\src-j\  /q
 if errorlevel 2 pause
 xcopy ..\test-j\*.java  %distjava%\test-j\  /q
 if errorlevel 2 pause
-echo %distjava:~3% copied
+"%zippath%"  "a"  "%distjava%.zip"  "%distjava%\*" > NUL
+echo %distjava%.zip created
 set distjava=
 
-REM copy astyle-sharp2
+REM copy astyle-sharp
 echo -
 if not exist %distsharp%  md  %distsharp%
-if exist %distsharp%\src-sx\*  del %distsharp%\src-sx\*  /q
+if exist %distsharp%\src-s\*  del %distsharp%\src-s\*  /q
 if exist %distsharp%\test-s\*  del %distsharp%\test-s\*  /q
-xcopy ..\src-sx\*.cs  %distsharp%\src-sx\  /q
+xcopy ..\src-s\*.cs  %distsharp%\src-s\  /q
 if errorlevel 2 pause
 xcopy ..\test-s\*.cs  %distsharp%\test-s\  /q
 if errorlevel 2 pause
-echo %distsharp:~3% copied
+"%zippath%"  "a"  "%distsharp%.zip"  "%distsharp%\*" > NUL
+echo %distsharp%.zip created
 set distsharp=
 
 REM copy astyle-python
@@ -63,7 +71,8 @@ xcopy ..\test-c\*.cpp  %distpython%\test-c\  /q
 if errorlevel 2 pause
 xcopy ..\test-c\*.h    %distpython%\test-c\  /q
 if errorlevel 2 pause
-echo %distpython:~3% copied
+"%zippath%"  "a"  "%distpython%.zip"  "%distpython%\*" > NUL
+echo %distpython%.zip created
 set distpython=
 
 echo -
