@@ -14,9 +14,9 @@
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
+					<Add option="-Wall" />
 					<Add option="-fno-rtti" />
 					<Add option="-O3" />
-					<Add option="-Wall" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fpic" />
 					<Add option="-w1" />
@@ -25,6 +25,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-static-intel" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="cp  bin/libastyle.so  ../../src-s/" />

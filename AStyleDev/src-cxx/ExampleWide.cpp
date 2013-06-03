@@ -40,13 +40,13 @@ char* STDCALL ASMemoryAlloc(unsigned long memoryNeeded);
 // other functions
 extern "C"
 char* STDCALL  AStyleGetVersion();
-wchar_t* ConvertUtf8ToUtf16(const char* utf8In);
-char* ConvertUtf16ToUtf8(const wchar_t* wcharIn);
+wchar_t* ConvertUtf8ToWideChar(const char* utf8In);
+char* ConvertWideCharToUtf8(const wchar_t* wcharIn);
 void error(const char* why, string what = string(""));
 string getProjectDirectory(string& subPath);
 wchar_t* getText(string& filePath);
-size_t getUtf8LengthFromUtf16(const char* data, size_t tlen);
-size_t getUtf16LengthFromUtf8(const char* data, size_t len);
+size_t Utf8LengthFromUtf16(const char* data, size_t tlen);
+size_t Utf16LengthFromUtf8(const char* data, size_t len);
 void setText(const wchar_t* textOut, string& filePathStr);
 
 
@@ -69,7 +69,7 @@ int main(int, char**)
     {   // get the text to format and convert to utf-8
         string filePath = getProjectDirectory(fileName[i]);
         wchar_t* wideIn = getText(filePath);
-        char* utf8In = ConvertUtf16ToUtf8(wideIn);
+        char* utf8In = ConvertWideCharToUtf8(wideIn);
         if (utf8In == NULL)
             error("Cannot convert wide-char to utf-8", filePath);
 
@@ -89,7 +89,7 @@ int main(int, char**)
         utf8In = NULL;
 
         // convert text to wide char and return it
-        wchar_t* wideOut = ConvertUtf8ToUtf16(utf8Out);
+        wchar_t* wideOut = ConvertUtf8ToWideChar(utf8Out);
         if (wideOut == NULL)
             error("Cannot convert utf-8 to wide-char", filePath);
         cout << "Formatted " << fileName[i] << endl;
@@ -117,13 +117,13 @@ char* STDCALL ASMemoryAlloc(unsigned long memoryNeeded)
     return buffer;
 }
 
-#ifdef	_WIN32
-wchar_t* ConvertUtf8ToUtf16(const char* utf8In)
+#ifdef _WIN32
+wchar_t* ConvertUtf8ToWideChar(const char* utf8In)
 {   int wideLen = MultiByteToWideChar(CP_UTF8, 0, utf8In, -1, 0, 0);
     if (wideLen == 0)
         return NULL;
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	int lenTest = getUtf16LengthFromUtf8(utf8In, strlen(utf8In));
+	int lenTest = Utf16LengthFromUtf8(utf8In, strlen(utf8In));
 	lenTest /= 2;	// convert to wchar_t length
 	cout << "  8 to 16  " << wideLen << "  " << lenTest << "  " << wideLen - lenTest << endl;
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,13 +134,13 @@ wchar_t* ConvertUtf8ToUtf16(const char* utf8In)
     return wide;
 }
 
-char* ConvertUtf16ToUtf8(const wchar_t* wcharIn)
+char* ConvertWideCharToUtf8(const wchar_t* wcharIn)
 {   int utf8Len = WideCharToMultiByte(CP_UTF8, 0, wcharIn, -1, 0, 0, 0, 0);
     if (utf8Len == 0)
         return NULL;
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	wstring wstr(wcharIn);
-	int lenTest = getUtf8LengthFromUtf16(reinterpret_cast<const char*>(wcharIn), wcslen(wcharIn) * 2);
+	int lenTest = Utf8LengthFromUtf16(reinterpret_cast<const char*>(wcharIn), wcslen(wcharIn) * 2);
 	cout << "  16 to 8  " << utf8Len << "  " << lenTest << "  " << utf8Len - lenTest << endl;
 	///////////////////////////////////////////////////////////////////////////////////////////////
     char* utf8 = new(nothrow) char[utf8Len];
@@ -150,7 +150,7 @@ char* ConvertUtf16ToUtf8(const wchar_t* wcharIn)
     return utf8;
 }
 #else
-wchar_t* ConvertUtf8ToUtf16(const char* utf8In)
+wchar_t* ConvertUtf8ToWideChar(const char* utf8In)
 // wcharOut is processed as char although it is actually wchar_t.
 {   iconv_t iconvh = iconv_open("UTF-32", "UTF-8//TRANSLIT");
     if (iconvh == reinterpret_cast<iconv_t>(-1))
@@ -170,7 +170,7 @@ wchar_t* ConvertUtf8ToUtf16(const char* utf8In)
     return reinterpret_cast<wchar_t*>(wcharOut);
 }
 
-char* ConvertUtf16ToUtf8(const wchar_t* wcharIn)
+char* ConvertWideCharToUtf8(const wchar_t* wcharIn)
 // wcharIn is processed as char although it is actually wchar_t.
 {   iconv_t iconvh = iconv_open("UTF-8", "UTF-32//TRANSLIT");
     if (iconvh == reinterpret_cast<iconv_t>(-1))
@@ -286,7 +286,7 @@ void setText(const wchar_t* wideOut, string& filePathStr)
     out.close();
 }
 
-size_t getUtf8LengthFromUtf16(const char* data, size_t tlen)
+size_t Utf8LengthFromUtf16(const char* data, size_t tlen)
 // Adapted from SciTE UniConversion.cxx.
 // Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
 // Modified for Artistic Style by Jim Pattee.
@@ -324,7 +324,7 @@ size_t getUtf8LengthFromUtf16(const char* data, size_t tlen)
 	return len;
 }
 
-size_t getUtf16LengthFromUtf8(const char* data, size_t len)
+size_t Utf16LengthFromUtf8(const char* data, size_t len)
 // Adapted from SciTE UniConversion.cxx.
 // Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
 // Modified for Artistic Style by Jim Pattee.

@@ -20,11 +20,11 @@
         &nbsp;</p>
     <p class="noindent">
         Artistic Style has compile options for creating a shared library (DLL) or static library for use with a Graphical
-        User Interface (GUI). The shared library can be called from a C++ or C# program. There are also compile options
+        User Interface (GUI). The shared library can be called from a C++, C#, or Python &nbsp;program. There are also compile options
         for a Java Native Interface (JNI) that allows it to be called from a Java program. Information on compiling the
         various configurations of Artistic Style is in the Install Information.</p>
     <p class="noindent">
-        Source code for all examples and the test files can be obtained from the Subversion repository. The repository
+        Source code for all examples and the test files can be downloaded or obtained from the Subversion repository. The repository
         address is &quot;https://astyle.svn.sourceforge.net/svnroot/astyle&quot;. The current version is in the &quot;trunk/AStyleDev&quot;
         branch of the repository. The file and directory names in the repository are case sensitive. This project 
         requires the source from the Artistic Style project. AStyle and AStyleDev should be installed in the same top level
@@ -42,7 +42,7 @@
 
     <p>
         Source code from the following examples can be copied and pasted into an editor or development environment for 
-        compiling and running. Or it can be checked out of the repository.</p>
+        compiling and running. Or it can be downloaded from the "Source Code Downloads" below.</p>
     <p>
         <a href="cpp.html">Calling Artistic Style from a C++ Program</a> contains information on calling Artistic Style
         as a shared or static library from a C++ program. It includes a C++ sample program that can be used to test the
@@ -64,50 +64,36 @@
         Downloads</h3>
 
     <p>
-        The downloads are source files that contain a more extensive example of the sample programs. The AStyleInterface
-        class can be used by another program to call Artistic Style. It contains functions to load the shared library,
-        build an option list, call the GetVersion and Format functions, and handle errors. An example program demonstrates
-        using the class.&nbsp;Test data is included with the download. The source code can also be checked out of the 
-        repository.</p>
+        The downloads contain the above example source files and test data.</p>
 
     <h4>
-        <a href="http://astyle.svn.sourceforge.net/viewvc/astyle/trunk/AStyleDev/downloads/example2-cpp_2.03.zip">C++ Interface</a></h4>
+        <a href="http://astyle.svn.sourceforge.net/viewvc/astyle/trunk/AStyleDev/downloads/example2-cpp_2.03.zip">C++ Example</a></h4>
 
     <p>
-        Example2 for C++ includes an AStyleInterface class that builds the option string and contains the error handling
-        and memory allocation functions. Compile Artistic Style as a shared or static library using the macro ASTYLE_LIB.
-        Compile Example2.cpp and AStyleInterface.cpp as an executable and link it to the library. It will format 'cpp'
-        and 'h' files in the test-c directory. Artistic Style and the interface programs could also be compiled as a single
-        executable.</p>
+        Compile Artistic Style as a shared or static library using the macro ASTYLE_LIB. Compile Example.cpp as an executable and link it to the library. It will format 'cpp'
+        and 'h' files in the test-c directory.</p>
 
     <h4>
-        <a href="http://astyle.svn.sourceforge.net/viewvc/astyle/trunk/AStyleDev/downloads/example2-java_2.03.zip">Java Interface</a></h4>
+        <a href="http://astyle.svn.sourceforge.net/viewvc/astyle/trunk/AStyleDev/downloads/example2-java_2.03.zip">Java Example</a></h4>
 
     <p>
-        Example2 for Java includes an AStyleInterface class that builds the option string and contains the methods to
+        The example for Java includes an AStyleInterface class that builds the option string and contains the methods to
         call the shared library using the Java Native Interface (JNI). Artistic Style must be compiled as a shared library
         using the macro ASTYLE_JNI. Copy the shared library to the same folder as the Java class files (it is loaded from
         the classpath directory). It will format java files in the test-j directory.</p>
 
     <h4>
-        <a href="http://astyle.svn.sourceforge.net/viewvc/astyle/trunk/AStyleDev/downloads/example2-sharp_2.03.zip">C# Interface</a></h4>
+        <a href="http://astyle.svn.sourceforge.net/viewvc/astyle/trunk/AStyleDev/downloads/example2-sharp_2.03.zip">C# Example</a></h4>
 
     <p>
-        Example2 for C# includes an AStyleInterface class that builds the option string and contains the methods to call
+        Th example2 for C# includes an AStyleInterface class that builds the option string and contains the methods to call
         the shared library using a C# program. Compile Artistic Style as a shared library using the macro ASTYLE_LIB.
         Copy the shared library to the same folder as the C# class files (C# does a Windows type search for the shared
         library, looking first in the startup program's directory). It will format C# files in the test-s directory.</p>
 
-    <h3>
-        Script Downloads</h3>
-
-    <p>
-        Test data is included with the download. The scripts can also be checked out of the repository. You must have
-        the appropriate software installed to run the scripts.</p>
-
     <h4>
         <a href="http://astyle.svn.sourceforge.net/viewvc/astyle/trunk/AStyleDev/downloads/examples-python_2.03.zip">Python
-            Scripts</a></h4>
+            Examples</a></h4>
 
     <p>
         This download contains three Python scripts. The script ExampleExe.py calls an Artistic Style executable to format
