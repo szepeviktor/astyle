@@ -1,5 +1,0 @@
--fgnu-runtime  -fexceptions
--Wl,-subsystem,windows  -shared-libgcc
- -lOperation  -lgnustep-gui  -lgnustep-base  -lobjc
- -lgnustep-gui  -lws2_32  -ladvapi32  -lcomctl32  -luser32
- -lcomdlg32  -lmpr  -lnetapi32  -lm
