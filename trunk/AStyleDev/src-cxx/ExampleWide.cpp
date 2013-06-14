@@ -1,7 +1,7 @@
 // Example.cpp
 
 /* This program calls the Artistic Style GUI formatter (AStyleMain)
- * to format the astyle source files in a test-c directory.
+ * to format the astyle source files in a test-data directory.
  */
 
 #include <stdlib.h>
@@ -52,9 +52,9 @@ void setText(const wchar_t* textOut, string& filePathStr);
 
 int main(int, char**)
 {   // options to pass to AStyle
-    string fileName[] = { "AStyleDev/test-c/ASBeautifier.cpp",
-                          "AStyleDev/test-c/ASFormatter.cpp" ,
-                          "AStyleDev/test-c/astyle.h"
+    string fileName[] = { "AStyleDev/test-data/ASBeautifier.cpp",
+                          "AStyleDev/test-data/ASFormatter.cpp",
+                          "AStyleDev/test-data/astyle.h"
                         };
     char* options = (char*)"-A2tOP";
     size_t arraySize = sizeof(fileName) / sizeof(fileName[0]);

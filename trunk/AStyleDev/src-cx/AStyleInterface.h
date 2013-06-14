@@ -18,7 +18,7 @@ extern "C"
     char* STDCALL  AStyleMain(const char* textIn,
                               const char* options,
                               void(STDCALL* errorHandler)(int, const char*),
-                              char*(STDCALL* memoryAlloc)(unsigned long));
+                              char* (STDCALL* memoryAlloc)(unsigned long));
 }
 
 /**

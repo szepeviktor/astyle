@@ -6,15 +6,15 @@ using System.Text;
 
 /// Example opens the source files, calls the AStyleInterface methods
 /// to format the files, and saves the reformatted source. The files
-/// are in a test-s directory. The option mode=cs must be included
+/// are in a test-data directory. The option mode=cs must be included
 /// for C# files.
 public class Example
-{   /// Main function for Example
+{   /// Main function for this example.
     public static void Main(string[] args)
     {   // files to pass to AStyle
-        String[] fileName =  { "AStyleDev/test-s/FileUtility.cs",
-                               "AStyleDev/test-s/MainClass.cs" ,
-                               "AStyleDev/test-s/StringParser.cs" ,
+        String[] fileName =  { "AStyleDev/test-data/ASBeautifier.cpp",
+                               "AStyleDev/test-data/ASFormatter.cpp",
+                               "AStyleDev/test-data/astyle.h"
                              };
 
         // options to pass to AStyle
@@ -28,7 +28,7 @@ public class Example
         // does not need to terminate on an error
         String version = AStyle.GetVersion();
         if (version != String.Empty)
-            Console.WriteLine ("Example C# - AStyle " + version);
+            Console.WriteLine("Example C# - AStyle " + version);
 
         // process the files
         for (int i = 0; i < fileName.Length; i++)
@@ -39,6 +39,8 @@ public class Example
             // call the Artistic Style formatting function
             // does not need to terminate on an error
             String textOut = AStyle.FormatSource(textIn, options);
+            // does not need to terminate on an error
+            // an error message has been displayed by the error handler
             if (textOut == String.Empty)
             {   Console.WriteLine("Cannot format "  + filePath);
                 continue;
@@ -53,8 +55,8 @@ public class Example
     }
 
     ///  Error message function for this example.
-    private static void Error(String why, String what)
-    {   Console.WriteLine(why + ' ' + what);
+    private static void Error(String message)
+    {   Console.WriteLine(message);
         Console.WriteLine("The program has terminated!");
         Environment.Exit(1);
     }
@@ -69,7 +71,7 @@ public class Example
         else
             homeDirectory = Environment.GetEnvironmentVariable("USERPROFILE");
         if (homeDirectory == null)
-            Error("Cannot find HOME directory!", "");
+            Error("Cannot find HOME directory!");
         String projectPath = homeDirectory + "/Projects/" + subPath;
         return projectPath;
     }
@@ -96,15 +98,15 @@ public class Example
         }
         catch (DirectoryNotFoundException e)
         {   Console.WriteLine(e.ToString());
-            Error("Cannot find directory", filePath);
+            Error("Cannot find directory " + filePath);
         }
         catch (FileNotFoundException e)
         {   Console.WriteLine(e.ToString());
-            Error("Cannot find file", filePath);
+            Error("Cannot find file " + filePath);
         }
         catch (Exception e)
         {   Console.WriteLine(e.ToString());
-            Error("Error reading file", filePath);
+            Error("Error reading file " + filePath);
         }
 
         return bufferIn.ToString();
@@ -114,7 +116,7 @@ public class Example
     ///  Usually the text would be returned to an edit control.
     private static void SetText(String textOut, String filePath)
     {   // create a backup file
-        String origfilePath = filePath +  ".orig";
+        String origfilePath = filePath + ".orig";
         File.Delete(origfilePath);                  // remove a pre-existing file
         FileInfo outFile = new FileInfo(filePath);
         outFile.MoveTo(origfilePath);
@@ -129,7 +131,7 @@ public class Example
         }
         catch (Exception e)
         {   Console.WriteLine(e.ToString());
-            Error("Error writing file", filePath);
+            Error("Error writing file " + filePath);
         }
 
         return;

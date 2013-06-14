@@ -1,0 +1,315 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Artistic Style Objective-C</title>
+    <meta http-equiv="Content-Language" content="en-us" />
+    <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+    <link href="navy.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+    <h1>
+        Artistic Style Developer Information</h1>
+
+    <h2 class="large">
+        Calling Artistic Style from an Objective-C Program</h2>
+
+    <p>
+        &nbsp;</p>
+    <p class="noindent">
+        Artistic Style can be compiled as a shared library (DLL) or a static library and called from an Objective-C program.</p>
+
+    <h3>
+        Compile Options</h3>
+
+    <p>
+        To compile AStyle for use with an Objective-C program the compile option ASTYLE_LIB must be defined. Then AStyle will
+        accept the files and options as parameters from a function call. It is the responsibility of the calling program
+        to read the source files and accept the options from the user via a graphical interface or other method. These
+        are then passed via the function call. After the source files are formatted they will be returned to the calling
+        program, which must then save the source file and take other appropriate action.</p>
+    <p>
+        Visual Studio users can also use the option ASTYLE_NO_VCX (no Visual C exports) to remove the 
+        __declspec(dllexport) definition from Visual C. Use this only for static libraries or when the AStyle source 
+        is included in the compile. Do NOT use this when compiled as a shared (dynamic) library. It is effective only 
+        for Visual Studio 2012 and higher. It will NOT work with previous versions. It has no effect with other 
+        compilers since they require a separate option to create the import library and export files.
+    </p>
+    <p>
+        The source can also be included in a program or another shared library (DLL) instead of being compiled by 
+        itself. It should be compiled with the options ASTYLE_LIB (and ASTYLE_NO_VCX for Visual C) to get the function call instead 
+        of the console build. Then include it with the other source modules and call it using the AStyleMain function.</p>
+
+    <h3>
+        AStyleMain Function</h3>
+
+    <p>
+        This function is called to format the source code.</p>
+
+    <h4>
+        Syntax</h4>
+
+    <div class="hl">
+        <pre class="hl"><span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
+                         <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
+                         <span class="hl kwb">void</span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
+                         <span class="hl kwb">char</span><span class="hl opt">* (</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
+</pre>
+    </div>
+
+    <h4>
+        Parameters</h4>
+
+    <p>
+        <i>pSourceIn</i><br />A pointer to the source file to be formatted.</p>
+    <p>
+        <i>pOptions</i><br />
+        A pointer to the formatting options. They should be in the same format as in the default options file. The options
+        may be set apart by new-lines, commas, tabs or spaces. The long options do not need the "--" prefix. Comments
+        may be used but they must be terminated by a new-line "\n" character.</p>
+    <p>
+        If the file to be formatted is a Java or C# file, the file mode option must be included (e.g. mode=java or mode=cs).</p>
+    <p>
+        <i>fpError</i><br />A pointer to the error handling function. If there are errors in the parameters pSourceIn
+        or pOptions, this function is called. It should display an error message and then either abort or continue the
+        program depending on the error. The first parameter is a number identifying the error. The second parameter is
+        a pointer to a standard error message.</p>
+    <p>
+        Error messages numbered 100-199 are errors that prevent the file from being formatted. A NULL pointer is returned
+        to the calling program. Error messages numbered 200-299 are errors that do NOT prevent the file from being formatted.
+        A valid pointer and a formatted file are returned. This will occur if an invalid option is sent to AStyleMain.
+        The calling program has the option of accepting or rejecting the formatted file.</p>
+    <p>
+        <i>fpAlloc</i><br />A pointer to the memory allocation function. The calling program must allocate memory for
+        the output source file. This function will be called when the memory is needed. The parameter is the amount of
+        memory that should be allocated.</p>
+    <p>
+        Memory should be allocated using "NSZoneMalloc". The exceptions are handled differently for the default zone and
+        other zones. See the documentation (in NSZone.h) if you are not using the default zone. With the default zone
+        this method, will return a NULL pointer if there is an allocation exception.
+        Artistic Style will generate an error message and return a NULL pointer from the AStyleMain function. The calling
+        program can handle the exception at this point rather than in the memory allocation function. See the following
+        example program for the procedure.</p>
+    <p>
+        The calling program is responsible for freeing the allocated memory (with NSZoneFree) when it is no longer required.</p>
+
+    <h4>
+        Return Value</h4>
+
+    <p>
+        If the function succeeds, the return value is a pointer to the formatted source code.</p>
+    <p>
+        If the function fails, the return value is NULL. Before the NULL is returned an error message will be sent to
+        the error handling function.</p>
+    <p>
+        This function typically fails for one of the following reasons:</p>
+    <ul>
+        <li>an invalid parameter value, usually a NULL pointer.</li>
+        <li>the memory allocation function (fpAlloc) returns a NULL.</li>
+    </ul>
+
+    <h4>
+        Remarks</h4>
+
+    <p>
+        The STDCALL macro is defined for Windows as <i>__stdcall</i>. It is needed if AStyle is compiled as a Windows
+        shared library (DLL). For Linux it is defined but does not have a value.</p>
+    <p>
+        The calling program is responsible for freeing the memory allocated by <i>fpAlloc</i> when it is no longer needed.</p>
+
+    <h3>
+        AStyleGetVersion Function</h3>
+
+    <p>
+        This function is called to get the Artistic Style version number.
+    </p>
+
+    <h4>
+        Syntax</h4>
+
+    <div class="hl">
+        <pre class="hl"><span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
+</pre>
+    </div>
+
+    <h4>
+        Return Value</h4>
+
+    <p>
+        A pointer to the Artistic Style version number.</p>
+
+    <h4>
+        Remarks</h4>
+
+    <p>
+        The STDCALL macro is defined for Windows as <i>__stdcall</i>. It is needed if AStyle is compiled as a Windows
+        shared library (DLL). For Linux it is defined but does not have a value.</p>
+
+    <h3>
+        Example</h3>
+
+    <p>
+        The following example formats source files by calling the Artistic Style formatter. It is a console application
+        but the procedure for a GUI is the same. The example can be copied and pasted into a source file. Or it can be
+        downloaded with test data from the "Developer Information" page. The source code for Artistic Style must be added
+        as a shared library (DLL), a static library, or included with the example source.</p>
+    <p>
+        &nbsp;</p>
+    <div class="hl">
+ <pre class="hl">
+ 
+<span class="hl slc">// Example.m</span>
+
+<span class="hl com">/* This program calls the Artistic Style GUI formatter (AStyleMain)</span>
+<span class="hl com"> * to format the astyle source files in a test-data directory.</span>
+<span class="hl com"> */</span>
+
+<span class="hl ppc">#include &lt;Foundation/Foundation.h&gt;</span>
+
+<span class="hl slc">// allow for different calling conventions in Linux and Windows</span>
+<span class="hl ppc">#ifdef _WIN32</span>
+<span class="hl ppc">#define STDCALL __stdcall</span>
+<span class="hl ppc">#else</span>
+<span class="hl ppc">#define STDCALL</span>
+<span class="hl ppc">#endif</span>
+
+<span class="hl slc">// functions to call AStyleMain</span>
+<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
+<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
+                         <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
+                         <span class="hl kwb">void</span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
+                         <span class="hl kwb">char</span><span class="hl opt">* (</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
+<span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">);</span>
+<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl opt">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl opt">);</span>
+
+<span class="hl slc">// other functions</span>
+<span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span>NSString<span class="hl opt">*</span> message<span class="hl opt">);</span>
+NSString<span class="hl opt">*</span> <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span><span class="hl kwb">const</span> NSString<span class="hl opt">*</span> subPath<span class="hl opt">);</span>
+NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span class="hl opt">(</span>NSString<span class="hl opt">*</span> filePath<span class="hl opt">);</span>
+<span class="hl kwb">void</span>  <span class="hl kwd">setText</span><span class="hl opt">(</span><span class="hl kwb">const</span> NSString<span class="hl opt">*</span> textOut<span class="hl opt">,</span> NSString<span class="hl opt">*</span> filePath<span class="hl opt">);</span>
+
+
+<span class="hl slc">// Main function for this example.</span>
+<span class="hl kwb">int</span> <span class="hl kwd">main</span><span class="hl opt">(</span><span class="hl kwb">int</span> argc<span class="hl opt">,</span> <span class="hl kwb">const char</span><span class="hl opt">*</span> argv<span class="hl opt">[])</span>
+<span class="hl opt">{</span>   NSAutoreleasePool<span class="hl opt">*</span> pool <span class="hl opt">= [[</span>NSAutoreleasePool alloc<span class="hl opt">]</span> init<span class="hl opt">];</span>
+
+    <span class="hl slc">// options to pass to AStyle</span>
+    <span class="hl kwb">const</span> NSArray<span class="hl opt">*</span> fileNames <span class="hl opt">= [</span>NSArray arrayWithObjects<span class="hl opt">:</span>
+                                &#64;<span class="hl str">&quot;AStyleDev/test-data/ASBeautifier.cpp&quot;</span><span class="hl opt">,</span>
+                                &#64;<span class="hl str">&quot;AStyleDev/test-data/ASFormatter.cpp&quot;</span><span class="hl opt">,</span>
+                                &#64;<span class="hl str">&quot;AStyleDev/test-data/astyle.h&quot;</span><span class="hl opt">,</span>
+                                nil<span class="hl opt">];</span>
+    <span class="hl kwb">const</span> NSString<span class="hl opt">*</span> options <span class="hl opt">=</span> &#64;<span class="hl str">&quot;-A2tOP&quot;</span><span class="hl opt">;</span>
+
+    <span class="hl slc">// get Artistic Style version</span>
+    <span class="hl kwb">const char</span><span class="hl opt">*</span> versionChar <span class="hl opt">=</span> <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
+    <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;Example Obj-C - AStyle %s&quot;</span><span class="hl opt">,</span> versionChar<span class="hl opt">);</span>
+
+    <span class="hl slc">// process the input files</span>
+    <span class="hl kwa">for</span> <span class="hl opt">(</span>NSString <span class="hl opt">*</span> fileName in fileNames<span class="hl opt">)</span>
+    <span class="hl opt">{</span>   <span class="hl slc">// get the text to format</span>
+        NSString<span class="hl opt">*</span> filePath <span class="hl opt">=</span> <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span>fileName<span class="hl opt">);</span>
+        NSString<span class="hl opt">*</span> textIn <span class="hl opt">=</span> <span class="hl kwd">getText</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
+
+        <span class="hl slc">// call the Artistic Style formatting function</span>
+        <span class="hl kwb">char</span><span class="hl opt">*</span> textOutChar <span class="hl opt">=</span> <span class="hl kwd">AStyleMain</span><span class="hl opt">([</span>textIn UTF8String<span class="hl opt">],</span>
+                                       <span class="hl opt">[</span>options UTF8String<span class="hl opt">],</span>
+                                       ASErrorHandler<span class="hl opt">,</span>
+                                       ASMemoryAlloc<span class="hl opt">);</span>
+
+        <span class="hl slc">// does not need to terminate on an error</span>
+        <span class="hl slc">// an error message has been displayed by the error handler</span>
+        <span class="hl kwa">if</span> <span class="hl opt">(</span>textOutChar <span class="hl opt">==</span> NULL<span class="hl opt">)</span>
+            <span class="hl kwd">error</span><span class="hl opt">([</span>NSString stringWithFormat<span class="hl opt">:</span> &#64;<span class="hl str">&quot;Cannot format %&#64;&quot;</span><span class="hl opt">,</span> fileName<span class="hl opt">]);</span>
+
+        <span class="hl slc">// return the formatted text</span>
+        NSString<span class="hl opt">*</span> textOut <span class="hl opt">= [</span>NSString stringWithUTF8String<span class="hl opt">:</span> textOutChar<span class="hl opt">];</span>
+        <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;Formatted %&#64;&quot;</span><span class="hl opt">,</span> fileName<span class="hl opt">);</span>
+        <span class="hl kwd">setText</span><span class="hl opt">(</span>textOut<span class="hl opt">,</span> filePath<span class="hl opt">);</span>
+
+        <span class="hl slc">// free the buffer allocated with NSZoneMalloc</span>
+        <span class="hl kwd">NSZoneFree</span><span class="hl opt">(</span><span class="hl kwd">NSDefaultMallocZone</span><span class="hl opt">(),</span> textOutChar<span class="hl opt">);</span>
+        textOutChar <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+    <span class="hl opt">}</span>
+
+<span class="hl slc">//    system(&quot;pause&quot;);</span>
+    <span class="hl opt">[</span>pool drain<span class="hl opt">];</span>
+    <span class="hl kwa">return</span> EXIT_SUCCESS<span class="hl opt">;</span>
+<span class="hl opt">}</span>
+
+<span class="hl slc">// Error handler for the Artistic Style formatter.</span>
+<span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">)</span>
+<span class="hl opt">{</span>   <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;astyle error %d&quot;</span><span class="hl opt">,</span> errorNumber<span class="hl opt">);</span>
+    <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;%s&quot;</span><span class="hl opt">,</span> errorMessage<span class="hl opt">);</span>
+<span class="hl opt">}</span>
+
+<span class="hl slc">// Allocate memory for the Artistic Style formatter.</span>
+<span class="hl slc">// A variable-sized object may not be initialized with alloc.</span>
+<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl opt">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl opt">)</span>
+<span class="hl opt">{</span>   <span class="hl slc">// if allocation fails a null pointer is returned</span>
+    <span class="hl slc">// error condition is checked after the return from AStyleMain</span>
+    <span class="hl kwb">char</span><span class="hl opt">*</span> buffer <span class="hl opt">=</span> <span class="hl kwd">NSZoneMalloc</span><span class="hl opt">(</span><span class="hl kwd">NSDefaultMallocZone</span><span class="hl opt">(),</span> memoryNeeded<span class="hl opt">);</span>
+    <span class="hl kwa">return</span> buffer<span class="hl opt">;</span>
+<span class="hl opt">}</span>
+
+<span class="hl slc">// Error message function for this example.</span>
+<span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span>NSString<span class="hl opt">*</span> message<span class="hl opt">)</span>
+<span class="hl opt">{</span>   <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;%&#64;&quot;</span><span class="hl opt">,</span> message<span class="hl opt">);</span>
+    <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
+    <span class="hl kwd">exit</span><span class="hl opt">(</span>EXIT_FAILURE<span class="hl opt">);</span>
+<span class="hl opt">}</span>
+
+<span class="hl slc">// Prepend the project directory to the subpath.</span>
+<span class="hl slc">// This may need to be changed for your directory structure.</span>
+NSString<span class="hl opt">*</span> <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span><span class="hl kwb">const</span> NSString<span class="hl opt">*</span> subPath<span class="hl opt">)</span>
+<span class="hl opt">{</span>
+<span class="hl ppc">#ifdef _WIN32</span>
+    <span class="hl kwb">char</span><span class="hl opt">*</span> homeDirectoryChar <span class="hl opt">=</span> <span class="hl kwd">getenv</span><span class="hl opt">(</span><span class="hl str">&quot;USERPROFILE&quot;</span><span class="hl opt">);</span>
+<span class="hl ppc">#else</span>
+    <span class="hl kwb">char</span><span class="hl opt">*</span> homeDirectoryChar <span class="hl opt">=</span> <span class="hl kwd">getenv</span><span class="hl opt">(</span><span class="hl str">&quot;HOME&quot;</span><span class="hl opt">);</span>
+<span class="hl ppc">#endif</span>
+    <span class="hl kwa">if</span> <span class="hl opt">(!</span>homeDirectoryChar<span class="hl opt">)</span>
+        <span class="hl kwd">error</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;Cannot find HOME directory&quot;</span><span class="hl opt">);</span>
+    NSString<span class="hl opt">*</span> homeDirectory <span class="hl opt">= [</span>NSString stringWithCString<span class="hl opt">:</span> homeDirectoryChar
+                               encoding<span class="hl opt">: [</span>NSString defaultCStringEncoding<span class="hl opt">]];</span>
+    NSString<span class="hl opt">*</span> projectPath <span class="hl opt">= [</span>NSString stringWithFormat<span class="hl opt">:</span> &#64;<span class="hl str">&quot;%&#64;/%&#64;/%&#64;&quot;</span><span class="hl opt">,</span>
+                             homeDirectory<span class="hl opt">,</span> &#64;<span class="hl str">&quot;Projects&quot;</span><span class="hl opt">,</span> subPath<span class="hl opt">];</span>
+    <span class="hl kwa">return</span> projectPath<span class="hl opt">;</span>
+<span class="hl opt">}</span>
+
+<span class="hl slc">// Get the text to be formatted and convert to a NSString.</span>
+<span class="hl slc">// Usually the text would be obtained from an edit control.</span>
+NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span class="hl opt">(</span>NSString<span class="hl opt">*</span> filePath<span class="hl opt">)</span>
+<span class="hl opt">{</span>   NSString<span class="hl opt">*</span> textIn <span class="hl opt">= [</span>NSString stringWithContentsOfFile<span class="hl opt">:</span> filePath<span class="hl opt">];</span>
+    <span class="hl kwa">return</span> textIn<span class="hl opt">;</span>
+<span class="hl opt">}</span>
+
+<span class="hl slc">// Return the formatted text.</span>
+<span class="hl slc">// Usually the text would be returned to an edit control.</span>
+<span class="hl kwb">void</span> <span class="hl kwd">setText</span><span class="hl opt">(</span><span class="hl kwb">const</span> NSString<span class="hl opt">*</span> textOut<span class="hl opt">,</span> NSString<span class="hl opt">*</span> filePath<span class="hl opt">)</span>
+<span class="hl opt">{</span>   <span class="hl slc">// create a backup file</span>
+    NSString<span class="hl opt">*</span> origfilePath <span class="hl opt">=  [</span>NSString stringWithFormat<span class="hl opt">:</span> &#64;<span class="hl str">&quot;%&#64;%&#64;&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">,</span> &#64;<span class="hl str">&quot;.orig&quot;</span><span class="hl opt">];</span>
+    <span class="hl opt">[[</span>NSFileManager defaultManager<span class="hl opt">]</span> movePath<span class="hl opt">:</span> filePath toPath<span class="hl opt">:</span> origfilePath handler<span class="hl opt">:</span> nil<span class="hl opt">];</span>
+    <span class="hl slc">// write the text</span>
+    <span class="hl opt">[</span>textOut writeToFile<span class="hl opt">:</span> filePath atomically<span class="hl opt">:</span> YES<span class="hl opt">];</span>
+<span class="hl opt">}</span>
+
+</pre>
+    </div>
+    <p>
+        &nbsp;</p>
+
+    <center style="margin-left: -0.4in;">
+        <a href="http://sourceforge.net/projects/astyle">
+            <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=2319&type=16" width="150" height="40" alt="[SourceForge.net]" /></a>
+    </center>
+
+    <p>
+        &nbsp;</p>
+</body>
+
+</html>

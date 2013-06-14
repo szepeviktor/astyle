@@ -2,8 +2,8 @@
 @echo off
 
 set progdir=C:\Program Files\AStyle
-set srcdir1=..\src-c
-set srcdir2=..\src-cx
+:: set progdir=%USERPROFILE%\Projects\AStyle\build\vs2010\bin
+set srcdir1=..\src-o
 
 REM  H - pad-header
 REM  U - unpad-paren
@@ -14,10 +14,9 @@ REM  p - pad-oper
 REM  Q - formatted
 REM z1 - windows lineends
 
-"%progdir%\AStyle"  -A9HUk1c  -Qz1  --options=none  %srcdir1%\*.cpp
-"%progdir%\AStyle"  -A9HUk1c  -Qz1  --options=none  %srcdir2%\*.cpp  %srcdir2%\*.h
+"%progdir%\AStyle"  -A9HUk1c  -Qz1  --options=none  %srcdir1%\*.m
 
 echo -
 echo -
-echo * * * *  end of Format Cpp  * * * *
+echo * * * *  end of Format Obj-C  * * * *
 pause

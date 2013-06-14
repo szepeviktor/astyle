@@ -27,7 +27,7 @@ public class Example2
         // does not need to terminate on an error
         String version = AStyle.GetVersion();
         if (version != String.Empty)
-            Console.WriteLine ("Example2 C# - AStyle " + version);
+            Console.WriteLine("Example2 C# - AStyle " + version);
 
         // process the files
         for (int i = 0; i < fileName.Length; i++)
