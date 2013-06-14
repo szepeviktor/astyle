@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Language" content="en-us" />
     <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
     <link href="styles.css" rel="stylesheet" type="text/css" />
-    <link href="edit-jedit.css" rel="stylesheet" type="text/css" />
+    <link href="greenlcd.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -70,8 +70,8 @@
     <h4>
         Syntax</h4>
 
-    <div class="code">
-        <pre><span class="hl kwa">public native</span> <span class="hl kwc">String</span> <span class="hl kwd">AStyleMain</span><span
+    <div class="hl">
+        <pre class="hl"><span class="hl kwa">public native</span> <span class="hl kwc">String</span> <span class="hl kwd">AStyleMain</span><span
             class="hl sym">(</span><span class="hl kwc">String</span> textIn<span class="hl sym">,</span> <span class="hl kwc">String</span> options<span
                 class="hl sym">);</span></pre>
     </div>
@@ -120,8 +120,8 @@
     <h4>
         Syntax</h4>
 
-    <div class="code">
-        <pre><span class="hl kwa">public native</span> <span class="hl kwc">String</span> <span class="hl kwd">AStyleGetVersion</span><span
+    <div class="hl">
+        <pre class="hl"><span class="hl kwa">public native</span> <span class="hl kwc">String</span> <span class="hl kwd">AStyleGetVersion</span><span
             class="hl sym">();</span>
 </pre>
     </div>
@@ -153,8 +153,8 @@
     <h4>
         Syntax</h4>
 
-    <div class="code">
-        <pre><span class="hl kwa">private</span> <span class="hl kwb">void</span> <span class="hl kwc">ErrorHandler</span><span
+    <div class="hl">
+        <pre class="hl"><span class="hl kwa">private</span> <span class="hl kwb">void</span> <span class="hl kwc">ErrorHandler</span><span
             class="hl sym">(</span><span class="hl kwb">int</span> errorNumber<span class="hl sym">,</span> <span class="hl kwc">String</span> errorMessage<span
                 class="hl sym">)</span>
 </pre>
@@ -188,37 +188,41 @@
     <p>
         The following example formats source files by calling the JNI functions in the Artistic Style shared library.
         It is a console application but the procedure for a GUI is the same. The two classes can be copied and pasted
-        into a source files. The Artistic Style source code must be compiled as a shared library (DLL) using the option
-        ASTYLE_JNI. The shared library must be copied to the directory that contains the Java class files (it is loaded
-        from the current directory). The directory of the files to be formatted is an absolute path in the function getProjectDirectory()
-        in Example.java. This will need to be changed to reflect your directory structure. When the program is run be
-        sure the current working directory is the directory with the class files and shared library.</p>
+        into source files. Or they can be downloaded with test data from the "Developer Information" page. The Artistic
+        Style source code must be compiled as a shared library (DLL) using the option ASTYLE_JNI. The shared library must
+        be copied to the directory that contains the Java class files (it is loaded from the current directory). The directory
+        of the files to be formatted is an absolute path in the function getProjectDirectory() in Example.java. This will
+        need to be changed to reflect your directory structure. When the program is run be sure the current working directory
+        is the directory with the class files and shared library.</p>
     <p>
         &nbsp;</p>
-    <div class="code">
-        <pre>                
+    <div class="hl">
+        <pre class="hl">                
 <span class="hl slc">// Example.java</span>
 
 <span class="hl com">/*</span>
 <span class="hl com">* Example opens the source files, calls the AStyleInterface methods</span>
 <span class="hl com">* to format the files, and saves the reformatted source. The files</span>
-<span class="hl com">* are in a test-j directory. The option mode=java must be included</span>
+<span class="hl com">* are in a test-datadirectory. The option mode=java must be included</span>
 <span class="hl com">* for java files.</span>
 <span class="hl com">*/</span>
 
 <span class="hl kwa">import</span> java<span class="hl opt">.</span>io<span class="hl opt">.*;</span>
 
 <span class="hl kwa">public class</span> Example
-<span class="hl opt">{</span>   <span class="hl kwa">public static</span> <span class="hl kwb">void</span> <span class="hl kwd">main</span><span class="hl opt">(</span>String<span class="hl opt">[]</span> args<span class="hl opt">)</span>
+<span class="hl opt">{</span>   <span class="hl com">/*</span>
+<span class="hl com">     *  Main function for this example.</span>
+<span class="hl com">     */</span>
+    <span class="hl kwa">public static</span> <span class="hl kwb">void</span> <span class="hl kwd">main</span><span class="hl opt">(</span>String<span class="hl opt">[]</span> args<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl slc">// files to pass to AStyle</span>
-        String fileName<span class="hl opt">[] =  {</span> <span class="hl str">&quot;AStyleDev/test-j/JSBeautifier.java&quot;</span><span class="hl opt">,</span>
-                               <span class="hl str">&quot;AStyleDev/test-j/JSFormatter.java&quot;</span> <span class="hl opt">,</span>
-                               <span class="hl str">&quot;AStyleDev/test-j/JSLineBreaker.java&quot;</span> <span class="hl opt">,</span>
+        String fileName<span class="hl opt">[] =  {</span>  <span class="hl str">&quot;AStyleDev/test-data/ASBeautifier.cpp&quot;</span><span class="hl opt">,</span>
+                                <span class="hl str">&quot;AStyleDev/test-data/ASFormatter.cpp&quot;</span><span class="hl opt">,</span>
+                                <span class="hl str">&quot;AStyleDev/test-data/astyle.h&quot;</span>
                              <span class="hl opt">};</span>
 
         <span class="hl slc">// options to pass to AStyle</span>
         <span class="hl slc">// mode=java is required for Java files</span>
-        String options <span class="hl opt">=</span> <span class="hl str">&quot;style=java mode=java&quot;</span><span class="hl opt">;</span>
+        String options <span class="hl opt">=</span> <span class="hl str">&quot;style=java, indent=tab, mode=java&quot;</span><span class="hl opt">;</span>
 
         <span class="hl slc">// create an object</span>
         AStyleInterface astyle <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleInterface</span><span class="hl opt">();</span>
@@ -236,8 +240,9 @@
             String textIn <span class="hl opt">=</span> <span class="hl kwd">getText</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
 
             <span class="hl slc">// call the Artistic Style formatting function</span>
-            <span class="hl slc">// does not need to terminate on an error</span>
             String textOut <span class="hl opt">=</span> astyle<span class="hl opt">.</span><span class="hl kwd">formatSource</span><span class="hl opt">(</span>textIn<span class="hl opt">,</span> options<span class="hl opt">);</span>
+            <span class="hl slc">// does not need to terminate on an error</span>
+            <span class="hl slc">// an error message has been displayed by the error handler</span>
             <span class="hl kwa">if</span> <span class="hl opt">(</span>textOut<span class="hl opt">.</span><span class="hl kwd">length</span><span class="hl opt">() ==</span> <span class="hl num">0</span><span class="hl opt">)</span>
             <span class="hl opt">{</span>   System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot format &quot;</span>  <span class="hl opt">+</span> filePath<span class="hl opt">);</span>
                 <span class="hl kwa">continue</span><span class="hl opt">;</span>
@@ -254,8 +259,8 @@
     <span class="hl com">/*</span>
 <span class="hl com">    *  Error message function for this example.</span>
 <span class="hl com">    */</span>
-    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span>String why<span class="hl opt">,</span> String what<span class="hl opt">)</span>
-    <span class="hl opt">{</span>   System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span>why <span class="hl opt">+</span> <span class="hl str">' '</span> <span class="hl opt">+</span> what<span class="hl opt">);</span>
+    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span>String message<span class="hl opt">)</span>
+    <span class="hl opt">{</span>   System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span>message<span class="hl opt">);</span>
         System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
         System<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
     <span class="hl opt">}</span>
@@ -295,11 +300,11 @@
         <span class="hl opt">}</span>
         <span class="hl kwa">catch</span> <span class="hl opt">(</span>Exception e<span class="hl opt">)</span>
         <span class="hl opt">{</span>   <span class="hl kwa">if</span> <span class="hl opt">(</span>e <span class="hl kwa">instanceof</span> FileNotFoundException<span class="hl opt">)</span>
-                <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot open input file&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">);</span>
+                <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot open input file &quot;</span> <span class="hl opt">+</span> filePath<span class="hl opt">);</span>
             <span class="hl kwa">else if</span> <span class="hl opt">(</span>e <span class="hl kwa">instanceof</span> IOException<span class="hl opt">)</span>
-                <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Error reading file&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">);</span>
+                <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Error reading file &quot;</span> <span class="hl opt">+</span> filePath<span class="hl opt">);</span>
             <span class="hl kwa">else</span>
-                <span class="hl kwd">error</span><span class="hl opt">(</span>e<span class="hl opt">.</span><span class="hl kwd">getMessage</span><span class="hl opt">(),</span> filePath<span class="hl opt">);</span>
+                <span class="hl kwd">error</span><span class="hl opt">(</span>e<span class="hl opt">.</span><span class="hl kwd">getMessage</span><span class="hl opt">() +</span> <span class="hl str">&quot; &quot;</span> <span class="hl opt">+</span> filePath<span class="hl opt">);</span>
         <span class="hl opt">}</span>
 
         <span class="hl kwa">return</span> bufferIn<span class="hl opt">.</span><span class="hl kwd">toString</span><span class="hl opt">();</span>
@@ -316,7 +321,7 @@
         File outFile <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">File</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
         origFile<span class="hl opt">.</span><span class="hl kwd">delete</span><span class="hl opt">();</span>                  <span class="hl slc">// remove a pre-existing file</span>
         <span class="hl kwa">if</span> <span class="hl opt">(!</span>outFile<span class="hl opt">.</span><span class="hl kwd">renameTo</span><span class="hl opt">(</span>origFile<span class="hl opt">))</span>
-            <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot create backup file&quot;</span><span class="hl opt">,</span> origfilePath<span class="hl opt">);</span>
+            <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot create backup file &quot;</span> <span class="hl opt">+</span> origfilePath<span class="hl opt">);</span>
 
         <span class="hl slc">// write the output file - same name as input</span>
         <span class="hl kwa">try</span>
@@ -326,7 +331,7 @@
             out<span class="hl opt">.</span><span class="hl kwd">close</span><span class="hl opt">();</span>
         <span class="hl opt">}</span>
         <span class="hl kwa">catch</span> <span class="hl opt">(</span>IOException e<span class="hl opt">)</span>
-        <span class="hl opt">{</span>   <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot write to output&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">);</span>
+        <span class="hl opt">{</span>   <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot write to output &quot;</span> <span class="hl opt">+</span> filePath<span class="hl opt">);</span>
         <span class="hl opt">}</span>
     <span class="hl opt">}</span>
 
@@ -336,8 +341,9 @@
     </div>
     <p>
         &nbsp;</p>
-    <div class="code">
-        <pre>
+    <div class="hl">
+        <pre class="hl">
+        
 <span class="hl slc">// AStyleInterface.java</span>
 
 <span class="hl com">/**</span>
@@ -428,7 +434,7 @@
 <span class="hl com">    * This is for debugging and there should be no errors when the calling</span>
 <span class="hl com">    * parameters are correct.</span>
 <span class="hl com">    * Changing the method name requires changing Artistic Style.</span>
-<span class="hl com">    * Signature: (ILjava/lang/String;)V</span>
+<span class="hl com">    * Signature: (ILjava/lang/String;)V.</span>
 <span class="hl com">    *</span>
 <span class="hl com">    *  &#64;param  errorNumber   The error number from Artistic Style.</span>
 <span class="hl com">    *  &#64;param  errorMessage  The error message from Artistic Style.</span>

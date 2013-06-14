@@ -88,7 +88,7 @@ class AStyleInterface
     * This is for debugging and there should be no errors when the calling
     * parameters are correct.
     * Changing the method name requires changing Artistic Style.
-    * Signature: (ILjava/lang/String;)V
+    * Signature: (ILjava/lang/String;)V.
     *
     *  @param  errorNumber   The error number from Artistic Style.
     *  @param  errorMessage  The error message from Artistic Style.

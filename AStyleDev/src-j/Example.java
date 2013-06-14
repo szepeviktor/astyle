@@ -3,18 +3,21 @@
 /*
 * Example opens the source files, calls the AStyleInterface methods
 * to format the files, and saves the reformatted source. The files
-* are in a test-j directory. The option mode=java must be included
+* are in a test-datadirectory. The option mode=java must be included
 * for java files.
 */
 
 import java.io.*;
 
 public class Example
-{   public static void main(String[] args)
+{   /*
+     *  Main function for this example.
+     */
+    public static void main(String[] args)
     {   // files to pass to AStyle
-        String fileName[] =  { "AStyleDev/test-j/JSBeautifier.java",
-                               "AStyleDev/test-j/JSFormatter.java" ,
-                               "AStyleDev/test-j/JSLineBreaker.java" ,
+        String fileName[] =  {  "AStyleDev/test-data/ASBeautifier.cpp",
+                                "AStyleDev/test-data/ASFormatter.cpp",
+                                "AStyleDev/test-data/astyle.h"
                              };
 
         // options to pass to AStyle
@@ -37,8 +40,9 @@ public class Example
             String textIn = getText(filePath);
 
             // call the Artistic Style formatting function
-            // does not need to terminate on an error
             String textOut = astyle.formatSource(textIn, options);
+            // does not need to terminate on an error
+            // an error message has been displayed by the error handler
             if (textOut.length() == 0)
             {   System.out.println("Cannot format "  + filePath);
                 continue;
@@ -55,8 +59,8 @@ public class Example
     /*
     *  Error message function for this example.
     */
-    private static void error(String why, String what)
-    {   System.out.println(why + ' ' + what);
+    private static void error(String message)
+    {   System.out.println(message);
         System.out.println("The program has terminated!");
         System.exit(1);
     }
@@ -96,11 +100,11 @@ public class Example
         }
         catch (Exception e)
         {   if (e instanceof FileNotFoundException)
-                error("Cannot open input file", filePath);
+                error("Cannot open input file " + filePath);
             else if (e instanceof IOException)
-                error("Error reading file", filePath);
+                error("Error reading file " + filePath);
             else
-                error(e.getMessage(), filePath);
+                error(e.getMessage() + " " + filePath);
         }
 
         return bufferIn.toString();
@@ -117,7 +121,7 @@ public class Example
         File outFile = new File(filePath);
         origFile.delete();                  // remove a pre-existing file
         if (!outFile.renameTo(origFile))
-            error("Cannot create backup file", origfilePath);
+            error("Cannot create backup file " + origfilePath);
 
         // write the output file - same name as input
         try
@@ -127,7 +131,7 @@ public class Example
             out.close();
         }
         catch (IOException e)
-        {   error("Cannot write to output", filePath);
+        {   error("Cannot write to output " + filePath);
         }
     }
 

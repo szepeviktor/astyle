@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Language" content="en-us" />
     <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
     <link href="styles.css" rel="stylesheet" type="text/css" />
-    <link href="edit-anjuta.css" rel="stylesheet" type="text/css" />
+    <link href="aiseered.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -37,7 +37,7 @@
         __declspec(dllexport) definition from Visual C. Use this only for static libraries or when the AStyle source 
         is included in the compile. Do NOT use this when compiled as a shared (dynamic) library. It is effective only 
         for Visual Studio 2012 and higher. It will NOT work with previous versions. It has no effect with other 
-        compilers since they require a separate option to create the import library and export files.<o:p></o:p>
+        compilers since they require a separate option to create the import library and export files.
     </p>
     <p>
         The source can also be included in a program or another shared library (DLL) instead of being compiled by 
@@ -53,8 +53,8 @@
     <h4>
         Syntax</h4>
 
-    <div class="code">
-        <pre><span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
+    <div class="hl">
+        <pre class="hl"><span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
                          <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
                          <span class="hl kwb">void</span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
@@ -130,8 +130,8 @@
     <h4>
         Syntax</h4>
 
-    <div class="code">
-        <pre><span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
+    <div class="hl">
+        <pre class="hl"><span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
 <span class="hl kwb">char</span><span class="hl sym">*</span> STDCALL <span class="hl kwd">AStyleGetVersion</span><span class="hl sym">();</span>
 </pre>
     </div>
@@ -153,18 +153,18 @@
         Example</h3>
 
     <p>
-        The following example formats source files by calling the Artistic Style formatter. It is a console 
-        application but the procedure for a GUI is the same. The example can be copied and pasted into a source file. 
-        The source code for Artistic Style must be added as a shared library (DLL), a static library, or included with 
-        the example source.</p>
+        The following example formats source files by calling the Artistic Style formatter. It is a console application
+        but the procedure for a GUI is the same. The example can be copied and pasted into a source file. Or it can be
+        downloaded with test data from the "Developer Information" page. The source code for Artistic Style must be added
+        as a shared library (DLL), a static library, or included with the example source.</p>
     <p>
         &nbsp;</p>
-    <div class="code">
-        <pre>        
+    <div class="hl">
+        <pre class="hl">        
 <span class="hl slc">// Example.cpp</span>
 
 <span class="hl com">/* This program calls the Artistic Style GUI formatter (AStyleMain)</span>
-<span class="hl com"> * to format the astyle source files in a test-c directory.</span>
+<span class="hl com"> * to format the astyle source files in a test-data directory.</span>
 <span class="hl com"> */</span>
 
 <span class="hl ppc">#include &lt;stdlib.h&gt;</span>
@@ -183,29 +183,30 @@
 
 <span class="hl slc">// functions to call AStyleMain</span>
 <span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
+<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
+<span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
                          <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
                          <span class="hl kwb">void</span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
-                         <span class="hl kwb">char</span><span class="hl opt">*(</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
+                         <span class="hl kwb">char</span><span class="hl opt">* (</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
 <span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">);</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl opt">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl opt">);</span>
 
 <span class="hl slc">// other functions</span>
-<span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
-<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
-<span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> why<span class="hl opt">,</span> <span class="hl kwb">const char</span><span class="hl opt">*</span> what <span class="hl opt">=</span> <span class="hl str">&quot;&quot;</span><span class="hl opt">);</span>
-string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span>string<span class="hl opt">&amp;</span> subPath<span class="hl opt">);</span>
-<span class="hl kwb">char</span><span class="hl opt">*</span> <span class="hl kwd">getText</span><span class="hl opt">(</span>string<span class="hl opt">&amp;</span> filePath<span class="hl opt">);</span>
-<span class="hl kwb">void</span>  <span class="hl kwd">setText</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> textOut<span class="hl opt">,</span> string<span class="hl opt">&amp;</span> filePathStr<span class="hl opt">);</span>
+<span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl kwb">const</span> string message<span class="hl opt">);</span>
+string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span><span class="hl kwb">const</span> string<span class="hl opt">&amp;</span> subPath<span class="hl opt">);</span>
+<span class="hl kwb">char</span><span class="hl opt">*</span> <span class="hl kwd">getText</span><span class="hl opt">(</span><span class="hl kwb">const</span> string<span class="hl opt">&amp;</span> filePath<span class="hl opt">);</span>
+<span class="hl kwb">void</span>  <span class="hl kwd">setText</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> textOut<span class="hl opt">,</span> <span class="hl kwb">const</span> string<span class="hl opt">&amp;</span> filePathStr<span class="hl opt">);</span>
 
 
+<span class="hl slc">// Main function for this example.</span>
 <span class="hl kwb">int</span> <span class="hl kwd">main</span><span class="hl opt">(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">**)</span>
 <span class="hl opt">{</span>   <span class="hl slc">// options to pass to AStyle</span>
-    string fileName<span class="hl opt">[] = {</span> <span class="hl str">&quot;AStyleDev/test-c/ASBeautifier.cpp&quot;</span><span class="hl opt">,</span>
-                          <span class="hl str">&quot;AStyleDev/test-c/ASFormatter.cpp&quot;</span> <span class="hl opt">,</span>
-                          <span class="hl str">&quot;AStyleDev/test-c/astyle.h&quot;</span>
-                        <span class="hl opt">};</span>
-    <span class="hl kwb">char</span><span class="hl opt">*</span> options <span class="hl opt">= (</span><span class="hl kwb">char</span><span class="hl opt">*)</span><span class="hl str">&quot;-A2tOP&quot;</span><span class="hl opt">;</span>
+    <span class="hl kwb">const</span> string fileName<span class="hl opt">[] = {</span> <span class="hl str">&quot;AStyleDev/test-data/ASBeautifier.cpp&quot;</span><span class="hl opt">,</span>
+                                <span class="hl str">&quot;AStyleDev/test-data/ASFormatter.cpp&quot;</span><span class="hl opt">,</span>
+                                <span class="hl str">&quot;AStyleDev/test-data/astyle.h&quot;</span>
+                              <span class="hl opt">};</span>
+    <span class="hl kwb">const char</span><span class="hl opt">*</span> options <span class="hl opt">= (</span><span class="hl kwb">char</span><span class="hl opt">*)</span><span class="hl str">&quot;-A2tOP&quot;</span><span class="hl opt">;</span>
     <span class="hl kwb">size_t</span> arraySize <span class="hl opt">=</span> <span class="hl kwa">sizeof</span><span class="hl opt">(</span>fileName<span class="hl opt">) /</span> <span class="hl kwa">sizeof</span><span class="hl opt">(</span>fileName<span class="hl opt">[</span><span class="hl num">0</span><span class="hl opt">]);</span>
 
     <span class="hl slc">// get Artistic Style version</span>
@@ -223,12 +224,11 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</sp
                                    options<span class="hl opt">,</span>
                                    ASErrorHandler<span class="hl opt">,</span>
                                    ASMemoryAlloc<span class="hl opt">);</span>
-        <span class="hl slc">// NULL pointer is an error - restore the original file</span>
+
+        <span class="hl slc">// does not need to terminate on an error</span>
         <span class="hl slc">// an error message has been displayed by the error handler</span>
         <span class="hl kwa">if</span> <span class="hl opt">(</span>textOut <span class="hl opt">==</span> NULL<span class="hl opt">)</span>
-        <span class="hl opt">{</span>   cout <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;Cannot format &quot;</span> <span class="hl opt">&lt;&lt;</span> filePath <span class="hl opt">&lt;&lt;</span> endl<span class="hl opt">;</span>
-            <span class="hl kwa">return</span> EXIT_FAILURE<span class="hl opt">;</span>
-        <span class="hl opt">}</span>
+            <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl kwd">string</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot format &quot;</span> <span class="hl opt">+</span> filePath<span class="hl opt">));</span>
 
         <span class="hl slc">// return the formatted text</span>
         cout <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;Formatted &quot;</span> <span class="hl opt">&lt;&lt;</span> fileName<span class="hl opt">[</span>i<span class="hl opt">] &lt;&lt;</span> endl<span class="hl opt">;</span>
@@ -238,35 +238,34 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</sp
         <span class="hl kwa">delete</span> <span class="hl opt">[]</span> textIn<span class="hl opt">;</span>
         <span class="hl kwa">delete</span> <span class="hl opt">[]</span> textOut<span class="hl opt">;</span>
     <span class="hl opt">}</span>
-<span class="hl ppc">#ifdef __MINGW32__</span>
-    <span class="hl kwd">system</span><span class="hl opt">(</span><span class="hl str">&quot;pause&quot;</span><span class="hl opt">);</span>
-<span class="hl ppc">#endif</span>
+
+<span class="hl slc">//    system(&quot;pause&quot;);</span>
     <span class="hl kwa">return</span> EXIT_SUCCESS<span class="hl opt">;</span>
 <span class="hl opt">}</span>
 
-<span class="hl slc">// Error handler for the Artistic Style formatter</span>
+<span class="hl slc">// Error handler for the Artistic Style formatter.</span>
 <span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">)</span>
 <span class="hl opt">{</span>   cout <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;astyle error &quot;</span> <span class="hl opt">&lt;&lt;</span> errorNumber <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span>
          <span class="hl opt">&lt;&lt;</span> errorMessage <span class="hl opt">&lt;&lt;</span> endl<span class="hl opt">;</span>
 <span class="hl opt">}</span>
 
-<span class="hl slc">// Allocate memory for the Artistic Style formatter</span>
+<span class="hl slc">// Allocate memory for the Artistic Style formatter.</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl opt">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl opt">)</span>
 <span class="hl opt">{</span>   <span class="hl slc">// error condition is checked after return from AStyleMain</span>
     <span class="hl kwb">char</span><span class="hl opt">*</span> buffer <span class="hl opt">=</span> <span class="hl kwa">new</span><span class="hl opt">(</span>nothrow<span class="hl opt">)</span> <span class="hl kwb">char</span> <span class="hl opt">[</span>memoryNeeded<span class="hl opt">];</span>
     <span class="hl kwa">return</span> buffer<span class="hl opt">;</span>
 <span class="hl opt">}</span>
 
-<span class="hl slc">// Error message function for this example</span>
-<span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> why<span class="hl opt">,</span> <span class="hl kwb">const char</span><span class="hl opt">*</span> what<span class="hl opt">)</span>
-<span class="hl opt">{</span>   cout <span class="hl opt">&lt;&lt;</span> why <span class="hl opt">&lt;&lt;</span> <span class="hl str">' '</span> <span class="hl opt">&lt;&lt;</span> what <span class="hl opt">&lt;&lt;</span> endl<span class="hl opt">;</span>
+<span class="hl slc">// Error message function for this example.</span>
+<span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span>string message<span class="hl opt">)</span>
+<span class="hl opt">{</span>   cout <span class="hl opt">&lt;&lt;</span> message <span class="hl opt">&lt;&lt;</span> endl<span class="hl opt">;</span>
     cout <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;The program has terminated!&quot;</span> <span class="hl opt">&lt;&lt;</span> endl<span class="hl opt">;</span>
-    <span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
+    <span class="hl kwd">exit</span><span class="hl opt">(</span>EXIT_FAILURE<span class="hl opt">);</span>
 <span class="hl opt">}</span>
 
-<span class="hl slc">// Prepend the project directory to the subpath</span>
-<span class="hl slc">// This may need to be changed for your directory structure</span>
-string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span>string<span class="hl opt">&amp;</span> subPath<span class="hl opt">)</span>
+<span class="hl slc">// Prepend the project directory to the subpath.</span>
+<span class="hl slc">// This may need to be changed for your directory structure.</span>
+string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span><span class="hl kwb">const</span> string<span class="hl opt">&amp;</span> subPath<span class="hl opt">)</span>
 <span class="hl opt">{</span>
 <span class="hl ppc">#ifdef _WIN32</span>
     <span class="hl kwb">char</span><span class="hl opt">*</span> homeDirectory <span class="hl opt">=</span> <span class="hl kwd">getenv</span><span class="hl opt">(</span><span class="hl str">&quot;USERPROFILE&quot;</span><span class="hl opt">);</span>
@@ -279,13 +278,13 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</sp
     <span class="hl kwa">return</span> projectPath<span class="hl opt">;</span>
 <span class="hl opt">}</span>
 
-<span class="hl slc">// Get the text to be formatted</span>
-<span class="hl slc">// Usually the text would be obtained from an edit control</span>
-<span class="hl kwb">char</span><span class="hl opt">*</span> <span class="hl kwd">getText</span><span class="hl opt">(</span>string<span class="hl opt">&amp;</span> filePath<span class="hl opt">)</span>
+<span class="hl slc">// Get the text to be formatted.</span>
+<span class="hl slc">// Usually the text would be obtained from an edit control.</span>
+<span class="hl kwb">char</span><span class="hl opt">*</span> <span class="hl kwd">getText</span><span class="hl opt">(</span><span class="hl kwb">const</span> string<span class="hl opt">&amp;</span> filePath<span class="hl opt">)</span>
 <span class="hl opt">{</span>   <span class="hl slc">// open input file</span>
     ifstream <span class="hl kwd">in</span><span class="hl opt">(</span>filePath<span class="hl opt">.</span><span class="hl kwd">c_str</span><span class="hl opt">());</span>
     <span class="hl kwa">if</span> <span class="hl opt">(!</span>in<span class="hl opt">)</span>
-        <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot open input file&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">.</span><span class="hl kwd">c_str</span><span class="hl opt">());</span>
+        <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot open input file &quot;</span> <span class="hl opt">+</span> filePath<span class="hl opt">);</span>
 
     <span class="hl slc">// get length of buffer</span>
     <span class="hl kwb">const int</span> bufferSizeIn <span class="hl opt">=</span> <span class="hl num">131072</span><span class="hl opt">;</span>     <span class="hl slc">// 128 KB</span>
@@ -311,9 +310,9 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</sp
     <span class="hl kwa">return</span> bufferIn<span class="hl opt">;</span>
 <span class="hl opt">}</span>
 
-<span class="hl slc">// Return the formatted text</span>
-<span class="hl slc">// Usually the text would be returned to an edit control</span>
-<span class="hl kwb">void</span> <span class="hl kwd">setText</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> textOut<span class="hl opt">,</span> string<span class="hl opt">&amp;</span> filePathStr<span class="hl opt">)</span>
+<span class="hl slc">// Return the formatted text.</span>
+<span class="hl slc">// Usually the text would be returned to an edit control.</span>
+<span class="hl kwb">void</span> <span class="hl kwd">setText</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> textOut<span class="hl opt">,</span> <span class="hl kwb">const</span> string<span class="hl opt">&amp;</span> filePathStr<span class="hl opt">)</span>
 <span class="hl opt">{</span>   <span class="hl slc">// create a backup file</span>
     <span class="hl kwb">const char</span><span class="hl opt">*</span> filePath <span class="hl opt">=</span> filePathStr<span class="hl opt">.</span><span class="hl kwd">c_str</span><span class="hl opt">();</span>
     string origfilePathStr <span class="hl opt">=</span> filePathStr <span class="hl opt">+</span> <span class="hl str">&quot;.orig&quot;</span><span class="hl opt">;</span>
@@ -321,12 +320,12 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</sp
     <span class="hl kwd">remove</span><span class="hl opt">(</span>origfilePath<span class="hl opt">);</span>              <span class="hl slc">// remove a pre-existing file</span>
 
     <span class="hl kwa">if</span> <span class="hl opt">(</span><span class="hl kwd">rename</span><span class="hl opt">(</span>filePath<span class="hl opt">,</span> origfilePath<span class="hl opt">) &lt;</span> <span class="hl num">0</span><span class="hl opt">)</span>
-        <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot open input file&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">);</span>
+        <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot open input file &quot;</span> <span class="hl opt">+</span> filePathStr<span class="hl opt">);</span>
 
     <span class="hl slc">// open the output file</span>
     ofstream <span class="hl kwd">out</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
     <span class="hl kwa">if</span> <span class="hl opt">(!</span>out<span class="hl opt">)</span>
-        <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot open output file&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">);</span>
+        <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot open output file &quot;</span> <span class="hl opt">+</span> filePathStr<span class="hl opt">);</span>
 
     <span class="hl slc">// write the text</span>
     <span class="hl kwb">size_t</span> textSizeOut <span class="hl opt">=</span> <span class="hl kwd">strlen</span><span class="hl opt">(</span>textOut<span class="hl opt">);</span>

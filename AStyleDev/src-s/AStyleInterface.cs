@@ -12,40 +12,38 @@ public class AStyleInterface
     private const String dllName = "astyle";
 #endif
 
-	/// AStyleGetVersion DllImport
+    /// AStyleGetVersion DllImport.
     /// Cannot use String as a return value because Mono runtime will attempt to
     /// free the returned pointer resulting in a runtime crash.
     /// NOTE: CharSet.Unicode is NOT used here.
-    [DllImport(dllName, CallingConvention = CallingConvention.StdCall)]
+    [DllImport(dllName)]
     private static extern IntPtr AStyleGetVersion();
 
-	/// AStyleMainUtf16 DllImport
+    /// AStyleMainUtf16 DllImport.
     /// Cannot use String as a return value because Mono runtime will attempt to
     /// free the returned pointer resulting in a runtime crash.
     /// NOTE: CharSet.Unicode and wide strings are used here.
-    [DllImport(dllName, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
-    private static extern IntPtr AStyleMainUtf16
-    (
+    [DllImport(dllName, CharSet = CharSet.Unicode)]
+    private static extern IntPtr AStyleMainUtf16(
         [MarshalAs(UnmanagedType.LPWStr)] String sIn,
         [MarshalAs(UnmanagedType.LPWStr)] String sOptions,
         AStyleErrorDelgate errorFunc,
         AStyleMemAllocDelgate memAllocFunc
     );
 
-    /// AStyleMainUtf16 callbacks
+    /// AStyleMainUtf16 callbacks.
     /// NOTE: Wide strings are NOT used here.
     private delegate IntPtr AStyleMemAllocDelgate(int size);
-    private delegate void AStyleErrorDelgate
-    (
+    private delegate void AStyleErrorDelgate(
         int errorNum,
         [MarshalAs(UnmanagedType.LPStr)] String error
     );
 
-    /// AStyleMainUtf16 Delegates
+    /// AStyleMainUtf16 Delegates.
     private AStyleMemAllocDelgate AStyleMemAlloc;
     private AStyleErrorDelgate AStyleError;
 
-    /// Declare callback functions
+    /// Declare callback functions.
     public AStyleInterface()
     {   AStyleMemAlloc = new AStyleMemAllocDelgate(OnAStyleMemAlloc);
         AStyleError = new AStyleErrorDelgate(OnAStyleError);
@@ -118,7 +116,7 @@ public class AStyleInterface
 
     /// Display errors from Artistic Style .
     private void OnAStyleError(int errorNumber, String errorMessage)
-    {   Console.WriteLine("AStyle error " + errorNumber + " - " + errorMessage);
+    {   Console.WriteLine("AStyle error " + errorNumber + "\n" + errorMessage);
     }
 
 }   // class AStyleInterface

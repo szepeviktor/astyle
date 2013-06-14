@@ -395,7 +395,7 @@ public class AStyleInterface
         // add the file mode, default is C++
         if (fileMode == FILEMODE_CPP)
         {   if (options.length() > 0)          // delete the last separator
-                options.deleteCharAt(options.length()-1);
+                options.deleteCharAt(options.length() - 1);
         }
         else if (fileMode == FILEMODE_JAVA)
             options.append("mode=java");

@@ -46,12 +46,10 @@ int main(int, char**)
         // call the Artistic Style formatting function
         char* textOut = astyle.formatSource(textIn, filePath);
 
-        // NULL pointer is an error - restore the original file
+        // does not need to terminate on an error
         // an error message has been displayed by the error handler
         if (textOut == NULL)
-        {   cout << "Cannot format " << filePath << endl;
-            return EXIT_FAILURE;
-        }
+            error("Cannot format", filePath);
 
         // return the formatted text
         cout << "Formatted " << fileName[i] << endl;
