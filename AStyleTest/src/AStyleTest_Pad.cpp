@@ -5875,6 +5875,19 @@ TEST(AlignPointerType, ScopeResolution)
 	delete [] textOut;
 }
 
+TEST(AlignPointerType, FunctionPointer)
+{
+	// test char* in a function pointer
+	char textIn[] =
+		"\nvoid STDCALL Foo(char * (STDCALL * fpAlloc)(unsigned long));";
+	char text[] =
+		"\nvoid STDCALL Foo(char* (STDCALL* fpAlloc)(unsigned long));";
+	char options[] = "align-pointer=type, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignPointerType, PadParenOutside)
 {
 	// should not change scope resolution operator
@@ -6968,6 +6981,19 @@ TEST(AlignPointerMiddle, ScopeResolution2)
 		"};";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, FunctionPointer)
+{
+	// test char* in a function pointer
+	char textIn[] =
+		"\nvoid STDCALL Foo(char* (STDCALL *fpAlloc)(unsigned long));";
+	char text[] =
+		"\nvoid STDCALL Foo(char * (STDCALL * fpAlloc)(unsigned long));";
+	char options[] = "align-pointer=middle, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -8068,6 +8094,19 @@ TEST(AlignPointerName, ScopeResolution2)
 		"};";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, FunctionPointer)
+{
+	// test char* in a function pointer
+	char textIn[] =
+		"\nvoid STDCALL Foo(char * (STDCALL * fpAlloc)(unsigned long));";
+	char text[] =
+		"\nvoid STDCALL Foo(char *(STDCALL *fpAlloc)(unsigned long));";
+	char options[] = "align-pointer=name, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }

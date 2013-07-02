@@ -284,6 +284,36 @@ def get_astyletest_directory(endsep=False):
 
 # -----------------------------------------------------------------------------
 
+def get_astylewx_directory(endsep=False):
+	"""Get the AStyleWx directory for the os environment.
+	   endsep = True will add an ending separator.
+	"""
+	if endsep != True and endsep != False:
+		system_exit("Bad arg in get_astylewx_directory(): " + endsep)
+	astylewxdir = get_project_directory() + "/AStyleWx"
+	if not os.path.isdir(astylewxdir):
+		message = "Cannot find astylewx directory: " + astylewxdir
+		system_exit(message)
+	if endsep: astylewxdir += '/'
+	return astylewxdir
+
+# -----------------------------------------------------------------------------
+
+def get_astylewxtest__directory(endsep=False):
+	"""Get the AStyleWx directory for the os environment.
+	   endsep = True will add an ending separator.
+	"""
+	if endsep != True and endsep != False:
+		system_exit("Bad arg in get_astylewx_directory(): " + endsep)
+	astylewxdir = get_project_directory() + "/AStyleWxTest"
+	if not os.path.isdir(astylewxdir):
+		message = "Cannot find astylewx directory: " + astylewxdir
+		system_exit(message)
+	if endsep: astylewxdir += '/'
+	return astylewxdir
+
+# -----------------------------------------------------------------------------
+
 def getch():
 	"""getch() for Windows and Linux.
 	   This won't work unless run from a terminal.

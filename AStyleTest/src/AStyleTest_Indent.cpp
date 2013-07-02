@@ -756,6 +756,340 @@ TEST(IndentSwitches, IndentForceTabX)
 	delete [] textOut;
 }
 
+TEST(IndentSwitches, Comment1)
+{
+	// test switch block comments
+	// comments NOT immediately preceeding a 'case'
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (hit)\n"
+		"    {\n"
+		"        case NSScrollerDecrementLine:\n"
+		"            // Scroll to the left\n"
+		"            scrollColumnsLeftBy(1);\n"
+		"            break;\n"
+		"        case NSScrollerIncrementLine:\n"
+		"            /* Scroll to the right */\n"
+		"            scrollColumnsRightBy(1);\n"
+		"            break;\n"
+		"        default:\n"
+		"            /***************************/\n"
+		"            break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "indent-switches";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentSwitches, Comment1Sans)
+{
+	// test switch block NOT indented comments
+	// comments immediately preceeding a 'case'
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (hit)\n"
+		"    {\n"
+		"    case NSScrollerDecrementLine:\n"
+		"        // Scroll to the left\n"
+		"        scrollColumnsLeftBy(1);\n"
+		"        break;\n"
+		"    case NSScrollerIncrementLine:\n"
+		"        /* Scroll to the right */\n"
+		"        scrollColumnsRightBy(1);\n"
+		"        break;\n"
+		"    default:\n"
+		"        /***************************/\n"
+		"        break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentSwitches, Comment2)
+{
+	// test switch block comments
+	// comments immediately preceeding a 'case' must be unindented
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (hit)\n"
+		"    {\n"
+		"        // Scroll to the left\n"
+		"        case NSScrollerDecrementLine:\n"
+		"            scrollColumnsLeftBy(1);\n"
+		"            break;\n"
+		"        /* Scroll to the right */\n"
+		"        case NSScrollerIncrementLine:\n"
+		"            scrollColumnsRightBy(1);\n"
+		"            break;\n"
+		"        /***************************/\n"
+		"        default:\n"
+		"            break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "indent-switches";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentSwitches, Comment2Sans)
+{
+	// test switch block NOT indented comments
+	// comments immediately preceeding a 'case' must be unindented
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (hit)\n"
+		"    {\n"
+		"    // Scroll to the left\n"
+		"    case NSScrollerDecrementLine:\n"
+		"        scrollColumnsLeftBy(1);\n"
+		"        break;\n"
+		"    /* Scroll to the right */\n"
+		"    case NSScrollerIncrementLine:\n"
+		"        scrollColumnsRightBy(1);\n"
+		"        break;\n"
+		"    /***************************/\n"
+		"    default:\n"
+		"        break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentSwitches, Comment2MultiLine)
+{
+	// test switch block comments
+	// multi-line comments immediately preceeding a 'case' must be unindented
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (hit)\n"
+		"    {\n"
+		"        // Scroll to the left\n"
+		"        // Scroll 2\n"
+		"        case NSScrollerDecrementLine:\n"
+		"            scrollColumnsLeftBy(1);\n"
+		"            break;\n"
+		"        /* Scroll to the right\n"
+		"         * Scroll 2\n"
+		"         */\n"
+		"        case NSScrollerIncrementLine:\n"
+		"            scrollColumnsRightBy(1);\n"
+		"            break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "indent-switches";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentSwitches, Comment2MultiLineSans)
+{
+	// test switch block NOT indented comments
+	// multi-line comments immediately preceeding a 'case' must be unindented
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (hit)\n"
+		"    {\n"
+		"    // Scroll to the left\n"
+		"    // Scroll 2\n"
+		"    case NSScrollerDecrementLine:\n"
+		"        scrollColumnsLeftBy(1);\n"
+		"        break;\n"
+		"    /* Scroll to the right\n"
+		"     * Scroll 2\n"
+		"     */\n"
+		"    case NSScrollerIncrementLine:\n"
+		"        scrollColumnsRightBy(1);\n"
+		"        break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentSwitches, Comment3MultiLine)
+{
+	// test switch block with brackets comments
+	// multi-line comments immediately preceeding a 'case' must be unindented
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (hit)\n"
+		"    {\n"
+		"        // Scroll to the left\n"
+		"        // Scroll 2\n"
+		"        case NSScrollerDecrementLine:\n"
+		"        {\n"
+		"            scrollColumnsLeftBy(1);\n"
+		"        }\n"
+		"        break;\n"
+		"        /* Scroll to the right\n"
+		"         * Scroll 2\n"
+		"         */\n"
+		"        case NSScrollerIncrementLine:\n"
+		"        {\n"
+		"            scrollColumnsRightBy(1);\n"
+		"            break;\n"
+		"        }\n"
+		"        /***************************/\n"
+		"        default:\n"
+		"            break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "indent-switches";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentSwitches, Comment3MultiLineSans)
+{
+	// test switch block with brackets NOT indented comments
+	// multi-line comments immediately preceeding a 'case' must be unindented
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (hit)\n"
+		"    {\n"
+		"    // Scroll to the left\n"
+		"    // Scroll 2\n"
+		"    case NSScrollerDecrementLine:\n"
+		"    {\n"
+		"        scrollColumnsLeftBy(1);\n"
+		"    }\n"
+		"    break;\n"
+		"    /* Scroll to the right\n"
+		"     * Scroll 2\n"
+		"     */\n"
+		"    case NSScrollerIncrementLine:\n"
+		"    {\n"
+		"        scrollColumnsRightBy(1);\n"
+		"        break;\n"
+		"    }\n"
+		"    /***************************/\n"
+		"    default:\n"
+		"        break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentSwitches, NestedSwitchComments)
+{
+	// test nested switch block with brackets comments
+	// multi-line comments immediately preceeding a 'case' must be unindented
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (hit)\n"
+		"    {\n"
+		"        // Scroll to the left\n"
+		"        // Scroll 2\n"
+		"        case NSScrollerDecrementLine:\n"
+		"        {\n"
+		"            scrollColumnsLeftBy(1);\n"
+		"        }\n"
+		"        break;\n"
+		"        /* Scroll to the right\n"
+		"         * Scroll 2\n"
+		"         */\n"
+		"        case NSScrollerIncrementLine:\n"
+		"        {\n"
+		"            switch (hit)\n"
+		"            {\n"
+		"                // Scroll to the left\n"
+		"                case NSScrollerDecrementLine:\n"
+		"                {\n"
+		"                    scrollColumnsLeftBy(1);\n"
+		"                }\n"
+		"                break;\n"
+		"                /* Scroll to the right */\n"
+		"                case NSScrollerIncrementLine:\n"
+		"                {\n"
+		"                    scrollColumnsRightBy(1);\n"
+		"                    break;\n"
+		"                }\n"
+		"            }\n"
+		"        }\n"
+		"        /***************************/\n"
+		"        default:\n"
+		"            break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "indent-switches";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentSwitches, NestedSwitchCommentsSans)
+{
+	// test nested switch block with brackets NOT indented comments
+	// multi-line comments immediately preceeding a 'case' must be unindented
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (hit)\n"
+		"    {\n"
+		"    // Scroll to the left\n"
+		"    // Scroll 2\n"
+		"    case NSScrollerDecrementLine:\n"
+		"    {\n"
+		"        scrollColumnsLeftBy(1);\n"
+		"    }\n"
+		"    break;\n"
+		"    /* Scroll to the right\n"
+		"     * Scroll 2\n"
+		"     */\n"
+		"    case NSScrollerIncrementLine:\n"
+		"    {\n"
+		"        switch (hit)\n"
+		"        {\n"
+		"        // Scroll to the left\n"
+		"        case NSScrollerDecrementLine:\n"
+		"        {\n"
+		"            scrollColumnsLeftBy(1);\n"
+		"        }\n"
+		"        break;\n"
+		"        /* Scroll to the right */\n"
+		"        case NSScrollerIncrementLine:\n"
+		"        {\n"
+		"            scrollColumnsRightBy(1);\n"
+		"            break;\n"
+		"        }\n"
+		"        }\n"
+		"    }\n"
+		"    /***************************/\n"
+		"    default:\n"
+		"        break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(IndentSwitches, RunIn)
 {
 	// test indent switch blocks with run-in brackets

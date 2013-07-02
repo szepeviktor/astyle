@@ -29,7 +29,7 @@ import time
 #   SCITE
 #   SHARPDEVELOP    # Compile on Windows only
 #  TESTPROJECT
-__project = libastyle.GWORKSPACE
+__project = libastyle.SHARPDEVELOP 
 
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a bracket style or any other option
@@ -37,8 +37,8 @@ __options = libastyle.OPT0
 __options_x = ""
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyled"
-__astyleexe2 = "astyled"
+__astyleexe1 = "astyle24d"
+__astyleexe2 = "astyle"
 
 # extract all files options, use False for speed
 #__all_files_option = True
@@ -159,7 +159,7 @@ def print_formatting_message(args, project):
 def print_run_header():
 	"""Print run header information.
 	"""
-	print("Regression-1 for Test {0}".format(__project))
+	print("Regression-1 Test for {0}".format(__project))
 	if os.name == "nt":
 		print("Using ({0}) {1} {2}".format(libastyle.VS_RELEASE,
 				__astyleexe1, __astyleexe2), end=" ")
@@ -213,8 +213,8 @@ def set_astyle_args(filepath, excludes, astyleexe):
 	# set filepaths
 	for file_in in filepath:
 		args.append(file_in)
-	# set options
-	args.append("-vRQn")
+	# set options - must have ".orig" backup for comparison
+	args.append("-vRQ")
 	if len(__options.strip()) > 0:
 		args.append(__options)
 	if len(__options_x.strip()) > 0:

@@ -47,10 +47,16 @@
     <ClCompile Include="..\..\..\src\AStyleTest_BugFix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\AStyleTest_Styles1.cpp">
+    <ClCompile Include="..\..\..\src\AStyleTest_StylesOther.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\AStyleTest_Styles2.cpp">
+    <ClCompile Include="..\..\..\src\AStyleTest_StylesCpp1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AStyleTest_StylesCpp2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AStyleTest_BracketsObjC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

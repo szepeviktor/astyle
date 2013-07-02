@@ -194,7 +194,6 @@ TEST(BugFix_V203, SansBreakAfterLeadingComments2)
 	delete [] textOut;
 }
 
-
 TEST(BugFix_V203, DoubleTemplateDefinition)
 {
 	// Test formatting of template within a template.
@@ -386,7 +385,7 @@ TEST(BugFix_V203, CaseWithBreakBlocksDeleteEmptyLines)
 		"    switch(FileType)\n"
 		"    {\n"
 		"    case ftHeader:\n"
-		"        // fallthrough\n"
+		"    // fallthrough\n"
 		"\n"
 		"    case ftSource:\n"
 		"        bar = true;\n"
@@ -399,7 +398,7 @@ TEST(BugFix_V203, CaseWithBreakBlocksDeleteEmptyLines)
 		"    {\n"
 		"    case ftHeader:\n"
 		"\n"
-		"        // fallthrough\n"
+		"    // fallthrough\n"
 		"    case ftSource:\n"
 		"        bar = true;\n"
 		"    }\n"
