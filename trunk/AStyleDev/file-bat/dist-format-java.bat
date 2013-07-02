@@ -3,7 +3,6 @@
 
 set progdir=C:\Program Files\AStyle
 set srcdir1=..\src-j
-set srcdir2=..\src-jx
 
 REM  H - pad-header
 REM  U - unpad-paren
@@ -14,8 +13,7 @@ REM  p - pad-oper
 REM  Q - formatted
 REM z1 - windows lineends
 
-"%progdir%\AStyle"  -A9HUk1c -Qz1  --options=none  %srcdir1%\*.java 
-"%progdir%\AStyle"  -A9HUk1c -Qz1  --options=none  %srcdir2%\*.java 
+"%progdir%\AStyle"  -A9HUk1cp -Qz1  --options=none  %srcdir1%\*.java 
 
 echo -
 echo -
