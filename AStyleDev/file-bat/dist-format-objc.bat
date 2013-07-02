@@ -14,7 +14,7 @@ REM  p - pad-oper
 REM  Q - formatted
 REM z1 - windows lineends
 
-"%progdir%\AStyle"  -A9HUk1c  -Qz1  --options=none  %srcdir1%\*.m
+"%progdir%\AStyle"  -A9HUk1cp  -Qz1  --options=none  %srcdir1%\*.m
 
 echo -
 echo -

@@ -17,7 +17,7 @@
 char* STDCALL AStyleGetVersion();
 char* STDCALL AStyleMain(const char* pSourceIn,
                          const char* pOptions,
-                         void(STDCALL* fpError)(int, char*),
+                         void (STDCALL* fpError)(int, char*),
                          char* (STDCALL* fpAlloc)(unsigned long));
 void  STDCALL ASErrorHandler(int errorNumber, char* errorMessage);
 char* STDCALL ASMemoryAlloc(unsigned long memoryNeeded);
@@ -30,7 +30,7 @@ void  setText(const NSString* textOut, NSString* filePath);
 
 
 // Main function for this example.
-int main(int argc, const char* argv[])
+int main()
 {   NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 
     // options to pass to AStyle
@@ -79,16 +79,14 @@ int main(int argc, const char* argv[])
 
 // Error handler for the Artistic Style formatter.
 void  STDCALL ASErrorHandler(int errorNumber, char* errorMessage)
-{   NSLog(@"astyle error %d", errorNumber);
+{   NSLog(@"astyle error %ld", errorNumber);
     NSLog(@"%s", errorMessage);
 }
 
 // Allocate memory for the Artistic Style formatter.
-// A variable-sized object may not be initialized with alloc.
+// Malloc is used instead of NSZoneMalloc to simplify the error handling.
 char* STDCALL ASMemoryAlloc(unsigned long memoryNeeded)
-{   // if allocation fails a null pointer is returned
-    // error condition is checked after the return from AStyleMain
-    char* buffer = NSZoneMalloc(NSDefaultMallocZone(), memoryNeeded);
+{   char* buffer = malloc(memoryNeeded);
     return buffer;
 }
 
@@ -121,6 +119,8 @@ NSString* getProjectDirectory(const NSString* subPath)
 // Usually the text would be obtained from an edit control.
 NSString* getText(NSString* filePath)
 {   NSString* textIn = [NSString stringWithContentsOfFile: filePath];
+    if (!textIn)
+        error([NSString stringWithFormat: @"Cannot open input file %@", filePath]);
     return textIn;
 }
 
@@ -128,8 +128,12 @@ NSString* getText(NSString* filePath)
 // Usually the text would be returned to an edit control.
 void setText(const NSString* textOut, NSString* filePath)
 {   // create a backup file
+    NSFileManager* fm = [NSFileManager defaultManager];
     NSString* origfilePath =  [NSString stringWithFormat: @"%@%@", filePath, @".orig"];
-    [[NSFileManager defaultManager] movePath: filePath toPath: origfilePath handler: nil];
+    if ([fm fileExistsAtPath: origfilePath])
+        [fm removeFileAtPath: origfilePath handler: nil];
+    if (![fm movePath: filePath toPath: origfilePath handler: nil])
+        NSLog(@"Cannot create backup for %@", filePath);
     // write the text
     [textOut writeToFile: filePath atomically: YES];
 }

@@ -54,9 +54,10 @@
         Syntax</h4>
 
     <div class="hl">
-        <pre class="hl"><span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
+        <pre class="hl">
+<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
                          <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
-                         <span class="hl kwb">void</span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
+                         <span class="hl kwb">void </span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
                          <span class="hl kwb">char</span><span class="hl opt">* (</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
 </pre>
     </div>
@@ -84,18 +85,22 @@
         A valid pointer and a formatted file are returned. This will occur if an invalid option is sent to AStyleMain.
         The calling program has the option of accepting or rejecting the formatted file.</p>
     <p>
-        <i>fpAlloc</i><br />A pointer to the memory allocation function. The calling program must allocate memory for
-        the output source file. This function will be called when the memory is needed. The parameter is the amount of
-        memory that should be allocated.</p>
+        <i>fpAlloc</i><br />
+        A pointer to the memory allocation function. The calling program must allocate memory for the output source file.
+        This function will be called when the memory is needed. The parameter is the amount of memory that should be allocated.</p>
     <p>
-        Memory should be allocated using "NSZoneMalloc". The exceptions are handled differently for the default zone and
-        other zones. See the documentation (in NSZone.h) if you are not using the default zone. With the default zone
-        this method, will return a NULL pointer if there is an allocation exception.
-        Artistic Style will generate an error message and return a NULL pointer from the AStyleMain function. The calling
-        program can handle the exception at this point rather than in the memory allocation function. See the following
-        example program for the procedure.</p>
+        NSZoneMalloc is usually used to allocate variable sized memory. The documentation in NSZone.h for my system says
+        that a memory allocation error with the function NSZoneMalloc using the default zone results in a NULL being returned.
+        However, the error actually resulted in a unhandled NSMallocException. This means that exception handling must
+        be used to catch the error. If instead, a &#8220;C&#8221; malloc function is used, the error results in a NULL
+        return. In this case it simplifies the error handling since the NULL is simply returned to AStyle. The example
+        program uses malloc instead of NSZoneMalloc.</p>
     <p>
-        The calling program is responsible for freeing the allocated memory (with NSZoneFree) when it is no longer required.</p>
+        A NSZoneMalloc can be used if you want but do not abort the program in the memory allocation function. An error
+        message may be printed but return a NULL pointer to AStyle and handle the error when AStyle returns from formatting
+        the text.</p>
+    <p>
+        The calling program is responsible for freeing the allocated memory when it is no longer needed.</p>
 
     <h4>
         Return Value</h4>
@@ -160,7 +165,7 @@
     <p>
         &nbsp;</p>
     <div class="hl">
- <pre class="hl">
+        <pre class="hl">
  
 <span class="hl slc">// Example.m</span>
 
@@ -181,7 +186,7 @@
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
                          <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
-                         <span class="hl kwb">void</span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
+                         <span class="hl kwb">void </span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
                          <span class="hl kwb">char</span><span class="hl opt">* (</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
 <span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">);</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl opt">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl opt">);</span>
@@ -194,7 +199,7 @@ NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span c
 
 
 <span class="hl slc">// Main function for this example.</span>
-<span class="hl kwb">int</span> <span class="hl kwd">main</span><span class="hl opt">(</span><span class="hl kwb">int</span> argc<span class="hl opt">,</span> <span class="hl kwb">const char</span><span class="hl opt">*</span> argv<span class="hl opt">[])</span>
+<span class="hl kwb">int</span> <span class="hl kwd">main</span><span class="hl opt">()</span>
 <span class="hl opt">{</span>   NSAutoreleasePool<span class="hl opt">*</span> pool <span class="hl opt">= [[</span>NSAutoreleasePool alloc<span class="hl opt">]</span> init<span class="hl opt">];</span>
 
     <span class="hl slc">// options to pass to AStyle</span>
@@ -243,16 +248,14 @@ NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span c
 
 <span class="hl slc">// Error handler for the Artistic Style formatter.</span>
 <span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">)</span>
-<span class="hl opt">{</span>   <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;astyle error %d&quot;</span><span class="hl opt">,</span> errorNumber<span class="hl opt">);</span>
+<span class="hl opt">{</span>   <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;astyle error %ld&quot;</span><span class="hl opt">,</span> errorNumber<span class="hl opt">);</span>
     <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;%s&quot;</span><span class="hl opt">,</span> errorMessage<span class="hl opt">);</span>
 <span class="hl opt">}</span>
 
 <span class="hl slc">// Allocate memory for the Artistic Style formatter.</span>
-<span class="hl slc">// A variable-sized object may not be initialized with alloc.</span>
+<span class="hl slc">// Malloc is used instead of NSZoneMalloc to simplify the error handling.</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl opt">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl opt">)</span>
-<span class="hl opt">{</span>   <span class="hl slc">// if allocation fails a null pointer is returned</span>
-    <span class="hl slc">// error condition is checked after the return from AStyleMain</span>
-    <span class="hl kwb">char</span><span class="hl opt">*</span> buffer <span class="hl opt">=</span> <span class="hl kwd">NSZoneMalloc</span><span class="hl opt">(</span><span class="hl kwd">NSDefaultMallocZone</span><span class="hl opt">(),</span> memoryNeeded<span class="hl opt">);</span>
+<span class="hl opt">{</span>   <span class="hl kwb">char</span><span class="hl opt">*</span> buffer <span class="hl opt">=</span> <span class="hl kwd">malloc</span><span class="hl opt">(</span>memoryNeeded<span class="hl opt">);</span>
     <span class="hl kwa">return</span> buffer<span class="hl opt">;</span>
 <span class="hl opt">}</span>
 
@@ -285,6 +288,8 @@ NSString<span class="hl opt">*</span> <span class="hl kwd">getProjectDirectory</
 <span class="hl slc">// Usually the text would be obtained from an edit control.</span>
 NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span class="hl opt">(</span>NSString<span class="hl opt">*</span> filePath<span class="hl opt">)</span>
 <span class="hl opt">{</span>   NSString<span class="hl opt">*</span> textIn <span class="hl opt">= [</span>NSString stringWithContentsOfFile<span class="hl opt">:</span> filePath<span class="hl opt">];</span>
+    <span class="hl kwa">if</span> <span class="hl opt">(!</span>textIn<span class="hl opt">)</span>
+        <span class="hl kwd">error</span><span class="hl opt">([</span>NSString stringWithFormat<span class="hl opt">:</span> &#64;<span class="hl str">&quot;Cannot open input file %&#64;&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">]);</span>
     <span class="hl kwa">return</span> textIn<span class="hl opt">;</span>
 <span class="hl opt">}</span>
 
@@ -292,8 +297,12 @@ NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span c
 <span class="hl slc">// Usually the text would be returned to an edit control.</span>
 <span class="hl kwb">void</span> <span class="hl kwd">setText</span><span class="hl opt">(</span><span class="hl kwb">const</span> NSString<span class="hl opt">*</span> textOut<span class="hl opt">,</span> NSString<span class="hl opt">*</span> filePath<span class="hl opt">)</span>
 <span class="hl opt">{</span>   <span class="hl slc">// create a backup file</span>
+    NSFileManager<span class="hl opt">*</span> fm <span class="hl opt">= [</span>NSFileManager defaultManager<span class="hl opt">];</span>
     NSString<span class="hl opt">*</span> origfilePath <span class="hl opt">=  [</span>NSString stringWithFormat<span class="hl opt">:</span> &#64;<span class="hl str">&quot;%&#64;%&#64;&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">,</span> &#64;<span class="hl str">&quot;.orig&quot;</span><span class="hl opt">];</span>
-    <span class="hl opt">[[</span>NSFileManager defaultManager<span class="hl opt">]</span> movePath<span class="hl opt">:</span> filePath toPath<span class="hl opt">:</span> origfilePath handler<span class="hl opt">:</span> nil<span class="hl opt">];</span>
+    <span class="hl kwa">if</span> <span class="hl opt">([</span>fm fileExistsAtPath<span class="hl opt">:</span> origfilePath<span class="hl opt">])</span>
+        <span class="hl opt">[</span>fm removeFileAtPath<span class="hl opt">:</span> origfilePath handler<span class="hl opt">:</span> nil<span class="hl opt">];</span>
+    <span class="hl kwa">if</span> <span class="hl opt">(![</span>fm movePath<span class="hl opt">:</span> filePath toPath<span class="hl opt">:</span> origfilePath handler<span class="hl opt">:</span> nil<span class="hl opt">])</span>
+        <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;Cannot create backup for %&#64;&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">);</span>
     <span class="hl slc">// write the text</span>
     <span class="hl opt">[</span>textOut writeToFile<span class="hl opt">:</span> filePath atomically<span class="hl opt">:</span> YES<span class="hl opt">];</span>
 <span class="hl opt">}</span>

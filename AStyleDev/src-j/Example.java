@@ -3,7 +3,7 @@
 /*
 * Example opens the source files, calls the AStyleInterface methods
 * to format the files, and saves the reformatted source. The files
-* are in a test-datadirectory. The option mode=java must be included
+* are in a test-data directory. The option mode=java must be included
 * for java files.
 */
 
@@ -11,8 +11,8 @@ import java.io.*;
 
 public class Example
 {   /*
-     *  Main function for this example.
-     */
+    *  Main function for this example.
+    */
     public static void main(String[] args)
     {   // files to pass to AStyle
         String fileName[] =  {  "AStyleDev/test-data/ASBeautifier.cpp",

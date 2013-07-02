@@ -9,7 +9,6 @@
 		<Project filename="MinGW Example Dll.cbp" />
 		<Project filename="MinGW Example Lib.cbp" />
 		<Project filename="MinGW Example Obj.cbp" />
-		<Project filename="MinGW Example2 Dll.cbp" />
 		<Project filename="MinGW PrintDirTest.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

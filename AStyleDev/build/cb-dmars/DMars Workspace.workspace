@@ -7,6 +7,5 @@
 		<Project filename="DMars Example Dll.cbp" />
 		<Project filename="DMars Example Lib.cbp" />
 		<Project filename="DMars Example Obj.cbp" />
-		<Project filename="DMars Example2 Dll.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

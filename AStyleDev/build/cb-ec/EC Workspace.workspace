@@ -7,6 +7,5 @@
 		<Project filename="EC Example Dll.cbp" />
 		<Project filename="EC Example Lib.cbp" />
 		<Project filename="EC Example Obj.cbp" />
-		<Project filename="EC Example2 Dll.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

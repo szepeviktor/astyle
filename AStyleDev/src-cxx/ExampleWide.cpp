@@ -32,8 +32,8 @@ using namespace std;
 extern "C"
 char* STDCALL  AStyleMain(const char* pSourceIn,
                           const char* pOptions,
-                          void(STDCALL* fpError)(int, char*),
-                          char*(STDCALL* fpAlloc)(unsigned long));
+                          void (STDCALL* fpError)(int, char*),
+                          char* (STDCALL* fpAlloc)(unsigned long));
 void  STDCALL ASErrorHandler(int errorNumber, char* errorMessage);
 char* STDCALL ASMemoryAlloc(unsigned long memoryNeeded);
 

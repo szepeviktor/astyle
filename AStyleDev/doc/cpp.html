@@ -54,11 +54,12 @@
         Syntax</h4>
 
     <div class="hl">
-        <pre class="hl"><span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
+        <pre class="hl">
+<span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
                          <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
-                         <span class="hl kwb">void</span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
-                         <span class="hl kwb">char</span><span class="hl opt">*(</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
+                         <span class="hl kwb">void </span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
+                         <span class="hl kwb">char</span><span class="hl opt">* (</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
 </pre>
     </div>
 
@@ -94,7 +95,13 @@
         program can handle the exception at this point rather than in the memory allocation function. See the following
         example program for the procedure.</p>
     <p>
-        The calling program is responsible for freeing the allocated memory when it is no longer required.</p>
+        A "new" without "(nothrow)" can be used if you want but do not abort the program in the memory allocation function.
+        An error message may be printed but return a NULL pointer to AStyle and handle the error when AStyle returns from
+        formatting the text.</p>
+    <p>
+        The calling program is responsible for freeing the allocated mem</p>
+    <p>
+        The calling program is responsible for freeing the allocated memory when it is no longer needed.</p>
 
     <h4>
         Return Value</h4>
@@ -160,7 +167,8 @@
     <p>
         &nbsp;</p>
     <div class="hl">
-        <pre class="hl">        
+        <pre class="hl">
+        
 <span class="hl slc">// Example.cpp</span>
 
 <span class="hl com">/* This program calls the Artistic Style GUI formatter (AStyleMain)</span>
@@ -187,7 +195,7 @@
 <span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
                          <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
-                         <span class="hl kwb">void</span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
+                         <span class="hl kwb">void </span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
                          <span class="hl kwb">char</span><span class="hl opt">* (</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
 <span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">);</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl opt">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl opt">);</span>
