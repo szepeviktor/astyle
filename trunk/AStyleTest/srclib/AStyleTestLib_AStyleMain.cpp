@@ -256,12 +256,12 @@ TEST_F(AStyleMainUtf16F1, InvalidOption)
 
 struct ASLibrary_Mock8 : public ASLibrary
 {
-	MOCK_CONST_METHOD1(convertUtf16ToUtf8, char*(const utf16_t*));
+	MOCK_CONST_METHOD1(convertUtf16ToUtf8, char* (const utf16_t*));
 };
 
 struct ASLibrary_Mock16 : public ASLibrary
 {
-	MOCK_CONST_METHOD2(convertUtf8ToUtf16, utf16_t*(const char*, fpAlloc));
+	MOCK_CONST_METHOD2(convertUtf8ToUtf16, utf16_t* (const char*, fpAlloc));
 };
 
 TEST_F(AStyleMainUtf16F1, NullConvertSource)

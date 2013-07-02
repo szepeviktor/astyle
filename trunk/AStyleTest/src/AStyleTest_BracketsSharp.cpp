@@ -1627,7 +1627,7 @@ TEST(BracketsStroustrupSharp, NestedNamespace)
 }
 
 //-------------------------------------------------------------------------
-// AStyle C# Break Bracket Options
+// AStyle C# RunIn Bracket Options
 //-------------------------------------------------------------------------
 
 struct BracketsRunInSharpF : public ::testing::Test

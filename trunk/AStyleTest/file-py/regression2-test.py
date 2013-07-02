@@ -25,32 +25,32 @@ import time
 # select one of the following from libastyle
 # CODEBLOCKS
 # DRJAVA            # Java - Cannot compile
-# GWORKSPACE        # Objective C
+# GWORKSPACE        # Objective-C
 # JEDIT             # Java
 # SCITE 
 # SHARPDEVELOP      # C# - Compile on Windows only
 # TESTPROJECT
-__project = libastyle.SHARPDEVELOP
+__project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a bracket style or any other option
-__options  = libastyle.OPT0
+__options  = libastyle.OPT1
 __options_x = ""
 
 # scite formatting options
 #__options = "-tapOHUk3"
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle24c"
+__astyleexe1 = "astyle24g"
 __astyleexe2 = "astyle"
 
 # select one of the following to format files in the OLD directory
-#__formatOLD = True
-__formatOLD = False
+__formatOLD = True
+#__formatOLD = False
 
 # extract all files options, use False for speed
-__all_files_option = True
-#__all_files_option = False
+#__all_files_option = True
+__all_files_option = False
 
 # -----------------------------------------------------------------------------
 

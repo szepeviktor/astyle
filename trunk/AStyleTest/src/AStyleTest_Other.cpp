@@ -1048,6 +1048,43 @@ TEST(Enum, Class2)
 	delete [] textOut;
 }
 
+TEST(Enum, ClassTab1)
+{
+	// test tab indent of enum in a class
+	char text[] =
+		"\nclass fooClass\n"
+		"{\n"
+		"public:\n"
+		"\tenum dStyle\n"
+		"\t{\n"
+		"\t\tOK = 0,\n"
+		"\t\tYES_NO,\n"
+		"\t};\n"
+		"};\n";
+	char options[] = "indent=tab";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Enum, ClassTab2)
+{
+	// test tab indent of enum in a class
+	// with in-statement indent
+	char text[] =
+		"\nclass fooClass\n"
+		"{\n"
+		"public:\n"
+		"\tenum dStyle { OK = 0,\n"
+		"\t              YES_NO,\n"
+		"\t            };\n"
+		"};\n";
+	char options[] = "indent=tab";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(Enum, ClassIndent1)
 {
 	// test indent of enum in an indented class
@@ -1144,6 +1181,47 @@ TEST(Enum, InStatementIndent2)
 		"       E_REMAINDER_OF_LONG_NAME,\n"
 		"     };";
 	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Enum, InStatementIndentTab1)
+{
+	// test tab indent of an enum
+	char text[] =
+		"\nenum {\n"
+		"\tA_REMAINDER_OF_LONG_NAME = 0x01,\n"
+		"\tB_REMAINDER_OF_LONG_NAME = 0x02,\n"
+		"\tAB_REMAINDER_OF_LONG_NAME =\n"
+		"\t    A_REMAINDER_OF_LONG_NAME |\n"
+		"\t    B_REMAINDER_OF_LONG_NAME,\n"
+		"\tC_REMAINDER_OF_LONG_NAME = 0x01,\n"
+		"\tD_REMAINDER_OF_LONG_NAME =  A_REMAINDER_OF_LONG_NAME |\n"
+		"\t                            C_REMAINDER_OF_LONG_NAME,\n"
+		"\tE_REMAINDER_OF_LONG_NAME,\n"
+		"};";
+	char options[] = "indent=tab";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Enum, InStatementIndentTab2)
+{
+	// test in-statement tab indent of an enum
+	char text[] =
+		"\nenum { A_REMAINDER_OF_LONG_NAME = 0x01,\n"
+		"       B_REMAINDER_OF_LONG_NAME = 0x02,\n"
+		"       AB_REMAINDER_OF_LONG_NAME =\n"
+		"           A_REMAINDER_OF_LONG_NAME |\n"
+		"           B_REMAINDER_OF_LONG_NAME,\n"
+		"       C_REMAINDER_OF_LONG_NAME = 0x01,\n"
+		"       D_REMAINDER_OF_LONG_NAME =  A_REMAINDER_OF_LONG_NAME |\n"
+		"                                   C_REMAINDER_OF_LONG_NAME,\n"
+		"       E_REMAINDER_OF_LONG_NAME,\n"
+		"     };";
+	char options[] = "indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

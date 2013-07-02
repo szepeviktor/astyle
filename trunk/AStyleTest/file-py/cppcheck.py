@@ -15,7 +15,7 @@ import subprocess
 
 # global variables ------------------------------------------------------------
 
-__expected_version = "1.59"
+__expected_version = "1.60"
 
 # -----------------------------------------------------------------------------
 
@@ -57,6 +57,11 @@ def generate_suppression_file(suppressionFileName):
 	localizerList = ["\n// ASLocalizer.cpp\n"]
 	process_localizer(localizerList)
 	outfile.writelines(localizerList)
+
+	# ASResource
+	resourceList = ["\n// ASResource.cpp\n"]
+	process_resource(resourceList)
+	outfile.writelines(resourceList)
 
 	# astyle_main
 	astyleMainList = ["\n// astyle_main.cpp\n"]
@@ -115,6 +120,8 @@ def process_astyle_main(astyleMainList):
 		if line.find("Java_AStyleInterface_AStyleGetVersion") != -1:
 			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// Java_AStyleInterface_AStyleGetVersion\n")
 		if line.find("Java_AStyleInterface_AStyleMain") != -1:
+			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// Java_AStyleInterface_AStyleMain\n")
+		if line.find("AStyleMainUtf16") != -1:
 			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// Java_AStyleInterface_AStyleMain\n")
 
 # -----------------------------------------------------------------------------
@@ -225,6 +232,16 @@ def process_formatter(formatterList):
 			charsProcessed += 1
 			if charsProcessed == 2:
 				formatterList.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t\t// char ch\n")
+		# assertWithSideEffect
+		if (line.startswith("assert") 
+		and line.find("adjustChecksumIn")  != -1):			# 2 lines
+			formatterList.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
+		if (line.startswith("assert") 
+		and line.find("computeChecksumOut")  != -1):	
+			formatterList.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
+		if (line.startswith("assert") 
+		and line.find("computeChecksumIn")  != -1):		# 2 lines	
+			formatterList.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
 		# unusedFunction warnings
 		if line.find("ASFormatter::getChecksumIn") != -1:
 			formatterList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getChecksumIn\n")
@@ -261,6 +278,27 @@ def process_localizer(localizerList):
 		if line.find("Translation::getWideTranslation") != -1:
 			localizerList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getWideTranslation\n")
 
+# -----------------------------------------------------------------------------
+
+def process_resource(resourceList):
+	""" Generate suppressions for ASResource.
+	"""
+	lines = 0				# current input line number
+	charsProcessed = 0		# only want the first 'char ch'
+	src_path = "../../AStyle/src/ASResource.cpp"
+	file_in = open(src_path, 'r')
+	# get exceptions
+	for line_in in file_in:
+		lines += 1
+		line = line_in.strip()
+		if len(line) == 0:
+			continue
+		if line.startswith("//"):
+			continue
+		if (line.startswith("assert") 
+		and line.find("isCharPotentialHeader")  != -1):		# 2 lines
+			resourceList.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
+			
 # -----------------------------------------------------------------------------
 
 def process_uninitMemberVar(uninitMemberVarList):

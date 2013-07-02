@@ -289,6 +289,7 @@
     <ClCompile Include="..\..\..\src\AStyleTest_BracketsCpp1.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_BracketsCpp2.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_BracketsJava.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_BracketsObjC.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_BracketsSharp.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_BugFix.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Format.cpp" />
@@ -296,8 +297,9 @@
     <ClCompile Include="..\..\..\src\AStyleTest_Main.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Other.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Pad.cpp" />
-    <ClCompile Include="..\..\..\src\AStyleTest_Styles1.cpp" />
-    <ClCompile Include="..\..\..\src\AStyleTest_Styles2.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_StylesCpp1.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_StylesCpp2.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_StylesOther.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Tabs.cpp" />
     <ClCompile Include="..\..\..\srcx\TersePrinter.cpp">
     </ClCompile>
