@@ -70,6 +70,38 @@ TEST(Cpp11Standard, RangeBasedForLoop3)
 	delete [] textOut;
 }
 
+TEST(Cpp11Standard, RangeBasedForLoop4)
+{
+	// range-based for loop with a reference and pad-oper
+	// reference should not be padded
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    for (auto& it : s)\n"
+		"        auto i = it;\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Cpp11Standard, RangeBasedForLoop5)
+{
+	// range-based for loop with a pointer and pad-oper
+	// pointer should not be padded
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    for (auto* it : s)\n"
+		"        auto i = it;\n"
+		"}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(Cpp11Standard, EnumWithBaseType1)
 {
 	// enum with a base-type

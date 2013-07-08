@@ -12,27 +12,45 @@ namespace {
 
 //----------------------------------------------------------------------------
 // AStyle Objective-C Files
-// Additional tests are in the brackets tests
 //----------------------------------------------------------------------------
 
-struct FileObjCHeaderF : public ::testing::Test
+struct StyleObjCF : public ::testing::Test
 {
 	string textStr;
 	const char* textIn;
 
-	FileObjCHeaderF()
+	StyleObjCF()
 	{
 		textStr =
 			"\n@interface Foo : NSObject {\n"
 			"    NSString* var1;\n"
 			"    NSString* var2;\n"
 			"}\n"
-			"@end";
+			"@end\n"
+			"\n"
+			"@implementation Foo\n"
+			"\n"
+			"- (void) foo\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"}\n"
+			"\n"
+			"- (void) foo : (int) icon\n"
+			"    ofSize : (int) size {\n"
+			"    if (isFoo) {\n"
+			"        bar();\n"
+			"    }\n"
+			"}\n"
+			"\n"
+			"@end\n";
 		textIn = textStr.c_str();
 	}
 };
 
-TEST_F(FileObjCHeaderF, Default)
+TEST_F(StyleObjCF, Default)
 {
 	// test default style option
 	char options[] = "";
@@ -41,7 +59,7 @@ TEST_F(FileObjCHeaderF, Default)
 	delete [] textOut;
 }
 
-TEST_F(FileObjCHeaderF, Allman)
+TEST_F(StyleObjCF, Allman)
 {
 	// test allman style option
 	char text[] =
@@ -50,14 +68,35 @@ TEST_F(FileObjCHeaderF, Allman)
 		"    NSString* var1;\n"
 		"    NSString* var2;\n"
 		"}\n"
-		"@end";
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"    ofSize : (int) size\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"@end\n";
 	char options[] = "style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_F(FileObjCHeaderF, Java)
+TEST_F(StyleObjCF, Java)
 {
 	// test java style option
 	char text[] =
@@ -65,14 +104,31 @@ TEST_F(FileObjCHeaderF, Java)
 		"    NSString* var1;\n"
 		"    NSString* var2;\n"
 		"}\n"
-		"@end";
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo {\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"    ofSize : (int) size {\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"@end\n";
 	char options[] = "style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_F(FileObjCHeaderF, KR)
+TEST_F(StyleObjCF, KR)
 {
 	// test k&r style option
 	char text[] =
@@ -81,14 +137,33 @@ TEST_F(FileObjCHeaderF, KR)
 		"    NSString* var1;\n"
 		"    NSString* var2;\n"
 		"}\n"
-		"@end";
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"    ofSize : (int) size\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"@end\n";
 	char options[] = "style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_F(FileObjCHeaderF, Stroustrup)
+TEST_F(StyleObjCF, Stroustrup)
 {
 	// test stroustrup style option
 	char text[] =
@@ -97,14 +172,33 @@ TEST_F(FileObjCHeaderF, Stroustrup)
 		"     NSString* var1;\n"
 		"     NSString* var2;\n"
 		"}\n"
-		"@end";
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo\n"
+		"{\n"
+		"     if (isFoo) {\n"
+		"          bar();\n"
+		"     }\n"
+		"}\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"     ofSize : (int) size\n"
+		"{\n"
+		"     if (isFoo) {\n"
+		"          bar();\n"
+		"     }\n"
+		"}\n"
+		"\n"
+		"@end\n";
 	char options[] = "style=stroustrup, indent=spaces=5";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_F(FileObjCHeaderF, Whitesmith)
+TEST_F(StyleObjCF, Whitesmith)
 {
 	// test whitesmith style option
 	char text[] =
@@ -113,14 +207,35 @@ TEST_F(FileObjCHeaderF, Whitesmith)
 		"    NSString* var1;\n"
 		"    NSString* var2;\n"
 		"    }\n"
-		"@end";
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo\n"
+		"    {\n"
+		"    if (isFoo)\n"
+		"        {\n"
+		"        bar();\n"
+		"        }\n"
+		"    }\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"    ofSize : (int) size\n"
+		"    {\n"
+		"    if (isFoo)\n"
+		"        {\n"
+		"        bar();\n"
+		"        }\n"
+		"    }\n"
+		"\n"
+		"@end\n";
 	char options[] = "style=whitesmith";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_F(FileObjCHeaderF, Banner)
+TEST_F(StyleObjCF, Banner)
 {
 	// test banner style option
 	char text[] =
@@ -128,14 +243,31 @@ TEST_F(FileObjCHeaderF, Banner)
 		"    NSString* var1;\n"
 		"    NSString* var2;\n"
 		"    }\n"
-		"@end";
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo {\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"        }\n"
+		"    }\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"    ofSize : (int) size {\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"        }\n"
+		"    }\n"
+		"\n"
+		"@end\n";
 	char options[] = "style=banner";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_F(FileObjCHeaderF, Gnu)
+TEST_F(StyleObjCF, Gnu)
 {
 	// test gnu style option
 	char text[] =
@@ -144,14 +276,35 @@ TEST_F(FileObjCHeaderF, Gnu)
 		"  NSString* var1;\n"
 		"  NSString* var2;\n"
 		"}\n"
-		"@end";
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo\n"
+		"{\n"
+		"  if (isFoo)\n"
+		"    {\n"
+		"      bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"  ofSize : (int) size\n"
+		"{\n"
+		"  if (isFoo)\n"
+		"    {\n"
+		"      bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"@end\n";
 	char options[] = "style=gnu, indent=spaces=2";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_F(FileObjCHeaderF, Linux)
+TEST_F(StyleObjCF, Linux)
 {
 	// test linux style option
 	char text[] =
@@ -160,14 +313,33 @@ TEST_F(FileObjCHeaderF, Linux)
 		"        NSString* var1;\n"
 		"        NSString* var2;\n"
 		"}\n"
-		"@end";
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo\n"
+		"{\n"
+		"        if (isFoo) {\n"
+		"                bar();\n"
+		"        }\n"
+		"}\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"        ofSize : (int) size\n"
+		"{\n"
+		"        if (isFoo) {\n"
+		"                bar();\n"
+		"        }\n"
+		"}\n"
+		"\n"
+		"@end\n";
 	char options[] = "style=linux, indent=spaces=8";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_F(FileObjCHeaderF, Horstmann)
+TEST_F(StyleObjCF, Horstmann)
 {
 	// test horstmann style option
 	char text[] =
@@ -175,14 +347,31 @@ TEST_F(FileObjCHeaderF, Horstmann)
 		"{  NSString* var1;\n"
 		"   NSString* var2;\n"
 		"}\n"
-		"@end";
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo\n"
+		"{  if (isFoo)\n"
+		"   {  bar();\n"
+		"   }\n"
+		"}\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"   ofSize : (int) size\n"
+		"{  if (isFoo)\n"
+		"   {  bar();\n"
+		"   }\n"
+		"}\n"
+		"\n"
+		"@end\n";
 	char options[] = "style=horstmann, indent=spaces=3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_F(FileObjCHeaderF, 1TBS)
+TEST_F(StyleObjCF, 1TBS)
 {
 	// test 1tbs style option
 	char text[] =
@@ -191,38 +380,237 @@ TEST_F(FileObjCHeaderF, 1TBS)
 		"    NSString* var1;\n"
 		"    NSString* var2;\n"
 		"}\n"
-		"@end";
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"    ofSize : (int) size\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"@end\n";
 	char options[] = "style=1tbs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_F(FileObjCHeaderF, Pico)
+TEST_F(StyleObjCF, Pico)
 {
 	// test pico style option
 	char text[] =
 		"\n@interface Foo : NSObject\n"
 		"{   NSString* var1;\n"
 		"    NSString* var2; }\n"
-		"@end";
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo\n"
+		"{   if (isFoo)\n"
+		"    {   bar(); } }\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"    ofSize : (int) size\n"
+		"{   if (isFoo)\n"
+		"    {   bar(); } }\n"
+		"\n"
+		"@end\n";
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST_F(FileObjCHeaderF, Lisp)
+TEST_F(StyleObjCF, Lisp)
 {
 	// test lisp style option
 	char text[] =
 		"\n@interface Foo : NSObject {\n"
 		"    NSString* var1;\n"
 		"    NSString* var2; }\n"
-		"@end";
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo {\n"
+		"    if (isFoo) {\n"
+		"        bar(); } }\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"    ofSize : (int) size {\n"
+		"    if (isFoo) {\n"
+		"        bar(); } }\n"
+		"\n"
+		"@end\n";
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleObjCOther, 1TBSAddBrackets)
+{
+	// test 1tbs style option with added brackets
+	char textIn[] =
+		"\n@interface Foo : NSObject\n"
+		"{\n"
+		"    NSString* var1;\n"
+		"    NSString* var2;\n"
+		"}\n"
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        bar();\n"
+		"}\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"    ofSize : (int) size {\n"
+		"    if (isFoo)\n"
+		"        bar();\n"
+		"}\n"
+		"\n"
+		"@end\n";
+	char text[] =
+		"\n@interface Foo : NSObject\n"
+		"{\n"
+		"    NSString* var1;\n"
+		"    NSString* var2;\n"
+		"}\n"
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"    ofSize : (int) size\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"@end\n";
+	char options[] = "style=1tbs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleObjCOther, Header)
+{
+	// test a header with Objective-C statements
+	char text[] =
+		"\n#include <Foundation/Foundation.h>\n"
+		"\n"
+		"@class FooClass;\n"
+		"\n"
+		"@interface Foo : NSObject\n"
+		"{\n"
+		"    NSString* var1;\n"
+		"    NSString* var2;\n"
+		"}\n"
+		"@property(retain)NSString* var3;\n"
+		"\n"
+		"-(void)method1;\n"
+		"\n"
+		"-(void)methodWithArg1:(NSString*)param1;\n"
+		"\n"
+		"+void removeComponentsOfPath(NSString *path,\n"
+		"                             pcomp *base);\n"
+		"\n"
+		"-(void)writeData:(NSData *)data\n"
+		"    atOffset:(NSNumber *)offset;\n"
+		"\n"
+		"-(void)method2;\n"
+		"\n"
+		"@end";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	ASSERT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleObjCOther, MethodCallIndent)
+{
+	// test indent of method call containing a colon
+	char text[] =
+		"\n- (void) Foo\n"
+		"{\n"
+		"    NSString* homeDirectory = [NSString stringWithUTF8String: homeDirectoryChar];\n"
+		"    NSString* projectPath = [NSString stringWithFormat: @\"%@/%@/%@\",\n"
+		"                             homeDirectory, @\"Projects\", subPath];\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	ASSERT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleObjCOther, NSExceptionMacros)
+{
+	// test indent of NSException macros NS_DURING and NS_HANDLER
+	// tabs are used to check the continuation line indent
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"	NS_DURING\n"
+		"	{\n"
+		"		[[NSWorkspace sharedWorkspace] openFile: path\n"
+		"		 withApplication: [node name]];\n"
+		"	}\n"
+		"	NS_HANDLER\n"
+		"	{\n"
+		"		NSRunAlertPanel(NSLocalizedString(@\"error\", @\"\"),\n"
+		"		                [NSString stringWithFormat: @\"%@ %@!\"]);\n"
+		"	}\n"
+		"	NS_ENDHANDLER\n"
+		"}";
+	char options[] = "indent=tab";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	ASSERT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleObjCOther, OtherColonIndent)
+{
+	// test indent of other troublesome objects containing a colon
+	char text[] =
+		"\n- (void) Foo\n"
+		"{\n"
+		"    if (pathCompareSel == NULL) {\n"
+		"        pathCompareSel = @selector(compare:);\n"
+		"    }\n"
+		"    if (initialized == NO) {\n"
+		"        cutTitleSel = @selector(cutTitle:toFitWidth:);\n"
+		"        cutTitle = (cutIMP)[self instanceMethodForSelector: cutTitleSel];\n"
+		"    }\n"
+		"    return (([paths count] > 0) ? [paths makeImmutableCopyOnFail: NO] : nil);\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -231,12 +619,12 @@ TEST_F(FileObjCHeaderF, Lisp)
 // Additional tests are in the brackets tests
 //----------------------------------------------------------------------------
 
-struct FileJavaF : public ::testing::Test
+struct StyleJavaF : public ::testing::Test
 {
 	string textStr;
 	const char* textIn;
 
-	FileJavaF()
+	StyleJavaF()
 	{
 		textStr =
 			"\npublic class FooClass\n"
@@ -258,7 +646,7 @@ struct FileJavaF : public ::testing::Test
 	}
 };
 
-TEST_F(FileJavaF, Allman)
+TEST_F(StyleJavaF, Allman)
 {
 	// test allman style option
 	char text[] =
@@ -283,7 +671,7 @@ TEST_F(FileJavaF, Allman)
 	delete [] textOut;
 }
 
-TEST_F(FileJavaF, Java)
+TEST_F(StyleJavaF, Java)
 {
 	// test java style option
 	char text[] =
@@ -304,7 +692,7 @@ TEST_F(FileJavaF, Java)
 	delete [] textOut;
 }
 
-TEST_F(FileJavaF, KR)
+TEST_F(StyleJavaF, KR)
 {
 	// test k&r style option
 	char text[] =
@@ -327,7 +715,7 @@ TEST_F(FileJavaF, KR)
 	delete [] textOut;
 }
 
-TEST_F(FileJavaF, Stroustrup)
+TEST_F(StyleJavaF, Stroustrup)
 {
 	// test stroustrup style option
 	char text[] =
@@ -349,7 +737,7 @@ TEST_F(FileJavaF, Stroustrup)
 	delete [] textOut;
 }
 
-TEST_F(FileJavaF, Whitesmith)
+TEST_F(StyleJavaF, Whitesmith)
 {
 	// test whitesmith style option
 	char text[] =
@@ -374,7 +762,7 @@ TEST_F(FileJavaF, Whitesmith)
 	delete [] textOut;
 }
 
-TEST_F(FileJavaF, Banner)
+TEST_F(StyleJavaF, Banner)
 {
 	// test banner style option
 	char text[] =
@@ -396,7 +784,7 @@ TEST_F(FileJavaF, Banner)
 	delete [] textOut;
 }
 
-TEST_F(FileJavaF, Gnu)
+TEST_F(StyleJavaF, Gnu)
 {
 	// test gnu style option
 	char text[] =
@@ -421,7 +809,7 @@ TEST_F(FileJavaF, Gnu)
 	delete [] textOut;
 }
 
-TEST_F(FileJavaF, Linux)
+TEST_F(StyleJavaF, Linux)
 {
 	// test linux style option
 	char text[] =
@@ -444,7 +832,7 @@ TEST_F(FileJavaF, Linux)
 	delete [] textOut;
 }
 
-TEST_F(FileJavaF, Horstmann)
+TEST_F(StyleJavaF, Horstmann)
 {
 	// test horstmann style option
 	char text[] =
@@ -466,7 +854,7 @@ TEST_F(FileJavaF, Horstmann)
 	delete [] textOut;
 }
 
-TEST_F(FileJavaF, 1TBS)
+TEST_F(StyleJavaF, 1TBS)
 {
 	// test 1tbs style option
 	char text[] =
@@ -490,7 +878,7 @@ TEST_F(FileJavaF, 1TBS)
 	delete [] textOut;
 }
 
-TEST_F(FileJavaF, Pico)
+TEST_F(StyleJavaF, Pico)
 {
 	// test pico style option
 	char text[] =
@@ -509,7 +897,7 @@ TEST_F(FileJavaF, Pico)
 	delete [] textOut;
 }
 
-TEST_F(FileJavaF, Lisp)
+TEST_F(StyleJavaF, Lisp)
 {
 	// test lisp style option
 	char text[] =
@@ -528,7 +916,7 @@ TEST_F(FileJavaF, Lisp)
 	delete [] textOut;
 }
 
-TEST(FileJava, Whitesmith_Interface)
+TEST(StyleJava, Whitesmith_Interface)
 {
 	// test whitesmith style with interface
 	char text[] =
@@ -543,7 +931,7 @@ TEST(FileJava, Whitesmith_Interface)
 	delete [] textOut;
 }
 
-TEST(FileJava, Whitesmith_NestedClass)
+TEST(StyleJava, Whitesmith_NestedClass)
 {
 	// test whitesmith style with nested classes
 	char text[] =
@@ -573,7 +961,7 @@ TEST(FileJava, Whitesmith_NestedClass)
 	delete [] textOut;
 }
 
-TEST(FileJava, Whitesmith_StaticConstructor)
+TEST(StyleJava, Whitesmith_StaticConstructor)
 {
 	// test whitesmith style with static constructor
 	// should NOT indent the method opening bracket
@@ -600,7 +988,7 @@ TEST(FileJava, Whitesmith_StaticConstructor)
 	delete [] textOut;
 }
 
-TEST(FileJava, Whitesmith_Throws)
+TEST(StyleJava, Whitesmith_Throws)
 {
 	// test whitesmith style with throws statement
 	// should be recognized as a block opener
@@ -624,7 +1012,7 @@ TEST(FileJava, Whitesmith_Throws)
 	delete [] textOut;
 }
 
-TEST(FileJava, Banner_Interface)
+TEST(StyleJava, Banner_Interface)
 {
 	// test banner style with interface
 	char text[] =
@@ -638,7 +1026,7 @@ TEST(FileJava, Banner_Interface)
 	delete [] textOut;
 }
 
-TEST(FileJava, Banner_NestedClass)
+TEST(StyleJava, Banner_NestedClass)
 {
 	// test banner style with nested classes
 	char text[] =
@@ -663,7 +1051,7 @@ TEST(FileJava, Banner_NestedClass)
 	delete [] textOut;
 }
 
-TEST(FileJava, Banner_StaticConstructor)
+TEST(StyleJava, Banner_StaticConstructor)
 {
 	// test banner style with static constructor
 	// should NOT indent the method opening bracket
@@ -687,7 +1075,7 @@ TEST(FileJava, Banner_StaticConstructor)
 	delete [] textOut;
 }
 
-TEST(FileJava, Banner_Throws)
+TEST(StyleJava, Banner_Throws)
 {
 	// test banner style with throws statement
 	// should be recognized as a block opener
@@ -708,7 +1096,7 @@ TEST(FileJava, Banner_Throws)
 	delete [] textOut;
 }
 
-TEST(FileJava, Gnu_Interface)
+TEST(StyleJava, Gnu_Interface)
 {
 	// test gnu style with interface
 	// should not indent the interface
@@ -724,7 +1112,7 @@ TEST(FileJava, Gnu_Interface)
 	delete [] textOut;
 }
 
-TEST(FileJava, Gnu_NestedClass)
+TEST(StyleJava, Gnu_NestedClass)
 {
 	// test gnu style with nested classes
 	char text[] =
@@ -754,7 +1142,7 @@ TEST(FileJava, Gnu_NestedClass)
 	delete [] textOut;
 }
 
-TEST(FileJava, Gnu_StaticConstructor)
+TEST(StyleJava, Gnu_StaticConstructor)
 {
 	// test gnu style with static constructor
 	// sould NOT indent the method opening bracket
@@ -781,7 +1169,7 @@ TEST(FileJava, Gnu_StaticConstructor)
 	delete [] textOut;
 }
 
-TEST(FileJava, Gnu_Throws)
+TEST(StyleJava, Gnu_Throws)
 {
 	// test gnu style with a throws statement
 	// should be recognized as a block opener
@@ -810,12 +1198,12 @@ TEST(FileJava, Gnu_Throws)
 // Additional tests are in the brackets tests
 //----------------------------------------------------------------------------
 
-struct FileSharpF : public ::testing::Test
+struct StyleSharpF : public ::testing::Test
 {
 	string textStr;
 	const char* textIn;
 
-	FileSharpF()
+	StyleSharpF()
 	{
 		textStr =
 			"\nnamespace FooName\n"
@@ -842,7 +1230,7 @@ struct FileSharpF : public ::testing::Test
 	}
 };
 
-TEST_F(FileSharpF, Allman)
+TEST_F(StyleSharpF, Allman)
 {
 	// test allman style option
 	char text[] =
@@ -872,7 +1260,7 @@ TEST_F(FileSharpF, Allman)
 	delete [] textOut;
 }
 
-TEST_F(FileSharpF, Java)
+TEST_F(StyleSharpF, Java)
 {
 	// test java style option
 	char text[] =
@@ -897,7 +1285,7 @@ TEST_F(FileSharpF, Java)
 	delete [] textOut;
 }
 
-TEST_F(FileSharpF, KR)
+TEST_F(StyleSharpF, KR)
 {
 	// test k&r style option
 	char text[] =
@@ -925,7 +1313,7 @@ TEST_F(FileSharpF, KR)
 	delete [] textOut;
 }
 
-TEST_F(FileSharpF, Stroustrup)
+TEST_F(StyleSharpF, Stroustrup)
 {
 	// test stroustrup style option
 	char text[] =
@@ -951,7 +1339,7 @@ TEST_F(FileSharpF, Stroustrup)
 	delete [] textOut;
 }
 
-TEST_F(FileSharpF, Whitesmith)
+TEST_F(StyleSharpF, Whitesmith)
 {
 	// test whitesmith style option
 	char text[] =
@@ -981,7 +1369,7 @@ TEST_F(FileSharpF, Whitesmith)
 	delete [] textOut;
 }
 
-TEST_F(FileSharpF, Banner)
+TEST_F(StyleSharpF, Banner)
 {
 	// test banner style option
 	char text[] =
@@ -1007,7 +1395,7 @@ TEST_F(FileSharpF, Banner)
 	delete [] textOut;
 }
 
-TEST_F(FileSharpF, Gnu)
+TEST_F(StyleSharpF, Gnu)
 {
 	// test gnu style option
 	char text[] =
@@ -1037,7 +1425,7 @@ TEST_F(FileSharpF, Gnu)
 	delete [] textOut;
 }
 
-TEST_F(FileSharpF, Linux)
+TEST_F(StyleSharpF, Linux)
 {
 	// test linux style option
 	char text[] =
@@ -1065,7 +1453,7 @@ TEST_F(FileSharpF, Linux)
 	delete [] textOut;
 }
 
-TEST_F(FileSharpF, Horstmann)
+TEST_F(StyleSharpF, Horstmann)
 {
 	// test horstmann style option
 	char text[] =
@@ -1092,7 +1480,7 @@ TEST_F(FileSharpF, Horstmann)
 	delete [] textOut;
 }
 
-TEST_F(FileSharpF, 1TBS)
+TEST_F(StyleSharpF, 1TBS)
 {
 	// test 1tbs style option
 	char text[] =
@@ -1121,7 +1509,7 @@ TEST_F(FileSharpF, 1TBS)
 	delete [] textOut;
 }
 
-TEST_F(FileSharpF, Pico)
+TEST_F(StyleSharpF, Pico)
 {
 	// test pico style option
 	char text[] =
@@ -1145,7 +1533,7 @@ TEST_F(FileSharpF, Pico)
 	delete [] textOut;
 }
 
-TEST_F(FileSharpF, Lisp)
+TEST_F(StyleSharpF, Lisp)
 {
 	// test lisp style option
 	char text[] =
@@ -1168,7 +1556,7 @@ TEST_F(FileSharpF, Lisp)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Whitesmith_Where)
+TEST(StyleSharp, Whitesmith_Where)
 {
 	// test whitesmith style with a method that contains a where statement
 	// should be recognized as a block opener
@@ -1189,7 +1577,7 @@ TEST(FileSharp, Whitesmith_Where)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Whitesmith_WhereClass)
+TEST(StyleSharp, Whitesmith_WhereClass)
 {
 	// test whitesmith style with a class that contains a where statement
 	char text[] =
@@ -1214,7 +1602,7 @@ TEST(FileSharp, Whitesmith_WhereClass)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Whitesmith_NestedClass)
+TEST(StyleSharp, Whitesmith_NestedClass)
 {
 	// test whitesmith style with nested classes
 	char text[] =
@@ -1244,7 +1632,7 @@ TEST(FileSharp, Whitesmith_NestedClass)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Whitesmith_NestedNamespace)
+TEST(StyleSharp, Whitesmith_NestedNamespace)
 {
 	// test whitesmith style with nested namespaces
 	char text[] =
@@ -1275,7 +1663,7 @@ TEST(FileSharp, Whitesmith_NestedNamespace)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Whitesmith_NestedNamespace_IndentNamespaces)
+TEST(StyleSharp, Whitesmith_NestedNamespace_IndentNamespaces)
 {
 	// test whitesmith style with nested indented namespaces
 	char text[] =
@@ -1306,7 +1694,7 @@ TEST(FileSharp, Whitesmith_NestedNamespace_IndentNamespaces)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Whitesmith_NonInStatementArray1)
+TEST(StyleSharp, Whitesmith_NonInStatementArray1)
 {
 	// The isNonInStatementArray should NOT be cleared if a one-line statement is created.
 	// If cleared the GetComponentType line is not indented.
@@ -1332,7 +1720,7 @@ TEST(FileSharp, Whitesmith_NonInStatementArray1)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Whitesmith_NonInStatementArray2)
+TEST(StyleSharp, Whitesmith_NonInStatementArray2)
 {
 	// The following "help" line should be indented.
 	// A line beginning with '{' caused isNonInStatementArray to be cleared.
@@ -1351,7 +1739,7 @@ TEST(FileSharp, Whitesmith_NonInStatementArray2)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Banner_Where)
+TEST(StyleSharp, Banner_Where)
 {
 	// test banner style with a method that contains a where statement
 	// should be recognized as a block opener
@@ -1369,7 +1757,7 @@ TEST(FileSharp, Banner_Where)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Banner_WhereClass)
+TEST(StyleSharp, Banner_WhereClass)
 {
 	// test banner style with a class that contains a where statement
 	char text[] =
@@ -1391,7 +1779,7 @@ TEST(FileSharp, Banner_WhereClass)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Banner_NestedClass)
+TEST(StyleSharp, Banner_NestedClass)
 {
 	// test banner style with nested classes
 	char text[] =
@@ -1416,7 +1804,7 @@ TEST(FileSharp, Banner_NestedClass)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Banner_NestedNamespace)
+TEST(StyleSharp, Banner_NestedNamespace)
 {
 	// test banner style with nested namespaces
 	char text[] =
@@ -1441,7 +1829,7 @@ TEST(FileSharp, Banner_NestedNamespace)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Banner_NestedNamespace_IndentNamespaces)
+TEST(StyleSharp, Banner_NestedNamespace_IndentNamespaces)
 {
 	// test banner style with nested indented namespaces
 	char text[] =
@@ -1466,7 +1854,7 @@ TEST(FileSharp, Banner_NestedNamespace_IndentNamespaces)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Banner_NonInStatementArray1)
+TEST(StyleSharp, Banner_NonInStatementArray1)
 {
 	// The isNonInStatementArray should NOT be cleared if a one-line statement is created.
 	// If cleared the GetComponentType line is not indented.
@@ -1490,7 +1878,7 @@ TEST(FileSharp, Banner_NonInStatementArray1)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Banner_NonInStatementArray2)
+TEST(StyleSharp, Banner_NonInStatementArray2)
 {
 	// The following "help" line should be indented.
 	// A line beginning with '{' caused isNonInStatementArray to be cleared.
@@ -1507,7 +1895,7 @@ TEST(FileSharp, Banner_NonInStatementArray2)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Gnu_Where)
+TEST(StyleSharp, Gnu_Where)
 {
 	// test gnu style with a method that contains a where statement
 	// should be recognized as a block opener
@@ -1528,7 +1916,7 @@ TEST(FileSharp, Gnu_Where)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Gnu_WhereClass)
+TEST(StyleSharp, Gnu_WhereClass)
 {
 	// test gnu style with a class that contains a where statement
 	char text[] =
@@ -1553,7 +1941,7 @@ TEST(FileSharp, Gnu_WhereClass)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Gnu_NestedClass)
+TEST(StyleSharp, Gnu_NestedClass)
 {
 	// test gnu style with interface and nested classes
 	char text[] =
@@ -1583,7 +1971,7 @@ TEST(FileSharp, Gnu_NestedClass)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Gnu_NestedNamespace)
+TEST(StyleSharp, Gnu_NestedNamespace)
 {
 	// test gnu style with nested namespaces
 	char text[] =
@@ -1614,7 +2002,7 @@ TEST(FileSharp, Gnu_NestedNamespace)
 	delete [] textOut;
 }
 
-TEST(FileSharp, Gnu_NestedNamespace_IndentNamespace)
+TEST(StyleSharp, Gnu_NestedNamespace_IndentNamespace)
 {
 	// test gnu style with nested indented namespaces
 	char text[] =
