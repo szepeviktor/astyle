@@ -30,18 +30,18 @@ import time
 # SCITE 
 # SHARPDEVELOP      # C# - Compile on Windows only
 # TESTPROJECT
-__project = libastyle.CODEBLOCKS
+__project = libastyle.GWORKSPACE
 
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a bracket style or any other option
-__options  = libastyle.OPT1
-__options_x = ""
+__options  = libastyle.OPT0
+__options_x = "-A3"
 
 # scite formatting options
 #__options = "-tapOHUk3"
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle24g"
+__astyleexe1 = "astyle24h"
 __astyleexe2 = "astyle"
 
 # select one of the following to format files in the OLD directory

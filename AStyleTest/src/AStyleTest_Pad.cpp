@@ -5115,7 +5115,7 @@ TEST(AlignPointerNone, CSharp)
 
 TEST(AlignPointerNone, RvalueReference)
 {
-	// test on an rvalue reference.
+	// test on a rvalue reference.
 	char text[] =
 		"\nMemoryBlock&& f(MemoryBlock &&block)\n"
 		"{\n"
@@ -5129,6 +5129,39 @@ TEST(AlignPointerNone, RvalueReference)
 		"{\n"
 		"    S<T&&>::print(std::forward<T>(t));\n"
 		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, RvalueReferenceDeclaration)
+{
+	// test on a rvalue reference in a declaration.
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    void Foo1(int&&);\n"
+		"    void Foo2(int &&);\n"
+		"    void Foo2(int && );\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, ClosingFollowingChar)
+{
+	// Following char is closed for parens and commas.
+	// But not for templates.
+	char text[] =
+		"\n"
+		"void Foo(char * , char * );    // comment\n"
+		"void Foo(char *, char *);      // comment\n"
+		"\n"
+		"vector< ParseTree* > m_TreeStack;    // comment\n"
+		"vector<ParseTree*> m_TreeStack;      // comment";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -5411,8 +5444,8 @@ TEST(AlignPointerType, Cast1)
 		"    const string* bar;          // comment0\n"
 		"    foo = (RefNode**) bar();    // comment1\n"
 		"    foo = (RefNode*) bar();     // comment2\n"
-		"    foo = ( RefNode** ) bar();  // comment1\n"
-		"    foo = ( RefNode* ) bar();   // comment2\n"
+		"    foo = ( RefNode**) bar();   // comment1\n"
+		"    foo = ( RefNode*) bar();    // comment2\n"
 		"    foo = const_cast<RefNode**>(bar());  // comment3\n"
 		"    foo = const_cast<RefNode*>(bar());   // comment4\n"
 		"}\n";
@@ -6245,6 +6278,53 @@ TEST(AlignPointerType, RvalueReference)
 	delete [] textOut;
 }
 
+TEST(AlignPointerType, RvalueReferenceDeclaration)
+{
+	// test on a rvalue reference in a declaration.
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    void Foo1(int&&);\n"
+		"    void Foo2(int &&);\n"
+		"    void Foo3(int && );\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    void Foo1(int&&);\n"
+		"    void Foo2(int&&);\n"
+		"    void Foo3(int&&);\n"
+		"};";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, ClosingFollowingChar)
+{
+	// Following char is closed for parens and commas.
+	// But not for templates.
+	char textIn[] =
+		"\n"
+		"void Foo(char* , char * );     // comment\n"
+		"void Foo(char *, char*);       // comment\n"
+		"\n"
+		"vector< ParseTree * > m_TreeStack;   // comment\n"
+		"vector<ParseTree*> m_TreeStack;      // comment\n";
+	char text[] =
+		"\n"
+		"void Foo(char*, char*);        // comment\n"
+		"void Foo(char*, char*);        // comment\n"
+		"\n"
+		"vector< ParseTree* > m_TreeStack;    // comment\n"
+		"vector<ParseTree*> m_TreeStack;      // comment\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Align Pointer Middle
 //-------------------------------------------------------------------------
@@ -6469,8 +6549,8 @@ TEST(AlignPointerMiddle, Cast1)
 		"    const string * bar;         // comment0\n"
 		"    foo = (RefNode **) bar();   // comment1\n"
 		"    foo = (RefNode *) bar();    // comment2\n"
-		"    foo = ( RefNode ** ) bar(); // comment1\n"
-		"    foo = ( RefNode * ) bar();  // comment2\n"
+		"    foo = ( RefNode **) bar();  // comment1\n"
+		"    foo = ( RefNode *) bar();   // comment2\n"
 		"    foo = const_cast<RefNode **>(bar()); // comment3\n"
 		"    foo = const_cast<RefNode *>(bar());  // comment4\n"
 		"}\n";
@@ -7342,6 +7422,53 @@ TEST(AlignPointerMiddle, RvalueReference)
 	delete [] textOut;
 }
 
+TEST(AlignPointerMiddle, RvalueReferenceDeclaration)
+{
+	// test on a rvalue reference in a declaration.
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    void Foo1(int&&);\n"
+		"    void Foo2(int &&);\n"
+		"    void Foo3(int && );\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    void Foo1(int &&);\n"
+		"    void Foo2(int &&);\n"
+		"    void Foo3(int &&);\n"
+		"};";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, ClosingFollowingChar)
+{
+	// Following char is closed for parens and commas.
+	// But not for templates.
+	char textIn[] =
+		"\n"
+		"void Foo(char* , char * );     // comment\n"
+		"void Foo(char *, char*);       // comment\n"
+		"\n"
+		"vector< ParseTree * > m_TreeStack;   // comment\n"
+		"vector<ParseTree*> m_TreeStack;      // comment\n";
+	char text[] =
+		"\n"
+		"void Foo(char *, char *);      // comment\n"
+		"void Foo(char *, char *);      // comment\n"
+		"\n"
+		"vector< ParseTree * > m_TreeStack;   // comment\n"
+		"vector<ParseTree *> m_TreeStack;     // comment\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Align Pointer Name
 //-------------------------------------------------------------------------
@@ -7618,8 +7745,8 @@ TEST(AlignPointerName, Cast1)
 		"    const string *bar;          // comment0\n"
 		"    foo = (RefNode **) bar();   // comment1\n"
 		"    foo = (RefNode *) bar();    // comment2\n"
-		"    foo = ( RefNode ** ) bar(); // comment1\n"
-		"    foo = ( RefNode * ) bar();  // comment2\n"
+		"    foo = ( RefNode **) bar();  // comment1\n"
+		"    foo = ( RefNode *) bar();   // comment2\n"
 		"    foo = const_cast<RefNode **>(bar()); // comment3\n"
 		"    foo = const_cast<RefNode *>(bar());  // comment4\n"
 		"}\n";
@@ -8455,6 +8582,57 @@ TEST(AlignPointerName, RvalueReference)
 	delete [] textOut;
 }
 
+TEST(AlignPointerName, RvalueReferenceDeclaration)
+{
+	// test on a rvalue reference in a declaration.
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    void Foo1(int&&);\n"
+		"    void Foo2(int &&);\n"
+		"    void Foo3(int && );\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    void Foo1(int &&);\n"
+		"    void Foo2(int &&);\n"
+		"    void Foo3(int &&);\n"
+		"};";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, ClosingFollowingChar)
+{
+	// Following char is closed for parens and commas.
+	// But not for templates.
+	char textIn[] =
+		"\n"
+		"void Foo(char* , char * );     // comment\n"
+		"void Foo(char *, char*);       // comment\n"
+		"\n"
+		"vector< ParseTree * > m_TreeStack;   // comment\n"
+		"vector<ParseTree*> m_TreeStack;      // comment\n";
+	char text[] =
+		"\n"
+		"void Foo(char *, char *);      // comment\n"
+		"void Foo(char *, char *);      // comment\n"
+		"\n"
+		"vector< ParseTree * > m_TreeStack;   // comment\n"
+		"vector<ParseTree *> m_TreeStack;     // comment\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Align Pointer Other
+//-------------------------------------------------------------------------
+
 TEST(AlignPointer, ShortLowerLimit)
 {
 	// test error handling for the short option lower limit
@@ -8512,7 +8690,6 @@ TEST(AlignPointer, Java)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-
 
 //-------------------------------------------------------------------------
 // AStyle Align Reference
