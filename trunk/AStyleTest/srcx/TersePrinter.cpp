@@ -154,7 +154,7 @@ void TersePrinter::PrintFailedTestSummary(string summary) const
 	for (size_t i = 1; i < summary.length(); i++)
 	{
 		// end the line when the previous char is the last \n in a sequence
-		if (summary[i-1] != '\n' || summary[i] == '\n')
+		if (summary[i - 1] != '\n' || summary[i] == '\n')
 			continue;
 		line.push_back(summary.substr(prev_i, i - prev_i));
 		prev_i = i;

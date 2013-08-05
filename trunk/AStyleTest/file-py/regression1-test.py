@@ -37,7 +37,7 @@ __options = libastyle.OPT0
 __options_x = ""
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle24d"
+__astyleexe1 = "astyle24k"
 __astyleexe2 = "astyle"
 
 # extract all files options, use False for speed

@@ -960,17 +960,17 @@ TEST(BracketsRunInCpp, CommentsAttach2)
 {
 	// attached brackets with following comments to run-in
 	// mixed tabs and spaces
-	char textIn[] ="\nvoid (foo) {\n"
-				   "	/*\n"
-				   "	 * comment1\n"
-				   "     */\n"
-				   "    if (isFoo) {\n"
-				   "		/*\n"
-				   " 	     * comment2\n"
-				   "  	     */\n"
-				   "        bar();\n"
-				   "    }\n"
-				   "}\n";
+	char textIn[] = "\nvoid (foo) {\n"
+					"	/*\n"
+					"	 * comment1\n"
+					"     */\n"
+					"    if (isFoo) {\n"
+					"		/*\n"
+					" 	     * comment2\n"
+					"  	     */\n"
+					"        bar();\n"
+					"    }\n"
+					"}\n";
 	char text[] =
 		"\nvoid (foo)\n"
 		"{   /*\n"

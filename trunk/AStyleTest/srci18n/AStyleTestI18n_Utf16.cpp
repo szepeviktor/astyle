@@ -57,7 +57,7 @@ string WideCharToUtf8Str(wchar_t* wcIn, size_t wcLen)
 {
 	// Linux wchar_t is 32 bits
 	iconv_t iconvh = iconv_open("UTF−8", "UTF−32LE");
-	if (iconvh == (iconv_t) -1)
+	if (iconvh == (iconv_t) - 1)
 		systemAbort("Bad iconv_open in Utf16ToUtf8Str()");
 	// allocate memory for output
 	size_t mbLen = wcLen * sizeof(wchar_t);
@@ -82,7 +82,7 @@ size_t WideCharToUtf16LE(wchar_t* wcIn, size_t wcLen, char* w16Out, size_t w16Bu
 {
 	// Linux wchar_t is 32 bits
 	iconv_t iconvh = iconv_open("UTF−16LE", "UTF−32LE");
-	if (iconvh == (iconv_t) -1)
+	if (iconvh == (iconv_t) - 1)
 		systemAbort("Bad iconv_open in WideCharToUtf16()");
 	// convert to utf-16
 	char* w16Conv = w16Out;
@@ -205,7 +205,7 @@ TEST_F(DetectEncodingF, Utf32LE_Abort)
 	char textBOM[50];
 	// UTF-32LE
 	memcpy(textBOM, "\xFF\xFE\x00\x00", 4);
-	memcpy(textBOM+4, textIn, sizeof(textIn));
+	memcpy(textBOM + 4, textIn, sizeof(textIn));
 	fileNames.push_back(getTestDirectory() + "/UTF-32LE.cpp");
 	createTestFile(fileNames.back(), textBOM, textsize);
 	// cannot use death test with leak finder
@@ -233,7 +233,7 @@ TEST_F(DetectEncodingF, Utf32BE_Abort)
 	char textBOM[50];
 	// UTF-32BE
 	memcpy(textBOM, "\x00\x00\xFE\xFF", 4);
-	memcpy(textBOM+4, textIn, sizeof(textIn));
+	memcpy(textBOM + 4, textIn, sizeof(textIn));
 	fileNames.push_back(getTestDirectory() + "/UTF-32BE.cpp");
 	createTestFile(fileNames.back(), textBOM, textsize);
 	// cannot use death test with leak finder

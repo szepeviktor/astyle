@@ -308,7 +308,7 @@ TEST_F(AStyleMainUtf16F1, NullConvertFormattedText)
 #ifndef __BORLANDC__        // can't use gmock
 	ASLibrary_Mock16 library;
 	// this method returns an error
-	EXPECT_CALL(library, convertUtf8ToUtf16(_,_))
+	EXPECT_CALL(library, convertUtf8ToUtf16(_, _))
 	.WillOnce(Return(static_cast<utf16_t*>(NULL)));
 	// test the error handling
 	int errorsIn = getErrorHandler2Calls();

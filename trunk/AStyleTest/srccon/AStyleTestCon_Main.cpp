@@ -308,7 +308,7 @@ void cleanTestDirectory(const string& directory)
 		stat(entryFilepath.c_str(), &statbuf);
 		if (errno)
 			ASTYLE_ABORT(string(strerror(errno))
-						 +"\nError getting file status for clean: " + directory);
+						 + "\nError getting file status for clean: " + directory);
 		// skip these
 		if (strcmp(entry->d_name, ".") == 0
 				|| strcmp(entry->d_name, "..") == 0)
@@ -321,7 +321,7 @@ void cleanTestDirectory(const string& directory)
 			rmdir(subDirectoryPath.c_str());
 			if (errno)
 				ASTYLE_ABORT(string(strerror(errno))
-							 +"\nCannot remove directory for clean: " + subDirectoryPath);
+							 + "\nCannot remove directory for clean: " + subDirectoryPath);
 			continue;
 		}
 		// remove the file
@@ -362,10 +362,10 @@ wstring convertToWideChar(const string& mbStr)
 	if (wcLen == string::npos)
 		ASTYLE_ABORT("Bad char in multi-byte string");
 	// convert the characters
-	wchar_t* wcStr = new(nothrow) wchar_t[wcLen+1];
+	wchar_t* wcStr = new(nothrow) wchar_t[wcLen + 1];
 	if (wcStr == NULL)
 		ASTYLE_ABORT("Bad memory alloc for wide character string");
-	mbstowcs(wcStr, mbStr.c_str(), wcLen+1);
+	mbstowcs(wcStr, mbStr.c_str(), wcLen + 1);
 	// return the string
 	wstring returnStr = wcStr;
 	delete [] wcStr;
@@ -511,10 +511,10 @@ void setTestDirectory()
 	// define unicode and multi-byte variables
 #ifdef _WIN32
 	string envVar = "%USERPROFILE%";
-	string varName = envVar.substr(1, envVar.length()-2);
+	string varName = envVar.substr(1, envVar.length() - 2);
 #else
 	string envVar = "$HOME";
-	string varName = envVar.substr(1, envVar.length()-1);
+	string varName = envVar.substr(1, envVar.length() - 1);
 #endif
 	// get replacement for environment variable
 	char* envPath = getenv(varName.c_str());
