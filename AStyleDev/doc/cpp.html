@@ -21,7 +21,7 @@
     <p>
         &nbsp;</p>
     <p class="noindent">
-        Artistic Style can be compiled as a shared library (DLL) or a static library and called from a C or C++ program.</p>
+        Artistic Style can be compiled as a shared library (DLL) or a static library and linked with a C or C++ program.</p>
 
     <h3>
         Compile Options</h3>
@@ -54,8 +54,7 @@
         Syntax</h4>
 
     <div class="hl">
-        <pre class="hl">
-<span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
+        <pre class="hl"><span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
                          <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
                          <span class="hl kwb">void </span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
@@ -167,11 +166,10 @@
     <p>
         &nbsp;</p>
     <div class="hl">
-        <pre class="hl">
-        
+        <pre class="hl">        
 <span class="hl slc">// Example.cpp</span>
 
-<span class="hl com">/* This program calls the Artistic Style GUI formatter (AStyleMain)</span>
+<span class="hl com">/* This program calls the Artistic Style formatter (AStyleMain)</span>
 <span class="hl com"> * to format the astyle source files in a test-data directory.</span>
 <span class="hl com"> */</span>
 

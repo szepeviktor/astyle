@@ -73,10 +73,10 @@ def format_source_code(libc, text_in, options):
         options = options.encode('utf-8')
     astyle_main = libc.AStyleMain
     astyle_main.restype = c_char_p
-    formatted_text = (astyle_main(text_in,
-                                  options,
-                                  ERROR_HANDLER,
-                                  MEMORY_ALLOCATION))
+    formatted_text = astyle_main(text_in,
+                                 options,
+                                 ERROR_HANDLER,
+                                 MEMORY_ALLOCATION)
     # if an error occurs, the return is a type(None) object
     # Python3 must be decoded to Unicode
     # decoding from utf-8 will not cause an exception

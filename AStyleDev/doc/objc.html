@@ -16,18 +16,22 @@
         Artistic Style Developer Information</h1>
 
     <h2 class="large">
-        Calling Artistic Style from an Objective-C Program</h2>
+        Calling Artistic Style from an Objective&#8209;C Program</h2>
 
     <p>
         &nbsp;</p>
     <p class="noindent">
-        Artistic Style can be compiled as a shared library (DLL) or a static library and called from an Objective-C program.</p>
+        Artistic Style can be compiled as a shared library (DLL) or a static library and linked with an Objective&#8209;C program.
+        <a href="gnustep.html">Objective&#8209;C on Windows and Linux</a> contains information on compiling and running
+        Objective&#8209;C programs using GNUstep. It has instructions for compiling the following example program on Windows
+        or Linux.
+    </p>
 
     <h3>
         Compile Options</h3>
 
     <p>
-        To compile AStyle for use with an Objective-C program the compile option ASTYLE_LIB must be defined. Then AStyle will
+        To compile AStyle for use with an Objective&#8209;C program the compile option ASTYLE_LIB must be defined. Then AStyle will
         accept the files and options as parameters from a function call. It is the responsibility of the calling program
         to read the source files and accept the options from the user via a graphical interface or other method. These
         are then passed via the function call. After the source files are formatted they will be returned to the calling
@@ -54,8 +58,7 @@
         Syntax</h4>
 
     <div class="hl">
-        <pre class="hl">
-<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
+        <pre class="hl"><span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
                          <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
                          <span class="hl kwb">void </span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
                          <span class="hl kwb">char</span><span class="hl opt">* (</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
@@ -89,9 +92,7 @@
         A pointer to the memory allocation function. The calling program must allocate memory for the output source file.
         This function will be called when the memory is needed. The parameter is the amount of memory that should be allocated.</p>
     <p>
-        NSZoneMalloc is usually used to allocate variable sized memory. The documentation in NSZone.h for my system says
-        that a memory allocation error with the function NSZoneMalloc using the default zone results in a NULL being returned.
-        However, the error actually resulted in a unhandled NSMallocException. This means that exception handling must
+        NSZoneMalloc is typically used to allocate variable sized memory. An error for this results in a NSMallocException. This means that exception handling must
         be used to catch the error. If instead, a &#8220;C&#8221; malloc function is used, the error results in a NULL
         return. In this case it simplifies the error handling since the NULL is simply returned to AStyle. The example
         program uses malloc instead of NSZoneMalloc.</p>
@@ -169,7 +170,7 @@
  
 <span class="hl slc">// Example.m</span>
 
-<span class="hl com">/* This program calls the Artistic Style GUI formatter (AStyleMain)</span>
+<span class="hl com">/* This program calls the Artistic Style formatter (AStyleMain)</span>
 <span class="hl com"> * to format the astyle source files in a test-data directory.</span>
 <span class="hl com"> */</span>
 
@@ -186,7 +187,7 @@
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
                          <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
-                         <span class="hl kwb">void </span><span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
+                         <span class="hl kwb">void</span> <span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
                          <span class="hl kwb">char</span><span class="hl opt">* (</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
 <span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">);</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl opt">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl opt">);</span>
@@ -236,8 +237,10 @@ NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span c
         <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;Formatted %&#64;&quot;</span><span class="hl opt">,</span> fileName<span class="hl opt">);</span>
         <span class="hl kwd">setText</span><span class="hl opt">(</span>textOut<span class="hl opt">,</span> filePath<span class="hl opt">);</span>
 
-        <span class="hl slc">// free the buffer allocated with NSZoneMalloc</span>
-        <span class="hl kwd">NSZoneFree</span><span class="hl opt">(</span><span class="hl kwd">NSDefaultMallocZone</span><span class="hl opt">(),</span> textOutChar<span class="hl opt">);</span>
+        <span class="hl slc">// free the buffer allocated with malloc</span>
+        <span class="hl slc">// Malloc is used instead of NSZoneMalloc to simplify the error handling.</span>
+        <span class="hl slc">// Malloc errors result in a NULL return instead of a NSMallocException.</span>
+        <span class="hl kwd">free</span><span class="hl opt">(</span>textOutChar<span class="hl opt">);</span>
         textOutChar <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
     <span class="hl opt">}</span>
 
@@ -254,6 +257,7 @@ NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span c
 
 <span class="hl slc">// Allocate memory for the Artistic Style formatter.</span>
 <span class="hl slc">// Malloc is used instead of NSZoneMalloc to simplify the error handling.</span>
+<span class="hl slc">// Malloc errors result in a NULL return instead of a NSMallocException.</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl opt">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl opt">)</span>
 <span class="hl opt">{</span>   <span class="hl kwb">char</span><span class="hl opt">*</span> buffer <span class="hl opt">=</span> <span class="hl kwd">malloc</span><span class="hl opt">(</span>memoryNeeded<span class="hl opt">);</span>
     <span class="hl kwa">return</span> buffer<span class="hl opt">;</span>

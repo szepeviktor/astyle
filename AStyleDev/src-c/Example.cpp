@@ -1,6 +1,6 @@
 // Example.cpp
 
-/* This program calls the Artistic Style GUI formatter (AStyleMain)
+/* This program calls the Artistic Style formatter (AStyleMain)
  * to format the astyle source files in a test-data directory.
  */
 

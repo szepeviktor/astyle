@@ -62,10 +62,10 @@ def format_source_bytes(libc, bytes_in, option_bytes):
     """
     astyle_main = libc.AStyleMain
     astyle_main.restype = c_char_p
-    formatted_bytes = (astyle_main(bytes_in,
-                                   option_bytes,
-                                   ERROR_HANDLER,
-                                   MEMORY_ALLOCATION))
+    formatted_bytes = astyle_main(bytes_in,
+                                  option_bytes,
+                                  ERROR_HANDLER,
+                                  MEMORY_ALLOCATION)
     return formatted_bytes
 
 # -----------------------------------------------------------------------------

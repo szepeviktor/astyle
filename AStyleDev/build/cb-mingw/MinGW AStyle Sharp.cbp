@@ -34,7 +34,6 @@
 				</Linker>
 				<ExtraCommands>
 					<Add after="cmd /c  copy /y  bin\AStyle.dll  ..\..\src-s\  &gt; NUL" />
-					<Add after="cmd /c  copy /y  bin\AStyle.dll  ..\..\src-sx\ &gt; NUL" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
