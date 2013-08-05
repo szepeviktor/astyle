@@ -447,6 +447,8 @@ def get_project_excludes(project):
 		excludes.append("--exclude=sqplus/sqplus.h")
 		excludes.append("--exclude=squirrel/sqvm.cpp")
 		#excludes.append("--exclude=propgrid/propgrid.cpp")
+	elif project == GWORKSPACE:
+		excludes.append("--exclude=GNUstep.h")
 #	elif project == KDEVELOP:
 #		excludes.append("--exclude=app_templates")
 #		excludes.append("--exclude=autotools/autotools_lex.cpp")

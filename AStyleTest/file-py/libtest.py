@@ -87,7 +87,10 @@ def get_astyle_totals(filename):
 #	infile = open_filein(filename, 'rb')		# changed for version 3.2
 	infile = open_filein(filename, 'r')
 #	infile.seek(-100, os.SEEK_END)			# changed for version 3.2
-	os.lseek(infile.fileno() , -200, os.SEEK_END)
+	try:
+		os.lseek(infile.fileno() , -200, os.SEEK_END)
+	except OSError:
+		os.lseek(infile.fileno() , 0, os.SEEK_SET )
 
 	for line in infile:
 		# use regular expressions to search the lines

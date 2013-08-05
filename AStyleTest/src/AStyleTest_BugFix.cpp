@@ -15,6 +15,20 @@ namespace {
 // AStyle version 2.03 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V204, PadParenInside)
+{
+	// Fix pad-paren-inside with align-pointer-name.
+	// Pad paren inside should fully pad the (*) to ( * ).
+	char textIn[] =
+		"\nstruct bfd_hash_entry* (*)( unsigned int );";
+	char text[] =
+		"\nstruct bfd_hash_entry *( * )( unsigned int );";
+	char options[] = "pad-paren-in, align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BugFix_V203, NegativeParenStack)
 {
 	// In a preprocessor directive it is possible for the parenStack to go negative.

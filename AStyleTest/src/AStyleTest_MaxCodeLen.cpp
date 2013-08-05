@@ -1096,7 +1096,7 @@ TEST(MaxCodeLength, ParenBreak5)
 
 TEST(MaxCodeLength, BlockParenBreak1)
 {
-	// Max code length should not break within a block paren.
+	// Max code length should not break before an opening or closing block paren.
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -1105,8 +1105,8 @@ TEST(MaxCodeLength, BlockParenBreak1)
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
-		"    languages[i].single_line_comment =\n"
-		"        languages[i+1].single_line_comment;\n"
+		"    languages[i].single_line_comment = languages[i\n"
+		"                                       +1].single_line_comment;\n"
 		"}";
 	char options[] = "max-code-length=50";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1116,7 +1116,8 @@ TEST(MaxCodeLength, BlockParenBreak1)
 
 TEST(MaxCodeLength, BlockParenBreak2)
 {
-	// Max code length should not break within a padded block paren.
+	// Max code length should not break before an
+	// opening or closing block paren within a padded block.
 	char textIn[] =
 		"\nconst char* TiXmlBase::errorString[ TIXML_ERROR_STRING_COUNT ] =\n"
 		"{\n"
@@ -2749,6 +2750,70 @@ TEST(MaxCodeLength, Misc6)
 		"{\n"
 		"    VersionEditorDialog.SetRevision(\n"
 		"        GetVersionState().Values.Revision);\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, ObjectiveC1)
+{
+	// Should break AFTER an unpadded colon, if possible.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if ( [ node isDirectory ] ) {\n"
+		"        if ( [ node isApplication ] ) {\n"
+		"            key = nodepath;\n"
+		"        } else if ( [ nodepath isxxxxxxxxxxxxxxxxxxEqual:NSHomeDirectory() ] ) {\n"
+		"            key = @\"home\";\n"
+		"        }\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if ( [ node isDirectory ] ) {\n"
+		"        if ( [ node isApplication ] ) {\n"
+		"            key = nodepath;\n"
+		"        } else if ( [ nodepath isxxxxxxxxxxxxxxxxxxEqual:\n"
+		"                      NSHomeDirectory() ] ) {\n"
+		"            key = @\"home\";\n"
+		"        }\n"
+		"    }\n"
+		"}";
+	char options[] = "max-code-length=50";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(MaxCodeLength, ObjectiveC2)
+{
+	// Should break AFTER a padded colon, if possible.
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if ( [ node isDirectory ] ) {\n"
+		"        if ( [ node isApplication ] ) {\n"
+		"            key = nodepath;\n"
+		"        } else if ( [ nodepath isxxxxxxxxxxxxxxxxxxEqual : NSHomeDirectory() ] ) {\n"
+		"            key = @\"home\";\n"
+		"        }\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if ( [ node isDirectory ] ) {\n"
+		"        if ( [ node isApplication ] ) {\n"
+		"            key = nodepath;\n"
+		"        } else if ( [ nodepath isxxxxxxxxxxxxxxxxxxEqual :\n"
+		"                      NSHomeDirectory() ] ) {\n"
+		"            key = @\"home\";\n"
+		"        }\n"
+		"    }\n"
 		"}";
 	char options[] = "max-code-length=50";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);

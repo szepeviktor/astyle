@@ -39,7 +39,7 @@ TEST(ASLocalizer, LCIDLanguageIdentification)
 					  5132,		// 0x140C  Luxembourg
 					  4108,		// 0x100C  Switzerland
 					};
-	size_t lcidCount = sizeof(lcid)/sizeof(lcid[0]);
+	size_t lcidCount = sizeof(lcid) / sizeof(lcid[0]);
 	for (size_t i = 0; i < lcidCount; i++)
 	{
 		ASLocalizer localizer;
@@ -62,7 +62,7 @@ TEST(ASLocalizer, NameLanguageIdentification)
 							  "fr_MC",				// Monaco
 							  "fr_CH.iso1252@euro",	// Switzerland
 							};
-	size_t localeCount = sizeof(localeName)/sizeof(localeName[0]);
+	size_t localeCount = sizeof(localeName) / sizeof(localeName[0]);
 	for (size_t i = 0; i < localeCount; i++)
 	{
 		ASLocalizer localizer;

@@ -31,13 +31,13 @@ import time
 #   SCITE
 #   SHARPDEVELOP    # Compile on Windows only
 #   TESTPROJECT
-__project = libastyle.JEDIT
+__project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a bracket style or any other option
 #__options = "-tapO"
-__options = libastyle.OPT0
-__options_x = ""
+__options = libastyle.OPT3
+__options_x = "-xC50"
 
 # executable for test
 __astyleexe = "astyle"
@@ -137,8 +137,14 @@ def copy_formatted_files(files, testfile, index):
 	shutil.copy (testfile, testdir)
 	for file_in in files:
 		print("copying " + strip_directory_prefix(file_in))
-		shutil.copy(file_in, testdir)
-		shutil.copy(file_in + ".orig", testdir)
+		try:
+			shutil.copy(file_in, testdir)
+			shutil.copy(file_in + ".orig", testdir)
+		except IOError as err:
+			print()
+			print(err)
+			message = ("This must be corrected to continue")
+			libastyle.system_exit(message)
 
 # -----------------------------------------------------------------------------
 
@@ -303,8 +309,8 @@ def set_astyle_args(filepath, excludes, brackets, index):
 	# set filepaths
 	for file_in in filepath:
 		args.append(file_in)
-	# set options
-	args.append("-vRQn")
+	# set options - must create a backup file
+	args.append("-vRQ")
 	if len(__options) > 0:
 		args.append(__options)
 	if len(__options_x.strip()) > 0:

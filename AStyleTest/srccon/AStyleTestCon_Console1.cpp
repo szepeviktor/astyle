@@ -925,7 +925,7 @@ struct PreserveDateF : public ::testing::Test
 	string getMDY(time_t dateIn)
 	{
 		string date = ctime(&dateIn);
-		string dateMDY = date.erase(11,9);	// remove the time
+		string dateMDY = date.erase(11, 9);	// remove the time
 		// cout << dateMDY << endl;
 		return dateMDY;
 	}

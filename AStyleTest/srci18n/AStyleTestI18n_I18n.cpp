@@ -53,10 +53,10 @@ string convertToMultiByte(const wstring& wideStr)
 	if (mbLen == string::npos)
 		systemAbort("Bad char in wide character string");
 	// convert the characters
-	char* mbStr = new(nothrow) char[mbLen+1];
+	char* mbStr = new(nothrow) char[mbLen + 1];
 	if (mbStr == NULL)
 		systemAbort("Bad memory alloc for multi-byte string");
-	wcstombs(mbStr, wideStr.c_str(), mbLen+1);
+	wcstombs(mbStr, wideStr.c_str(), mbLen + 1);
 	// return the string
 	string returnStr = mbStr;
 	delete [] mbStr;

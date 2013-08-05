@@ -227,7 +227,7 @@ string PrintF::readEntireFile(FILE* file)
 	// pre-determined file size is reached.
 	do
 	{
-		bytes_last_read = fread(buffer+bytes_read, 1, file_size-bytes_read, file);
+		bytes_last_read = fread(buffer + bytes_read, 1, file_size - bytes_read, file);
 		bytes_read += bytes_last_read;
 	}
 	while (bytes_last_read > 0 && bytes_read < file_size);

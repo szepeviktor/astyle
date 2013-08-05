@@ -763,28 +763,28 @@ TEST(BracketsNoneCpp, CommentsAttach2)
 {
 	// attached brackets with following comments
 	// mixed tabs and spaces
-	char textIn[] ="\nvoid (foo) {\n"
-				   "	/*\n"
-				   "	 * comment1\n"
-				   "     */\n"
-				   "    if (isFoo) {\n"
-				   "		/*\n"
-				   " 	     * comment2\n"
-				   "  	     */\n"
-				   "        bar();\n"
-				   "    }\n"
-				   "}\n";
-	char text[] ="\nvoid (foo) {\n"
-				 "    /*\n"
-				 "     * comment1\n"
-				 "     */\n"
-				 "    if (isFoo) {\n"
-				 "        /*\n"
-				 "         * comment2\n"
-				 "         */\n"
-				 "        bar();\n"
-				 "    }\n"
-				 "}\n";
+	char textIn[] = "\nvoid (foo) {\n"
+					"	/*\n"
+					"	 * comment1\n"
+					"     */\n"
+					"    if (isFoo) {\n"
+					"		/*\n"
+					" 	     * comment2\n"
+					"  	     */\n"
+					"        bar();\n"
+					"    }\n"
+					"}\n";
+	char text[] = "\nvoid (foo) {\n"
+				  "    /*\n"
+				  "     * comment1\n"
+				  "     */\n"
+				  "    if (isFoo) {\n"
+				  "        /*\n"
+				  "         * comment2\n"
+				  "         */\n"
+				  "        bar();\n"
+				  "    }\n"
+				  "}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -1828,17 +1828,17 @@ TEST(BracketsBreakCpp, CommentsAttach2)
 {
 	// break attached brackets with following comments
 	// mixed tabs and spaces
-	char textIn[] ="\nvoid (foo) {\n"
-				   "	/*\n"
-				   "	 * comment1\n"
-				   "     */\n"
-				   "    if (isFoo) {\n"
-				   "		/*\n"
-				   " 	     * comment2\n"
-				   "  	     */\n"
-				   "        bar();\n"
-				   "    }\n"
-				   "}\n";
+	char textIn[] = "\nvoid (foo) {\n"
+					"	/*\n"
+					"	 * comment1\n"
+					"     */\n"
+					"    if (isFoo) {\n"
+					"		/*\n"
+					" 	     * comment2\n"
+					"  	     */\n"
+					"        bar();\n"
+					"    }\n"
+					"}\n";
 	char text[] =
 		"\nvoid (foo)\n"
 		"{\n"
@@ -4308,17 +4308,17 @@ TEST(BracketsLinuxCpp, CommentsAttach2)
 {
 	// attached brackets with following comments to linux
 	// mixed tabs and spaces
-	char textIn[] ="\nvoid (foo) {\n"
-				   "	/*\n"
-				   "	 * comment1\n"
-				   "     */\n"
-				   "    if (isFoo) {\n"
-				   "		/*\n"
-				   " 	     * comment2\n"
-				   "  	     */\n"
-				   "        bar();\n"
-				   "    }\n"
-				   "}\n";
+	char textIn[] = "\nvoid (foo) {\n"
+					"	/*\n"
+					"	 * comment1\n"
+					"     */\n"
+					"    if (isFoo) {\n"
+					"		/*\n"
+					" 	     * comment2\n"
+					"  	     */\n"
+					"        bar();\n"
+					"    }\n"
+					"}\n";
 	char text[] =
 		"\nvoid (foo)\n"
 		"{\n"
@@ -5680,17 +5680,17 @@ TEST(BracketsStroustrupCpp, CommentsAttach2)
 {
 	// attached brackets with following comments to stroustrup
 	// mixed tabs and spaces
-	char textIn[] ="\nvoid (foo) {\n"
-				   "	/*\n"
-				   "	 * comment1\n"
-				   "     */\n"
-				   "    if (isFoo) {\n"
-				   "		/*\n"
-				   " 	     * comment2\n"
-				   "  	     */\n"
-				   "        bar();\n"
-				   "    }\n"
-				   "}\n";
+	char textIn[] = "\nvoid (foo) {\n"
+					"	/*\n"
+					"	 * comment1\n"
+					"     */\n"
+					"    if (isFoo) {\n"
+					"		/*\n"
+					" 	     * comment2\n"
+					"  	     */\n"
+					"        bar();\n"
+					"    }\n"
+					"}\n";
 	char text[] =
 		"\nvoid (foo)\n"
 		"{\n"

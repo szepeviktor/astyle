@@ -19,7 +19,7 @@ REM xn - attach-namespaces
 REM xl - attach inlines
 REM z1 - windows lineends
 
-set options=  -A1xnTHCOwk1  -M50  -Qz1  --options=none
+set options=  -A1xnTpHCOwk1  -M50  -Qz1  --options=none
 
 echo Formatting AStyleTest
 echo options %options%

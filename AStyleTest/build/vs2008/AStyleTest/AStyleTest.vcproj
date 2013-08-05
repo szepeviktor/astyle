@@ -548,6 +548,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\AStyleTest_MaxCodeLen.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\AStyleTest_ObjC.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\AStyleTest_Other.cpp"
 				>
 			</File>
@@ -556,11 +564,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\AStyleTest_Styles1.cpp"
+				RelativePath="..\..\..\src\AStyleTest_StylesCpp1.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\AStyleTest_Styles2.cpp"
+				RelativePath="..\..\..\src\AStyleTest_StylesCpp2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\AStyleTest_StylesOther.cpp"
 				>
 			</File>
 			<File

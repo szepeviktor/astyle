@@ -3384,6 +3384,45 @@ TEST(RemoveBrackets, BracketInComment2)
 	delete [] textOut;
 }
 
+TEST(RemoveBrackets, AttachedBracketWithComment)
+{
+	// test remove attached bracket with a comment
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo) {  // comment\n"
+		"        bar();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo)    // comment\n"
+		"        bar();\n"
+		"}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveBrackets, HorstmannBracketWithComment)
+{
+	// test remove horstmann bracket with a comment
+	// should not remove the brackets
+	char text[] =
+		"\nvoid Foo()\n"
+		"{   if (isFoo)\n"
+		"    {   // comment\n"
+		"        bar();\n"
+		"    }\n"
+		"}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Convert Tabs
 //-------------------------------------------------------------------------
@@ -3812,110 +3851,6 @@ TEST(CloseTemplates, Padded)
 		"}";
 	char options[] = "close-templates";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-//-------------------------------------------------------------------------
-// AStyle Objective-C Align Method Colon
-//-------------------------------------------------------------------------
-
-TEST(ObjCAlignMethodColon, LongOption)
-{
-	// Test oc-align-method-colon long option.
-	char text[] =
-		"\n"
-		"- (BOOL)tableView:(NSTableView *)tableView\n"
-		"       acceptDrop:(id <NSDraggingInfo>)info\n"
-		"              row:(int)row";
-	char options[] = "oc-align-method-colon";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(ObjCAlignMethodColon, ShortOption)
-{
-	// Test oc-align-method-colon short option.
-	char text[] =
-		"\n"
-		"- (BOOL)tableView:(NSTableView *)tableView\n"
-		"       acceptDrop:(id <NSDraggingInfo>)info\n"
-		"              row:(int)row";
-	char options[] = "-xM";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(ObjCAlignMethodColon, Headers)
-{
-	// Test oc-align-method-colon headers.
-	char text[] =
-		"\n"
-		"- (BOOL)tableView:(NSTableView *)tableView\n"
-		"       acceptDrop:(id <NSDraggingInfo>)info\n"
-		"              row:(int)row;\n"
-		"\n"
-		"- (id)tableView:(NSTableView *)aTableView\n"
-		"    objectValueForTableColumn:(NSTableColumn *)aTableColumn\n"
-		"            row:(int)rowIndex;\n"
-		"\n"
-		"- (BOOL)openFile:(NSString *)fullPath\n"
-		" withApplication:(NSString *)appname\n"
-		"   andDeactivate:(BOOL)flag;";
-	char options[] = "oc-align-method-colon";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(ObjCAlignMethodColon, MethodsBreak)
-{
-	// Test oc-align-method-colon methods with broken brackets.
-	char text[] =
-		"\n"
-		"- (BOOL)tableView:(NSTableView *)tableView\n"
-		"       acceptDrop:(id <NSDraggingInfo>)info\n"
-		"              row:(int)row\n"
-		"{ }\n"
-		"\n"
-		"- (id)tableView:(NSTableView *)aTableView\n"
-		"    objectValueForTableColumn:(NSTableColumn *)aTableColumn\n"
-		"            row:(int)rowIndex\n"
-		"{ }\n"
-		"\n"
-		"- (BOOL)openFile:(NSString *)fullPath\n"
-		" withApplication:(NSString *)appname\n"
-		"   andDeactivate:(BOOL)flag\n"
-		"{ }\n";
-	char options[] = "oc-align-method-colon";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(ObjCAlignMethodColon, MethodsAttach)
-{
-	// Test oc-align-method-colon methods with attached brackets.
-	char text[] =
-		"\n"
-		"- (BOOL)tableView:(NSTableView *)tableView\n"
-		"       acceptDrop:(id <NSDraggingInfo>)info\n"
-		"              row:(int)row {\n"
-		"}\n"
-		"\n"
-		"- (id)tableView:(NSTableView *)aTableView\n"
-		"    objectValueForTableColumn:(NSTableColumn *)aTableColumn\n"
-		"            row:(int)rowIndex {\n"
-		"}\n"
-		"\n"
-		"- (BOOL)openFile:(NSString *)fullPath\n"
-		" withApplication:(NSString *)appname\n"
-		"   andDeactivate:(BOOL)flag {\n"
-		"}\n";
-	char options[] = "oc-align-method-colon";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }

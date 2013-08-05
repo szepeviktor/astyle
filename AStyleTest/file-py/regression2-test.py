@@ -30,18 +30,22 @@ import time
 # SCITE 
 # SHARPDEVELOP      # C# - Compile on Windows only
 # TESTPROJECT
-__project = libastyle.GWORKSPACE
+__project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
+# options_x are for BOTH executables
 # options_x can be a bracket style or any other option
-__options  = libastyle.OPT0
-__options_x = "-A3"
+# options_x2 are for exe2 ONLY
+# options_x2 is used to test new options
+__options    = libastyle.OPT1
+__options_x  = ""
+__options_x2 = "-xMxQxRxP0"
 
 # scite formatting options
 #__options = "-tapOHUk3"
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle24h"
+__astyleexe1 = "astyle24k"
 __astyleexe2 = "astyle"
 
 # select one of the following to format files in the OLD directory
@@ -269,7 +273,9 @@ def print_run_header():
 	else:
 		print(__options, end=" ")
 	if len(__options_x) > 0:
-		print(__options_x, end=" "),
+		print(__options_x, end=" ")
+	if len(__options_x2) > 0:
+		print("({0})".format(__options_x2), end=" ")
 	print()
 
 # -----------------------------------------------------------------------------
@@ -315,6 +321,9 @@ def set_astyle_args(filepath, excludes, astyleexe):
 		args.append(__options)
 	if len(__options_x.strip()) > 0:
 		args.append(__options_x)
+	if (astyleexe == __astyleexe2 
+	and len(__options_x2.strip()) > 0):
+		args.append(__options_x2)
 	# set excludes
 	for exclude in excludes:
 		args.append(exclude)
@@ -386,13 +395,19 @@ def verify_formatted_files(numformat, totformat):
 # -----------------------------------------------------------------------------
 
 def verify_options_x_variable():
-	"""Check that the options_x variable begins with a '-'
+	"""Check that the options_x and options_x2 variables begin with a '-'
 	"""
-	global __options_x
+	global __options_x, __options_x2
+	# options_x
 	if len(__options_x) > 0:
 		__options_x = __options_x.strip()
 	if len(__options_x) > 0 and __options_x[0] != '-':
 		__options_x = '-' + __options_x
+	# options_x2	
+	if len(__options_x2) > 0:
+		__options_x2 = __options_x2.strip()
+	if len(__options_x2) > 0 and __options_x2[0] != '-':
+		__options_x2 = '-' + __options_x2
 
 # -----------------------------------------------------------------------------
 
