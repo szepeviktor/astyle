@@ -29,7 +29,6 @@
 				<ExtraCommands>
 					<Add after="cmd /c  del  bin\*.tds" />
 					<Add after="cmd /c  copy /y  bin\AStyle.dll  ..\..\src-s\  &gt; NUL" />
-					<Add after="cmd /c  copy /y  bin\AStyle.dll  ..\..\src-sx\ &gt; NUL" />
 				</ExtraCommands>
 			</Target>
 		</Build>

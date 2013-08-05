@@ -34,7 +34,6 @@
 					<Add after="cmd /c  del *.map" />
 					<Add after="cmd /c  move /y  AStyle.lib bin &gt; NUL" />
 					<Add after="cmd /c  copy /y  bin\AStyle.dll  ..\..\src-s\  &gt; NUL" />
-					<Add after="cmd /c  copy /y  bin\AStyle.dll  ..\..\src-sx\ &gt; NUL" />
 				</ExtraCommands>
 			</Target>
 		</Build>

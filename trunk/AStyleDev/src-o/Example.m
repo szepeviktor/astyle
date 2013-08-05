@@ -1,6 +1,6 @@
 // Example.m
 
-/* This program calls the Artistic Style GUI formatter (AStyleMain)
+/* This program calls the Artistic Style formatter (AStyleMain)
  * to format the astyle source files in a test-data directory.
  */
 
@@ -67,8 +67,10 @@ int main()
         NSLog(@"Formatted %@", fileName);
         setText(textOut, filePath);
 
-        // free the buffer allocated with NSZoneMalloc
-        NSZoneFree(NSDefaultMallocZone(), textOutChar);
+        // free the buffer allocated with malloc
+        // Malloc is used instead of NSZoneMalloc to simplify the error handling.
+        // Malloc errors result in a NULL return instead of a NSMallocException.
+        free(textOutChar);
         textOutChar = NULL;
     }
 
@@ -85,6 +87,7 @@ void  STDCALL ASErrorHandler(int errorNumber, char* errorMessage)
 
 // Allocate memory for the Artistic Style formatter.
 // Malloc is used instead of NSZoneMalloc to simplify the error handling.
+// Malloc errors result in a NULL return instead of a NSMallocException.
 char* STDCALL ASMemoryAlloc(unsigned long memoryNeeded)
 {   char* buffer = malloc(memoryNeeded);
     return buffer;

@@ -105,10 +105,10 @@
         options <span class="hl opt">=</span> options<span class="hl opt">.</span><span class="hl kwd">encode</span><span class="hl opt">(</span><span class="hl str">'utf-8'</span><span class="hl opt">)</span>
     astyle_main <span class="hl opt">=</span> libc<span class="hl opt">.</span>AStyleMain
     astyle_main<span class="hl opt">.</span>restype <span class="hl opt">=</span> c_char_p
-    formatted_text <span class="hl opt">= (</span><span class="hl kwd">astyle_main</span><span class="hl opt">(</span>text_in<span class="hl opt">,</span>
-                                  options<span class="hl opt">,</span>
-                                  ERROR_HANDLER<span class="hl opt">,</span>
-                                  MEMORY_ALLOCATION<span class="hl opt">))</span>
+    formatted_text <span class="hl opt">= </span><span class="hl kwd">astyle_main</span><span class="hl opt">(</span>text_in<span class="hl opt">,</span>
+                                 options<span class="hl opt">,</span>
+                                 ERROR_HANDLER<span class="hl opt">,</span>
+                                 MEMORY_ALLOCATION<span class="hl opt">)</span>
     <span class="hl slc"># if an error occurs, the return is a type(None) object</span>
     <span class="hl slc"># Python3 must be decoded to Unicode</span>
     <span class="hl slc"># decoding from utf-8 will not cause an exception</span>
@@ -318,7 +318,8 @@ ERROR_HANDLER <span class="hl opt">=</span> <span class="hl kwd">ErrorHandlerCal
     <p>
         &nbsp;</p>
     <div class="hl">
-        <pre class="hl">        
+        <pre class="hl">
+        
 <span class="hl slc">#! /usr/bin/python</span>
 
 <span class="hl str">&quot;&quot;&quot;ExampleUnicode.py</span>
@@ -394,10 +395,10 @@ __is_unciode <span class="hl opt">=</span> <span class="hl kwa">False</span>
         options <span class="hl opt">=</span> options<span class="hl opt">.</span><span class="hl kwd">encode</span><span class="hl opt">(</span><span class="hl str">'utf-8'</span><span class="hl opt">)</span>
     astyle_main <span class="hl opt">=</span> libc<span class="hl opt">.</span>AStyleMain
     astyle_main<span class="hl opt">.</span>restype <span class="hl opt">=</span> c_char_p
-    formatted_text <span class="hl opt">= (</span><span class="hl kwd">astyle_main</span><span class="hl opt">(</span>text_in<span class="hl opt">,</span>
-                                  options<span class="hl opt">,</span>
-                                  ERROR_HANDLER<span class="hl opt">,</span>
-                                  MEMORY_ALLOCATION<span class="hl opt">))</span>
+    formatted_text <span class="hl opt">= </span><span class="hl kwd">astyle_main</span><span class="hl opt">(</span>text_in<span class="hl opt">,</span>
+                                 options<span class="hl opt">,</span>
+                                 ERROR_HANDLER<span class="hl opt">,</span>
+                                 MEMORY_ALLOCATION<span class="hl opt">)</span>
     <span class="hl slc"># if an error occurs, the return is a type(None) object</span>
     <span class="hl slc"># Python3 must be decoded to Unicode</span>
     <span class="hl slc"># decoding from utf-8 will not cause an exception</span>
