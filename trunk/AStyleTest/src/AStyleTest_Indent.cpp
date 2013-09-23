@@ -135,7 +135,7 @@ TEST(IndentClasses, RunIn)
 		"class fooClass2\n"
 		"{       bool foo2;\n"
 		"};\n";
-	char options[] = "indent-classes, brackets=run-in";
+	char options[] = "indent-classes, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -165,7 +165,7 @@ TEST(IndentClasses, RunInTab)
 		"class fooClass2\n"
 		"{		bool foo2;\n"
 		"};\n";
-	char options[] = "indent-classes, brackets=run-in, indent=tab";
+	char options[] = "indent-classes, style=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -196,7 +196,7 @@ TEST(IndentClasses, RunInSans)
 		"class fooClass2\n"
 		"{   bool foo2;\n"
 		"};\n";
-	char options[] = "brackets=run-in";
+	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -227,7 +227,7 @@ TEST(IndentClasses, RunInSansTab)
 		"class fooClass2\n"
 		"{	bool foo2;\n"
 		"};\n";
-	char options[] = "brackets=run-in, indent=tab";
+	char options[] = "style=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -260,7 +260,7 @@ TEST(IndentClasses, RunInLineComment)
 		"// comment2\n"
 		"    public:\n"
 		"};\n";
-	char options[] = "indent-classes, brackets=run-in";
+	char options[] = "indent-classes, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -293,7 +293,7 @@ TEST(IndentClasses, RunInLineCommentSans)
 		"// comment2\n"
 		"public:\n"
 		"};\n";
-	char options[] = "brackets=run-in";
+	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -314,7 +314,7 @@ TEST(IndentClasses, RunInComment)
 		"{   /* coment1 */\n"
 		"    public:\n"
 		"};\n";
-	char options[] = "indent-classes, brackets=run-in";
+	char options[] = "indent-classes, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -335,7 +335,7 @@ TEST(IndentClasses, RunInCommentSans)
 		"{   /* coment1 */\n"
 		"public:\n"
 		"};\n";
-	char options[] = "brackets=run-in";
+	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -538,7 +538,7 @@ TEST(IndentClasses, StructRunIn)
 		"    private:\n"
 		"        bool var2;\n"
 		"};\n";
-	char options[] = "indent-classes, brackets=run-in";
+	char options[] = "indent-classes, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -574,7 +574,7 @@ TEST(IndentClasses, StructRunInSans)
 		"private:\n"
 		"    bool var2;\n"
 		"};\n";
-	char options[] = "brackets=run-in";
+	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1090,44 +1090,6 @@ TEST(IndentSwitches, NestedSwitchCommentsSans)
 	delete [] textOut;
 }
 
-TEST(IndentSwitches, RunIn)
-{
-	// test indent switch blocks with run-in brackets
-	char textIn[] =
-		"\nvoid Foo()\n"
-		"{\n"
-		"    switch (foo)\n"
-		"    {\n"
-		"        case 1:\n"
-		"            a += 1;\n"
-		"            break;\n"
-		"\n"
-		"        default:\n"
-		"        {\n"
-		"            a += 2;\n"
-		"            break;\n"
-		"        }\n"
-		"    }\n"
-		"}\n";
-	char text[] =
-		"\nvoid Foo()\n"
-		"{   switch (foo)\n"
-		"    {   case 1:\n"
-		"            a += 1;\n"
-		"            break;\n"
-		"\n"
-		"        default:\n"
-		"        {   a += 2;\n"
-		"            break;\n"
-		"        }\n"
-		"    }\n"
-		"}\n";
-	char options[] = "indent-switches, brackets=run-in";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 TEST(IndentSwitches, RunInTab)
 {
 	// test indent switch blocks with run-in brackets and tab indents
@@ -1160,126 +1122,57 @@ TEST(IndentSwitches, RunInTab)
 		"		}\n"
 		"	}\n"
 		"}\n";
-	char options[] = "indent-switches, brackets=run-in, indent=tab";
+	char options[] = "indent-switches, style=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches, RunInSans)
+TEST(IndentSwitches, HorstmannTab)
 {
-	// test without indent switch blocks with run-in brackets
-	// 'case' statements should NOT be run-in
+	// Test switch block with horstmann style.
+	// Horstmann style implies indented switch blocks.
+	// textIn is broken brackets and indented switch blocks.
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
 		"    switch (foo)\n"
 		"    {\n"
-		"    case 1:\n"
-		"        a += 1;\n"
-		"        break;\n"
+		"        case 1:\n"
+		"            a += 1;\n"
+		"            break;\n"
 		"\n"
-		"    default:\n"
-		"    {\n"
-		"        a += 2;\n"
-		"        break;\n"
-		"    }\n"
-		"    }\n"
-		"}\n";
-	char text[] =
-		"\nvoid Foo()\n"
-		"{   switch (foo)\n"
-		"    {\n"
-		"    case 1:\n"
-		"        a += 1;\n"
-		"        break;\n"
-		"\n"
-		"    default:\n"
-		"    {   a += 2;\n"
-		"        break;\n"
-		"    }\n"
-		"    }\n"
-		"}\n";
-	char options[] = "brackets=run-in";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(IndentSwitches, RunInSansTab)
-{
-	// test without indent switch blocks with run-in brackets and tab indents
-	// 'case' statements should NOT be run-in
-	char textIn[] =
-		"\nvoid Foo()\n"
-		"{\n"
-		"    switch (foo)\n"
-		"    {\n"
-		"    case 1:\n"
-		"        a += 1;\n"
-		"        break;\n"
-		"\n"
-		"    default:\n"
-		"    {\n"
-		"        a += 2;\n"
-		"        break;\n"
-		"    }\n"
+		"        default:\n"
+		"        {\n"
+		"            a += 2;\n"
+		"            break;\n"
+		"        }\n"
 		"    }\n"
 		"}\n";
 	char text[] =
 		"\nvoid Foo()\n"
 		"{	switch (foo)\n"
-		"	{\n"
-		"	case 1:\n"
-		"		a += 1;\n"
-		"		break;\n"
+		"	{	case 1:\n"
+		"			a += 1;\n"
+		"			break;\n"
 		"\n"
-		"	default:\n"
-		"	{	a += 2;\n"
-		"		break;\n"
-		"	}\n"
+		"		default:\n"
+		"		{	a += 2;\n"
+		"			break;\n"
+		"		}\n"
 		"	}\n"
 		"}\n";
-	char options[] = "brackets=run-in, indent=tab";
+	char options[] = "style=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches, RunInLineComment)
+TEST(IndentSwitches, HorstmannLineComment)
 {
-	// test indent switch block line comments with run-in brackets
-	// should run-in to indented switch blocks
-	char textIn[] =
-		"\nvoid Foo()\n"
-		"{\n"
-		"    switch (foo)\n"
-		"    {\n"
-		"        // comment1\n"
-		"        case 1:\n"
-		"            a += 1;\n"
-		"            break;\n"
-		"    }\n"
-		"}\n";
-	char text[] =
-		"\nvoid Foo()\n"
-		"{   switch (foo)\n"
-		"    {       // comment1\n"
-		"        case 1:\n"
-		"            a += 1;\n"
-		"            break;\n"
-		"    }\n"
-		"}\n";
-	char options[] = "indent-switches, brackets=run-in";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(IndentSwitches, RunInLineCommentSans)
-{
-	// test switch block NOT indented line comments with run-in brackets
-	// currently is run-in and indented with switch blocks
+	// Test switch block comments with horstmann style.
+	// Horstmann style implies indented switch blocks.
+	// textIn is broken and indented switch blocks.
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -1295,51 +1188,22 @@ TEST(IndentSwitches, RunInLineCommentSans)
 		"\nvoid Foo()\n"
 		"{   switch (foo)\n"
 		"    {   // comment1\n"
-		"    case 1:\n"
-		"        a += 1;\n"
-		"        break;\n"
-		"    }\n"
-		"}\n";
-	char options[] = "brackets=run-in";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(IndentSwitches, RunInComment)
-{
-	// test indent switch block comments with run-in brackets
-	// should run-in to indented switch blocks
-	char textIn[] =
-		"\nvoid Foo()\n"
-		"{\n"
-		"    switch (foo)\n"
-		"    {\n"
-		"        /* comment1 */\n"
 		"        case 1:\n"
 		"            a += 1;\n"
 		"            break;\n"
 		"    }\n"
 		"}\n";
-	char text[] =
-		"\nvoid Foo()\n"
-		"{   switch (foo)\n"
-		"    {       /* comment1 */\n"
-		"        case 1:\n"
-		"            a += 1;\n"
-		"            break;\n"
-		"    }\n"
-		"}\n";
-	char options[] = "indent-switches, brackets=run-in";
+	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentSwitches, RunInCommentSans)
+TEST(IndentSwitches, HorstmannComment)
 {
-	// test switch block NOT indented comments with run-in brackets
-	// currently is run-in and indented with switch blocks
+	// Test switch block comments with horstmann style.
+	// Horstmann style implies indented switch blocks.
+	// textIn is broken brackets and indented switch blocks.
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -1355,12 +1219,12 @@ TEST(IndentSwitches, RunInCommentSans)
 		"\nvoid Foo()\n"
 		"{   switch (foo)\n"
 		"    {   /* comment1 */\n"
-		"    case 1:\n"
-		"        a += 1;\n"
-		"        break;\n"
+		"        case 1:\n"
+		"            a += 1;\n"
+		"            break;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in";
+	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1859,7 +1723,7 @@ TEST(IndentNamespaces, RunIn)
 		"{\n"
 		"    /* comment2 */\n"
 		"}\n";
-	char options[] = "indent-namespaces, brackets=run-in";
+	char options[] = "indent-namespaces, style=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1987,12 +1851,30 @@ TEST(IndentLabels, Sans)
 //}
 
 //-------------------------------------------------------------------------
-// AStyle Indent Preprocessor
+// AStyle Indent Preprocessor Define
 //-------------------------------------------------------------------------
 
-TEST(IndentPreprocessor, LongOption)
+TEST(IndentPreprocDefine, LongOption)
 {
 	// test indent preprocessor
+	char textIn[] =
+		"\n#define Is_Bar(arg,a,b) \\\n"
+		"(Is_Foo((arg), (a)) \\\n"
+		"|| Is_Foo((arg), (b)))\n";
+	char text[] =
+		"\n#define Is_Bar(arg,a,b) \\\n"
+		"    (Is_Foo((arg), (a)) \\\n"
+		"     || Is_Foo((arg), (b)))\n";
+	char options[] = "indent-preproc-define";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocDefine, LongOptionDepreciated)
+{
+	// test depreciated indent preprocessor option
+	// option was depreciated in release 2.04
 	char textIn[] =
 		"\n#define Is_Bar(arg,a,b) \\\n"
 		"(Is_Foo((arg), (a)) \\\n"
@@ -2007,7 +1889,7 @@ TEST(IndentPreprocessor, LongOption)
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessor, ShortOption)
+TEST(IndentPreprocDefine, ShortOption)
 {
 	// test indent preprocessor short option
 	char textIn[] =
@@ -2024,7 +1906,7 @@ TEST(IndentPreprocessor, ShortOption)
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessor, InStatement)
+TEST(IndentPreprocDefine, InStatement)
 {
 	// test preprocessor statements with an in-statement indent
 	char textIn[] =
@@ -2035,13 +1917,13 @@ TEST(IndentPreprocessor, InStatement)
 		"\n#define wxFORCED_FLAGS (wxSIMPLE_BORDER| \\\n"
 		"                        wxNO_FULL_REPAINT_ON_RESIZE| \\\n"
 		"                        wxCLIP_CHILDREN)\n";
-	char options[] = "indent-preprocessor";
+	char options[] = "indent-preproc-define";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessor, Sans)
+TEST(IndentPreprocDefine, Sans)
 {
 	// test preprocessor statements without indent preprocessor option
 	// they should not change
@@ -2059,7 +1941,7 @@ TEST(IndentPreprocessor, Sans)
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessor, SwitchSans1)
+TEST(IndentPreprocDefine, SwitchSans1)
 {
 	// test preprocessor switch statements without indent preprocessor option
 	// they should not change
@@ -2080,7 +1962,7 @@ TEST(IndentPreprocessor, SwitchSans1)
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessor, SwitchSans2)
+TEST(IndentPreprocDefine, SwitchSans2)
 {
 	// test preprocessor switch statements without indent preprocessor option
 	// but with indent-switches and indent-cases
@@ -2102,7 +1984,7 @@ TEST(IndentPreprocessor, SwitchSans2)
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessor, SwitchIndent)
+TEST(IndentPreprocDefine, SwitchIndent)
 {
 	// test preprocessor switch statements with switch indent
 	// they should be indented
@@ -2128,13 +2010,13 @@ TEST(IndentPreprocessor, SwitchIndent)
 		"        } \\\n"
 		"    }"
 		"\n";
-	char options[] = "indent-preprocessor, indent-switches";
+	char options[] = "indent-preproc-define, indent-switches";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessor, CaseIndent)
+TEST(IndentPreprocDefine, CaseIndent)
 {
 	// test preprocessor switch statements with case indent
 	// they should be indented
@@ -2160,13 +2042,13 @@ TEST(IndentPreprocessor, CaseIndent)
 		"        } \\\n"
 		"    }"
 		"\n";
-	char options[] = "indent-preprocessor, indent-cases";
+	char options[] = "indent-preproc-define, indent-cases";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessor, SwitchCaseIndent)
+TEST(IndentPreprocDefine, SwitchCaseIndent)
 {
 	// test preprocessor switch statements with switch and case indent
 	// they should be indented
@@ -2192,13 +2074,13 @@ TEST(IndentPreprocessor, SwitchCaseIndent)
 		"        } \\\n"
 		"    }"
 		"\n";
-	char options[] = "indent-preprocessor, indent-switches, indent-cases";
+	char options[] = "indent-preproc-define, indent-switches, indent-cases";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessor, CommentContinuation1)
+TEST(IndentPreprocDefine, CommentContinuation1)
 {
 	//  Comments within a preprocessor definition line can be
 	//  continued without the backslash/newline.
@@ -2218,13 +2100,13 @@ TEST(IndentPreprocessor, CommentContinuation1)
 		"        {                      \\\n"
 		"            printf(X, Y);      \\\n"
 		"        }";
-	char options[] = "indent-preprocessor";
+	char options[] = "indent-preproc-define";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(IndentPreprocessor, CommentContinuation2)
+TEST(IndentPreprocDefine, CommentContinuation2)
 {
 	//  Comments within a preprocessor definition line can be
 	//  continued without the backslash/newline.
@@ -2246,12 +2128,422 @@ TEST(IndentPreprocessor, CommentContinuation2)
 		"        {                      \\\n"
 		"            printf(X, Y);      \\\n"
 		"        }";
-	char options[] = "indent-preprocessor";
+	char options[] = "indent-preproc-define";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
+//-------------------------------------------------------------------------
+// AStyle Indent Preprocessor Conditional
+//-------------------------------------------------------------------------
+
+TEST(IndentPreprocConditional, LongOption)
+{
+	// Test indent preprocessor conditional.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    #if wxUSE_UNICODE\n"
+		"    m_convertedText = wxString(wideBuff);\n"
+		"    #else\n"
+		"    m_convertedText = wxString(buffer);\n"
+		"    #endif\n"
+		"}";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, ShortOption)
+{
+	// Test indent preprocessor conditional short option.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    #if wxUSE_UNICODE\n"
+		"    m_convertedText = wxString(wideBuff);\n"
+		"    #else\n"
+		"    m_convertedText = wxString(buffer);\n"
+		"    #endif\n"
+		"}";
+	char options[] = "-xw";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, UnattachedPoundSign)
+{
+	// Test indent preprocessor conditional with unattached pound sign.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    #    if wxUSE_UNICODE\n"
+		"    m_convertedText = wxString(wideBuff);\n"
+		"    #  else\n"
+		"    m_convertedText = wxString(buffer);\n"
+		"    # endif\n"
+		"}";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, SansTrailingSpace)
+{
+	// Test indent preprocessor conditional with no space before a trailing comment.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    #ifndef __WXMSW__//windows\n"
+		"    m_bIsConsole = target;\n"
+		"    #endif//ndef __WXMSW__\n"
+		"}";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, Include)
+{
+	// Test indent preprocessor conditional in #include statements.
+	char text[] =
+		"\n#ifdef _WIN32\n"
+		"#include <windows.h>\n"
+		"#else\n"
+		"#include <dirent.h>\n"
+		"#ifdef __VMS\n"
+		"#include <starlet.h>\n"
+		"#endif\n"
+		"#endif";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, Declaration)
+{
+	// Test indent preprocessor conditional in a function declaration.
+	char text[] =
+		"\nvoid RepeatedChars(wxT(\"[0-9]q\"),\n"
+		"                   #ifndef __WXMAC__\n"
+		"                   wxRE_ADVANCED);\n"
+		"                   #else\n"
+		"                   wxRE_EXTENDED);\n"
+		"                   #endif\n"
+		"{}";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, ExternC1)
+{
+	// Test indent preprocessor conditional around an extern "C" statement.
+	char text[] =
+		"\n#ifdef __cplusplus\n"
+		"extern \"C\" {\n"
+		"#endif\n"
+		"\n"
+		"#ifdef __cplusplus\n"
+		"}\n"
+		"#endif";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, ExternC2)
+{
+	// Test indent preprocessor conditional around an extern "C" statement.
+	// The closing extern "C" bracket is in a #else preprocessor statement.
+	// It will NOT format correctly unless the variable
+	// g_preprocessorCppExternCBracket is global.
+	char text[] =
+		"\n#if HAVE_TSEARCH\n"
+		"#include <search.h>\n"
+		"#else\n"
+		"\n"
+		"#ifdef __cplusplus\n"
+		"extern \"C\" {\n"
+		"#endif\n"
+		"\n"
+		"/* comment line 1\n"
+		"   comment line 2\n"
+		" */\n"
+		"void tdelete(const void *key\n"
+		"             const void *value);\n"
+		"\n"
+		"#ifdef __cplusplus\n"
+		"}\n"
+		"#endif\n"
+		"\n"
+		"#endif";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, ExternC2Sans)
+{
+	// Test extern "C" statement WITHOUT indent preprocessor conditional.
+	// The closing extern "C" bracket is in a #else preprocessor statement.
+	// It will NOT format correctly unless the variable
+	// g_preprocessorCppExternCBracket is global.
+	char text[] =
+		"\n#if HAVE_TSEARCH\n"
+		"#include <search.h>\n"
+		"#else\n"
+		"\n"
+		"#ifdef __cplusplus\n"
+		"extern \"C\" {\n"
+		"#endif\n"
+		"\n"
+		"/* comment line 1\n"
+		"   comment line 2\n"
+		" */\n"
+		"void tdelete(const void *key\n"
+		"             const void *value);\n"
+		"\n"
+		"#ifdef __cplusplus\n"
+		"}\n"
+		"#endif\n"
+		"\n"
+		"#endif";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, DoubleConditional)
+{
+	// Test indent preprocessor conditional around a double conditional.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    #if defined(CC_TOKEN_DEBUG_OUTPUT)\n"
+		"    #if CC_TOKEN_DEBUG_OUTPUT\n"
+		"    wxStopWatch sw;\n"
+		"    sw.Start();\n"
+		"    #endif\n"
+		"    #endif\n"
+		"}";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, ElseMissingOpener)
+{
+	// Test indent preprocessor conditional with a missing #else opener.
+	// Preprocessors will not be indented if no opening entry.
+	char text[] =
+		"\nchar *section_list[] =\n"
+		"{\n"
+		"// #ifdef Q_OS_SOLARIS\n"
+		"    \"1B\", \"SunOS/BSD\",\n"
+		"#else\n"
+		"    \"2\", \"System Calls\",\n"
+		"#endif\n"
+		"    NULL, \"Misc. Reference\",\n"
+		"};\n";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, EndIfMissingOpener)
+{
+	// Test indent preprocessor conditional with a missing #endif opener.
+	// Preprocessors will not be indented if no opening entry.
+	char text[] =
+		"\nchar *section_list[] =\n"
+		"{\n"
+		"// #ifdef Q_OS_SOLARIS\n"
+		"    \"1B\", \"SunOS/BSD\",\n"
+		"// #else\n"
+		"    \"2\", \"System Calls\",\n"
+		"#endif\n"
+		"    NULL, \"Misc. Reference\",\n"
+		"};\n";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, ElIfMissingOpener)
+{
+	// Test indent preprocessor conditional with a missing #elif opener.
+	// Preprocessors will not be indented if no opening entry.
+	char text[] =
+		"\nchar *section_list[] =\n"
+		"{\n"
+		"// #ifdef Q_OS_SOLARIS\n"
+		"    \"1B\", \"SunOS/BSD\",\n"
+		"#elif Q_OS_\n"
+		"    \"2\", \"System Calls\",\n"
+		"#endif\n"
+		"    NULL, \"Misc. Reference\",\n"
+		"};\n";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, ClassDefinition)
+{
+	// Test indent preprocessor conditional in a class definition.
+	char text[] =
+		"\nclass ValueTooltip :\n"
+		"    #ifndef __WXMAC__\n"
+		"    public wxPopupWindow\n"
+		"    #else\n"
+		"    public wxWindow\n"
+		"    #endif\n"
+		"{}";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, ClassInitializer)
+{
+	// Test indent preprocessor conditional in a class initializer.
+	char text[] =
+		"\nSpellCheckerPlugin::SpellCheckerPlugin():\n"
+		"    m_pSpellChecker(NULL)\n"
+		"    #ifdef wxUSE_STATUSBAR\n"
+		"    ,m_fld(NULL)\n"
+		"    #endif\n"
+		"{}";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, FollowsConditional1)
+{
+	// Test indent preprocessor following a conditional statement.
+	// Preprocessor is NOT followed by an open bracket.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (cleanOK)\n"
+		"    #if wxCHECK_VERSION(2, 9, 0)\n"
+		"        Log(GetTitle1(), bt);\n"
+		"    #else\n"
+		"        Log(GetTitle2(), bt);\n"
+		"    #endif\n"
+		"    else\n"
+		"    #if wxCHECK_VERSION(2, 9, 0)\n"
+		"        Log(GetTitle1(), bt);\n"
+		"    #else\n"
+		"        Log(GetTitle2(), bt);\n"
+		"    #endif\n"
+		"}";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, FollowsConditional2)
+{
+	// Test indent preprocessor following a conditional statement.
+	// Preprocessor IS followed by an open bracket.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    while (text[i])\n"
+		"    #if wxCHECK_VERSION(2, 9, 0)\n"
+		"    {\n"
+		"        crc = (text[i++].GetValue());\n"
+		"    }\n"
+		"    #else\n"
+		"    {\n"
+		"        crc = (text[i++]);\n"
+		"    }\n"
+		"    #endif\n"
+		"}";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, FollowsConditional3)
+{
+	// Test indent preprocessor following a conditional statement.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    for (i = 0; i < menu->GetMenuItemCount(); ++i)\n"
+		"    {\n"
+		"        #if wxCHECK_VERSION(2, 9, 0)\n"
+		"        if (mm->GetItemLabel()==_(\"End-of-line mode\"))\n"
+		"        #else\n"
+		"        if (mm->GetLabel()==_(\"End-of-line mode\"))\n"
+		"        #endif\n"
+		"            menu->Remove(mm);\n"
+		"    }\n"
+		"}";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocConditional, FollowsConditional4)
+{
+	// Test indent preprocessor following a conditional statement.
+	// This has a difficult combination of preprocessor statements.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (m_fontFileName.IsEmpty())\n"
+		"    {\n"
+		"        #if defined(__WXMSW__)\n"
+		"        if (m_file.IsEmpty() && m_font.IsOk())\n"
+		"            fontStream = LoadTrueTypeFontStream(m_font);\n"
+		"        else\n"
+		"        #elif defined(__WXMAC__)\n"
+		"        #if wxPDFMACOSX_HAS_CORE_TEXT\n"
+		"        if (m_file.IsEmpty() && m_font.IsOk())\n"
+		"        {\n"
+		"            #if wxCHECK_VERSION(2,9,0)\n"
+		"            CTFontRef fontRef = m_font.OSXGetCTFont();\n"
+		"            #else\n"
+		"            CTFontRef fontRef = m_font.MacGetCTFont();\n"
+		"            #endif\n"
+		"        }\n"
+		"        else\n"
+		"        #endif\n"
+		"        #endif\n"
+		"        {\n"
+		"            compressed = m_file.Lower().Right(2);\n"
+		"        }\n"
+		"    }\n"
+		"}";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
 
 //-------------------------------------------------------------------------
 // AStyle Column one comment

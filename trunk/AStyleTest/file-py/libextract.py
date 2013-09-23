@@ -47,6 +47,8 @@ def extract_project(project, all_files_option):
 		extract_scite()
 	elif project == libastyle.SHARPDEVELOP:
 		extract_sharpdevelop()
+	elif project == libastyle.SHARPMAIN:
+		extract_sharpmain()
 	elif project == libastyle.TESTPROJECT:
 		extract_testproject()
 	else:
@@ -182,7 +184,17 @@ def extract_sharpdevelop():
 	"""Extract SharpDevelop files from archive to test directory.
 	"""
 	remove_test_directory("[Sh]harp[Dd]evelop")
-	extract_test_zip("SharpDevelop*.zip", "SharpDevelop", ["*.cs"])
+	extract_test_zip("SharpDevelop*.zip", "SharpDevelop", ["src/*.cs"])
+
+# -----------------------------------------------------------------------------
+
+def extract_sharpmain():
+	"""Extract SharpDevelop/Main files from archive to test directory.
+	"""
+	# extract files
+	remove_test_directory("[Sh]harp[Dd]evelopMain")
+	# also change libastyle.py, get_project_filepaths()
+	extract_test_zip("SharpDevelop*.zip", "SharpDevelopMain", ["src/Main/*.cs"])
 
 # -----------------------------------------------------------------------------
 

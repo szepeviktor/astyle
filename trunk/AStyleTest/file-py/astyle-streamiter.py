@@ -46,9 +46,9 @@ def convert_class_functions(line):
 	first_paren = line.find('(')
 	if first_paren == -1:
 		return line
-	if line.find("buffer.reserve") != -1:
+	if "buffer.reserve" in line:
 		line = ''
-	elif line.find("setOutputEOL") != -1:
+	elif "setOutputEOL" in line:
 		line = "outputEOL[4]"
 	else:
 		line = "unidentified function: " + line
@@ -100,19 +100,19 @@ def get_constructor_variables(class_variables, iterator_path):
 		if line[:2] == "//":
 			continue
 		# start between the following lines
-		if line.find("ASStreamIterator<T>::ASStreamIterator") != -1:
+		if "ASStreamIterator<T>::ASStreamIterator" in line:
 			class_lines[0] = lines + 1
 			continue
 		if (class_lines[0]  == 0
 		or class_lines[0]  >= lines):
 			continue
 		# find ending bracket
-		if line.find('}') != -1:
+		if '}' in line:
 			class_lines[1] = lines
 			break
 		# get the variable name
 		variable_name = line
-		if line.find('(') != -1:
+		if '(' in line:
 			variable_name = convert_class_functions(line)
 		else:
 			first_space = line.find(' ')
@@ -149,35 +149,35 @@ def get_header_variables(header_variables, header_path):
 			continue
 
 		# start between the following lines
-		if line.find("class ASStreamIterator") != -1:
+		if "class ASStreamIterator" in line:
 			header_lines[0] = lines + 1
 			continue
 		if (header_lines[0]  == 0
 		or header_lines[0]  >= lines):
 			continue
 		# find ending bracket - should find following comment instead
-		if line.find('}') != -1:
+		if '}' in line:
 			header_lines[1] = lines
 			break
 		# find ending comment
-		if line.find("// inline functions") != -1:
+		if "// inline functions" in line:
 			header_lines[1] = lines
 			break
-		if (line.find("public:") != -1
-		or line.find("private:") != -1
-		or line.find("protected:") != -1):
+		if ("public:" in line
+		or "private:" in line
+		or "protected:" in line):
 			continue
 		# bypass functions
-		if (line.find('(') != -1
-		or line.find(')') != -1):
+		if ('(' in line
+		or ')' in line):
 			continue
 		# bypass static variables
 		if line[:6] == "static":
 			continue
 		# bypass vectors and strings
-		if line.find("buffer") != -1:
+		if "buffer" in line:
 			continue
-		if line.find("prevBuffer") != -1:
+		if "prevBuffer" in line:
 			continue
 		# get the variable name
 		semi_colon = line.find(';')

@@ -92,10 +92,13 @@
 		<Unit filename="../../src/AStyleTest_Format.cpp" />
 		<Unit filename="../../src/AStyleTest_Indent.cpp" />
 		<Unit filename="../../src/AStyleTest_Main.cpp" />
+		<Unit filename="../../src/AStyleTest_MaxCodeLen.cpp" />
+		<Unit filename="../../src/AStyleTest_ObjC.cpp" />
 		<Unit filename="../../src/AStyleTest_Other.cpp" />
 		<Unit filename="../../src/AStyleTest_Pad.cpp" />
-		<Unit filename="../../src/AStyleTest_Styles1.cpp" />
-		<Unit filename="../../src/AStyleTest_Styles2.cpp" />
+		<Unit filename="../../src/AStyleTest_StylesCpp1.cpp" />
+		<Unit filename="../../src/AStyleTest_StylesCpp2.cpp" />
+		<Unit filename="../../src/AStyleTest_StylesOther.cpp" />
 		<Unit filename="../../src/AStyleTest_Tabs.cpp" />
 		<Unit filename="../../srcx/TersePrinter.cpp" />
 		<Unit filename="../../srcx/TersePrinter.h" />

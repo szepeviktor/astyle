@@ -1018,7 +1018,7 @@ TEST(BreakAllBlocks, BreakBrackets)
 		"\n"
 		"    bar3();\n"
 		"}\n";
-	char options[] = "break-blocks=all, brackets=break";
+	char options[] = "break-blocks=all, style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1049,7 +1049,7 @@ TEST(BreakAllBlocks, AttachBrackets)
 		"\n"
 		"    bar3();\n"
 		"}\n";
-	char options[] = "break-blocks=all, brackets=attach";
+	char options[] = "break-blocks=all, style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1409,7 +1409,7 @@ TEST(BreakAllBlocks, AfterComment2)
 		"        Bar2();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=linux, break-blocks=all";
+	char options[] = "style=kr, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1442,7 +1442,7 @@ TEST(BreakAllBlocks, AfterComment3)
 		"        Bar2();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break, break-blocks=all";
+	char options[] = "style=allman, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2662,6 +2662,21 @@ TEST(PadParenOut, Comments)
 	delete [] textOut;
 }
 
+TEST(PadParenOut, EmptyParens)
+{
+	// Test with empty parens.
+	// For consistency with pad-first-paren-out the paren should NOT be padded.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}";
+	char options[] = "pad-paren-out";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Pad First Paren Out
 //-------------------------------------------------------------------------
@@ -2708,6 +2723,21 @@ TEST(PadFirstParenOut, ShortOption)
 	delete [] textOut;
 }
 
+TEST(PadFirstParenOut, EmptyParens)
+{
+	// Test with empty parens.
+	// For consistency with pad-paren-out the paren should NOT be padded.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    bar();\n"
+		"}";
+	char options[] = "pad-first-paren-out";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(PadFirstParenOut, MultipleParens)
 {
 	// Test with multiple opening parens.
@@ -2719,7 +2749,7 @@ TEST(PadFirstParenOut, MultipleParens)
 		"            ? outmode[j] : inmode[j]);\n"
 		"}";
 	char text[] =
-		"\nvoid Foo ()\n"
+		"\nvoid Foo()\n"
 		"{\n"
 		"    mode = ((inmode[j] == VOIDmode\n"
 		"             || (GET_MODE_SIZE (outmode[j]) > GET_MODE_SIZE (inmode[j])))\n"
@@ -2742,7 +2772,7 @@ TEST(PadFirstParenOut, UnpadParen)
 		"             ? outmode[j] : inmode[j] );\n"
 		"}";
 	char text[] =
-		"\nvoid Foo ()\n"
+		"\nvoid Foo()\n"
 		"{\n"
 		"    mode = ((inmode[j] == VOIDmode\n"
 		"             || (GET_MODE_SIZE (outmode[j]) > GET_MODE_SIZE (inmode[j])))\n"
@@ -2765,7 +2795,7 @@ TEST(PadFirstParenOut, PadParen)
 		"            ? outmode[j] : inmode[j]);\n"
 		"}";
 	char text[] =
-		"\nvoid Foo ()\n"
+		"\nvoid Foo()\n"
 		"{\n"
 		"    mode = ( ( inmode[j] == VOIDmode\n"
 		"               || ( GET_MODE_SIZE ( outmode[j] ) > GET_MODE_SIZE ( inmode[j] ) ) )\n"
@@ -2788,7 +2818,7 @@ TEST(PadFirstParenOut, PadParenOut)
 		"            ? outmode[j] : inmode[j]);\n"
 		"}";
 	char text[] =
-		"\nvoid Foo ()\n"
+		"\nvoid Foo()\n"
 		"{\n"
 		"    mode = ( (inmode[j] == VOIDmode\n"
 		"              || (GET_MODE_SIZE (outmode[j]) > GET_MODE_SIZE (inmode[j]) ) )\n"

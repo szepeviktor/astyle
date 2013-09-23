@@ -751,7 +751,7 @@ TEST(Tabs, ForceTabX_Horstmann2)
 	char text[] =
 		"\nvoid Foo()\n"
 		"{   switch (foo)\n"
-		"    {	// comment1\n"
+		"    {   // comment1\n"
 		"	case 1:\n"
 		"	    a += 1;\n"
 		"	    break;\n"
@@ -798,6 +798,197 @@ TEST(Tabs, ForceTabX_Horstmann4)
 		"}\n";
 	char options[] = "style=horstmann, indent=force-tab-x=6, indent=force-tab=4";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-----------------------------------------------------------------------------
+// AStyle Attach Extern "C" Option
+//-----------------------------------------------------------------------------
+
+TEST(AttachExternC, LongOption)
+{
+	// test attach extern C long option
+	char textIn[] =
+		"\nextern \"C\"\n"
+		"{\n"
+		"    void foo2() {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nextern \"C\" {\n"
+		"    void foo2() {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}";
+	char options[] = "attach-extern-c";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachExternC, ShortOption)
+{
+	// test attach extern C short option
+	char textIn[] =
+		"\nextern \"C\"\n"
+		"{\n"
+		"    void foo2() {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nextern \"C\" {\n"
+		"    void foo2() {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}";
+	char options[] = "-xk";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachExternC, BreakBrackets)
+{
+	// test attach extern C with break brackets
+	char textIn[] =
+		"\nextern \"C\"\n"
+		"{\n"
+		"    void foo2() {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nextern \"C\" {\n"
+		"    void foo2()\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}";
+	char options[] = "attach-extern-c, style=allman";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachExternC, AttachBrackets)
+{
+	// test attach extern C with attach brackets
+	char textIn[] =
+		"\nextern \"C\"\n"
+		"{\n"
+		"    void foo2()\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nextern \"C\" {\n"
+		"    void foo2() {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}";
+	char options[] = "attach-extern-c, style=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachExternC, LinuxBrackets)
+{
+	// test attach extern C with linux brackets
+	char textIn[] =
+		"\nextern \"C\"\n"
+		"{\n"
+		"    void foo2()\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nextern \"C\" {\n"
+		"    void foo2()\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}";
+	char options[] = "attach-extern-c, style=kr";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachExternC, StroustrupBrackets)
+{
+	// test attach extern C with stroustrup brackets
+	char textIn[] =
+		"\nextern \"C\"\n"
+		"{\n"
+		"    void foo2()\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nextern \"C\" {\n"
+		"    void foo2()\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}";
+	char options[] = "attach-extern-c, style=stroustrup";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachExternC, RunInBrackets)
+{
+	// test attach extern C with run-in brackets
+	char textIn[] =
+		"\nextern \"C\"\n"
+		"{\n"
+		"    void foo2()\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nextern \"C\" {\n"
+		"    void foo2()\n"
+		"    {   bar2();\n"
+		"    }\n"
+		"}";
+	char options[] = "attach-extern-c, style=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AttachExternC, CPlusPlus)
+{
+	// test attach extern C in __cplusplus preprocessor
+	char textIn[] =
+		"\n#ifdef __cplusplus\n"
+		"extern \"C\"\n"
+		"{\n"
+		"#endif\n"
+		"\n"
+		"#ifdef __cplusplus\n"
+		"}\n"
+		"#endif";
+	char text[] =
+		"\n#ifdef __cplusplus\n"
+		"extern \"C\" {\n"
+		"#endif\n"
+		"\n"
+		"#ifdef __cplusplus\n"
+		"}\n"
+		"#endif";
+	char options[] = "attach-extern-c";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -854,7 +1045,7 @@ TEST(AttachNamespaces, BreakBrackets)
 		"\nnamespace FooName {\n"
 		"\n"
 		"}";
-	char options[] = "attach-namespaces, brackets=break";
+	char options[] = "attach-namespaces, style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -872,7 +1063,7 @@ TEST(AttachNamespaces, AttachBrackets)
 		"\nnamespace FooName {\n"
 		"\n"
 		"}";
-	char options[] = "attach-namespaces, brackets=attach";
+	char options[] = "attach-namespaces, style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -890,7 +1081,7 @@ TEST(AttachNamespaces, LinuxBrackets)
 		"\nnamespace FooName {\n"
 		"\n"
 		"}";
-	char options[] = "attach-namespaces, brackets=linux";
+	char options[] = "attach-namespaces, style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -908,7 +1099,7 @@ TEST(AttachNamespaces, StroustrupBrackets)
 		"\nnamespace FooName {\n"
 		"\n"
 		"}";
-	char options[] = "attach-namespaces, brackets=stroustrup";
+	char options[] = "attach-namespaces, style=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -926,7 +1117,7 @@ TEST(AttachNamespaces, RunInBrackets)
 		"\nnamespace FooName {\n"
 		"\n"
 		"}";
-	char options[] = "attach-namespaces, brackets=run-in";
+	char options[] = "attach-namespaces, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1020,7 +1211,7 @@ TEST(AttachClasses, BreakBrackets)
 	char text[] =
 		"\nclass FooClass {\n"
 		"};";
-	char options[] = "attach-classes, brackets=break";
+	char options[] = "attach-classes, style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1036,7 +1227,7 @@ TEST(AttachClasses, AttachBrackets)
 	char text[] =
 		"\nclass FooClass {\n"
 		"};";
-	char options[] = "attach-classes, brackets=attach";
+	char options[] = "attach-classes, style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1052,7 +1243,7 @@ TEST(AttachClasses, LinuxBrackets)
 	char text[] =
 		"\nclass FooClass {\n"
 		"};";
-	char options[] = "attach-classes, brackets=linux";
+	char options[] = "attach-classes, style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1068,7 +1259,7 @@ TEST(AttachClasses, StroustrupBrackets)
 	char text[] =
 		"\nclass FooClass {\n"
 		"};";
-	char options[] = "attach-classes, brackets=stroustrup";
+	char options[] = "attach-classes, style=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1084,7 +1275,7 @@ TEST(AttachClasses, RunInBrackets)
 	char text[] =
 		"\nclass FooClass {\n"
 		"};";
-	char options[] = "attach-classes, brackets=run-in";
+	char options[] = "attach-classes, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1297,7 +1488,7 @@ TEST(AttachInlines, BreakBrackets)
 		"        return false;\n"
 		"    }\n"
 		"};";
-	char options[] = "attach-inlines, brackets=break";
+	char options[] = "attach-inlines, style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1334,7 +1525,7 @@ TEST(AttachInlines, AttachBrackets)
 		"        return false;\n"
 		"    }\n"
 		"};";
-	char options[] = "attach-inlines, brackets=attach";
+	char options[] = "attach-inlines, style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1372,7 +1563,7 @@ TEST(AttachInlines, LinuxBrackets)
 		"        return false;\n"
 		"    }\n"
 		"};";
-	char options[] = "attach-inlines, brackets=linux";
+	char options[] = "attach-inlines, style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1409,7 +1600,7 @@ TEST(AttachInlines, StroustrupBrackets)
 		"        return false;\n"
 		"    }\n"
 		"};";
-	char options[] = "attach-inlines, brackets=stroustrup";
+	char options[] = "attach-inlines, style=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1447,7 +1638,7 @@ TEST(AttachInlines, RunInBrackets)
 		"        return false;\n"
 		"    }\n"
 		"};";
-	char options[] = "attach-inlines, brackets=run-in";
+	char options[] = "attach-inlines, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

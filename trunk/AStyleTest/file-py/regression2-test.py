@@ -27,26 +27,27 @@ import time
 # DRJAVA            # Java - Cannot compile
 # GWORKSPACE        # Objective-C
 # JEDIT             # Java
-# SCITE 
+# SCITE
 # SHARPDEVELOP      # C# - Compile on Windows only
+# SHARPMAIN
 # TESTPROJECT
 __project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 # options_x are for BOTH executables
 # options_x can be a bracket style or any other option
-# options_x2 are for exe2 ONLY
-# options_x2 is used to test new options
-__options    = libastyle.OPT1
-__options_x  = ""
-__options_x2 = "-xMxQxRxP0"
+__options    = libastyle.OPT0
+__options_x  = "-A3"
 
 # scite formatting options
 #__options = "-tapOHUk3"
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
+# options_x2 are for exe2 ONLY
+# options_x2 is used to test new options
 __astyleexe1 = "astyle24k"
 __astyleexe2 = "astyle"
+__options_x2 = "-xk"
 
 # select one of the following to format files in the OLD directory
 __formatOLD = True
@@ -321,7 +322,7 @@ def set_astyle_args(filepath, excludes, astyleexe):
 		args.append(__options)
 	if len(__options_x.strip()) > 0:
 		args.append(__options_x)
-	if (astyleexe == __astyleexe2 
+	if (astyleexe == __astyleexe2
 	and len(__options_x2.strip()) > 0):
 		args.append(__options_x2)
 	# set excludes
@@ -403,7 +404,7 @@ def verify_options_x_variable():
 		__options_x = __options_x.strip()
 	if len(__options_x) > 0 and __options_x[0] != '-':
 		__options_x = '-' + __options_x
-	# options_x2	
+	# options_x2
 	if len(__options_x2) > 0:
 		__options_x2 = __options_x2.strip()
 	if len(__options_x2) > 0 and __options_x2[0] != '-':

@@ -95,7 +95,7 @@ def get_constructor_variables(class_variables, console_path):
 		if line.startswith("//"):
 			continue
 		# start between the following lines
-		if line.find("ASConsole(ASFormatter") != -1:
+		if "ASConsole(ASFormatter" in line:
 			class_lines[0] = lines + 1
 			class_variables.append("formatter")
 			class_total += 1
@@ -104,12 +104,12 @@ def get_constructor_variables(class_variables, console_path):
 		or class_lines[0] >= lines):
 			continue
 		# find ending bracket
-		if line.find('}') != -1:
+		if '}' in line:
 			class_lines[1] = lines
 			break
 		# get the variable name
 		variable_name = line
-		if line.find('(') != -1:
+		if '(' in line:
 			variable_name = convert_class_functions(line)
 		else:
 			first_space = line.find(' ')
@@ -146,56 +146,56 @@ def get_header_variables(header_variables, header_path):
 			continue
 
 		# start between the following lines
-		if line.find("class ASConsole") != -1:
+		if "class ASConsole" in line:
 			header_lines[0] = lines + 1
 			continue
 		if (header_lines[0]  == 0
 		or header_lines[0]  >= lines):
 			continue
 		# find ending bracket - should find following initializer instead
-		if line.find('}') != -1:
+		if '}' in line:
 			header_lines[1] = lines
 			break
 		# find variables end
-		if line.find("ASConsole(ASFormatter") != -1:
+		if "ASConsole(ASFormatter" in line:
 			header_lines[1] = lines -1
 			break
 		# find ending comment
-		if line.find("// inline functions") != -1:
+		if "// inline functions" in line:
 			header_lines[1] = lines
 			break
-		if (line.find("public:") != -1
-		or line.find("private:") != -1
-		or line.find("protected:") != -1):
+		if ("public:" in line
+		or "private:" in line
+		or "protected:" in line):
 			continue
 		# bypass functions
-		if (line.find('(') != -1
-		or line.find(')') != -1):
+		if ('(' in line
+		or ')' in line):
 			continue
 		# bypass static variables
 		if line[:6] == "static":
 			continue
 		# bypass embedded ASLocalizer object
-		if line.find("ASLocalizer") != -1:
+		if "ASLocalizer" in line:
 			continue
 		# bypass vectors and strings
-		if line.find("excludeVector") != -1:
+		if "excludeVector" in line:
 			continue
-		if line.find("excludeHitsVector") != -1:
+		if "excludeHitsVector" in line:
 			continue
-		if line.find("fileNameVector") != -1:
+		if "fileNameVector" in line:
 			continue
-		if line.find("optionsVector") != -1:
+		if "optionsVector" in line:
 			continue
-		if line.find("fileOptionsVector") != -1:
+		if "fileOptionsVector" in line:
 			continue
-		if line.find("fileName") != -1:
+		if "fileName" in line:
 			continue
-		if line.find("optionsFileName") != -1:
+		if "optionsFileName" in line:
 			continue
-		if line.find("targetDirectory") != -1:
+		if "targetDirectory" in line:
 			continue
-		if line.find("targetFilename") != -1:
+		if "targetFilename" in line:
 			continue
 		# get the variable name
 		semi_colon = line.find(';')

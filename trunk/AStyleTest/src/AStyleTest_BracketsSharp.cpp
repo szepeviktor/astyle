@@ -325,7 +325,7 @@ TEST_F(BracketsBreakSharpF, LongOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "brackets=break, mode=cs";
+	char options[] = "style=allman, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -366,7 +366,7 @@ TEST_F(BracketsBreakSharpF, ShortOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "-b, mode=cs";
+	char options[] = "-A1, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -407,7 +407,7 @@ TEST_F(BracketsBreakSharpF, Namespace)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break, indent-namespaces, mode=cs";
+	char options[] = "style=allman, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -435,7 +435,7 @@ TEST(BracketsBreakSharp, EmptyBrackets)
 		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=break, mode=cs";
+	char options[] = "style=allman, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -463,7 +463,7 @@ TEST(BracketsBreakSharp, EmptyBracketsWithComments)
 		"    public FooClass() // comment\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=break, mode=cs";
+	char options[] = "style=allman, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -484,7 +484,7 @@ TEST(BracketsBreakSharp, Break)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break, mode=cs";
+	char options[] = "style=allman, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -513,7 +513,7 @@ TEST(BracketsBreakSharp, Attach)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break, mode=cs";
+	char options[] = "style=allman, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -543,7 +543,7 @@ TEST(BracketsBreakSharp, Linux)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break, mode=cs";
+	char options[] = "style=allman, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -573,7 +573,7 @@ TEST(BracketsBreakSharp, RunIn)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break, mode=cs";
+	char options[] = "style=allman, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -647,7 +647,7 @@ TEST_F(BracketsAttachSharpF, LongOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=cs";
+	char options[] = "style=java, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -680,7 +680,7 @@ TEST_F(BracketsAttachSharpF, ShortOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "-a, mode=cs";
+	char options[] = "-A2, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -713,7 +713,7 @@ TEST_F(BracketsAttachSharpF, Namespace)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, indent-namespaces, mode=cs";
+	char options[] = "style=java, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -747,7 +747,7 @@ TEST_F(BracketsAttachSharpF, BreakClosing)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "brackets=attach, break-closing-brackets, mode=cs";
+	char options[] = "style=java, break-closing-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -772,7 +772,7 @@ TEST(BracketsAttachSharp, EmptyBrackets)
 		"    public FooClass() {\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=cs";
+	char options[] = "style=java, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -797,7 +797,7 @@ TEST(BracketsAttachSharp, EmptyBracketsWithComments)
 		"    public FooClass() { // comment\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=cs";
+	char options[] = "style=java, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -826,7 +826,7 @@ TEST(BracketsAttachSharp, Break)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=cs";
+	char options[] = "style=java, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -843,7 +843,7 @@ TEST(BracketsAttachSharp, Attach)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=cs";
+	char options[] = "style=java, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -869,7 +869,7 @@ TEST(BracketsAttachSharp, Linux)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=cs";
+	char options[] = "style=java, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -895,7 +895,7 @@ TEST(BracketsAttachSharp, RunIn)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=cs";
+	char options[] = "style=java, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -973,7 +973,7 @@ TEST_F(BracketsLinuxSharpF, LongOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=cs";
+	char options[] = "style=kr, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1010,7 +1010,7 @@ TEST_F(BracketsLinuxSharpF, ShortOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "-l, mode=cs";
+	char options[] = "-A3, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1047,7 +1047,7 @@ TEST_F(BracketsLinuxSharpF, Namespace)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=linux, indent-namespaces, mode=cs";
+	char options[] = "style=kr, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1085,7 +1085,7 @@ TEST_F(BracketsLinuxSharpF, BreakClosing)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "brackets=linux, break-closing-brackets, mode=cs";
+	char options[] = "style=kr, break-closing-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1113,7 +1113,7 @@ TEST(BracketsLinuxSharp, EmptyBrackets)
 		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=cs";
+	char options[] = "style=kr, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1141,7 +1141,7 @@ TEST(BracketsLinuxSharp, EmptyBracketsWithComments)
 		"    public FooClass() // comment\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=cs";
+	char options[] = "style=kr, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1171,7 +1171,7 @@ TEST(BracketsLinuxSharp, Break)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=cs";
+	char options[] = "style=kr, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1197,7 +1197,7 @@ TEST(BracketsLinuxSharp, Attach)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=cs";
+	char options[] = "style=kr, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1215,7 +1215,7 @@ TEST(BracketsLinuxSharp, Linux)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=cs";
+	char options[] = "style=kr, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1242,7 +1242,7 @@ TEST(BracketsLinuxSharp, RunIn)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=cs";
+	char options[] = "style=kr, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1292,7 +1292,7 @@ TEST(BracketsLinuxSharp, Formatting)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=cs";
+	char options[] = "style=kr, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1320,7 +1320,7 @@ TEST(BracketsLinuxSharp, NestedNamespace)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=cs";
+	char options[] = "style=kr, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1395,7 +1395,7 @@ TEST_F(BracketsStroustrupSharpF, LongOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "brackets=stroustrup, mode=cs";
+	char options[] = "style=stroustrup, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1429,7 +1429,7 @@ TEST_F(BracketsStroustrupSharpF, ShortOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "-u, mode=cs";
+	char options[] = "-A4, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1463,7 +1463,7 @@ TEST_F(BracketsStroustrupSharpF, Namespace)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=stroustrup, indent-namespaces, mode=cs";
+	char options[] = "style=stroustrup, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1498,7 +1498,7 @@ TEST_F(BracketsStroustrupSharpF, BreakClosing)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "brackets=stroustrup, break-closing-brackets, mode=cs";
+	char options[] = "style=stroustrup, break-closing-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1524,7 +1524,7 @@ TEST(BracketsStroustrupSharp, EmptyBrackets)
 		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=stroustrup, mode=cs";
+	char options[] = "style=stroustrup, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1550,7 +1550,7 @@ TEST(BracketsStroustrupSharp, EmptyBracketsWithComments)
 		"    public FooClass() //comment\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=stroustrup, mode=cs";
+	char options[] = "style=stroustrup, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1598,7 +1598,7 @@ TEST(BracketsStroustrupSharp, Formatting)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "brackets=stroustrup, mode=cs";
+	char options[] = "style=stroustrup, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1620,7 +1620,7 @@ TEST(BracketsStroustrupSharp, NestedNamespace)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "brackets=stroustrup, mode=cs";
+	char options[] = "style=stroustrup, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1696,7 +1696,7 @@ TEST_F(BracketsRunInSharpF, LongOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=cs";
+	char options[] = "style=horstmann, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1731,7 +1731,7 @@ TEST_F(BracketsRunInSharpF, ShortOption)
 		"    }\n"
 		"}\n"
 		"}\n";
-	char options[] = "-g, mode=cs";
+	char options[] = "-A9, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1766,7 +1766,7 @@ TEST_F(BracketsRunInSharpF, Namespace)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in, indent-namespaces, mode=cs";
+	char options[] = "style=horstmann, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1792,7 +1792,7 @@ TEST(BracketsRunInSharp, EmptyBrackets)
 		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=cs";
+	char options[] = "style=horstmann, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1818,7 +1818,7 @@ TEST(BracketsRunInSharp, EmptyBracketsWithComments)
 		"    public FooClass() // comment\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=cs";
+	char options[] = "style=horstmann, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1848,7 +1848,7 @@ TEST(BracketsRunInSharp, Break)
 		"    {   anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=cs";
+	char options[] = "style=horstmann, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1874,7 +1874,7 @@ TEST(BracketsRunInSharp, Attach)
 		"    {   anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=cs";
+	char options[] = "style=horstmann, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1901,7 +1901,7 @@ TEST(BracketsRunInSharp, Linux)
 		"    {   anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=cs";
+	char options[] = "style=horstmann, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1919,7 +1919,7 @@ TEST(BracketsRunInSharp, RunIn)
 		"    {   anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=cs";
+	char options[] = "style=horstmann, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2619,7 +2619,7 @@ TEST(BracketsArraySharp, Break_Comments)
 		"    /* 1: after quote   */ new int[] { 2  , 6  , 10 , 0  , 8  },\n"
 		"    /* 2: after d-quote */ new int[] { 3  , 7  , 0  , 0  , 0  }\n"
 		"};\n";
-	char options[] = "brackets=break, mode=cs";
+	char options[] = "style=allman, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2656,7 +2656,7 @@ TEST(BracketsArraySharp, Break_Misc1)
 		"        PwDefs.PasswordField\n"
 		"    }),\n"
 		"};";
-	char options[] = "brackets=break, mode=cs";
+	char options[] = "style=allman, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2672,7 +2672,7 @@ TEST(BracketsArraySharp, Attach_Comments)
 		"    /* 1: after quote   */ new int[] { 2  , 6  , 10 , 0  , 8  },\n"
 		"    /* 2: after d-quote */ new int[] { 3  , 7  , 0  , 0  , 0  }\n"
 		"};\n";
-	char options[] = "brackets=attach, mode=cs";
+	char options[] = "style=java, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2709,7 +2709,7 @@ TEST(BracketsArraySharp, Attach_Misc1)
 		"        PwDefs.PasswordField\n"
 		"    }),\n"
 		"};";
-	char options[] = "brackets=attach, mode=cs";
+	char options[] = "style=java, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2725,7 +2725,7 @@ TEST(BracketsArraySharp, RunIn_Comments)
 		"    /* 1: after quote   */ new int[] { 2  , 6  , 10 , 0  , 8  },\n"
 		"    /* 2: after d-quote */ new int[] { 3  , 7  , 0  , 0  , 0  }\n"
 		"};\n";
-	char options[] = "brackets=run-in, mode=cs";
+	char options[] = "style=horstmann, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2759,7 +2759,7 @@ TEST(BracketsArraySharp, RunIn_Misc1)
 		"        PwDefs.PasswordField\n"
 		"    }),\n"
 		"};";
-	char options[] = "brackets=run-in, mode=cs";
+	char options[] = "style=horstmann, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

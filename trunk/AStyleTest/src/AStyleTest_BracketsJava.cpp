@@ -308,7 +308,7 @@ TEST_F(BracketsBreakJavaF, LongOption)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break, mode=java";
+	char options[] = "style=allman, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -335,7 +335,7 @@ TEST_F(BracketsBreakJavaF, ShortOption)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "-b, mode=java";
+	char options[] = "-A1, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -363,7 +363,7 @@ TEST(BracketsBreakJava, EmptyBrackets)
 		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=break, mode=java";
+	char options[] = "style=allman, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -391,7 +391,7 @@ TEST(BracketsBreakJava, EmptyBracketsWithComments)
 		"    public FooClass() // comment\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=break, mode=java";
+	char options[] = "style=allman, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -412,7 +412,7 @@ TEST(BracketsBreakJava, Break)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break, mode=java";
+	char options[] = "style=allman, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -441,7 +441,7 @@ TEST(BracketsBreakJava, Attach)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break, mode=java";
+	char options[] = "style=allman, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -471,7 +471,7 @@ TEST(BracketsBreakJava, Linux)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break, mode=java";
+	char options[] = "style=allman, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -501,7 +501,7 @@ TEST(BracketsBreakJava, RunIn)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break, mode=java";
+	char options[] = "style=allman, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -541,7 +541,7 @@ TEST(BracketsBreakJava, EnumConstructor)
 		"        return global;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break, mode=java";
+	char options[] = "style=allman, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -593,7 +593,7 @@ TEST_F(BracketsAttachJavaF, LongOption)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=java";
+	char options[] = "style=java, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -615,7 +615,7 @@ TEST_F(BracketsAttachJavaF, ShortOption)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "-a, mode=java";
+	char options[] = "-A2, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -638,7 +638,7 @@ TEST_F(BracketsAttachJavaF, BreakClosing)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, break-closing-brackets, mode=java";
+	char options[] = "style=java, break-closing-brackets, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -663,7 +663,7 @@ TEST(BracketsAttachJava, EmptyBrackets)
 		"    public FooClass() {\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=java";
+	char options[] = "style=java, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -688,7 +688,7 @@ TEST(BracketsAttachJava, EmptyBracketsWithComments)
 		"    public FooClass() { // comment\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=java";
+	char options[] = "style=java, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -717,7 +717,7 @@ TEST(BracketsAttachJava, Break)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=java";
+	char options[] = "style=java, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -734,7 +734,7 @@ TEST(BracketsAttachJava, Attach)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=java";
+	char options[] = "style=java, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -760,7 +760,7 @@ TEST(BracketsAttachJava, Linux)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=java";
+	char options[] = "style=java, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -786,7 +786,7 @@ TEST(BracketsAttachJava, RunIn)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=java";
+	char options[] = "style=java, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -826,7 +826,7 @@ TEST(BracketsAttachJava, EnumConstructor)
 		"        return global;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=java";
+	char options[] = "style=java, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -880,7 +880,7 @@ TEST_F(BracketsLinuxJavaF, LongOption)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=java";
+	char options[] = "style=kr, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -904,7 +904,7 @@ TEST_F(BracketsLinuxJavaF, ShortOption)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "-l, mode=java";
+	char options[] = "-A3, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -929,7 +929,7 @@ TEST_F(BracketsLinuxJavaF, BreakClosing)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=linux, break-closing-brackets, mode=java";
+	char options[] = "style=kr, break-closing-brackets, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -957,7 +957,7 @@ TEST(BracketsLinuxJava, EmptyBrackets)
 		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=java";
+	char options[] = "style=kr, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -985,7 +985,7 @@ TEST(BracketsLinuxJava, EmptyBracketsWithComments)
 		"    public FooClass() // comment\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=java";
+	char options[] = "style=kr, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1015,7 +1015,7 @@ TEST(BracketsLinuxJava, Break)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=java";
+	char options[] = "style=kr, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1041,7 +1041,7 @@ TEST(BracketsLinuxJava, Attach)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=java";
+	char options[] = "style=kr, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1059,7 +1059,7 @@ TEST(BracketsLinuxJava, Linux)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=java";
+	char options[] = "style=kr, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1086,7 +1086,7 @@ TEST(BracketsLinuxJava, RunIn)
 		"        anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=java";
+	char options[] = "style=kr, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1127,7 +1127,7 @@ TEST(BracketsLinuxJava, EnumConstructor)
 		"        return global;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=linux, mode=java";
+	char options[] = "style=kr, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1180,7 +1180,7 @@ TEST_F(BracketsStroustrupJavaF, LongOption)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=stroustrup, mode=java";
+	char options[] = "style=stroustrup, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1203,7 +1203,7 @@ TEST_F(BracketsStroustrupJavaF, ShortOption)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "-u, mode=java";
+	char options[] = "-A4, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1227,7 +1227,7 @@ TEST_F(BracketsStroustrupJavaF, BreakClosing)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=stroustrup, break-closing-brackets, mode=java";
+	char options[] = "style=stroustrup, break-closing-brackets, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1254,7 +1254,7 @@ TEST(BracketsStroustrupJava, EmptyBrackets)
 		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=stroustrup, mode=java";
+	char options[] = "style=stroustrup, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1281,7 +1281,7 @@ TEST(BracketsStroustrupJava, EmptyBracketsWithComments)
 		"    public FooClass() // comment\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=stroustrup, mode=java";
+	char options[] = "style=stroustrup, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1322,7 +1322,7 @@ TEST(BracketsStroustrupJava, EnumConstructor)
 		"        return global;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=stroustrup, mode=java";
+	char options[] = "style=stroustrup, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1375,7 +1375,7 @@ TEST_F(BracketsRunInJavaF, LongOption)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=java";
+	char options[] = "style=horstmann, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1398,7 +1398,7 @@ TEST_F(BracketsRunInJavaF, ShortOption)
 		"        }\n"
 		"    }\n"
 		"}\n";
-	char options[] = "-g, mode=java";
+	char options[] = "-A9, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1424,7 +1424,7 @@ TEST(BracketsRunInJava, EmptyBrackets)
 		"    public FooClass()\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=java";
+	char options[] = "style=horstmann, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1450,7 +1450,7 @@ TEST(BracketsRunInJava, EmptyBracketsWithComments)
 		"    public FooClass() // comment\n"
 		"    {}\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=java";
+	char options[] = "style=horstmann, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1480,7 +1480,7 @@ TEST(BracketsRunInJava, Break)
 		"    {   anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=java";
+	char options[] = "style=horstmann, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1506,7 +1506,7 @@ TEST(BracketsRunInJava, Attach)
 		"    {   anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=java";
+	char options[] = "style=horstmann, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1533,7 +1533,7 @@ TEST(BracketsRunInJava, Linux)
 		"    {   anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=java";
+	char options[] = "style=horstmann, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1551,7 +1551,7 @@ TEST(BracketsRunInJava, RunIn)
 		"    {   anotherBar();\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=java";
+	char options[] = "style=horstmann, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1591,7 +1591,7 @@ TEST(BracketsRunInJava, EnumConstructor)
 		"        return global;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=java";
+	char options[] = "style=horstmann, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1915,7 +1915,7 @@ TEST(BracketsArrayJava, Break_BracketInParens)
 		"        t(transferable);\n"
 		"    }\n"
 		"}";
-	char options[] = "brackets=break, mode=java";
+	char options[] = "style=allman, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1933,7 +1933,7 @@ TEST(BracketsArrayJava, Break_OneLineBlock2)
 		"                         {io.toString()});\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break, mode=java";
+	char options[] = "style=allman, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1949,7 +1949,7 @@ TEST(BracketsArrayJava, Attach_BracketInParens)
 		"        t(transferable);\n"
 		"    }\n"
 		"}";
-	char options[] = "brackets=attach, mode=java";
+	char options[] = "style=java, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1965,7 +1965,7 @@ TEST(BracketsArrayJava, Attach_OneLineBlock2)
 		"                         {io.toString()});\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, mode=java";
+	char options[] = "style=java, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1981,7 +1981,7 @@ TEST(BracketsArrayJava, RunIn_BracketInParens)
 		"        t(transferable);\n"
 		"    }\n"
 		"}";
-	char options[] = "brackets=run-in, mode=java";
+	char options[] = "style=horstmann, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1997,7 +1997,7 @@ TEST(BracketsArrayJava, RunIn_OneLineBlock2)
 		"                         {io.toString()});\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in, mode=java";
+	char options[] = "style=horstmann, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

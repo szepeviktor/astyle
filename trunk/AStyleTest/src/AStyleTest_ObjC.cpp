@@ -602,7 +602,7 @@ TEST(ObjCAlignMethodColon, Define2)
 		"                 BZ2_crc32Table[(crcVar >> 24) ^  \\\n"
 		"                                ((UChar)cha)];    \\\n"
 		"    }";
-	char options[] = "align-method-colon, indent-preprocessor";
+	char options[] = "align-method-colon, indent-preproc-define";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

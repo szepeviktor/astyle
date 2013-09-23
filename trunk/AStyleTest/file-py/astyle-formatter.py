@@ -47,30 +47,31 @@ def convert_class_functions(line):
 	first_paren = line.find('(')
 	if first_paren == -1:
 		return []
-	if line.find("initContainer") != -1:
+	if "initContainer" in line:
 		line = line[first_paren + 1:]
 		first_comma = line.find(',')
 		if first_comma != -1:
 			line = line[:first_comma]
 		variable_name = line.strip()
 		return [variable_name]
-	if line.find("clearFormattedLineSplitPoints") != -1:
+	if "clearFormattedLineSplitPoints" in line:
 		return ['maxAndOr', 'maxAndOrPending',
 				'maxComma', 'maxCommaPending',
 				'maxParen', 'maxParenPending',
 				'maxSemi', 'maxSemiPending',
 				'maxWhiteSpace', 'maxWhiteSpacePending']
-	if (line.find("->") != -1
-	or line.find("buildLanguageVectors") != -1
-	or line.find("fixOptionVariableConflicts") != -1
-	or line.find("ASBeautifier::init") != -1
-	or line.find("getCaseIndent") != -1
-	or line.find("getEmptyLineFill") != -1
-	or line.find("getForceTabIndentation") != -1
-	or line.find("getIndentLength") != -1
-	or line.find("getIndentString") != -1
-	or line.find("getPreprocessorIndent") != -1
-	or line.find("getTabLength") != -1):
+	if ("->" in line
+	or "buildLanguageVectors" in line
+	or "fixOptionVariableConflicts" in line
+	or "ASBeautifier::init" in line
+	or "getCaseIndent" in line
+	or "getEmptyLineFill" in line
+	or "getForceTabIndentation" in line
+	or "getIndentLength" in line
+	or "getIndentString" in line
+	or "getPreprocessorIndent" in line		# depreciated in version 2.04
+	or "getPreprocDefineIndent" in line
+	or "getTabLength" in line):
 		return []
 	return ["unidentified function: " + line]
 
@@ -120,14 +121,14 @@ def get_constructor_variables(class_variables, formatter_path):
 		if line.startswith("//"):
 			continue
 		# start between the following lines
-		if line.find("ASFormatter::ASFormatter()") != -1:
+		if "ASFormatter::ASFormatter()" in line:
 			class_lines[0] = lines + 1
 			continue
 		if (class_lines[0]  == 0
 		or class_lines[0]  >= lines):
 			continue
 		# find ending bracket
-		if line.find('}') != -1:
+		if '}' in line:
 			class_lines[1] = lines
 			break
 		# get the variable name
@@ -162,27 +163,27 @@ def get_header_variables(header_variables, header_path):
 			continue
 
 		# start between the following lines
-		if line.find("class ASFormatter") != -1:
+		if "class ASFormatter" in line:
 			header_lines[0] = lines + 1
 			continue
 		if (header_lines[0]  == 0
 		or header_lines[0]  >= lines):
 			continue
 		# find ending bracket - should find following comment instead
-		if line.find('}') != -1:
+		if '}' in line:
 			header_lines[1] = lines
 			break
 		# find ending comment
-		if line.find("// inline functions") != -1:
+		if "// inline functions" in line:
 			header_lines[1] = lines
 			break
-		if (line.find("public:") != -1
-		or line.find("private:") != -1
-		or line.find("protected:") != -1):
+		if ("public:" in line
+		or "private:" in line
+		or "protected:" in line):
 			continue
 		# bypass functions
-		if (line.find('(') != -1
-		or line.find(')') != -1):
+		if ('(' in line
+		or ')' in line):
 			continue
 		# get the variable name
 		semi_colon = line.find(';')
@@ -220,18 +221,18 @@ def get_initializer_variables(class_variables, formatter_path):
 		if line[:2] == "//":
 			continue
 		# start between the following lines
-		if line.find("void ASFormatter::init(ASSourceIterator") != -1:
+		if "void ASFormatter::init(ASSourceIterator" in line:
 			class_lines_init[0] = lines_init + 1
 			continue
 		if (class_lines_init[0]  == 0
 		or class_lines_init[0]  >= lines_init):
 			continue
 		# find ending bracket
-		if line.find('}') != -1:
+		if '}' in line:
 			class_lines_init[1] = lines_init
 			break
 		# get the variable name
-		if line.find('(') != -1:
+		if '(' in line:
 			variables = convert_class_functions(line)
 			if len(variables) == 0:
 				continue

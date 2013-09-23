@@ -52,43 +52,43 @@ def convert_class_functions(line):
 	first_paren = line.find('(')
 	if first_paren == -1:
 		return line
-	if line.find("initContainer") != -1:
+	if "initContainer" in line:
 		line = line[first_paren + 1:]
 		first_comma = line.find(',')
 		if first_comma != -1:
 			line = line[:first_comma]
 		line = line.strip()
-	elif line.find("->") != -1:
+	elif "->" in line:
 		line = ''
-	elif line.find("ASBase::init") != -1:
+	elif "ASBase::init" in line:
 		line = ''
-	elif line.find("initStatic") != -1:
+	elif "initStatic" in line:
 		line = ''
-	elif line.find("setSpaceIndentation") != -1:
+	elif "setSpaceIndentation" in line:
 		line = "indentLength"
-	elif line.find("setMaxInStatementIndentLength") != -1:
+	elif "setMaxInStatementIndentLength" in line:
 		line = "maxInStatementIndent"
-	elif line.find("setClassIndent") != -1:
+	elif "setClassIndent" in line:
 		line = "classIndent"
-	elif line.find("setSwitchIndent") != -1:
+	elif "setSwitchIndent" in line:
 		line = "switchIndent"
-	elif line.find("setCaseIndent") != -1:
+	elif "setCaseIndent" in line:
 		line = "caseIndent"
-	elif line.find("setBlockIndent") != -1:
+	elif "setBlockIndent" in line:
 		line = "blockIndent"
-	elif line.find("setBracketIndent") != -1:
+	elif "setBracketIndent" in line:
 		line = "bracketIndent"
-	elif line.find("setNamespaceIndent") != -1:
+	elif "setNamespaceIndent" in line:
 		line = "namespaceIndent"
-	elif line.find("setLabelIndent") != -1:
+	elif "setLabelIndent" in line:
 		line = "labelIndent"
-	elif line.find("setEmptyLineFill") != -1:
+	elif "setEmptyLineFill" in line:
 		line = "emptyLineFill"
-	elif line.find("setCStyle") != -1:
+	elif "setCStyle" in line:
 		line = "fileType"
-	elif line.find("setPreprocessorIndent") != -1:
+	elif "setPreprocessorIndent" in line:
 		line = "preprocessorIndent"
-	elif line.find("setMinConditionalIndentOption") != -1:
+	elif "setMinConditionalIndentOption" in line:
 		line = "minConditionalOption"
 	else:
 		line = "unidentified function: " + line
@@ -177,7 +177,7 @@ def get_header_variables(header_variables, resource_path):
 			continue
 
 		# find the header write commands
-		if line.find("headers->push_back") == -1:
+		if not "headers->push_back" in line:
 			continue
 		# get the variable name
 		start = line.find("AS_")
@@ -211,7 +211,7 @@ def get_np_header_variables(np_header_variables, resource_path):
 			continue
 
 		# find the non-paren header write commands
-		if line.find("nonParenHeaders->push_back") == -1:
+		if not "nonParenHeaders->push_back" in line:
 			continue
 		# get the variable name
 		start = line.find("AS_")
@@ -245,7 +245,7 @@ def get_pre_block_variables(pre_block_variables, resource_path):
 			continue
 
 		# find the pre-block statement write commands
-		if line.find("preBlockStatements->push_back") == -1:
+		if not "preBlockStatements->push_back" in line:
 			continue
 		# get the variable name
 		start = line.find("AS_")
@@ -279,7 +279,7 @@ def get_pre_command_variables(pre_command_variables, resource_path):
 			continue
 
 		# find the pre-command header write commands
-		if line.find("preCommandHeaders->push_back") == -1:
+		if not "preCommandHeaders->push_back" in line:
 			continue
 		# get the variable name
 		start = line.find("AS_")

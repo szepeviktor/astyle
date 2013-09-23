@@ -87,7 +87,7 @@ def get_beautifier_variables(beautifier_variables, beautifier_path):
 			continue
 		# start here for 20 lines
 		if (beautifier_lines[0] == 0
-		and line.find("activeBeautifierStack->back()->") != -1):
+		and line.startswith("activeBeautifierStack->back()->")):
 			beautifier_lines[0] = lines
 		if beautifier_lines[0] == 0:
 			continue
@@ -124,12 +124,12 @@ def get_header_variables(header_variables, header_path):
 		if len(line) == 0:
 			continue
 		# start between the following lines
-		if line.find("// variables set by ASFormatter") != -1:
+		if "// variables set by ASFormatter" in line:
 			header_lines[0] = lines
 			continue
 		if header_lines[0] == 0:
 			continue
-		if line.find("private:") != -1:
+		if "private:" in line:
 			header_lines[1] = lines -1
 			break
 		if line.startswith("//"):

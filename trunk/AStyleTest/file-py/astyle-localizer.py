@@ -126,15 +126,15 @@ def get_test_strings(test_strings, test_path):
 		if test_lines[0]  == 0:
 			continue
 		# count brackets
-		if line.find('{') != -1:
+		if '{' in line:
 			test_brackets += 1
-		if line.find('}') != -1:
+		if '}' in line:
 			test_brackets -= 1
 		if  test_brackets == 0:
 			test_lines[1] = lines
 			break
 		# extract the string
-		if line.find('m_ascii.push_back("') == -1:
+		if not 'm_ascii.push_back("' in line:
 			continue
 		start = line.find('("')
 		if start == -1:

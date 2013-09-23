@@ -16,73 +16,75 @@ import subprocess
 # global variables ------------------------------------------------------------
 
 __expected_version = "1.60"
+__src_dir = libastyle.get_astyle_directory() + "/src/"
+__py_dir = libastyle.get_astyletest_directory() + "/file-py/"
+__suppression_path = __py_dir + "cppcheck-suppress"
 
 # -----------------------------------------------------------------------------
 
 def process_files():
 	"""Main processing function.
 	"""
-	suppressionFileName = "cppcheck-suppress"
-	generate_suppression_file(suppressionFileName)
-	run_cppcheck(suppressionFileName)
+	generate_suppression_file()
+	run_cppcheck()
 
 # -----------------------------------------------------------------------------
 
-def generate_suppression_file(suppressionFileName):
+def generate_suppression_file():
 	""" Generate the suppression file.
 	"""
-	outfile = open(suppressionFileName, 'w')
+	outfile = open(__suppression_path, 'w')
 
 	# uninitMemberVar
-	uninitMemberVarList = ["\n// uninitMemberVar\n"]
-	process_uninitMemberVar(uninitMemberVarList)
-	outfile.writelines(uninitMemberVarList)
+	uninit_member_var_list = ["\n// uninitMemberVar\n"]
+	process_uninit_member_var(uninit_member_var_list)
+	outfile.writelines(uninit_member_var_list)
 
 	# ASBeautifier
-	beautifierList = ["\n// ASBeautifier.cpp\n"]
-	process_beautifier(beautifierList)
-	outfile.writelines(beautifierList)
+	beautifier_list = ["\n// ASBeautifier.cpp\n"]
+	process_beautifier(beautifier_list)
+	outfile.writelines(beautifier_list)
 
 	# ASEnhancer
-	enhancerList = ["\n// ASEnhancer.cpp\n"]
-	process_enhancer(enhancerList)
-	outfile.writelines(enhancerList)
+	enhancer_list = ["\n// ASEnhancer.cpp\n"]
+	process_enhancer(enhancer_list)
+	outfile.writelines(enhancer_list)
 
 	# ASFormatter
-	formatterList = ["\n// ASFormatter.cpp\n"]
-	process_formatter(formatterList)
-	outfile.writelines(formatterList)
+	formatter_list = ["\n// ASFormatter.cpp\n"]
+	process_formatter(formatter_list)
+	outfile.writelines(formatter_list)
 
 	# ASLocalizer
-	localizerList = ["\n// ASLocalizer.cpp\n"]
-	process_localizer(localizerList)
-	outfile.writelines(localizerList)
+	localizer_list = ["\n// ASLocalizer.cpp\n"]
+	process_localizer(localizer_list)
+	outfile.writelines(localizer_list)
 
 	# ASResource
-	resourceList = ["\n// ASResource.cpp\n"]
-	process_resource(resourceList)
-	outfile.writelines(resourceList)
+	resource_list = ["\n// ASResource.cpp\n"]
+	process_resource(resource_list)
+	outfile.writelines(resource_list)
 
 	# astyle_main
-	astyleMainList = ["\n// astyle_main.cpp\n"]
-	process_astyle_main(astyleMainList)
-	outfile.writelines(astyleMainList)
+	astyle_main_list = ["\n// astyle_main.cpp\n"]
+	process_astyle_main(astyle_main_list)
+	outfile.writelines(astyle_main_list)
 
 	# astyle_main header
-	astyleMainHeaderList = ["\n// astyle_main.h\n"]
-	process_astyle_main_header(astyleMainHeaderList)
-	outfile.writelines(astyleMainHeaderList)
+	astyle_main_header_list = ["\n// astyle_main.h\n"]
+	process_astyle_main_header(astyle_main_header_list)
+	outfile.writelines(astyle_main_header_list)
 
 	outfile.close()
 
 # -----------------------------------------------------------------------------
 
-def process_astyle_main(astyleMainList):
+def process_astyle_main(astyle_main_list):
 	""" Generate suppressions for astyle_main.
 	"""
 	lines = 0				# current input line number
 	eStatesProcessed = 0		# only want the fifth'eState'
-	src_path = "../../AStyle/src/astyle_main.cpp"
+	src_path = __src_dir + "astyle_main.cpp"
 	file_in = open(src_path, 'r')
 	# get exceptions
 	for line_in in file_in:
@@ -95,42 +97,42 @@ def process_astyle_main(astyleMainList):
 		if line.startswith("eState = eStart"):
 			eStatesProcessed += 1
 			if eStatesProcessed == 5:
-				astyleMainList.append("unreadVariable:" + src_path + ":" + str(lines) + "\t\t\t// eState\n")
+				astyle_main_list.append("unreadVariable:" + src_path + ":" + str(lines) + "\t\t\t// eState\n")
 		# unusedFunction warnings
-		if line.find("ASConsole::getFilesFormatted") != -1:
-			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getFilesFormatted\n")
-		if line.find("ASConsole::getIgnoreExcludeErrors") != -1:
-			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIgnoreExcludeErrors\n")
-		if line.find("ASConsole::getIgnoreExcludeErrorsDisplay") != -1:
-			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIgnoreExcludeErrorsDisplay\n")
-		if line.find("ASConsole::getIsFormattedOnly") != -1:
-			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIsFormattedOnly\n")
-		if line.find("ASConsole::getIsQuiet") != -1:
-			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIsQuiet\n")
-		if line.find("ASConsole::getIsRecursive") != -1:
-			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIsRecursive\n")
-		if line.find("ASConsole::getIsVerbose") != -1:
-			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIsVerbose\n")
-		if line.find("ASConsole::getLineEndsMixed") != -1:
-			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getLineEndsMixed\n")
-		if line.find("ASConsole::getNoBackup") != -1:
-			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getNoBackup\n")
-		if line.find("ASConsole::getPreserveDate") != -1:
-			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getPreserveDate\n")
-		if line.find("Java_AStyleInterface_AStyleGetVersion") != -1:
-			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// Java_AStyleInterface_AStyleGetVersion\n")
-		if line.find("Java_AStyleInterface_AStyleMain") != -1:
-			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// Java_AStyleInterface_AStyleMain\n")
-		if line.find("AStyleMainUtf16") != -1:
-			astyleMainList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// Java_AStyleInterface_AStyleMain\n")
+		if "ASConsole::getFilesFormatted" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getFilesFormatted\n")
+		if "ASConsole::getIgnoreExcludeErrors" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIgnoreExcludeErrors\n")
+		if "ASConsole::getIgnoreExcludeErrorsDisplay" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIgnoreExcludeErrorsDisplay\n")
+		if "ASConsole::getIsFormattedOnly" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIsFormattedOnly\n")
+		if "ASConsole::getIsQuiet" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIsQuiet\n")
+		if "ASConsole::getIsRecursive" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIsRecursive\n")
+		if "ASConsole::getIsVerbose" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIsVerbose\n")
+		if "ASConsole::getLineEndsMixed" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getLineEndsMixed\n")
+		if "ASConsole::getNoBackup" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getNoBackup\n")
+		if "ASConsole::getPreserveDate" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getPreserveDate\n")
+		if "Java_AStyleInterface_AStyleGetVersion" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// Java_AStyleInterface_AStyleGetVersion\n")
+		if "Java_AStyleInterface_AStyleMain" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// Java_AStyleInterface_AStyleMain\n")
+		if "AStyleMainUtf16" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// Java_AStyleInterface_AStyleMain\n")
 
 # -----------------------------------------------------------------------------
 
-def process_astyle_main_header(astyleMainHeaderList):
+def process_astyle_main_header(astyle_main_header_list):
 	""" Generate suppressions for astyle_main header.
 	"""
 	lines = 0				# current input line number
-	src_path = "../../AStyle/src/astyle_main.h"
+	src_path = __src_dir + "astyle_main.h"
 	file_in = open(src_path, 'r')
 	# get exceptions
 	for line_in in file_in:
@@ -141,16 +143,16 @@ def process_astyle_main_header(astyleMainHeaderList):
 		if line.startswith("//"):
 			continue
 		if line.startswith('origSuffix = ".orig"'):
-			astyleMainHeaderList.append("useInitializationList:" + src_path + ":" +  str(lines) + "\t\t// origSuffix\n")
+			astyle_main_header_list.append("useInitializationList:" + src_path + ":" +  str(lines) + "\t\t// origSuffix\n")
 
 # -----------------------------------------------------------------------------
 
-def process_beautifier(beautifierList):
+def process_beautifier(beautifier_list):
 	""" Generate suppressions for ASBeautifier.
 	"""
 	lines = 0				# current input line number
-	charsProcessed = 0		# only want the first 'char ch'
-	src_path = "../../AStyle/src/ASBeautifier.cpp"
+	charsProcessed = 0		# only want certain 'char ch'
+	src_path = __src_dir + "ASBeautifier.cpp"
 	file_in = open(src_path, 'r')
 	# get exceptions
 	for line_in in file_in:
@@ -161,42 +163,38 @@ def process_beautifier(beautifierList):
 		if line.startswith("//"):
 			continue
 		if line.startswith("headers = other.headers"):
-			beautifierList.append("copyCtorPointerCopying:" + src_path + ":" +  str(lines) + "\t// headers\n")
+			beautifier_list.append("copyCtorPointerCopying:" + src_path + ":" +  str(lines) + "\t// headers\n")
 		if line.startswith("nonParenHeaders = other.nonParenHeaders"):
-			beautifierList.append("copyCtorPointerCopying:" + src_path + ":" +  str(lines) + "\t// nonParenHeaders\n")
+			beautifier_list.append("copyCtorPointerCopying:" + src_path + ":" +  str(lines) + "\t// nonParenHeaders\n")
 		if line.startswith("assignmentOperators = other.assignmentOperators"):
-			beautifierList.append("copyCtorPointerCopying:" + src_path + ":" +  str(lines) + "\t// assignmentOperators\n")
+			beautifier_list.append("copyCtorPointerCopying:" + src_path + ":" +  str(lines) + "\t// assignmentOperators\n")
 		if line.startswith("nonAssignmentOperators = other.nonAssignmentOperators"):
-			beautifierList.append("copyCtorPointerCopying:" + src_path + ":" +  str(lines) + "\t// nonAssignmentOperators\n")
+			beautifier_list.append("copyCtorPointerCopying:" + src_path + ":" +  str(lines) + "\t// nonAssignmentOperators\n")
 		if line.startswith("preBlockStatements = other.preBlockStatements"):
-			beautifierList.append("copyCtorPointerCopying:" + src_path + ":" +  str(lines) + "\t// preBlockStatements\n")
+			beautifier_list.append("copyCtorPointerCopying:" + src_path + ":" +  str(lines) + "\t// preBlockStatements\n")
 		if line.startswith("preCommandHeaders = other.preCommandHeaders"):
-			beautifierList.append("copyCtorPointerCopying:" + src_path + ":" +  str(lines) + "\t// preCommandHeaders\n")
+			beautifier_list.append("copyCtorPointerCopying:" + src_path + ":" +  str(lines) + "\t// preCommandHeaders\n")
 		if line.startswith("indentableHeaders = other.indentableHeaders"):
-			beautifierList.append("copyCtorPointerCopying:" + src_path + ":" +  str(lines) + "\t// indentableHeaders\n")
-		if line.startswith("lineStartsInComment = isInComment"):
-			beautifierList.append("redundantAssignment:" + src_path + ":" +  str(lines) + "\t\t// lineStartsInComment\n")
+			beautifier_list.append("copyCtorPointerCopying:" + src_path + ":" +  str(lines) + "\t// indentableHeaders\n")
 		if line.startswith("char ch"):
 			charsProcessed += 1
-			if charsProcessed == 1:
-				beautifierList.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t// char ch\n")
-		if line.startswith("char prevCh"):
-			beautifierList.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t// char prevCh\n")
+			if charsProcessed == 1 or charsProcessed == 3 :
+				beautifier_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t// char ch\n")
 		if line.startswith("char tempCh"):
-			beautifierList.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t// char tempCh\n")
+			beautifier_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t// char tempCh\n")
 		# unusedFunction warnings
-		if line.find("ASBeautifier::getBeautifierFileType") != -1:
-			beautifierList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getBeautifierFileType\n")
+		if "ASBeautifier::getBeautifierFileType" in line:
+			beautifier_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getBeautifierFileType\n")
 	file_in.close()
 
 # -----------------------------------------------------------------------------
 
-def process_enhancer(enhancerList):
+def process_enhancer(enhancer_list):
 	""" Generate suppressions for ASEnhancer.
 	"""
 	lines = 0				# current input line number
 	charsProcessed = 0		# only want the second'char ch'
-	src_path = "../../AStyle/src/ASEnhancer.cpp"
+	src_path = __src_dir + "ASEnhancer.cpp"
 	file_in = open(src_path, 'r')
 	# get exceptions
 	for line_in in file_in:
@@ -208,17 +206,17 @@ def process_enhancer(enhancerList):
 			continue
 		if line.startswith("char ch"):
 			charsProcessed += 1
-			if charsProcessed == 2:
-				enhancerList.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t\t// char ch\n")
+			if charsProcessed == 1:
+				enhancer_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t\t// char ch\n")
 
 # -----------------------------------------------------------------------------
 
-def process_formatter(formatterList):
+def process_formatter(formatter_list):
 	""" Generate suppressions for ASFormatter.
 	"""
 	lines = 0				# current input line number
 	charsProcessed = 0		# only want the second'char ch'
-	src_path = "../../AStyle/src/ASFormatter.cpp"
+	src_path = __src_dir + "ASFormatter.cpp"
 	file_in = open(src_path, 'r')
 	# get exceptions
 	for line_in in file_in:
@@ -231,32 +229,32 @@ def process_formatter(formatterList):
 		if line.startswith("char ch"):
 			charsProcessed += 1
 			if charsProcessed == 2:
-				formatterList.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t\t// char ch\n")
+				formatter_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t\t// char ch\n")
 		# assertWithSideEffect
 		if (line.startswith("assert") 
-		and line.find("adjustChecksumIn")  != -1):			# 2 lines
-			formatterList.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
-		if (line.startswith("assert") 
-		and line.find("computeChecksumOut")  != -1):	
-			formatterList.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
-		if (line.startswith("assert") 
-		and line.find("computeChecksumIn")  != -1):		# 2 lines	
-			formatterList.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
+		and "adjustChecksumIn" in line):			# 2 lines
+			formatter_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
+		#~ if (line.startswith("assert") 
+		#~ and "computeChecksumOut" in line:	
+			#~ formatter_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
+		#~ if (line.startswith("assert") 
+		#~ and "computeChecksumIn" in line:		# 2 lines	
+			#~ formatter_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
 		# unusedFunction warnings
-		if line.find("ASFormatter::getChecksumIn") != -1:
-			formatterList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getChecksumIn\n")
-		if line.find("ASFormatter::getChecksumOut") != -1:
-			formatterList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getChecksumOut\n")
-		if line.find("ASFormatter::getFormatterFileType") != -1:
-			formatterList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getFormatterFileType\n")
+		if "ASFormatter::getChecksumIn" in line:
+			formatter_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getChecksumIn\n")
+		if "ASFormatter::getChecksumOut" in line:
+			formatter_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getChecksumOut\n")
+		if "ASFormatter::getFormatterFileType" in line:
+			formatter_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getFormatterFileType\n")
 
 # -----------------------------------------------------------------------------
 
-def process_localizer(localizerList):
+def process_localizer(localizer_list):
 	""" Generate suppressions for ASLocalizer.
 	"""
 	lines = 0				# current input line number
-	src_path = "../../AStyle/src/ASLocalizer.cpp"
+	src_path = __src_dir + "ASLocalizer.cpp"
 	file_in = codecs.open(src_path, "rb", "utf-8")
 	# get exceptions
 	for line_in in file_in:
@@ -267,25 +265,25 @@ def process_localizer(localizerList):
 		if line.startswith("//"):
 			continue
 		if line.startswith('m_localeName = "UNKNOWN"'):
-			localizerList.append("useInitializationList:" + src_path + ":" +  str(lines) + "\t\t// m_localeName\n")
+			localizer_list.append("useInitializationList:" + src_path + ":" +  str(lines) + "\t\t// m_localeName\n")
 		if line.startswith('m_langID = "en"'):
-			localizerList.append("useInitializationList:" + src_path + ":" +  str(lines) + "\t\t// m_langID\n")
+			localizer_list.append("useInitializationList:" + src_path + ":" +  str(lines) + "\t\t// m_langID\n")
 		# unusedFunction warnings
-		if line.find("ASLocalizer::getTranslationClass") != -1:
-			localizerList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getTranslationClass\n")
-		if line.find("Translation::getTranslationVectorSize") != -1:
-			localizerList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getTranslationVectorSize\n")
-		if line.find("Translation::getWideTranslation") != -1:
-			localizerList.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getWideTranslation\n")
+		if "ASLocalizer::getTranslationClass" in line:
+			localizer_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getTranslationClass\n")
+		if "Translation::getTranslationVectorSize" in line:
+			localizer_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getTranslationVectorSize\n")
+		if "Translation::getWideTranslation" in line:
+			localizer_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getWideTranslation\n")
 
 # -----------------------------------------------------------------------------
 
-def process_resource(resourceList):
+def process_resource(resource_list):
 	""" Generate suppressions for ASResource.
 	"""
 	lines = 0				# current input line number
 	charsProcessed = 0		# only want the first 'char ch'
-	src_path = "../../AStyle/src/ASResource.cpp"
+	src_path = __src_dir + "ASResource.cpp"
 	file_in = open(src_path, 'r')
 	# get exceptions
 	for line_in in file_in:
@@ -295,24 +293,24 @@ def process_resource(resourceList):
 			continue
 		if line.startswith("//"):
 			continue
-		if (line.startswith("assert") 
-		and line.find("isCharPotentialHeader")  != -1):		# 2 lines
-			resourceList.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
+		#~ if (line.startswith("assert") 
+		#~ and "isCharPotentialHeader" in line:		# 2 lines
+			#~ resource_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
 			
 # -----------------------------------------------------------------------------
 
-def process_uninitMemberVar(uninitMemberVarList):
+def process_uninit_member_var(uninit_member_var_list):
 	""" Generate suppressions for uninitMemberVar.
 	"""
-	uninitMemberVarList.append("// These are actually initialized in the astyle 'init' functions.\n")
-	uninitMemberVarList.append("// They are verified by other Python scripts.\n")
-	uninitMemberVarList.append("uninitMemberVar:../../AStyle/src/ASBeautifier.cpp\n")
-	uninitMemberVarList.append("uninitMemberVar:../../AStyle/src/ASEnhancer.cpp\n")
-	uninitMemberVarList.append("uninitMemberVar:../../AStyle/src/ASFormatter.cpp\n")
+	uninit_member_var_list.append("// These are actually initialized in the astyle 'init' functions.\n")
+	uninit_member_var_list.append("// They are verified by other Python scripts.\n")
+	uninit_member_var_list.append("uninitMemberVar:" + __src_dir + "ASBeautifier.cpp\n")
+	uninit_member_var_list.append("uninitMemberVar:" + __src_dir + "ASEnhancer.cpp\n")
+	uninit_member_var_list.append("uninitMemberVar:" + __src_dir + "ASFormatter.cpp\n")
 
 # -----------------------------------------------------------------------------
 
-def run_cppcheck(suppressionFileName):
+def run_cppcheck():
 	"""Run the cppcheck program.
 	   NOTE: The window stays open only if run from the console.
 	   --enable=all       Enable all checks
@@ -337,8 +335,8 @@ def run_cppcheck(suppressionFileName):
 	cppcheck.append("--force")
 	cppcheck.append("--verbose")
 	cppcheck.append("--xml")
-	cppcheck.append("--suppressions-list=" + suppressionFileName)
-	cppcheck.append("..\..\AStyle\src")
+	cppcheck.append("--suppressions-list=" +  __suppression_path)
+	cppcheck.append(__src_dir)
 	# shell=True keeps the console window open, but will not display if run from an editor
 	# subprocess.check_output() doesn't work from an editor
 	try:
