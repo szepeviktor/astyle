@@ -84,8 +84,7 @@
         Syntax</h4>
 
     <div class="hl">
-        <pre class="hl">
-<span class="hl kwa">def</span> <span class="hl kwd">format_source_code</span><span class="hl opt">(</span>libc<span class="hl opt">,</span> text_in<span class="hl opt">,</span> options<span class="hl opt">):</span>
+        <pre class="hl"><span class="hl kwa">def</span> <span class="hl kwd">format_source_code</span><span class="hl opt">(</span>libc<span class="hl opt">,</span> text_in<span class="hl opt">,</span> options<span class="hl opt">):</span>
     <span class="hl str">&quot;&quot;&quot;Format the text_in by calling the AStyle shared object (DLL).</span>
 <span class="hl str">       The return value is a byte or Unicode string.</span>
 <span class="hl str">       If an error occurs, the return value is a NoneType object.</span>
@@ -347,7 +346,8 @@ __is_unciode <span class="hl opt">=</span> <span class="hl kwa">False</span>
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
 <span class="hl kwa">def</span> <span class="hl kwd">process_files</span><span class="hl opt">():</span>
-    <span class="hl str">&quot;&quot;&quot;Main processing function.&quot;&quot;&quot;</span>
+    <span class="hl str">&quot;&quot;&quot;Main processing function.</span>
+    <span class="hl str">&quot;&quot;&quot;</span>
     files <span class="hl opt">= [</span> <span class="hl str">&quot;AStyleDev/test-data/ASBeautifier.cpp&quot;</span><span class="hl opt">,</span>
               <span class="hl str">&quot;AStyleDev/test-data/ASFormatter.cpp&quot;</span><span class="hl opt">,</span>
               <span class="hl str">&quot;AStyleDev/test-data/astyle.h&quot;</span> <span class="hl opt">]</span>
@@ -444,7 +444,7 @@ __is_unciode <span class="hl opt">=</span> <span class="hl kwa">False</span>
 <span class="hl kwa">def</span> <span class="hl kwd">get_source_code</span><span class="hl opt">(</span>file_path<span class="hl opt">):</span>
     <span class="hl str">&quot;&quot;&quot;Get the source code (unicode in Version 3).</span>
 <span class="hl str">       Opening the file as non-binary will read it as a unicode string.</span>
-<span class="hl str">       An exception is handled in case the file cannot be decoding using</span>
+<span class="hl str">       An exception is handled in case the file cannot be decoded using</span>
 <span class="hl str">       the system default codec.</span>
 <span class="hl str">       The return value is a unicode string.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
@@ -486,7 +486,7 @@ __is_unciode <span class="hl opt">=</span> <span class="hl kwa">False</span>
 
 <span class="hl kwa">def</span> <span class="hl kwd">initialize_platform</span><span class="hl opt">():</span>
     <span class="hl str">&quot;&quot;&quot;Check the python_implementation and the python_version</span>
-<span class="hl str">       and change the global variables is_iron_python and is_unciode</span>
+<span class="hl str">       and change the global variables __is_iron_python and __is_unciode</span>
 <span class="hl str">       if necessary.</span>
 <span class="hl str">       PyPy does not currently support Unicode.</span>
 <span class="hl str">       Jython will get errors and not run.</span>

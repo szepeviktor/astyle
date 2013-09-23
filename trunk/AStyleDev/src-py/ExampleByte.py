@@ -25,7 +25,8 @@ __is_unicode = False
 # -----------------------------------------------------------------------------
 
 def process_files():
-    """Main processing function."""
+    """Main processing function.
+    """
     files = [ "AStyleDev/test-data/ASBeautifier.cpp",
               "AStyleDev/test-data/ASFormatter.cpp",
               "AStyleDev/test-data/astyle.h" ]

@@ -25,7 +25,8 @@ __is_unciode = False
 # -----------------------------------------------------------------------------
 
 def process_files():
-    """Main processing function."""
+    """Main processing function.
+    """
     files = [ "AStyleDev/test-data/ASBeautifier.cpp",
               "AStyleDev/test-data/ASFormatter.cpp",
               "AStyleDev/test-data/astyle.h" ]
@@ -122,7 +123,7 @@ def get_project_directory(file_path):
 def get_source_code(file_path):
     """Get the source code (unicode in Version 3).
        Opening the file as non-binary will read it as a unicode string.
-       An exception is handled in case the file cannot be decoding using
+       An exception is handled in case the file cannot be decoded using
        the system default codec.
        The return value is a unicode string.
     """
@@ -164,7 +165,7 @@ def initialize_library():
 
 def initialize_platform():
     """Check the python_implementation and the python_version
-       and change the global variables is_iron_python and is_unciode
+       and change the global variables __is_iron_python and __is_unciode
        if necessary.
        PyPy does not currently support Unicode.
        Jython will get errors and not run.
