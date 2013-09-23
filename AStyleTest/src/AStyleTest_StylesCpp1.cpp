@@ -55,7 +55,6 @@ struct StyleDefaultCppF : public ::testing::Test
 	}
 };
 
-
 TEST_F(StyleDefaultCppF, LongOption)
 {
 	// test default style option
@@ -782,41 +781,6 @@ TEST_F(StyleAllmanCppF, ShortOption)
 	delete [] textOut;
 }
 
-TEST_F(StyleAllmanCppF, Brackets)
-{
-	// test allman style option with brackets option
-	// the brackets should NOT change
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"    if (isFoo)\n"
-		"    {\n"
-		"        bar();\n"
-		"    }\n"
-		"    else\n"
-		"        anotherBar();\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "style=allman, brackets=attach";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 TEST(StyleAllmanCpp, SpaceIndent)
 {
 	// test allman style with space indent
@@ -1451,36 +1415,6 @@ TEST_F(StyleJavaCppF, ShortOption)
 	delete [] textOut;
 }
 
-TEST_F(StyleJavaCppF, Brackets)
-{
-	// test java style option with brackets option
-	// the brackets should NOT change
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"class FooClass {\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo) {\n"
-		"    if (isFoo) {\n"
-		"        bar();\n"
-		"    } else\n"
-		"        anotherBar();\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "style=java, brackets=break";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 TEST(StyleJavaCpp, SpaceIndent)
 {
 	// test java style option with space indent
@@ -2087,39 +2021,6 @@ TEST_F(StyleKRCppF, Short)
 	delete [] textOut;
 }
 
-TEST_F(StyleKRCppF, Brackets)
-{
-	// test k&r style option with brackets option
-	// the brackets should NOT change
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"    if (isFoo) {\n"
-		"        bar();\n"
-		"    } else\n"
-		"        anotherBar();\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "style=kr, brackets=attach";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 TEST(StyleKRCpp, SpaceIndent)
 {
 	// test k&r style option with space indent
@@ -2705,37 +2606,6 @@ TEST_F(StyleStroustrupCppF, ShortOption)
 	delete [] textOut;
 }
 
-TEST_F(StyleStroustrupCppF, Brackets)
-{
-	// test stroustrup style option with brackets option
-	// the brackets should NOT change
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"class FooClass {\n"
-		"private:\n"
-		"     bool var1;\n"
-		"     void func1();\n"
-		"protected:\n"
-		"     bool var2;\n"
-		"     void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"     if (isFoo) {\n"
-		"          bar();\n"
-		"     } else\n"
-		"          anotherBar();\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "style=stroustrup, brackets=attach, indent=spaces=5";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 TEST(StyleStroustrupCpp, SpaceIndent)
 {
 	// test stroustrup style option with space indent
@@ -3294,41 +3164,6 @@ TEST_F(StyleWhitesmithCppF, ShortOption)
 		"\n"
 		"}   // end FooName\n";
 	char options[] = "-A5";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(StyleWhitesmithCppF, AttachBrackets)
-{
-	// test whitesmith style with attach brackets option
-	// the brackets should NOT change
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"    {\n"
-		"    private:\n"
-		"        bool var1;\n"
-		"        void func1();\n"
-		"    protected:\n"
-		"        bool var2;\n"
-		"        void func2();\n"
-		"    };\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"    {\n"
-		"    if (isFoo)\n"
-		"        {\n"
-		"        bar();\n"
-		"        }\n"
-		"    else\n"
-		"        anotherBar();\n"
-		"    }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "style=whitesmith, brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -4050,37 +3885,6 @@ TEST_F(StyleBannerCppF, ShortOption)
 	delete [] textOut;
 }
 
-TEST_F(StyleBannerCppF, BreakBrackets)
-{
-	// test banner style with break brackets option
-	// the brackets should NOT change
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"class FooClass {\n"
-		"    private:\n"
-		"        bool var1;\n"
-		"        void func1();\n"
-		"    protected:\n"
-		"        bool var2;\n"
-		"        void func2();\n"
-		"    };\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo) {\n"
-		"    if (isFoo) {\n"
-		"        bar();\n"
-		"        }\n"
-		"    else\n"
-		"        anotherBar();\n"
-		"    }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "style=banner, brackets=break";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 TEST(StyleBannerCpp, SpaceIndent)
 {
 	// test banner style option with space indent
@@ -4701,41 +4505,6 @@ TEST_F(StyleGnuCppF, ShortOption)
 		"\n"
 		"}   // end FooName\n";
 	char options[] = "-A7, indent=spaces=2";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(StyleGnuCppF, Brackets)
-{
-	// test gnu style option with brackets option
-	// the brackets should NOT change
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"  bool var1;\n"
-		"  void func1();\n"
-		"protected:\n"
-		"  bool var2;\n"
-		"  void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"  if (isFoo)\n"
-		"    {\n"
-		"      bar();\n"
-		"    }\n"
-		"  else\n"
-		"    anotherBar();\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "style=gnu, brackets=attach, indent=spaces=2";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

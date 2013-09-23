@@ -24,33 +24,38 @@ import time
 # global variables ------------------------------------------------------------
 
 # select one of the following from libastyle
-#   CODEBLOCKS
-#   DRJAVA          # Cannot compile
-#   GWORKSPACE      # Compile on Linux only
-#   JEDIT
-#   SCITE
-#   SHARPDEVELOP    # Compile on Windows only
-#   TESTPROJECT
-__project = libastyle.CODEBLOCKS
+# CODEBLOCKS
+# DRJAVA            # Java - Cannot compile
+# GWORKSPACE        # Objective-C
+# JEDIT             # Java
+# SCITE
+# SHARPDEVELOP      # C# - Compile on Windows only
+# SHARPMAIN
+# TESTPROJECT
+__project = libastyle.SHARPMAIN
 
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a bracket style or any other option
 #__options = "-tapO"
-__options = libastyle.OPT3
-__options_x = "-xC50"
+__options = libastyle.OPT1
+__options_x = ""
 
 # executable for test
 __astyleexe = "astyle"
 
 # extract all files option, use False for speed, use True to compile
-#__all_files_option = True
-__all_files_option = False
+__all_files_option = True
+#__all_files_option = False
 
 # test number to start with (usually 1)
 __start = 1
 
 # bracket options and the order they are tested (start with number 1)
-__brackets = "__aa_bb_ll_gg_aa_ll_bb_gg_bb_aa_gg_ll_aa_"
+#__bracketsOLD = "__aa_bb_ll_gg_aa_ll_bb_gg_bb_aa_gg_ll_aa_"
+
+# bracket options and the order they are tested (start with number 1)
+# a = attached (A2), b = broken (A1), h = horstmann (A9), p = pico (A11),
+__brackets = "__aa_bb_hh_ahb_p"
 
 # -----------------------------------------------------------------------------
 
@@ -156,6 +161,23 @@ def get_astyle_config():
 	if __astyleexe.lower() == "astyle":
 		config = libastyle.STATIC
 	return config
+
+# -----------------------------------------------------------------------------
+
+def get_bracket_option(bracket_symbol):
+	"""Get the bracket option from the "__brackets" symbol.
+	   a = attached (A2), b = broken (A1), h = horstmann (A9), p = pico (A11),
+	"""
+	if bracket_symbol == 'a':
+		return "A2"
+	elif bracket_symbol == 'b':
+		return "A1"
+	elif bracket_symbol == 'h':
+		return "A9"
+	elif bracket_symbol == 'p':
+		return "A11"
+	else:
+		libastyle.system_exit("Bad bracket option: " + str(bracket_symbol))
 
 # -----------------------------------------------------------------------------
 
@@ -318,7 +340,7 @@ def set_astyle_args(filepath, excludes, brackets, index):
 			libastyle.system_exit("options_x must begin with a '-'")
 		args.append(__options_x)
 	if brackets[index] != '_':
-		args.append('-' + brackets[index])
+		args.append('-' + get_bracket_option(brackets[index]))
 	# set excludes
 	for exclude in excludes:
 		args.append(exclude)

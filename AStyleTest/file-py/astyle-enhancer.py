@@ -47,13 +47,13 @@ def convert_class_functions(line):
 	first_paren = line.find('(')
 	if first_paren == -1:
 		return line
-	elif line.find("->") != -1:
+	elif "->" in line:
 		line = ''
-	elif line.find("ASBase::init") != -1:
+	elif "ASBase::init" in line:
 		line = ''
-	elif line.find("if ") != -1:
+	elif "if " in line:
 		line = ''
-	elif line.find("switchStack.clear()") != -1:
+	elif "switchStack.clear()" in line:
 		line = ''
 	else:
 		line = "unidentified function: " + line
@@ -105,19 +105,19 @@ def get_constructor_variables(class_variables, enhancer_path):
 		if line[:2] == "//":
 			continue
 		# start between the following lines
-		if line.find("ASEnhancer::ASEnhancer()") != -1:
+		if "ASEnhancer::ASEnhancer()" in line:
 			class_lines[0] = lines + 1
 			continue
 		if (class_lines[0]  == 0
 		or class_lines[0]  >= lines):
 			continue
 		# find ending bracket
-		if line.find('}') != -1:
+		if '}' in line:
 			class_lines[1] = lines
 			break
 		# get the variable name
 		variable_name = line
-		if line.find('(') != -1:
+		if '(' in line:
 			variable_name = convert_class_functions(line)
 		else:
 			first_space = line.find(' ')
@@ -152,7 +152,7 @@ def get_header_variables(header_variables, header_path):
 			continue
 
 		# start between the following lines
-		if line.find("class ASEnhancer") != -1:
+		if "class ASEnhancer" in line:
 			header_lines[0] = lines + 1
 			header_brackets += 1
 			continue
@@ -160,30 +160,30 @@ def get_header_variables(header_variables, header_path):
 		or header_lines[0]  >= lines):
 			continue
 		# count brackets
-		if line.find('{') != -1:
+		if '{' in line:
 			header_brackets += 1
-		if line.find('}') != -1:
+		if '}' in line:
 			header_brackets -= 1
 		if  header_brackets == 0:
 			header_lines[1] = lines
 			break
 		# end on the following comment
-		if line.find("// inline functions") != -1:
+		if "// inline functions" in line:
 			header_lines[1] = lines
 			break
-		if (line.find("public:") != -1
-		or line.find("private:") != -1
-		or line.find("protected:") != -1):
+		if ("public:" in line
+		or "private:" in line
+		or "protected:" in line):
 			continue
 		# bypass functions
-		if (line.find('(') != -1
-		or line.find(')') != -1):
+		if ('(' in line
+		or ')' in line):
 			continue
 		# bypass static variables
 		if line.startswith("static "):
 			continue
 		# bypass vectors and strings
-		if line.find("switchVariables") != -1:
+		if "switchVariables" in line:
 			continue
 		# get the variable name
 		semi_colon = line.find(';')
@@ -222,23 +222,23 @@ def get_initializer_variables(class_variables, enhancer_path):
 		if line.startswith("//"):
 			continue
 		# start between the following lines
-		if line.find("void ASEnhancer::init(") != -1:
+		if "void ASEnhancer::init(" in line:
 			find_init_bracket = True
 			continue
 		if (find_init_bracket == True
-		and line.find("{") != -1):
+		and "{" in line):
 			class_lines_init[0] = lines_init + 1
 			find_init_bracket = False
 		if (class_lines_init[0]  == 0
 		or class_lines_init[0]  >= lines_init):
 			continue
 		# find ending bracket
-		if line.find('}') != -1:
+		if '}' in line:
 			class_lines_init[1] = lines_init
 			break
 		# get the variable name
 		variable_name = line
-		if line.find('(') != -1:
+		if '(' in line:
 			variable_name = convert_class_functions(line)
 		else:
 			first_space = line.find(' ')

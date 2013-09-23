@@ -10,7 +10,7 @@ REM  C - indent-classes
 REM  O - keep-one-line-blocks
 REM k1 - align-pointer=type
 REM W3 - align-reference=name
-REM M50- max-instatement-indent=50
+REM M60- max-instatement-indent=60
 REM  v - verbose
 REM  p - pad-oper
 REM  Q - formatted
@@ -19,7 +19,7 @@ REM xn - attach-namespaces
 REM xl - attach inlines
 REM z1 - windows lineends
 
-set options=  -A1xnxltHCOwk1W3  -M60  -Qz1  --options=none
+set options=  -A1xnxltpHCOwk1W3  -M60  -Qz1  --options=none
 
 echo Formatting AStyle
 echo options %options%  

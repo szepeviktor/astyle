@@ -22,14 +22,15 @@ import time
 # global variables ------------------------------------------------------------
 
 # select one of the following from libastyle
-#   CODEBLOCKS
-#   DRJAVA          # Cannot compile
-#   GWORKSPACE      # Compile on Linux only
-#   JEDIT
-#   SCITE
-#   SHARPDEVELOP    # Compile on Windows only
-#  TESTPROJECT
-__project = libastyle.SHARPDEVELOP 
+# CODEBLOCKS
+# DRJAVA            # Java - Cannot compile
+# GWORKSPACE        # Objective-C
+# JEDIT             # Java
+# SCITE
+# SHARPDEVELOP      # C# - Compile on Windows only
+# SHARPMAIN
+# TESTPROJECT
+__project = libastyle.CODEBLOCKS 
 
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a bracket style or any other option
@@ -37,8 +38,11 @@ __options = libastyle.OPT0
 __options_x = ""
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
+# options_x2 are for exe2 ONLY
+# options_x2 is used to test new options
 __astyleexe1 = "astyle24k"
 __astyleexe2 = "astyle"
+__options_x2 = "-xk"
 
 # extract all files options, use False for speed
 #__all_files_option = True
@@ -177,6 +181,8 @@ def print_run_header():
 		print(__options, end=" ")
 	if len(__options_x.strip()) > 0:
 		print(__options_x, end=" ")
+	if len(__options_x2) > 0:
+		print("({0})".format(__options_x2), end=" ")
 	print()
 
 # -----------------------------------------------------------------------------
@@ -213,14 +219,20 @@ def set_astyle_args(filepath, excludes, astyleexe):
 	# set filepaths
 	for file_in in filepath:
 		args.append(file_in)
-	# set options - must have ".orig" backup for comparison
-	args.append("-vRQ")
+	# set options - must have ".orig" backup for comparison in astyleexe2
+	if astyleexe == __astyleexe1:
+		args.append("-vRQn")
+	else:
+		args.append("-vRQ")
 	if len(__options.strip()) > 0:
 		args.append(__options)
 	if len(__options_x.strip()) > 0:
 		if __options_x[0] != '-':
 			libastyle.system_exit("options_x must begin with a '-'")
 		args.append(__options_x)
+	if (astyleexe == __astyleexe2
+	and len(__options_x2.strip()) > 0):
+		args.append(__options_x2)
 	# set excludes
 	for exclude in excludes:
 		args.append(exclude)
@@ -296,13 +308,19 @@ def verify_formatted_files(numformat, totformat):
 # -----------------------------------------------------------------------------
 
 def verify_options_x_variable():
-	"""Check that the options_x variable begins with a '-'
+	"""Check that the options_x and options_x2 variables begin with a '-'
 	"""
-	global __options_x
+	global __options_x, __options_x2
+	# options_x
 	if len(__options_x) > 0:
 		__options_x = __options_x.strip()
 	if len(__options_x) > 0 and __options_x[0] != '-':
 		__options_x = '-' + __options_x
+	# options_x2
+	if len(__options_x2) > 0:
+		__options_x2 = __options_x2.strip()
+	if len(__options_x2) > 0 and __options_x2[0] != '-':
+		__options_x2 = '-' + __options_x2
 
 # -----------------------------------------------------------------------------
 

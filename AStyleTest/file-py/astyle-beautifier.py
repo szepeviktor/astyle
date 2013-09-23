@@ -52,45 +52,53 @@ def convert_class_functions(line):
 	first_paren = line.find('(')
 	if first_paren == -1:
 		return line
-	if line.find("initContainer") != -1:
+	if "initContainer" in line:
 		line = line[first_paren + 1:]
 		first_comma = line.find(',')
 		if first_comma != -1:
 			line = line[:first_comma]
 		line = line.strip()
-	elif line.find("->") != -1:
+	elif "->" in line:
 		line = ''
-	elif line.find("initVectors") != -1:
+	elif "initVectors" in line:
 		line = ''
-	elif line.find("ASBase::init") != -1:
+	elif "ASBase::init" in line:
 		line = ''
-	elif line.find("initStatic") != -1:
+	elif "initStatic" in line:
 		line = ''
-	elif line.find("setSpaceIndentation") != -1:
+	elif "setSpaceIndentation" in line:
 		line = "indentLength"
-	elif line.find("setMaxInStatementIndentLength") != -1:
+	elif "setMaxInStatementIndentLength" in line:
 		line = "maxInStatementIndent"
-	elif line.find("setClassIndent") != -1:
+	elif "setClassIndent" in line:
 		line = "classIndent"
-	elif line.find("setSwitchIndent") != -1:
+	elif "setSwitchIndent" in line:
 		line = "switchIndent"
-	elif line.find("setCaseIndent") != -1:
+	elif "setCaseIndent" in line:
 		line = "caseIndent"
-	elif line.find("setBlockIndent") != -1:
+	elif "setBlockIndent" in line:
 		line = "blockIndent"
-	elif line.find("setBracketIndent") != -1:
+	elif "setBracketIndent" in line:
 		line = "bracketIndent"
-	elif line.find("setNamespaceIndent") != -1:
+	elif "setNamespaceIndent" in line:
 		line = "namespaceIndent"
-	elif line.find("setLabelIndent") != -1:
+	elif "setLabelIndent" in line:
 		line = "labelIndent"
-	elif line.find("setEmptyLineFill") != -1:
+	elif "setEmptyLineFill" in line:
 		line = "emptyLineFill"
-	elif line.find("setCStyle") != -1:
+	elif "setCStyle" in line:
 		line = "fileType"
-	elif line.find("setPreprocessorIndent") != -1:
+
+	elif "setPreprocessorIndent" in line:	# depreciated version 2.04
 		line = "preprocessorIndent"
-	elif line.find("setMinConditionalIndentOption") != -1:
+	elif "setPreprocDefineIndent" in line:
+		line = "shouldIndentPreprocDefine"
+	elif "setPreprocConditionalIndent" in line:
+		line = "shouldIndentPreprocConditional"
+
+	elif "setAlignMethodColon" in line:
+		line = "shouldAlignMethodColon"
+	elif "setMinConditionalIndentOption" in line:
 		line = "minConditionalOption"
 	else:
 		line = "unidentified function: " + line
@@ -169,19 +177,19 @@ def get_constructor_variables(class_variables, beautifier_path):
 		if line.startswith("//"):
 			continue
 		# start between the following lines
-		if line.find("ASBeautifier::ASBeautifier") != -1:
+		if "ASBeautifier::ASBeautifier" in line:
 			class_lines[0] = lines + 1
 			continue
 		if (class_lines[0]  == 0
 		or class_lines[0]  >= lines):
 			continue
 		# find ending bracket
-		if line.find('}') != -1:
+		if '}' in line:
 			class_lines[1] = lines
 			break
 		# get the variable name
 		variable_name = line
-		if line.find('(') != -1:
+		if '(' in line:
 			variable_name = convert_class_functions(line)
 		else:
 			first_space = line.find(' ')
@@ -220,7 +228,7 @@ def get_copy_variables(copy_variables, beautifier_path):
 			continue
 
 		# start between the following lines
-		if line.find("ASBeautifier(const ASBeautifier") != -1:
+		if "ASBeautifier(const ASBeautifier" in line:
 			copy_lines[0] = lines + 1
 			copy_brackets += 1
 			continue
@@ -228,9 +236,9 @@ def get_copy_variables(copy_variables, beautifier_path):
 		or copy_lines[0]  >= lines):
 			continue
 		# count brackets
-		if line.find('{') != -1:
+		if '{' in line:
 			copy_brackets += 1
-		if line.find('}') != -1:
+		if '}' in line:
 			copy_brackets -= 1
 		if  copy_brackets == 0:
 			copy_lines[1] = lines
@@ -269,23 +277,23 @@ def get_header_variables(header_variables, header_path):
 			continue
 
 		# start between the following lines
-		if line.find("class ASBeautifier") != -1:
+		if "class ASBeautifier" in line:
 			header_lines[0] = lines + 1
 			continue
 		if (header_lines[0]  == 0
 		or header_lines[0]  >= lines):
 			continue
 		# find ending bracket
-		if line.find('}') != -1:
+		if '}' in line:
 			header_lines[1] = lines
 			break
-		if (line.find("public:") != -1
-		or line.find("private:") != -1
-		or line.find("protected:") != -1):
+		if ("public:" in line
+		or "private:" in line
+		or "protected:" in line):
 			continue
 		# bypass functions
-		if (line.find('(') != -1
-		or line.find(')') != -1):
+		if ('(' in line
+		or ')' in line):
 			continue
 		# get the variable name
 		semi_colon = line.find(';')
@@ -323,19 +331,19 @@ def get_initializer_variables(class_variables, beautifier_path):
 		if line.startswith("//"):
 			continue
 		# start between the following lines
-		if line.find("void ASBeautifier::init()") != -1:
+		if "void ASBeautifier::init(ASSourceIterator* iter)" in line:
 			class_lines_init[0] = lines_init + 1
 			continue
 		if (class_lines_init[0]  == 0
 		or class_lines_init[0]  >= lines_init):
 			continue
 		# find ending bracket
-		if line.find('}') != -1:
+		if '}' in line:
 			class_lines_init[1] = lines_init
 			break
 		# get the variable name
 		variable_name = line
-		if line.find('(') != -1:
+		if '(' in line:
 			variable_name = convert_class_functions(line)
 		else:
 			first_space = line.find(' ')

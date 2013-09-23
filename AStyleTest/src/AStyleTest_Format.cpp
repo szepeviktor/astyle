@@ -96,7 +96,7 @@ TEST(BreakClosingBrackets, Break)
 		"    }\n"
 		"}\n"
 		"\n";
-	char options[] = "brackets=break, break-closing-brackets";
+	char options[] = "style=allman, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -124,7 +124,7 @@ TEST(BreakClosingBrackets, Attach)
 		"    }\n"
 		"}\n"
 		"\n";
-	char options[] = "brackets=attach, break-closing-brackets";
+	char options[] = "style=java, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -153,7 +153,7 @@ TEST(BreakClosingBrackets, Linux)
 		"    }\n"
 		"}\n"
 		"\n";
-	char options[] = "brackets=linux, break-closing-brackets";
+	char options[] = "style=kr, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -182,7 +182,7 @@ TEST(BreakClosingBrackets, Stroustrup)
 		"    }\n"
 		"}\n"
 		"\n";
-	char options[] = "brackets=stroustrup, break-closing-brackets";
+	char options[] = "style=stroustrup, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -211,7 +211,7 @@ TEST(BreakClosingBrackets, KeepBlocks)
 		"    }\n"
 		"}\n"
 		"\n";
-	char options[] = "brackets=attach, break-closing-brackets, keep-one-line-blocks";
+	char options[] = "style=java, break-closing-brackets, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -240,7 +240,7 @@ TEST(BreakClosingBrackets, ElseSans)
 		"    }\n"
 		"}\n"
 		"\n";
-	char options[] = "brackets=attach";
+	char options[] = "style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -266,7 +266,7 @@ TEST(BreakClosingBrackets, Catch)
 		"        cout << i << endl;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach, break-closing-brackets";
+	char options[] = "style=java, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -293,7 +293,7 @@ TEST(BreakClosingBrackets, CatchSans)
 		"        cout << i << endl;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach";
+	char options[] = "style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -315,7 +315,7 @@ TEST(BreakClosingBrackets, While)
 		"    }\n"
 		"    while (int x < 9);\n"
 		"}\n";
-	char options[] = "brackets=attach, break-closing-brackets";
+	char options[] = "style=java, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -338,7 +338,7 @@ TEST(BreakClosingBrackets, WhileSans)
 		"        bar();\n"
 		"    } while (int x < 9);\n"
 		"}\n";
-	char options[] = "brackets=attach";
+	char options[] = "style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1253,7 +1253,7 @@ TEST(KeepOneLineBlocks, BreakBrackets)
 		"    else if (comment) { ++comment_lines; }\n"
 		"    else if (code) { ++code_lines; }\n"
 		"}\n";
-	char options[] = "keep-one-line-blocks, brackets=break";
+	char options[] = "keep-one-line-blocks, style=allman";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1268,7 +1268,7 @@ TEST(KeepOneLineBlocks, AttachBrackets)
 		"    else if (comment) { ++comment_lines; }\n"
 		"    else if (code) { ++code_lines; }\n"
 		"}\n";
-	char options[] = "keep-one-line-blocks, brackets=attach";
+	char options[] = "keep-one-line-blocks, style=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1284,7 +1284,7 @@ TEST(KeepOneLineBlocks, LinuxBrackets)
 		"    else if (comment) { ++comment_lines; }\n"
 		"    else if (code) { ++code_lines; }\n"
 		"}\n";
-	char options[] = "keep-one-line-blocks, brackets=linux";
+	char options[] = "keep-one-line-blocks, style=kr";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1299,7 +1299,7 @@ TEST(KeepOneLineBlocks, RunInBrackets)
 		"    else if (comment) { ++comment_lines; }\n"
 		"    else if (code) { ++code_lines; }\n"
 		"}\n";
-	char options[] = "keep-one-line-blocks, brackets=run-in";
+	char options[] = "keep-one-line-blocks, style=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1435,7 +1435,7 @@ TEST(KeepOneLineBlocks, Sans1)
 		"        });\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break, mode=java";
+	char options[] = "style=allman, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1458,7 +1458,7 @@ TEST(KeepOneLineBlocks, Sans2)
 		"        return false;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=linux";
+	char options[] = "style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1522,7 +1522,7 @@ TEST(KeepOneLineBlocks, RunInRunIn)
 		"    {/*ok*/;}\n"
 		"    else {bar();}\n"
 		"}\n";
-	char options[] = "keep-one-line-blocks, brackets=run-in";
+	char options[] = "keep-one-line-blocks, style=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1555,7 +1555,7 @@ TEST(KeepOneLineBlocks, BreakClosingHeader)
 		"    {/*ok*/;}\n"
 		"    else {bar();}\n"
 		"}\n";
-	char options[] = "keep-one-line-blocks, brackets=break";
+	char options[] = "keep-one-line-blocks, style=allman";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1571,7 +1571,7 @@ TEST(KeepOneLineBlocks, AttachClosingHeader)
 		"    {/*ok*/;}\n"
 		"    else {bar();}\n"
 		"}\n";
-	char options[] = "keep-one-line-blocks, brackets=attach";
+	char options[] = "keep-one-line-blocks, style=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1588,7 +1588,7 @@ TEST(KeepOneLineBlocks, LinuxClosingHeader)
 		"    {/*ok*/;}\n"
 		"    else {bar();}\n"
 		"}\n";
-	char options[] = "keep-one-line-blocks, brackets=linux";
+	char options[] = "keep-one-line-blocks, style=kr";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2101,7 +2101,7 @@ TEST(AddBrackets, Break)
 		"        return true;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "add-brackets, brackets=break";
+	char options[] = "add-brackets, style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2127,7 +2127,7 @@ TEST(AddBrackets, Attach)
 		"        return true;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "add-brackets, brackets=linux";
+	char options[] = "add-brackets, style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2153,7 +2153,7 @@ TEST(AddBrackets, RunIn)
 		"    {   return true;\n"
 		"    }\n"
 		"}\n";
-	char options[] = "add-brackets, brackets=run-in";
+	char options[] = "add-brackets, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2574,7 +2574,7 @@ TEST(AddOneLineBrackets, Break)
 		"    else\n"
 		"    { return true; }\n"
 		"}\n";
-	char options[] = "add-one-line-brackets, brackets=break";
+	char options[] = "add-one-line-brackets, style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2599,7 +2599,7 @@ TEST(AddOneLineBrackets, Attach)
 		"    else\n"
 		"    { return true; }\n"
 		"}\n";
-	char options[] = "add-one-line-brackets, brackets=linux";
+	char options[] = "add-one-line-brackets, style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2623,7 +2623,7 @@ TEST(AddOneLineBrackets, RunIn)
 		"    else\n"
 		"    { return true; }\n"
 		"}\n";
-	char options[] = "add-one-line-brackets, brackets=run-in";
+	char options[] = "add-one-line-brackets, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3541,7 +3541,7 @@ TEST(ConvertTabs, ShortOption)
 	delete [] textOut;
 }
 
-TEST(ConvertTabs, Misc1)
+TEST(ConvertTabs, CommentsPreprocessorQuotes)
 {
 	// convert comments, line comments, preprocessor
 	// do NOT convert quotes
@@ -3607,7 +3607,7 @@ TEST(ConvertTabs, Misc1)
 	delete [] textOut;
 }
 
-TEST(ConvertTabs, Misc2)
+TEST(ConvertTabs, Comments1)
 {
 	// test convert-tabs with comments
 	char textIn[] =
@@ -3630,51 +3630,7 @@ TEST(ConvertTabs, Misc2)
 	delete [] textOut;
 }
 
-TEST(ConvertTabs, Misc3)
-{
-	// test convert-tabs with line comments and tabbed output
-	// should NOT convert the leading tabs in a non-indent comment
-	char textIn[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"//	comment1	comment1a\n"
-		" //	comment2	comment2a\n"
-		"}\n";
-	char text[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"//	comment1 comment1a\n"
-		"//	comment2    comment2a\n"
-		"}\n";
-	char options[] = "convert-tabs, --indent=tab";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(ConvertTabs, Misc4)
-{
-	// test convert-tabs with unpad-paren and pad-paren-in
-	// should replace the tab after the opening paren
-	char textIn[] =
-		"\nvoid foo( bool isFoo )\n"
-		"{\n"
-		"    if(	isFoo )\n"
-		"        bar;\n"
-		"}\n";
-	char text[] =
-		"\nvoid foo( bool isFoo )\n"
-		"{\n"
-		"    if( isFoo )\n"
-		"        bar;\n"
-		"}\n";
-	char options[] = "convert-tabs, unpad-paren, pad-paren-in";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(ConvertTabs, Misc5)
+TEST(ConvertTabs, Comments2)
 {
 	// test convert-tabs with comment continuation
 	char textIn[] =
@@ -3699,7 +3655,51 @@ TEST(ConvertTabs, Misc5)
 	delete [] textOut;
 }
 
-TEST(ConvertTabs, Misc6)
+TEST(ConvertTabs, Comments3)
+{
+	// test convert-tabs with line comments and tabbed output
+	// should NOT convert the leading tabs in a non-indent comment
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"//	comment1	comment1a\n"
+		" //	comment2	comment2a\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"//	comment1 comment1a\n"
+		"//	comment2    comment2a\n"
+		"}\n";
+	char options[] = "convert-tabs, --indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(ConvertTabs, Misc1)
+{
+	// test convert-tabs with unpad-paren and pad-paren-in
+	// should replace the tab after the opening paren
+	char textIn[] =
+		"\nvoid foo( bool isFoo )\n"
+		"{\n"
+		"    if(	isFoo )\n"
+		"        bar;\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo( bool isFoo )\n"
+		"{\n"
+		"    if( isFoo )\n"
+		"        bar;\n"
+		"}\n";
+	char options[] = "convert-tabs, unpad-paren, pad-paren-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(ConvertTabs, Misc2)
 {
 	// verify that tabs are still present within quotes
 	// should NOT have been replaced when AStyle was run
@@ -3774,7 +3774,7 @@ TEST(ConvertTabs, PreprocessorIndent)
 		"\n#if (! defined (yyoverflow) \\\n"
 		"     && (! defined (__cplusplus) \\\n"
 		"     || (defined (YYSTYPE_IS_TRIVIAL) && YYSTYPE_IS_TRIVIAL)))\n";
-	char options[] = "indent-preprocessor, convert-tabs";
+	char options[] = "indent-preproc-define, convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3850,6 +3850,270 @@ TEST(CloseTemplates, Padded)
 		"    vector<string<int>> vec;\n"
 		"}";
 	char options[] = "close-templates";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Remove Comment Prefix
+//-------------------------------------------------------------------------
+
+TEST(RemoveCommentPrefix, LongOption)
+{
+	// Test remove-comment-prefix long option.
+	char textIn[] =
+		"\n/* comment\n"
+		" *\n"
+		" */";
+	char text[] =
+		"\n/*  comment\n"
+		"\n"
+		"*/";
+	char options[] = "remove-comment-prefix";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveCommentPrefix, ShortOption)
+{
+	// Test remove-comment-prefix short option.
+	char textIn[] =
+		"\n/* comment\n"
+		" *\n"
+		" */";
+	char text[] =
+		"\n/*  comment\n"
+		"\n"
+		"*/";
+	char options[] = "-xp";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveCommentPrefix, SansMultiLine)
+{
+	// Test remove-comment-prefix with single-line comments.
+	// They should not be changed.
+	char text[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    /* comment3 */\n"
+		"    /*xcomment4x*/\n"
+		"}";
+	char options[] = "remove-comment-prefix";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveCommentPrefix, Format1)
+{
+	// Test remove-comment-prefix indentation.
+	char textIn[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"        /* comment1\n"
+		"         *\n"
+		"         */\n"
+		"    if(isFoo) {\n"
+		"                    /* comment2\n"
+		"                     *\n"
+		"                     */\n"
+		"        fooBar();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    /*  comment1\n"
+		"\n"
+		"    */\n"
+		"    if(isFoo) {\n"
+		"        /*  comment2\n"
+		"\n"
+		"        */\n"
+		"        fooBar();\n"
+		"    }\n"
+		"}";
+	char options[] = "remove-comment-prefix";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveCommentPrefix, Format2)
+{
+	// Test remove-comment-prefix option.
+	// Beginning and ending '*' should be removed.
+	// Text should be indented one indent.
+	// The all '*' lines should not change
+	char textIn[] =
+		"\n"
+		"/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n"
+		" * This software is distributed WITHOUT ANY WARRANTY, even the implied     *\n"
+		" * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.        *\n"
+		" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */";
+	char text[] =
+		"\n"
+		"/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n"
+		"    This software is distributed WITHOUT ANY WARRANTY, even the implied\n"
+		"    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+		" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */";
+	char options[] = "remove-comment-prefix";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveCommentPrefix, Format3)
+{
+	// Test remove-comment-prefix option without '*'.
+	// Text should be indented one indent.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    /* This file is a part of Artistic Style - an indentation and\n"
+		"       reformatting tool for C, C++, C# and Java source files.\n"
+		"    */\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    /*  This file is a part of Artistic Style - an indentation and\n"
+		"        reformatting tool for C, C++, C# and Java source files.\n"
+		"    */\n"
+		"}";
+	char options[] = "remove-comment-prefix";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveCommentPrefix, Format4)
+{
+	// Test remove-comment-prefix option.
+	// Beginning '*' should be removed.
+	// Text should NOT be indented - it is greater than one indent.
+	char textIn[] =
+		"\n"
+		"/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n"
+		" *   Copyright (C) 2006-2011 by Jim Pattee <jimp03@email.com>\n"
+		" *   Copyright (C) 1998-2002 by Tal Davidson\n"
+		" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n"
+		" */";
+	char text[] =
+		"\n"
+		"/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n"
+		"     Copyright (C) 2006-2011 by Jim Pattee <jimp03@email.com>\n"
+		"     Copyright (C) 1998-2002 by Tal Davidson\n"
+		" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n"
+		"*/";
+	char options[] = "remove-comment-prefix";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveCommentPrefix, Format5)
+{
+	// Test remove-comment-prefix option.
+	// Beginning '*' should be removed.
+	// Text with tabs should NOT be indented - it is greater than one indent.
+	// The '*' is ERASED and not replaced with a space.
+	char textIn[] =
+		"\n"
+		"/*\n"
+		" *\ttabbed comment\n"
+		" */";
+	char text[] =
+		"\n"
+		"/*\n"
+		" \ttabbed comment\n"
+		"*/";
+	char options[] = "remove-comment-prefix";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveCommentPrefix, Format6)
+{
+	// Test remove-comment-prefix option.
+	// Beginning '*' should be removed.
+	// The tabbed text should be properly indented.
+	// The '/*!' should not be separated.
+	char textIn[] =
+		"\n"
+		"/*! \\brief	Update manifest.xml with the latest version string.\n"
+		" * \\author	Gary Harris\n"
+		" * \\date  	03/03/10\n"
+		" * \\return void\n"
+		" */";
+	char text[] =
+		"\n"
+		"/*! \\brief	Update manifest.xml with the latest version string.\n"
+		"    \\author	Gary Harris\n"
+		"    \\date  	03/03/10\n"
+		"    \\return void\n"
+		"*/";
+	char options[] = "remove-comment-prefix";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveCommentPrefix, Format7)
+{
+	// Test remove-comment-prefix option.
+	// Beginning '*' should be removed.
+	// The text should be properly indented.
+	// The '/**' should not be separated.
+	char textIn[] =
+		"\n"
+		"/** @brief A file editor\n"
+		" *\n"
+		" * @param use If true tooltips are allowed\n"
+		" */";
+	char text[] =
+		"\n"
+		"/**   @brief A file editor\n"
+		"\n"
+		"      @param use If true tooltips are allowed\n"
+		"*/";
+	char options[] = "remove-comment-prefix, indent=spaces=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(RemoveCommentPrefix, CommentedCode1)
+{
+	// Test remove-comment-prefix option with commented text.
+	// The tabbed alignment should be maintained.
+	char textIn[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    /*if (client == NULL) {\n"
+		"    	//int found = -1;\n"
+		"    	for (int i=0; i < getCount(); i++)\n"
+		"    		if ((Item(i)) == event.GetEventObject())\n"
+		"    			client = m_arrAttachedWnd.Item(i);\n"
+		"    }*/\n"
+		"}";
+	char text[] =
+		"\nvoid foo(bool isFoo)\n"
+		"{\n"
+		"    /*  if (client == NULL) {\n"
+		"    	//int found = -1;\n"
+		"    	for (int i=0; i < getCount(); i++)\n"
+		"    		if ((Item(i)) == event.GetEventObject())\n"
+		"    			client = m_arrAttachedWnd.Item(i);\n"
+		"        }*/\n"
+		"}";
+	char options[] = "remove-comment-prefix";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

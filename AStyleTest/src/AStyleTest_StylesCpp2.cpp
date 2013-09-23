@@ -55,7 +55,7 @@ struct StyleLinuxCppF : public ::testing::Test
 	}
 };
 
-TEST_F(StyleLinuxCppF, LongOption)
+TEST_F(StyleLinuxCppF, LongOption1)
 {
 	// test linux style option
 	char text[] =
@@ -82,6 +82,38 @@ TEST_F(StyleLinuxCppF, LongOption)
 		"\n"
 		"}   // end FooName\n";
 	char options[] = "style=linux, indent=spaces=8";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST_F(StyleLinuxCppF, LongOption2)
+{
+	// test linux style option
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"class FooClass\n"
+		"{\n"
+		"private:\n"
+		"        bool var1;\n"
+		"        void func1();\n"
+		"protected:\n"
+		"        bool var2;\n"
+		"        void func2();\n"
+		"};\n"
+		"\n"
+		"void FooClass::Foo(bool isFoo)\n"
+		"{\n"
+		"        if (isFoo) {\n"
+		"                bar();\n"
+		"        } else\n"
+		"                anotherBar();\n"
+		"}\n"
+		"\n"
+		"}   // end FooName\n";
+	char options[] = "style=knf, indent=spaces=8";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -114,39 +146,6 @@ TEST_F(StyleLinuxCppF, ShortOption)
 		"\n"
 		"}   // end FooName\n";
 	char options[] = "-A8, indent=spaces=8";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(StyleLinuxCppF, Brackets)
-{
-	// test linux style option with brackets option
-	// the brackets should NOT change
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"        bool var1;\n"
-		"        void func1();\n"
-		"protected:\n"
-		"        bool var2;\n"
-		"        void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"        if (isFoo) {\n"
-		"                bar();\n"
-		"        } else\n"
-		"                anotherBar();\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "style=linux, brackets=attach, indent=spaces=8";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -738,39 +737,6 @@ TEST_F(StyleHorstmannCppF, ShortOption)
 		"\n"
 		"}   // end FooName\n";
 	char options[] = "-A9, indent=spaces=3";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(StyleHorstmannCppF, Brackets)
-{
-	// test horstmann style option with brackets option
-	// the brackets should NOT change
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"   bool var1;\n"
-		"   void func1();\n"
-		"protected:\n"
-		"   bool var2;\n"
-		"   void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{  if (isFoo)\n"
-		"   {  bar();\n"
-		"   }\n"
-		"   else\n"
-		"      anotherBar();\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "style=horstmann, brackets=attach, indent=spaces=3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1412,40 +1378,6 @@ TEST_F(Style1TBSCppF, Short)
 		"\n"
 		"}   // end FooName\n";
 	char options[] = "-A10";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(Style1TBSCppF, Brackets)
-{
-	// test 1tbs style option with brackets option
-	// the brackets should NOT change
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2();\n"
-		"};\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{\n"
-		"    if (isFoo) {\n"
-		"        bar();\n"
-		"    } else {\n"
-		"        anotherBar();\n"
-		"    }\n"
-		"}\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "style=1tbs, brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2100,36 +2032,6 @@ TEST_F(StylePicoCppF, ShortOption)
 		"\n"
 		"}   // end FooName\n";
 	char options[] = "-A11";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(StylePicoCppF, Brackets)
-{
-	// test pico style option with brackets option
-	// the brackets should NOT change
-	char text[] =
-		"\nnamespace FooName\n"
-		"{\n"
-		"\n"
-		"class FooClass\n"
-		"{\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2(); };\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo)\n"
-		"{   if (isFoo)\n"
-		"    {   bar(); }\n"
-		"    else\n"
-		"        anotherBar(); }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "style=pico, brackets=attach";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3038,34 +2940,6 @@ TEST_F(StyleLispCppF, ShortOption)
 		"\n"
 		"}   // end FooName\n";
 	char options[] = "-A12";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST_F(StyleLispCppF, Brackets)
-{
-	// test lisp style option with brackets option
-	// the brackets should NOT change
-	char text[] =
-		"\nnamespace FooName {\n"
-		"\n"
-		"class FooClass {\n"
-		"private:\n"
-		"    bool var1;\n"
-		"    void func1();\n"
-		"protected:\n"
-		"    bool var2;\n"
-		"    void func2(); };\n"
-		"\n"
-		"void FooClass::Foo(bool isFoo) {\n"
-		"    if (isFoo) {\n"
-		"        bar(); }\n"
-		"    else\n"
-		"        anotherBar(); }\n"
-		"\n"
-		"}   // end FooName\n";
-	char options[] = "style=lisp, brackets=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

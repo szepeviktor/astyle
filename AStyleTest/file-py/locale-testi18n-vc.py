@@ -57,7 +57,7 @@ def build_testi18n_executable():
 	# Compile the astyle executable for Windows.
 	sdk = "v3.5"
 	vsdir = "vs2008"
-	if __builddir.find("vs2010") != -1:
+	if "vs2010"in __builddir:
 		sdk = "v4.0.30319"
 		vsdir = "vs2010"
 	# remove the cache file as a precaution

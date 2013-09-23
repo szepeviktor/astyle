@@ -198,7 +198,7 @@ TEST(CharacterSet, UTF8WithBOM)
 		"\xEF\xBB\xBFnamespace\n"
 		"{\n"
 		"}\n";
-	char options[] = "brackets=break";
+	char options[] = "style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -218,7 +218,7 @@ TEST(VirginLine, Brackets)
 		"    if (isFoo)\n"
 		"        bar();\n"
 		"}\n";
-	char options[] = "brackets=linux";
+	char options[] = "style=kr";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -871,6 +871,90 @@ TEST(Quote, Single)
 	delete [] textOut;
 }
 
+TEST(Quote, Cpp11_RawStringLiteral1)
+{
+	// test C++11 raw string literal
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"string str  =   R\"~(raw\n"
+		"string)~\";\n"
+		"string str  =   R\"(raw\n"
+		"string)\";\n"
+		"wstring str =  LR\"xxx(raw\n"
+		"string)xxx\";\n"
+		"string str  = u8R\"(raw\n"
+		"string)\";\n"
+		"wstring str =  uR\"(raw\n"
+		"string)\";\n"
+		"wstring str =  UR\"(raw\n"
+		"string)\";\n"
+		"bar();\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    string str  =   R\"~(raw\n"
+		"string)~\";\n"
+		"    string str  =   R\"(raw\n"
+		"string)\";\n"
+		"    wstring str =  LR\"xxx(raw\n"
+		"string)xxx\";\n"
+		"    string str  = u8R\"(raw\n"
+		"string)\";\n"
+		"    wstring str =  uR\"(raw\n"
+		"string)\";\n"
+		"    wstring str =  UR\"(raw\n"
+		"string)\";\n"
+		"    bar();\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Quote, Cpp11_RawStringLiteral2)
+{
+	// test C++11 raw string literal
+	// missing opening paren should not cause an exception
+	// it will be formatted as a standard string
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    string str = R\"raw\n"
+		"string)~\";\n"
+		"    bar();\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    string str = R\"raw\n"
+		"                 string)~\";\n"
+		"    bar();\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Quote, Cpp11_RawStringLiteral3)
+{
+	// test C++11 raw string literal
+	// short closing delimiter should not cause an exception
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    string str = R\"xxx(raw string\n"
+		")xx\";\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(Quote, Sharp_Verbatim1)
 {
 	// test C# verbatim quotes
@@ -1291,7 +1375,7 @@ TEST(Struct, Break)
 		"    {\"IDM_MRUFILE\", IDM_MRUFILE},\n"
 		"    {\"IDM_TOOLS\",   IDM_TOOLS},\n"
 		"};\n";
-	char options[] = "brackets=break";
+	char options[] = "style=allman";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1308,7 +1392,7 @@ TEST(Struct, Attach)
 		"    {\"IDM_MRUFILE\", IDM_MRUFILE},\n"
 		"    {\"IDM_TOOLS\",   IDM_TOOLS},\n"
 		"};\n";
-	char options[] = "brackets=attach";
+	char options[] = "style=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -1325,7 +1409,7 @@ TEST(Struct, RunIn)
 		"{   {\"IDM_MRUFILE\", IDM_MRUFILE},\n"
 		"    {\"IDM_TOOLS\",   IDM_TOOLS},\n"
 		"};\n";
-	char options[] = "brackets=run-in";
+	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2176,7 +2260,7 @@ TEST(Preprocessor, ArrayRunIn_Break)
 		"    \"2\", \"System Calls\",\n"
 		"#endif\n"
 		"};\n";
-	char options[] = "brackets=run-in";
+	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2207,7 +2291,7 @@ TEST(Preprocessor, ArrayRunIn_Attach)
 		"    \"2\", \"System Calls\",\n"
 		"#endif\n"
 		"};\n";
-	char options[] = "brackets=run-in";
+	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2228,7 +2312,7 @@ TEST(Preprocessor, ArrayRunIn_RunIn)
 		"    \"2\", \"System Calls\",\n"
 		"#endif\n"
 		"};\n";
-	char options[] = "brackets=run-in";
+	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2464,7 +2548,7 @@ TEST(Comment, BracketsNone_NamespaceClassIndent_RunIn)
 TEST(Comment, BracketsBreak_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
-	// brackets=break with broken brackets
+	// style=allman with broken brackets
 	char textIn[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -2505,7 +2589,7 @@ TEST(Comment, BracketsBreak_NamespaceClassIndent_Break)
 		"            }\n"
 		"    };\n"
 		"}\n";
-	char options[] = "brackets=break, indent-namespaces, indent-classes";
+	char options[] = "style=allman, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2514,7 +2598,7 @@ TEST(Comment, BracketsBreak_NamespaceClassIndent_Break)
 TEST(Comment, BracketsBreak_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
-	// brackets=break with attached brackets
+	// style=allman with attached brackets
 	char textIn[] =
 		"\nnamespace FooName {\n"
 		"/*\n"
@@ -2552,7 +2636,7 @@ TEST(Comment, BracketsBreak_NamespaceClassIndent_Attach)
 		"            }\n"
 		"    };\n"
 		"}\n";
-	char options[] = "brackets=break, indent-namespaces, indent-classes";
+	char options[] = "style=allman, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2561,7 +2645,7 @@ TEST(Comment, BracketsBreak_NamespaceClassIndent_Attach)
 TEST(Comment, BracketsBreak_NamespaceClassIndent_RunIn)
 {
 	// comments should indent with namespaces and classes
-	// brackets=break with run-in brackets
+	// style=allman with run-in brackets
 	char textIn[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -2595,7 +2679,7 @@ TEST(Comment, BracketsBreak_NamespaceClassIndent_RunIn)
 		"            }\n"
 		"    };\n"
 		"}\n";
-	char options[] = "brackets=break, indent-namespaces, indent-classes";
+	char options[] = "style=allman, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2604,7 +2688,7 @@ TEST(Comment, BracketsBreak_NamespaceClassIndent_RunIn)
 TEST(Comment, BracketsAttach_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
-	// brackets=attach with broken brackets
+	// style=java with broken brackets
 	char textIn[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -2642,7 +2726,7 @@ TEST(Comment, BracketsAttach_NamespaceClassIndent_Break)
 		"            }\n"
 		"    };\n"
 		"}\n";
-	char options[] = "brackets=attach, indent-namespaces, indent-classes";
+	char options[] = "style=java, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2651,7 +2735,7 @@ TEST(Comment, BracketsAttach_NamespaceClassIndent_Break)
 TEST(Comment, BracketsAttach_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
-	// brackets=attach with attached brackets
+	// style=java with attached brackets
 	char textIn[] =
 		"\nnamespace FooName {\n"
 		"/*\n"
@@ -2686,7 +2770,7 @@ TEST(Comment, BracketsAttach_NamespaceClassIndent_Attach)
 		"            }\n"
 		"    };\n"
 		"}\n";
-	char options[] = "brackets=attach, indent-namespaces, indent-classes";
+	char options[] = "style=java, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2695,7 +2779,7 @@ TEST(Comment, BracketsAttach_NamespaceClassIndent_Attach)
 TEST(Comment, BracketsAttach_NamespaceClassIndent_RunIn)
 {
 	// comments should indent with namespaces and classes
-	// brackets=attach with run-in brackets
+	// style=java with run-in brackets
 	char textIn[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -2726,7 +2810,7 @@ TEST(Comment, BracketsAttach_NamespaceClassIndent_RunIn)
 		"            }\n"
 		"    };\n"
 		"}\n";
-	char options[] = "brackets=attach, indent-namespaces, indent-classes";
+	char options[] = "style=java, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2735,7 +2819,7 @@ TEST(Comment, BracketsAttach_NamespaceClassIndent_RunIn)
 TEST(Comment, BracketsRunIn_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
-	// brackets=run-in with broken brackets
+	// style=horstmann with broken brackets
 	char textIn[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -2768,7 +2852,7 @@ TEST(Comment, BracketsRunIn_NamespaceClassIndent_Break)
 		"            }\n"
 		"    };\n"
 		"}\n";
-	char options[] = "brackets=run-in, indent-namespaces, indent-classes";
+	char options[] = "style=horstmann, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2777,7 +2861,7 @@ TEST(Comment, BracketsRunIn_NamespaceClassIndent_Break)
 TEST(Comment, BracketsRunIn_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
-	// brackets=run-in with attached brackets
+	// style=horstmann with attached brackets
 	char textIn[] =
 		"\nnamespace FooName {\n"
 		"class FooClass {\n"
@@ -2807,7 +2891,7 @@ TEST(Comment, BracketsRunIn_NamespaceClassIndent_Attach)
 		"            }\n"
 		"    };\n"
 		"}\n";
-	char options[] = "brackets=run-in, indent-namespaces, indent-classes";
+	char options[] = "style=horstmann, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2816,7 +2900,7 @@ TEST(Comment, BracketsRunIn_NamespaceClassIndent_Attach)
 TEST(Comment, BracketsRunIn_NamespaceClassIndent_RunIn)
 {
 	// comments should indent with namespaces and classes
-	// brackets=run-in with run-in brackets
+	// style=horstmann with run-in brackets
 	char textIn[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -2848,7 +2932,7 @@ TEST(Comment, BracketsRunIn_NamespaceClassIndent_RunIn)
 		"            }\n"
 		"    };\n"
 		"}\n";
-	char options[] = "brackets=run-in, indent-namespaces, indent-classes";
+	char options[] = "style=horstmann, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3242,7 +3326,7 @@ TEST(Continuation, BracketsNone_RunIn)
 TEST(Continuation, BracketsBreak_Break)
 {
 	// continuation lines
-	// brackets=break and input of broken brackets
+	// style=allman and input of broken brackets
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -3257,7 +3341,7 @@ TEST(Continuation, BracketsBreak_Break)
 		"                      Ypos);\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break";
+	char options[] = "style=allman";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3266,7 +3350,7 @@ TEST(Continuation, BracketsBreak_Break)
 TEST(Continuation, BracketsBreak_Attach)
 {
 	// continuation lines
-	// brackets=break and input of attached brackets
+	// style=allman and input of attached brackets
 	char textIn[] =
 		"\nvoid foo() {\n"
 		"    if (isFoo1()) {\n"
@@ -3292,7 +3376,7 @@ TEST(Continuation, BracketsBreak_Attach)
 		"                      Ypos);\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break";
+	char options[] = "style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3301,7 +3385,7 @@ TEST(Continuation, BracketsBreak_Attach)
 TEST(Continuation, BracketsBreak_RunIn)
 {
 	// continuation lines
-	// brackets=break and input of run-in brackets
+	// style=allman and input of run-in brackets
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{   if (isFoo1())\n"
@@ -3327,7 +3411,7 @@ TEST(Continuation, BracketsBreak_RunIn)
 		"                      Ypos);\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=break";
+	char options[] = "style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3336,7 +3420,7 @@ TEST(Continuation, BracketsBreak_RunIn)
 TEST(Continuation, BracketsAttach_Break)
 {
 	// continuation lines
-	// brackets=attach and input of broken brackets
+	// style=java and input of broken brackets
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -3362,7 +3446,7 @@ TEST(Continuation, BracketsAttach_Break)
 		"                      Ypos);\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach";
+	char options[] = "style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3371,7 +3455,7 @@ TEST(Continuation, BracketsAttach_Break)
 TEST(Continuation, BracketsAttach_Attach)
 {
 	// continuation lines
-	// brackets=attach and input of attached brackets
+	// style=java and input of attached brackets
 	char text[] =
 		"\nvoid foo() {\n"
 		"    if (isFoo1()) {\n"
@@ -3383,7 +3467,7 @@ TEST(Continuation, BracketsAttach_Attach)
 		"                      Ypos);\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach";
+	char options[] = "style=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3392,7 +3476,7 @@ TEST(Continuation, BracketsAttach_Attach)
 TEST(Continuation, BracketsAttach_RunIn)
 {
 	// continuation lines
-	// brackets=attach and input of run-in brackets
+	// style=java and input of run-in brackets
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{   if (isFoo1())\n"
@@ -3415,7 +3499,7 @@ TEST(Continuation, BracketsAttach_RunIn)
 		"                      Ypos);\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=attach";
+	char options[] = "style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3424,7 +3508,7 @@ TEST(Continuation, BracketsAttach_RunIn)
 TEST(Continuation, BracketsRunIn_Break)
 {
 	// continuation lines
-	// brackets=run-in and input of broken brackets
+	// style=horstmann and input of broken brackets
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -3450,7 +3534,7 @@ TEST(Continuation, BracketsRunIn_Break)
 		"                      Ypos);\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in";
+	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3459,7 +3543,7 @@ TEST(Continuation, BracketsRunIn_Break)
 TEST(Continuation, BracketsRunIn_Attach)
 {
 	// continuation lines
-	// brackets=run-in and input of attached brackets
+	// style=horstmann and input of attached brackets
 	char textIn[] =
 		"\nvoid foo() {\n"
 		"    if (isFoo1()) {\n"
@@ -3482,7 +3566,7 @@ TEST(Continuation, BracketsRunIn_Attach)
 		"                      Ypos);\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in";
+	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3491,7 +3575,7 @@ TEST(Continuation, BracketsRunIn_Attach)
 TEST(Continuation, BracketsRunIn_RunIn)
 {
 	// continuation lines
-	// brackets=run-in and input of run-in brackets
+	// style=horstmann and input of run-in brackets
 	char text[] =
 		"\nvoid foo()\n"
 		"{   if (isFoo1())\n"
@@ -3503,7 +3587,7 @@ TEST(Continuation, BracketsRunIn_RunIn)
 		"                      Ypos);\n"
 		"    }\n"
 		"}\n";
-	char options[] = "brackets=run-in";
+	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3642,7 +3726,7 @@ TEST(ContinuationTab, BracketsNone_RunIn)
 TEST(ContinuationTab, BracketsBreak_Break)
 {
 	// continuation lines with tabs
-	// brackets=break and input of broken brackets
+	// style=allman and input of broken brackets
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -3657,7 +3741,7 @@ TEST(ContinuationTab, BracketsBreak_Break)
 		"		              Ypos);\n"
 		"	}\n"
 		"}\n";
-	char options[] = "brackets=break, indent=tab";
+	char options[] = "style=allman, indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3666,7 +3750,7 @@ TEST(ContinuationTab, BracketsBreak_Break)
 TEST(ContinuationTab, BracketsBreak_Attach)
 {
 	// continuation lines with tabs
-	// brackets=break and input of attached brackets
+	// style=allman and input of attached brackets
 	char textIn[] =
 		"\nvoid foo() {\n"
 		"	if (isFoo1()) {\n"
@@ -3692,7 +3776,7 @@ TEST(ContinuationTab, BracketsBreak_Attach)
 		"		              Ypos);\n"
 		"	}\n"
 		"}\n";
-	char options[] = "brackets=break, indent=tab";
+	char options[] = "style=allman, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3701,7 +3785,7 @@ TEST(ContinuationTab, BracketsBreak_Attach)
 TEST(ContinuationTab, BracketsBreak_RunIn)
 {
 	// continuation lines with tabs
-	// brackets=break and input of run-in brackets
+	// style=allman and input of run-in brackets
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{	if (isFoo1())\n"
@@ -3727,7 +3811,7 @@ TEST(ContinuationTab, BracketsBreak_RunIn)
 		"		              Ypos);\n"
 		"	}\n"
 		"}\n";
-	char options[] = "brackets=break, indent=tab";
+	char options[] = "style=allman, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3736,7 +3820,7 @@ TEST(ContinuationTab, BracketsBreak_RunIn)
 TEST(ContinuationTab, BracketsAttach_Break)
 {
 	// continuation lines with tabs
-	// brackets=attach and input of broken brackets
+	// style=java and input of broken brackets
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -3762,7 +3846,7 @@ TEST(ContinuationTab, BracketsAttach_Break)
 		"		              Ypos);\n"
 		"	}\n"
 		"}\n";
-	char options[] = "brackets=attach, indent=tab";
+	char options[] = "style=java, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3771,7 +3855,7 @@ TEST(ContinuationTab, BracketsAttach_Break)
 TEST(ContinuationTab, BracketsAttach_Attach)
 {
 	// continuation lines with tabs
-	// brackets=attach and input of attached brackets
+	// style=java and input of attached brackets
 	char text[] =
 		"\nvoid foo() {\n"
 		"	if (isFoo1()) {\n"
@@ -3783,7 +3867,7 @@ TEST(ContinuationTab, BracketsAttach_Attach)
 		"		              Ypos);\n"
 		"	}\n"
 		"}\n";
-	char options[] = "brackets=attach, indent=tab";
+	char options[] = "style=java, indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3792,7 +3876,7 @@ TEST(ContinuationTab, BracketsAttach_Attach)
 TEST(ContinuationTab, BracketsAttach_RunIn)
 {
 	// continuation lines with tabs
-	// brackets=attach and input of run-in brackets
+	// style=java and input of run-in brackets
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{	if (isFoo1())\n"
@@ -3815,7 +3899,7 @@ TEST(ContinuationTab, BracketsAttach_RunIn)
 		"		              Ypos);\n"
 		"	}\n"
 		"}\n";
-	char options[] = "brackets=attach, indent=tab";
+	char options[] = "style=java, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3824,7 +3908,7 @@ TEST(ContinuationTab, BracketsAttach_RunIn)
 TEST(ContinuationTab, BracketsRunIn_Break)
 {
 	// continuation lines with tabs
-	// brackets=run-in and input of broken brackets
+	// style=horstmann and input of broken brackets
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -3850,7 +3934,7 @@ TEST(ContinuationTab, BracketsRunIn_Break)
 		"		              Ypos);\n"
 		"	}\n"
 		"}\n";
-	char options[] = "brackets=run-in, indent=tab";
+	char options[] = "style=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3859,7 +3943,7 @@ TEST(ContinuationTab, BracketsRunIn_Break)
 TEST(ContinuationTab, BracketsRunIn_Attach)
 {
 	// continuation lines with tabs
-	// brackets=run-in and input of attached brackets
+	// style=horstmann and input of attached brackets
 	char textIn[] =
 		"\nvoid foo() {\n"
 		"	if (isFoo1()) {\n"
@@ -3882,7 +3966,7 @@ TEST(ContinuationTab, BracketsRunIn_Attach)
 		"		              Ypos);\n"
 		"	}\n"
 		"}\n";
-	char options[] = "brackets=run-in, indent=tab";
+	char options[] = "style=horstmann, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -3891,7 +3975,7 @@ TEST(ContinuationTab, BracketsRunIn_Attach)
 TEST(ContinuationTab, BracketsRunIn_RunIn)
 {
 	// continuation lines with tabs
-	// brackets=run-in and input of run-in brackets
+	// style=horstmann and input of run-in brackets
 	char text[] =
 		"\nvoid foo()\n"
 		"{	if (isFoo1())\n"
@@ -3903,7 +3987,7 @@ TEST(ContinuationTab, BracketsRunIn_RunIn)
 		"		              Ypos);\n"
 		"	}\n"
 		"}\n";
-	char options[] = "brackets=run-in, indent=tab";
+	char options[] = "style=horstmann, indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

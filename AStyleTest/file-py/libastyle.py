@@ -27,6 +27,7 @@ JEDIT        = "jEdit"          # Java
 #MONODEVELOP  = "MonoDevelop"   # C# - To complicated to compile on Windows
 SCITE        = "SciTE"
 SHARPDEVELOP = "SharpDevelop"   # C# - Compile on Windows only
+SHARPMAIN    = "SharpDevelopMain"
 TESTPROJECT  = "TestProject"
 
 # astyle test options
@@ -37,8 +38,8 @@ OPT0 = ""
 
 # OPT1
 # align-pointer=type (k1), add-brackets (j), break-blocks=all (F),
-#     min-conditional-indent=0 (m0), pad-oper (p)
-OPT1 = "-CSKNLwYM50m0FpPHUEk1yejOoc"
+#     min-conditional-indent=0 (m0), pad-oper (p), pad-oparen (P)
+OPT1 = "-CSKNLwxwYM50m0FpPHUEk1yejOoc"
 
 # OPT2
 # align-pointer=name (k3), align-reference=type (W1),
@@ -53,7 +54,7 @@ OPT2 = "-CSKNLwM60m3fpdHUxeEk3W1yeJc"
 #     min-conditional-indent=1 (m1), pad-paren-in(D)
 #     remove-brackets (xj),
 # WITHOUT: add-brackets (j,J), break-blocks (f,F),
-#     pad-oper (p), delete-empty-lines (xd)
+#     pad-oper (p), delete-empty-lines (xe)
 OPT3 = "-CSKNLwM80m1DHUEk2W3yxj"
 
 # TEST SEPARATELY
@@ -118,10 +119,10 @@ def compile_astyle_windows(astylepath, config):
 	"""
 	sdk = "v3.5"
 	vsdir = "vs2008"
-	if astylepath.find("vs2010") != -1:
+	if "vs2010" in astylepath:
 		sdk = "v4.0.30319"
 		vsdir = "vs2010"
-	elif astylepath.find("vs2012") != -1:
+	elif "vs2012" in astylepath:
 		sdk = "v4.0.30319"
 		vsdir = "vs2012"
 	# remove the cache file as a precaution
@@ -491,6 +492,11 @@ def get_project_filepaths(project):
 		filepaths.append(test_directory + "/SciTE/*.h")
 	elif project == SHARPDEVELOP:
 		filepaths.append(test_directory + "/SharpDevelop/src/*.cs")
+	elif project == SHARPMAIN:
+		# number of files: Main 1000, Libraries 1200, AddIns 5000, Tools 50, Setup 0
+		# also change libextract.py, extract_sharpmain()
+		filepaths.append(test_directory + "/SharpDevelopMain/src/Main/*.cs")
+		#~ filepaths.append(test_directory + "/SharpDevelopMain/src/Libraries/*.cs")
 	elif project == TESTPROJECT:
 		# the test file paths can be changed depending n the circumstances
 		# if the test is not CodeBlocks change extract_testproject() in libextract.py

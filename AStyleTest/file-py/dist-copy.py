@@ -18,7 +18,7 @@ import time
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-__release = "2.03"
+__release = "2.04"
 # inut from AStyle directory
 __astyle_dir = libastyle.get_astyle_directory()
 # output to Project directory
@@ -283,7 +283,7 @@ def copy_astyle_doc(dist_doc, to_dos=False):
 	docfiles = glob.glob(__astyle_dir + "/doc/*")
 	for filepath in docfiles:
 		# don't copy these files
-		if filepath.find("Archive") != -1: 
+		if "Archive" in filepath: 
 			deleted += 1
 			sep = filepath.rfind(os.sep)
 			print("    " + filepath[sep+1:] + " - not copied")

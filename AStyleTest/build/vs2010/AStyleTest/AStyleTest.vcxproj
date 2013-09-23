@@ -295,6 +295,7 @@
     <ClCompile Include="..\..\..\src\AStyleTest_Indent.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Main.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_MaxCodeLen.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_NEW_OPTIONS.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_ObjC.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Other.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Pad.cpp" />
