@@ -28,9 +28,9 @@ import time
 # JEDIT             # Java
 # SCITE
 # SHARPDEVELOP      # C# - Compile on Windows only
-# SHARPMAIN
+# SHARPMAIN         # C# - 1000 files from SharpDevelop
 # TESTPROJECT
-__project = libastyle.CODEBLOCKS 
+__project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a bracket style or any other option
@@ -40,17 +40,17 @@ __options_x = ""
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
 # options_x2 are for exe2 ONLY
 # options_x2 is used to test new options
-__astyleexe1 = "astyle24k"
+__astyleexe1 = "astyle24m"
 __astyleexe2 = "astyle"
-__options_x2 = "-xk"
-
-# extract all files options, use False for speed
-#__all_files_option = True
-__all_files_option = False
+__options_x2 = ""
 
 # select one of the following to unarchive files
 __extract_files = True
 #__extract_files = False
+
+# extract all files options, use False for speed
+#__all_files_option = True
+__all_files_option = False
 
 # -----------------------------------------------------------------------------
 
@@ -206,8 +206,11 @@ def print_run_total(starttime):
 def print_test_header(testnum, astyleexe):
 	"""Print header information for a test.
 	"""
+	spaces = 16 - len(astyleexe)
 	print()
-	print("TEST {0} with {1}".format(testnum, astyleexe))
+	print("TEST {0} with {1}".format(testnum, astyleexe), end='')
+	print(' ' * spaces, end='')
+	print(libastyle.get_formatted_time())
 
 # -----------------------------------------------------------------------------
 

@@ -9444,6 +9444,35 @@ TEST(AlignReferenceToPointer, PointerType_ReferenceName)
 	delete [] textOut;
 }
 
+TEST(AlignReferenceToPointer, PointerType_CommentFollows)
+{
+	// Test *& with align-pointer=type and a following comment.
+	char textIn[] =
+		"\n"
+		"void Method1(char*& data,     // Data\n"
+		"             int length);     // Length\n"
+		"\n"
+		"void Method2(char *& data,    // Data\n"
+		"             int length);     // Length\n"
+		"\n"
+		"void Method3(char *&data,     // Data\n"
+		"             int length);     // Length\n";
+	char text[] =
+		"\n"
+		"void Method1(char*& data,     // Data\n"
+		"             int length);     // Length\n"
+		"\n"
+		"void Method2(char*& data,     // Data\n"
+		"             int length);     // Length\n"
+		"\n"
+		"void Method3(char*& data,     // Data\n"
+		"             int length);     // Length\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AlignReferenceToPointer, PointerMiddle_ReferenceType_)
 {
 	// Test *& with align-pointer=middle and align-reference=type.
@@ -9532,6 +9561,35 @@ TEST(AlignReferenceToPointer, PointerMiddle_ReferenceName)
 		"void deleteContainer1 (vector<vector<const string *>*> * &container)\n"
 		"{}";
 	char options[] = "align-pointer=middle, align-reference=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignReferenceToPointer, PointerMiddle_CommentFollows)
+{
+	// Test *& with align-pointer=middle and a following comment.
+	char textIn[] =
+		"\n"
+		"void Method1(char*& data,     // Data\n"
+		"             int length);     // Length\n"
+		"\n"
+		"void Method2(char *& data,    // Data\n"
+		"             int length);     // Length\n"
+		"\n"
+		"void Method3(char *&data,     // Data\n"
+		"             int length);     // Length\n";
+	char text[] =
+		"\n"
+		"void Method1(char *& data,    // Data\n"
+		"             int length);     // Length\n"
+		"\n"
+		"void Method2(char *& data,    // Data\n"
+		"             int length);     // Length\n"
+		"\n"
+		"void Method3(char *& data,    // Data\n"
+		"             int length);     // Length\n";
+	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -9631,6 +9689,34 @@ TEST(AlignReferenceToPointer, PointerName_ReferenceName)
 	delete [] textOut;
 }
 
+TEST(AlignReferenceToPointer, PointerName_CommentFollows)
+{
+	// Test *& with align-pointer=name and a following comment.
+	char textIn[] =
+		"\n"
+		"void Method1(char*& data,     // Data\n"
+		"             int length);     // Length\n"
+		"\n"
+		"void Method2(char *& data,    // Data\n"
+		"             int length);     // Length\n"
+		"\n"
+		"void Method3(char *&data,     // Data\n"
+		"             int length);     // Length\n";
+	char text[] =
+		"\n"
+		"void Method1(char *&data,     // Data\n"
+		"             int length);     // Length\n"
+		"\n"
+		"void Method2(char  *&data,    // Data\n"
+		"             int length);     // Length\n"
+		"\n"
+		"void Method3(char *&data,     // Data\n"
+		"             int length);     // Length\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
 
 //----------------------------------------------------------------------------
 

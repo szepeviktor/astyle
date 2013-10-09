@@ -994,6 +994,58 @@ TEST(IndentSwitches, Comment3MultiLineSans)
 	delete [] textOut;
 }
 
+TEST(IndentSwitches, Comment4PreceedsEmptyLine)
+{
+	// Test switch block with brackets preeceding an empty line.
+	// The comments should not have an extra indent.
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (hit)\n"
+		"    {\n"
+		"        // NUMPAD KEY 0\n"
+		"\n"
+		"        case WXK_NUMPAD0:\n"
+		"            break;\n"
+		"\n"
+		"        // NUMPAD KEY 1\n"
+		"\n"
+		"        case WXK_NUMPAD1:\n"
+		"            break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "indent-switches";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentSwitches, Comment4PreceedsEmptyLineSans)
+{
+	// Test switch block with brackets preeceding an empty line.
+	// The comments should not have an extra indent.
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    switch (hit)\n"
+		"    {\n"
+		"    // NUMPAD KEY 0\n"
+		"\n"
+		"    case WXK_NUMPAD0:\n"
+		"        break;\n"
+		"\n"
+		"    // NUMPAD KEY 1\n"
+		"\n"
+		"    case WXK_NUMPAD1:\n"
+		"        break;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(IndentSwitches, NestedSwitchComments)
 {
 	// test nested switch block with brackets comments
@@ -2129,6 +2181,39 @@ TEST(IndentPreprocDefine, CommentContinuation2)
 		"            printf(X, Y);      \\\n"
 		"        }";
 	char options[] = "indent-preproc-define";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentPreprocDefine, PreprocessorWithinDefine)
+{
+	// Test a preprocessor conditional within a define.
+	// This also tests the formatting after the preprocessor statement.
+	// Caused a segmentation fault in Oct 2013.
+	char textIn[] =
+		"\n#define SOMEDEF \\\n"
+		"#ifdef SOMEVAR \\\n"
+		"stuff();\n"
+		"#endif\n"
+		"\n"
+		"void foo()\n"
+		"{\n"
+		"return WriteBuf(NULL,\n"
+		"bytesPerLine);\n"
+		"}";
+	char text[] =
+		"\n#define SOMEDEF \\\n"
+		"    #ifdef SOMEVAR \\\n"
+		"    stuff();\n"
+		"#endif\n"
+		"\n"
+		"void foo()\n"
+		"{\n"
+		"    return WriteBuf(NULL,\n"
+		"                    bytesPerLine);\n"
+		"}";
+	char options[] = "--indent-preproc-define";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

@@ -20,14 +20,14 @@ else: import termios, tty				# Linux only for getch()
 
 # test project IDs
 CODEBLOCKS   = "CodeBlocks"
-DRJAVA       = "DrJava"         # Java - Cannot compile
-GWORKSPACE   = "GWorkspace"     # Objective C
-JEDIT        = "jEdit"          # Java
-#KDEVELOP     = "KDevelop"      # C++- To complicated to compile on Windows
-#MONODEVELOP  = "MonoDevelop"   # C# - To complicated to compile on Windows
+DRJAVA       = "DrJava"             # Java - Cannot compile
+GWORKSPACE   = "GWorkspace"         # Objective C
+JEDIT        = "jEdit"              # Java
+#KDEVELOP     = "KDevelop"          # C++- To complicated to compile on Windows
+#MONODEVELOP  = "MonoDevelop"       # C# - To complicated to compile on Windows
 SCITE        = "SciTE"
-SHARPDEVELOP = "SharpDevelop"   # C# - Compile on Windows only
-SHARPMAIN    = "SharpDevelopMain"
+SHARPDEVELOP = "SharpDevelop"       # C# - Compile on Windows only
+SHARPMAIN    = "SharpDevelopMain"   # C# - 1000 files from SharpDevelop
 TESTPROJECT  = "TestProject"
 
 # astyle test options
