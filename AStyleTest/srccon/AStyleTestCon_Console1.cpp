@@ -127,25 +127,30 @@ TEST(ProcessOptions, FileOptionsVector)
 	createConsoleGlobalObject(formatter);
 	char fileIn[] =
 		"# this line is a comment\n"
-		"--brackets=attach   # this is a line-end comment\n"
+		"--style=attach   # this is a line-end comment\n"
 		"\n"
 		"# long options can be written without the preceding '--'\n"
 		"indent-switches     # cannot do this on the command line\n"
 		"\n"
-		"# short options must have the preceding '-'\n"
-		"-t -p\n"
+		"# short options must have the preceding '-'\r\n"
+		"-t -p\r\n"
 		"\n"
 		"# short options can be concatenated together\n"
 		"-M65Ucv\n"
 		"\n"
+		"# options can have CR line ends\r"
+		"pad-oper,-H\r"
+		"\r"
 		"# options can be separated with commas\n"
 		"indent-classes,-K\n";
 	vector<string> fileOptions;
-	fileOptions.push_back("--brackets=attach");
+	fileOptions.push_back("--style=attach");
 	fileOptions.push_back("indent-switches");
 	fileOptions.push_back("-t");
 	fileOptions.push_back("-p");
 	fileOptions.push_back("-M65Ucv");
+	fileOptions.push_back("pad-oper");
+	fileOptions.push_back("-H");
 	fileOptions.push_back("indent-classes");
 	fileOptions.push_back("-K");
 	// write the options file

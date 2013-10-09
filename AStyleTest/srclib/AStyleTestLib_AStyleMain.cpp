@@ -270,7 +270,7 @@ TEST_F(AStyleMainUtf16F1, NullConvertSource)
 #ifndef __BORLANDC__        // can't use gmock
 	ASLibrary_Mock8 library;
 	EXPECT_CALL(library, convertUtf16ToUtf8(_))
-	.WillOnce(Return(static_cast<char*>(NULL)));
+		.WillOnce(Return(static_cast<char*>(NULL)));
 	// test the error handling
 	int errorsIn = getErrorHandler2Calls();
 	utf16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
@@ -291,8 +291,8 @@ TEST_F(AStyleMainUtf16F1, NullConvertOptions)
 	strcpy(utf8Formatted, text8);
 	InSequence s;			// the following returns must occur in sequence
 	EXPECT_CALL(library, convertUtf16ToUtf8(_))
-	.WillOnce(Return(utf8Formatted))
-	.WillOnce(Return(static_cast<char*>(NULL)));
+		.WillOnce(Return(utf8Formatted))
+		.WillOnce(Return(static_cast<char*>(NULL)));
 	// test the error handling
 	int errorsIn = getErrorHandler2Calls();
 	utf16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
@@ -309,7 +309,7 @@ TEST_F(AStyleMainUtf16F1, NullConvertFormattedText)
 	ASLibrary_Mock16 library;
 	// this method returns an error
 	EXPECT_CALL(library, convertUtf8ToUtf16(_, _))
-	.WillOnce(Return(static_cast<utf16_t*>(NULL)));
+		.WillOnce(Return(static_cast<utf16_t*>(NULL)));
 	// test the error handling
 	int errorsIn = getErrorHandler2Calls();
 	utf16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);

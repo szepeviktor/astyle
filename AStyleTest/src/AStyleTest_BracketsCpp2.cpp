@@ -2334,7 +2334,7 @@ TEST(BracketsArrayAttachCpp, Sans)
 
 //-------------------------------------------------------------------------
 // Linux array brackets do NOT have complete tests.
-// There are tests in (BracketsLinuxCpp, Formatting1) and (BracketsLinuxCpp, Formatting2) 
+// There are tests in (BracketsLinuxCpp, Formatting1) and (BracketsLinuxCpp, Formatting2)
 //-------------------------------------------------------------------------
 
 TEST(BracketsArrayLinuxCpp, Break)

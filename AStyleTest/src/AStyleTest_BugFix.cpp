@@ -15,6 +15,30 @@ namespace {
 // AStyle version 2.03 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V204, AttachBracketToBackslash)
+{
+	// Fix brackets to NOT attach to a line ending in a backslash (\).
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isFoo) \\\n"	// line ends in backslash
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    if (isFoo) \\\n"	// line ends in backslash
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"}";
+	char options[] = "style=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BugFix_V204, PadParenInside)
 {
 	// Fix pad-paren-inside with align-pointer-name.
