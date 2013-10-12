@@ -15,6 +15,27 @@ namespace {
 // AStyle version 2.03 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V204, OperatorWithTilde)
+{
+	// These should be recognized as an operator.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    a = b*~c;\n"
+		"    a = b&~c;\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    a = b * ~c;\n"
+		"    a = b & ~c;\n"
+		"}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(BugFix_V204, AttachBracketToBackslash)
 {
 	// Fix brackets to NOT attach to a line ending in a backslash (\).

@@ -1343,6 +1343,39 @@ TEST(Enum, InStatementIndentTab2)
 	delete [] textOut;
 }
 
+TEST(Enum, Sans)
+{
+	// An enum argument is NOT an enum.
+	// The return statement will be indented incorrectly if
+	// it is incorrectly flagged.
+	char text[] =
+		"\nint MSG(enum a type)\n"
+		"{\n"
+		"    switch (type) {\n"
+		"    case 1:\n"
+		"        return 1;\n"
+		"    }\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Enum, Misc1)
+{
+	// Enum is on a separate line.
+	char text[] =
+		"\nenum\n"
+		"FooType\n"
+		"{\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(Enum, Java)
 {
 	// test indent of java enum
@@ -1725,6 +1758,50 @@ TEST(Preprocessor, CppExternCBracket5)
 		"    }\n"
 		"}   // end namespace";
 	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, CppExternCSansBracket1)
+{
+	// Preprocessor C++ definition defined as 'extern "C"' WITHOUT a bracket,
+	// Following functions should NOT be de-indented.
+	char text[] =
+		"\n#ifdef __cplusplus\n"
+		"extern \"C\" void A(void);\n"
+		"#else\n"
+		"void A(void);\n"
+		"#endif\n"
+		"\n"
+		"void B(void)\n"
+		"{\n"
+		"    A();\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Preprocessor, CppExternCSansBracket2)
+{
+	// Preprocessor C++ definition defined as 'extern "C"' WITHOUT a bracket,
+	// Comments added.
+	// Following functions should NOT be de-indented.
+	char text[] =
+		"\n#if defined(__cplusplus) // comment1\n"
+		"extern \"C\" // comment 2\n"
+		"void A(void); // comment 3\n"
+		"#else\n"
+		"void A(void);\n"
+		"#endif\n"
+		"\n"
+		"void B(void)\n"
+		"{\n"
+		"    A();\n"
+		"}";
+	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
