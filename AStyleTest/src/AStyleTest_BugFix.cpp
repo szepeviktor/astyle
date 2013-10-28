@@ -15,7 +15,63 @@ namespace {
 // AStyle version 2.03 TEST functions
 //----------------------------------------------------------------------------
 
-TEST(BugFix_V204, OperatorWithTilde)
+TEST(BugFix_V204, BlockOpener)
+{
+	// This "struct" should be recognized as a block opener.
+	char text[] =
+		"\ntemplate <typename ArgType, typename ResType>\n"
+		"struct CallableTraits<ResType(*)(ArgType)> {\n"
+		"    typedef ResType ResultType;\n"
+		"    typedef ResType(*StorageType)(ArgType);\n"
+		"\n"
+		"    static void CheckIsValid(ResType(*f)(ArgType)) {\n"
+		"        GTEST_CHECK_(f != NULL)\n"
+		"                << \"NULL function pointer\";\n"
+		"    }\n"
+		"    template <typename T>\n"
+		"    static ResType Invoke(ResType(*f)(ArgType), T arg) {\n"
+		"        return (*f)(arg);\n"
+		"    }\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V204, TemplateAlignment)
+{
+	// Templates should align with the '<'.
+	char text[] =
+		"\ntemplate < class X,\n"
+		"           class Y >\n"
+		"template <\n"
+		"    class X,\n"
+		"    class Y >\n"
+		"void foo()\n"
+		"{}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V204, PadOperatorWithComma)
+{
+	// An operator followed by a comma should NOT be padded after.
+	// Can happens in a macro.
+	char text[] =
+		"\nMATCHER(Eq, ==, \"is equal\");\n"
+		"MATCHER(Gt,  >, \"is >\");\n"
+		"MATCHER(Le, <=, \"is <=\");\n"
+		"MATCHER(Lt,  <, \"is <\");\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V204, OperatorWithBitwiseNot)
 {
 	// These should be recognized as an operator.
 	char textIn[] =
@@ -1754,7 +1810,7 @@ TEST(BugFix_V201, TemplateASBeautifier)
 	// template within a template should be recognized by ASBeautifier
 	char text[] =
 		"\ntemplate<typename T, template<typename E,\n"
-		"         typename Allocator = allocator<E> >\n"
+		"                              typename Allocator = allocator<E> >\n"
 		"         class Container = vector >\n"
 		"class Foo\n"
 		"{\n"

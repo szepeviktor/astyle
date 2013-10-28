@@ -32,7 +32,7 @@ import time
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN
 # TESTPROJECT
-__project = libastyle.SHARPMAIN
+__project = libastyle.SHARPDEVELOP
 
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a bracket style or any other option
@@ -55,11 +55,11 @@ __start = 1
 
 # bracket options and the order they are tested (start with number 1)
 # a = attached (A2), b = broken (A1), h = horstmann (A9), p = pico (A11),
-__brackets = "__aa_bb_hh_ahb_p"
+__brackets = "__aa_bb_hh_ahbp"
 
 # -----------------------------------------------------------------------------
 
-def process_files():
+def main():
 	"""Main processing function.
 	"""
 	# total files formatted in error
@@ -164,20 +164,26 @@ def get_astyle_config():
 
 # -----------------------------------------------------------------------------
 
-def get_bracket_option(bracket_symbol):
+def get_bracket_option(index):
 	"""Get the bracket option from the "__brackets" symbol.
 	   a = attached (A2), b = broken (A1), h = horstmann (A9), p = pico (A11),
 	"""
-	if bracket_symbol == 'a':
+	if __brackets[index] == 'a':
 		return "A2"
-	elif bracket_symbol == 'b':
+	elif __brackets[index] == 'b':
 		return "A1"
-	elif bracket_symbol == 'h':
+	elif __brackets[index] == 'h':
 		return "A9"
-	elif bracket_symbol == 'p':
+	elif __brackets[index] == 'p':
 		return "A11"
+	elif __brackets[index] == '_':
+		# add case indent for a '_' following a 'h'
+		if index > 0 and __brackets[index - 1] == 'h':
+			return "S"
+		else:
+			return ""
 	else:
-		libastyle.system_exit("Bad bracket option: " + str(bracket_symbol))
+		libastyle.system_exit("Bad bracket option: " + str(__brackets[index]))
 
 # -----------------------------------------------------------------------------
 
@@ -339,8 +345,9 @@ def set_astyle_args(filepath, excludes, brackets, index):
 		if __options_x[0] != '-':
 			libastyle.system_exit("options_x must begin with a '-'")
 		args.append(__options_x)
-	if brackets[index] != '_':
-		args.append('-' + get_bracket_option(brackets[index]))
+	bracket_option = get_bracket_option(index)
+	if bracket_option != '':
+		args.append('-' + bracket_option)
 	# set excludes
 	for exclude in excludes:
 		args.append(exclude)
@@ -395,7 +402,7 @@ def verify_formatted_files(numformat, totformat):
 
 # make the module executable
 if __name__ == "__main__":
-	process_files()
+	main()
 	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

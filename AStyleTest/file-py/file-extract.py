@@ -28,7 +28,7 @@ __all_files_option = False
 
 # -----------------------------------------------------------------------------
 
-def extract_project():
+def main():
 	"""Call the library procedure to extract the requested project.
 	"""
 	libastyle.set_text_color()
@@ -55,7 +55,7 @@ def print_run_time(starttime, stoptime):
 
 # make the module executable
 if __name__ == "__main__":
-	extract_project()
+	main()
 	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

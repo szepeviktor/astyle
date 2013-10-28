@@ -47,7 +47,7 @@ OPT1 = "-CSKNLwxwYM50m0FpPHUEk1yejOoc"
 #     min-conditional-indent=3 (m3), pad-paren-out(d)
 #     pad-oper (p), delete-empty-lines (xe)
 # WITHOUT: keep-one-line-blocks (O), keep-one-line-statements (o),
-OPT2 = "-CSKNLwM60m3fpdHUxeEk3W1yeJc"
+OPT2 = "-xGSKNLwM60m3fpdHUxeEk3W1yeJc"
 
 # OPT3
 # align-pointer=middle (k2), align-reference=name (W3),

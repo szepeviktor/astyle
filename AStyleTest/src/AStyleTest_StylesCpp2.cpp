@@ -1940,6 +1940,274 @@ TEST(Style1TBSCpp, PicoOneLine)
 }
 
 //----------------------------------------------------------------------------
+// AStyle C++ Google Style
+// Additional tests are in the attach brackets tests
+//----------------------------------------------------------------------------
+
+struct StyleGoogleCppF : public ::testing::Test
+{
+	string textStr;
+	const char* textIn;
+
+	StyleGoogleCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(StyleGoogleCppF, LongOption)
+{
+	// test google style option
+	char text[] =
+		"\nnamespace FooName {\n"
+		"\n"
+		"class FooClass {\n"
+		"  private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"  protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n"
+		"\n"
+		"void FooClass::Foo(bool isFoo) {\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else\n"
+		"        anotherBar();\n"
+		"}\n"
+		"\n"
+		"}   // end FooName\n";
+	char options[] = "style=google";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST_F(StyleGoogleCppF, Short)
+{
+	// test google style short option
+	char text[] =
+		"\nnamespace FooName {\n"
+		"\n"
+		"class FooClass {\n"
+		"  private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"  protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n"
+		"\n"
+		"void FooClass::Foo(bool isFoo) {\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else\n"
+		"        anotherBar();\n"
+		"}\n"
+		"\n"
+		"}   // end FooName\n";
+	char options[] = "-A14";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleGoogleCpp, SpaceIndent)
+{
+	// test google style option with space indent
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"  private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"  protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n";
+	char text[] =
+		"\nclass FooClass {\n"
+		"   private:\n"
+		"      bool var1;\n"
+		"      void func1();\n"
+		"   protected:\n"
+		"      bool var2;\n"
+		"      void func2();\n"
+		"};\n";
+	char options[] = "style=google, indent=spaces=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleGoogleCpp, Tab)
+{
+	// test google style option with tab indent
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"  private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"  protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n";
+	char text[] =
+		"\nclass FooClass {\n"
+		"  private:\n"
+		"	bool var1;\n"
+		"	void func1();\n"
+		"  protected:\n"
+		"	bool var2;\n"
+		"	void func2();\n"
+		"};\n";
+	char options[] = "style=google, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleGoogleCpp, TabIndent)
+{
+	// test google style option with tab indent
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"  private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"  protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n";
+	char text[] =
+		"\nclass FooClass {\n"
+		"   private:\n"
+		"	bool var1;\n"
+		"	void func1();\n"
+		"   protected:\n"
+		"	bool var2;\n"
+		"	void func2();\n"
+		"};\n";
+	char options[] = "style=google, indent=tab=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleGoogleCpp, ForceTab)
+{
+	// test google style option with force tab
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"  private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"  protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n";
+	char text[] =
+		"\nclass FooClass {\n"
+		"  private:\n"
+		"	bool var1;\n"
+		"	void func1();\n"
+		"  protected:\n"
+		"	bool var2;\n"
+		"	void func2();\n"
+		"};\n";
+	char options[] = "style=google, indent=force-tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleGoogleCpp, ForceTabIndent)
+{
+	// test google style option with force tab
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"  private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"  protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n";
+	char text[] =
+		"\nclass FooClass {\n"
+		"   private:\n"
+		"	bool var1;\n"
+		"	void func1();\n"
+		"   protected:\n"
+		"	bool var2;\n"
+		"	void func2();\n"
+		"};\n";
+	char options[] = "style=google, indent=force-tab=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StyleGoogleCpp, IndentClasses)
+{
+	// test google style with indent classes
+	// classes should NOT be indented
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"  private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"  protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n";
+	char text[] =
+		"\nclass FooClass {\n"
+		"  private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"  protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n";
+	char options[] = "style=google, indent-classes";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
 // AStyle C++ Pico Style
 //----------------------------------------------------------------------------
 

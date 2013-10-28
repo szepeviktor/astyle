@@ -26,7 +26,7 @@ __base_dir =  libastyle.get_project_directory()
 
 # -----------------------------------------------------------------------------
 
-def create_distributions():
+def main():
 	"""Main processing function.
 	"""
 	libastyle.set_text_color()
@@ -392,7 +392,7 @@ def remove_dist_directories():
 
 # make the module executable
 if __name__ == "__main__":
-	create_distributions()
+	main()
 	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

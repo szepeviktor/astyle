@@ -15,7 +15,7 @@ __print_variables = False			# print the variables in the lists
 
 # -----------------------------------------------------------------------------
 
-def process_files():
+def main():
 	"""Main processing function."""
 
 	header_variables = []		# variables in astyle.h
@@ -68,10 +68,14 @@ def convert_class_functions(line):
 		line = ''
 	elif "setSpaceIndentation" in line:
 		line = "indentLength"
+	elif "setMinConditionalIndentOption" in line:
+		line = "minConditionalOption"
 	elif "setMaxInStatementIndentLength" in line:
 		line = "maxInStatementIndent"
 	elif "setClassIndent" in line:
 		line = "classIndent"
+	elif "setModifierIndent" in line:
+		line = "modifierIndent"
 	elif "setSwitchIndent" in line:
 		line = "switchIndent"
 	elif "setCaseIndent" in line:
@@ -88,18 +92,14 @@ def convert_class_functions(line):
 		line = "emptyLineFill"
 	elif "setCStyle" in line:
 		line = "fileType"
-
 	elif "setPreprocessorIndent" in line:	# depreciated version 2.04
 		line = "preprocessorIndent"
 	elif "setPreprocDefineIndent" in line:
 		line = "shouldIndentPreprocDefine"
 	elif "setPreprocConditionalIndent" in line:
 		line = "shouldIndentPreprocConditional"
-
 	elif "setAlignMethodColon" in line:
 		line = "shouldAlignMethodColon"
-	elif "setMinConditionalIndentOption" in line:
-		line = "minConditionalOption"
 	else:
 		line = "unidentified function: " + line
 	return line
@@ -197,13 +197,19 @@ def get_constructor_variables(class_variables, beautifier_path):
 				variable_name = line[0:first_space].strip()
 		if len(variable_name) == 0:
 			continue
+		# omit global variable initialization to avoid a difference
+		if "g_preprocessorCppExternCBracket" in line:
+			continue
 		class_variables.append(variable_name)
 		class_total += 1
+		# setSpaceIndentation() sets indentLength and ndentString
+		# minConditionalIndent is set in ASFormatter by fixOptionVariableConflicts()
+		# verbatimDelimiter is a string that is not initialized in the constructor
 		if variable_name == "indentLength":
 			class_variables.append("indentString")
 			class_variables.append("minConditionalIndent")
-			class_total += 2
-
+			class_variables.append("verbatimDelimiter")
+			class_total += 3
 	file_in.close()
 	if __print_detail:
 		print("{0} {1} class constructor".format(class_lines, class_total))
@@ -287,9 +293,9 @@ def get_header_variables(header_variables, header_path):
 		if '}' in line:
 			header_lines[1] = lines
 			break
-		if ("public:" in line
-		or "private:" in line
-		or "protected:" in line):
+		if (line.startswith("public:")
+		or line.startswith("private:")
+		or line.startswith("protected:")):
 			continue
 		# bypass functions
 		if ('(' in line
@@ -362,7 +368,7 @@ def get_initializer_variables(class_variables, beautifier_path):
 
 # make the module executable
 if __name__ == "__main__":
-	process_files()
+	main()
 	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

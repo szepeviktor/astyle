@@ -31,7 +31,7 @@ import time
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN         # C# - 1000 files from SharpDevelop
 # TESTPROJECT
-__project = libastyle.SHARPMAIN
+__project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 # options_x are for BOTH executables
@@ -45,7 +45,7 @@ __options_x  = ""
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
 # options_x2 are for exe2 ONLY
 # options_x2 is used to test new options
-__astyleexe1 = "astyle24m"
+__astyleexe1 = "astyle24n"
 __astyleexe2 = "astyle"
 __options_x2 = ""
 
@@ -53,13 +53,13 @@ __options_x2 = ""
 __formatOLD = True
 #__formatOLD = False
 
-# extract all files options, use False for speed
+# extract all files options, use False for speed, use True to compile
 #__all_files_option = True
 __all_files_option = False
 
 # -----------------------------------------------------------------------------
 
-def process_files():
+def main():
 	"""Main processing function.
 	"""
 	# initialization
@@ -426,7 +426,7 @@ def verify_test_directory(name):
 
 # make the module executable
 if __name__ == "__main__":
-	process_files()
+	main()
 	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

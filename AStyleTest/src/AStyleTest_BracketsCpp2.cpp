@@ -3080,7 +3080,7 @@ TEST(BracketsArrayRunInCpp, InStatement3)
 
 TEST(BracketsArrayCpp, ClearNonInStatementArray1)
 {
-	// Setting of clearNonInStatement flag.
+	// Setting of isImmediatelyPostNonInStmt flag.
 	// The isNonInStatementArray flag should be cleared at the end of the array.
 	// If it is not, the continuation lines in the "for" statement will not be indented.
 	char text[] =
@@ -3098,6 +3098,31 @@ TEST(BracketsArrayCpp, ClearNonInStatementArray1)
 		"        TiXmlElementA *element = childNode->ToElement();\n"
 		"    }\n"
 		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BracketsArrayCpp, ClearNonInStatementArray2)
+{
+	// Setting of isImmediatelyPostNonInStmt flag.
+	// The isNonInStatementArray flag should be NOT cleared at the "},{" sequence.
+	// If it is, the following lines containing a dot "." will have an indent.
+	char text[] =
+		"\ntype_t var = {\n"
+		"items:\n"
+		"    (type2_t[]) {\n"
+		"        {\n"
+		"            NULL,\n"
+		"        }, {\n"
+		"            .log = 1,\n"
+		"            .use_log = 1,\n"
+		"            .send_log = 1,\n"
+		"        },\n"
+		"        NULL\n"
+		"    }\n"
+		"};";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);

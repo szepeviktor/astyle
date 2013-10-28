@@ -14,7 +14,7 @@ __print_variables = False			# print the variables in the lists
 
 # -----------------------------------------------------------------------------
 
-def process_files():
+def main():
 	"""Main processing function."""
 
 	header_variables = []				# header vector variables
@@ -300,7 +300,7 @@ def get_pre_command_variables(pre_command_variables, resource_path):
 
 # make the module executable
 if __name__ == "__main__":
-	process_files()
+	main()
 	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

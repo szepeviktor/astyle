@@ -15,7 +15,7 @@ __print_variables = False			# print the variables in the lists
 
 # -----------------------------------------------------------------------------
 
-def process_files():
+def main():
 	"""Main processing function."""
 
 	header_variables = []		# variables in astyle.h
@@ -221,7 +221,7 @@ def get_header_variables(header_variables, header_path):
 
 # make the module executable
 if __name__ == "__main__":
-	process_files()
+	main()
 	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------
