@@ -52,10 +52,11 @@ string WideCharToUtf8Str(wchar_t* wcIn)
 	return mbStr;
 }
 #else
-string WideCharToUtf8Str(wchar_t* wcIn, size_t wcLen)
+string WideCharToUtf8Str(wchar_t* wcIn)
 // convert wide char text (32 bit) to an 8 bit utf-8 string
 {
 	// Linux wchar_t is 32 bits
+	size_t wcLen = wcslen(wcIn);
 	iconv_t iconvh = iconv_open("UTF−8", "UTF−32LE");
 	if (iconvh == (iconv_t) - 1)
 		systemAbort("Bad iconv_open in Utf16ToUtf8Str()");

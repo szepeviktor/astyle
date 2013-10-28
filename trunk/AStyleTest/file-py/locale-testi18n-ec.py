@@ -16,7 +16,7 @@ __builddir = libastyle.get_astyletest_directory() + "/build/cb-ec"
 
 # -----------------------------------------------------------------------------
 
-def process_files():
+def main():
 	"""Main processing function.
 	"""
 	# initialization
@@ -85,7 +85,7 @@ def verify_os():
 
 # make the module executable
 if __name__ == "__main__":
-	process_files()
+	main()
 	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

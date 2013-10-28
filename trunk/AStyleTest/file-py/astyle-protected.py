@@ -15,7 +15,7 @@ __print_variables = False			# print the variables in the lists
 
 # -----------------------------------------------------------------------------
 
-def process_files():
+def main():
 	"""Read astyle.h and ASBeautifier.cpp files and check protected variables."""
 
 	header_variables = []			# protected variables in astyle.h
@@ -152,7 +152,7 @@ def get_header_variables(header_variables, header_path):
 
 # make the module executable
 if __name__ == "__main__":
-	process_files()
+	main()
 	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

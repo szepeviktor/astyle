@@ -7,7 +7,7 @@ REM build.dir=build and dist.dir=dist (not used)
 REM and saved as build.properties
 
 REM set directory of build.properties and build.xml
-set testdata=..\..\TestData
+set testdata=..\..\TestDataSys
 
 REM set variables for ant
 set ANT_HOME=%PROGRAMFILES%\Java\apache-ant-1.8.4

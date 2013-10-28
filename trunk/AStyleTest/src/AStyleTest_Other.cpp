@@ -1343,7 +1343,7 @@ TEST(Enum, InStatementIndentTab2)
 	delete [] textOut;
 }
 
-TEST(Enum, Sans)
+TEST(Enum, EnumArgument1)
 {
 	// An enum argument is NOT an enum.
 	// The return statement will be indented incorrectly if
@@ -1353,6 +1353,27 @@ TEST(Enum, Sans)
 		"{\n"
 		"    switch (type) {\n"
 		"    case 1:\n"
+		"        return 1;\n"
+		"    }\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Enum, EnumArgument2)
+{
+	// An enum argument is NOT an enum.
+	// The case statements will get an extra indent if
+	// it is incorrectly flagged.
+	char text[] =
+		"\nint Foo(enum type_t var)\n"
+		"{\n"
+		"    switch (var) {\n"
+		"    case VALUE_1:\n"
+		"    case VALUE_2:\n"
+		"    case VALUE_3:\n"
 		"        return 1;\n"
 		"    }\n"
 		"}";
@@ -3730,31 +3751,6 @@ TEST(Continuation, InlineTab2)
 	delete [] textOut;
 }
 
-TEST(Continuation, BeginsWithDot)
-{
-	// continuation lines that begin with a dot
-	char textIn[] =
-		"\nTEST_F(Foo, Options)\n"
-		"{\n"
-		"    EXPECT_CALL(library, convertUtf16ToUtf8(_))\n"
-		"    .WillOnce(Return(utf8Formatted))\n"
-		"    .WillOnce(Return(static_cast<char*>(NULL)));\n"
-		"    EXPECT_EQ(NULL, textOut);\n"
-		"}";
-	char text[] =
-		"\nTEST_F(Foo, Options)\n"
-		"{\n"
-		"    EXPECT_CALL(library, convertUtf16ToUtf8(_))\n"
-		"        .WillOnce(Return(utf8Formatted))\n"
-		"        .WillOnce(Return(static_cast<char*>(NULL)));\n"
-		"    EXPECT_EQ(NULL, textOut);\n"
-		"}";
-	char options[] = "";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 //----------------------------------------------------------------------------
 // AStyle Continuation Lines with Tabs
 //----------------------------------------------------------------------------
@@ -4154,32 +4150,6 @@ TEST(ContinuationTab, InlineTab2)
 	delete [] textOut;
 }
 
-TEST(ContinuationTab, BeginsWithDot)
-{
-	// continuation lines with tabs
-	// continuation lines that begin with a dot
-	char textIn[] =
-		"\nTEST_F(Foo, Options)\n"
-		"{\n"
-		"    EXPECT_CALL(library, convertUtf16ToUtf8(_))\n"
-		"    .WillOnce(Return(utf8Formatted))\n"
-		"    .WillOnce(Return(static_cast<char*>(NULL)));\n"
-		"    EXPECT_EQ(NULL, textOut);\n"
-		"}";
-	char text[] =
-		"\nTEST_F(Foo, Options)\n"
-		"{\n"
-		"	EXPECT_CALL(library, convertUtf16ToUtf8(_))\n"
-		"	    .WillOnce(Return(utf8Formatted))\n"
-		"	    .WillOnce(Return(static_cast<char*>(NULL)));\n"
-		"	EXPECT_EQ(NULL, textOut);\n"
-		"}";
-	char options[] = "indent=tab";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 TEST(ContinuationForceTab, InlineTab1)
 {
 	// continuation lines with force tabs
@@ -4235,32 +4205,6 @@ TEST(ContinuationForceTab, InlineTab2)
 		"}\n";
 	char options[] = "indent=force-tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(ContinuationForceTab, BeginsWithDot)
-{
-	// continuation lines with force tabs
-	// continuation lines that begin with a dot
-	char textIn[] =
-		"\nTEST_F(Foo, Options)\n"
-		"{\n"
-		"    EXPECT_CALL(library, convertUtf16ToUtf8(_))\n"
-		"    .WillOnce(Return(utf8Formatted))\n"
-		"    .WillOnce(Return(static_cast<char*>(NULL)));\n"
-		"    EXPECT_EQ(NULL, textOut);\n"
-		"}";
-	char text[] =
-		"\nTEST_F(Foo, Options)\n"
-		"{\n"
-		"	EXPECT_CALL(library, convertUtf16ToUtf8(_))\n"
-		"		.WillOnce(Return(utf8Formatted))\n"
-		"		.WillOnce(Return(static_cast<char*>(NULL)));\n"
-		"	EXPECT_EQ(NULL, textOut);\n"
-		"}";
-	char options[] = "indent=force-tab";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }

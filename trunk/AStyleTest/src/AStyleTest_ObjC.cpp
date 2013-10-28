@@ -406,6 +406,38 @@ TEST_F(ObjCStyleF, 1TBS)
 	delete [] textOut;
 }
 
+TEST_F(ObjCStyleF, Google)
+{
+	// test google style option
+	char text[] =
+		"\n@interface Foo : NSObject {\n"
+		"    NSString* var1;\n"
+		"    NSString* var2;\n"
+		"}\n"
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo {\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"    ofSize : (int) size {\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"@end\n";
+	char options[] = "style=google";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST_F(ObjCStyleF, Pico)
 {
 	// test pico style option
@@ -1404,6 +1436,41 @@ TEST(ObjCOther, 1TBSAddBrackets)
 	delete [] textOut;
 }
 
+TEST(ObjCOther, GoogleWithAccessModifiers)
+{
+	// test google style option with access modifiers
+	char text[] =
+		"\n@interface Foo : NSObject {\n"
+		"  @public\n"
+		"    bool var1;\n"
+		"  @protected\n"
+		"    bool var2;\n"
+		"  @private\n"
+		"    bool var3;\n"
+		"}\n"
+		"@end\n";
+	char options[] = "style=google";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(ObjCOther, GoogleWithMultilineInterface)
+{
+	// test google style option with a multiline interface
+	char text[] =
+		"\n@interface Foo\n"
+		"    : NSObject {\n"
+		"    bool var1;\n"
+		"    bool var2;\n"
+		"}\n"
+		"@end\n";
+	char options[] = "style=google";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(ObjCOther, HeaderData)
 {
 	// test a header with Objective-C statements
@@ -1438,18 +1505,63 @@ TEST(ObjCOther, HeaderData)
 	delete [] textOut;
 }
 
-TEST(ObjCOther, HeaderDataContinuation)
+TEST(ObjCOther, InterfaceContinuation1)
 {
 	// test an Objective-C header with continuation lines
+	// no bracket
 	char text[] =
-		"\n@interface GWViewerListViewDataSource :\n"
-		"    FSNListViewDataSource\n"
+		"\n@interface Foo1 :\n"
+		"    NSObject\n"
+		"@end\n"
 		"\n"
-		"- (NSImage *)iconOfSize:(int)size\n"
-		"    forNode:(FSNode *)node;";
+		"@interface Foo2\n"
+		"    : NSObject\n"
+		"@end\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(ObjCOther, InterfaceContinuation2)
+{
+	// test google style option with a multiline interface
+	// attached bracket
+	char text[] =
+		"\n@interface Foo1 :\n"
+		"    NSObject {\n"
+		"}\n"
+		"@end\n"
+		"\n"
+		"@interface Foo2\n"
+		"    : NSObject {\n"
+		"}\n"
+		"@end\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(ObjCOther, InterfaceContinuation3)
+{
+	// test google style option with a multiline interface
+	// broken bracket
+	char text[] =
+		"\n@interface Foo1 :\n"
+		"    NSObject\n"
+		"{\n"
+		"}\n"
+		"@end\n"
+		"\n"
+		"@interface Foo2\n"
+		"    : NSObject\n"
+		"{\n"
+		"}\n"
+		"@end\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1531,6 +1643,45 @@ TEST(ObjCOther, MethodCallHeader)
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(ObjCOther, IndentClasses)
+{
+	// test google style option with indent classes
+	// classes should NOT be indented
+	char text[] =
+		"\n@interface Foo : NSObject {\n"
+		"@public\n"
+		"    bool var1;\n"
+		"@protected\n"
+		"    bool var2;\n"
+		"@private\n"
+		"    bool var3;\n"
+		"}\n"
+		"@end\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(ObjCOther, IndentModifiers)
+{
+	// test google style option with indent classes
+	char text[] =
+		"\n@interface Foo : NSObject {\n"
+		"  @public\n"
+		"    bool var1;\n"
+		"  @protected\n"
+		"    bool var2;\n"
+		"  @private\n"
+		"    bool var3;\n"
+		"}\n"
+		"@end\n";
+	char options[] = "indent-modifiers";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
@@ -1628,15 +1779,19 @@ TEST(ObjCOther, PadInterfaceColon2)
 	char textIn[] =
 		"\n@interface Foo:\n"
 		"NSObject\n"
+		"@end\n"
 		"\n"
 		"@interface Foo\n"
-		":NSObject\n";
+		":NSObject\n"
+		"@end\n";
 	char text[] =
 		"\n@interface Foo :\n"
 		"    NSObject\n"
+		"@end\n"
 		"\n"
 		"@interface Foo\n"
-		"    : NSObject\n";
+		"    : NSObject\n"
+		"@end\n";
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);

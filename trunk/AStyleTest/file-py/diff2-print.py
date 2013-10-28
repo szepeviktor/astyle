@@ -11,7 +11,7 @@ import os
 
 # -----------------------------------------------------------------------------
 
-def process_diffs():
+def main():
 	"""Main processing function.
 	"""
 	libastyle.set_text_color()
@@ -38,7 +38,7 @@ def get_diff_files(testfile):
 
 # make the module executable
 if __name__ == "__main__":
-	process_diffs()
+	main()
 	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

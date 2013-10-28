@@ -22,7 +22,7 @@ __suppression_path = __py_dir + "cppcheck-suppress"
 
 # -----------------------------------------------------------------------------
 
-def process_files():
+def main():
 	"""Main processing function.
 	"""
 	generate_suppression_file()
@@ -35,10 +35,10 @@ def generate_suppression_file():
 	"""
 	outfile = open(__suppression_path, 'w')
 
-	# uninitMemberVar
-	uninit_member_var_list = ["\n// uninitMemberVar\n"]
-	process_uninit_member_var(uninit_member_var_list)
-	outfile.writelines(uninit_member_var_list)
+	# File Suppressions
+	file_suppression_list = ["\n// File Suppressions\n"]
+	process_file_suppressions(file_suppression_list)
+	outfile.writelines(file_suppression_list)
 
 	# ASBeautifier
 	beautifier_list = ["\n// ASBeautifier.cpp\n"]
@@ -211,6 +211,22 @@ def process_enhancer(enhancer_list):
 
 # -----------------------------------------------------------------------------
 
+def process_file_suppressions(file_suppression_list):
+	""" Generate suppressions for an entire file.
+	"""
+	file_suppression_list.append("// duplInheritedMember\n")
+	file_suppression_list.append("// These are duplicate variable names in the header classes.\n")
+	file_suppression_list.append("// The way the classes are used they are not a problem.\n")
+	file_suppression_list.append("duplInheritedMember:" + __src_dir + "astyle.h\n")
+	file_suppression_list.append("// uninitMemberVar\n")
+	file_suppression_list.append("// These are actually initialized in the astyle 'init' functions.\n")
+	file_suppression_list.append("// They are verified by other Python scripts.\n")
+	file_suppression_list.append("uninitMemberVar:" + __src_dir + "ASBeautifier.cpp\n")
+	file_suppression_list.append("uninitMemberVar:" + __src_dir + "ASEnhancer.cpp\n")
+	file_suppression_list.append("uninitMemberVar:" + __src_dir + "ASFormatter.cpp\n")
+
+# -----------------------------------------------------------------------------
+
 def process_formatter(formatter_list):
 	""" Generate suppressions for ASFormatter.
 	"""
@@ -299,17 +315,6 @@ def process_resource(resource_list):
 			
 # -----------------------------------------------------------------------------
 
-def process_uninit_member_var(uninit_member_var_list):
-	""" Generate suppressions for uninitMemberVar.
-	"""
-	uninit_member_var_list.append("// These are actually initialized in the astyle 'init' functions.\n")
-	uninit_member_var_list.append("// They are verified by other Python scripts.\n")
-	uninit_member_var_list.append("uninitMemberVar:" + __src_dir + "ASBeautifier.cpp\n")
-	uninit_member_var_list.append("uninitMemberVar:" + __src_dir + "ASEnhancer.cpp\n")
-	uninit_member_var_list.append("uninitMemberVar:" + __src_dir + "ASFormatter.cpp\n")
-
-# -----------------------------------------------------------------------------
-
 def run_cppcheck():
 	"""Run the cppcheck program.
 	   NOTE: The window stays open only if run from the console.
@@ -370,7 +375,7 @@ def verify_cppcheck_version(exepath):
 
 # make the module executable
 if __name__ == "__main__":
-	process_files()
+	main()
 	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

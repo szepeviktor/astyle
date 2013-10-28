@@ -14,7 +14,7 @@ import sys
 
 # -----------------------------------------------------------------------------
 
-def enumerate_locales():
+def main():
 	"""Main processing function.
 	"""
 	if os.name != "nt":
@@ -125,7 +125,7 @@ def get_codepage(locale_name):
 
 # make the module executable
 if __name__ == "__main__":
-	enumerate_locales()
+	main()
 	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

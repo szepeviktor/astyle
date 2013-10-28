@@ -40,13 +40,13 @@ __options_x = ""
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
 # options_x2 are for exe2 ONLY
 # options_x2 is used to test new options
-__astyleexe1 = "astyle24m"
+__astyleexe1 = "astyle24n"
 __astyleexe2 = "astyle"
 __options_x2 = ""
 
 # select one of the following to unarchive files
-__extract_files = True
-#__extract_files = False
+#__extract_files = True
+__extract_files = False
 
 # extract all files options, use False for speed
 #__all_files_option = True
@@ -54,7 +54,7 @@ __all_files_option = False
 
 # -----------------------------------------------------------------------------
 
-def process_files():
+def main():
 	"""Main processing function.
 	"""
 	# initialization
@@ -230,8 +230,6 @@ def set_astyle_args(filepath, excludes, astyleexe):
 	if len(__options.strip()) > 0:
 		args.append(__options)
 	if len(__options_x.strip()) > 0:
-		if __options_x[0] != '-':
-			libastyle.system_exit("options_x must begin with a '-'")
 		args.append(__options_x)
 	if (astyleexe == __astyleexe2
 	and len(__options_x2.strip()) > 0):
@@ -329,7 +327,7 @@ def verify_options_x_variable():
 
 # make the module executable
 if __name__ == "__main__":
-	process_files()
+	main()
 	libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

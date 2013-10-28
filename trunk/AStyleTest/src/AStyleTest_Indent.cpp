@@ -651,6 +651,178 @@ TEST(IndentClasses, NestedStruct)
 }
 
 //-------------------------------------------------------------------------
+// AStyle Indent Modifiers
+//-------------------------------------------------------------------------
+
+TEST(IndentModifiers, LongOption)
+{
+	// test indent access modifiers
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"  private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"  protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"  public:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};";
+	char options[] = "indent-modifiers";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentModifiers, ShortOption)
+{
+	// test indent access modifiers short option
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"  private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"  protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"  public:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};";
+	char options[] = "-xG";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentModifiers, IndentClasses)
+{
+	// should not indent modifiers with indent classes
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"public:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"    private:\n"
+		"        bool var1;\n"
+		"        void func1();\n"
+		"    protected:\n"
+		"        bool var2;\n"
+		"        void func2();\n"
+		"    public:\n"
+		"        bool var2;\n"
+		"        void func2();\n"
+		"};";
+	char options[] = "indent-modifiers, indent-classes";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentModifiers, IndentTab)
+{
+	// test indent access modifiers with indent=tab
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"public:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"  private:\n"
+		"	bool var1;\n"
+		"	void func1();\n"
+		"  protected:\n"
+		"	bool var2;\n"
+		"	void func2();\n"
+		"  public:\n"
+		"	bool var2;\n"
+		"	void func2();\n"
+		"};";
+	char options[] = "indent-modifiers, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentModifiers, WithStruct)
+{
+	// test indent access modifiers for a struct
+	char textIn[] =
+		"\nstruct FooStruct\n"
+		"{\n"
+		"private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"public:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};";
+	char text[] =
+		"\nstruct FooStruct\n"
+		"{\n"
+		"  private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"  protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"  public:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};";
+	char options[] = "indent-modifiers";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentModifiers, WithStructSansModifiers)
+{
+	// test indent access modifiers for a struct without modifiers
+	char text[] =
+		"\nstruct FooStruct\n"
+		"{\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};";
+	char options[] = "indent-modifiers";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
 // AStyle Indent Switches
 //-------------------------------------------------------------------------
 
