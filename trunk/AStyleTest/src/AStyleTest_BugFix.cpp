@@ -12,8 +12,44 @@ namespace {
 
 
 //----------------------------------------------------------------------------
-// AStyle version 2.03 TEST functions
+// AStyle version 2.04 TEST functions
 //----------------------------------------------------------------------------
+
+TEST(BugFix_V204, PreprocessorRecognition)
+{
+	// Should not identify $#errormsg as a preprocessor.
+	char text[] =
+		"\n#define compile_time_assert(test, errormsg)                 \\\n"
+		"    do {                                                    \\\n"
+		"        struct ERROR_##errormsg {};                         \\\n"
+		"        typedef compile_time_check< (test) != 0 > tmplimpl; \\\n"
+		"        tmplimpl aTemp = tmplimpl(ERROR_##errormsg());      \\\n"
+		"        sizeof(aTemp);                                      \\\n"
+		"    } while (0)\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BugFix_V204, OperatorRecognition)
+{
+	// These are operators, not a template.
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    fBold=def.fontWeight<FW_BOLD&&param.Find(L\"bd\")>=0;\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    fBold = def.fontWeight < FW_BOLD && param.Find(L\"bd\") >= 0;\n"
+		"}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
 
 TEST(BugFix_V204, BlockOpener)
 {
@@ -129,6 +165,10 @@ TEST(BugFix_V204, PadParenInside)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
+//----------------------------------------------------------------------------
+// AStyle version 2.03 TEST functions
+//----------------------------------------------------------------------------
 
 TEST(BugFix_V203, NegativeParenStack)
 {

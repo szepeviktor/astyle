@@ -33,16 +33,16 @@ import time
 __project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
-# options_x can be a bracket style or any other option
 __options = libastyle.OPT0
-__options_x = ""
+
+# options_x are for BOTH executables
+__options_x  = ""
+# options_x2 are for ONLY exe2 to test new options
+__options_x2 = ""
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-# options_x2 are for exe2 ONLY
-# options_x2 is used to test new options
 __astyleexe1 = "astyle24n"
 __astyleexe2 = "astyle"
-__options_x2 = ""
 
 # select one of the following to unarchive files
 #__extract_files = True
