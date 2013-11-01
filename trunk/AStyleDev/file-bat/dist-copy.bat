@@ -1,7 +1,7 @@
 @REM make example program distribution directories
 @echo off
 
-set distdir=..\examples
+set distdir=..\DistExamples
 set distcpp=example-cpp_2.04
 set distjava=example-java_2.04
 set distobjc=example-objc_2.04
