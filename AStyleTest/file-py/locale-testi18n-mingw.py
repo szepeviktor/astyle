@@ -23,17 +23,16 @@ def main():
 	libastyle.set_text_color()
 	print(libastyle.get_python_version())
 	verify_os()
+	exepath = "C:/Windows/AppPatch/AppLoc.exe"
+	i18npath = __builddir + "/bin/AStyleTestI18nd.exe"
+	# verify files
+	if not os.path.exists(exepath):
+		libastyle.system_exit("AppLoc not installed: " + exepath)
 	build_testi18n_executable()
 
 	# for some reason the subprocess call must be one long statement and quoted as follows???
 	# the country LCID is added by the subprocess call
-	exepath = "C:/Windows/AppPatch/AppLoc.exe"
-	i18npath = __builddir + "/bin/AStyleTestI18nd.exe"
 	command = exepath + ' ' + i18npath + ' ' + "\"--terse_printer --no_close\"" + ' '
-	# verify files
-	if not os.path.exists(exepath):
-		libastyle.system_exit("AppLoc not installed: " + exepath)
-
 	# run tests
 	print("\nWAIT for a test to finish before running the next")
 	print("Reply OK to continue ...")
@@ -58,7 +57,7 @@ def build_testi18n_executable():
 	if not os.path.isfile(buildpath):
 		message = "Cannot find CodeBlocks executable: " + buildpath
 		libastyle.system_exit(message)
-	print("Close the build window to continue ...")
+	print("Close the build window when finished ...")
 	arg1 = "--build"
 	arg2 = "--target=Debug"
 	arg3 = "--no-batch-window-close"
