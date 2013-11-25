@@ -24,7 +24,7 @@ __is_unicode = False
 
 # -----------------------------------------------------------------------------
 
-def process_files():
+def main():
     """Main processing function.
     """
     files = [ "AStyleDev/test-data/ASBeautifier.cpp",
@@ -274,5 +274,5 @@ MEMORY_ALLOCATION = MemoryAllocationCallback(MemoryAllocation)
 
 # make the module executable
 if __name__ == "__main__":
-    process_files()
+    main()
     os._exit(0)

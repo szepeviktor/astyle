@@ -93,7 +93,7 @@
     </PreBuildEvent>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>ASTYLE_NO_VCX;_DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ASTYLE_NO_EXPORT;_DEBUG</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -125,7 +125,7 @@
     </PreBuildEvent>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>ASTYLE_NO_VCX;_DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ASTYLE_NO_EXPORT;_DEBUG</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
@@ -157,7 +157,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>ASTYLE_NO_VCX;NDEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ASTYLE_NO_EXPORT;NDEBUG</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
@@ -191,7 +191,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>ASTYLE_NO_VCX;NDEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ASTYLE_NO_EXPORT;NDEBUG</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
