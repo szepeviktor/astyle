@@ -16,7 +16,7 @@ import sys
 
 # -----------------------------------------------------------------------------
 
-def process_files():
+def main():
     """Main processing function.
     """
     files = [ "AStyleDev/test-data/ASBeautifier.cpp",
@@ -105,5 +105,5 @@ def initialize_exe():
 
 # make the module executable
 if __name__ == "__main__":
-    process_files()
+    main()
     os._exit(0)
