@@ -142,6 +142,8 @@ TEST(Cpp11Standard, EnumWithBaseType2)
 
 TEST(CharacterSet, ExtendedCharacterSet)
 {
+	// Clang issues a compiler warning for "illegal character encoding".
+#ifndef __clang__
 	// multi-byte characters (c) and ü should not cause assert error with
 	//     Visual Studio isalpha(), isalnum(), is punct(), etc.
 	// will happen only in the debug build
@@ -161,6 +163,7 @@ TEST(CharacterSet, ExtendedCharacterSet)
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+#endif
 }
 
 TEST(CharacterSet, UnicodeCharacterSet)

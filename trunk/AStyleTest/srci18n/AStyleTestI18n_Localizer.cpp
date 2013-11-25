@@ -365,11 +365,15 @@ struct TranslationF : public ::testing::Test
 		m_ascii.push_back("%d min %d sec   ");
 		m_ascii.push_back("%s lines\n");
 		m_ascii.push_back("Using default options file %s\n");
+		m_ascii.push_back("Opening HTML documentation %s\n");
 		m_ascii.push_back("Invalid option file options:");
 		m_ascii.push_back("Invalid command line options:");
 		m_ascii.push_back("For help on options type 'astyle -h'");
 		m_ascii.push_back("Cannot open options file");
 		m_ascii.push_back("Cannot open directory");
+		m_ascii.push_back("Cannot open HTML file");
+		m_ascii.push_back("Command execute failure");
+		m_ascii.push_back("xdg-utils is not installed");
 		m_ascii.push_back("Missing filename in %s\n");
 		m_ascii.push_back("Recursive option with no wildcard");
 		m_ascii.push_back("Did you intend quote the filename");
@@ -540,7 +544,6 @@ TEST_F(TranslationF, Italian)
 	Italian italian;
 	testTranslation(italian);
 }
-
 
 TEST_F(TranslationF, Japanese)
 // Test the Japanese translation.

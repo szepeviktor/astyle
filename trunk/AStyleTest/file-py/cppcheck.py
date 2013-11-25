@@ -83,7 +83,6 @@ def process_astyle_main(astyle_main_list):
 	""" Generate suppressions for astyle_main.
 	"""
 	lines = 0				# current input line number
-	eStatesProcessed = 0		# only want the fifth'eState'
 	src_path = __src_dir + "astyle_main.cpp"
 	file_in = open(src_path, 'r')
 	# get exceptions
@@ -94,10 +93,6 @@ def process_astyle_main(astyle_main_list):
 			continue
 		if line.startswith("//"):
 			continue
-		if line.startswith("eState = eStart"):
-			eStatesProcessed += 1
-			if eStatesProcessed == 5:
-				astyle_main_list.append("unreadVariable:" + src_path + ":" + str(lines) + "\t\t\t// eState\n")
 		# unusedFunction warnings
 		if "ASConsole::getFilesFormatted" in line:
 			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getFilesFormatted\n")
@@ -119,12 +114,14 @@ def process_astyle_main(astyle_main_list):
 			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getNoBackup\n")
 		if "ASConsole::getPreserveDate" in line:
 			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getPreserveDate\n")
+		if "ASConsole::setBypassBrowserOpen" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// setBypassBrowserOpen\n")
 		if "Java_AStyleInterface_AStyleGetVersion" in line:
 			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// Java_AStyleInterface_AStyleGetVersion\n")
 		if "Java_AStyleInterface_AStyleMain" in line:
 			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// Java_AStyleInterface_AStyleMain\n")
-		if "AStyleMainUtf16" in line:
-			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// Java_AStyleInterface_AStyleMain\n")
+		if "AStyleMainUtf16" in line and "STDCALL" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// AStyleMainUtf16\n")
 
 # -----------------------------------------------------------------------------
 
@@ -246,6 +243,8 @@ def process_formatter(formatter_list):
 			charsProcessed += 1
 			if charsProcessed == 2:
 				formatter_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t\t// char ch\n")
+		if line.startswith("int spacesOutsideToDelete"):
+			formatter_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t\t// spacesOutsideToDelete\n")
 		# assertWithSideEffect
 		if (line.startswith("assert") 
 		and "adjustChecksumIn" in line):			# 2 lines
@@ -270,6 +269,7 @@ def process_localizer(localizer_list):
 	""" Generate suppressions for ASLocalizer.
 	"""
 	lines = 0				# current input line number
+	langIDProcessed = 0		# only want certain 'm_langID'
 	src_path = __src_dir + "ASLocalizer.cpp"
 	file_in = codecs.open(src_path, "rb", "utf-8")
 	# get exceptions
@@ -283,7 +283,9 @@ def process_localizer(localizer_list):
 		if line.startswith('m_localeName = "UNKNOWN"'):
 			localizer_list.append("useInitializationList:" + src_path + ":" +  str(lines) + "\t\t// m_localeName\n")
 		if line.startswith('m_langID = "en"'):
-			localizer_list.append("useInitializationList:" + src_path + ":" +  str(lines) + "\t\t// m_langID\n")
+			langIDProcessed += 1
+			if langIDProcessed == 1 :
+				localizer_list.append("useInitializationList:" + src_path + ":" +  str(lines) + "\t\t// m_langID\n")
 		# unusedFunction warnings
 		if "ASLocalizer::getTranslationClass" in line:
 			localizer_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getTranslationClass\n")

@@ -822,6 +822,48 @@ TEST(IndentModifiers, WithStructSansModifiers)
 	delete [] textOut;
 }
 
+TEST(IndentModifiers, HorstmannClass)
+{
+	// Test indent access modifiers with a Horstmann class.
+	// The brackets should be run-in.
+	char textIn[] =
+		"\nclass FooClass\n"
+		"{\n"
+		"private:\n"
+		"    bool var1;\n"
+		"};";
+	char text[] =
+		"\nclass FooClass\n"
+		"{ private:\n"
+		"    bool var1;\n"
+		"};";
+	char options[] = "indent-modifiers, style=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentModifiers, HorstmannStruct)
+{
+	// Test indent access modifiers with a Horstmann struct.
+	// The brackets should be run-in.
+	char textIn[] =
+		"\nstruct FooStruct\n"
+		"{\n"
+		"private:\n"
+		"    bool var1;\n"
+		"};";
+	char text[] =
+		"\nstruct FooStruct\n"
+		"{ private:\n"
+		"    bool var1;\n"
+		"};";
+	char options[] = "indent-modifiers, style=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Indent Switches
 //-------------------------------------------------------------------------

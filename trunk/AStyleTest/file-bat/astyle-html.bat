@@ -5,8 +5,8 @@ set astyle=..\..\AStyle\build\vs2010\debug\AStyled
 :: set astyle=..\..\AStyle\build\vs2010\bin\AStyle
 
 :: call  libCompile.bat  %astyle%
-"%astyle%"  -h
-
+:: "%astyle%"  -!
+"%astyle%"  --html="c:\users\jimp\projects\astyle\doc\astyle.html"
 
 echo.
 pause

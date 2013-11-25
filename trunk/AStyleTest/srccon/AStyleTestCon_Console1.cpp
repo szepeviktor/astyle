@@ -51,7 +51,7 @@ TEST(ProcessOptions, ExcludeVector)
 	}
 	// check excludeVector
 	vector<string> excludeVector = g_console->getExcludeVector();
-	ASSERT_EQ(excludesIn.size(), excludeVector.size()) << "Vector sizes not equal.";
+	EXPECT_EQ(excludesIn.size(), excludeVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < excludeVector.size(); i++)
 		EXPECT_EQ(excludes[i], excludeVector[i]);
 	deleteConsoleGlobalObject();
@@ -73,7 +73,7 @@ TEST(ProcessOptions, ExcludeHitsVector)
 	g_console->processOptions(excludesIn);
 	// check excludeHitsVector
 	vector<bool> excludeHitsVector = g_console->getExcludeHitsVector();
-	ASSERT_EQ(excludesIn.size(), excludeHitsVector.size()) << "Vector sizes not equal.";
+	EXPECT_EQ(excludesIn.size(), excludeHitsVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < excludeHitsVector.size(); i++)
 		EXPECT_FALSE(excludeHitsVector[i]);
 	deleteConsoleGlobalObject();
@@ -93,7 +93,7 @@ TEST(ProcessOptions, FileNameVector)
 	g_console->standardizePath(fileName.back());
 	// check fileNameVector
 	vector<string> fileNameVector = g_console->getFileNameVector();
-	ASSERT_EQ(fileName.size(), fileNameVector.size()) << "Vector sizes not equal.";
+	EXPECT_EQ(fileName.size(), fileNameVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileNameVector.size(); i++)
 		EXPECT_EQ(fileName[i], fileNameVector[i]);
 	deleteConsoleGlobalObject();
@@ -114,7 +114,7 @@ TEST(ProcessOptions, OptionsVector)
 	g_console->processOptions(optionsIn);
 	// check optionsVector
 	vector<string> optionsVector = g_console->getOptionsVector();
-	ASSERT_EQ(optionsIn.size(), optionsVector.size()) << "Vector sizes not equal.";
+	EXPECT_EQ(optionsIn.size(), optionsVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < optionsVector.size(); i++)
 		EXPECT_EQ(optionsIn[i], optionsVector[i]);
 	deleteConsoleGlobalObject();
@@ -143,6 +143,12 @@ TEST(ProcessOptions, FileOptionsVector)
 		"\r"
 		"# options can be separated with commas\n"
 		"indent-classes,-K\n";
+#ifdef __BORLANDC__
+	// Embarcadero istream does not recognize '\r' line ends
+	for (size_t ec = 0; ec < strlen(fileIn); ec++)
+		if (fileIn[ec] == '\r' && fileIn[ec + 1] != '\n')
+			fileIn[ec] = '\n';
+#endif
 	vector<string> fileOptions;
 	fileOptions.push_back("--style=attach");
 	fileOptions.push_back("indent-switches");
@@ -164,7 +170,7 @@ TEST(ProcessOptions, FileOptionsVector)
 	g_console->processOptions(optionsIn);
 	// check fileOptionsVector
 	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
-	ASSERT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
+	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
 	removeTestFile(optionsFileName);
@@ -204,7 +210,7 @@ TEST(ProcessOptions, FileOptionsVector_EnvironmentVariable)
 	g_console->processOptions(optionsIn);
 	// check fileOptionsVector
 	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
-	ASSERT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
+	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
 	// clear the environment variable
@@ -251,7 +257,7 @@ TEST(ProcessOptions, FileOptionsVector_Home)
 	g_console->processOptions(optionsIn);
 	// check fileOptionsVector
 	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
-	ASSERT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
+	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
 	removeTestFile(optionsFileName);
@@ -321,7 +327,7 @@ TEST(ProcessOptions, FileOptionsVector_NoLineEnd)
 	g_console->processOptions(optionsIn);
 	// check fileOptionsVector
 	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
-	ASSERT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
+	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
 	removeTestFile(optionsFileName);
@@ -534,7 +540,7 @@ TEST(ProcessOptions, ConsoleOptions_Error)
 }
 
 //----------------------------------------------------------------------------
-// AStyle ascii, help, ignore-exclude-errors, and version options
+// AStyle ascii and ignore-exclude-errors options
 //----------------------------------------------------------------------------
 
 TEST(ProcessOptions, AsciiOption)
@@ -565,60 +571,6 @@ TEST(ProcessOptions, AsciiOption_Short)
 	// test the language
 	string langID = g_console->getLanguageID();
 	EXPECT_EQ(langID, "en");
-	deleteConsoleGlobalObject();
-}
-
-TEST(ProcessOptions, HelpOption)
-// test processOptions for help option display
-{
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	// build optionsIn
-	vector<string> optionsIn;
-	optionsIn.push_back("--help");
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
-	// test processOptions for help option display
-	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_SUCCESS),
-				"Bracket Style Options:");
-#endif
-	deleteConsoleGlobalObject();
-}
-
-TEST(ProcessOptions, HelpOption_Short1)
-// test processOptions for help short option -h display
-{
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	// build optionsIn
-	vector<string> optionsIn;
-	optionsIn.push_back("-h");
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
-	// test processOptions for help option display
-	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_SUCCESS),
-				"Bracket Style Options:");
-#endif
-	deleteConsoleGlobalObject();
-}
-
-TEST(ProcessOptions, HelpOption_Short2)
-// test processOptions for help short option -? display
-{
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	// build optionsIn
-	vector<string> optionsIn;
-	optionsIn.push_back("-?");
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
-	// test processOptions for help option display
-	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_SUCCESS),
-				"Bracket Style Options:");
-#endif
 	deleteConsoleGlobalObject();
 }
 
@@ -679,42 +631,6 @@ TEST(ProcessOptions, IgnoreExcludeErrorsAndDisplayOption_Short)
 	// check console options
 	EXPECT_TRUE(g_console->getIgnoreExcludeErrors());
 	EXPECT_TRUE(g_console->getIgnoreExcludeErrorsDisplay());
-	deleteConsoleGlobalObject();
-}
-
-TEST(ProcessOptions, VersionOption)
-// test processOptions for version option display
-{
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	// build optionsIn
-	vector<string> optionsIn;
-	optionsIn.push_back("--version");
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
-	// test processOptions for version option display
-	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_SUCCESS),
-				"Artistic Style Version ");
-#endif
-	deleteConsoleGlobalObject();
-}
-
-TEST(ProcessOptions, VersionOption_Short)
-// test processOptions for version short option display
-{
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	// build optionsIn
-	vector<string> optionsIn;
-	optionsIn.push_back("-V");
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
-	// test processOptions for version option display
-	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_SUCCESS),
-				"Artistic Style Version ");
-#endif
 	deleteConsoleGlobalObject();
 }
 
@@ -1283,7 +1199,7 @@ TEST(HeaderVectorSequence, BuildPreDefinitionHeaders)
 // AStyle Removed Options release 2.02
 //----------------------------------------------------------------------------
 
-TEST(RemovedOptions_V202, AllOptions)
+TEST(RemovedOptions, V202)
 // test that removed options are rejected with a message
 {
 	ASFormatter formatter;
@@ -1295,6 +1211,7 @@ TEST(RemovedOptions_V202, AllOptions)
 	optionsIn.push_back("--indent-blocks");
 	optionsIn.push_back("-B");
 	optionsIn.push_back("-G");
+	// this is NOT a removed option
 	optionsIn.push_back("--ascii");		// output in English
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
@@ -1307,6 +1224,44 @@ TEST(RemovedOptions_V202, AllOptions)
 				"indent-blocks\n"
 				"B\n"
 				"G\n");
+#endif
+	deleteConsoleGlobalObject();
+}
+
+TEST(RemovedOptions, V204)
+// test that removed options are rejected with a message
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	// build optionsIn
+	vector<string> optionsIn;
+	optionsIn.push_back("--brackets=attach");
+	optionsIn.push_back("--brackets=break");
+	optionsIn.push_back("--brackets=run-in");
+	optionsIn.push_back("--brackets=linux");
+	optionsIn.push_back("--brackets=stroustrup");
+	optionsIn.push_back("-a");
+	optionsIn.push_back("-b");
+	optionsIn.push_back("-g");
+	optionsIn.push_back("-l");
+	optionsIn.push_back("-u");
+	// this is NOT a removed option
+	optionsIn.push_back("--ascii");		// output in English
+	// cannot use death test with leak finder
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// test processOptions with invalid command line options
+	EXPECT_EXIT(g_console->processOptions(optionsIn),
+				::testing::ExitedWithCode(EXIT_FAILURE),
+				"brackets=attach\n"
+				"brackets=break\n"
+				"brackets=run-in\n"
+				"brackets=linux\n"
+				"brackets=stroustrup\n"
+				"a\n"
+				"b\n"
+				"g\n"
+				"l\n"
+				"u\n");
 #endif
 	deleteConsoleGlobalObject();
 }

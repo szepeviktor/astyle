@@ -37,7 +37,7 @@ using namespace std;
 #ifndef STDCALL
 #define STDCALL __stdcall
 #endif
-#if defined(_MSC_VER) && defined(ASTYLE_NO_VCX)
+#ifdef ASTYLE_NO_EXPORT
 #define EXPORT
 #else
 #define EXPORT __declspec(dllexport)

@@ -37,7 +37,7 @@ __project = libastyle.CODEBLOCKS
 __options    = libastyle.OPT1
 
 # options_x are for BOTH executables
-__options_x  = "-p"
+__options_x  = ""
 # options_x2 are for ONLY exe2 to test new options
 __options_x2 = ""
 
@@ -45,7 +45,7 @@ __options_x2 = ""
 #__options = "-tapOHUk3"
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle24n"
+__astyleexe1 = "astyle24"
 __astyleexe2 = "astyle"
 
 # select one of the following to format files in the OLD directory
