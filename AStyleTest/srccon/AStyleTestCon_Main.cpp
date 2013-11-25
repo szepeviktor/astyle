@@ -28,7 +28,6 @@
 #include <dirent.h>
 #endif
 
-#include "gtest/gtest.h"
 #include "TersePrinter.h"
 #include "AStyleTestCon.h"
 
