@@ -16,6 +16,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add option="-DASTYLE_LIB" />
 					<Add directory="../../src" />
@@ -37,6 +38,7 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_LIB" />
@@ -62,6 +64,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-pg" />
+					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
@@ -76,7 +79,7 @@
 				<Linker>
 					<Add option="-pg" />
 					<Add library="gcov" />
-					<Add library="gmockd" />
+					<Add library="gmock" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>

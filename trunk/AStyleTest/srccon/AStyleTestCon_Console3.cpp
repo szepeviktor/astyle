@@ -316,9 +316,11 @@ TEST_F(ProcessOptions3F, HtmlOption)
 				::testing::ExitedWithCode(EXIT_SUCCESS),
 				"");
 	string textOut = restoreStream();
-	// check a sample of the text
-	size_t output = textOut.find("Opening HTML documentation ");
-	EXPECT_TRUE(output != string::npos);
+	// check a sample of the text for valid exit
+	size_t output = textOut.find("Opening HTML documentation");
+	if (output == string::npos)
+		output = textOut.find("Cannot open HTML file");
+	EXPECT_FALSE(output == string::npos) << "Unexpected termination message:\n" << textOut;
 #else
 	restoreStream();
 #endif
@@ -343,16 +345,18 @@ TEST_F(ProcessOptions3F, HtmlOption_Short)
 				::testing::ExitedWithCode(EXIT_SUCCESS),
 				"");
 	string textOut = restoreStream();
-	// check a sample of the text
-	size_t output = textOut.find("Opening HTML documentation ");
-	EXPECT_TRUE(output != string::npos);
+	// check a sample of the text for valid exit
+	size_t output = textOut.find("Opening HTML documentation");
+	if (output == string::npos)
+		output = textOut.find("Cannot open HTML file");
+	EXPECT_FALSE(output == string::npos) << "Unexpected termination message:\n" << textOut;
 #else
 	restoreStream();
 #endif
 	deleteConsoleGlobalObject();
 }
 
-TEST_F(ProcessOptions3F, ValidFileName)
+TEST_F(ProcessOptions3F, HtmlOption_ValidFileName)
 // Test processOptions for html option.
 // Should be able to open a valid file.
 {
@@ -373,14 +377,24 @@ TEST_F(ProcessOptions3F, ValidFileName)
 	string textOut = restoreStream();
 	// check a sample of the text
 	size_t output = textOut.find("Opening HTML documentation ");
-	EXPECT_TRUE(output != string::npos);
+	// allow "Cannot open" message if the path is correct
+	if (output == string::npos
+			&& textOut.find("Cannot open HTML file") != string::npos)
+	{
+#ifdef _WIN32
+		output = textOut.find("\\AStyle\\doc\\astyle.html");
+#else
+		output = textOut.find("/usr/share/doc/astyle/html/");
+#endif	// _WIN32
+	}
+	EXPECT_FALSE(output == string::npos) << "Unexpected termination message:\n" << textOut;
 #else
 	restoreStream();
-#endif
+#endif	// GTEST_HAS_DEATH_TEST
 	deleteConsoleGlobalObject();
 }
 
-TEST(ProcessOptions3, HtmlOption_InvalidFileName)
+TEST_F(ProcessOptions3F, HtmlOption_InvalidFileName)
 // Test processOptions for html= option with invalid file name.
 // Should get an error message for an invalid file.
 {
@@ -390,12 +404,19 @@ TEST(ProcessOptions3, HtmlOption_InvalidFileName)
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--html=invalid-name.html");
+	redirectStream();
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for invalid file name
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_FAILURE),
-				"Cannot open HTML file ");
+				::testing::ExitedWithCode(EXIT_SUCCESS),
+				"");
+	string textOut = restoreStream();
+	// check a sample of the text
+	size_t output = textOut.find("Cannot open HTML file");
+	EXPECT_FALSE(output == string::npos) << "Unexpected termination message:\n" << textOut;
+#else
+	restoreStream();
 #endif
 	deleteConsoleGlobalObject();
 }

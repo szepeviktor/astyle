@@ -85,8 +85,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <PrecompiledHeaderFile>astyle.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(IntDir)astyle.h.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
@@ -125,8 +123,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <PrecompiledHeaderFile>astyle.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(IntDir)astyle.h.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>

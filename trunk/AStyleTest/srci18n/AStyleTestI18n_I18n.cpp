@@ -214,7 +214,7 @@ TEST_F(JapaneseF, Recursive1)
 	vector<string> fileName = g_console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_EQ(fileNames[i], fileName[i]);
+		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
 }
 
 TEST_F(JapaneseF, Recursive2)
@@ -245,7 +245,7 @@ TEST_F(JapaneseF, Recursive2)
 	vector<string> fileName = g_console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_EQ(fileNames[i], fileName[i]);
+		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
 }
 
 TEST_F(JapaneseF, Recursive3)
@@ -317,7 +317,7 @@ TEST_F(JapaneseF, RecursiveExclude)
 	vector<string> fileName = g_console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_EQ(fileNames[i], fileName[i]);
+		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
 }
 
 TEST_F(JapaneseF, RecursiveSuffix)
@@ -462,7 +462,7 @@ TEST_F(GreekF, Recursive1)
 #endif
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_EQ(fileNames[i], fileName[i]);
+		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
 }
 
 TEST_F(GreekF, Recursive2)
@@ -493,7 +493,7 @@ TEST_F(GreekF, Recursive2)
 	vector<string> fileName = g_console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_EQ(fileNames[i], fileName[i]);
+		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
 }
 
 TEST_F(GreekF, Recursive3)
@@ -568,7 +568,7 @@ TEST_F(GreekF, RecursiveExclude)
 #endif
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_EQ(fileNames[i], fileName[i]);
+		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
 }
 
 TEST_F(GreekF, RecursiveSuffix)
@@ -688,6 +688,7 @@ struct RussianF : public ::testing::Test
 	}
 };
 
+// OSX fails on the string compares, which actually look OK.
 TEST_F(RussianF, Recursive1)
 // test single-byte recursive option
 {
@@ -707,9 +708,10 @@ TEST_F(RussianF, Recursive1)
 	vector<string> fileName = g_console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_EQ(fileNames[i], fileName[i]);
+		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
 }
 
+// OSX fails on the string compares, which actually look OK.
 TEST_F(RussianF, Recursive2)
 // test single-byte recursive option with a single-byte directory in the options
 {
@@ -738,7 +740,7 @@ TEST_F(RussianF, Recursive2)
 	vector<string> fileName = g_console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_EQ(fileNames[i], fileName[i]);
+		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
 }
 
 TEST_F(RussianF, Recursive3)
@@ -768,7 +770,13 @@ TEST_F(RussianF, Recursive3)
 	EXPECT_EQ(testFilePath, fileName[0]);
 }
 
+// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// It aborts in the function Utf8ToUtf16().
+#ifdef __APPLE__
+TEST_F(RussianF, DISABLED_RecursiveExclude)
+#else
 TEST_F(RussianF, RecursiveExclude)
+#endif
 // test single-byte recursive option with multi-byte excludes
 {
 	// check valid locale
@@ -808,7 +816,7 @@ TEST_F(RussianF, RecursiveExclude)
 	vector<string> fileName = g_console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_EQ(fileNames[i], fileName[i]);
+		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
 }
 
 TEST_F(RussianF, RecursiveSuffix)
@@ -937,7 +945,7 @@ TEST_F(MultiLanguageF, Recursive1)
 	vector<string> fileName = g_console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_EQ(fileNames[i], fileName[i]);
+		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
 }
 
 //----------------------------------------------------------------------------
@@ -960,7 +968,7 @@ struct Codepage1252F : public ::testing::Test
 	{
 #ifdef _WIN32
 		// Windows must check for codepage 1252.
-		// get buffer for codepage
+		// get buffer for codepageRecursive1
 		int bufSize = GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_IDEFAULTANSICODEPAGE,
 									NULL, 0);
 		char* value = new(nothrow) char[bufSize];
@@ -1008,7 +1016,7 @@ struct Codepage1252F : public ::testing::Test
 		createTestDirectory(spanishPath);
 		fileNames.push_back(spanishPath + "/spanish1.cpp");
 		// create a directory and files in Danish
-		// Spanish symbols are copied from http://users.cybercity.dk/~nmb3879/tree.html
+		// Danish symbols are copied from http://users.cybercity.dk/~nmb3879/tree.html
 		string danishPath = getTestDirectory() + "/danish æøå";
 		createTestDirectory(danishPath);
 		fileNames.push_back(danishPath + "/danish1.cpp");
@@ -1039,14 +1047,14 @@ struct Codepage1252F : public ::testing::Test
 	}
 };
 
+// OSX fails on the string compares, which actually look OK.
 TEST_F(Codepage1252F, Recursive1)
 // test codepage 1252 recursive option
 {
 	// check valid locale
-	if (!isValidLocale)
-		return;
+	ASSERT_TRUE(isValidLocale);
 	// set processing variables
-	assert(g_console != NULL);
+	ASSERT_TRUE(g_console != NULL);
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setIsRecursive(true);
 	// run the test
@@ -1058,25 +1066,38 @@ TEST_F(Codepage1252F, Recursive1)
 	vector<string> fileName = g_console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_EQ(fileNames[i], fileName[i]);
+		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
 }
 
 //----------------------------------------------------------------------------
-// AStyle test i18n other options
+// AStyle test i18n GetNumberFormat
 //----------------------------------------------------------------------------
 
+struct GetNumberFormat : public ::testing::Test
+{
+	ASFormatter formatter;		// formatter object
+	string result;              // expected result of getNumberFormat()
+	string number;              // formatted number from getNumberFormat()
+
+	GetNumberFormat()
+	{
+		ASFormatter formatter;
+		createConsoleGlobalObject(formatter);
+		// Make sure the C++ locale is not set.
+		locale::global(locale("C"));
+	}	// end c'tor
+
+	~GetNumberFormat()
+	{
+		deleteConsoleGlobalObject();
+	}
+};
+
 #ifdef _WIN32
-TEST(Other, GetNumberFormat)
+
+TEST_F(GetNumberFormat, GetNumberFormat)
 // WINDOWS test the getNumberFormat method in ASConsole.
 {
-	// WINDOWS make sure the C++ locale is not set.
-	locale::global(locale("C"));
-	// WINDOWS substantiate objects
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	// WINDOWS variables
-	string result;
-	string number;
 	// WINDOWS English locale 0133 - for other formats change the user locale
 	result = "123,456,789";
 	number = g_console->getNumberFormat(123456789, 1033);
@@ -1099,19 +1120,13 @@ TEST(Other, GetNumberFormat)
 	if (number[3] == '\xA0')
 		result[3] = result[7] = '\xA0';
 	EXPECT_EQ(result, number) << "french swiss locale (assumes default formatting)";
-	deleteConsoleGlobalObject();
 }
 
 #else
 
-TEST(Other, GetNumberFormat)
+TEST_F(GetNumberFormat, GetNumberFormat)
 // LINUX test the getNumberFormat method in ASConsole.
 {
-	// LINUX make sure the C++ locale is not set.
-	locale::global(locale("C"));
-	// LINUX substantiate objects
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
 	// for testing --------------------------------------------------
 //	setlocale(LC_ALL, "english");
 //	struct lconv* lcInfo;
@@ -1128,8 +1143,6 @@ TEST(Other, GetNumberFormat)
 	// LINUX variables
 	const char* grouping;
 	const char* separator;
-	string result;
-	string number;
 	// LINUX group 3 (odd) with comma
 	grouping  = "\3";
 	separator = ",";
@@ -1181,21 +1194,37 @@ TEST(Other, GetNumberFormat)
 	// LINUX French locale
 	bool frOk = setGlobalLocale("fr_FR.UTF-8");
 	ASSERT_TRUE(frOk) << "Cannot set French locale";
+	// Mac OSX currently does not set this, grouping = CHAR_MAX (127)
+#ifdef __APPLE__
+	result = "123456789";
+#else	
 	result = "123 456 789";
+#endif
 	number = g_console->getNumberFormat(123456789);
+	// check if non-breaking spaces were used
+	if (number[3] == '\xA0')
+		result[3] = result[7] = '\xA0';
 	EXPECT_EQ(result, number) << "french locale (assumes default formatting)";
 	// LINUX German locale
 	bool deOk = setGlobalLocale("de_DE.UTF-8");
 	ASSERT_TRUE(deOk) << "Cannot set German locale";
+	// Mac OSX currently does not set this, grouping = CHAR_MAX (127)
+#ifdef __APPLE__
+	result = "123456789";
+#else	
 	result = "123.456.789";
+#endif
 	number = g_console->getNumberFormat(123456789);
 	EXPECT_EQ(result, number) << "german locale (assumes default formatting)";
 	// LINUX French Swiss locale
 	// Linux currently does not have a Swiss locale
-	deleteConsoleGlobalObject();
 }
 
 #endif	// _WIN32
+
+//----------------------------------------------------------------------------
+// AStyle test i18n other options
+//----------------------------------------------------------------------------
 
 TEST(Other, LanguageStrings)
 // WINDOWS test the language strings for a compiler
@@ -1275,7 +1304,14 @@ TEST(Other, SetCLocale)
 		FAIL() << "Bad return from setlocale";
 	ASSERT_STREQ("C", setlocale(LC_ALL, NULL)) << "Failed to set C locale";
 	// set the C++ locale to the native locale
-	locale::global(locale(""));
+	try
+	{
+		locale::global(locale(""));
+	}
+	catch (exception)
+	{
+		FAIL() << "Cannot execute C++ locale::global()";
+	}
 	// the C++ locale should not be the classic locale
 	string localeName = locale().name();
 	ASSERT_NE("C", localeName) << "This compiler does not support C++ locales";
@@ -1296,6 +1332,7 @@ TEST(Other, CppImbue)
 // is imbue() supported by this compiler
 // NOTE: MinGW 4.5 fails this test
 // NOTE: Embarcadero 6.20 fails this test
+// NOTE: Mac OS X fails this test
 {
 	locale::global(locale("C"));
 	// test the formatting of "cout" for numbers
@@ -1307,7 +1344,7 @@ TEST(Other, CppImbue)
 	}
 	catch (exception)
 	{
-		FAIL() << "Cannot find native locale";
+		FAIL() << "Cannot execute C++ imbue()";
 	}
 	test << 123456;
 	string testNumber = test.str();

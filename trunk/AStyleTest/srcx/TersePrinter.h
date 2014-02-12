@@ -42,14 +42,14 @@ class TersePrinter : public EmptyTestEventListener
 
 	public:
 
-		explicit TersePrinter(bool use_color) : use_color_(use_color)
+		explicit TersePrinter(bool /* use_color */)
 		{};
 
 		static void PrintTestTotals(int all_test_total_check, const char* file, int line);
 
 	private:
 
-		bool use_color_;			// from initializer
+//		bool use_color_;			// from initializer
 		bool test_header_printed_;	// true if the test case header has been printed
 		string test_case_name_;		// from OnTestStart
 		string test_info_name_;		// from OnTestStart

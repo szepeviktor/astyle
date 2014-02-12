@@ -11,7 +11,7 @@
 				<Option object_output="objI18nd/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="--terse_printer" />
+				<Option parameters="--xxxterse_printer" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
@@ -23,7 +23,7 @@
 					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
-					<Add library="gtestd" />
+					<Add library="gmockd" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -45,7 +45,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="gtest" />
+					<Add library="gmock" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -71,7 +71,7 @@
 				<Linker>
 					<Add option="-pg" />
 					<Add library="gcov" />
-					<Add library="gtest" />
+					<Add library="gmock" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -93,6 +93,7 @@
 		<Unit filename="../../srci18n/AStyleTestI18n_I18n.cpp" />
 		<Unit filename="../../srci18n/AStyleTestI18n_Localizer.cpp" />
 		<Unit filename="../../srci18n/AStyleTestI18n_Utf16.cpp" />
+		<Unit filename="../../srci18n/AStyleTestI18n_Utf_Bom.cpp" />
 		<Unit filename="../../srcx/TersePrinter.cpp" />
 		<Unit filename="../../srcx/TersePrinter.h" />
 		<Extensions>

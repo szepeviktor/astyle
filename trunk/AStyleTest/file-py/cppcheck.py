@@ -333,9 +333,11 @@ def run_cppcheck():
 	   --xml              Write results in xml to error stream.
 	"""
 	if os.name == "nt":
-		exepath = "C:/Program Files/Cppcheck/cppcheck.exe"
+		exepath = "C:/Program Files (x86)/Cppcheck/cppcheck.exe"
 	else:
 		exepath = "cppcheck"
+	if not os.path.exists(exepath):
+		libastyle.system_exit("Cannot find executable: " + exepath)
 	verify_cppcheck_version(exepath)
 	cppcheck = [exepath]
 	cppcheck.append("--enable=all")

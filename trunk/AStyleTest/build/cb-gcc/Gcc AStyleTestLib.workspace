@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<CodeBlocks_workspace_file>
-	<Workspace title="Gcc AStyleTestLib">
-		<Project filename="Gcc GMockA.cbp" />
-		<Project filename="Gcc AStyleTestLib.cbp" active="1" />
-	</Workspace>
-</CodeBlocks_workspace_file>

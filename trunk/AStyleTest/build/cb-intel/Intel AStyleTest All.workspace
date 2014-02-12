@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Intel AStyleTest All">
+		<Project filename="Intel GMockA.cbp" />
+		<Project filename="Intel AStyleTest.cbp" />
+		<Project filename="Intel AStyleTestCon.cbp" />
+		<Project filename="Intel AStyleTestI18n.cbp" />
+		<Project filename="Intel AStyleTestLib.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

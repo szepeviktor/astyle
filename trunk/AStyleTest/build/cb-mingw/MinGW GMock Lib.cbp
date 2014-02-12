@@ -18,6 +18,7 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-Wno-unused-function" />
+					<Add option="-Wno-unused-local-typedefs" />
 					<Add directory="../../../gmock" />
 					<Add directory="../../../gmock/gtest" />
 					<Add directory="../../../gmock/include" />
@@ -36,6 +37,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-Wno-unused-function" />
+					<Add option="-Wno-unused-local-typedefs" />
 					<Add directory="../../../gmock" />
 					<Add directory="../../../gmock/gtest" />
 					<Add directory="../../../gmock/include" />

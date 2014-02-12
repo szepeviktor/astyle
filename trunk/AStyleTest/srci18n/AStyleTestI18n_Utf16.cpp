@@ -17,8 +17,22 @@
 #endif
 
 //----------------------------------------------------------------------------
+// anonymous namespace
+//----------------------------------------------------------------------------
+
+namespace {
+
+//----------------------------------------------------------------------------
 // support functions
 //----------------------------------------------------------------------------
+
+bool isLittleEndian()
+// Return true if an int is little endian.
+{
+	short int word = 0x0001;
+	char* byte = (char*)&word;
+	return (byte[0] ? true : false);
+}
 
 int swap16Bit(int value)
 // Swap the two low order bytes of a 16 bit integer value.
@@ -26,7 +40,7 @@ int swap16Bit(int value)
 	return ( ((value & 0xff) << 8) | ((value & 0xff00) >> 8) );
 }
 
-void convertToBigEndian(char* textIn, size_t textLen)
+void convertEndian(char* textIn, size_t textLen)
 // convert 16 bit little endian text to big endian format
 {
 	// convert to wide char variables
@@ -52,14 +66,28 @@ string WideCharToUtf8Str(wchar_t* wcIn)
 	return mbStr;
 }
 #else
+
+//  LINUX define utf16_t
+typedef unsigned short utf16_t;
+
+size_t utf16len(const utf16_t* utf16In)
+// LINUX return the length of a utf-16 C string.
+// The length is in number of utf16_t.
+{
+	size_t length = 0;
+	while (*utf16In++ != '\0')
+		length++;
+	return length;
+}
+
 string WideCharToUtf8Str(wchar_t* wcIn)
 // LINUX convert wide char text (32 bit) to an 8 bit utf-8 string
 {
 	// Linux wchar_t is 32 bits
 	size_t wcLen = wcslen(wcIn);
 	iconv_t iconvh = iconv_open("UTF−8", "UTF−32LE");
-	if (iconvh == (iconv_t) - 1)
-		systemAbort("Bad iconv_open in Utf16ToUtf8Str()");
+	if (iconvh == reinterpret_cast<iconv_t>(-1))
+		systemAbort("Bad iconv_open in WideCharToUtf8Str()");
 	// allocate memory for output
 	size_t mbLen = wcLen * sizeof(wchar_t);
 	char* mbOut = new char[mbLen];
@@ -83,7 +111,7 @@ size_t WideCharToUtf16LE(wchar_t* wcIn, size_t wcLen, char* w16Out, size_t w16Bu
 {
 	// Linux wchar_t is 32 bits
 	iconv_t iconvh = iconv_open("UTF−16LE", "UTF−32LE");
-	if (iconvh == (iconv_t) - 1)
+	if (iconvh == reinterpret_cast<iconv_t>(-1))
 		systemAbort("Bad iconv_open in WideCharToUtf16()");
 	// convert to utf-16
 	char* w16Conv = w16Out;
@@ -94,16 +122,39 @@ size_t WideCharToUtf16LE(wchar_t* wcIn, size_t wcLen, char* w16Out, size_t w16Bu
 	if (iconvval == -1)
 		systemAbort("Bad iconv in WideCharToUtf16()");
 	*w16Conv = '\0';
+	*(w16Conv + 1) = '\0';
 	iconv_close(iconvh);
 	return w16Buf - w16Left;
 }
+
+string Utf16LEToUtf8Str(utf16_t* wcIn)
+// LINUX convert utf-16LE text (16 bit) to an 8 bit utf-8 string
+{
+	size_t wcLen = utf16len(wcIn) * sizeof(utf16_t);
+	iconv_t iconvh = iconv_open("UTF−8", "UTF−16LE");
+	if (iconvh == reinterpret_cast<iconv_t>(-1))
+		systemAbort("Bad iconv_open in Utf16LEToUtf8Str()");
+	// allocate memory for output
+	size_t mbLen = wcLen * sizeof(utf16_t);
+	char* mbOut = new(nothrow) char[mbLen];
+	if (mbOut == NULL)
+		systemAbort("Bad allocation in Utf16LEToUtf8Str()");
+	// convert to utf-8
+	char* mbConv = mbOut;
+	size_t mbLeft = mbLen;
+	char* wcConv = reinterpret_cast<char*>(wcIn);
+	size_t wcLeft = wcLen;
+	int iconvval = iconv(iconvh, &wcConv, &wcLeft, &mbConv, &mbLeft);
+	if (iconvval == -1)
+		systemAbort("Bad iconv in Utf16LEToUtf8Str()");
+	*mbConv = '\0';
+	iconv_close(iconvh);
+	string mbStr(mbOut);
+	delete []mbOut;
+	return mbStr;
+}
+
 #endif
-
-//----------------------------------------------------------------------------
-// anonymous namespace
-//----------------------------------------------------------------------------
-
-namespace {
 
 //----------------------------------------------------------------------------
 // AStyle test UTF8_16 conversion class
@@ -130,7 +181,7 @@ struct Utf8_16_Class : public ::testing::Test
 		text16Len = 0;
 		// set textOut variables
 		wchar_t textIn[] =
-			L"\xfeff"						// 16 bit LE byte order mark (BOM)
+			L"\xfeff"						// 16 or 32 bit LE byte order mark (BOM)
 			L"\nvoid foo()\n"
 			L"{\n"
 			L"    // 文件已经 被修改\n"		// Chinese
@@ -156,7 +207,7 @@ struct Utf8_16_Class : public ::testing::Test
 		text8Bit = text8BitStr.c_str();
 		text8Len = text8BitStr.length();
 		// compute 16 bit values using native functions
-		size_t text16Buf = wcslen(textIn) * sizeof(wchar_t) + sizeof(wchar_t);
+		size_t text16Buf =( wcslen(textIn) * sizeof(wchar_t)) + sizeof(wchar_t);
 		text16Bit = new char[text16Buf];
 #ifdef _WIN32
 		// Windows wchar_t is 16 bits and does not need conversion
@@ -174,218 +225,120 @@ struct Utf8_16_Class : public ::testing::Test
 	}
 };
 
+// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// It aborts in the function Utf8ToUtf16().
+#ifdef __APPLE__
+TEST_F(Utf8_16_Class, DISABLED_Utf8_To_Utf16_LE)
+#else
 TEST_F(Utf8_16_Class, Utf8_To_Utf16_LE)
+#endif
 // test AStyle Utf8 to Utf16 LE conversion functions
 {
+	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
+	int sizeofUtf16 = sizeof(unsigned short);
 	astyle::Utf8_16 utf8_16;
 	bool isBigEndian = false;
 	// test Astyle Utf16Length() function
 	size_t utf16ComputedSize = utf8_16.Utf16LengthFromUtf8(text8Bit, text8Len);
 	EXPECT_EQ(text16Len, utf16ComputedSize);
 	// test Astyle Utf8ToUtf16() function return
-	char* utf16Out = new char[text8Len * 3];
+	char* utf16Out = new char[utf16ComputedSize + sizeofUtf16];
 	size_t utf16ConvertedSize = utf8_16.Utf8ToUtf16(const_cast<char*>(text8Bit),
-													text8Len, isBigEndian, utf16Out);
-	EXPECT_EQ(text16Len, utf16ConvertedSize);
-	// test Astyle Utf8ToUtf16() function text conversion
-	EXPECT_TRUE(strncmp(utf16Out, text16Bit, text16Len) == 0);
+													text8Len + 1, isBigEndian, utf16Out);
+	EXPECT_EQ(text16Len + sizeofUtf16, utf16ConvertedSize);
+	// must convert utf16 to utf8 using native functions for gtest comparison
+#ifdef _WIN32
+	string text8OutStr = WideCharToUtf8Str(reinterpret_cast<wchar_t*>(utf16Out));
+#else
+	string text8OutStr = Utf16LEToUtf8Str(reinterpret_cast<utf16_t*>(utf16Out));
+#endif
+	EXPECT_STREQ(text8Bit, text8OutStr.c_str());
 	delete []utf16Out;
 }
 
+// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// It aborts in the function Utf8ToUtf16().
+#ifdef __APPLE__
+TEST_F(Utf8_16_Class, DISABLED_Utf8_To_Utf16_BE)
+#else
 TEST_F(Utf8_16_Class, Utf8_To_Utf16_BE)
+#endif
 // test AStyle Utf8 to Utf16 BE conversion functions
 {
+	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
+	int sizeofUtf16 = sizeof(unsigned short);
 	astyle::Utf8_16 utf8_16;
 	bool isBigEndian = true;
-	convertToBigEndian(text16Bit, text16Len);
+	convertEndian(text16Bit, text16Len);
 	// test Astyle Utf16Length() function
 	size_t utf16ComputedSize = utf8_16.Utf16LengthFromUtf8(text8Bit, text8Len);
 	EXPECT_EQ(text16Len, utf16ComputedSize);
 	// test Astyle Utf8ToUtf16() function return
-	char* utf16Out = new char[text8Len * 3];
+	char* utf16Out = new char[utf16ComputedSize + sizeofUtf16];
 	size_t utf16ConvertedSize = utf8_16.Utf8ToUtf16(const_cast<char*>(text8Bit),
-													text8Len, isBigEndian, utf16Out);
-	EXPECT_EQ(text16Len, utf16ConvertedSize);
-	// test Astyle Utf8ToUtf16() function text conversion
-	EXPECT_TRUE(strncmp(utf16Out, text16Bit, text16Len) == 0);
+													text8Len + 1, isBigEndian, utf16Out);
+	EXPECT_EQ(text16Len + sizeofUtf16, utf16ConvertedSize);
+	// must convert utf16 to utf8 using native functions for gtest comparison
+#ifdef _WIN32
+	convertEndian(utf16Out, text16Len);	// convert back to LE for native function
+	string text8OutStr = WideCharToUtf8Str(reinterpret_cast<wchar_t*>(utf16Out));
+#else
+	convertEndian(utf16Out, text16Len);	// convert back to LE for native function
+	string text8OutStr = Utf16LEToUtf8Str(reinterpret_cast<utf16_t*>(utf16Out));
+#endif
+	EXPECT_STREQ(text8Bit, text8OutStr.c_str());
 	delete []utf16Out;
 }
 
+// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// It aborts in the function Utf8ToUtf16().
+#ifdef __APPLE__
+TEST_F(Utf8_16_Class, DISABLED_Utf16_LE_To_Utf8)
+#else
 TEST_F(Utf8_16_Class, Utf16_LE_To_Utf8)
+#endif
 // test AStyle Utf16 LE to Utf8 conversion functions
 {
+	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
 	astyle::Utf8_16 utf8_16;
 	bool isBigEndian = false;
 	// test Astyle Utf8Length() function
 	size_t utf8ComputedSize = utf8_16.Utf8LengthFromUtf16(text16Bit, text16Len, isBigEndian);
 	EXPECT_EQ(text8Len, utf8ComputedSize);
 	// test Astyle Utf16ToUtf8() function return
-	char* utf8Out = new char[text16Len * 2];
+	char* utf8Out = new char[utf8ComputedSize + 1];
 	size_t utf8ConvertedSize = utf8_16.Utf16ToUtf8(const_cast<char*>(text16Bit),
-												   text16Len, isBigEndian, true, utf8Out);
-	EXPECT_EQ(text8Len, utf8ConvertedSize);
+												   text16Len + 1, isBigEndian, true, utf8Out);
+	EXPECT_EQ(text8Len + 1, utf8ConvertedSize);
 	// test Astyle Utf16ToUtf8() function text conversion
-	EXPECT_TRUE(strncmp(utf8Out, text8Bit, text8Len) == 0);
+	EXPECT_STREQ(utf8Out, text8Bit);
 	delete []utf8Out;
 }
 
+// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// It aborts in the function Utf8ToUtf16().
+#ifdef __APPLE__
+TEST_F(Utf8_16_Class, DISABLED_Utf16_BE_To_Utf8)
+#else 
 TEST_F(Utf8_16_Class, Utf16_BE_To_Utf8)
+#endif 
 // test AStyle Utf16 BE to Utf8 conversion functions
 {
+	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
 	astyle::Utf8_16 utf8_16;
 	bool isBigEndian = true;
-	convertToBigEndian(text16Bit, text16Len);
+	convertEndian(text16Bit, text16Len);
 	// test Astyle Utf8Length() function
 	size_t utf8ComputedSize = utf8_16.Utf8LengthFromUtf16(text16Bit, text16Len, isBigEndian);
 	EXPECT_EQ(text8Len, utf8ComputedSize);
 	// test Astyle Utf16ToUtf8() function return
-	char* utf8Out = new char[text16Len * 2];
+	char* utf8Out = new char[utf8ComputedSize + 1];
 	size_t utf8ConvertedSize = utf8_16.Utf16ToUtf8(const_cast<char*>(text16Bit),
-												   text16Len, isBigEndian, true, utf8Out);
-	EXPECT_EQ(text8Len, utf8ConvertedSize);
+												   text16Len + 1, isBigEndian, true, utf8Out);
+	EXPECT_EQ(text8Len + 1, utf8ConvertedSize);
 	// test Astyle Utf16ToUtf8() function text conversion
 	EXPECT_TRUE(strncmp(utf8Out, text8Bit, text8Len) == 0);
 	delete []utf8Out;
-}
-
-//----------------------------------------------------------------------------
-// AStyle DetectEncoding
-//----------------------------------------------------------------------------
-
-TEST(DetectEncoding, Detect_8Bit)
-// test AStyle detectEncoding function for 8 bit encoding
-{
-	const char text8Bit[] = "Detect Encoding Test";
-	FileEncoding encoding8Bit = g_console->detectEncoding(text8Bit, strlen(text8Bit));
-	EXPECT_TRUE(encoding8Bit == ENCODING_8BIT);
-}
-
-TEST(DetectEncoding, Detect_8Bit_ZeroLength)
-// test AStyle detectEncoding function for 8 bit encoding
-{
-	const char text8Bit[] = "\0";
-	FileEncoding encoding8Bit = g_console->detectEncoding(text8Bit, strlen(text8Bit));
-	EXPECT_TRUE(encoding8Bit == ENCODING_8BIT);
-}
-
-TEST(DetectEncoding, Detect_Utf8)
-// test AStyle detectEncoding function for 8 bit encoding
-{
-	const char text8Bit[] = "\xEF\xBB\xBF";
-	FileEncoding encoding8Bit = g_console->detectEncoding(text8Bit, strlen(text8Bit));
-	EXPECT_TRUE(encoding8Bit == ENCODING_8BIT);
-}
-
-TEST(DetectEncoding, Detect_Utf16LE)
-// test AStyle detectEncoding function for 16 bit LE encoding
-{
-	const char Bom16LE[] = "\xFF\xFE";
-	FileEncoding encoding16LE = g_console->detectEncoding(Bom16LE, strlen(Bom16LE));
-	EXPECT_TRUE(encoding16LE == UTF_16LE);
-}
-
-TEST(DetectEncoding, Detect_Utf16BE)
-// test AStyle detectEncoding function for 16 bit BE encoding
-{
-	const char Bom16BE[] = "\xFE\xFF";
-	FileEncoding encoding16BE = g_console->detectEncoding(Bom16BE, strlen(Bom16BE));
-	EXPECT_TRUE(encoding16BE == UTF_16BE);
-}
-
-TEST(DetectEncoding, Detect_Utf32LE)
-// test AStyle detectEncoding function for 32 bit LE encoding
-// strlen does NOT work with 32 bit BOMs
-{
-	const char Bom32LE[] = "\xFF\xFE\x00\x00";
-	FileEncoding encoding32LE = g_console->detectEncoding(Bom32LE, 4);
-	EXPECT_TRUE(encoding32LE == UTF_32LE);
-}
-
-TEST(DetectEncoding, Detect_Utf32BE)
-// test AStyle detectEncoding function for 32 bit BE encoding
-// strlen does NOT work with 32 bit BOMs
-{
-	const char Bom32BE[] = "\x00\x00\xFE\xFF";
-	FileEncoding encoding32BE = g_console->detectEncoding(Bom32BE, 4);
-	EXPECT_TRUE(encoding32BE == UTF_32BE);
-}
-
-//----------------------------------------------------------------------------
-// AStyle test UTF-32 file processing - 32 bit abort
-//----------------------------------------------------------------------------
-
-struct ProcessUtf32F : public ::testing::Test
-{
-	ASFormatter formatter;
-	vector<string> fileNames;
-
-	// build fileNames vector and write the output files
-	ProcessUtf32F()
-	{
-		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
-	}
-
-	~ProcessUtf32F()
-	{
-		deleteConsoleGlobalObject();
-	}
-};
-
-TEST_F(ProcessUtf32F, Utf32LE_Abort)
-// test rejection of UTF-32 files
-{
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
-	// initialize variables
-	g_console->setIsQuiet(true);		// change this to see results
-	// call astyle processOptions()
-	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	// call astyle processFiles()
-	// NOTE: some string functions don't work with NULLs (e.g. length())
-	char textIn[] = "this text will not be readable";
-	int textsize = sizeof(textIn);
-	char textBOM[50];
-	// UTF-32LE
-	memcpy(textBOM, "\xFF\xFE\x00\x00", 4);
-	memcpy(textBOM + 4, textIn, sizeof(textIn));
-	fileNames.push_back(getTestDirectory() + "/UTF-32LE.cpp");
-	createTestFile(fileNames.back(), textBOM, textsize);
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
-	EXPECT_EXIT(g_console->processFiles(),
-				::testing::ExitedWithCode(EXIT_FAILURE),
-				"Cannot process UTF-32 encoding");
-#endif
-}
-
-TEST_F(ProcessUtf32F, Utf32BE_Abort)
-// test rejection of UTF-32 files
-{
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
-	// initialize variables
-	g_console->setIsQuiet(true);		// change this to see results
-	// call astyle processOptions()
-	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	// call astyle processFiles()
-	// NOTE: some string functions don't work with NULLs (e.g. length())
-	char textIn[] = "this text will not be readable";
-	int textsize = sizeof(textIn);
-	char textBOM[50];
-	// UTF-32BE
-	memcpy(textBOM, "\x00\x00\xFE\xFF", 4);
-	memcpy(textBOM + 4, textIn, sizeof(textIn));
-	fileNames.push_back(getTestDirectory() + "/UTF-32BE.cpp");
-	createTestFile(fileNames.back(), textBOM, textsize);
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
-	EXPECT_EXIT(g_console->processFiles(),
-				::testing::ExitedWithCode(EXIT_FAILURE),
-				"Cannot process UTF-32 encoding");
-#endif
 }
 
 //----------------------------------------------------------------------------
@@ -416,7 +369,7 @@ struct ProcessUtf16F : public ::testing::Test
 		text16Len = 0;
 		// set textOut variables
 		wchar_t textIn[] =
-			L"\xfeff"						// 16 bit LE byte order mark (BOM)
+			L"\xfeff"						// 16 or 32 bit LE byte order mark (BOM)
 			L"\nvoid foo()\n"
 			L"{\n"
 			L"    // 文件已经 被修改\n"		// Chinese
@@ -463,9 +416,16 @@ struct ProcessUtf16F : public ::testing::Test
 	}
 };
 
+// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// It aborts in the function Utf8ToUtf16().
+#ifdef __APPLE__
+TEST_F(ProcessUtf16F, DISABLED_Utf16LE_Processing)
+#else 
 TEST_F(ProcessUtf16F, Utf16LE_Processing)
+#endif 
 // Test processing of UTF-16LE files
 {
+	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
 	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
 	// initialize variables
 	g_console->setIsQuiet(true);		// change this to see results
@@ -494,16 +454,23 @@ TEST_F(ProcessUtf16F, Utf16LE_Processing)
 	EXPECT_TRUE(encoding16LE == UTF_16LE);
 }
 
+// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// It aborts in the function Utf8ToUtf16().
+#ifdef __APPLE__
+TEST_F(ProcessUtf16F, DISABLED_Utf16BE_Processing)
+#else 
 TEST_F(ProcessUtf16F, Utf16BE_Processing)
+#endif 
 // Test processing of UTF-16BE files
 {
+	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
 	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
 	// initialize variables
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setIsRecursive(true);
 	formatter.setFormattingStyle(STYLE_JAVA);	// to format the file
 	// call astyle processOptions()
-	convertToBigEndian(text16Bit, text16Len);	// convert to big endian
+	convertEndian(text16Bit, text16Len);
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	g_console->processOptions(astyleOptionsVector);
