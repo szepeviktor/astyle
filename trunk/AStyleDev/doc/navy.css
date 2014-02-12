@@ -2,7 +2,7 @@
 
 /* Highlighting theme: navy */
 /* body.hl has been changed to div.hl */
-/* EXAMPLE.M  MUST BE CHANGED TO  EXAMPLE.CPP TO FORMAT CORRECTLY */
+/* EXAMPLE.M  MUST BE CHANGED TO  EXAMPLE.OBJC TO FORMAT CORRECTLY */
 
 div.hl	{ background-color:#000035; }
 pre.hl	{ color:#008bff; background-color:#000035; font-size:12pt; font-family:'Consolas';}

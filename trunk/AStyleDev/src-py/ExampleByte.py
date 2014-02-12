@@ -27,9 +27,7 @@ __is_unicode = False
 def main():
     """Main processing function.
     """
-    files = [ "AStyleDev/test-data/ASBeautifier.cpp",
-              "AStyleDev/test-data/ASFormatter.cpp",
-              "AStyleDev/test-data/astyle.h" ]
+    files = ["ASBeautifier.cpp", "ASFormatter.cpp", "astyle.h"]
     # options are byte code for AStyle input
     option_bytes = b"-A2tOP"
 
@@ -82,20 +80,19 @@ def get_astyle_version_bytes(libc):
 
 # -----------------------------------------------------------------------------
 
-def get_project_directory(file_path):
-    """Prepend the project directory to the subpath.
+def get_project_directory(file_name):
+    """Find the directory path and prepend it to the file name.
+       The source is expected to be in the "src-py" directory.
        This may need to be changed for your directory structure.
     """
-    if os.name == "nt":
-        homedir =  os.getenv("USERPROFILE")
-    else:
-        homedir = os.getenv("HOME")
-    if homedir == None:
-        print(err)
-        print("Cannot find HOME directory")
+    file_path = sys.path[0]
+    end = file_path.find("src-py")
+    if end == -1:
+        print("Cannot find source directory", file_path)
         os._exit(1)
-    project_path = homedir + "/Projects/" + file_path
-    return project_path
+    file_path = file_path[0:end]
+    file_path = file_path + "test-data" + os.sep + file_name
+    return file_path
 
 # -----------------------------------------------------------------------------
 
@@ -161,6 +158,9 @@ def load_linux_so():
        The shared object must be in the same folder as this python script.
     """
     shared = os.path.join(sys.path[0], "libastyle.so")
+    # os.name does not always work for mac
+    if sys.platform == "darwin":
+        shared = shared.replace("libastyle.so", "libastyle.dylib")
     try:
         libc = cdll.LoadLibrary(shared)
     except OSError as err:

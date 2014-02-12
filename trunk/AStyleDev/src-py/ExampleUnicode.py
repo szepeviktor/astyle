@@ -27,9 +27,7 @@ __is_unciode = False
 def main():
     """Main processing function.
     """
-    files = [ "AStyleDev/test-data/ASBeautifier.cpp",
-              "AStyleDev/test-data/ASFormatter.cpp",
-              "AStyleDev/test-data/astyle.h" ]
+    files = ["ASBeautifier.cpp", "ASFormatter.cpp", "astyle.h"]
     options = "-A2tOP"
 
     #initialization
@@ -81,8 +79,7 @@ def format_source_code(libc, text_in, options):
     # if an error occurs, the return is a type(None) object
     # Python3 must be decoded to Unicode
     # decoding from utf-8 will not cause an exception
-    if (__is_unciode
-    and type(formatted_text) != type(None)):
+    if (__is_unciode and type(formatted_text) != type(None)):
         formatted_text = formatted_text.decode('utf-8')
     return formatted_text
 
@@ -103,20 +100,19 @@ def get_astyle_version(libc):
 
 # -----------------------------------------------------------------------------
 
-def get_project_directory(file_path):
-    """Prepend the project directory to the subpath.
+def get_project_directory(file_name):
+    """Find the directory path and prepend it to the file name.
+       The source is expected to be in the "src-py" directory.
        This may need to be changed for your directory structure.
     """
-    if os.name == "nt":
-        homedir =  os.getenv("USERPROFILE")
-    else:
-        homedir = os.getenv("HOME")
-    if homedir == None:
-        print(err)
-        print("Cannot find HOME directory")
+    file_path = sys.path[0]
+    end = file_path.find("src-py")
+    if end == -1:
+        print("Cannot find source directory", file_path)
         os._exit(1)
-    project_path = homedir + "/Projects/" + file_path
-    return project_path
+    file_path = file_path[0:end]
+    file_path = file_path + "test-data" + os.sep + file_name
+    return file_path
 
 # -----------------------------------------------------------------------------
 
@@ -156,9 +152,9 @@ def initialize_library():
     os.chdir(pydir)
     # return the handle to the shared object
     if os.name == "nt":
-        libc = load_windows_dll(pydir)
+        libc = load_windows_dll()
     else:
-        libc = load_linux_so(pydir)
+        libc = load_linux_so()
     return libc
 
 # -----------------------------------------------------------------------------
@@ -189,6 +185,9 @@ def load_linux_so():
        The shared object must be in the same folder as this python script.
     """
     shared = os.path.join(sys.path[0], "libastyle.so")
+    # os.name does not always work for mac
+    if sys.platform == "darwin":
+        shared = shared.replace("libastyle.so", "libastyle.dylib")
     try:
         libc = cdll.LoadLibrary(shared)
     except OSError as err:
@@ -200,7 +199,7 @@ def load_linux_so():
 
 # -----------------------------------------------------------------------------
 
-def load_windows_dll(pydir):
+def load_windows_dll():
     """Load the dll for Windows platforms.
        The shared object must be in the same folder as this python script.
        An exception is handled if the dll bits do not match the Python
@@ -214,7 +213,7 @@ def load_windows_dll(pydir):
         # print(err)
         print("Cannot load library", dll)
         if err.winerror == 126:     #  "The specified module could not be found"
-            print("Cannot find {0} in {1}".format(dll, pydir))
+            print("Cannot find", dll)
         elif err.winerror == 193:   #  "%1 is not a valid Win32 application"
             print("You may be mixing 32 and 64 bit code")
         else:

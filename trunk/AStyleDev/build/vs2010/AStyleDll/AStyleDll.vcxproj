@@ -81,6 +81,11 @@
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <PostBuildEvent>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-o\ 
+cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-py\
+cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -109,6 +114,11 @@
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <PostBuildEvent>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-o\ 
+cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-py\
+cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

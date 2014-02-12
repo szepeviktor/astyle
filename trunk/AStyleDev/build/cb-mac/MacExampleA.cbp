@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MacExampleA" />
+		<Option pch_mode="2" />
+		<Option compiler="clang" />
+		<Build>
+			<Target title="Debug">
+				<Option output="debug/ExampleA" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objExA/Debug/" />
+				<Option type="1" />
+				<Option compiler="clang" />
+				<Compiler>
+					<Add option="-Weverything" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-Wextra" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add option="-Wno-missing-noreturn" />
+				</Compiler>
+				<Linker>
+					<Add library="libastyle.a" />
+					<Add directory="debug" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/ExampleA" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objExA/Release/" />
+				<Option type="1" />
+				<Option compiler="clang" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Weverything" />
+					<Add option="-Wall" />
+					<Add option="-Wextra" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add option="-Wno-missing-noreturn" />
+				</Compiler>
+				<Linker>
+					<Add library="astyle" />
+					<Add library="libastyle.a" />
+					<Add directory="bin" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../src-c/Example.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

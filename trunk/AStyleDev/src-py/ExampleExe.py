@@ -19,9 +19,7 @@ import sys
 def main():
     """Main processing function.
     """
-    files = [ "AStyleDev/test-data/ASBeautifier.cpp",
-              "AStyleDev/test-data/ASFormatter.cpp",
-              "AStyleDev/test-data/astyle.h" ]
+    files = ["ASBeautifier.cpp", "ASFormatter.cpp", "astyle.h"]
     options = "-A2tOP"
 
     #initialization
@@ -65,20 +63,19 @@ def format_source_code(exe, file_path, options):
 
 # -----------------------------------------------------------------------------
 
-def get_project_directory(file_path):
-    """Prepend the project directory to the subpath.
+def get_project_directory(file_name):
+    """Find the directory path and prepend it to the file name.
+       The source is expected to be in the "src-py" directory.
        This may need to be changed for your directory structure.
     """
-    if os.name == "nt":
-        homedir =  os.getenv("USERPROFILE")
-    else:
-        homedir = os.getenv("HOME")
-    if homedir == None:
-        print(err)
-        print("Cannot find HOME directory")
+    file_path = sys.path[0]
+    end = file_path.find("src-py")
+    if end == -1:
+        print("Cannot find source directory", file_path)
         os._exit(1)
-    project_path = homedir + "/Projects/" + file_path
-    return project_path
+    file_path = file_path[0:end]
+    file_path = file_path + "test-data" + os.sep + file_name
+    return file_path
 
 # -----------------------------------------------------------------------------
 
@@ -97,7 +94,7 @@ def initialize_exe():
         exe = "astyle"
     # verify the astyle executable is available
     if not os.path.isfile(exe):
-        print("Cannot find " +  exe)
+        print("Cannot find", exe)
         os._exit(1)
     return exe
 

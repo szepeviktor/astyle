@@ -286,9 +286,13 @@
     <span class="hl slc">/// This may need to be changed for your directory structure.</span>
     <span class="hl kwa">private static</span> String <span class="hl kwd">GetProjectDirectory</span><span class="hl opt">(</span>String subPath<span class="hl opt">)</span>
     <span class="hl opt">{</span>   String homeDirectory <span class="hl opt">=</span> <span class="hl kwa">null</span><span class="hl opt">;</span>
-        <span class="hl kwa">if</span> <span class="hl opt">(</span>Environment<span class="hl opt">.</span>OSVersion<span class="hl opt">.</span>Platform <span class="hl opt">==</span> PlatformID<span class="hl opt">.</span>Unix ||
+        <span class="hl kwa">if</span> <span class="hl opt">(</span>Environment<span class="hl opt">.</span>OSVersion<span class="hl opt">.</span>Platform <span class="hl opt">==</span> PlatformID<span class="hl opt">.</span>Unix <span class="hl opt">||</span>
                 Environment<span class="hl opt">.</span>OSVersion<span class="hl opt">.</span>Platform <span class="hl opt">==</span> PlatformID<span class="hl opt">.</span>MacOSX<span class="hl opt">)</span>
-            homeDirectory <span class="hl opt">=</span> Environment<span class="hl opt">.</span><span class="hl kwd">GetEnvironmentVariable</span><span class="hl opt">(</span><span class="hl str">&quot;HOME&quot;</span><span class="hl opt">);</span>
+        <span class="hl opt">{</span>   homeDirectory <span class="hl opt">=</span> Environment<span class="hl opt">.</span><span class="hl kwd">GetEnvironmentVariable</span><span class="hl opt">(</span><span class="hl str">&quot;HOME&quot;</span><span class="hl opt">);</span>
+            <span class="hl slc">// HOME is not always recognized on OSX, this usually works</span>
+            <span class="hl kwa">if</span> <span class="hl opt">(</span>homeDirectory <span class="hl opt">==</span> <span class="hl kwa">null</span><span class="hl opt">)</span>
+                homeDirectory <span class="hl opt">=</span> Environment<span class="hl opt">.</span><span class="hl kwd">GetFolderPath</span><span class="hl opt">(</span>System<span class="hl opt">.</span>Environment<span class="hl opt">.</span>SpecialFolder<span class="hl opt">.</span>Personal<span class="hl opt">);</span>
+        <span class="hl opt">}</span>
         <span class="hl kwa">else</span>
             homeDirectory <span class="hl opt">=</span> Environment<span class="hl opt">.</span><span class="hl kwd">GetEnvironmentVariable</span><span class="hl opt">(</span><span class="hl str">&quot;USERPROFILE&quot;</span><span class="hl opt">);</span>
         <span class="hl kwa">if</span> <span class="hl opt">(</span>homeDirectory <span class="hl opt">==</span> <span class="hl kwa">null</span><span class="hl opt">)</span>

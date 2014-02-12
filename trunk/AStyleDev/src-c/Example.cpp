@@ -166,6 +166,6 @@ void setText(const char* textOut, const string& filePathStr)
 
     // write the text
     size_t textSizeOut = strlen(textOut);
-    out.write(textOut, textSizeOut);
+    out.write(textOut, static_cast<streamsize>(textSizeOut));
     out.close();
 }

@@ -1,18 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C++ Express 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example2 Dll", "Example2Dll\Example2 Dll.vcxproj", "{DC64C6B0-7826-4348-B3ED-7A7AFF1E9F71}"
-	ProjectSection(ProjectDependencies) = postProject
-		{CC3C6B11-EBE3-42CB-A79C-AE6704F5B3EF} = {CC3C6B11-EBE3-42CB-A79C-AE6704F5B3EF}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example2 Lib", "Example2Lib\Example2 Lib.vcxproj", "{5B73A0A3-C559-4B5A-9856-DC780B8DF27D}"
-	ProjectSection(ProjectDependencies) = postProject
-		{3D0E5F57-72FE-4915-A6A7-F36F74844D38} = {3D0E5F57-72FE-4915-A6A7-F36F74844D38}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example2 Obj", "Example2Obj\Example2 Obj.vcxproj", "{5B5F9ADD-D18B-45E0-99BA-76E911395FD8}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example Dll", "ExampleDll\Example Dll.vcxproj", "{443DD6FF-BB23-484D-B8FE-EAFD6981F918}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CC3C6B11-EBE3-42CB-A79C-AE6704F5B3EF} = {CC3C6B11-EBE3-42CB-A79C-AE6704F5B3EF}
@@ -29,24 +17,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleDll", "AStyleDll\ASty
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleLib", "AStyleLib\AStyleLib.vcxproj", "{3D0E5F57-72FE-4915-A6A7-F36F74844D38}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyle", "AStyle\AStyle.vcxproj", "{EB20762E-2B27-415C-9D86-751DBE3B45FD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleJava", "AStyleJava\AStyleJava.vcxproj", "{4CFDAD41-2CA5-4D74-8410-A6BD9C37620D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DC64C6B0-7826-4348-B3ED-7A7AFF1E9F71}.Debug|Win32.ActiveCfg = Debug|Win32
-		{DC64C6B0-7826-4348-B3ED-7A7AFF1E9F71}.Debug|Win32.Build.0 = Debug|Win32
-		{DC64C6B0-7826-4348-B3ED-7A7AFF1E9F71}.Release|Win32.ActiveCfg = Release|Win32
-		{DC64C6B0-7826-4348-B3ED-7A7AFF1E9F71}.Release|Win32.Build.0 = Release|Win32
-		{5B73A0A3-C559-4B5A-9856-DC780B8DF27D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{5B73A0A3-C559-4B5A-9856-DC780B8DF27D}.Debug|Win32.Build.0 = Debug|Win32
-		{5B73A0A3-C559-4B5A-9856-DC780B8DF27D}.Release|Win32.ActiveCfg = Release|Win32
-		{5B73A0A3-C559-4B5A-9856-DC780B8DF27D}.Release|Win32.Build.0 = Release|Win32
-		{5B5F9ADD-D18B-45E0-99BA-76E911395FD8}.Debug|Win32.ActiveCfg = Debug|Win32
-		{5B5F9ADD-D18B-45E0-99BA-76E911395FD8}.Debug|Win32.Build.0 = Debug|Win32
-		{5B5F9ADD-D18B-45E0-99BA-76E911395FD8}.Release|Win32.ActiveCfg = Release|Win32
-		{5B5F9ADD-D18B-45E0-99BA-76E911395FD8}.Release|Win32.Build.0 = Release|Win32
 		{443DD6FF-BB23-484D-B8FE-EAFD6981F918}.Debug|Win32.ActiveCfg = Debug|Win32
 		{443DD6FF-BB23-484D-B8FE-EAFD6981F918}.Debug|Win32.Build.0 = Debug|Win32
 		{443DD6FF-BB23-484D-B8FE-EAFD6981F918}.Release|Win32.ActiveCfg = Release|Win32
@@ -67,6 +47,14 @@ Global
 		{3D0E5F57-72FE-4915-A6A7-F36F74844D38}.Debug|Win32.Build.0 = Debug|Win32
 		{3D0E5F57-72FE-4915-A6A7-F36F74844D38}.Release|Win32.ActiveCfg = Release|Win32
 		{3D0E5F57-72FE-4915-A6A7-F36F74844D38}.Release|Win32.Build.0 = Release|Win32
+		{EB20762E-2B27-415C-9D86-751DBE3B45FD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EB20762E-2B27-415C-9D86-751DBE3B45FD}.Debug|Win32.Build.0 = Debug|Win32
+		{EB20762E-2B27-415C-9D86-751DBE3B45FD}.Release|Win32.ActiveCfg = Release|Win32
+		{EB20762E-2B27-415C-9D86-751DBE3B45FD}.Release|Win32.Build.0 = Release|Win32
+		{4CFDAD41-2CA5-4D74-8410-A6BD9C37620D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4CFDAD41-2CA5-4D74-8410-A6BD9C37620D}.Debug|Win32.Build.0 = Debug|Win32
+		{4CFDAD41-2CA5-4D74-8410-A6BD9C37620D}.Release|Win32.ActiveCfg = Release|Win32
+		{4CFDAD41-2CA5-4D74-8410-A6BD9C37620D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
