@@ -25,8 +25,8 @@
 					<Add option="-fno-exceptions" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="C:/Program Files/Java/jdk1.7.0/include" />
-					<Add directory="C:/Program Files/Java/jdk1.7.0/include/win32" />
+					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_45/include" />
+					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_45/include/win32" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -34,6 +34,7 @@
 				</Linker>
 				<ExtraCommands>
 					<Add after="cmd /c  copy /y  bin\AStylej.dll  ..\..\src-j\  &gt; NUL" />
+					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Lint">

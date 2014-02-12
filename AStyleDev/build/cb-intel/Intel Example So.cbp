@@ -8,7 +8,7 @@
 		<Option compiler="icc" />
 		<Build>
 			<Target title="AStyleSo">
-				<Option output="bin/libastyle" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/astyle" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objSo" />
 				<Option type="3" />
 				<Option compiler="icc" />
@@ -21,9 +21,10 @@
 					<Add option="-fno-rtti" />
 					<Add option="-O3" />
 					<Add option="-Wall" />
+					<Add option="-w2" />
 					<Add option="-fpic" />
 					<Add option="-fno-exceptions" />
-					<Add option="-w1" />
+					<Add option="-Wextra" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DNDEBUG" />
 				</Compiler>
@@ -46,9 +47,10 @@
 					<Add option="-fno-rtti" />
 					<Add option="-O3" />
 					<Add option="-Wall" />
+					<Add option="-w2" />
 					<Add option="-wd1419" />
 					<Add option="-fno-exceptions" />
-					<Add option="-w1" />
+					<Add option="-Wextra" />
 					<Add option="-DNDEBUG" />
 				</Compiler>
 				<Linker>

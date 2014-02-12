@@ -67,7 +67,11 @@ public class Example
     {   String homeDirectory = null;
         if (Environment.OSVersion.Platform == PlatformID.Unix ||
                 Environment.OSVersion.Platform == PlatformID.MacOSX)
-            homeDirectory = Environment.GetEnvironmentVariable("HOME");
+        {   homeDirectory = Environment.GetEnvironmentVariable("HOME");
+            // HOME is not always recognized on OSX, this usually works
+            if (homeDirectory == null)
+                homeDirectory = Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+        }
         else
             homeDirectory = Environment.GetEnvironmentVariable("USERPROFILE");
         if (homeDirectory == null)

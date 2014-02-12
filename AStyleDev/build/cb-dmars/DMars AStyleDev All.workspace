@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Digital Mars AStyleDev All">
+		<Project filename="DMars AStyle.cbp" />
+		<Project filename="DMars AStyle Dll.cbp" />
+		<Project filename="DMars AStyle Java.cbp" />
+		<Project filename="DMars Example Dll.cbp" />
+		<Project filename="DMars Example Lib.cbp" />
+		<Project filename="DMars Example Obj.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

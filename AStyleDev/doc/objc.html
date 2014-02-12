@@ -21,10 +21,10 @@
     <p>
         &nbsp;</p>
     <p class="noindent">
-        Artistic Style can be compiled as a shared library (DLL) or a static library and linked with an Objective&#8209;C program.
-        <a href="gnustep.html">Objective&#8209;C on Windows and Linux</a> contains information on compiling and running
-        Objective&#8209;C programs using GNUstep. It has instructions for compiling the following example program on Windows
-        or Linux.
+        Artistic Style can be compiled as a shared library (DLL) or a static library and linked with an Objective&#8209;C
+        program. This is usually done on a Mac OS X computer. However,&nbsp; <a href="gnustep.html">Objective&#8209;C on Windows
+            and Linux</a> contains information on compiling and running Objective&#8209;C programs using GNUstep. It has
+        instructions for compiling the following example program on Windows or Linux.
     </p>
 
     <h3>
@@ -193,7 +193,7 @@
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl opt">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl opt">);</span>
 
 <span class="hl slc">// other functions</span>
-<span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span>NSString<span class="hl opt">*</span> message<span class="hl opt">);</span>
+<span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span>NSString<span class="hl opt">*</span> message<span class="hl opt">)</span> <span class="hl kwd">__attribute__</span><span class="hl opt">((</span>noreturn<span class="hl opt">));</span>
 NSString<span class="hl opt">*</span> <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span><span class="hl kwb">const</span> NSString<span class="hl opt">*</span> subPath<span class="hl opt">);</span>
 NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span class="hl opt">(</span>NSString<span class="hl opt">*</span> filePath<span class="hl opt">);</span>
 <span class="hl kwb">void</span>  <span class="hl kwd">setText</span><span class="hl opt">(</span><span class="hl kwb">const</span> NSString<span class="hl opt">*</span> textOut<span class="hl opt">,</span> NSString<span class="hl opt">*</span> filePath<span class="hl opt">);</span>
@@ -201,57 +201,63 @@ NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span c
 
 <span class="hl slc">// Main function for this example.</span>
 <span class="hl kwb">int</span> <span class="hl kwd">main</span><span class="hl opt">()</span>
-<span class="hl opt">{</span>   NSAutoreleasePool<span class="hl opt">*</span> pool <span class="hl opt">= [[</span>NSAutoreleasePool alloc<span class="hl opt">]</span> init<span class="hl opt">];</span>
+<span class="hl opt">{</span>
+<span class="hl ppc">#if __has_feature(objc_arc)</span>    <span class="hl slc">// clang directive</span>
+<span class="hl ppc"></span>    <span class="hl kwc">&#64;autoreleasepool</span>
+<span class="hl ppc">#else</span>
+    NSAutoreleasePool<span class="hl opt">*</span> pool <span class="hl opt">= [[</span>NSAutoreleasePool alloc<span class="hl opt">]</span> init<span class="hl opt">];</span>
+<span class="hl ppc">#endif</span>
+    <span class="hl opt">{</span>   <span class="hl slc">// options to pass to AStyle</span>
+        <span class="hl kwb">const</span> NSArray<span class="hl opt">*</span> fileNames <span class="hl opt">= [</span>NSArray arrayWithObjects<span class="hl opt">:</span>
+                                    &#64;<span class="hl str">&quot;AStyleDev/test-data/ASBeautifier.cpp&quot;</span><span class="hl opt">,</span>
+                                    &#64;<span class="hl str">&quot;AStyleDev/test-data/ASFormatter.cpp&quot;</span><span class="hl opt">,</span>
+                                    &#64;<span class="hl str">&quot;AStyleDev/test-data/astyle.h&quot;</span><span class="hl opt">,</span>
+                                    <span class="hl kwa">nil</span><span class="hl opt">];</span>
+        <span class="hl kwb">const</span> NSString<span class="hl opt">*</span> options <span class="hl opt">=</span> &#64;<span class="hl str">&quot;-A2tOP&quot;</span><span class="hl opt">;</span>
 
-    <span class="hl slc">// options to pass to AStyle</span>
-    <span class="hl kwb">const</span> NSArray<span class="hl opt">*</span> fileNames <span class="hl opt">= [</span>NSArray arrayWithObjects<span class="hl opt">:</span>
-                                &#64;<span class="hl str">&quot;AStyleDev/test-data/ASBeautifier.cpp&quot;</span><span class="hl opt">,</span>
-                                &#64;<span class="hl str">&quot;AStyleDev/test-data/ASFormatter.cpp&quot;</span><span class="hl opt">,</span>
-                                &#64;<span class="hl str">&quot;AStyleDev/test-data/astyle.h&quot;</span><span class="hl opt">,</span>
-                                nil<span class="hl opt">];</span>
-    <span class="hl kwb">const</span> NSString<span class="hl opt">*</span> options <span class="hl opt">=</span> &#64;<span class="hl str">&quot;-A2tOP&quot;</span><span class="hl opt">;</span>
+        <span class="hl slc">// get Artistic Style version</span>
+        <span class="hl kwb">const char</span><span class="hl opt">*</span> versionChar <span class="hl opt">=</span> <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
+        <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;Example Obj-C - AStyle %s&quot;</span><span class="hl opt">,</span> versionChar<span class="hl opt">);</span>
 
-    <span class="hl slc">// get Artistic Style version</span>
-    <span class="hl kwb">const char</span><span class="hl opt">*</span> versionChar <span class="hl opt">=</span> <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
-    <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;Example Obj-C - AStyle %s&quot;</span><span class="hl opt">,</span> versionChar<span class="hl opt">);</span>
+        <span class="hl slc">// process the input files</span>
+        <span class="hl kwa">for</span> <span class="hl opt">(</span>NSString <span class="hl opt">*</span> fileName <span class="hl kwa">in</span> fileNames<span class="hl opt">)</span>
+        <span class="hl opt">{</span>   <span class="hl slc">// get the text to format</span>
+            NSString<span class="hl opt">*</span> filePath <span class="hl opt">=</span> <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span>fileName<span class="hl opt">);</span>
+            NSString<span class="hl opt">*</span> textIn <span class="hl opt">=</span> <span class="hl kwd">getText</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
 
-    <span class="hl slc">// process the input files</span>
-    <span class="hl kwa">for</span> <span class="hl opt">(</span>NSString <span class="hl opt">*</span> fileName in fileNames<span class="hl opt">)</span>
-    <span class="hl opt">{</span>   <span class="hl slc">// get the text to format</span>
-        NSString<span class="hl opt">*</span> filePath <span class="hl opt">=</span> <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span>fileName<span class="hl opt">);</span>
-        NSString<span class="hl opt">*</span> textIn <span class="hl opt">=</span> <span class="hl kwd">getText</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
+            <span class="hl slc">// call the Artistic Style formatting function</span>
+            <span class="hl kwb">char</span><span class="hl opt">*</span> textOutChar <span class="hl opt">=</span> <span class="hl kwd">AStyleMain</span><span class="hl opt">([</span>textIn UTF8String<span class="hl opt">],</span>
+                                           <span class="hl opt">[</span>options UTF8String<span class="hl opt">],</span>
+                                           ASErrorHandler<span class="hl opt">,</span>
+                                           ASMemoryAlloc<span class="hl opt">);</span>
 
-        <span class="hl slc">// call the Artistic Style formatting function</span>
-        <span class="hl kwb">char</span><span class="hl opt">*</span> textOutChar <span class="hl opt">=</span> <span class="hl kwd">AStyleMain</span><span class="hl opt">([</span>textIn UTF8String<span class="hl opt">],</span>
-                                       <span class="hl opt">[</span>options UTF8String<span class="hl opt">],</span>
-                                       ASErrorHandler<span class="hl opt">,</span>
-                                       ASMemoryAlloc<span class="hl opt">);</span>
+            <span class="hl slc">// does not need to terminate on an error</span>
+            <span class="hl slc">// an error message has been displayed by the error handler</span>
+            <span class="hl kwa">if</span> <span class="hl opt">(</span>textOutChar <span class="hl opt">==</span> NULL<span class="hl opt">)</span>
+                <span class="hl kwd">error</span><span class="hl opt">([</span>NSString stringWithFormat<span class="hl opt">:</span> &#64;<span class="hl str">&quot;Cannot format %&#64;&quot;</span><span class="hl opt">,</span> fileName<span class="hl opt">]);</span>
 
-        <span class="hl slc">// does not need to terminate on an error</span>
-        <span class="hl slc">// an error message has been displayed by the error handler</span>
-        <span class="hl kwa">if</span> <span class="hl opt">(</span>textOutChar <span class="hl opt">==</span> NULL<span class="hl opt">)</span>
-            <span class="hl kwd">error</span><span class="hl opt">([</span>NSString stringWithFormat<span class="hl opt">:</span> &#64;<span class="hl str">&quot;Cannot format %&#64;&quot;</span><span class="hl opt">,</span> fileName<span class="hl opt">]);</span>
+            <span class="hl slc">// return the formatted text</span>
+            NSString<span class="hl opt">*</span> textOut <span class="hl opt">= [</span>NSString stringWithUTF8String<span class="hl opt">:</span> textOutChar<span class="hl opt">];</span>
+            <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;Formatted %&#64;&quot;</span><span class="hl opt">,</span> fileName<span class="hl opt">);</span>
+            <span class="hl kwd">setText</span><span class="hl opt">(</span>textOut<span class="hl opt">,</span> filePath<span class="hl opt">);</span>
 
-        <span class="hl slc">// return the formatted text</span>
-        NSString<span class="hl opt">*</span> textOut <span class="hl opt">= [</span>NSString stringWithUTF8String<span class="hl opt">:</span> textOutChar<span class="hl opt">];</span>
-        <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;Formatted %&#64;&quot;</span><span class="hl opt">,</span> fileName<span class="hl opt">);</span>
-        <span class="hl kwd">setText</span><span class="hl opt">(</span>textOut<span class="hl opt">,</span> filePath<span class="hl opt">);</span>
-
-        <span class="hl slc">// free the buffer allocated with malloc</span>
-        <span class="hl slc">// Malloc is used instead of NSZoneMalloc to simplify the error handling.</span>
-        <span class="hl slc">// Malloc errors result in a NULL return instead of a NSMallocException.</span>
-        <span class="hl kwd">free</span><span class="hl opt">(</span>textOutChar<span class="hl opt">);</span>
-        textOutChar <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+            <span class="hl slc">// free the buffer allocated with malloc</span>
+            <span class="hl slc">// Malloc is used instead of NSZoneMalloc to simplify the error handling.</span>
+            <span class="hl slc">// Malloc errors result in a NULL return instead of a NSMallocException.</span>
+            <span class="hl kwd">free</span><span class="hl opt">(</span>textOutChar<span class="hl opt">);</span>
+            textOutChar <span class="hl opt">=</span> NULL<span class="hl opt">;</span>
+        <span class="hl opt">}</span>
+        <span class="hl slc">//    system(&quot;pause&quot;);</span>
     <span class="hl opt">}</span>
-
-<span class="hl slc">//    system(&quot;pause&quot;);</span>
-    <span class="hl opt">[</span>pool drain<span class="hl opt">];</span>
+<span class="hl ppc">#if !__has_feature(objc_arc)</span>    <span class="hl slc">// clang directive</span>
+<span class="hl ppc"></span>    <span class="hl opt">[</span>pool drain<span class="hl opt">];</span>
+<span class="hl ppc">#endif</span>
     <span class="hl kwa">return</span> EXIT_SUCCESS<span class="hl opt">;</span>
 <span class="hl opt">}</span>
 
 <span class="hl slc">// Error handler for the Artistic Style formatter.</span>
 <span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">)</span>
-<span class="hl opt">{</span>   <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;astyle error %ld&quot;</span><span class="hl opt">,</span> errorNumber<span class="hl opt">);</span>
+<span class="hl opt">{</span>   <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;astyle error %d&quot;</span><span class="hl opt">,</span> errorNumber<span class="hl opt">);</span>
     <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;%s&quot;</span><span class="hl opt">,</span> errorMessage<span class="hl opt">);</span>
 <span class="hl opt">}</span>
 
@@ -291,7 +297,9 @@ NSString<span class="hl opt">*</span> <span class="hl kwd">getProjectDirectory</
 <span class="hl slc">// Get the text to be formatted and convert to a NSString.</span>
 <span class="hl slc">// Usually the text would be obtained from an edit control.</span>
 NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span class="hl opt">(</span>NSString<span class="hl opt">*</span> filePath<span class="hl opt">)</span>
-<span class="hl opt">{</span>   NSString<span class="hl opt">*</span> textIn <span class="hl opt">= [</span>NSString stringWithContentsOfFile<span class="hl opt">:</span> filePath<span class="hl opt">];</span>
+<span class="hl opt">{</span>   NSString<span class="hl opt">*</span> textIn <span class="hl opt">= [</span>NSString stringWithContentsOfFile<span class="hl opt">:</span> filePath
+                        encoding<span class="hl opt">:</span> NSASCIIStringEncoding
+                        error<span class="hl opt">:</span> NULL<span class="hl opt">];</span>
     <span class="hl kwa">if</span> <span class="hl opt">(!</span>textIn<span class="hl opt">)</span>
         <span class="hl kwd">error</span><span class="hl opt">([</span>NSString stringWithFormat<span class="hl opt">:</span> &#64;<span class="hl str">&quot;Cannot open input file %&#64;&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">]);</span>
     <span class="hl kwa">return</span> textIn<span class="hl opt">;</span>
@@ -304,11 +312,13 @@ NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span c
     NSFileManager<span class="hl opt">*</span> fm <span class="hl opt">= [</span>NSFileManager defaultManager<span class="hl opt">];</span>
     NSString<span class="hl opt">*</span> origfilePath <span class="hl opt">=  [</span>NSString stringWithFormat<span class="hl opt">:</span> &#64;<span class="hl str">&quot;%&#64;%&#64;&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">,</span> &#64;<span class="hl str">&quot;.orig&quot;</span><span class="hl opt">];</span>
     <span class="hl kwa">if</span> <span class="hl opt">([</span>fm fileExistsAtPath<span class="hl opt">:</span> origfilePath<span class="hl opt">])</span>
-        <span class="hl opt">[</span>fm removeFileAtPath<span class="hl opt">:</span> origfilePath handler<span class="hl opt">:</span> nil<span class="hl opt">];</span>
-    <span class="hl kwa">if</span> <span class="hl opt">(![</span>fm movePath<span class="hl opt">:</span> filePath toPath<span class="hl opt">:</span> origfilePath handler<span class="hl opt">:</span> nil<span class="hl opt">])</span>
+        <span class="hl opt">[</span>fm removeItemAtPath<span class="hl opt">:</span> origfilePath error<span class="hl opt">:</span> NULL<span class="hl opt">];</span>
+    <span class="hl kwa">if</span> <span class="hl opt">(![</span>fm moveItemAtPath<span class="hl opt">:</span> filePath toPath<span class="hl opt">:</span> origfilePath error<span class="hl opt">:</span> NULL<span class="hl opt">])</span>
         <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;Cannot create backup for %&#64;&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">);</span>
     <span class="hl slc">// write the text</span>
-    <span class="hl opt">[</span>textOut writeToFile<span class="hl opt">:</span> filePath atomically<span class="hl opt">:</span> YES<span class="hl opt">];</span>
+    <span class="hl opt">[</span>textOut writeToFile<span class="hl opt">:</span> filePath atomically<span class="hl opt">:</span> YES
+     encoding<span class="hl opt">:</span> NSASCIIStringEncoding
+     error<span class="hl opt">:</span> NULL<span class="hl opt">];</span>
 <span class="hl opt">}</span>
 
 </pre>

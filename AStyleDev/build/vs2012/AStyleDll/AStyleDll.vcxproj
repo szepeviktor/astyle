@@ -107,8 +107,9 @@
     <PostBuildEvent>
       <Message>
       </Message>
-      <Command>
-      </Command>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-o\ 
+cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-py\
+cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -133,8 +134,9 @@
     <PostBuildEvent>
       <Message>
       </Message>
-      <Command>
-      </Command>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-o\ 
+cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-py\
+cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -166,8 +168,9 @@
     <PostBuildEvent>
       <Message>
       </Message>
-      <Command>
-      </Command>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-o\ 
+cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-py\
+cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -197,8 +200,9 @@
     <PostBuildEvent>
       <Message>
       </Message>
-      <Command>
-      </Command>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-o\ 
+cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-py\
+cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

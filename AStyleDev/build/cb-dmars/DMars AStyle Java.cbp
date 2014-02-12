@@ -18,13 +18,13 @@
 				<Option projectResourceIncludeDirsRelation="1" />
 				<Option projectLibDirsRelation="1" />
 				<Compiler>
-					<Add option="-x" />
 					<Add option="-WD" />
+					<Add option="-x" />
 					<Add option="-w-" />
 					<Add option="-DASTYLE_JNI" />
 					<Add option="-DNDEBUG" />
-					<Add directory="C:/Program Files/Java/jdk1.7.0/include" />
-					<Add directory="C:/Program Files/Java/jdk1.7.0/include/win32" />
+					<Add directory="C:/Program Files/Java/jdk1.7.0_45/include" />
+					<Add directory="C:/Program Files/Java/jdk1.7.0_45/include/win32" />
 				</Compiler>
 				<Linker>
 					<Add option="/delexecutable" />
@@ -35,6 +35,7 @@
 					<Add after="cmd /c  del *.map" />
 					<Add after="cmd /c  move /y  AStylej.lib bin &gt; NUL" />
 					<Add after="cmd /c  copy /y  bin\AStylej.dll  ..\..\src-j\  &gt; NUL" />
+					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 		</Build>

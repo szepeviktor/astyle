@@ -8,7 +8,7 @@
 		<Option compiler="dmc" />
 		<Build>
 			<Target title="AStyleD">
-				<Option output="bin\AStyle.dll" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/AStyle.dll" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objDll" />
 				<Option deps_output="dep" />
 				<Option type="3" />
@@ -35,7 +35,7 @@
 				</ExtraCommands>
 			</Target>
 			<Target title="ExampleD">
-				<Option output="bin\ExampleD.exe" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/ExampleD.exe" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objDll" />
 				<Option type="1" />
 				<Option compiler="dmc" />
@@ -62,31 +62,31 @@
 		<VirtualTargets>
 			<Add alias="All" targets="AStyleD;ExampleD;" />
 		</VirtualTargets>
-		<Unit filename="DllMain.cpp">
+		<Unit filename="../../../AStyle/src/ASBeautifier.cpp">
 			<Option target="AStyleD" />
 		</Unit>
-		<Unit filename="..\..\src-c\Example.cpp">
+		<Unit filename="../../../AStyle/src/ASEnhancer.cpp">
+			<Option target="AStyleD" />
+		</Unit>
+		<Unit filename="../../../AStyle/src/ASFormatter.cpp">
+			<Option target="AStyleD" />
+		</Unit>
+		<Unit filename="../../../AStyle/src/ASResource.cpp">
+			<Option target="AStyleD" />
+		</Unit>
+		<Unit filename="../../../AStyle/src/astyle.h">
+			<Option target="AStyleD" />
+		</Unit>
+		<Unit filename="../../../AStyle/src/astyle_main.cpp">
+			<Option target="AStyleD" />
+		</Unit>
+		<Unit filename="../../../AStyle/src/astyle_main.h">
+			<Option target="AStyleD" />
+		</Unit>
+		<Unit filename="../../src-c/Example.cpp">
 			<Option target="ExampleD" />
 		</Unit>
-		<Unit filename="..\..\..\AStyle\src\ASBeautifier.cpp">
-			<Option target="AStyleD" />
-		</Unit>
-		<Unit filename="..\..\..\AStyle\src\ASEnhancer.cpp">
-			<Option target="AStyleD" />
-		</Unit>
-		<Unit filename="..\..\..\AStyle\src\ASFormatter.cpp">
-			<Option target="AStyleD" />
-		</Unit>
-		<Unit filename="..\..\..\AStyle\src\ASResource.cpp">
-			<Option target="AStyleD" />
-		</Unit>
-		<Unit filename="..\..\..\AStyle\src\astyle.h">
-			<Option target="AStyleD" />
-		</Unit>
-		<Unit filename="..\..\..\AStyle\src\astyle_main.cpp">
-			<Option target="AStyleD" />
-		</Unit>
-		<Unit filename="..\..\..\AStyle\src\astyle_main.h">
+		<Unit filename="DllMain.cpp">
 			<Option target="AStyleD" />
 		</Unit>
 		<Extensions>
