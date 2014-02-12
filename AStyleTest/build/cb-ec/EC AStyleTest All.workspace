@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="EC AStyleTest All">
+		<Project filename="EC GTest Lib.cbp" />
+		<Project filename="EC AStyleTest.cbp" />
+		<Project filename="EC AStyleTestCon.cbp" />
+		<Project filename="EC AStyleTestI18n.cbp" />
+		<Project filename="EC AStyleTestLib.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

@@ -16,6 +16,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-DASTYLE_LIB" />
 					<Add directory="../../srclib" />
 					<Add directory="../../srcx" />
@@ -37,6 +38,7 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../srclib" />
@@ -60,6 +62,7 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
 					<Add option="-DASTYLE_LIB" />

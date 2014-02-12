@@ -23,7 +23,7 @@
 					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
-					<Add library="gtestd" />
+					<Add library="gmockd" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -44,7 +44,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="gtest" />
+					<Add library="gmock" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -70,7 +70,7 @@
 				<Linker>
 					<Add option="-pg" />
 					<Add library="gcov" />
-					<Add library="gtestd" />
+					<Add library="gmock" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>

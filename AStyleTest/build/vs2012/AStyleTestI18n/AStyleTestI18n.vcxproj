@@ -263,9 +263,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_Localizer.cpp" />
-    <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_Utf16.cpp" />
     <ClCompile Include="..\..\..\srccon\AStyleTestCon_Main.cpp" />
     <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_I18n.cpp" />
+    <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_Utf16.cpp" />
+    <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_Utf_Bom.cpp" />
     <ClCompile Include="..\..\..\srcx\TersePrinter.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -954,11 +954,11 @@ TEST_F(ChecksumF, NoAdds)
 	size_t checksumIn = formatter.getChecksumIn();
 	size_t checksumOut = formatter.getChecksumOut();
 #ifdef NDEBUG
-	EXPECT_EQ(0U, checksumIn);
-	EXPECT_EQ(0U, checksumOut);
+	EXPECT_EQ(checksumIn, 0U);
+	EXPECT_EQ(checksumOut, 0U);
 #else
-	EXPECT_EQ(textChecksum, checksumIn);
-	EXPECT_EQ(textChecksum, checksumOut);
+	EXPECT_EQ(checksumIn, textChecksum);
+	EXPECT_EQ(checksumOut, textChecksum);
 #endif
 	EXPECT_TRUE(formatter.getChecksumDiff() == 0);
 }
@@ -981,11 +981,11 @@ TEST_F(ChecksumF, AddBrackets)
 	size_t checksumIn = formatter.getChecksumIn();
 	size_t checksumOut = formatter.getChecksumOut();
 #ifdef NDEBUG
-	EXPECT_EQ(0U, checksumIn);
-	EXPECT_EQ(0U, checksumOut);
+	EXPECT_EQ(checksumIn, 0U);
+	EXPECT_EQ(checksumOut, 0U);
 #else
-	EXPECT_EQ(textChecksum, checksumIn);
-	EXPECT_EQ(textChecksum, checksumOut);
+	EXPECT_EQ(checksumIn, textChecksum);
+	EXPECT_EQ(checksumOut, textChecksum);
 #endif
 	EXPECT_TRUE(formatter.getChecksumDiff() == 0);
 }
@@ -1008,11 +1008,11 @@ TEST_F(ChecksumF, AddOneLineBrackets)
 	size_t checksumIn = formatter.getChecksumIn();
 	size_t checksumOut = formatter.getChecksumOut();
 #ifdef NDEBUG
-	EXPECT_EQ(0U, checksumIn);
-	EXPECT_EQ(0U, checksumOut);
+	EXPECT_EQ(checksumIn, 0U);
+	EXPECT_EQ(checksumOut, 0U);
 #else
-	EXPECT_EQ(textChecksum, checksumIn);
-	EXPECT_EQ(textChecksum, checksumOut);
+	EXPECT_EQ(checksumIn, textChecksum);
+	EXPECT_EQ(checksumOut, textChecksum);
 #endif
 	EXPECT_TRUE(formatter.getChecksumDiff() == 0);
 }

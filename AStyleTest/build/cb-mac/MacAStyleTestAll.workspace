@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="MacAStyleTestAll">
+		<Project filename="MacGMockA.cbp" />
+		<Project filename="MacAStyleTest.cbp" />
+		<Project filename="MacAStyleTestCon.cbp" />
+		<Project filename="MacAStyleTestI18n.cbp" />
+		<Project filename="MacAStyleTestLib.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

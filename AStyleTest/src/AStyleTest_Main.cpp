@@ -50,7 +50,7 @@ int main(int argc, char** argv)
 	// Verify that all tests were run. This can occur if a source file
 	// is missing from the project. The UnitTest reflection API in
 	// example 9 will not work here because of user modifications.
-	// Change the following value to the number of tests (within 10).
+	// Change the following value to the number of tests (within 20).
 	if (useTersePrinter)
 		TersePrinter::PrintTestTotals(2100, __FILE__, __LINE__);
 #ifdef __WIN32

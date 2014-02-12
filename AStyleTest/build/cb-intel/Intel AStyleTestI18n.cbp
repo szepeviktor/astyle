@@ -14,9 +14,9 @@
 				<Option parameters="--terse_printer" />
 				<Compiler>
 					<Add option="-Wall" />
+					<Add option="-w2" />
 					<Add option="-g" />
-					<Add option="-no-multibyte-chars" />
-					<Add option="-w1" />
+					<Add option="-Wextra" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../srccon" />
@@ -25,7 +25,7 @@
 					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
-					<Add library="gtestd" />
+					<Add library="gmockd" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -35,10 +35,9 @@
 				<Option type="1" />
 				<Option compiler="icc" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-O3" />
 					<Add option="-Wall" />
-					<Add option="-no-multibyte-chars" />
-					<Add option="-w1" />
+					<Add option="-Wextra" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DNDEBUG" />
@@ -49,7 +48,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="gtest" />
+					<Add library="gmock" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -68,6 +67,7 @@
 		<Unit filename="../../srci18n/AStyleTestI18n_I18n.cpp" />
 		<Unit filename="../../srci18n/AStyleTestI18n_Localizer.cpp" />
 		<Unit filename="../../srci18n/AStyleTestI18n_Utf16.cpp" />
+		<Unit filename="../../srci18n/AStyleTestI18n_Utf_Bom.cpp" />
 		<Unit filename="../../srcx/TersePrinter.cpp" />
 		<Unit filename="../../srcx/TersePrinter.h" />
 		<Extensions>

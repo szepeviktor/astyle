@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MacGTestA" />
+		<Option pch_mode="2" />
+		<Option compiler="clang" />
+		<Build>
+			<Target title="Debug">
+				<Option output="debug/gtest" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="objGT/Debug" />
+				<Option type="2" />
+				<Option compiler="clang" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-Wextra" />
+					<Add option="-Wno-unused-function" />
+					<Add option="-DGTEST_HAS_PTHREAD=0" />
+					<Add directory="../../../gmock-1.6.0/gtest/include" />
+					<Add directory="../../../gmock-1.6.0/gtest" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/gtest" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="objGT/Release" />
+				<Option type="2" />
+				<Option compiler="clang" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-Wextra" />
+					<Add option="-Wno-unused-function" />
+					<Add option="-DGTEST_HAS_PTHREAD=0" />
+					<Add directory="../../../gmock-1.6.0/gtest/include" />
+					<Add directory="../../../gmock-1.6.0/gtest" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../../gmock-1.6.0/gtest/src/gtest-all.cc" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

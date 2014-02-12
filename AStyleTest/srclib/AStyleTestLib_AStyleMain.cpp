@@ -16,13 +16,6 @@ using namespace astyle;
 #include <iconv.h>
 #endif
 
-#ifndef __BORLANDC__        // can't use gmock
-// for gmock macros
-using ::testing::_;
-using ::testing::InSequence;
-using ::testing::Return;
-#endif
-
 #ifdef _MSC_VER
 #pragma warning(disable: 4996)  // secure version deprecation warnings
 #pragma warning(disable: 4267)  // 64 bit signed/unsigned loss of data
@@ -32,12 +25,129 @@ using ::testing::Return;
 // support functions
 //----------------------------------------------------------------------------
 
+size_t utf16len(const utf16_t* utf16In)
+// Return the length of utf-16 text.
+// The length is in number of utf16_t.
+{
+	size_t length = 0;
+	while (*utf16In++ != '\0')
+		length++;
+	return length;
+}
+
+int swap16Bit(int value)
+// Swap the two low order bytes of a 16 bit integer value.
+{
+	return ( ((value & 0xff) << 8) | ((value & 0xff00) >> 8) );
+}
+
+void convertEndian(char* textIn, size_t textLen)
+// reverse endian of the text
+{
+	// convert to wide char variables
+	// short is 16 bytes in both Windows and Linux
+	short* wcIn = reinterpret_cast<short*>(textIn);
+	size_t wcLen = textLen;
+	// convert
+	for (size_t i = 0; i < wcLen; i++)
+		wcIn[i] = static_cast<short>(swap16Bit(wcIn[i]));
+}
+
 void systemAbort(const string& message)
 {
 	cout << message << endl;
 	exit(EXIT_FAILURE);
 }
 
+#ifdef _WIN32
+
+utf16_t* Utf8ToWideChar(const char* utf8In)
+// WINDOWS convert 8 bit utf-8 string to wide char string (16 bit)
+// The calling program must delete the returned allocation.
+{
+	size_t wcLen = MultiByteToWideChar(CP_UTF8, 0, utf8In, -1, NULL, 0);
+	if (!wcLen)
+		systemAbort("Bad MultiByteToWideChar in Utf8ToWideCharStr()");
+	wchar_t* wcOut = new wchar_t[wcLen];
+	MultiByteToWideChar(CP_UTF8, 0, utf8In, -1, wcOut, wcLen);
+	return reinterpret_cast<utf16_t*>(wcOut);
+}
+
+char* WideCharToUtf8(utf16_t* utf16In)
+// WINDOWS convert wide char text (16 bit) to an 8 bit utf-8 string
+// The calling program must delete the returned allocation.
+{
+	wchar_t* wcIn = reinterpret_cast<wchar_t*>(utf16In);
+	size_t mbLen = WideCharToMultiByte(CP_UTF8, 0, wcIn, -1, NULL, 0, NULL, 0);
+	if (!mbLen)
+		systemAbort("Bad WideCharToMultiByte in WideCharToUtf8Str()");
+	char* mbOut = new char[mbLen];
+	WideCharToMultiByte(CP_UTF8, 0, wcIn, -1, mbOut, mbLen, NULL, 0);
+	return mbOut;
+}
+
+#else
+
+utf16_t* Utf8ToUtf16(char* utf8In)
+// LINUX convert 8 bit utf-8 text to an 16 bit utf-16 text
+// The calling program must delete the returned allocation.
+{
+	size_t mbLen = strlen(utf8In);
+	iconv_t iconvh = iconv_open("UTF−16", "UTF−8");
+	if (iconvh == (iconv_t) - 1)
+		systemAbort("Bad iconv_open in Utf8ToUtf16()");
+	// allocate memory for output
+	size_t wcLen = (mbLen * sizeof(utf16_t)) + sizeof(utf16_t);
+	char* wcOut = new char[wcLen];
+	// convert to utf-8
+	char* wcConv = wcOut;
+	size_t wcLeft = wcLen;
+	char* mbConv = utf8In;
+	size_t mbLeft = mbLen;
+	int iconvval = iconv(iconvh, &mbConv, &mbLeft, &wcConv, &wcLeft);
+	if (iconvval == -1)
+		systemAbort("Bad iconv in Utf8ToUtf16()");
+	*wcConv = '\0';
+	*(wcConv + 1) = '\0';
+	iconv_close(iconvh);
+	// Output iconv conversions to UTF-16 will have a BOM if a specific 
+	// endianness is not requested (UTF-16LE or UTF-16BE).
+	// This will remove the BOM.
+	utf16_t* wc16Out = reinterpret_cast<utf16_t*>(wcOut);
+	if (wc16Out[0] == 0xfeff || wc16Out[0] == 0xfffe)
+	{
+//		cout << "REMOVING UTF-16 BOM" << endl;
+		int wc16OutLen = utf16len(wc16Out) * sizeof(utf16_t);
+		memcpy(wc16Out, wc16Out + 1, wc16OutLen);
+	}
+	return reinterpret_cast<utf16_t*>(wcOut);
+}
+
+char* Utf16ToUtf8(utf16_t* utf16In)
+// LINUX convert 16 bit utf-16 text to an 8 bit utf-8 string
+// The calling program must delete the returned allocation.
+{
+	size_t wcLen = utf16len(utf16In) * sizeof(utf16_t);
+	iconv_t iconvh = iconv_open("UTF−8", "UTF−16");
+	if (iconvh == (iconv_t) - 1)
+		systemAbort("Bad iconv_open in Utf16ToUtf8Str()");
+	// allocate memory for output
+	size_t mbLen = wcLen * sizeof(utf16_t);
+	char* mbOut = new char[mbLen];
+	// convert to utf-8
+	char* mbConv = mbOut;
+	size_t mbLeft = mbLen;
+	char* wcConv = reinterpret_cast<char*>(utf16In);
+	size_t wcLeft = wcLen;
+	int iconvval = iconv(iconvh, &wcConv, &wcLeft, &mbConv, &mbLeft);
+	if (iconvval == -1)
+		systemAbort("Bad iconv in Utf16ToUtf8Str()");
+	*mbConv = '\0';
+	iconv_close(iconvh);
+	return mbOut;
+}
+
+#endif
 //----------------------------------------------------------------------------
 // anonymous namespace
 //----------------------------------------------------------------------------
@@ -321,25 +431,29 @@ TEST_F(AStyleMainUtf16F1, NullConvertFormattedText)
 
 //----------------------------------------------------------------------------
 // Test FormatUtf16 in ASLibrary
-// This uses mocks and fixtures and non-ascii characters.
+// This uses fixtures and non-ascii characters.
 //----------------------------------------------------------------------------
 
 struct AStyleMainUtf16F2 : public ::testing::Test
 // Constructor variables are set using native functions.
 // These will be compared to the variables computed by the AStyle functions.
 {
-	// variables values
+	// variables values set using native functions
+	char* text8;			//  8 bit text copied from c'tor
 	utf16_t* text16;		// 16 bit text
+	size_t text16Len;		// 16 bit length
 	utf16_t* options16;	    // 16 bit options
-	char*    text8;			//  8 bit text
+	size_t options16Len;	// 16 bit length
 
 	// c'tor - set the variables
 	AStyleMainUtf16F2()
 	{
 		// initialize variables
-		text16 = NULL;
-		options16 = NULL;
 		text8 = NULL;
+		text16 = NULL;
+		text16Len = 0;
+		options16 = NULL;
+		options16Len = 0;
 		// set textOut variables
 		char textIn[] =
 			"\nprivate void foo()\n"
@@ -363,15 +477,22 @@ struct AStyleMainUtf16F2 : public ::testing::Test
 			"    German(\"ää öö üü\");\n"
 			"}\n";
 		char optionsIn[] = "style=allman, mode=cs";
-		// convert 8 bit to 16 bit
-		ASLibrary library;
-		text16 = library.convertUtf8ToUtf16(textIn, memoryAlloc);
-		options16 = library.convertUtf8ToUtf16(optionsIn, memoryAlloc);
+		// create text8 values
 		size_t text8Len = strlen(textIn);
 		text8 = new char[text8Len + 1];
 		strcpy(text8, textIn);
-//		cout << strlen(textIn) << " c'tor" << endl;
-//		cout << strlen(optionsIn) << " c'tor" <<  endl;
+		// compute 16 bit values using native functions
+#ifdef _WIN32
+		text16 = Utf8ToWideChar(textIn);
+		text16Len = utf16len(text16);
+		options16 = Utf8ToWideChar(optionsIn);
+		options16Len = utf16len(options16);
+#else
+		text16 = Utf8ToUtf16(textIn);
+		text16Len = utf16len(text16);
+		options16 = Utf8ToUtf16(optionsIn);
+		options16Len = utf16len(options16);
+#endif
 	}	// end c'tor
 
 	~AStyleMainUtf16F2()
@@ -382,16 +503,30 @@ struct AStyleMainUtf16F2 : public ::testing::Test
 	}
 };
 
-TEST_F(AStyleMainUtf16F2, FormatUtf16Ok)
+// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// It aborts in the function Utf8ToUtf16().
+#ifdef __APPLE__
+TEST_F(AStyleMainUtf16F2, DISABLED_FormatUtf16)
+#else
+TEST_F(AStyleMainUtf16F2, FormatUtf16)
+#endif
+// NOTE: The conversion function uses the endianess of the computer
+//       so LE and BE cannot both be tested.
+//       The conversion function for BOTH ARE TESTED in the
+//       Utf8_16_Class test functions in AStyleTestI18n_Utf16.cpp.
 {
-	// Test call AStyleMainUtf16() with non-ascii characters.
+	// Test call AStyleMainUtf16() with utf-16 non-ascii characters.
 	ASLibrary library;
 	utf16_t* text16Out = library.formatUtf16(text16, options16, errorHandler, memoryAlloc);
-	// must convert utf16 to utf8 for gtest comparison
-	char* text8Out = library.convertUtf16ToUtf8(text16Out);
+	// must convert utf16 to utf8 using native functions for gtest comparison
+#ifdef _WIN32
+	char* text8Out = WideCharToUtf8(text16Out);
+#else
+	char* text8Out = Utf16ToUtf8(text16Out);
+#endif
 	EXPECT_STREQ(text8, text8Out);
-	delete [] text16Out;
 	delete [] text8Out;
+	delete [] text16Out;
 }
 
 //----------------------------------------------------------------------------
