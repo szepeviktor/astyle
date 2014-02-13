@@ -1,7 +1,7 @@
 # link gtest to version directory
 
-gtdir=gtest-1.5.0
+gtdir=gmock-1.7.0
 
-#link to version directory 
+#link to version directory
 cd ../../
-sudo  ln  --force --symbolic --verbose  $HOME/Projects/$gtdir   $HOME/Projects/gtest
+sudo  ln  --force --symbolic --verbose  $HOME/Projects/$gtdir   $HOME/Projects/gmock
