@@ -19,10 +19,10 @@
 					<Add option="-Wno-unused-function" />
 					<Add option="-Wno-unused-private-field" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
-					<Add directory="../../../gmock-1.6.0" />
-					<Add directory="../../../gmock-1.6.0/gtest" />
-					<Add directory="../../../gmock-1.6.0/include" />
-					<Add directory="../../../gmock-1.6.0/gtest/include" />
+					<Add directory="../../../gmock-1.7.0" />
+					<Add directory="../../../gmock-1.7.0/gtest" />
+					<Add directory="../../../gmock-1.7.0/include" />
+					<Add directory="../../../gmock-1.7.0/gtest/include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -38,15 +38,15 @@
 					<Add option="-Wno-unused-function" />
 					<Add option="-Wno-unused-private-field" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
-					<Add directory="../../../gmock-1.6.0" />
-					<Add directory="../../../gmock-1.6.0/gtest" />
-					<Add directory="../../../gmock-1.6.0/include" />
-					<Add directory="../../../gmock-1.6.0/gtest/include" />
+					<Add directory="../../../gmock-1.7.0" />
+					<Add directory="../../../gmock-1.7.0/gtest" />
+					<Add directory="../../../gmock-1.7.0/include" />
+					<Add directory="../../../gmock-1.7.0/gtest/include" />
 				</Compiler>
 			</Target>
 		</Build>
-		<Unit filename="../../../gmock-1.6.0/gtest/src/gtest-all.cc" />
-		<Unit filename="../../../gmock-1.6.0/src/gmock-all.cc" />
+		<Unit filename="../../../gmock-1.7.0/gtest/src/gtest-all.cc" />
+		<Unit filename="../../../gmock-1.7.0/src/gmock-all.cc" />
 		<Extensions>
 			<code_completion />
 			<envvars />

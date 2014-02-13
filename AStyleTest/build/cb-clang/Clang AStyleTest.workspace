@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Clang (MinGW) AStyleTest">
-		<Project filename="Clang GTestA.cbp" />
+		<Project filename="Clang GMockA.cbp" />
 		<Project filename="Clang AStyleTest.cbp" />
+		<Project filename="Clang AStyleTestCon.cbp" />
+		<Project filename="Clang AStyleTestI18n.cbp" />
+		<Project filename="Clang AStyleTestLib.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

@@ -55,34 +55,6 @@
 					<Add directory="bin" />
 				</Linker>
 			</Target>
-			<Target title="Profile">
-				<Option output="bin/AStyleTestLibp" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objLibp/" />
-				<Option type="1" />
-				<Option compiler="icc" />
-				<Option parameters="--terse_printer" />
-				<Compiler>
-					<Add option="-Wextra" />
-					<Add option="-Wall" />
-					<Add option="-pg" />
-					<Add option="-fprofile-arcs" />
-					<Add option="-ftest-coverage" />
-					<Add option="-DGTEST_HAS_PTHREAD=0" />
-					<Add option="-DNDEBUG" />
-					<Add option="-DASTYLE_LIB" />
-					<Add directory="../../src" />
-					<Add directory="../../srcx" />
-					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/include" />
-					<Add directory="../../../gmock/gtest/include" />
-				</Compiler>
-				<Linker>
-					<Add option="-pg" />
-					<Add library="gcov" />
-					<Add library="gmock" />
-					<Add directory="bin" />
-				</Linker>
-			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-fexceptions" />
