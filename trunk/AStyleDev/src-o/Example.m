@@ -17,9 +17,9 @@
 char* STDCALL AStyleGetVersion();
 char* STDCALL AStyleMain(const char* pSourceIn,
                          const char* pOptions,
-                         void (STDCALL* fpError)(int, char*),
+                         void (STDCALL* fpError)(int, const char*),
                          char* (STDCALL* fpAlloc)(unsigned long));
-void  STDCALL ASErrorHandler(int errorNumber, char* errorMessage);
+void  STDCALL ASErrorHandler(int errorNumber, const char* errorMessage);
 char* STDCALL ASMemoryAlloc(unsigned long memoryNeeded);
 
 // other functions
@@ -86,7 +86,7 @@ int main()
 }
 
 // Error handler for the Artistic Style formatter.
-void  STDCALL ASErrorHandler(int errorNumber, char* errorMessage)
+void  STDCALL ASErrorHandler(int errorNumber, const char* errorMessage)
 {   NSLog(@"astyle error %d", errorNumber);
     NSLog(@"%s", errorMessage);
 }
