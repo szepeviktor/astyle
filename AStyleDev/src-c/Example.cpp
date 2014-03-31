@@ -5,10 +5,13 @@
  */
 
 #include <stdlib.h>
-#include <string.h>         // need both string and string.h for GCC
 #include <string>
 #include <fstream>
 #include <iostream>
+#if defined(__GNUC__)
+#include <string.h>         // need both string and string.h for GCC
+#endif
+
 using namespace std;
 
 // allow for different calling conventions in Linux and Windows
@@ -19,14 +22,12 @@ using namespace std;
 #endif
 
 // functions to call AStyleMain
-extern "C"
-char* STDCALL AStyleGetVersion();
-extern "C"
-char* STDCALL AStyleMain(const char* pSourceIn,
-                         const char* pOptions,
-                         void (STDCALL* fpError)(int, char*),
-                         char* (STDCALL* fpAlloc)(unsigned long));
-void  STDCALL ASErrorHandler(int errorNumber, char* errorMessage);
+extern "C" const char* STDCALL AStyleGetVersion(void);
+extern "C" char* STDCALL AStyleMain(const char* sourceIn,
+                                    const char* optionsIn,
+                                    void (STDCALL* fpError)(int, const char*),
+                                    char* (STDCALL* fpAlloc)(unsigned long));
+void  STDCALL ASErrorHandler(int errorNumber, const char* errorMessage);
 char* STDCALL ASMemoryAlloc(unsigned long memoryNeeded);
 
 // other functions
@@ -43,11 +44,11 @@ int main(int, char**)
                                 "AStyleDev/test-data/ASFormatter.cpp",
                                 "AStyleDev/test-data/astyle.h"
                               };
-    const char* options = (char*)"-A2tOP";
+    const char* options = "-A2tOP";
     size_t arraySize = sizeof(fileName) / sizeof(fileName[0]);
 
     // get Artistic Style version
-    char* version = AStyleGetVersion();
+    const char* version = AStyleGetVersion();
     cout << "Example C++ - AStyle " << version << endl;
 
     // process the input files
@@ -81,7 +82,7 @@ int main(int, char**)
 }
 
 // Error handler for the Artistic Style formatter.
-void  STDCALL ASErrorHandler(int errorNumber, char* errorMessage)
+void  STDCALL ASErrorHandler(int errorNumber, const char* errorMessage)
 {   cout << "astyle error " << errorNumber << "\n"
          << errorMessage << endl;
 }

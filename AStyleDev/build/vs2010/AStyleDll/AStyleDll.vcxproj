@@ -82,9 +82,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-o\ 
-cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-py\
-cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -115,7 +114,8 @@ cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Com
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-o\ 
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-c\ 
+cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-o\ 
 cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-py\
 cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Command>
     </PostBuildEvent>

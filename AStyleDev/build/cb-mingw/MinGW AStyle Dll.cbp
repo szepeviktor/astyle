@@ -33,7 +33,7 @@
 					<Add directory="bin" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cmd /c  copy /y  bin\AStyle.dll  ..\..\src-o\  &gt; NUL" />
+					<Add after="cmd /c  copy /y  bin\AStyle.dll  ..\..\src-c\  &gt; NUL" />
 					<Add after="cmd /c  copy /y  bin\AStyle.dll  ..\..\src-py\ &gt; NUL" />
 					<Add after="cmd /c  copy /y  bin\AStyle.dll  ..\..\src-s\  &gt; NUL" />
 					<Mode after="always" />
