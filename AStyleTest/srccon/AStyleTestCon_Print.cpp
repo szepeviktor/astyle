@@ -29,7 +29,7 @@ namespace {
 // AStyle PrintF Class
 //----------------------------------------------------------------------------
 
-class PrintF : public ::testing::Test
+class PrintF : public Test
 // The PrintF class captures the stdout output stream and redirects it to a file.
 // The file is used to verify the Artistic Style console build print format.
 // The functions were "borrowed" from the CapturedStream class in gtest-port.cc

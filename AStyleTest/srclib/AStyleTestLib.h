@@ -4,15 +4,12 @@
 //-------------------------------------------------------------------------
 // headers
 //-------------------------------------------------------------------------
-#include "astyle.h"
 
 #include <gtest/gtest.h>
 #ifndef __BORLANDC__        // can't use gmock
 #include "gmock/gmock.h"
 // for gmock macros
-using ::testing::_;
-using ::testing::InSequence;
-using ::testing::Return;
+using namespace testing;
 #endif
 
 // must be AFTER gmock.h
@@ -25,6 +22,21 @@ using ::testing::Return;
 #include <iostream>		// for cout
 #include <string.h>		// need both string and string.h for GCC
 #include <string>
+
+//-----------------------------------------------------------------------------
+// definitions
+//-----------------------------------------------------------------------------
+
+// define STDCALL for Windows
+// MINGW defines STDCALL in Windows.h (actually windef.h)
+#ifdef _WIN32
+#ifndef STDCALL
+#define STDCALL __stdcall
+#endif
+// define STDCALL for non-Windows
+#else
+#define STDCALL
+#endif	// #ifdef _WIN32
 
 //-----------------------------------------------------------------------------
 // declarations for AStyleTest callback functions

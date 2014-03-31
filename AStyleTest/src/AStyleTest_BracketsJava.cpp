@@ -23,7 +23,7 @@ namespace {
 // AStyle Java Default Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsNoneJavaF : public ::testing::Test
+struct BracketsNoneJavaF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -261,7 +261,7 @@ TEST(BracketsNoneJava, EnumConstructorRunIn)
 // AStyle Java Break Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsBreakJavaF : public ::testing::Test
+struct BracketsBreakJavaF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -551,7 +551,7 @@ TEST(BracketsBreakJava, EnumConstructor)
 // AStyle Java Attach Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsAttachJavaF : public ::testing::Test
+struct BracketsAttachJavaF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -836,7 +836,7 @@ TEST(BracketsAttachJava, EnumConstructor)
 // AStyle Java Linux Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsLinuxJavaF : public ::testing::Test
+struct BracketsLinuxJavaF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -1137,7 +1137,7 @@ TEST(BracketsLinuxJava, EnumConstructor)
 // AStyle Java Stroustrup Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsStroustrupJavaF : public ::testing::Test
+struct BracketsStroustrupJavaF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -1332,7 +1332,7 @@ TEST(BracketsStroustrupJava, EnumConstructor)
 // AStyle Java RunIn Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsRunInJavaF : public ::testing::Test
+struct BracketsRunInJavaF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -1601,7 +1601,7 @@ TEST(BracketsRunInJava, EnumConstructor)
 // AStyle Java Other Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsOtherJavaF : public ::testing::Test
+struct BracketsOtherJavaF : public Test
 {
 	string textStr;
 	const char* textIn;

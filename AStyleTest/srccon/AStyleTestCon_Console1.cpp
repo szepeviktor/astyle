@@ -366,7 +366,7 @@ TEST(ProcessOptions, FileOptionsVector_Error)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid file options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_FAILURE),
+				ExitedWithCode(EXIT_FAILURE),
 				"Invalid option file options:\n"
 				"invalid1\n"
 				"invalid2\n"
@@ -394,7 +394,7 @@ TEST(ProcessOptions, FileOptionsVector_FileError1)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with options file error
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_FAILURE),
+				ExitedWithCode(EXIT_FAILURE),
 				"Cannot open options file");
 #endif
 	deleteConsoleGlobalObject();
@@ -414,7 +414,7 @@ TEST(ProcessOptions, FileOptionsVector_FileError2)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with options file error
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_FAILURE),
+				ExitedWithCode(EXIT_FAILURE),
 				"Cannot open options file");
 #endif
 	deleteConsoleGlobalObject();
@@ -529,7 +529,7 @@ TEST(ProcessOptions, ConsoleOptions_Error)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid command line options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_FAILURE),
+				ExitedWithCode(EXIT_FAILURE),
 				"Invalid command line options:\n"
 				"invalid1\n"
 				"invalid2\n"
@@ -638,7 +638,7 @@ TEST(ProcessOptions, IgnoreExcludeErrorsAndDisplayOption_Short)
 // AStyle file suffix option
 //----------------------------------------------------------------------------
 
-struct FileSuffixF : public ::testing::Test
+struct FileSuffixF : public Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -800,7 +800,7 @@ TEST(StringEndsWith, TestLongerThanName)
 // AStyle preserve-date option
 //----------------------------------------------------------------------------
 
-struct PreserveDateF : public ::testing::Test
+struct PreserveDateF : public Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -903,7 +903,7 @@ TEST_F(PreserveDateF, False)
 // AStyle checksum procedure
 //----------------------------------------------------------------------------
 
-struct ChecksumF : public ::testing::Test
+struct ChecksumF : public Test
 {
 	ASFormatter formatter;
 	string fileName;
@@ -1217,7 +1217,7 @@ TEST(RemovedOptions, V202)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid command line options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_FAILURE),
+				ExitedWithCode(EXIT_FAILURE),
 				"Invalid command line options:\n"
 				"brackets=horstmann\n"
 				"indent-brackets\n"
@@ -1251,7 +1251,7 @@ TEST(RemovedOptions, V204)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid command line options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_FAILURE),
+				ExitedWithCode(EXIT_FAILURE),
 				"brackets=attach\n"
 				"brackets=break\n"
 				"brackets=run-in\n"

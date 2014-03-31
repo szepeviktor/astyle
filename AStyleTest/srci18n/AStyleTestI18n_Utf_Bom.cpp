@@ -83,7 +83,7 @@ TEST(DetectEncoding, Detect_Utf32BE)
 // AStyle test UTF-32 file processing - 32 bit abort
 //----------------------------------------------------------------------------
 
-struct ProcessUtf32F : public ::testing::Test
+struct ProcessUtf32F : public Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -124,8 +124,8 @@ TEST_F(ProcessUtf32F, Utf32LE_Abort)
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	EXPECT_EXIT(g_console->processFiles(),
-		::testing::ExitedWithCode(EXIT_FAILURE),
-		"Cannot process UTF-32 encoding");
+				ExitedWithCode(EXIT_FAILURE),
+				"Cannot process UTF-32 encoding");
 #endif
 }
 
@@ -152,8 +152,8 @@ TEST_F(ProcessUtf32F, Utf32BE_Abort)
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	EXPECT_EXIT(g_console->processFiles(),
-		::testing::ExitedWithCode(EXIT_FAILURE),
-		"Cannot process UTF-32 encoding");
+				ExitedWithCode(EXIT_FAILURE),
+				"Cannot process UTF-32 encoding");
 #endif
 }
 

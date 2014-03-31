@@ -18,7 +18,7 @@ namespace {
 // AStyle C++ RunIn Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsRunInCppF : public ::testing::Test
+struct BracketsRunInCppF : public Test
 {
 	string textStr;
 	const char* textIn;

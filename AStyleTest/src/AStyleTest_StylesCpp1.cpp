@@ -19,7 +19,7 @@ namespace {
 // Additional tests are in the break brackets tests
 //----------------------------------------------------------------------------
 
-struct StyleDefaultCppF : public ::testing::Test
+struct StyleDefaultCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -575,7 +575,7 @@ TEST(StyleDefaultCpp, PicoOneLine)
 // Additional tests are in the break brackets tests
 //----------------------------------------------------------------------------
 
-struct StyleAllmanCppF : public ::testing::Test
+struct StyleAllmanCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -1292,7 +1292,7 @@ TEST(StyleAllmanCpp, PicoOneLine)
 // Additional tests are in the attach brackets tests
 //----------------------------------------------------------------------------
 
-struct StyleJavaCppF : public ::testing::Test
+struct StyleJavaCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -1857,7 +1857,7 @@ TEST(StyleJavaCpp, PicoOneLine)
 // Additional tests are in the linux brackets tests
 //----------------------------------------------------------------------------
 
-struct StyleKRCppF : public ::testing::Test
+struct StyleKRCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -2509,7 +2509,7 @@ TEST(StyleKRCpp, PicoOneLine)
 // Additional tests are in the stroustrup brackets tests
 //----------------------------------------------------------------------------
 
-struct StyleStroustrupCppF : public ::testing::Test
+struct StyleStroustrupCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -3065,7 +3065,7 @@ TEST(StyleStroustrupCpp, PicoOneLine)
 // There are NO additional tests are in the brackets tests
 //----------------------------------------------------------------------------
 
-struct StyleWhitesmithCppF : public ::testing::Test
+struct StyleWhitesmithCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -3785,11 +3785,735 @@ TEST(StyleWhitesmithCpp, PicoOneLine)
 }
 
 //----------------------------------------------------------------------------
+// AStyle C++ VTK Style
+// There are NO additional tests are in the brackets tests
+//----------------------------------------------------------------------------
+
+struct StyleVTKCppF : public Test
+{
+	string textStr;
+	const char* textIn;
+
+	StyleVTKCppF()
+	{
+		textStr =
+			"\nnamespace FooName\n"
+			"{\n"
+			"\n"
+			"class FooClass\n"
+			"{\n"
+			"private:\n"
+			"    bool var1;\n"
+			"    void func1();\n"
+			"protected:\n"
+			"    bool var2;\n"
+			"    void func2();\n"
+			"};\n"
+			"\n"
+			"void FooClass::Foo(bool isFoo)\n"
+			"{\n"
+			"    if (isFoo)\n"
+			"    {\n"
+			"        bar();\n"
+			"    }\n"
+			"    else\n"
+			"        anotherBar();\n"
+			"}\n"
+			"\n"
+			"}   // end FooName\n";
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(StyleVTKCppF, LongOption)
+{
+	// test vtk style option
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"class FooClass\n"
+		"{\n"
+		"private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n"
+		"\n"
+		"void FooClass::Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        {\n"
+		"        bar();\n"
+		"        }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n"
+		"\n"
+		"}   // end FooName\n";
+	char options[] = "style=vtk";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST_F(StyleVTKCppF, ShortOption)
+{
+	// test vtk style short option
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"\n"
+		"class FooClass\n"
+		"{\n"
+		"private:\n"
+		"    bool var1;\n"
+		"    void func1();\n"
+		"protected:\n"
+		"    bool var2;\n"
+		"    void func2();\n"
+		"};\n"
+		"\n"
+		"void FooClass::Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        {\n"
+		"        bar();\n"
+		"        }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n"
+		"\n"
+		"}   // end FooName\n";
+	char options[] = "-A15";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, SpaceIndent)
+{
+	// test vtk style option with space indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"      if (isFoo\n"
+		"                  && isBar)\n"
+		"            {\n"
+		"            bar();\n"
+		"            }\n"
+		"      else\n"
+		"            anotherBar();\n"
+		"}\n";
+	char options[] = "style=vtk, indent=spaces=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, Tab)
+{
+	// test vtk style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"	        && isBar)\n"
+		"		{\n"
+		"		bar();\n"
+		"		}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=vtk, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, TabIndent)
+{
+	// test vtk style option with tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"	            && isBar)\n"
+		"		{\n"
+		"		bar();\n"
+		"		}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=vtk, indent=tab=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, ForceTab)
+{
+	// test vtk style option with force tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"			&& isBar)\n"
+		"		{\n"
+		"		bar();\n"
+		"		}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=vtk, indent=force-tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, ForceTabIndent)
+{
+	// test vtk style option with force tab indent
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"	if (isFoo\n"
+		"			&& isBar)\n"
+		"		{\n"
+		"		bar();\n"
+		"		}\n"
+		"	else\n"
+		"		anotherBar();\n"
+		"}\n";
+	char options[] = "style=vtk, indent=force-tab=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, MinConditionalIndent1)
+{
+	// vtk should use a default setting of MINCOND_TWO
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"        {\n"
+		"        bar();\n"
+		"        }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char options[] = "style=vtk";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, MinConditionalIndent2)
+{
+	// test vtk style option with min conditional indent 0
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"            && isBar)\n"
+		"    {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo\n"
+		"        && isBar)\n"
+		"        {\n"
+		"        bar();\n"
+		"        }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n";
+	char options[] = "style=vtk, min-conditional-indent=0";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, IndentedSwitchBlock)
+{
+	// test vtk style with automatic switch block indent
+	char text[] =
+		"\nvoid Foo(int fooBar)\n"
+		"{\n"
+		"    switch (fooBar)\n"
+		"        {\n"
+		"        case 1:\n"
+		"            fooBar = 1;\n"
+		"            break;\n"
+		"        case 2:\n"
+		"            {\n"
+		"            fooBar = 2;\n"
+		"            }\n"
+		"        break;\n"
+		"        default:\n"
+		"            break;\n"
+		"        }\n"
+		"    int bar = true;\n"
+		"}\n";
+	char options[] = "style=vtk";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, NestedClass)
+{
+	// test vtk style nested classes
+	char text[] =
+		"\nclass A\n"
+		"{\n"
+		"public:\n"
+		"    int foo1;\n"
+		"    class B\n"
+		"    {\n"
+		"    public:\n"
+		"        int foo2;\n"
+		"        class C\n"
+		"        {\n"
+		"        public:\n"
+		"            void foo(bool isFoo)\n"
+		"            {\n"
+		"                if (isFoo)\n"
+		"                    {\n"
+		"                    bar();\n"
+		"                    }\n"
+		"                else\n"
+		"                    anotherBar();\n"
+		"            };\n"
+		"        };\n"
+		"    };\n"
+		"};\n";
+	char options[] = "style=vtk";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, NestedClass_IndentClass)
+{
+	// test vtk style nested classes with indented classes
+	char text[] =
+		"\nclass A\n"
+		"{\n"
+		"    public:\n"
+		"        int foo1;\n"
+		"        class B\n"
+		"        {\n"
+		"            public:\n"
+		"                int foo2;\n"
+		"                class C\n"
+		"                {\n"
+		"                    public:\n"
+		"                        void foo(bool isFoo)\n"
+		"                        {\n"
+		"                            if (isFoo)\n"
+		"                                {\n"
+		"                                bar();\n"
+		"                                }\n"
+		"                            else\n"
+		"                                anotherBar();\n"
+		"                        }\n"
+		"                }\n"
+		"        }\n"
+		"}\n";
+	char options[] = "style=vtk, indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, NestedNamespace)
+{
+	// test vtk style nested namespaces
+	char text[] =
+		"\nnamespace A\n"
+		"{\n"
+		"namespace B\n"
+		"{\n"
+		"namespace C\n"
+		"{\n"
+		"void foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        {\n"
+		"        bar();\n"
+		"        }\n"
+		"    else\n"
+		"        anotherBar();\n"
+		"}\n"
+		"}\n"
+		"}\n"
+		"}\n";
+	char options[] = "style=vtk";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, NestedNamespace_IndentNamespace)
+{
+	// test vtk style nested indented namespaces
+	char text[] =
+		"\nnamespace A\n"
+		"{\n"
+		"    namespace B\n"
+		"    {\n"
+		"        namespace C\n"
+		"        {\n"
+		"            void foo(bool isFoo)\n"
+		"            {\n"
+		"                if (isFoo)\n"
+		"                    {\n"
+		"                    bar();\n"
+		"                    }\n"
+		"                else\n"
+		"                    anotherBar();\n"
+		"            }\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=vtk, indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, NestedNamespaceClass)
+{
+	// test vtk style namespaces within a class
+	char text[] =
+		"\nnamespace A\n"
+		"{\n"
+		"class A\n"
+		"{\n"
+		"public:\n"
+		"    namespace B\n"
+		"    {\n"
+		"    class B\n"
+		"    {\n"
+		"    public:\n"
+		"        namespace C\n"
+		"        {\n"
+		"        class C\n"
+		"        {\n"
+		"        public:\n"
+		"            void foo(bool isFoo)\n"
+		"            {\n"
+		"                if (isFoo)\n"
+		"                    {\n"
+		"                    bar();\n"
+		"                    }\n"
+		"                else\n"
+		"                    anotherBar();\n"
+		"            }\n"
+		"        }\n"
+		"        }\n"
+		"    }\n"
+		"    }\n"
+		"}\n"
+		"}\n";
+	char options[] = "style=vtk";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, NestedNamespaceClass_IndentNamespace)
+{
+	// test vtk style indented namespaces within a class
+	char text[] =
+		"\nnamespace A\n"
+		"{\n"
+		"    class A\n"
+		"    {\n"
+		"    public:\n"
+		"        namespace B\n"
+		"        {\n"
+		"            class B\n"
+		"            {\n"
+		"            public:\n"
+		"                namespace C\n"
+		"                {\n"
+		"                    class C\n"
+		"                    {\n"
+		"                    public:\n"
+		"                        void foo(bool isFoo)\n"
+		"                        {\n"
+		"                            if (isFoo)\n"
+		"                                {\n"
+		"                                bar();\n"
+		"                                }\n"
+		"                            else\n"
+		"                                anotherBar();\n"
+		"                        }\n"
+		"                    }\n"
+		"                }\n"
+		"            }\n"
+		"        }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=vtk, indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, NestedNamespaceClass_IndentNamespaceClass)
+{
+	// test  vtk style with indented namespaces within an indented class
+	char text[] =
+		"\nnamespace A\n"
+		"{\n"
+		"    class A\n"
+		"    {\n"
+		"        public:\n"
+		"            namespace B\n"
+		"            {\n"
+		"                class B\n"
+		"                {\n"
+		"                    public:\n"
+		"                        namespace C\n"
+		"                        {\n"
+		"                            class C\n"
+		"                            {\n"
+		"                                public:\n"
+		"                                    void foo(bool isFoo)\n"
+		"                                    {\n"
+		"                                        if (isFoo)\n"
+		"                                            {\n"
+		"                                            bar();\n"
+		"                                            }\n"
+		"                                        else\n"
+		"                                            anotherBar();\n"
+		"                                    }\n"
+		"                            }\n"
+		"                        }\n"
+		"                }\n"
+		"            }\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=vtk, indent-namespaces, indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, Const)
+{
+	// initial indent with vtk style when a const function is used
+	char text[] =
+		"\nint Foo(bool isBar) const\n"
+		"{\n"
+		"    if (isBar)\n"
+		"        {\n"
+		"        bar();\n"
+		"        return 1;\n"
+		"        }\n"
+		"    else\n"
+		"        return 0;\n"
+		"}\n";
+	char options[] = "style=vtk";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, HorstmannComments)
+{
+	// test vtk style with Horstmann comments
+	char textIn[] =
+		"\nbool foo()\n"
+		"{   while (confs)\n"
+		"    {   /*Replace all '|' with '_'.\n"
+		"         * This is vital.\n"
+		"         */\n"
+		"        ConfigName = Attribute(name);\n"
+		"}\n"
+		"}\n";
+	char text[] =
+		"\nbool foo()\n"
+		"{\n"
+		"    while (confs)\n"
+		"        {\n"
+		"        /*Replace all '|' with '_'.\n"
+		"         * This is vital.\n"
+		"         */\n"
+		"        ConfigName = Attribute(name);\n"
+		"        }\n"
+		"}\n";
+	char options[] = "style=vtk";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, Arrays)
+{
+	// test vtk style with arrays
+	char text[] =
+		"\nconst int cmdLineDesc[] =\n"
+		"{\n"
+		"    { CMD_LINE_SWITCH1 },\n"
+		"    { CMD_LINE_SWITCH2 },\n"
+		"\n"
+		"    { CMD_LINE_SWITCH3 },\n"
+		"    { CMD_LINE_SWITCH4 },\n"
+		"\n"
+		"    { CMD_LINE_SWITCH5 },\n"
+		"    { CMD_LINE_SWITCH6 },\n"
+		"    { CMD_LINE_NONE }\n"
+		"};\n";
+	char options[] = "style=vtk";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, Pico)
+{
+	// test vtk style with pico brackets
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar1();\n"
+		"        bar2(); }\n"
+		"    else\n"
+		"    {   anotherBar1();\n"
+		"        anotherBar2(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        {\n"
+		"        bar1();\n"
+		"        bar2();\n"
+		"        }\n"
+		"    else\n"
+		"        {\n"
+		"        anotherBar1();\n"
+		"        anotherBar2();\n"
+		"        }\n"
+		"}\n";
+	char options[] = "style=vtk";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, PicoOneLine)
+{
+	// test vtk style with pico brackets and one-line blocks
+	char textIn[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{   if (isFoo)\n"
+		"    {   bar(); }\n"
+		"    else\n"
+		"    {   anotherBar(); } }\n";
+	char text[] =
+		"\nvoid Foo(bool isFoo)\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        {\n"
+		"        bar();\n"
+		"        }\n"
+		"    else\n"
+		"        {\n"
+		"        anotherBar();\n"
+		"        }\n"
+		"}\n";
+	char options[] = "style=vtk";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//----------------------------------------------------------------------------
 // AStyle C++ Banner Style
 // There are NO additional tests are in the brackets tests
 //----------------------------------------------------------------------------
 
-struct StyleBannerCppF : public ::testing::Test
+struct StyleBannerCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -4406,7 +5130,7 @@ TEST(StyleBannerCpp, PicoOneLine)
 // There are NO additional tests are in the brackets tests
 //----------------------------------------------------------------------------
 
-struct StyleGnuCppF : public ::testing::Test
+struct StyleGnuCppF : public Test
 {
 	string textStr;
 	const char* textIn;

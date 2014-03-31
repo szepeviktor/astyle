@@ -347,7 +347,7 @@ TEST(ASLocalizer, UkrainianTranslation)
 // AStyle test Translate class and translation values
 //----------------------------------------------------------------------------
 
-struct TranslationF : public ::testing::Test
+struct TranslationF : public Test
 {
 	vector<string> m_ascii;
 

@@ -11,24 +11,18 @@ int g_test_to_run = 0;
 // Provides alternative output mode which displays only
 // the failed tests but in an enhanced form.
 
-// Fired before each iteration of tests starts.
+// Called before each iteration of tests starts.
 void TersePrinter::OnTestIterationStart(const UnitTest& unit_test, int /*iteration*/)
 {
-#ifdef __BORLANDC__
-	ColoredPrintf(COLOR_YELLOW, "%s", "No mock tests.\n");
-#endif
-#if !GTEST_HAS_DEATH_TEST || LEAK_DETECTOR || LEAK_FINDER
-	ColoredPrintf(COLOR_YELLOW, "%s", "No death tests.\n");
-#endif
-	ColoredPrintf(COLOR_GREEN, "%s", "Using terse printer.\n");
+	ColoredPrintf(COLOR_GREEN, "%s", "Using TersePrinter.\n");
 	ColoredPrintf(COLOR_GREEN, "%s", "[==========] ");
-	printf("Running %d tests from %d test cases.\n",
-	       unit_test.test_to_run_count(),
+	printf("Running %s from %d test cases.\n",
+	       FormatTestCount(unit_test.test_to_run_count()).c_str(),
 	       unit_test.test_case_to_run_count());
 	fflush(stdout);
 }
 
-// Fired before environment set-up for each iteration of tests starts.
+// Called before environment set-up for each iteration of tests starts.
 void TersePrinter::OnEnvironmentsSetUpStart(const UnitTest& /*unit_test*/)
 {
 	ColoredPrintf(COLOR_GREEN, "%s", "[----------] ");
@@ -36,7 +30,19 @@ void TersePrinter::OnEnvironmentsSetUpStart(const UnitTest& /*unit_test*/)
 	fflush(stdout);
 }
 
-// Fired before the test starts.
+// Called before the test case starts.
+void TersePrinter::OnTestCaseStart(const TestCase& test_case)
+{
+	if (useTerseOutput) return;
+
+	ColoredPrintf(COLOR_GREEN, "[----------] ");
+	printf("%s from %s\n",
+	       FormatTestCount(test_case.test_to_run_count()).c_str(),
+	       test_case.name());
+	fflush(stdout);
+}
+
+// Called before the test starts.
 // Save information for the failure message.
 // The test start information is actually printed by
 // OnTestPartResult() and prints the failures only.
@@ -57,19 +63,17 @@ void TersePrinter::OnTestPartResult(const TestPartResult& test_part_result)
 	{
 		if (!test_header_printed_)
 		{
-			test_header_printed_ = true;
 			// print the message header
-			ColoredPrintf(COLOR_YELLOW, "%s", "[  RUN     ] ");
-			printf("%s.%s", test_case_name_.c_str(), test_info_name_.c_str());
-			// remove directory information from the file path
-			string file_name = test_part_result.file_name();
-			size_t dir_end = file_name.find_last_of("\\/");
-			if (dir_end != string::npos)
-				file_name = file_name.substr(dir_end + 1);
-			// print the test name
-			printf("  %s:(%d)\n",
-			       file_name.c_str(),
-			       test_part_result.line_number());
+			test_header_printed_ = true;
+			PrintTestHeader(COLOR_YELLOW);
+			// print the file name
+			// the following checks for an error in a mock
+			if (test_part_result.file_name() || test_part_result.line_number() > 0)
+			{
+				printf("%s:(%d)\n",
+				       test_part_result.file_name(),
+				       test_part_result.line_number());
+			}
 		}
 		else
 		{
@@ -81,11 +85,29 @@ void TersePrinter::OnTestPartResult(const TestPartResult& test_part_result)
 	}
 }
 
-// Fired after the test ends.
+// Called after the test ends.
 // Print a summary only if the test failed.
 void TersePrinter::OnTestEnd(const TestInfo& test_info)
 {
-	if (!test_info.result()->Passed())
+	if (test_info.result()->Passed())
+	{
+		if (!useTerseOutput)
+		{
+			// print the message header
+			test_header_printed_ = true;
+			PrintTestHeader(COLOR_GREEN);
+			// print the message trailer
+			ColoredPrintf(COLOR_GREEN, "[       OK ] ");
+			printf("%s.%s", test_case_name_.c_str(), test_info_name_.c_str());
+			// print the test time
+			if (GTEST_FLAG(print_time))
+				printf(" (%s ms)\n", internal::StreamableToString(
+				           test_info.result()->elapsed_time()).c_str());
+			else
+				printf("\n");
+		}
+	}
+	else
 	{
 		ColoredPrintf(COLOR_RED, "%s", "[  FAILED  ] ");
 		printf("%s.%s", test_case_name_.c_str(), test_info_name_.c_str());
@@ -95,49 +117,67 @@ void TersePrinter::OnTestEnd(const TestInfo& test_info)
 		if (filler_adjust < 0)
 			filler_adjust = 0;
 		filler.append(filler_adjust, '-');
-		printf("  %s\n\n", filler.c_str());
-		fflush(stdout);
+		printf("  %s\n", filler.c_str());
 	}
+	fflush(stdout);
 }
 
-// Fired before environment tear-down for each iteration of tests starts.
-void TersePrinter::OnEnvironmentsTearDownStart(const UnitTest& /*unit_test*/)
+// Called after the test case ends.
+void TersePrinter::OnTestCaseEnd(const TestCase& test_case)
 {
+	// a test case end is not printed for the following
+	if (useTerseOutput || !GTEST_FLAG(print_time))
+		return;
+
+	ColoredPrintf(COLOR_GREEN, "[----------] ");
+	printf("%s from %s (%s ms total)\n\n",
+	       FormatTestCount(test_case.test_to_run_count()).c_str(),
+	       test_case.name(),
+	       internal::StreamableToString(test_case.elapsed_time()).c_str());
+	fflush(stdout);
+}
+
+// Called before environment tear-down for each iteration of tests starts.
+void TersePrinter::OnEnvironmentsTearDownStart(const UnitTest& unit_test)
+{
+	// need a linefeed if a test case end is not printed
+	if ((useTerseOutput && unit_test.failed_test_count() != 0)
+	        || !GTEST_FLAG(print_time))
+		printf("\n");
 	ColoredPrintf(COLOR_GREEN, "%s", "[----------] ");
 	printf("Global test environment tear-down.\n");
 	fflush(stdout);
 }
 
-// Fired after each iteration of tests finishes.
+// Called after each iteration of tests finishes.
 void TersePrinter::OnTestIterationEnd(const UnitTest& unit_test, int /*iteration*/)
 {
 	g_test_to_run = unit_test.test_to_run_count();
 	ColoredPrintf(COLOR_GREEN, "%s", "[==========] ");
-	printf("%d tests from %d test cases ran.",
-	       unit_test.test_to_run_count(),
+	printf("%s from %d test cases ran.",
+	       FormatTestCount(unit_test.test_to_run_count()).c_str(),
 	       unit_test.test_case_to_run_count());
 	float time_in_ms = static_cast<float>(unit_test.elapsed_time());
 	printf(" (%1.2f seconds total)\n", time_in_ms / 1000);
 	// Print total passed.
 	ColoredPrintf(COLOR_GREEN, "%s", "[  PASSED  ] ");
-	printf("%d tests.\n", unit_test.successful_test_count());
+	printf("%s.\n", FormatTestCount(unit_test.successful_test_count()).c_str());
 	// Print total failed.
 	int num_failures = unit_test.failed_test_count();
 	if (num_failures)
 	{
 		ColoredPrintf(COLOR_RED, "%s", "[  FAILED  ] ");
-		printf("%d tests, listed below:\n", num_failures);
+		printf("%s, listed below:\n", FormatTestCount(num_failures).c_str());
 		PrintFailedTestsList(unit_test);
-		printf("\n%2d FAILED TESTS\n", num_failures);
+		printf("\n%d FAILED %s\n", num_failures,
+		       num_failures == 1 ? "TEST" : "TESTS");
 	}
 	// Print total disabled.
 	int num_disabled = unit_test.disabled_test_count();
 	if (num_disabled)
 	{
 		if (!num_failures)
-		{
 			printf("\n");  // Add a spacer if no FAILURE banner is displayed.
-		}
 		ColoredPrintf(COLOR_YELLOW, "  YOU HAVE %d DISABLED TESTS\n", num_disabled);
 	}
 	// Ensure that Google Test output is printed before, e.g., heapchecker output.
@@ -146,8 +186,10 @@ void TersePrinter::OnTestIterationEnd(const UnitTest& unit_test, int /*iteration
 
 // Internal helper for printing the TestPartResult summary variable
 // with color enhancement.
-void TersePrinter::PrintFailedTestSummary(string summary) const
+void TersePrinter::PrintFailedTestSummary(const string& summary_) const
 {
+	// Replace "\\n" and "\\r" sequences with LF and CR (version 1.7).
+	string summary = ReplaceSummaryString(summary_);
 	// Separate the summary message into lines.
 	vector<string> line;		// vector for storing print lines
 	size_t prev_i = 0;			// i value of the previous \n
@@ -164,7 +206,7 @@ void TersePrinter::PrintFailedTestSummary(string summary) const
 	{
 		line.push_back(summary.substr(prev_i));
 		int last_char = static_cast<int>(line.back().length()) - 1;
-		if (last_char > 0 && line.back()[last_char] != '\n')
+		if (last_char > -1 && line.back()[last_char] != '\n')
 			line.back().append("\n");
 	}
 	// Print the lines with added color.
@@ -207,6 +249,25 @@ void TersePrinter::PrintFailedTestSummary(string summary) const
 			printf("%s", line[j].substr(0, 12).c_str());
 			ColoredPrintf(COLOR_CYAN, "%s", line[j].substr(12).c_str());
 		}
+		// mock call headers
+		else if (line[j].compare(0, 29, "Unexpected mock function call") == 0
+		         || line[j].compare(0, 31, "Google Mock tried the following") == 0
+		         || line[j].compare(0, 40, "Actual function call count doesn't match") == 0)
+		{
+			// Entire is not colored.
+			printf("%s", line[j].c_str());
+		}
+		// mock call errors
+		else if (line[j].compare(0, 18, "    Function call:") == 0
+		         || line[j].compare(0, 18, "          Returns:") == 0
+		         || line[j].compare(0, 16, "  Expected arg #") == 0		// compare only 16
+		         || line[j].compare(0, 18, "           Actual:") == 0
+		         || line[j].compare(0, 18, "         Expected:") == 0)
+		{
+			// Header portion is not colored.
+			printf("%s", line[j].substr(0, 18).c_str());
+			ColoredPrintf(COLOR_CYAN, "%s", line[j].substr(18).c_str());
+		}
 		else
 		{
 			ColoredPrintf(COLOR_CYAN, "%s", line[j].c_str());
@@ -236,6 +297,24 @@ void TersePrinter::PrintFailedTestsList(const UnitTest& unit_test) const
 	}
 }
 
+// Internal helper for printing the test header.
+void TersePrinter::PrintTestHeader(ConsoleColor color) const
+{
+	// print the message header
+	ColoredPrintf(color, "%s", "[ RUN      ] ");
+	printf("%s.%s\n", test_case_name_.c_str(), test_info_name_.c_str());
+}
+
+// Internal helper formats a countable noun.
+// Either the singular form or the plural form is used. e.g.
+// FormatCountableNoun(1, "test", "tests") returns "1 test".
+// FormatCountableNoun(5, "test", "tests") returns "5 tests".
+string TersePrinter::FormatTestCount(int count) const
+{
+	return internal::StreamableToString(count) + " " +
+	       (count == 1 ? "test" : "tests");
+}
+
 // Internal helper to return the next non-whitespace character.
 char TersePrinter::PeekNextChar(const string& line, int i) const
 {
@@ -251,6 +330,7 @@ char TersePrinter::PeekNextChar(const string& line, int i) const
 // Called from the "main" test program at end of job.
 void TersePrinter::PrintTestTotals(int all_test_total_check, const char* file, int line)
 {
+	const char* const filter = GTEST_FLAG(filter).c_str();
 	// Get the file name.
 	string file_path(file);
 	size_t start = file_path.find_last_of("/\\");
@@ -259,21 +339,70 @@ void TersePrinter::PrintTestTotals(int all_test_total_check, const char* file, i
 	else
 		start++;
 	string file_name = file_path.substr(start);
+
 	// Check the totals.
-	if (g_test_to_run < all_test_total_check - 20)
+	if (strcmp("*", filter) != 0)
 	{
-		ColoredPrintf(COLOR_YELLOW,
-		              "\nMISSING TESTS: %d (%d)  %s(%d)\n",
+		// Prints the filter if it's not *.
+		// This reminds the user that some tests may be skipped.
+		ColoredPrintf(COLOR_YELLOW, "\nTest filter = %s\n", filter);
+	}
+	else if (g_test_to_run < all_test_total_check - 20)
+	{
+		// All tests ran but there are missing tests.
+		// Test files may have been removed from the tests.
+		ColoredPrintf(COLOR_RED,
+		              "\nMISSING TESTS: %d (%d)  %s:(%d)\n",
 		              all_test_total_check, g_test_to_run, file_name.c_str(), line);
 	}
 	else if (g_test_to_run > all_test_total_check + 20)
 	{
-		ColoredPrintf(COLOR_YELLOW,
+		// All tests ran but there too many tests.
+		// The test variable needs to be updated.
+		ColoredPrintf(COLOR_RED,
 		              "\nUpdate test variable: %d (%d)  %s(%d)\n",
 		              all_test_total_check, g_test_to_run, file_name.c_str(), line);
 	}
 	else
-		ColoredPrintf(COLOR_GREEN, "%s", "\nAll tests run.\n");
+		ColoredPrintf(COLOR_GREEN, "%s", "\nAll tests ran.\n");
+
+	if (GTEST_FLAG(shuffle))
+		ColoredPrintf(COLOR_YELLOW, "Randomized test order.\n");
+#ifdef __BORLANDC__
+	ColoredPrintf(COLOR_YELLOW, "%s", "No mock tests.\n");
+#endif
+#if !GTEST_HAS_DEATH_TEST || LEAK_DETECTOR || LEAK_FINDER
+	ColoredPrintf(COLOR_YELLOW, "%s", "No death tests.\n");
+#endif
+}
+
+// Internal helper to restore LF and CR to the summary string.
+// These were removed in release 1.7.
+string TersePrinter::ReplaceSummaryString(const string& summary_) const
+{
+	// Replace "\\n" and "\\r" sequences with LF and CR (version 1.7).
+	string summary = summary_;
+	size_t si = 0;		// summary index
+	while (si < summary.length() - 1)
+	{
+		si = summary.find("\\", si);
+		if (si != string::npos)
+		{
+			if (summary[si + 1] == 'n')
+			{
+				summary.replace(si, 2, 1, '\n');
+				++si;
+			}
+			else if (summary[si + 1] == 'r')
+			{
+				summary.replace(si, 2, 1, '\r');
+				++si;
+			}
+			else
+				summary.erase(si, 1);
+		}
+	}
+	return summary;
 }
 
 #ifdef _WIN32

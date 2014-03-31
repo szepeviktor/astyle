@@ -10,7 +10,7 @@ if exist bin\gtestd.lib del  bin\gtestd.lib
 
 echo Linking gtestd.lib
 
-%binpath%\tlib.exe /C /P64 bin\gtestd.lib + "objGTd\gmock\gtest\src\gtest-all.obj"
+%binpath%\tlib.exe /C /P64 bin\gtestd.lib + "objGTd\gtest-1.6.0\src\gtest-all.obj"
 
 REM echo -
 REM pause

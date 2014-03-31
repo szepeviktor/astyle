@@ -19,7 +19,7 @@ namespace {
 // Additional tests are in the linux brackets tests
 //----------------------------------------------------------------------------
 
-struct StyleLinuxCppF : public ::testing::Test
+struct StyleLinuxCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -641,7 +641,7 @@ TEST(StyleLinuxCpp, PicoOneLine)
 // Additional tests are in the run-in brackets tests
 //----------------------------------------------------------------------------
 
-struct StyleHorstmannCppF : public ::testing::Test
+struct StyleHorstmannCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -1248,7 +1248,7 @@ TEST(StyleHorstmannCpp, PicoOneLine)
 // Additional tests are in the break brackets tests
 //----------------------------------------------------------------------------
 
-struct Style1TBSCppF : public ::testing::Test
+struct Style1TBSCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -1944,7 +1944,7 @@ TEST(Style1TBSCpp, PicoOneLine)
 // Additional tests are in the attach brackets tests
 //----------------------------------------------------------------------------
 
-struct StyleGoogleCppF : public ::testing::Test
+struct StyleGoogleCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -2211,7 +2211,7 @@ TEST(StyleGoogleCpp, IndentClasses)
 // AStyle C++ Pico Style
 //----------------------------------------------------------------------------
 
-struct StylePicoCppF : public ::testing::Test
+struct StylePicoCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -3096,7 +3096,7 @@ TEST(StylePicoCpp, IndentArray1)
 // AStyle C++ Lisp Style
 //----------------------------------------------------------------------------
 
-struct StyleLispCppF : public ::testing::Test
+struct StyleLispCppF : public Test
 {
 	string textStr;
 	const char* textIn;

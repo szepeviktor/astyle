@@ -14,7 +14,7 @@ namespace {
 // AStyle Objective-C Styles
 //----------------------------------------------------------------------------
 
-struct ObjCStyleF : public ::testing::Test
+struct ObjCStyleF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -233,6 +233,43 @@ TEST_F(ObjCStyleF, Whitesmith)
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST_F(ObjCStyleF, VTK)
+{
+	// test vtk style option
+	char text[] =
+		"\n@interface Foo : NSObject\n"
+		"{\n"
+		"    NSString* var1;\n"
+		"    NSString* var2;\n"
+		"}\n"
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        {\n"
+		"        bar();\n"
+		"        }\n"
+		"}\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"    ofSize : (int) size\n"
+		"{\n"
+		"    if (isFoo)\n"
+		"        {\n"
+		"        bar();\n"
+		"        }\n"
+		"}\n"
+		"\n"
+		"@end\n";
+	char options[] = "style=vtk";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 TEST_F(ObjCStyleF, Banner)
@@ -1644,6 +1681,70 @@ TEST(ObjCOther, MethodCallHeader)
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(ObjCOther, AutoreleasepoolBreak)
+{
+	// Precommand header autoreleasepoolwith broken brackets.
+	char text[] =
+		"\nvirtual void foo()\n"
+		"{\n"
+		"    @autoreleasepool\n"
+		"    {\n"
+		"        bar()\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=break";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCOther, AutoreleasepoolAttach)
+{
+	// Precommand header autoreleasepoolwith attached brackets.
+	char textIn[] =
+		"\nvirtual void foo()\n"
+		"{\n"
+		"    @autoreleasepool\n"
+		"    {\n"
+		"        bar()\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvirtual void foo() {\n"
+		"    @autoreleasepool {\n"
+		"        bar()\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCOther, AutoreleasepoolKandR)
+{
+	// Precommand header autoreleasepoolwith K&R brackets.
+	char textIn[] =
+		"\nvirtual void foo()\n"
+		"{\n"
+		"    @autoreleasepool\n"
+		"    {\n"
+		"        bar()\n"
+		"    }\n"
+		"}\n";
+	char text[] =
+		"\nvirtual void foo()\n"
+		"{\n"
+		"    @autoreleasepool {\n"
+		"        bar()\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=k&r";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 TEST(ObjCOther, IndentClasses)
