@@ -1,5 +1,6 @@
 Added Options:
-	--terse_printer				prints failed tests only
+	--terse_output				prints failed tests only
+	--no_close					don't close window at end, not needed if IDE doesn't close.
 
 Test Selection:
 	--gtest_filter				run only specific tests

@@ -11,7 +11,7 @@
 				<Option object_output="objLibd/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="--xxxterse_printer" />
+				<Option parameters="--terse_printer" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />

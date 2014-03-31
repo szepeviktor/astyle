@@ -15,7 +15,7 @@ namespace {
 // Additional tests are in the brackets tests
 //----------------------------------------------------------------------------
 
-struct StyleJavaF : public ::testing::Test
+struct StyleJavaF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -594,7 +594,7 @@ TEST(StyleJava, Gnu_Throws)
 // Additional tests are in the brackets tests
 //----------------------------------------------------------------------------
 
-struct StyleSharpF : public ::testing::Test
+struct StyleSharpF : public Test
 {
 	string textStr;
 	const char* textIn;

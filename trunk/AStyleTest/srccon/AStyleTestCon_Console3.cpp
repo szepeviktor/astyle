@@ -26,7 +26,7 @@ namespace {
 // AStyle ProcessOptions3F Class
 //----------------------------------------------------------------------------
 
-class ProcessOptions3F : public ::testing::Test
+class ProcessOptions3F : public Test
 // The ProcessOptions3F class captures the stdout output stream and redirects it to
 // a file. The file is used to verify the Artistic Style console build print format.
 // The functions were "borrowed" from the CapturedStream class in gtest-port.cc of
@@ -166,7 +166,7 @@ TEST_F(ProcessOptions3F, HelpOption)
 	// test processOptions for help option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_SUCCESS),
+				ExitedWithCode(EXIT_SUCCESS),
 				"");
 	string textOut = restoreStream();
 	// check a sample of the text
@@ -196,7 +196,7 @@ TEST_F(ProcessOptions3F, HelpOption_Short1)
 	// test processOptions for help option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_SUCCESS),
+				ExitedWithCode(EXIT_SUCCESS),
 				"");
 	string textOut = restoreStream();
 	// check a sample of the text
@@ -226,7 +226,7 @@ TEST_F(ProcessOptions3F, HelpOption_Short2)
 	// test processOptions for help option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_SUCCESS),
+				ExitedWithCode(EXIT_SUCCESS),
 				"");
 	string textOut = restoreStream();
 	// check a sample of the text
@@ -256,7 +256,7 @@ TEST_F(ProcessOptions3F, VersionOption)
 	// test processOptions for version option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_SUCCESS),
+				ExitedWithCode(EXIT_SUCCESS),
 				"");
 	string textOut = restoreStream();
 	// check a sample of the text
@@ -282,7 +282,7 @@ TEST_F(ProcessOptions3F, VersionOption_Short)
 	// test processOptions for version option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_SUCCESS),
+				ExitedWithCode(EXIT_SUCCESS),
 				"");
 	string textOut = restoreStream();
 	// check a sample of the text
@@ -313,7 +313,7 @@ TEST_F(ProcessOptions3F, HtmlOption)
 	// test processOptions for html option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_SUCCESS),
+				ExitedWithCode(EXIT_SUCCESS),
 				"");
 	string textOut = restoreStream();
 	// check a sample of the text for valid exit
@@ -342,7 +342,7 @@ TEST_F(ProcessOptions3F, HtmlOption_Short)
 	// test processOptions for html option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_SUCCESS),
+				ExitedWithCode(EXIT_SUCCESS),
 				"");
 	string textOut = restoreStream();
 	// check a sample of the text for valid exit
@@ -372,7 +372,7 @@ TEST_F(ProcessOptions3F, HtmlOption_ValidFileName)
 	// test processOptions for html option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_SUCCESS),
+				ExitedWithCode(EXIT_SUCCESS),
 				"");
 	string textOut = restoreStream();
 	// check a sample of the text
@@ -409,7 +409,7 @@ TEST_F(ProcessOptions3F, HtmlOption_InvalidFileName)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for invalid file name
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				::testing::ExitedWithCode(EXIT_SUCCESS),
+				ExitedWithCode(EXIT_SUCCESS),
 				"");
 	string textOut = restoreStream();
 	// check a sample of the text

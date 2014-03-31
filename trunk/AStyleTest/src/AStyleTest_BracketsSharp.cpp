@@ -23,7 +23,7 @@ namespace {
 // AStyle C# Default Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsNoneSharpF : public ::testing::Test
+struct BracketsNoneSharpF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -253,7 +253,7 @@ TEST(BracketsNoneSharp, RunIn)
 // AStyle C# Break Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsBreakSharpF : public ::testing::Test
+struct BracketsBreakSharpF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -583,7 +583,7 @@ TEST(BracketsBreakSharp, RunIn)
 // AStyle C# Attach Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsAttachSharpF : public ::testing::Test
+struct BracketsAttachSharpF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -905,7 +905,7 @@ TEST(BracketsAttachSharp, RunIn)
 // AStyle C# Linux Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsLinuxSharpF : public ::testing::Test
+struct BracketsLinuxSharpF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -1330,7 +1330,7 @@ TEST(BracketsLinuxSharp, NestedNamespace)
 // AStyle C# Stroustrup Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsStroustrupSharpF : public ::testing::Test
+struct BracketsStroustrupSharpF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -1630,7 +1630,7 @@ TEST(BracketsStroustrupSharp, NestedNamespace)
 // AStyle C# RunIn Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsRunInSharpF : public ::testing::Test
+struct BracketsRunInSharpF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -1929,7 +1929,7 @@ TEST(BracketsRunInSharp, RunIn)
 // AStyle C# Other Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsOtherSharpF : public ::testing::Test
+struct BracketsOtherSharpF : public Test
 {
 	string textStr;
 	const char* textIn;

@@ -18,7 +18,7 @@ namespace {
 // AStyle C++ Default Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsNoneCppF : public ::testing::Test
+struct BracketsNoneCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -984,7 +984,7 @@ TEST(BracketsNoneCpp, MultipleCommentsHorstmann)
 // AStyle C++ Break Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsBreakCppF : public ::testing::Test
+struct BracketsBreakCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -2090,7 +2090,7 @@ TEST(BracketsBreakCpp, MultipleCommentsHorstmann)
 // AStyle C++ Attach Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsAttachCppF : public ::testing::Test
+struct BracketsAttachCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -3311,7 +3311,7 @@ TEST(BracketsAttachCpp, Xtra5)
 // AStyle C++ Linux Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsLinuxCppF : public ::testing::Test
+struct BracketsLinuxCppF : public Test
 {
 	string textStr;
 	const char* textIn;
@@ -4712,7 +4712,7 @@ TEST(BracketsLinuxCpp, Xtra5)
 // AStyle C++ Stroustrup Bracket Options
 //-------------------------------------------------------------------------
 
-struct BracketsStroustrupCppF : public ::testing::Test
+struct BracketsStroustrupCppF : public Test
 {
 	string textStr;
 	const char* textIn;

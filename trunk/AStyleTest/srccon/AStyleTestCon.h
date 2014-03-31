@@ -19,6 +19,7 @@
 #include <errno.h>
 
 using namespace astyle;
+using namespace testing;
 
 //-------------------------------------------------------------------------
 // extern global variables in astyle_main.cpp

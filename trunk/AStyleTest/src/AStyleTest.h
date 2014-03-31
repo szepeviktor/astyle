@@ -14,28 +14,21 @@
 #include <string>
 
 using namespace std;
+using namespace testing;
 
 //-------------------------------------------------------------------------
 // definitions
 //-------------------------------------------------------------------------
 
-// define STDCALL and EXPORT for Windows
+// define STDCALL for Windows
 // MINGW defines STDCALL in Windows.h (actually windef.h)
-// EXPORT has no value for Visual C if ASTYLE_NO_VCX (no VC Exports) is defined
-//        this works with VS2012 and higher
 #ifdef _WIN32
 #ifndef STDCALL
 #define STDCALL __stdcall
 #endif
-#if defined(_MSC_VER) && defined(ASTYLE_NO_VCX)
-#define EXPORT
-#else
-#define EXPORT __declspec(dllexport)
-#endif
-// define STDCALL and EXPORT for non-Windows
+// define STDCALL for non-Windows
 #else
 #define STDCALL
-#define EXPORT
 #endif	// #ifdef _WIN32
 
 //-----------------------------------------------------------------------------
@@ -44,14 +37,14 @@ using namespace std;
 
 typedef void (STDCALL* fpError)(int, const char*);      // pointer to callback error handler
 typedef char* (STDCALL* fpAlloc)(unsigned long);		// pointer to callback memory allocation
-extern "C" EXPORT char* STDCALL AStyleMain(const char*, const char*, fpError, fpAlloc);
-extern "C" EXPORT const char* STDCALL AStyleGetVersion (void);
+extern "C" char* STDCALL AStyleMain(const char*, const char*, fpError, fpAlloc);
+extern "C" const char* STDCALL AStyleGetVersion (void);
 
 //-----------------------------------------------------------------------------
 // declarations for AStyleMainUtf16 library build
 //-----------------------------------------------------------------------------
 
-extern "C" EXPORT wchar_t* STDCALL AStyleMainUtf16(const wchar_t*, const wchar_t*, fpError, fpAlloc);
+extern "C" wchar_t* STDCALL AStyleMainUtf16(const wchar_t*, const wchar_t*, fpError, fpAlloc);
 
 //-----------------------------------------------------------------------------
 // declarations for AStyleTest callback functions

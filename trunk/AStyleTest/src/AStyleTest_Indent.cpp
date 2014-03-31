@@ -1496,7 +1496,7 @@ TEST(IndentSwitches, HorstmannComment)
 	delete [] textOut;
 }
 
-struct NestedSwitchesF : public ::testing::Test
+struct NestedSwitchesF : public Test
 {
 	string textStr;
 	const char* textIn;

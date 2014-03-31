@@ -110,7 +110,7 @@ utf16_t* Utf8ToUtf16(char* utf8In)
 	*wcConv = '\0';
 	*(wcConv + 1) = '\0';
 	iconv_close(iconvh);
-	// Output iconv conversions to UTF-16 will have a BOM if a specific 
+	// Output iconv conversions to UTF-16 will have a BOM if a specific
 	// endianness is not requested (UTF-16LE or UTF-16BE).
 	// This will remove the BOM.
 	utf16_t* wc16Out = reinterpret_cast<utf16_t*>(wcOut);
@@ -158,7 +158,7 @@ namespace {
 // Test error reporting conditions in AStyleMain
 //----------------------------------------------------------------------------
 
-struct AStyleMainF1 : public ::testing::Test
+struct AStyleMainF1 : public Test
 // Constructor variables are set using native functions.
 // These will be compared to the variables computed by the AStyle functions.
 {
@@ -255,7 +255,7 @@ TEST_F(AStyleMainF1, InvalidOption)
 // Test error reporting conditions in AStyleMainUtf16
 //----------------------------------------------------------------------------
 
-struct AStyleMainUtf16F1 : public ::testing::Test
+struct AStyleMainUtf16F1 : public Test
 // Constructor variables are set using native functions.
 // These will be compared to the variables computed by the AStyle functions.
 {
@@ -434,7 +434,7 @@ TEST_F(AStyleMainUtf16F1, NullConvertFormattedText)
 // This uses fixtures and non-ascii characters.
 //----------------------------------------------------------------------------
 
-struct AStyleMainUtf16F2 : public ::testing::Test
+struct AStyleMainUtf16F2 : public Test
 // Constructor variables are set using native functions.
 // These will be compared to the variables computed by the AStyle functions.
 {

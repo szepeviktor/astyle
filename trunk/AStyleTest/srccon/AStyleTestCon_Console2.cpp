@@ -31,7 +31,7 @@ namespace {
 // AStyle test getFilePaths(), wildcmp(), and fileName vector
 //----------------------------------------------------------------------------
 
-struct GetFilePathsF : public ::testing::Test
+struct GetFilePathsF : public Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -180,7 +180,7 @@ TEST_F(GetFilePathsF, FilePathsError)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
-				::testing::ExitedWithCode(EXIT_FAILURE),
+				ExitedWithCode(EXIT_FAILURE),
 				regex);
 #endif
 }
@@ -210,7 +210,7 @@ TEST_F(GetFilePathsF, FilePathsErrorRecursive)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
-				::testing::ExitedWithCode(EXIT_FAILURE),
+				ExitedWithCode(EXIT_FAILURE),
 				regex);
 #endif
 }
@@ -238,7 +238,7 @@ TEST_F(GetFilePathsF, FilePathsErrorSansFilename)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
-				::testing::ExitedWithCode(EXIT_FAILURE),
+				ExitedWithCode(EXIT_FAILURE),
 				regex);
 #endif
 }
@@ -270,7 +270,7 @@ TEST_F(GetFilePathsF, FilePathsErrorRecursiveSansWildcard)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
-				::testing::ExitedWithCode(EXIT_FAILURE),
+				ExitedWithCode(EXIT_FAILURE),
 				regex);
 #endif
 }
@@ -301,7 +301,7 @@ TEST_F(GetFilePathsF, FilePathsErrorInDirectoryName)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
-				::testing::ExitedWithCode(EXIT_FAILURE),
+				ExitedWithCode(EXIT_FAILURE),
 				regex);
 #endif
 }
@@ -310,7 +310,7 @@ TEST_F(GetFilePathsF, FilePathsErrorInDirectoryName)
 // AStyle test getFileType() - C_TYPE, JAVA_TYPE, SHARP_TYPE
 //----------------------------------------------------------------------------
 
-struct GetFileTypeF : public ::testing::Test
+struct GetFileTypeF : public Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -406,7 +406,7 @@ TEST_F(GetFileTypeF, FileTypeError)
 // AStyle Language Vectors
 //----------------------------------------------------------------------------
 
-struct LanguageVectorsF : public ::testing::Test
+struct LanguageVectorsF : public Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -539,7 +539,7 @@ TEST(LanguageVectors, MultipleObjects)
 // AStyle test recursive option - getFilePaths(), wildcmp(), and fileName vector
 //----------------------------------------------------------------------------
 
-struct RecursiveF : public ::testing::Test
+struct RecursiveF : public Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -696,7 +696,7 @@ TEST_F(RecursiveF, ExcludeErrors)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with unmatched excludes
 	EXPECT_EXIT(g_console->processFiles(),
-				::testing::ExitedWithCode(EXIT_FAILURE),
+				ExitedWithCode(EXIT_FAILURE),
 				regex);
 #endif
 }
@@ -722,7 +722,7 @@ TEST_F(RecursiveF, ExcludeErrorsRecursive)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with unmatched excludes
 	EXPECT_EXIT(g_console->processFiles(),
-				::testing::ExitedWithCode(EXIT_FAILURE),
+				ExitedWithCode(EXIT_FAILURE),
 				regex);
 #endif
 }
@@ -785,7 +785,7 @@ TEST_F(RecursiveF, HiddenFiles)
 // tests if a line end change formats the file
 //----------------------------------------------------------------------------
 
-struct LineEndsFormattedF : public ::testing::Test
+struct LineEndsFormattedF : public Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -908,7 +908,7 @@ TEST_F(LineEndsFormattedF, LineEndMacOld)
 // tests if an unchanged line end leaves the file unchanged
 //----------------------------------------------------------------------------
 
-struct LineEndsUnchangedF : public ::testing::Test
+struct LineEndsUnchangedF : public Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -1031,7 +1031,7 @@ TEST_F(LineEndsUnchangedF, LineEndMacOld)
 // tests if default line end leaves the file unchanged
 //----------------------------------------------------------------------------
 
-struct LineEndsDefaultF : public ::testing::Test
+struct LineEndsDefaultF : public Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -1150,7 +1150,7 @@ TEST_F(LineEndsDefaultF, LineEndMacOld)
 // AStyle line ends formatted
 // tests if default line ends calls the convertLineEnds() function when needed
 //----------------------------------------------------------------------------
-struct LineEndsDefaultMixedF : public ::testing::Test
+struct LineEndsDefaultMixedF : public Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -1285,7 +1285,7 @@ TEST_F(LineEndsDefaultMixedF, LineEndMacOld)
 // tests that default line ends does NOT call the convertLineEnds() function when not needed
 //----------------------------------------------------------------------------
 
-struct LineEndsDefaultMixedSansF : public ::testing::Test
+struct LineEndsDefaultMixedSansF : public Test
 {
 	ASFormatter formatter;
 	vector<string> fileNames;
@@ -1433,7 +1433,7 @@ TEST(Other, ErrorExit)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// death test without error message
 	EXPECT_EXIT(g_console->error(),
-				::testing::ExitedWithCode(EXIT_FAILURE),
+				ExitedWithCode(EXIT_FAILURE),
 				"\nArtistic Style ");	// "Artistic Style has terminated!"
 #endif
 	deleteConsoleGlobalObject();
@@ -1448,7 +1448,7 @@ TEST(Other, ErrorExitWihMessage)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// death test with error message
 	EXPECT_EXIT(g_console->error("why", "what"),
-				::testing::ExitedWithCode(EXIT_FAILURE),
+				ExitedWithCode(EXIT_FAILURE),
 				"why what\n\nArtistic Style ");	// "Artistic Style has terminated!"
 #endif
 	deleteConsoleGlobalObject();

@@ -78,7 +78,7 @@ TEST(TestCase2, DeathTest_WrongMessage)
 {
 	// test ok but wrong message
 	EXPECT_EXIT(errorExit("Actual message."),
-	            ::testing::ExitedWithCode(EXIT_FAILURE),
+	            ExitedWithCode(EXIT_FAILURE),
 	            "Expected message.");
 }
 
@@ -86,7 +86,7 @@ TEST(TestCase2, DeathTest_Fails)
 {
 	// test fails with wrong return code
 	EXPECT_EXIT(errorExit("Expected message."),
-	            ::testing::ExitedWithCode(EXIT_SUCCESS),
+	            ExitedWithCode(EXIT_SUCCESS),
 	            "Expected message.");
 }
 
@@ -94,7 +94,7 @@ TEST(TestCase2, DeathTest_FailsToDie)
 {
 	// test fails with wrong return code
 	EXPECT_EXIT(errorNoExit("Expected message."),
-	            ::testing::ExitedWithCode(EXIT_SUCCESS),
+	            ExitedWithCode(EXIT_SUCCESS),
 	            "Expected message.");
 }
 
@@ -120,19 +120,17 @@ TEST(TestCase3, MultipleFailures)
 
 int main(int argc, char** argv)
 {
-	// Parse command line BEFORE testing::InitGoogleTest.
-	bool use_terse_printer = false;
+	// Parse command line BEFORE testing::InitGoogleTest
+	bool use_terse_printer = true;	// true for TersePrinter, false for gtest default
+	bool use_terse_output = false;	// print terse output if --terse_output option is set
 	bool use_color = true;
 	for (int i = 1; i < argc; i++)
 	{
-		if (strcmp(argv[i], "--terse_printer") == 0 )
-			use_terse_printer = true;
+		if (strcmp(argv[i], "--terse_output") == 0 )
+			use_terse_output = true;
 		else if (strcmp(argv[i], "--gtest_color=no") == 0 )
 			use_color = false;
 	}
-	if (!use_terse_printer)
-		printf("%s\n", "Run this program with --terse_printer to change the way "
-		       "it prints its output.");
 	// Do this after parsing the command line but before changing printer.
 	testing::InitGoogleTest(&argc, argv);
 	// If we are given the --terse_printer command line flag, suppresses the
@@ -150,9 +148,19 @@ int main(int argc, char** argv)
 		// events from Google Test and print the alternative output. We don't
 		// have to worry about deleting it since Google Test assumes ownership
 		// over it after adding it to the list.
-		listeners.Append(new TersePrinter(use_color));
+		listeners.Append(new TersePrinter(use_terse_output, use_color));
 	}
-	return RUN_ALL_TESTS();
+	int retval = RUN_ALL_TESTS();
+	if (!use_terse_printer)
+		ColoredPrintf(COLOR_YELLOW, "\n* USING DEFAULT GTEST PRINTER *\n\n");
+	else
+	{
+		if (use_terse_output)
+			ColoredPrintf(COLOR_YELLOW, "\n* USING TersePrinter AND --terse_output *\n\n");
+		else
+			ColoredPrintf(COLOR_YELLOW, "\n* NOT USING --terse_output *\n\n");
+	}
+	return retval;
 }
 
 // function for death test

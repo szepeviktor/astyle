@@ -23,27 +23,28 @@ int errorHandler2Calls;
 int main(int argc, char** argv)
 {
 	// parse command line BEFORE InitGoogleTest
-	bool useTersePrinter = false;
+	bool useTersePrinter = true;	// ALWAYS true (for testing only)
+	bool useTerseOutput = false;	// option for terse (true) or all (false)
 	bool useColor = true;
 	bool noClose = false;
 	for (int i = 1; i < argc; i++)
 	{
-		if (strcmp(argv[i], "--terse_printer") == 0 )
-			useTersePrinter = true;
+		if (strcmp(argv[i], "--terse_output") == 0 )
+			useTerseOutput = true;
 		else if (strcmp(argv[i], "--no_close") == 0 )
 			noClose = true;
-		else if (strcmp(argv[i], "--gtest_color=no") == 0 )
+		else if (strcmp(argv[i], "--gtest_color=no") == 0)
 			useColor = false;
 	}
 	// do this after parsing the command line but before changing printer
 	testing::InitGoogleTest(&argc, argv);
-	// change to TersePrinter
+	// ALWAYS uses TersePrinter
 	if (useTersePrinter)
 	{
 		UnitTest& unit_test = *UnitTest::GetInstance();
 		TestEventListeners& listeners = unit_test.listeners();
 		delete listeners.Release(listeners.default_result_printer());
-		listeners.Append(new TersePrinter(useColor));
+		listeners.Append(new TersePrinter(useTerseOutput, useColor));
 	}
 	// run the tests
 	int retval = RUN_ALL_TESTS();
@@ -52,7 +53,9 @@ int main(int argc, char** argv)
 	// example 9 will not work here because of user modifications.
 	// Change the following value to the number of tests (within 20).
 	if (useTersePrinter)
-		TersePrinter::PrintTestTotals(2100, __FILE__, __LINE__);
+		TersePrinter::PrintTestTotals(2150, __FILE__, __LINE__);
+	else
+		ColoredPrintf(COLOR_YELLOW, "\n* USING DEFAULT GTEST PRINTER *\n\n");
 #ifdef __WIN32
 	printf("%c", '\n');
 #endif

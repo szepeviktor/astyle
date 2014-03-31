@@ -87,7 +87,11 @@ string WideCharToUtf8Str(wchar_t* wcIn)
 	size_t wcLen = wcslen(wcIn);
 	iconv_t iconvh = iconv_open("UTF−8", "UTF−32LE");
 	if (iconvh == reinterpret_cast<iconv_t>(-1))
+	{
+		if (errno == EINVAL)
+			cout << "Conversion not supported by the implementation" << endl;
 		systemAbort("Bad iconv_open in WideCharToUtf8Str()");
+	}
 	// allocate memory for output
 	size_t mbLen = wcLen * sizeof(wchar_t);
 	char* mbOut = new char[mbLen];
@@ -112,7 +116,11 @@ size_t WideCharToUtf16LE(wchar_t* wcIn, size_t wcLen, char* w16Out, size_t w16Bu
 	// Linux wchar_t is 32 bits
 	iconv_t iconvh = iconv_open("UTF−16LE", "UTF−32LE");
 	if (iconvh == reinterpret_cast<iconv_t>(-1))
+	{
+		if (errno == EINVAL)
+			cout << "Conversion not supported by the implementation" << endl;
 		systemAbort("Bad iconv_open in WideCharToUtf16()");
+	}
 	// convert to utf-16
 	char* w16Conv = w16Out;
 	size_t w16Left = w16Buf;
@@ -133,7 +141,11 @@ string Utf16LEToUtf8Str(utf16_t* wcIn)
 	size_t wcLen = utf16len(wcIn) * sizeof(utf16_t);
 	iconv_t iconvh = iconv_open("UTF−8", "UTF−16LE");
 	if (iconvh == reinterpret_cast<iconv_t>(-1))
+	{
+		if (errno == EINVAL)
+			cout << "Conversion not supported by the implementation" << endl;
 		systemAbort("Bad iconv_open in Utf16LEToUtf8Str()");
+	}
 	// allocate memory for output
 	size_t mbLen = wcLen * sizeof(utf16_t);
 	char* mbOut = new(nothrow) char[mbLen];
@@ -160,7 +172,7 @@ string Utf16LEToUtf8Str(utf16_t* wcIn)
 // AStyle test UTF8_16 conversion class
 //----------------------------------------------------------------------------
 
-struct Utf8_16_Class : public ::testing::Test
+struct Utf8_16_Class : public Test
 // Constructor variables are set using native functions.
 // These will be compared to the values computed by the AStyle functions.
 {
@@ -207,7 +219,7 @@ struct Utf8_16_Class : public ::testing::Test
 		text8Bit = text8BitStr.c_str();
 		text8Len = text8BitStr.length();
 		// compute 16 bit values using native functions
-		size_t text16Buf =( wcslen(textIn) * sizeof(wchar_t)) + sizeof(wchar_t);
+		size_t text16Buf = (wcslen(textIn) * sizeof(wchar_t)) + sizeof(wchar_t);
 		text16Bit = new char[text16Buf];
 #ifdef _WIN32
 		// Windows wchar_t is 16 bits and does not need conversion
@@ -319,9 +331,9 @@ TEST_F(Utf8_16_Class, Utf16_LE_To_Utf8)
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
 TEST_F(Utf8_16_Class, DISABLED_Utf16_BE_To_Utf8)
-#else 
+#else
 TEST_F(Utf8_16_Class, Utf16_BE_To_Utf8)
-#endif 
+#endif
 // test AStyle Utf16 BE to Utf8 conversion functions
 {
 	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
@@ -345,7 +357,7 @@ TEST_F(Utf8_16_Class, Utf16_BE_To_Utf8)
 // AStyle test UTF-16 file processing
 //----------------------------------------------------------------------------
 
-struct ProcessUtf16F : public ::testing::Test
+struct ProcessUtf16F : public Test
 // Constructor variables are set using native functions.
 // These will be compared to the values computed by the AStyle functions.
 // These test the processFiles function.
@@ -420,9 +432,9 @@ struct ProcessUtf16F : public ::testing::Test
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
 TEST_F(ProcessUtf16F, DISABLED_Utf16LE_Processing)
-#else 
+#else
 TEST_F(ProcessUtf16F, Utf16LE_Processing)
-#endif 
+#endif
 // Test processing of UTF-16LE files
 {
 	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
@@ -458,9 +470,9 @@ TEST_F(ProcessUtf16F, Utf16LE_Processing)
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
 TEST_F(ProcessUtf16F, DISABLED_Utf16BE_Processing)
-#else 
+#else
 TEST_F(ProcessUtf16F, Utf16BE_Processing)
-#endif 
+#endif
 // Test processing of UTF-16BE files
 {
 	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";

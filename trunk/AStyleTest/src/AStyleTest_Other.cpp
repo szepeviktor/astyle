@@ -765,7 +765,7 @@ TEST(ConsoleShortOption, Help2Short)
 // there are other tests in AStyleTestCon
 //----------------------------------------------------------------------------
 
-struct LineEndsDefaultF : public ::testing::Test
+struct LineEndsDefaultF : public Test
 {
 	string textLinuxStr;
 	string textWindowsStr;
@@ -876,7 +876,7 @@ TEST(Quote, Single)
 
 TEST(Quote, Cpp11_RawStringLiteral1)
 {
-	// test C++11 raw string literal
+	// test C++11 raw string literal (verbatim quote)
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -919,7 +919,7 @@ TEST(Quote, Cpp11_RawStringLiteral1)
 
 TEST(Quote, Cpp11_RawStringLiteral2)
 {
-	// test C++11 raw string literal
+	// test C++11 raw string literal (verbatim quote)
 	// missing opening paren should not cause an exception
 	// it will be formatted as a standard string
 	char textIn[] =
@@ -944,7 +944,7 @@ TEST(Quote, Cpp11_RawStringLiteral2)
 
 TEST(Quote, Cpp11_RawStringLiteral3)
 {
-	// test C++11 raw string literal
+	// test C++11 raw string literal (verbatim quote)
 	// short closing delimiter should not cause an exception
 	char text[] =
 		"\nvoid foo()\n"
@@ -956,6 +956,42 @@ TEST(Quote, Cpp11_RawStringLiteral3)
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(Quote, Cpp11_RawStringLiteral4)
+{
+	// test C++11 raw string literal (verbatim quote)
+	// quotes in the literal should not end the literal
+	// the % signs will be padded if it fails
+	char text[] =
+		"\nvoid foo() {\n"
+		"    m_childProc->Execute(_T(R\"(\"%SOURCE%\" %AUDIOMAP%)\"));\n"
+		"}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Quote, Cpp11_RawStringLiteral5)
+{
+	// test C++11 raw string literal (verbatim quote)
+	// the ~ should end the quote
+	// the 2*2 signs will NOT be padded if it fails
+	char textIn[] =
+		"\nvoid foo() {\n"
+		"    m_childProc->Execute(_T(R\"~(\"%SOURCE%\" %AUDIOMAP%)~\"));\n"
+		"    x = 2*2;\n"
+		"}";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    m_childProc->Execute(_T(R\"~(\"%SOURCE%\" %AUDIOMAP%)~\"));\n"
+		"    x = 2 * 2;\n"
+		"}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 TEST(Quote, Sharp_Verbatim1)
@@ -1473,7 +1509,7 @@ TEST(Struct, RunIn)
 }
 
 //----------------------------------------------------------------------------
-// AStyle PreCommandHeaders - Const, Volatile, Sealed, and Override Type Qualifier
+// AStyle PreCommandHeaders
 //----------------------------------------------------------------------------
 
 TEST(PreCommandHeaders, ConstVolatile)
@@ -1639,6 +1675,55 @@ TEST(PreCommandHeaders, SealedOverride)
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(PreCommandHeaders, Interrupt)
+{
+	// Precommand header interrupt.
+	char text[] =
+		"\nclass AStyleTest\n"
+		"{\n"
+		"    virtual void foo_interrupt1() interrupt 1\n"
+		"    {\n"
+		"        if ( x ) {\n"
+		"            do1();\n"
+		"            do2();\n"
+		"        }\n"
+		"    }\n"
+		"};\n"
+		"\n"
+		"virtual void foo_interrupt2() interrupt 2\n"
+		"{\n"
+		"    if ( x ) {\n"
+		"        do1();\n"
+		"        do2();\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=k&r";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(PreCommandHeaders, NoExcept)
+{
+	// Precommand header noexcept.
+	char text[] =
+		"\nclass c\n"
+		"{\n"
+		"public:\n"
+		"    int f3 () noexcept\n"
+		"    {\n"
+		"    }\n"
+		"\n"
+		"    int f3 () noexcept(false)\n"
+		"    {\n"
+		"    }\n"
+		"}\n";
+	char options[] = "style=k&r";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 //----------------------------------------------------------------------------
