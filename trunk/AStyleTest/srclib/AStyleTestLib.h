@@ -6,11 +6,13 @@
 //-------------------------------------------------------------------------
 
 #include <gtest/gtest.h>
-#ifndef __BORLANDC__        // can't use gmock
+#ifdef __BORLANDC__			// can't use gmock
+#include "gtest/gtest.h"
+#else
 #include "gmock/gmock.h"
+#endif
 // for gmock macros
 using namespace testing;
-#endif
 
 // must be AFTER gmock.h
 // use this to test the Linux compile with MinGW

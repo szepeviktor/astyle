@@ -34,7 +34,8 @@ def diff_formatted_files(filepaths, diff_old=False):
 	   It cannot be run from an editor.
 	"""
 	if not libastyle.is_executed_from_console():
-		if diff_old: diffprog = "diff2-print.py"
+		if diff_old:
+			diffprog = "diff2-print.py"
 		else: diffprog = "diff1-print.py"
 		msg = "Run {0} from the console to view the diffs"
 		print(msg.format(diffprog))
@@ -48,8 +49,10 @@ def diff_formatted_files(filepaths, diff_old=False):
 		stripfile = strip_test_directory_prefix(filepath)
 		print("{0} of {1} {2}".format(numin, len(filepaths), stripfile))
 		ch_in = libastyle.getch()
-		if ch_in == 'n' or ch_in == 'N' or ch_in == 'm' or ch_in == 'M': continue
-		if ch_in == 'q' or ch_in == 'Q' : break
+		if ch_in == 'n' or ch_in == 'N' or ch_in == 'm' or ch_in == 'M':
+			continue
+		if ch_in == 'q' or ch_in == 'Q':
+			break
 		processed += 1
 		if diff_old:
 			oldpath = get_old_filepath(filepath)
@@ -88,9 +91,9 @@ def get_astyle_totals(filename):
 	infile = open_filein(filename, 'r')
 #	infile.seek(-100, os.SEEK_END)			# changed for version 3.2
 	try:
-		os.lseek(infile.fileno() , -200, os.SEEK_END)
+		os.lseek(infile.fileno(), -200, os.SEEK_END)
 	except OSError:
-		os.lseek(infile.fileno() , 0, os.SEEK_SET )
+		os.lseek(infile.fileno(), 0, os.SEEK_SET)
 
 	for line in infile:
 		# use regular expressions to search the lines
@@ -197,7 +200,8 @@ def strip_test_directory_prefix(file_in):
 	"""
 	prefix = libastyle.get_test_directory(True)
 	start = len(prefix)
-	if start > len(file_in): start = 0
+	if start > len(file_in):
+		start = 0
 	return file_in[start:]
 
 # -----------------------------------------------------------------------------
@@ -251,5 +255,3 @@ if __name__ == "__main__":
 	print(libastyle.get_python_version())
 	test_all_functions()
 	libastyle.system_exit()
-
-# -----------------------------------------------------------------------------

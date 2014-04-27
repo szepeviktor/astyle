@@ -148,7 +148,7 @@ def process_beautifier(beautifier_list):
 	""" Generate suppressions for ASBeautifier.
 	"""
 	lines = 0				# current input line number
-	charsProcessed = 0		# only want certain 'char ch'
+	chars_processed = 0		# only want certain 'char ch'
 	src_path = __src_dir + "ASBeautifier.cpp"
 	file_in = open(src_path, 'r')
 	# get exceptions
@@ -174,8 +174,8 @@ def process_beautifier(beautifier_list):
 		if line.startswith("indentableHeaders = other.indentableHeaders"):
 			beautifier_list.append("copyCtorPointerCopying:" + src_path + ":" +  str(lines) + "\t// indentableHeaders\n")
 		if line.startswith("char ch"):
-			charsProcessed += 1
-			if charsProcessed == 1 or charsProcessed == 3 :
+			chars_processed += 1
+			if chars_processed == 1 or chars_processed == 3:
 				beautifier_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t// char ch\n")
 		if line.startswith("char tempCh"):
 			beautifier_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t// char tempCh\n")
@@ -190,7 +190,7 @@ def process_enhancer(enhancer_list):
 	""" Generate suppressions for ASEnhancer.
 	"""
 	lines = 0				# current input line number
-	charsProcessed = 0		# only want the second'char ch'
+	chars_processed = 0		# only want the second'char ch'
 	src_path = __src_dir + "ASEnhancer.cpp"
 	file_in = open(src_path, 'r')
 	# get exceptions
@@ -202,8 +202,8 @@ def process_enhancer(enhancer_list):
 		if line.startswith("//"):
 			continue
 		if line.startswith("char ch"):
-			charsProcessed += 1
-			if charsProcessed == 1:
+			chars_processed += 1
+			if chars_processed == 1:
 				enhancer_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t\t// char ch\n")
 
 # -----------------------------------------------------------------------------
@@ -228,7 +228,7 @@ def process_formatter(formatter_list):
 	""" Generate suppressions for ASFormatter.
 	"""
 	lines = 0				# current input line number
-	charsProcessed = 0		# only want the second'char ch'
+	chars_processed = 0		# only want the second'char ch'
 	src_path = __src_dir + "ASFormatter.cpp"
 	file_in = open(src_path, 'r')
 	# get exceptions
@@ -240,20 +240,20 @@ def process_formatter(formatter_list):
 		if line.startswith("//"):
 			continue
 		if line.startswith("char ch"):
-			charsProcessed += 1
-			if charsProcessed == 2:
+			chars_processed += 1
+			if chars_processed == 2:
 				formatter_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t\t// char ch\n")
 		if line.startswith("int spacesOutsideToDelete"):
 			formatter_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t\t// spacesOutsideToDelete\n")
 		# assertWithSideEffect
-		if (line.startswith("assert") 
+		if (line.startswith("assert")
 		and "adjustChecksumIn" in line):			# 2 lines
 			formatter_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
-		#~ if (line.startswith("assert") 
-		#~ and "computeChecksumOut" in line:	
+		#~ if (line.startswith("assert")
+		#~ and "computeChecksumOut" in line:
 			#~ formatter_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
-		#~ if (line.startswith("assert") 
-		#~ and "computeChecksumIn" in line:		# 2 lines	
+		#~ if (line.startswith("assert")
+		#~ and "computeChecksumIn" in line:		# 2 lines
 			#~ formatter_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
 		# unusedFunction warnings
 		if "ASFormatter::getChecksumIn" in line:
@@ -269,7 +269,7 @@ def process_localizer(localizer_list):
 	""" Generate suppressions for ASLocalizer.
 	"""
 	lines = 0				# current input line number
-	langIDProcessed = 0		# only want certain 'm_langID'
+	langid_processed = 0		# only want certain 'm_langID'
 	src_path = __src_dir + "ASLocalizer.cpp"
 	file_in = codecs.open(src_path, "rb", "utf-8")
 	# get exceptions
@@ -283,8 +283,8 @@ def process_localizer(localizer_list):
 		if line.startswith('m_localeName = "UNKNOWN"'):
 			localizer_list.append("useInitializationList:" + src_path + ":" +  str(lines) + "\t\t// m_localeName\n")
 		if line.startswith('m_langID = "en"'):
-			langIDProcessed += 1
-			if langIDProcessed == 1 :
+			langid_processed += 1
+			if langid_processed == 1:
 				localizer_list.append("useInitializationList:" + src_path + ":" +  str(lines) + "\t\t// m_langID\n")
 		# unusedFunction warnings
 		if "ASLocalizer::getTranslationClass" in line:
@@ -300,7 +300,6 @@ def process_resource(resource_list):
 	""" Generate suppressions for ASResource.
 	"""
 	lines = 0				# current input line number
-	charsProcessed = 0		# only want the first 'char ch'
 	src_path = __src_dir + "ASResource.cpp"
 	file_in = open(src_path, 'r')
 	# get exceptions
@@ -311,10 +310,10 @@ def process_resource(resource_list):
 			continue
 		if line.startswith("//"):
 			continue
-		#~ if (line.startswith("assert") 
+		#~ if (line.startswith("assert")
 		#~ and "isCharPotentialHeader" in line:		# 2 lines
 			#~ resource_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
-			
+
 # -----------------------------------------------------------------------------
 
 def run_cppcheck():
@@ -367,14 +366,14 @@ def verify_cppcheck_version(exepath):
 	"""
 	# check_output always returns byte code
 	version = subprocess.check_output([exepath, "--version"])
-	version = version.lstrip(b"Cppcheck ")
+	version = version[9:]   # remove "Cppcheck "
 	version = version.rstrip(b"\r\n")
 	if platform.python_version_tuple()[0] >= '3':
 		version = version.decode()
 	if version < __expected_version:
-		print("Cppcheck version", version, 
+		print("Cppcheck version", version,
 		        "is less than expected version", __expected_version, "\n")
-	
+
 # -----------------------------------------------------------------------------
 
 # make the module executable

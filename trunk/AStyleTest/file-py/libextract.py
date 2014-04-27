@@ -73,7 +73,7 @@ def call_7zip(filepath, outdir, fileext):
 		print("extracting " + str(fileext))
 	# open a tempfile and access it with the 'os' methods
 	fd, filename = tempfile.mkstemp(prefix="extract.", suffix=".tmp",
-								dir=libastyle.get_temp_directory() , text=True)
+								dir=libastyle.get_temp_directory(), text=True)
 #	print(os.path.basename(filename))
 	try:
 		subprocess.check_call(extract, stdout=fd)
@@ -273,7 +273,8 @@ def remove_test_directory(pattern):
 		imax = 5
 		for i in range(0, imax):
 			shutil.rmtree(file_in, True)
-			if not os.path.isdir(file_in): break
+			if not os.path.isdir(file_in):
+				break
 			if i == imax - 1:
 				libastyle.system_exit("Directory not removed: " + file_in)
 			time.sleep(2)
@@ -308,7 +309,8 @@ def strip_directory_prefix(directory):
 	"""
 	prefix = libastyle.get_project_directory(True)
 	start = len(prefix)
-	if start > len(directory): start = 0
+	if start > len(directory):
+		start = 0
 	return directory[start:]
 
 # -----------------------------------------------------------------------------
@@ -326,17 +328,27 @@ def test_all_compressed():
 		print("remove tar " + prtfile)
 		os.remove(file_in)
 	print()
-	#extract_project(libastyle.CODEBLOCKS, False); print()
-	#extract_project(libastyle.DRJAVA, False); print()
-	extract_project(libastyle.GWORKSPACE, False); print()
-	#extract_project(libastyle.JEDIT, False); print()
-	#extract_project(libastyle.KDEVELOP, False); print()
-	#extract_project(libastyle.MONODEVELOP, False); print()
-	#extract_project(libastyle.SCITE, False); print()
-	#extract_project(libastyle.SHARPDEVELOP, False); print()
-	extract_project(libastyle.TESTPROJECT, False); print()
+	#extract_project(libastyle.CODEBLOCKS, False)
+	print()
+	#extract_project(libastyle.DRJAVA, False)
+	print()
+	extract_project(libastyle.GWORKSPACE, False)
+	print()
+	#extract_project(libastyle.JEDIT, False)
+	print()
+	#extract_project(libastyle.KDEVELOP, False)
+	print()
+	#extract_project(libastyle.MONODEVELOP, False)
+	print()
+	#extract_project(libastyle.SCITE, False)
+	print()
+	#extract_project(libastyle.SHARPDEVELOP, False)
+	print()
+	extract_project(libastyle.TESTPROJECT, False)
+	print()
 	stoptime = time.time()
-	test_print_time(starttime, stoptime); print()
+	test_print_time(starttime, stoptime)
+	print()
 
 # -----------------------------------------------------------------------------
 
@@ -346,15 +358,21 @@ def test_all_tarballs():
 	"""
 	starttime = time.time()
 	print("TEST TARBALLS\n")
-	extract_project(libastyle.CODEBLOCKS, False); print()
+	extract_project(libastyle.CODEBLOCKS, False)
+	print()
 	# no tarball for DRJAVA
-	extract_project(libastyle.GWORKSPACE, False); print()
-	extract_project(libastyle.JEDIT, False); print()
-	extract_project(libastyle.KDEVELOP, False); print()
-	extract_project(libastyle.MONODEVELOP, False); print()
+	extract_project(libastyle.GWORKSPACE, False)
+	print()
+	extract_project(libastyle.JEDIT, False)
+	print()
+	#extract_project(libastyle.KDEVELOP, False)
+	print()
+	#extract_project(libastyle.MONODEVELOP, False)
+	print()
 	# no tarball for SCITE
 	# no tarball for SHARPDEVELOP
-	extract_project(libastyle.TESTPROJECT, False); print()
+	extract_project(libastyle.TESTPROJECT, False)
+	print()
 	stoptime = time.time()
 	test_print_time(starttime, stoptime)
 
@@ -364,8 +382,8 @@ def test_print_time(starttime, stoptime):
 	"""Print run time for the test.
 	"""
 	runtime = int(stoptime - starttime + 0.5)
-	minute =  int(runtime / 60)
-	sec =  int(runtime % 60)
+	minute = int(runtime / 60)
+	sec = int(runtime % 60)
 	if min == 0:
 		print("{0} seconds".format(sec))
 	else:

@@ -4,14 +4,14 @@
 	<Project>
 		<Option title="EC GTest Lib" />
 		<Option pch_mode="2" />
-		<Option compiler="embarcadero_compiler_62" />
+		<Option compiler="embarcadero_compiler_680" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\gtestd" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/gtestd" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="objGTd\" />
+				<Option object_output="objGTd/" />
 				<Option type="2" />
-				<Option compiler="embarcadero_compiler_62" />
+				<Option compiler="embarcadero_compiler_680" />
 				<Option projectCompilerOptionsRelation="1" />
 				<Option projectLinkerOptionsRelation="1" />
 				<Option projectIncludeDirsRelation="1" />
@@ -24,8 +24,8 @@
 					<Add option="-w-8004" />
 					<Add option="-w-8071" />
 					<Add option="-w-8080" />
-					<Add directory="..\..\..\gtest-1.6.0\include" />
-					<Add directory="..\..\..\gtest-1.6.0" />
+					<Add directory="../../../gtest-1.6.0/include" />
+					<Add directory="../../../gtest-1.6.0" />
 				</Compiler>
 				<Linker>
 					<Add option="-c" />
@@ -37,11 +37,11 @@
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\gtest" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/gtest" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="objGT\" />
+				<Option object_output="objGT/" />
 				<Option type="2" />
-				<Option compiler="embarcadero_compiler_62" />
+				<Option compiler="embarcadero_compiler_680" />
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-tWC" />
@@ -52,8 +52,8 @@
 					<Add option="-w-8027" />
 					<Add option="-w-8080" />
 					<Add option="-DNDEBUG" />
-					<Add directory="..\..\..\gtest-1.6.0\include" />
-					<Add directory="..\..\..\gtest-1.6.0" />
+					<Add directory="../../../gtest-1.6.0/include" />
+					<Add directory="../../../gtest-1.6.0" />
 				</Compiler>
 				<Linker>
 					<Add option="-c" />
@@ -65,7 +65,7 @@
 				</ExtraCommands>
 			</Target>
 		</Build>
-		<Unit filename="..\..\..\gtest-1.6.0\src\gtest-all.cc" />
+		<Unit filename="../../../gtest-1.6.0/src/gtest-all.cc" />
 		<Extensions>
 			<code_completion />
 			<envvars />
