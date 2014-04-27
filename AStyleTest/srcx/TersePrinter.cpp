@@ -311,7 +311,7 @@ void TersePrinter::PrintTestHeader(ConsoleColor color) const
 // FormatCountableNoun(5, "test", "tests") returns "5 tests".
 string TersePrinter::FormatTestCount(int count) const
 {
-	return internal::StreamableToString(count) + " " +
+	return string(internal::StreamableToString(count)) + " " +
 	       (count == 1 ? "test" : "tests");
 }
 

@@ -137,6 +137,267 @@ TEST(Cpp11Standard, EnumWithBaseType2)
 }
 
 //----------------------------------------------------------------------------
+// AStyle Macro formatting
+// Test wxWidgets, Qt, MFC, and Boost macros recognized by AStyle
+//----------------------------------------------------------------------------
+
+TEST(Macro, wxWidgetsEventHandler)
+{
+	// wxWidgets event handler should be indented
+	char text[] =
+		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"    EVT_CLOSE(JP5Frm::WindowClose)\n"
+		"    EVT_PAINT(JP5Frm::WindowPaint)\n"
+		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
+		"END_EVENT_TABLE()\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, wxWidgetsEventHandlerNonIndentComment)
+{
+	// wxWidgets event handler should be indented
+	// but not the comments
+	char text[] =
+		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"//    EVT_CLOSE(JP5Frm::WindowClose)\n"
+		"    EVT_PAINT(JP5Frm::WindowPaint)\n"
+		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"//    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
+		"END_EVENT_TABLE()\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, QtForeach1)
+{
+	// Qt Q_FOREACH macro indent
+	char text[] =
+		"\nint foo()\n"
+		"{\n"
+		"    Q_FOREACH(const Foo &f, list)\n"
+		"        qDebug() << f.a << f.b << f.c;\n"
+		"\n"
+		"    Q_FOREACH(const Foo &f, list)\n"
+		"        {\n"
+		"            qDebug() << f.a << f.b << f.c;\n"
+		"        }\n"
+		"}";
+	char options[] = "style=gnu";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, QtForeach2)
+{
+	// Qt foreach macro indent
+	char text[] =
+		"\nint foo()\n"
+		"{\n"
+		"    foreach(const Foo &f, list)\n"
+		"        qDebug() << f.a << f.b << f.c;\n"
+		"\n"
+		"    foreach(const Foo &f, list)\n"
+		"        {\n"
+		"            qDebug() << f.a << f.b << f.c;\n"
+		"        }\n"
+		"}";
+	char options[] = "style=gnu";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, QtForeachPadHeader)
+{
+	// Qt foreach macro args should pad header
+	char textIn[] =
+		"\nint foo()\n"
+		"{\n"
+		"    Q_FOREACH(const Foo &f, list)\n"
+		"        qDebug() << f.a << f.b << f.c;\n"
+		"\n"
+		"    foreach(const Foo &f, list)\n"
+		"        qDebug() << f.a << f.b << f.c;\n"
+		"}";
+	char text[] =
+		"\nint foo()\n"
+		"{\n"
+		"    Q_FOREACH (const Foo &f, list)\n"
+		"        qDebug() << f.a << f.b << f.c;\n"
+		"\n"
+		"    foreach (const Foo &f, list)\n"
+		"        qDebug() << f.a << f.b << f.c;\n"
+		"}";
+	char options[] = "pad-header";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, QtForeachAlignPointer)
+{
+	// Qt foreach macro args should default to pionter
+	char textIn[] =
+		"\nint foo()\n"
+		"{\n"
+		"    Q_FOREACH(const Foo &f, list)\n"
+		"        qDebug() << f.a << f.b << f.c;\n"
+		"\n"
+		"    foreach(const Foo &f, list)\n"
+		"        qDebug() << f.a << f.b << f.c;\n"
+		"}";
+	char text[] =
+		"\nint foo()\n"
+		"{\n"
+		"    Q_FOREACH(const Foo& f, list)\n"
+		"        qDebug() << f.a << f.b << f.c;\n"
+		"\n"
+		"    foreach(const Foo& f, list)\n"
+		"        qDebug() << f.a << f.b << f.c;\n"
+		"}";
+	char options[] = "align-pointer=type, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, QtForever1)
+{
+	// Qt Q_FOREVER macro indent
+	char text[] =
+		"\nint foo()\n"
+		"{\n"
+		"    Q_FOREVER\n"
+		"        break;\n"
+		"\n"
+		"    Q_FOREVER\n"
+		"        {\n"
+		"            break;;\n"
+		"        }\n"
+		"}";
+	char options[] = "style=gnu";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, QtForever2)
+{
+	// Qtforever macro indent
+	char text[] =
+		"\nint foo()\n"
+		"{\n"
+		"    forever\n"
+		"        break;\n"
+		"\n"
+		"    forever\n"
+		"        {\n"
+		"            break;;\n"
+		"        }\n"
+		"}";
+	char options[] = "style=gnu";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, MfcDispatchMap)
+{
+	// MFC dispatch map should be indented
+	char text[] =
+		"\nBEGIN_DISPATCH_MAP(CblahCtrl, COleControl)\n"
+		"    DISP_FUNCTION_ID(CMySink,\"Quit\",2,OnObjQuit,VT_EMPTY,VTS_I4 VTS_I4)\n"
+		"    DISP_FUNCTION_ID(CblahCtrl,\"AboutBox\",2,AboutBox,VT_EMPTY,VTS_NONE)\n"
+		"END_DISPATCH_MAP()\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, MfcEventMap)
+{
+	// MFC event map should be indented
+	char text[] =
+		"\nBEGIN_EVENT_MAP(CDataqSdkCtrl, COleControl)\n"
+		"    EVENT_CUSTOM(\"NewData\", FireNewData, VTS_I2)\n"
+		"    EVENT_CUSTOM(\"OverRun\", FireOverRun, VTS_NONE)\n"
+		"    EVENT_CUSTOM(\"ControlError\", FireControlError, VTS_I4)\n"
+		"END_EVENT_MAP()\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, MfcMessageMap)
+{
+	// MFC message map should be indented
+	char text[] =
+		"\nBEGIN_MESSAGE_MAP(CMainJPWnd, CFrameWnd)\n"
+		"    ON_WM_CLOSE()\n"
+		"    ON_WM_PAINT()\n"
+		"    ON_COMMAND(IDM_ABOUT, OnAbout)\n"
+		"    ON_COMMAND(IDM_EXIT,  OnExit)\n"
+		"END_MESSAGE_MAP()\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, MfcPropertyPages)
+{
+	// MFC property pages should be indented
+	char text[] =
+		"\nBEGIN_PROPPAGEIDS(CblahCtrl, 1)\n"
+		"    PROPPAGEID( CLSID_CFontPropPage )\n"
+		"    PROPPAGEID( CLSID_CColorPropPage )\n"
+		"END_PROPPAGEIDS(CblahCtrl)\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, IndentForceTabX)
+{
+	// wxWidgets event handler should be indented correctly with indent=force-tab-x
+	char text[] =
+		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
+		"END_EVENT_TABLE()\n"
+		"\n"
+		"void Foo()\n"
+		"{\n"
+		"    BEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"	EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"	EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
+		"    END_EVENT_TABLE()\n"
+		"\n"
+		"    lf (isFoo)\n"
+		"    {\n"
+		"	BEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"	    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"	    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
+		"	END_EVENT_TABLE()\n"
+		"    }\n"
+		"}";
+	char options[] = "indent=force-tab-x";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//----------------------------------------------------------------------------
 // AStyle Character Set Tests
 //----------------------------------------------------------------------------
 
@@ -222,133 +483,6 @@ TEST(VirginLine, Brackets)
 		"        bar();\n"
 		"}\n";
 	char options[] = "style=kr";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-//----------------------------------------------------------------------------
-// AStyle Macro formatting
-// Test wxWidgets and MFC macros recognized by AStyle
-//----------------------------------------------------------------------------
-
-TEST(Macro, wxWidgetsEventHandler)
-{
-	// wxWidgets event handler should be indented
-	char text[] =
-		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
-		"    EVT_CLOSE(JP5Frm::WindowClose)\n"
-		"    EVT_PAINT(JP5Frm::WindowPaint)\n"
-		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
-		"    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
-		"END_EVENT_TABLE()\n";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(Macro, wxWidgetsEventHandlerNonIndentComment)
-{
-	// wxWidgets event handler should be indented
-	// but not the comments
-	char text[] =
-		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
-		"//    EVT_CLOSE(JP5Frm::WindowClose)\n"
-		"    EVT_PAINT(JP5Frm::WindowPaint)\n"
-		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
-		"//    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
-		"END_EVENT_TABLE()\n";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(Macro, MfcDispatchMap)
-{
-	// MFC dispatch map should be indented
-	char text[] =
-		"\nBEGIN_DISPATCH_MAP(CblahCtrl, COleControl)\n"
-		"    DISP_FUNCTION_ID(CMySink,\"Quit\",2,OnObjQuit,VT_EMPTY,VTS_I4 VTS_I4)\n"
-		"    DISP_FUNCTION_ID(CblahCtrl,\"AboutBox\",2,AboutBox,VT_EMPTY,VTS_NONE)\n"
-		"END_DISPATCH_MAP()\n";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(Macro, MfcEventMap)
-{
-	// MFC event map should be indented
-	char text[] =
-		"\nBEGIN_EVENT_MAP(CDataqSdkCtrl, COleControl)\n"
-		"    EVENT_CUSTOM(\"NewData\", FireNewData, VTS_I2)\n"
-		"    EVENT_CUSTOM(\"OverRun\", FireOverRun, VTS_NONE)\n"
-		"    EVENT_CUSTOM(\"ControlError\", FireControlError, VTS_I4)\n"
-		"END_EVENT_MAP()\n";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(Macro, MfcMessageMap)
-{
-	// MFC message map should be indented
-	char text[] =
-		"\nBEGIN_MESSAGE_MAP(CMainJPWnd, CFrameWnd)\n"
-		"    ON_WM_CLOSE()\n"
-		"    ON_WM_PAINT()\n"
-		"    ON_COMMAND(IDM_ABOUT, OnAbout)\n"
-		"    ON_COMMAND(IDM_EXIT,  OnExit)\n"
-		"END_MESSAGE_MAP()\n";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(Macro, MfcPropertyPages)
-{
-	// MFC property pages should be indented
-	char text[] =
-		"\nBEGIN_PROPPAGEIDS(CblahCtrl, 1)\n"
-		"    PROPPAGEID( CLSID_CFontPropPage )\n"
-		"    PROPPAGEID( CLSID_CColorPropPage )\n"
-		"END_PROPPAGEIDS(CblahCtrl)\n";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(Macro, IndentForceTabX)
-{
-	// wxWidgets event handler should be indented correctly with indent=force-tab-x
-	char text[] =
-		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
-		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
-		"    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
-		"END_EVENT_TABLE()\n"
-		"\n"
-		"void Foo()\n"
-		"{\n"
-		"    BEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
-		"	EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
-		"	EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
-		"    END_EVENT_TABLE()\n"
-		"\n"
-		"    lf (isFoo)\n"
-		"    {\n"
-		"	BEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
-		"	    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
-		"	    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
-		"	END_EVENT_TABLE()\n"
-		"    }\n"
-		"}"	;
-	char options[] = "indent=force-tab-x";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

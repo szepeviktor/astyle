@@ -13,8 +13,10 @@ import subprocess
 import sys
 import time
 
-if os.name == "nt": import msvcrt		# Windows only for getch()
-else: import termios, tty				# Linux only for getch()
+if os.name == "nt":
+	import msvcrt			# Windows only for getch()
+else:
+	import termios, tty		# Linux only for getch()
 
 # global variables ------------------------------------------------------------
 
@@ -133,7 +135,7 @@ def compile_astyle_windows(astylepath, config):
 	if os.path.isfile(cachepath):
 		os.remove(cachepath)
 	# call MSBuild
-	buildpath =  (os.getenv("WINDIR")
+	buildpath = (os.getenv("WINDIR")
 			+ "/Microsoft.NET/Framework/"
 			+ sdk
 			+ "/MSBuild.exe")
@@ -183,7 +185,8 @@ def get_archive_directory(endsep=False):
 	if not os.path.isdir(arcdir):
 		message = "Cannot find archive directory: " + arcdir
 		system_exit(message)
-	if endsep: arcdir += '/'
+	if endsep:
+		arcdir += '/'
 	return  arcdir
 
 # -----------------------------------------------------------------------------
@@ -216,7 +219,8 @@ def get_astyle_directory(endsep=False):
 	if not os.path.isdir(astyledir):
 		message = "Cannot find astyle directory: " + astyledir
 		system_exit(message)
-	if endsep: astyledir += '/'
+	if endsep:
+		astyledir += '/'
 	return astyledir
 
 # -----------------------------------------------------------------------------
@@ -240,7 +244,8 @@ def get_astyleexe_directory(config, endsep=False):
 	if not os.path.isdir(astylepath):
 		message = "Cannot find astyleexe directory: " + astylepath
 		system_exit(message)
-	if endsep: astylepath += '/'
+	if endsep:
+		astylepath += '/'
 	return astylepath
 
 # -----------------------------------------------------------------------------
@@ -280,7 +285,8 @@ def get_astyletest_directory(endsep=False):
 	if not os.path.isdir(astyletestdir):
 		message = "Cannot find astyletest directory: " + astyletestdir
 		system_exit(message)
-	if endsep: astyletestdir += '/'
+	if endsep:
+		astyletestdir += '/'
 	return astyletestdir
 
 # -----------------------------------------------------------------------------
@@ -295,7 +301,8 @@ def get_astylewx_directory(endsep=False):
 	if not os.path.isdir(astylewxdir):
 		message = "Cannot find astylewx directory: " + astylewxdir
 		system_exit(message)
-	if endsep: astylewxdir += '/'
+	if endsep:
+		astylewxdir += '/'
 	return astylewxdir
 
 # -----------------------------------------------------------------------------
@@ -310,7 +317,8 @@ def get_astylewxtest__directory(endsep=False):
 	if not os.path.isdir(astylewxdir):
 		message = "Cannot find astylewx directory: " + astylewxdir
 		system_exit(message)
-	if endsep: astylewxdir += '/'
+	if endsep:
+		astylewxdir += '/'
 	return astylewxdir
 
 # -----------------------------------------------------------------------------
@@ -368,7 +376,8 @@ def get_file_py_directory(endsep=False):
 	"""
 	# get the path where this file is located
 	pydir = sys.path[0]
-	if endsep: pydir += '/'
+	if endsep:
+		pydir += '/'
 	# verify it is executed from fixed disk and not a USB
 	if os.name == "nt":
 		if pydir[0:2] != "C:":
@@ -390,7 +399,7 @@ def get_formatted_time():
 	"""
 	tm = time.strftime("%I:%M")
 	if tm[0] == '0':
-		tm = tm.replace('0',' ',1)
+		tm = tm.replace('0', ' ', 1)
 	return tm
 
 # -----------------------------------------------------------------------------
@@ -400,11 +409,12 @@ def get_home_directory(endsep=False):
 	   endsep = True will add an ending separator.
 	"""
 	if os.name == "nt":
-		homedir =  os.getenv("USERPROFILE")
+		homedir = os.getenv("USERPROFILE")
 		homedir = homedir.replace('\\', '/')
 	else:
 		homedir = os.getenv("HOME")
-	if endsep: homedir += '/'
+	if endsep:
+		homedir += '/'
 	return  homedir
 
 # -----------------------------------------------------------------------------
@@ -420,11 +430,13 @@ def get_project_directory(endsep=False):
 	tail = pydir
 	while len(tail) > 0:
 		head, tail = os.path.split(projdir)
-		if tail == 'Projects': break
+		if tail == 'Projects':
+			break
 		projdir = head
 	if len(tail) == 0:
 		system_exit("Cannot find project directory " + pydir[0:])
-	if endsep: projdir += '/'
+	if endsep:
+		projdir += '/'
 	return  projdir
 
 # -----------------------------------------------------------------------------
@@ -532,7 +544,7 @@ def get_temp_directory():
 	   endsep = True will add an ending separator.
 	"""
 	if os.name == "nt":
-		tempdir =  os.getenv("TEMP")
+		tempdir = os.getenv("TEMP")
 		tempdir = tempdir.replace('\\', '/')
 	else:
 		tempdir = "./"
@@ -548,7 +560,8 @@ def get_test_directory(endsep=False):
 	if not os.path.isdir(testdir):
 		message = "Cannot find test directory: " + testdir
 		system_exit(message)
-	if endsep: testdir += '/'
+	if endsep:
+		testdir += '/'
 	return  testdir
 
 # -----------------------------------------------------------------------------
@@ -640,7 +653,7 @@ def system_exit(message=''):
 		getch()
 	else:
 		print("\nEnd of script !")
-	os._exit(0)
+	sys.exit(0)
 
 # -----------------------------------------------------------------------------
 
