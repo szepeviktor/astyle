@@ -2,21 +2,16 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="MinGW AStyle" />
-		<Option pch_mode="0" />
+		<Option title="MinGW AStyle Lib" />
+		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="AStyle">
-				<Option output="bin/AStyle" prefix_auto="0" extension_auto="1" />
-				<Option object_output="obj" />
-				<Option type="1" />
+			<Target title="AStyleL">
+				<Option output="bin/libAStyleLib.a" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="" />
+				<Option object_output="objLib/" />
+				<Option type="2" />
 				<Option compiler="gcc" />
-				<Option parameters="-atOP  ..\..\test-c\*.cpp  ..\..\test-c\*.h" />
-				<Option projectCompilerOptionsRelation="1" />
-				<Option projectLinkerOptionsRelation="1" />
-				<Option projectIncludeDirsRelation="1" />
-				<Option projectResourceIncludeDirsRelation="1" />
-				<Option projectLibDirsRelation="1" />
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-Wextra" />
@@ -24,23 +19,16 @@
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-DNDEBUG" />
+					<Add option="-DASTYLE_LIB" />
 				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
-				<ExtraCommands>
-					<Add after="cmd /c  copy /y  bin\AStyle.exe ..\..\src-p\ &gt; NUL" />
-					<Mode after="always" />
-				</ExtraCommands>
 			</Target>
 		</Build>
 		<VirtualTargets>
-			<Add alias="All" targets="AStyle;" />
+			<Add alias="All" targets="AStyleL;" />
 		</VirtualTargets>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
-		<Unit filename="../../../AStyle/src/ASLocalizer.cpp" />
 		<Unit filename="../../../AStyle/src/ASResource.cpp" />
 		<Unit filename="../../../AStyle/src/astyle.h" />
 		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
@@ -49,6 +37,7 @@
 			<code_completion />
 			<envvars />
 			<debugger />
+			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

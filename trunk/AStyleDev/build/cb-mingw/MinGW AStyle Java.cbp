@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="AStyleJ">
-				<Option output="bin/AStylej" prefix_auto="0" extension_auto="1" />
+				<Option output="bin/AStyle-2.05j.dll" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objJava" />
 				<Option deps_output="dep" />
 				<Option type="3" />
@@ -25,16 +25,15 @@
 					<Add option="-fno-exceptions" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_45/include" />
-					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_45/include/win32" />
+					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include" />
+					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include/win32" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add option="-Wl,--add-stdcall-alias" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cmd /c  copy /y  bin\AStylej.dll  ..\..\src-j\  &gt; NUL" />
-					<Mode after="always" />
+					<Add after="cmd /c  copy /y  bin\AStyle-2.05j.dll  ..\..\src-j\  &gt; NUL" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Lint">
@@ -66,8 +65,8 @@
 					<Add option="-Wwrite-strings" />
 					<Add option="-Woverloaded-virtual" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="C:/Program Files/Java/jdk1.7.0/include" />
-					<Add directory="C:/Program Files/Java/jdk1.7.0/include/win32" />
+					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include" />
+					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include/win32" />
 				</Compiler>
 			</Target>
 		</Build>

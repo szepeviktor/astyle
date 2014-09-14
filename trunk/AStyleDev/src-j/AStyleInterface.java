@@ -54,7 +54,7 @@ class AStyleInterface
     {   // load shared library from the classpath
         String astylePath = System.getProperty("user.dir")
                             + System.getProperty("file.separator")
-                            + System.mapLibraryName("astylej");
+                            + System.mapLibraryName("astyle-2.05j");
         try
         {   System.load(astylePath);
         }

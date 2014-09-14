@@ -7,7 +7,7 @@
 		<Option compiler="icc" />
 		<Build>
 			<Target title="AStyleJ">
-				<Option output="bin/astylej" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/libastyle-2.05j.so" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objJ" />
 				<Option type="3" />
 				<Option compiler="icc" />
@@ -17,9 +17,9 @@
 				<Option projectResourceIncludeDirsRelation="1" />
 				<Option projectLibDirsRelation="1" />
 				<Compiler>
+					<Add option="-Wall" />
 					<Add option="-fno-rtti" />
 					<Add option="-O3" />
-					<Add option="-Wall" />
 					<Add option="-w2" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fpic" />
@@ -33,7 +33,7 @@
 					<Add option="-static-intel" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/libastylej.so  ../../src-j" />
+					<Add after="cp  bin/libastyle-2.05j.so  ../../src-j" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>

@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>fd96fa30-07e5-4f1b-8865-36c28c9951af</ProjectGuid>
-    <ProjectHome>..\..\..\src-py\</ProjectHome>
+    <ProjectHome>..\..\..\src-p\</ProjectHome>
     <StartupFile>ExampleUnicode.py</StartupFile>
     <SearchPath>
     </SearchPath>
@@ -13,7 +13,7 @@
     <Name>Example Py</Name>
     <RootNamespace>Example Py</RootNamespace>
     <InterpreterId>{9a7a9026-48c1-4688-9d5d-e5699d47d074}</InterpreterId>
-    <InterpreterVersion>2.7</InterpreterVersion>
+    <InterpreterVersion>3.4</InterpreterVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

@@ -65,15 +65,13 @@
   <PropertyGroup>
     <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)bin\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AStyled</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AStyled</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AStyle</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AStyle</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AStyle-2.05d</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AStyle-2.05d</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AStyle-2.05</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AStyle-2.05</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Platform)\debug\</OutDir>
@@ -92,7 +90,6 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain@16
@@ -106,8 +103,7 @@
     <PostBuildEvent>
       <Message>
       </Message>
-      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-c\ 
-cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-py\ 
+      <Command>cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-p\
 cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -121,7 +117,6 @@ cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Com
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -133,9 +128,8 @@ cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Com
     <PostBuildEvent>
       <Message>
       </Message>
-      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-c\
-cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-py\ 
-cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\ </Command>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-p\
+cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-s\ </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -149,8 +143,6 @@ cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\ </Co
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <DebugInformationFormat>
-      </DebugInformationFormat>
       <DisableSpecificWarnings>4702;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -167,9 +159,7 @@ cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\ </Co
     <PostBuildEvent>
       <Message>
       </Message>
-      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-c\ 
-cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-o\ 
-cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-py\
+      <Command>cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-p\
 cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -184,8 +174,6 @@ cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Com
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <DebugInformationFormat>
-      </DebugInformationFormat>
       <DisableSpecificWarnings>4702;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -200,10 +188,8 @@ cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Com
     <PostBuildEvent>
       <Message>
       </Message>
-      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-c\ 
-cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-o\ 
-cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-py\
-cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Command>
+      <Command> cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-p\
+cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-s\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

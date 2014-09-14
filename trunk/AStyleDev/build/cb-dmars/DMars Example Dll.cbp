@@ -7,33 +7,6 @@
 		<Option default_target="ExampleD" />
 		<Option compiler="dmc" />
 		<Build>
-			<Target title="AStyleD">
-				<Option output="bin/AStyle.dll" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objDll" />
-				<Option deps_output="dep" />
-				<Option type="3" />
-				<Option compiler="dmc" />
-				<Option createStaticLib="1" />
-				<Option projectCompilerOptionsRelation="1" />
-				<Option projectLinkerOptionsRelation="1" />
-				<Option projectIncludeDirsRelation="1" />
-				<Option projectResourceIncludeDirsRelation="1" />
-				<Option projectLibDirsRelation="1" />
-				<Compiler>
-					<Add option="-x" />
-					<Add option="-w-" />
-					<Add option="-DASTYLE_LIB" />
-					<Add option="-DNDEBUG" />
-				</Compiler>
-				<Linker>
-					<Add option="/delexecutable" />
-					<Add option="/implib:bin\AStyle.lib" />
-					<Add library="kernel32" />
-				</Linker>
-				<ExtraCommands>
-					<Add after="cmd /c  del *.map" />
-				</ExtraCommands>
-			</Target>
 			<Target title="ExampleD">
 				<Option output="bin/ExampleD.exe" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objDll" />
@@ -51,7 +24,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="/delexecutable" />
-					<Add library="bin\AStyle" />
+					<Add library="AStyle-2.05" />
 					<Add directory="bin" />
 				</Linker>
 				<ExtraCommands>
@@ -60,34 +33,11 @@
 			</Target>
 		</Build>
 		<VirtualTargets>
-			<Add alias="All" targets="AStyleD;ExampleD;" />
+			<Add alias="All" targets="ExampleD;" />
 		</VirtualTargets>
-		<Unit filename="../../../AStyle/src/ASBeautifier.cpp">
-			<Option target="AStyleD" />
-		</Unit>
-		<Unit filename="../../../AStyle/src/ASEnhancer.cpp">
-			<Option target="AStyleD" />
-		</Unit>
-		<Unit filename="../../../AStyle/src/ASFormatter.cpp">
-			<Option target="AStyleD" />
-		</Unit>
-		<Unit filename="../../../AStyle/src/ASResource.cpp">
-			<Option target="AStyleD" />
-		</Unit>
-		<Unit filename="../../../AStyle/src/astyle.h">
-			<Option target="AStyleD" />
-		</Unit>
-		<Unit filename="../../../AStyle/src/astyle_main.cpp">
-			<Option target="AStyleD" />
-		</Unit>
-		<Unit filename="../../../AStyle/src/astyle_main.h">
-			<Option target="AStyleD" />
-		</Unit>
-		<Unit filename="../../src-c/Example.cpp">
-			<Option target="ExampleD" />
-		</Unit>
+		<Unit filename="../../src-c/Example.cpp" />
 		<Unit filename="DllMain.cpp">
-			<Option target="AStyleD" />
+			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Extensions>
 			<code_completion />

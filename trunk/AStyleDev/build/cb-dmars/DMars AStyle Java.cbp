@@ -8,7 +8,7 @@
 		<Option compiler="dmc" />
 		<Build>
 			<Target title="AStyleJ">
-				<Option output="bin/AStylej" prefix_auto="0" extension_auto="1" />
+				<Option output="bin/AStyle-2.05.dll" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objJava" />
 				<Option type="3" />
 				<Option compiler="dmc" />
@@ -23,8 +23,8 @@
 					<Add option="-w-" />
 					<Add option="-DASTYLE_JNI" />
 					<Add option="-DNDEBUG" />
-					<Add directory="C:/Program Files/Java/jdk1.7.0_45/include" />
-					<Add directory="C:/Program Files/Java/jdk1.7.0_45/include/win32" />
+					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include" />
+					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include/win32" />
 				</Compiler>
 				<Linker>
 					<Add option="/delexecutable" />
@@ -33,9 +33,8 @@
 				</Linker>
 				<ExtraCommands>
 					<Add after="cmd /c  del *.map" />
-					<Add after="cmd /c  move /y  AStylej.lib bin &gt; NUL" />
-					<Add after="cmd /c  copy /y  bin\AStylej.dll  ..\..\src-j\  &gt; NUL" />
-					<Mode after="always" />
+					<Add after="cmd /c move /y  AStyle-2.05j.lib bin &gt; NUL" />
+					<Add after="cmd /c  copy /y  bin\AStyle-2.05j.dll  ..\..\src-j\  &gt; NUL" />
 				</ExtraCommands>
 			</Target>
 		</Build>

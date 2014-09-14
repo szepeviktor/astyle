@@ -2,13 +2,13 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="MacExampleODylib" />
+		<Option title="Mac ExampleOA" />
 		<Option pch_mode="2" />
 		<Option compiler="clang" />
 		<Build>
 			<Target title="Debug">
-				<Option output="debug/ExampleODy" prefix_auto="1" extension_auto="1" />
-				<Option object_output="objExODy/Debug/" />
+				<Option output="debug/ExampleOA" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objExOA/Debug/" />
 				<Option type="1" />
 				<Option compiler="clang" />
 				<Compiler>
@@ -27,8 +27,8 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/ExampleODy" prefix_auto="1" extension_auto="1" />
-				<Option object_output="objExODy/Release/" />
+				<Option output="bin/ExampleOA" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objExOA/Release/" />
 				<Option type="1" />
 				<Option compiler="clang" />
 				<Compiler>

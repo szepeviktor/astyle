@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Mac ExampleTest All">
+		<Project filename="Mac ExampleA.cbp" />
+		<Project filename="Mac ExampleDy.cbp" />
+		<Project filename="Mac ExampleObj.cbp" />
+		<Project filename="Mac ExampleOA.cbp" />
+		<Project filename="Mac ExampleODy.cbp" />
+		<Project filename="Mac ExampleOObj.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

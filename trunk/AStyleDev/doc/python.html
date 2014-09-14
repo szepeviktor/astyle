@@ -423,11 +423,11 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
 
 <span class="hl kwa">def</span> <span class="hl kwd">get_project_directory</span><span class="hl opt">(</span>file_name<span class="hl opt">):</span>
     <span class="hl str">&quot;&quot;&quot;Find the directory path and prepend it to the file name.</span>
-<span class="hl str">       The source is expected to be in the &quot;src-py&quot; directory.</span>
+<span class="hl str">       The source is expected to be in the &quot;src-p&quot; directory.</span>
 <span class="hl str">       This may need to be changed for your directory structure.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
     file_path <span class="hl opt">=</span> sys<span class="hl opt">.</span>path<span class="hl opt">[</span><span class="hl num">0</span><span class="hl opt">]</span>
-    end <span class="hl opt">=</span> file_path<span class="hl opt">.</span><span class="hl kwd">find</span><span class="hl opt">(</span><span class="hl str">&quot;src-py&quot;</span><span class="hl opt">)</span>
+    end <span class="hl opt">=</span> file_path<span class="hl opt">.</span><span class="hl kwd">find</span><span class="hl opt">(</span><span class="hl str">&quot;src-p&quot;</span><span class="hl opt">)</span>
     <span class="hl kwa">if</span> end <span class="hl opt">== -</span><span class="hl num">1</span><span class="hl opt">:</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find source directory&quot;</span><span class="hl opt">,</span> file_path<span class="hl opt">)</span>
         sys<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>

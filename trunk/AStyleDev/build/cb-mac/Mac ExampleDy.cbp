@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="MacExampleDylib" />
+		<Option title="Mac ExampleDy" />
 		<Option pch_mode="2" />
 		<Option compiler="clang" />
 		<Build>
@@ -21,7 +21,7 @@
 					<Add option="-Wno-missing-noreturn" />
 				</Compiler>
 				<Linker>
-					<Add library="astyle" />
+					<Add library="astyle-2.05" />
 					<Add directory="debug" />
 				</Linker>
 			</Target>
@@ -40,7 +40,7 @@
 					<Add option="-Wno-missing-noreturn" />
 				</Compiler>
 				<Linker>
-					<Add library="astyle" />
+					<Add library="astyle-2.05" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>

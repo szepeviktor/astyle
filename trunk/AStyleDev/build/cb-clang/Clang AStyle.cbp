@@ -29,7 +29,7 @@
 					<Add option="-s" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/astyle  ../../src-py/" />
+					<Add after="cp  bin/astyle  ../../src-p/" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>

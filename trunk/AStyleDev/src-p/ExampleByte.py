@@ -48,7 +48,7 @@ def main():
         # if an error occurs, the return is a type(None) object
         if type(formatted_bytes) is type(None):
             print("Error in formatting", file_path)
-            sys.exit(1)
+            os._exit(1)
         save_source_code_bytes(formatted_bytes, file_path)
         print("Formatted", file_path)
 
@@ -83,14 +83,14 @@ def get_astyle_version_bytes(libc):
 
 def get_project_directory(file_name):
     """Find the directory path and prepend it to the file name.
-       The source is expected to be in the "src-py" directory.
+       The source is expected to be in the "src-p" directory.
        This may need to be changed for your directory structure.
     """
     file_path = sys.path[0]
-    end = file_path.find("src-py")
+    end = file_path.find("src-p")
     if end == -1:
         print("Cannot find source directory", file_path)
-        sys.exit(1)
+        os._exit(1)
     file_path = file_path[0:end]
     file_path = file_path + "test-data" + os.sep + file_name
     return file_path
@@ -111,7 +111,7 @@ def get_source_code_bytes(file_path):
         # "No such file or directory: <file>"
         print(err)
         print("Cannot open", file_path)
-        sys.exit(1)
+        os._exit(1)
     file_in.close()
     return bytes_in
 
@@ -151,17 +151,17 @@ def load_linux_so():
     """Load the shared object for Linux platforms.
        The shared object must be in the same folder as this python script.
     """
-    shared = os.path.join(sys.path[0], "libastyle.so")
+    shared = os.path.join(sys.path[0], "libastyle-2.05.so")
     # os.name does not always work for mac
     if sys.platform == "darwin":
-        shared = shared.replace("libastyle.so", "libastyle.dylib")
+        shared = shared.replace(".so", ".dylib")
     try:
         libc = cdll.LoadLibrary(shared)
     except OSError as err:
         # "cannot open shared object file: No such file or directory"
         print(err)
         print("Cannot find", shared)
-        sys.exit(1)
+        os._exit(1)
     return libc
 
 # -----------------------------------------------------------------------------
@@ -172,7 +172,7 @@ def load_windows_dll():
        An exception is handled if the dll bits do not match the Python
        executable bits (32 vs 64).
     """
-    dll = "AStyle.dll"
+    dll = "AStyle-2.05.dll"
     try:
         libc = windll.LoadLibrary(dll)
     # exception for CPython
@@ -185,18 +185,18 @@ def load_windows_dll():
             print("You may be mixing 32 and 64 bit code")
         else:
             print(err.strerror)
-        sys.exit(1)
+        os._exit(1)
     # exception for IronPython
     except OSError as err:
         print("Cannot load library", dll)
         print("If the library is available you may be mixing 32 and 64 bit code")
-        sys.exit(1)
+        os._exit(1)
     # exception for IronPython
     # this sometimes occurs with IronPython during debug
     # rerunning will probably fix
     except TypeError as err:
         print("TypeError - rerunning will probably fix")
-        sys.exit(1)
+        os._exit(1)
     return libc
 
 # -----------------------------------------------------------------------------
@@ -238,7 +238,7 @@ def error_handler(num, err):
     if __is_unicode__:
         err = err.decode()
     print(err)
-    sys.exit(1)
+    os._exit(1)
 
 # -----------------------------------------------------------------------------
 
@@ -296,4 +296,4 @@ MEMORY_ALLOCATION = MEMORY_ALLOCATION_CALLBACK(memory_allocation)
 # make the module executable
 if __name__ == "__main__":
     main()
-    sys.exit(0)
+    os._exit
