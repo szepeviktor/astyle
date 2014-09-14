@@ -8,10 +8,10 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/AStyleTestd" prefix_auto="1" extension_auto="1" />
-				<Option object_output="objd/" />
+				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="clang" />
-				<Option parameters="--terse_printer" />
+				<Option parameters="--terse_output" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
@@ -30,11 +30,10 @@
 			</Target>
 			<Target title="Release">
 				<Option output="bin/AStyleTest" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/" />
+				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="clang" />
 				<Compiler>
-					<Add option="-O2" />
 					<Add option="-Wall" />
 					<Add option="-Wextra" />
 					<Add option="-DASTYLE_LIB" />

@@ -4477,29 +4477,6 @@ TEST(FillEmptyLines, ForceTabX)
 	delete [] textOut;
 }
 
-TEST(FillEmptyLines, EventTable)
-{
-	// test fill empty lines in an event table
-	char textIn[] =
-		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
-		"    EVT_PAINT(JP5Frm::WindowPaint)\n"
-		"\n"
-		"\n"
-		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
-		"END_EVENT_TABLE()\n";
-	char text[] =
-		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
-		"    EVT_PAINT(JP5Frm::WindowPaint)\n"
-		"    \n"
-		"    \n"
-		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
-		"END_EVENT_TABLE()\n";
-	char options[] = "fill-empty-lines";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
 TEST(FillEmptyLines, SQL)
 {
 	// test fill empty lines in an SQL statement

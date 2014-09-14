@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Gcc AStyleTest All">
+		<Project filename="Gcc AStyleTest.cbp">
+			<Depends filename="Gcc GMockA.cbp" />
+		</Project>
+		<Project filename="Gcc AStyleTestCon.cbp">
+			<Depends filename="Gcc GMockA.cbp" />
+		</Project>
+		<Project filename="Gcc AStyleTestI18n.cbp">
+			<Depends filename="Gcc GMockA.cbp" />
+		</Project>
+		<Project filename="Gcc AStyleTestLib.cbp">
+			<Depends filename="Gcc GMockA.cbp" />
+		</Project>
 		<Project filename="Gcc GMockA.cbp" />
-		<Project filename="Gcc AStyleTest.cbp" />
-		<Project filename="Gcc AStyleTestCon.cbp" />
-		<Project filename="Gcc AStyleTestI18n.cbp" />
-		<Project filename="Gcc AStyleTestLib.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

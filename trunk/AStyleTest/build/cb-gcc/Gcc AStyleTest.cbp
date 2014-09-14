@@ -8,10 +8,10 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/AStyleTestd" prefix_auto="1" extension_auto="1" />
-				<Option object_output="objd/" />
+				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="--terse_printer" />
+				<Option parameters="--terse_output" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
@@ -29,11 +29,11 @@
 			</Target>
 			<Target title="Release">
 				<Option output="bin/AStyleTest" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/" />
+				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters=" --gtest_print_time=0" />
 				<Compiler>
-					<Add option="-O3" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-DASTYLE_LIB" />
@@ -49,12 +49,12 @@
 					<Add directory="bin" />
 				</Linker>
 			</Target>
-			<Target title="Profile">
-				<Option output="bin/AStyleTestp" prefix_auto="1" extension_auto="1" />
-				<Option object_output="objp/" />
+			<Target title="Coverage">
+				<Option output="bin/AStyleTestc" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Coverage/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="--terse_printer" />
+				<Option parameters="--terse_output" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />

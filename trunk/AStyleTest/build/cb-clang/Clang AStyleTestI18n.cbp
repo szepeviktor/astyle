@@ -8,9 +8,10 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/AStyleTestI18nd" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objI18nd/" />
+				<Option object_output="objI18n/Debug/" />
 				<Option type="1" />
-				<Option parameters="--xxxterse_printer" />
+				<Option compiler="clang" />
+				<Option parameters="--terse_output" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
@@ -28,8 +29,9 @@
 			</Target>
 			<Target title="Release">
 				<Option output="bin/AStyleTestI18n" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objI18n/" />
+				<Option object_output="objI18n/Release/" />
 				<Option type="1" />
+				<Option compiler="clang" />
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-Wextra" />

@@ -8,10 +8,10 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/AStyleTestI18nd" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objI18nd/" />
+				<Option object_output="objI18n/Debug/" />
 				<Option type="1" />
 				<Option compiler="icc" />
-				<Option parameters="--terse_printer" />
+				<Option parameters="--terse_output" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-w2" />
@@ -31,11 +31,10 @@
 			</Target>
 			<Target title="Release">
 				<Option output="bin/AStyleTestI18n" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objI18n/" />
+				<Option object_output="objI18n/Release/" />
 				<Option type="1" />
 				<Option compiler="icc" />
 				<Compiler>
-					<Add option="-O3" />
 					<Add option="-Wall" />
 					<Add option="-Wextra" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />

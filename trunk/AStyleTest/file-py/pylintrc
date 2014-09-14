@@ -1,0 +1,43 @@
+# Changed options for pylint
+
+[MASTER]
+# Pickle collected data for later comparisons.
+# Creates .pylint.d directory.
+persistent=no
+
+[MESSAGES CONTROL]
+# Disable the message, report, category or checker with the given id(s)
+# disable=  warning R0801: Similar lines in 2 files
+disable=R0801
+
+[REPORTS]
+# Tells whether to display a full report or only the messages
+# reports= yes to no
+reports=no
+
+[BASIC]
+# Regular expression which should only match correct module level (global) names
+#const-rgx= (([A-Z_][A-Z0-9_]*)|(__.*__))$  to
+#           (([A-Z_][A-Z0-9_]*)|(__.*__)|(_.*))$  add  |(__.*)
+const-rgx=(([A-Z_][A-Z0-9_]*)|(__.*__)|(_.*))$
+
+# Good variable names which should always be accepted, separated by a comma
+good-names=i,j,k,ex,Run,_,tm,fd
+
+[FORMAT]
+# Maximum number of characters on a single line.
+# max-line-length=  80 to 120
+max-line-length=120
+
+# String used as indentation unit. This is usually " " (4 spaces) or "\t" (1 tab)
+# indent-string=  4 spaces to tab
+indent-string='\t'
+
+[VARIABLES]
+# A regular expression matching the beginning of the name of dummy variables
+# (i.e. not used).
+dummy-variables-rgx=_$|dummy|unused
+
+[DESIGN]
+# Maximum number of branch for function / method body
+max-branches=20

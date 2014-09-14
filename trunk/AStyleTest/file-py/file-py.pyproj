@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{e87f1a3e-37fd-4fee-a404-dd5260b01e5d}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>modify_shared_version.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId>{9a7a9026-48c1-4688-9d5d-e5699d47d074}</InterpreterId>
+    <InterpreterVersion>3.4</InterpreterVersion>
+    <PtvsTargetsFile>$(VSToolsPath)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+    <VSToolsPath Condition=" '$(VSToolsPath)' == '' ">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="astyle_beautifier.py" />
+    <Compile Include="astyle_console.py" />
+    <Compile Include="astyle_enhancer.py" />
+    <Compile Include="astyle_formatter.py" />
+    <Compile Include="astyle_localizer.py" />
+    <Compile Include="astyle_protected.py" />
+    <Compile Include="astyle_resource.py" />
+    <Compile Include="astyle_streamiter.py" />
+    <Compile Include="cppcheck.py" />
+    <Compile Include="csharp_testdata.py" />
+    <Compile Include="diff1_print.py" />
+    <Compile Include="diff2_print.py" />
+    <Compile Include="dist_copy.py" />
+    <Compile Include="file_extract.py" />
+    <Compile Include="libastyle.py" />
+    <Compile Include="libextract.py" />
+    <Compile Include="libtest.py" />
+    <Compile Include="locale_enum_i18n.py" />
+    <Compile Include="locale_testi18n_ec.py" />
+    <Compile Include="locale_testi18n_mingw.py" />
+    <Compile Include="locale_testi18n_vc.py" />
+    <Compile Include="modify_shared_version.py" />
+    <Compile Include="regression1_test.py" />
+    <Compile Include="regression2_test.py" />
+    <Compile Include="system_test.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />
+    <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\3.4" />
+    <InterpreterReference Include="{fcc291aa-427c-498c-a4d7-4502d6449b8c}\2.7" />
+  </ItemGroup>
+  <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <PtvsTargetsFile>$(VSToolsPath)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
+  <Import Condition="Exists($(PtvsTargetsFile))" Project="$(PtvsTargetsFile)" />
+  <Import Condition="!Exists($(PtvsTargetsFile))" Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>

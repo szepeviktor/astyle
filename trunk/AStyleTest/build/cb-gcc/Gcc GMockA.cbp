@@ -9,7 +9,7 @@
 			<Target title="Debug">
 				<Option output="bin/gmockd" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="objGMd/" />
+				<Option object_output="obj/Debug/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -28,11 +28,10 @@
 			<Target title="Release">
 				<Option output="bin/gmock" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="objGM/" />
+				<Option object_output="obj/Release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-O2" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-Wno-unused-function" />
@@ -48,8 +47,11 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="../../../gmock/gtest/src/gtest-all.cc" />
-		<Unit filename="../../../gmock/src/gmock-all.cc" />
+		<VirtualTargets>
+			<Add alias="Coverage" targets="Debug;" />
+		</VirtualTargets>
+		<Unit filename="../../../gmock-1.7.0/gtest/src/gtest-all.cc" />
+		<Unit filename="../../../gmock-1.7.0/src/gmock-all.cc" />
 		<Extensions>
 			<code_completion />
 			<envvars />

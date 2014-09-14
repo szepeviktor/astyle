@@ -94,11 +94,13 @@ utf16_t* Utf8ToUtf16(char* utf8In)
 {
 	size_t mbLen = strlen(utf8In);
 	iconv_t iconvh = iconv_open("UTF−16", "UTF−8");
-	if (iconvh == (iconv_t) - 1)
+	if (iconvh == reinterpret_cast<iconv_t>(-1))
 		systemAbort("Bad iconv_open in Utf8ToUtf16()");
 	// allocate memory for output
 	size_t wcLen = (mbLen * sizeof(utf16_t)) + sizeof(utf16_t);
-	char* wcOut = new char[wcLen];
+	char* wcOut = new(nothrow) char[wcLen];
+	if (wcOut == NULL)
+		systemAbort("Bad allocation in Utf8ToUtf16()");
 	// convert to utf-8
 	char* wcConv = wcOut;
 	size_t wcLeft = wcLen;
@@ -118,9 +120,9 @@ utf16_t* Utf8ToUtf16(char* utf8In)
 	{
 //		cout << "REMOVING UTF-16 BOM" << endl;
 		int wc16OutLen = utf16len(wc16Out) * sizeof(utf16_t);
-		memcpy(wc16Out, wc16Out + 1, wc16OutLen);
+		memmove(wc16Out, wc16Out + 1, wc16OutLen - 1);
 	}
-	return reinterpret_cast<utf16_t*>(wcOut);
+	return wc16Out;
 }
 
 char* Utf16ToUtf8(utf16_t* utf16In)
@@ -129,11 +131,13 @@ char* Utf16ToUtf8(utf16_t* utf16In)
 {
 	size_t wcLen = utf16len(utf16In) * sizeof(utf16_t);
 	iconv_t iconvh = iconv_open("UTF−8", "UTF−16");
-	if (iconvh == (iconv_t) - 1)
-		systemAbort("Bad iconv_open in Utf16ToUtf8Str()");
+	if (iconvh == reinterpret_cast<iconv_t>(-1))
+		systemAbort("Bad iconv_open in Utf16ToUtf8()");
 	// allocate memory for output
 	size_t mbLen = wcLen * sizeof(utf16_t);
-	char* mbOut = new char[mbLen];
+	char* mbOut = new(nothrow) char[mbLen];
+	if (mbOut == NULL)
+		systemAbort("Bad allocation in Utf16ToUtf8()");
 	// convert to utf-8
 	char* mbConv = mbOut;
 	size_t mbLeft = mbLen;
@@ -141,7 +145,7 @@ char* Utf16ToUtf8(utf16_t* utf16In)
 	size_t wcLeft = wcLen;
 	int iconvval = iconv(iconvh, &wcConv, &wcLeft, &mbConv, &mbLeft);
 	if (iconvval == -1)
-		systemAbort("Bad iconv in Utf16ToUtf8Str()");
+		systemAbort("Bad iconv in Utf16ToUtf8()");
 	*mbConv = '\0';
 	iconv_close(iconvh);
 	return mbOut;
@@ -345,16 +349,16 @@ TEST_F(AStyleMainUtf16F1, InvalidOption)
 	char options[] = "invalid-option, indent=tab";
 	// convert 16 bit options
 	ASLibrary library;
-	utf16_t* options16 = library.convertUtf8ToUtf16(options, memoryAlloc);
+	utf16_t* options16_ = library.convertUtf8ToUtf16(options, memoryAlloc);
 	// test error handling for an invalid option
 	int errorsIn = getErrorHandler2Calls();
-	utf16_t* text16Out = ::AStyleMainUtf16(text16, options16, errorHandler2, memoryAlloc);
+	utf16_t* text16Out = ::AStyleMainUtf16(text16, options16_, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	// convert text16Out to utf-8
 	char* text8Out = library.convertUtf16ToUtf8(text16Out);
 	EXPECT_STREQ(text, text8Out);
-	delete [] options16;
+	delete [] options16_;
 	delete [] text16Out;
 	delete [] text8Out;
 }

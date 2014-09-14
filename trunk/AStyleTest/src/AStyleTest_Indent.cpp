@@ -2117,6 +2117,532 @@ TEST(IndentLabels, Sans)
 //}
 
 //-------------------------------------------------------------------------
+// AStyle Indent Preprocessor Block
+//-------------------------------------------------------------------------
+
+TEST(IndentPreprocBlock, LongOption)
+{
+	// test indent preprocessor block
+	char textIn[] =
+		"\n#ifdef _WIN32\n"
+		"#define STDCALL __stdcall\n"
+		"#else\n"
+		"#define STDCALL\n"
+		"#endif";
+	char text[] =
+		"\n#ifdef _WIN32\n"
+		"    #define STDCALL __stdcall\n"
+		"#else\n"
+		"    #define STDCALL\n"
+		"#endif";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, ShortOption)
+{
+	// test indent preprocessor block
+	char textIn[] =
+		"\n#ifdef _WIN32\n"
+		"#define STDCALL __stdcall\n"
+		"#else\n"
+		"#define STDCALL\n"
+		"#endif";
+	char text[] =
+		"\n#ifdef _WIN32\n"
+		"    #define STDCALL __stdcall\n"
+		"#else\n"
+		"    #define STDCALL\n"
+		"#endif";
+	char options[] = "-xW";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, NoBeginningEmptyLine)
+{
+	// test indent preprocessor block without a beginning empty line
+	char text[] =
+		"#ifdef _WIN32\n"
+		"    #define STDCALL __stdcall\n"
+		"#endif\n";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, ConsecutiveStatements)
+{
+	// test indent preprocessor block with consecutive statements
+	char text[] =
+		"\n#ifdef _WIN32\n"
+		"    #define STDCALL __stdcall\n"
+		"#endif\n"
+		"#ifndef _WIN32\n"
+		"    #define STDCALL\n"
+		"#endif";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, NestedIndent)
+{
+	// test indent preprocessor block with nested indent
+	char text[] =
+		"\n#ifdef _WIN32\n"
+		"    #ifdef __DMC__\n"
+		"        #ifdef FOO\n"
+		"            // digital mars doesn't have this\n"
+		"            const size_t SUBLANG_CHINESE_MACAU = 5;\n"
+		"        #endif\n"
+		"    #endif\n"
+		"#endif";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, ContainsElif)
+{
+	// test indent preprocessor block with #elif
+	char text[] =
+		"\n#ifdef _WIN32\n"
+		"    #define MOZ_IMPORT_API __declspec(dllimport)\n"
+		"#elif defined(XP_OS2)\n"
+		"    #define MOZ_IMPORT_API  __declspec(dllimport)\n"
+		"#else\n"
+		"    #define MOZ_IMPORT_API MOZ_EXPORT\n"
+		"#endif";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, ContainsBrackets)
+{
+	// test indent preprocessor block contains brackets, should not be indented
+	char text[] =
+		"\n#ifndef ASTYLE_LIB\n"
+		"// rewrite a stringstream converting the line ends\n"
+		"void Foo()\n"
+		"{\n"
+		"    string outStr;\n"
+		"}\n"
+		"#endif";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, ContainsSingleLineBlock)
+{
+	// test indent preprocessor block contains single line block, should not be indented
+	char text[] =
+		"\n#ifdef __WIN32__\n"
+		"#include <windows.h>\n"
+		"inline void set_env(char* k, char* v) { SetEnvironmentVariable(k, v); }\n"
+		"#else\n"
+		"#include <stdlib.h>\n"
+		"inline void set_env(char* k, char* v) { setenv(k, v, 1); }\n"
+		"#endif";
+	char options[] = "keep-one-line-blocks, indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, ContainsMultiLineDefine)
+{
+	// test indent preprocessor block contains multi-line define
+	// should not be indented
+	char text[] =
+		"\n#if DEBUG_OUTPUT == 1\n"
+		"#define TRACE(format, args...) \\\n"
+		"    DebugLog(F(format, ##args))\n"
+		"#else\n"
+		"#define TRACE(format, args...)\n"
+		"#endif";
+	char options[] = "indent-preproc-define, indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, ConstructorInitializer1)
+{
+	// test indent preprocessor block in a constructor initializer
+	// should be indented as code, not as a preprocessor block
+	char text[] =
+		"\ncbAuiNotebook::cbAuiNotebook()\n"
+		"    : wxAuiNotebook(pParent),\n"
+		"      m_LastSelected(wxNOT_FOUND),\n"
+		"#ifdef __WXMSW__\n"
+		"      m_HasToolTip(true),\n"
+		"#endif\n"
+		"      m_SetZoomOnIdle(false)\n"
+		"{}";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, ConstructorInitializer2)
+{
+	// test indent preprocessor block in a constructor initializer
+	// should be indented as code, not as a preprocessor block
+	char text[] =
+		"\nwxPGCombo::wxPGCombo( wxPGCombo *parent, int style )\n"
+		"#if wxUSE_POPUPWIN\n"
+		"    : wxPGCombo(parent, style)\n"
+		"#else\n"
+		"    : wxPGCombo(parent,\n"
+		"                wxID_ANY,\n"
+		"                wxEmptyString,\n"
+		"                style)\n"
+		"#endif";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, FollowsNonIndentablePreprocessor)
+{
+	// test indent preprocessor block that follows a non-indentable statement
+	char text[] =
+		"#include <foo>\n"
+		"#if !defined EXITED\n"
+		"    #define EXITED(x) 1\n"
+		"#endif\n"
+		"#include <foo1>\n"
+		"#if !defined EXITED1\n"
+		"    #define EXITED1(x) 1\n"
+		"#endif";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, HeaderIncludeGuard)
+{
+	// test indent preprocessor with a header include guard
+	// the include guard should be bypassed and included directives indented
+	// THIS FILE MUST BE LONG ENOUGH TO EXCEED THE INCLUDE GUARD LIMIT
+	char text[] =
+		"\n/* * * * * * * * * * * * * * * * * * *\n"
+		" *   astyle.h\n"
+		" * * * * * * * * * * * * * * * * * * */\n"
+		"\n"
+		"#ifndef ASTYLE_H\n"
+		"#define ASTYLE_H\n"
+		"\n"
+		"#ifdef _MSC_VER\n"
+		"    #pragma warning(disable: 4996)\n"
+		"    #pragma warning(disable: 4267)\n"
+		"#endif\n"
+		"\n"
+		"#ifdef __INTEL_COMPILER\n"
+		"    #pragma warning(disable:  383)\n"
+		"    #pragma warning(disable:  981)\n"
+		"#endif\n"
+		"\n"
+		"#endif // closes ASTYLE_H\n"
+		"\n"
+		"/* * * * * * * * * * * * * * * * * * *\n"
+		" *  comments at end\n"
+		" * * * * * * * * * * * * * * * * * * */\n";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, Namespace)
+{
+	// test indent preprocessor block within a namespace
+	char text[] =
+		"\nnamespace Foo {\n"
+		"\n"
+		"#ifdef _WIN32\n"
+		"    #define STDCALL __stdcall\n"
+		"#else\n"
+		"    #define STDCALL\n"
+		"#endif\n"
+		"\n"
+		"}   // end namespace";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, NamespaceIncludeGuard)
+{
+	// test indent preprocessor block within a namespace and include guard
+	// THIS FILE MUST BE LONG ENOUGH TO EXCEED THE INCLUDE GUARD LIMIT
+	char text[] =
+		"\n#ifndef ASTYLE_H\n"
+		"#define ASTYLE_H\n"
+		"\n"
+		"namespace Foo {\n"
+		"\n"
+		"#ifdef _WIN32\n"
+		"    #define STDCALL __stdcall\n"
+		"#else\n"
+		"    #define STDCALL\n"
+		"#endif\n"
+		"\n"
+		"#ifdef _WIN32\n"
+		"    #ifdef __DMC__\n"
+		"        #ifdef FOO\n"
+		"            // digital mars doesn't have this\n"
+		"            const size_t SUBLANG_CHINESE_MACAU = 5;\n"
+		"        #endif\n"
+		"    #endif\n"
+		"#endif\n"
+		"\n"
+		"}   // end namespace\n"
+		"\n"
+		"#endif // closes ASTYLE_H";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, EmbeddedPreprocessor)
+{
+	// test indent preprocessor block within a unindented preprocessor
+	// the embedded preprocessor beginning with _WIN32 should be indented
+	// THIS FILE MUST BE LONG ENOUGH TO EXCEED THE INCLUDE GUARD LIMIT
+	char textIn[] =
+		"\n#ifndef ASTYLE_H\n"
+		"#define ASTYLE_H\n"
+		"\n"
+		"#ifdef _MACRO\n"
+		"\n"
+		"#ifdef _WIN32\n"
+		"#ifdef __DMC__\n"
+		"#ifdef FOO\n"
+		"// digital mars doesn't have this\n"
+		"const size_t SUBLANG_CHINESE_MACAU = 5;\n"
+		"#endif\n"
+		"#endif\n"
+		"#endif\n"
+		"\n"
+		"// so _MACRO will not indent\n"
+		"void Foo()\n"
+		"{}\n"
+		"\n"
+		"#endif  // _MACRO\n"
+		"\n"
+		"#endif // closes ASTYLE_H";
+	char text[] =
+		"\n#ifndef ASTYLE_H\n"
+		"#define ASTYLE_H\n"
+		"\n"
+		"#ifdef _MACRO\n"
+		"\n"
+		"#ifdef _WIN32\n"
+		"    #ifdef __DMC__\n"
+		"        #ifdef FOO\n"
+		"            // digital mars doesn't have this\n"
+		"            const size_t SUBLANG_CHINESE_MACAU = 5;\n"
+		"        #endif\n"
+		"    #endif\n"
+		"#endif\n"
+		"\n"
+		"// so _MACRO will not indent\n"
+		"void Foo()\n"
+		"{}\n"
+		"\n"
+		"#endif  // _MACRO\n"
+		"\n"
+		"#endif // closes ASTYLE_H";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, PaddedPoundSign1)
+{
+	// test indent preprocessor block with the '#' separated from the statement
+	char textIn[] =
+		"\n#if defined( DEBUG_PARSER )\n"
+		"#   if defined( DEBUG ) && defined( _MSC_VER )\n"
+		"#       include <windows.h>\n"
+		"#   endif\n"
+		"#endif\n";
+	char text[] =
+		"\n#if defined( DEBUG_PARSER )\n"
+		"    #if defined( DEBUG ) && defined( _MSC_VER )\n"
+		"        #include <windows.h>\n"
+		"    #endif\n"
+		"#endif\n";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, PaddedPoundSign2)
+{
+	// test indent preprocessor block with the '#' separated from the statement
+	// with no ending carriage return
+	char textIn[] =
+		"\n#if defined( DEBUG_PARSER )\n"
+		"#   if defined( DEBUG ) && defined( _MSC_VER )\n"
+		"#       include <windows.h>\n"
+		"#   endif\n"
+		"#endif";
+	char text[] =
+		"\n#if defined( DEBUG_PARSER )\n"
+		"    #if defined( DEBUG ) && defined( _MSC_VER )\n"
+		"        #include <windows.h>\n"
+		"    #endif\n"
+		"#endif";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, PaddedPoundSignEnd1)
+{
+	// test end of indent preprocessor block with the '#' separated from the statement
+	// the final 'define' shpuld not be unpadded
+	char textIn[] =
+		"\n#if defined( DEBUG_PARSER )\n"
+		"#   include <windows.h>\n"
+		"#endif\n"
+		"#    define FOO\n";
+	char text[] =
+		"\n#if defined( DEBUG_PARSER )\n"
+		"    #include <windows.h>\n"
+		"#endif\n"
+		"#    define FOO\n";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, PaddedPoundSignEnd2)
+{
+	// test end of indent preprocessor block with the '#' separated from the statement
+	// with no ending carriage return
+	// the final 'define' should not be unpadded
+	char textIn[] =
+		"\n#if defined( DEBUG_PARSER )\n"
+		"#   include <windows.h>\n"
+		"#endif\n"
+		"#    define FOO";
+	char text[] =
+		"\n#if defined( DEBUG_PARSER )\n"
+		"    #include <windows.h>\n"
+		"#endif\n"
+		"#    define FOO";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, FillEmptyLines)
+{
+	// test indent preprocessor block with fill-empty-lines
+	char textIn[] =
+		"\n#ifdef _WIN32\n"
+		"#define FOO\n"
+		"\n"
+		"#define BAR\n"
+		"#endif\n";
+	char text[] =
+		"\n#ifdef _WIN32\n"
+		"    #define FOO\n"
+		"    \n"
+		"    #define BAR\n"
+		"#endif\n";
+	char options[] = "fill-empty-lines, indent-preproc-block";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, SansFillEmptyLines)
+{
+	// test indent preprocessor block without fill-empty-lines
+	char textIn[] =
+		"\n#ifdef _WIN32\n"
+		"    #define FOO\n"
+		"    \n"
+		"    #define BAR\n"
+		"#endif\n";
+	char text[] =
+		"\n#ifdef _WIN32\n"
+		"    #define FOO\n"
+		"\n"
+		"    #define BAR\n"
+		"#endif\n";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, Misc1)
+{
+	// this sequence caused a problem while testing
+	char text[] =
+		"\n#ifdef __WIN32__\n"
+		"void set_env() { SetEnvironmentVariable(k, v); }\n"
+		"#endif\n"
+		"\n"
+		"#if !defined WEXITSTATUS\n"
+		"    #define WEXITSTATUS(x) x\n"
+		"#endif\n"
+		"\n"
+		"int main(int argc, char** argv)\n"
+		"{\n"
+		"    string outputFile;\n"
+		"}";
+	char options[] = "keep-one-line-blocks, indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, Misc2)
+{
+	// this sequence caused a problem while testing
+	char text[] =
+		"\nFILE* TiXmlFOpen()\n"
+		"{\n"
+		"#if defined(_MSC_VER)\n"
+		"    if (!err && fp)\n"
+		"        return fp;\n"
+		"    return 0;\n"
+		"#endif\n"
+		"}";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
 // AStyle Indent Preprocessor Define
 //-------------------------------------------------------------------------
 
