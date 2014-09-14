@@ -32,7 +32,7 @@
 				</Linker>
 				<ExtraCommands>
 					<Add after="cmd /c  del *.map" />
-					<Add after="cmd /c  copy /y  bin\AStyle.exe  ..\..\src-py\   &gt; NUL" />
+					<Add after="cmd /c  copy /y  bin\AStyle.exe  ..\..\src-p\   &gt; NUL" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>

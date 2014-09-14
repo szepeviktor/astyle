@@ -44,7 +44,7 @@ def display_astyle_version(exe):
     retval = subprocess.call(astyle)
     if retval:
         print("Bad astyle return: " + str(retval))
-        sys.exit(1)
+        os._exit(1)
 
 # -----------------------------------------------------------------------------
 
@@ -59,20 +59,20 @@ def format_source_code(exe, file_path, options):
     retval = subprocess.call(astyle)
     if retval:
         print("Bad astyle return: " + str(retval))
-        sys.exit(1)
+        os._exit(1)
 
 # -----------------------------------------------------------------------------
 
 def get_project_directory(file_name):
     """Find the directory path and prepend it to the file name.
-       The source is expected to be in the "src-py" directory.
+       The source is expected to be in the "src-p" directory.
        This may need to be changed for your directory structure.
     """
     file_path = sys.path[0]
-    end = file_path.find("src-py")
+    end = file_path.find("src-p")
     if end == -1:
         print("Cannot find source directory", file_path)
-        sys.exit(1)
+        os._exit(1)
     file_path = file_path[0:end]
     file_path = file_path + "test-data" + os.sep + file_name
     return file_path
@@ -95,7 +95,7 @@ def initialize_exe():
     # verify the astyle executable is available
     if not os.path.isfile(exe):
         print("Cannot find", exe)
-        sys.exit(1)
+        os._exit(1)
     return exe
 
 # -----------------------------------------------------------------------------
@@ -103,4 +103,4 @@ def initialize_exe():
 # make the module executable
 if __name__ == "__main__":
     main()
-    sys.exit(0)
+    os._exit(0)

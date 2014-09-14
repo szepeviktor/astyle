@@ -51,10 +51,8 @@
   <PropertyGroup>
     <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)bin\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AStyled</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AStyle</TargetName>
@@ -70,7 +68,6 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -79,11 +76,9 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).exe.pdb</ProgramDatabaseFile>
-      <ImportLibrary>$(IntDir)$(TargetName).exe.lib</ImportLibrary>
-      <ProfileGuidedDatabase>$(TargetDir)$(TargetName).exe.pgd</ProfileGuidedDatabase>
     </Link>
     <PostBuildEvent>
-      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-py\ 
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-p\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -97,7 +92,6 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>true</OmitFramePointers>
     </ClCompile>
@@ -110,11 +104,9 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).exe.pdb</ProgramDatabaseFile>
-      <ImportLibrary>$(IntDir)$(TargetName).exe.lib</ImportLibrary>
-      <ProfileGuidedDatabase>$(TargetDir)$(TargetName).exe.pgd</ProfileGuidedDatabase>
     </Link>
     <PostBuildEvent>
-      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-py\ 
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-p\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

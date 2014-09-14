@@ -29,7 +29,7 @@
 					<Add option="-s" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/astyle  ../../src-py" />
+					<Add after="cp  bin/astyle  ../../src-p" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
@@ -51,57 +51,6 @@
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 				</Compiler>
-			</Target>
-			<Target title="Lint">
-				<Option output="bin/astyled" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objl" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-Wshadow" />
-					<Add option="-Winit-self" />
-					<Add option="-Wredundant-decls" />
-					<Add option="-Wcast-align" />
-					<Add option="-Wundef" />
-					<Add option="-Wfloat-equal" />
-					<Add option="-Winline" />
-					<Add option="-Wunreachable-code" />
-					<Add option="-Wmissing-declarations" />
-					<Add option="-Wmissing-include-dirs" />
-					<Add option="-Wswitch-enum" />
-					<Add option="-Wswitch-default" />
-					<Add option="-Wmain" />
-					<Add option="-pedantic" />
-					<Add option="-std=c++0x" />
-					<Add option="-std=c++98" />
-					<Add option="-Wextra" />
-					<Add option="-Wall" />
-					<Add option="-Wint-to-pointer-cast" />
-					<Add option="-Woverloaded-virtual" />
-					<Add option="-Wwrite-strings" />
-					<Add option="-fno-exceptions" />
-					<Add option="-fno-rtti" />
-				</Compiler>
-			</Target>
-			<Target title="Profile">
-				<Option output="bin/astylep" prefix_auto="0" extension_auto="1" />
-				<Option object_output="objp" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Option parameters="-atOPR  /home/jimp/Projects/TestData/CodeBlocks/*.cpp  /home/jimp/Projects/TestData/CodeBlocks/*.h" />
-				<Compiler>
-					<Add option="-Wextra" />
-					<Add option="-Wall" />
-					<Add option="-pg" />
-					<Add option="-g" />
-					<Add option="-fprofile-arcs" />
-					<Add option="-ftest-coverage" />
-					<Add option="-DNDEBUG" />
-				</Compiler>
-				<Linker>
-					<Add option="-pg" />
-					<Add library="gcov" />
-				</Linker>
 			</Target>
 		</Build>
 		<VirtualTargets>

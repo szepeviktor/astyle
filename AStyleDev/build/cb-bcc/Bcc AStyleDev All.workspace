@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Bcc AStyleDev All">
+		<Project filename="Bcc AStyle.cbp" />
+		<Project filename="Bcc AStyle Dll.cbp" />
+		<Project filename="Bcc AStyle Java.cbp" />
+		<Project filename="Bcc AStyle Lib.cbp" />
+		<Project filename="Bcc Example Dll.cbp">
+			<Depends filename="Bcc AStyle Dll.cbp" />
+		</Project>
+		<Project filename="Bcc Example Lib.cbp">
+			<Depends filename="Bcc AStyle Lib.cbp" />
+		</Project>
+		<Project filename="Bcc Example Obj.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

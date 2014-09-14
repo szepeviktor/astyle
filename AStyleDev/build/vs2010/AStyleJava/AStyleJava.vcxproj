@@ -49,18 +49,16 @@
   <PropertyGroup>
     <_ProjectFileVersion>10.0.21006.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)bin\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AStylejd</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AStylej</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AStyle-2.05jd</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AStyle-2.05j</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\Java\jdk1.7.0_45\include;C:\Program Files (x86)\Java\jdk1.7.0_45\include\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Java\jdk1.7.0_55\include;C:\Program Files (x86)\Java\jdk1.7.0_55\include\win32</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;ASTYLE_JNI</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -69,7 +67,6 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain@16
@@ -81,7 +78,7 @@
       </DataExecutionPrevention>
     </Link>
     <PostBuildEvent>
-      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-j\ 
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-j\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -89,14 +86,13 @@
     <ClCompile>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\Java\jdk1.7.0_45\include;C:\Program Files (x86)\Java\jdk1.7.0_45\include\win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Java\jdk1.7.0_55\include;C:\Program Files (x86)\Java\jdk1.7.0_55\include\win32</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;ASTYLE_JNI</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>true</OmitFramePointers>
     </ClCompile>
@@ -110,7 +106,7 @@
       </DataExecutionPrevention>
     </Link>
     <PostBuildEvent>
-      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-j\ 
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-j\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

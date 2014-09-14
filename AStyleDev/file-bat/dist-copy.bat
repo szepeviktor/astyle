@@ -74,14 +74,14 @@ REM copy astyle-python
 echo.
 echo %distpython%
 if not exist %distpython%  md  %distpython%
-if exist %distpython%\src-py\*  del %distpython%\src-py\*  /q
+if exist %distpython%\src-p\*  del %distpython%\src-p\*  /q
 if exist %distpython%\test-data\*  del %distpython%\test-data\*  /q
 REM copy only the required programs
-xcopy ..\src-py\ExampleByte.py  %distpython%\src-py\  /q
+xcopy ..\src-py\ExampleByte.py  %distpython%\src-p\  /q
 if errorlevel 2 pause
-xcopy ..\src-py\ExampleExe.py  %distpython%\src-py\  /q
+xcopy ..\src-py\ExampleExe.py  %distpython%\src-p\  /q
 if errorlevel 2 pause
-xcopy ..\src-py\ExampleUnicode.py  %distpython%\src-py\  /q
+xcopy ..\src-py\ExampleUnicode.py  %distpython%\src-p\  /q
 if errorlevel 2 pause
 REM copy the files
 xcopy ..\test-data\*  %distpython%\test-data\  /q

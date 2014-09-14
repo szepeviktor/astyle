@@ -2,16 +2,17 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="MinGW AStyle Dll" />
+		<Option title="MinGW AStyle ObjC Dll" />
 		<Option pch_mode="0" />
-		<Option compiler="gcc" />
+		<Option default_target="AStyleOD" />
+		<Option compiler="gnu_gcc_gnustep_compiler" />
 		<Build>
-			<Target title="AStyleD">
-				<Option output="bin/AStyle-2.05.dll" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objDll" />
+			<Target title="AStyleOD">
+				<Option output="binO/AStyle-2.05.dll" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objODll/" />
 				<Option deps_output="dep" />
 				<Option type="3" />
-				<Option compiler="gcc" />
+				<Option compiler="gnu_gcc_gnustep_compiler" />
 				<Option projectCompilerOptionsRelation="1" />
 				<Option projectLinkerOptionsRelation="1" />
 				<Option projectIncludeDirsRelation="1" />
@@ -32,16 +33,14 @@
 					<Add directory="bin" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cmd /c  copy /y  bin\AStyle-2.05.dll  ..\..\src-c\ &gt; NUL" />
-					<Add after="cmd /c  copy /y  bin\AStyle-2.05.dll  ..\..\src-p\ &gt; NUL" />
-					<Add after="cmd /c  copy /y  bin\AStyle-2.05.dll  ..\..\src-s\  &gt; NUL" />
+					<Add after="cmd /c  copy /y  binO\AStyle-2.05.dll  ..\..\src-o\ &gt; NUL" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Lint">
-				<Option output="bin/AStyle-2.05.dll" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objDlll/" />
+				<Option output="binO/AStyle-2.05.dll" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objODll/" />
 				<Option type="3" />
-				<Option compiler="gcc" />
+				<Option compiler="gnu_gcc_gnustep_compiler" />
 				<Compiler>
 					<Add option="-Wshadow" />
 					<Add option="-Winit-self" />
@@ -69,7 +68,7 @@
 			</Target>
 		</Build>
 		<VirtualTargets>
-			<Add alias="All" targets="AStyleD;" />
+			<Add alias="All" targets="AStyleOD;" />
 		</VirtualTargets>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />

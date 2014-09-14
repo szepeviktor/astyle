@@ -2,38 +2,45 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="DMars Example Lib" />
+		<Option title="Bcc Example Lib" />
 		<Option pch_mode="0" />
 		<Option default_target="ExampleL" />
-		<Option compiler="dmc" />
+		<Option compiler="embarcadero_compiler_680" />
 		<Build>
 			<Target title="ExampleL">
 				<Option output="bin/ExampleL.exe" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objLib" />
+				<Option object_output="objlib" />
 				<Option type="1" />
-				<Option compiler="dmc" />
+				<Option compiler="embarcadero_compiler_680" />
 				<Option projectCompilerOptionsRelation="1" />
 				<Option projectLinkerOptionsRelation="1" />
 				<Option projectIncludeDirsRelation="1" />
-				<Option projectResourceIncludeDirsRelation="1" />
-				<Option projectLibDirsRelation="1" />
 				<Compiler>
-					<Add option="-x" />
-					<Add option="-w-" />
+					<Add option="-w" />
+					<Add option="-tWM" />
+					<Add option="-tWC" />
+					<Add option="-v-" />
+					<Add option="-O2" />
 					<Add option="-DNDEBUG" />
 				</Compiler>
 				<Linker>
-					<Add option="/delexecutable" />
-					<Add library="bin\AStyleLib" />
+					<Add option="-c" />
+					<Add option="-Gn" />
+					<Add option="-x" />
+					<Add library="cw32mt" />
+					<Add library="import32" />
+					<Add library="kernel32" />
+					<Add library="AStyleLib" />
+					<Add directory="bin" />
 				</Linker>
-				<ExtraCommands>
-					<Add after="cmd /c  del *.map" />
-				</ExtraCommands>
 			</Target>
 		</Build>
 		<VirtualTargets>
 			<Add alias="All" targets="ExampleL;" />
 		</VirtualTargets>
+		<ExtraCommands>
+			<Add after="cmd /c del  bin\*.tds" />
+		</ExtraCommands>
 		<Unit filename="../../src-c/Example.cpp" />
 		<Extensions>
 			<code_completion />

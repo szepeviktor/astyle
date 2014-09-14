@@ -4,8 +4,13 @@
 		<Project filename="MinGW AStyle.cbp" />
 		<Project filename="MinGW AStyle Dll.cbp" />
 		<Project filename="MinGW AStyle Java.cbp" />
-		<Project filename="MinGW Example Dll.cbp" />
-		<Project filename="MinGW Example Lib.cbp" />
+		<Project filename="MinGW AStyle Lib.cbp" />
+		<Project filename="MinGW Example Dll.cbp">
+			<Depends filename="MinGW AStyle Dll.cbp" />
+		</Project>
+		<Project filename="MinGW Example Lib.cbp">
+			<Depends filename="MinGW AStyle Lib.cbp" />
+		</Project>
 		<Project filename="MinGW Example Obj.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
