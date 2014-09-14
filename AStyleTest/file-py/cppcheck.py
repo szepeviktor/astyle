@@ -94,34 +94,55 @@ def process_astyle_main(astyle_main_list):
 		if line.startswith("//"):
 			continue
 		# unusedFunction warnings
-		if "ASConsole::getFilesFormatted" in line:
-			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getFilesFormatted\n")
-		if "ASConsole::getIgnoreExcludeErrors" in line:
-			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIgnoreExcludeErrors\n")
-		if "ASConsole::getIgnoreExcludeErrorsDisplay" in line:
-			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIgnoreExcludeErrorsDisplay\n")
-		if "ASConsole::getIsFormattedOnly" in line:
-			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIsFormattedOnly\n")
-		if "ASConsole::getIsQuiet" in line:
-			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIsQuiet\n")
-		if "ASConsole::getIsRecursive" in line:
-			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIsRecursive\n")
-		if "ASConsole::getIsVerbose" in line:
-			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getIsVerbose\n")
-		if "ASConsole::getLineEndsMixed" in line:
-			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getLineEndsMixed\n")
-		if "ASConsole::getNoBackup" in line:
-			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getNoBackup\n")
-		if "ASConsole::getPreserveDate" in line:
-			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getPreserveDate\n")
-		if "ASConsole::setBypassBrowserOpen" in line:
-			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// setBypassBrowserOpen\n")
-		if "Java_AStyleInterface_AStyleGetVersion" in line:
+		if "ASConsole::getExcludeHitsVector(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getExcludeHitsVector\n")
+		if "ASConsole::getExcludeVector(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getExcludeVector\n")
+		if "ASConsole::getFileName(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getFileName\n")
+		if "ASConsole::getFileNameVector(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getFileNameVector\n")
+		if "ASConsole::getFileOptionsVector(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getFileOptionsVector\n")
+		if "ASConsole::getFilesFormatted(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getFilesFormatted\n")
+		if "ASConsole::getIgnoreExcludeErrors(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getIgnoreExcludeErrors\n")
+		if "ASConsole::getIgnoreExcludeErrorsDisplay(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getIgnoreExcludeErrorsDisplay\n")
+		if "bool ASConsole::getIsDryRun(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getIsDryRun\n")
+		if "ASConsole::getIsFormattedOnly(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getIsFormattedOnly\n")
+		if "ASConsole::getIsQuiet(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getIsQuiet\n")
+		if "ASConsole::getIsRecursive(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getIsRecursive\n")
+		if "ASConsole::getIsVerbose(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getIsVerbose\n")
+		if "ASConsole::getLineEndsMixed(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getLineEndsMixed\n")
+		if "ASConsole::getNoBackup(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getNoBackup\n")
+		if "ASConsole::getOptionsFileName(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getOptionsFileName\n")
+		if "ASConsole::getOptionsVector(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getOptionsVecto\n")
+		if "ASConsole::getOrigSuffix(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getOrigSuffix\n")
+		if "ASConsole::getPreserveDate(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getPreserveDate\n")
+		if "ASConsole::setBypassBrowserOpen(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// setBypassBrowserOpen\n")
+		if "Java_AStyleInterface_AStyleGetVersion(" in line:
 			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// Java_AStyleInterface_AStyleGetVersion\n")
-		if "Java_AStyleInterface_AStyleMain" in line:
+		if "Java_AStyleInterface_AStyleMain(" in line:
 			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// Java_AStyleInterface_AStyleMain\n")
-		if "AStyleMainUtf16" in line and "STDCALL" in line:
+		if "AStyleGetVersion(" in line and "STDCALL" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// AStyleGetVersion\n")
+		if "AStyleMainUtf16(" in line and "STDCALL" in line:
 			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// AStyleMainUtf16\n")
+	file_in.close()
 
 # -----------------------------------------------------------------------------
 
@@ -141,6 +162,7 @@ def process_astyle_main_header(astyle_main_header_list):
 			continue
 		if line.startswith('origSuffix = ".orig"'):
 			astyle_main_header_list.append("useInitializationList:" + src_path + ":" +  str(lines) + "\t\t// origSuffix\n")
+	file_in.close()
 
 # -----------------------------------------------------------------------------
 
@@ -177,8 +199,6 @@ def process_beautifier(beautifier_list):
 			chars_processed += 1
 			if chars_processed == 1 or chars_processed == 3:
 				beautifier_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t// char ch\n")
-		if line.startswith("char tempCh"):
-			beautifier_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t// char tempCh\n")
 		# unusedFunction warnings
 		if "ASBeautifier::getBeautifierFileType" in line:
 			beautifier_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getBeautifierFileType\n")
@@ -205,6 +225,9 @@ def process_enhancer(enhancer_list):
 			chars_processed += 1
 			if chars_processed == 1:
 				enhancer_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t\t// char ch\n")
+		if "newSpaceIndentLength / tabLength" in line:
+			enhancer_list.append("udivError:" + src_path + ":" +  str(lines) + "\t\t\t\t\t// newSpaceIndentLength / tabLength\n")
+	file_in.close()
 
 # -----------------------------------------------------------------------------
 
@@ -242,19 +265,17 @@ def process_formatter(formatter_list):
 		if line.startswith("char ch"):
 			chars_processed += 1
 			if chars_processed == 2:
-				formatter_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t\t// char ch\n")
+				formatter_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t// char ch\n")
 		if line.startswith("int spacesOutsideToDelete"):
-			formatter_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t\t// spacesOutsideToDelete\n")
+			formatter_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t// spacesOutsideToDelete\n")
+		if "operators->empty" in line:
+			formatter_list.append("reademptycontainer:" + src_path + ":" +  str(lines) + "\t\t// operators->empty\n")
+		if "operators->empty" in line:
+			formatter_list.append("reademptycontainer:" + src_path + ":" +  str(lines) + "\t\t// operators->empty\n")
 		# assertWithSideEffect
 		if (line.startswith("assert")
 		and "adjustChecksumIn" in line):			# 2 lines
 			formatter_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
-		#~ if (line.startswith("assert")
-		#~ and "computeChecksumOut" in line:
-			#~ formatter_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
-		#~ if (line.startswith("assert")
-		#~ and "computeChecksumIn" in line:		# 2 lines
-			#~ formatter_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
 		# unusedFunction warnings
 		if "ASFormatter::getChecksumIn" in line:
 			formatter_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getChecksumIn\n")
@@ -262,6 +283,7 @@ def process_formatter(formatter_list):
 			formatter_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getChecksumOut\n")
 		if "ASFormatter::getFormatterFileType" in line:
 			formatter_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getFormatterFileType\n")
+	file_in.close()
 
 # -----------------------------------------------------------------------------
 
@@ -286,13 +308,16 @@ def process_localizer(localizer_list):
 			langid_processed += 1
 			if langid_processed == 1:
 				localizer_list.append("useInitializationList:" + src_path + ":" +  str(lines) + "\t\t// m_langID\n")
+		if line.startswith('size_t mbLen = wcstombs'):
+			localizer_list.append("nullPointer:" + src_path + ":" +  str(lines) + "\t\t\t\t// wcstombs\n")
 		# unusedFunction warnings
 		if "ASLocalizer::getTranslationClass" in line:
-			localizer_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getTranslationClass\n")
+			localizer_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getTranslationClass\n")
 		if "Translation::getTranslationVectorSize" in line:
-			localizer_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getTranslationVectorSize\n")
+			localizer_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getTranslationVectorSize\n")
 		if "Translation::getWideTranslation" in line:
-			localizer_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t\t// getWideTranslation\n")
+			localizer_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getWideTranslation\n")
+	file_in.close()
 
 # -----------------------------------------------------------------------------
 
@@ -310,9 +335,7 @@ def process_resource(resource_list):
 			continue
 		if line.startswith("//"):
 			continue
-		#~ if (line.startswith("assert")
-		#~ and "isCharPotentialHeader" in line:		# 2 lines
-			#~ resource_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
+	file_in.close()
 
 # -----------------------------------------------------------------------------
 
@@ -322,6 +345,7 @@ def run_cppcheck():
 	   --enable=all       Enable all checks
 	   -f, --force        Force checking if "too many" #ifdefs.
 	   -h, --help         Print the help information.
+	   --inconclusive     Error messages for inconclusive analysis.
 	   -j <jobs>          Start [jobs] threads.
 	   -q, --quiet        Only print error messages.
 	   --report-progress  Report progress while checking a file.
@@ -330,28 +354,28 @@ def run_cppcheck():
 	   -v, --verbose      More detailed error reports.
 	   --version          Print the version number.
 	   --xml              Write results in xml to error stream.
+	   --xml-version=2    Use new xml format.
 	"""
 	if os.name == "nt":
 		exepath = "C:/Program Files (x86)/Cppcheck/cppcheck.exe"
+		if not os.path.exists(exepath):
+			libastyle.system_exit("Cannot find executable: " + exepath)
 	else:
 		exepath = "cppcheck"
-	if not os.path.exists(exepath):
-		libastyle.system_exit("Cannot find executable: " + exepath)
 	verify_cppcheck_version(exepath)
 	cppcheck = [exepath]
 	cppcheck.append("--enable=all")
+	cppcheck.append("--xml-version=2")
 	cppcheck.append("--force")
+	cppcheck.append("--inconclusive")
 	cppcheck.append("--verbose")
-	cppcheck.append("--xml")
-	cppcheck.append("--suppressions-list=" +  __suppression_path)
+	cppcheck.append("--suppress=functionStatic")
+	cppcheck.append("--suppressions-list=" + __suppression_path)
 	cppcheck.append(__src_dir)
 	# shell=True keeps the console window open, but will not display if run from an editor
 	# subprocess.check_output() doesn't work from an editor
 	try:
-		if libastyle.is_executed_from_console():
-			subprocess.check_call(cppcheck, shell=True)
-		else:
-			subprocess.check_call(cppcheck)
+		subprocess.check_call(cppcheck)
 	except subprocess.CalledProcessError as err:
 		libastyle.system_exit("Bad cppcheck return: " + str(err.returncode))
 	except OSError:

@@ -13,13 +13,13 @@ namespace {
 //-------------------------------------------------------------------------
 // This module is for testing new options.
 // It will compile faster than if the tests were in another module.
-// When the testing is complete copy the tests to another module.
+// When the testing is complete move the tests to another module.
 //-------------------------------------------------------------------------
 
+// Move to AStyleTest_Indent.cpp, line 2119
 //-------------------------------------------------------------------------
-// AStyle Indent Preprocessor Conditional
+// AStyle Indent Preprocessor Block
 //-------------------------------------------------------------------------
-
 
 //----------------------------------------------------------------------------
 

@@ -65,7 +65,7 @@ void TersePrinter::OnTestPartResult(const TestPartResult& test_part_result)
 		{
 			// print the message header
 			test_header_printed_ = true;
-			PrintTestHeader(COLOR_YELLOW);
+			PrintTestHeader(COLOR_RED);
 			// print the file name
 			// the following checks for an error in a mock
 			if (test_part_result.file_name() || test_part_result.line_number() > 0)

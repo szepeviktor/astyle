@@ -464,6 +464,7 @@ TEST(ProcessOptions, OtherOptions)
 	optionsIn.push_back("--suffix=none");
 	optionsIn.push_back("--suffix=.old");
 	optionsIn.push_back("--recursive");
+	optionsIn.push_back("--dry-run");
 	optionsIn.push_back("--verbose");
 	optionsIn.push_back("--formatted");
 	optionsIn.push_back("--quiet");
@@ -474,6 +475,7 @@ TEST(ProcessOptions, OtherOptions)
 	EXPECT_TRUE(g_console->getNoBackup());
 	EXPECT_EQ(string(".old"), g_console->getOrigSuffix());
 	EXPECT_TRUE(g_console->getIsRecursive());
+	EXPECT_TRUE(g_console->getIsDryRun());
 	EXPECT_TRUE(g_console->getIsVerbose());
 	EXPECT_TRUE(g_console->getIsFormattedOnly());
 	EXPECT_TRUE(g_console->getIsQuiet());
@@ -689,7 +691,7 @@ TEST_F(FileSuffixF, None)
 		struct stat stBuf;
 		// display error if file is present
 		if (stat(origFileName.c_str(), &stBuf) != -1)
-			EXPECT_STREQ("\"no file\"", origFileName.c_str());
+			EXPECT_STREQ("no .orig file", origFileName.c_str());
 	}
 }
 
@@ -716,7 +718,7 @@ TEST_F(FileSuffixF, DotOld)
 		struct stat stBuf;
 		// display error if file is not present
 		if (stat(origFileName.c_str(), &stBuf) == -1)
-			EXPECT_STREQ(origFileName.c_str(), "\"no file\"");
+			EXPECT_STREQ("no .orig file", origFileName.c_str());
 	}
 }
 
@@ -743,7 +745,7 @@ TEST_F(FileSuffixF, SansDot)
 		struct stat stBuf;
 		// display error if file is not present
 		if (stat(origFileName.c_str(), &stBuf) == -1)
-			EXPECT_STREQ(origFileName.c_str(), "\"no file\"");
+			EXPECT_STREQ("no .orig file", origFileName.c_str());
 	}
 }
 
@@ -814,15 +816,21 @@ struct PreserveDateF : public Test
 			"{\n"
 			"bar();\n"
 			"}\n";
-		// Jan 1, 2008
 		struct tm t;
-		t.tm_mday  = 1;		// day of the month	1-31
-		t.tm_mon   = 0;		// months since January	0-11
-		t.tm_year  = 108;	// years since 1900
-		t.tm_hour  = 0;
-		t.tm_min   = 0;
+#ifdef _WIN32
+		// Sat Jan 01 2000
 		t.tm_sec   = 0;
-		t.tm_isdst = 0;
+		t.tm_min   = 0;
+		t.tm_hour  = 8;		// 8 AM, or 7 AM if daylight savings
+		t.tm_mday  = 1;		// day of the month	1-31
+		t.tm_mon   = 0;		// month 0-11
+		t.tm_year  = 100;	// years since 1900
+		t.tm_wday  = 6;		// day of the week 0-6
+		t.tm_yday  = 0;		// day of the year 0-365
+		t.tm_isdst = 0;		// daylight savings time (not used?)
+#else
+		strptime("2000-01-01 08:00:00", "%Y-%m-%d %H:%M:%S", &t);
+#endif
 		ut.actime = ut.modtime = mktime(&t);
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
@@ -847,6 +855,8 @@ struct PreserveDateF : public Test
 	{
 		string date = ctime(&dateIn);
 		string dateMDY = date.erase(11, 9);	// remove the time
+		if (dateMDY[8] == ' ')
+			dateMDY[8] = '0';
 		// cout << dateMDY << endl;
 		return dateMDY;
 	}
@@ -866,12 +876,16 @@ TEST_F(PreserveDateF, True)
 	// call astyle processFiles()
 	g_console->processFiles();
 	// loop thru fileNames vector checking the dates
-	// difference is added in preserveFileDate() in astyle_main
 	struct stat s;
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
 		stat(fileNames[i].c_str(), &s);
+		string fileMDY = getMDY(s.st_mtime);
+		EXPECT_EQ("Sat Jan 01 2000\n", fileMDY);
+#ifndef _MSC_VER
+		// visual studio has a problem with daylight savings time!
 		EXPECT_EQ(10, difftime(s.st_mtime, ut.modtime));
+#endif
 	}
 }
 
@@ -1015,6 +1029,41 @@ TEST_F(ChecksumF, AddOneLineBrackets)
 	EXPECT_EQ(checksumOut, textChecksum);
 #endif
 	EXPECT_TRUE(formatter.getChecksumDiff() == 0);
+}
+
+TEST(Checksum, CheckSumError)
+// Test with --break-blocks and --delete-empty-lines and missing closing bracket
+// Caused a checksum assert failure. This must be run in debug configuration.
+{
+	char textIn[] =
+		// this file is missing a closing bracket
+		"\nvoid foo()\n"
+		"{\n"
+		"    if (isBar)\n"
+		"        fooBar1();\n"
+		"\n"
+		"    fooBar2();\n";
+	// initialization
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setNoBackup(true);
+	// write test file
+	cleanTestDirectory(getTestDirectory());
+	string fileNames = getTestDirectory() + "/test1.cpp";
+	g_console->standardizePath(fileNames);
+	createTestFile(fileNames, textIn);
+	// set the formatter options
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
+	astyleOptionsVector.push_back("--break-blocks");
+	astyleOptionsVector.push_back("--delete-empty-lines");
+	// process the file
+	g_console->processOptions(astyleOptionsVector);
+	g_console->processFiles();
+	// Will actually get an assert error in astyle_main.cpp if this is not true.
+	EXPECT_TRUE(formatter.getChecksumDiff() == 0);
+	deleteConsoleGlobalObject();
 }
 
 //----------------------------------------------------------------------------

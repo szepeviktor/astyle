@@ -989,14 +989,18 @@ struct Codepage1252F : public Test
 #ifdef _WIN32
 		// Windows must check for codepage 1252.
 		// get buffer for codepageRecursive1
-		int bufSize = GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_IDEFAULTANSICODEPAGE,
-									NULL, 0);
+		int bufSize = GetLocaleInfo(LOCALE_SYSTEM_DEFAULT,
+									LOCALE_IDEFAULTANSICODEPAGE,
+									NULL,
+									0);
 		char* value = new(nothrow) char[bufSize];
 		if (value == NULL)
 			systemAbort("Bad memory alloc for GetLocaleInfo in Codepage1252F");
 		// get codepage
-		GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_IDEFAULTANSICODEPAGE,
-					  value, sizeof(value) / sizeof(char));
+		GetLocaleInfo(LOCALE_SYSTEM_DEFAULT,
+					  LOCALE_IDEFAULTANSICODEPAGE,
+					  value,
+					  sizeof(value) / sizeof(char));
 		int codepage = atoi(value);
 		delete [] value;
 		if (codepage != 1252)
@@ -1076,7 +1080,8 @@ TEST_F(Codepage1252F, Recursive1)
 // test codepage 1252 recursive option
 {
 	// check valid locale
-	ASSERT_TRUE(isValidLocale);
+	if (!isValidLocale)
+		return;
 	// set processing variables
 	ASSERT_TRUE(g_console != NULL);
 	g_console->setIsQuiet(true);		// change this to see results
@@ -1109,7 +1114,6 @@ struct GetNumberFormat : public Test
 
 	GetNumberFormat()
 	{
-		ASFormatter formatter;
 		createConsoleGlobalObject(formatter);
 		// Make sure the C++ locale is not set.
 		locale::global(locale("C"));

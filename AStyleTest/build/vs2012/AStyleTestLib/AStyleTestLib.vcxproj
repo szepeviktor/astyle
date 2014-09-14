@@ -40,7 +40,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
     <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -56,7 +55,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
     <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -116,15 +114,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\include;..\..\..\..\gmock\gtest\include;..\..\..\srclib;..\..\..\srcx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;_VARIADIC_MAX=10;GTEST_USE_OWN_TR1_TUPLE=0</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;_VARIADIC_MAX=10</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
       <WarningLevel>Level4</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -146,9 +142,8 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\include;..\..\..\..\gmock\gtest\include;..\..\..\srclib;..\..\..\srcx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;_VARIADIC_MAX=10;GTEST_USE_OWN_TR1_TUPLE=0</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;_VARIADIC_MAX=10</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -156,7 +151,6 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -174,15 +168,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\include;..\..\..\..\gmock\gtest\include;..\..\..\srclib;..\..\..\srcx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;_VARIADIC_MAX=10;GTEST_USE_OWN_TR1_TUPLE=0</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;_VARIADIC_MAX=10</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <FloatingPointModel>Fast</FloatingPointModel>
       <WarningLevel>Level4</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLib.lib;gmock.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -205,9 +198,8 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\include;..\..\..\..\gmock\gtest\include;..\..\..\srclib;..\..\..\srcx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;_VARIADIC_MAX=10;GTEST_USE_OWN_TR1_TUPLE=0</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;_VARIADIC_MAX=10</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>false</FunctionLevelLinking>
@@ -215,7 +207,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLib.lib;gmock.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -237,13 +229,12 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\include;..\..\..\..\gmock\gtest\include;..\..\..\srclib;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;LEAK_DETECTOR;_VARIADIC_MAX=10;GTEST_USE_OWN_TR1_TUPLE=0</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;LEAK_DETECTOR;_VARIADIC_MAX=10</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
       <WarningLevel>Level4</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;vld.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -265,7 +256,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\include;..\..\..\..\gmock\gtest\include;..\..\..\srclib;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;LEAK_DETECTOR;_VARIADIC_MAX=10;GTEST_USE_OWN_TR1_TUPLE=0</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;LEAK_DETECTOR;_VARIADIC_MAX=10</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -273,7 +264,6 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;vld.lib;%(AdditionalDependencies)</AdditionalDependencies>

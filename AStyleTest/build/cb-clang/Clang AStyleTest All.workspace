@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Clang (MinGW) AStyleTest">
+		<Project filename="Clang AStyleTest.cbp">
+			<Depends filename="Clang GMockA.cbp" />
+		</Project>
+		<Project filename="Clang AStyleTestCon.cbp">
+			<Depends filename="Clang GMockA.cbp" />
+		</Project>
+		<Project filename="Clang AStyleTestI18n.cbp">
+			<Depends filename="Clang GMockA.cbp" />
+		</Project>
+		<Project filename="Clang AStyleTestLib.cbp">
+			<Depends filename="Clang GMockA.cbp" />
+		</Project>
+		<Project filename="Clang GMockA.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

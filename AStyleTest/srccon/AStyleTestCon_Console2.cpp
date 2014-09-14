@@ -498,6 +498,8 @@ TEST(LanguageVectors, MultipleObjects)
 // Additional tests are done by the "GetFileTypeF" and
 // "LanguageVectorsF" tests.
 {
+// clang on Linux doesn't like the ASStreamIterator template
+#if !defined(__clang__) || defined(__APPLE__)
 	ASFormatter formatter1;
 	// Aborted here in Debug for static objects:
 	// "Assertion `container == __null' failed."
@@ -533,6 +535,7 @@ TEST(LanguageVectors, MultipleObjects)
 	EXPECT_EQ(JAVA_TYPE, formatter2.getBeautifierFileType());
 	EXPECT_EQ(SHARP_TYPE, formatter3.getFormatterFileType());
 	EXPECT_EQ(SHARP_TYPE, formatter3.getBeautifierFileType());
+#endif
 }
 
 //----------------------------------------------------------------------------
@@ -781,6 +784,100 @@ TEST_F(RecursiveF, HiddenFiles)
 }
 
 //----------------------------------------------------------------------------
+// AStyle test dry-run option - getFilePaths(), wildcmp(), and fileName vector
+//----------------------------------------------------------------------------
+
+struct DryRunF : public Test
+{
+	ASFormatter formatter;
+	vector<string> fileNames;
+
+	// build fileNames vector and write the output files
+	DryRunF()
+	{
+		char textIn[] =
+			"\nvoid foo()\n"
+			"{\n"
+			"    bar();\n"
+			"}\n";
+		cleanTestDirectory(getTestDirectory());
+		createConsoleGlobalObject(formatter);
+		// create test files
+		fileNames.push_back(getTestDirectory() + "/dry-run1.cpp");
+		fileNames.push_back(getTestDirectory() + "/dry-run2.cpp");
+		for (size_t i = 0; i < fileNames.size(); i++)
+		{
+			g_console->standardizePath(fileNames[i]);
+			createTestFile(fileNames[i], textIn);
+		}
+	}
+
+	~DryRunF()
+	{
+		deleteConsoleGlobalObject();
+	}
+};
+
+TEST_F(DryRunF, DryRunTest)
+// Test dry-run option.
+// Backup files should NOT be created.
+{
+	assert(g_console != NULL);
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setIsDryRun(true);
+	// set the formatter options
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
+	astyleOptionsVector.push_back("--style=attach");
+	// process the file
+	g_console->processOptions(astyleOptionsVector);
+	g_console->processFiles();
+	// check that no backup files were created
+	vector<string> fileName = g_console->getFileName();
+	ASSERT_EQ(fileNames.size(), fileName.size());
+	for (size_t i = 0; i < fileNames.size(); i++)
+	{
+		EXPECT_EQ(fileNames[i], fileName[i]);
+		// check for .orig file
+		string origFileName = fileNames[i] + ".orig";
+		struct stat stBuf;
+		// display error if file is present
+		if (stat(origFileName.c_str(), &stBuf) != -1)
+			EXPECT_STREQ("no .orig file", origFileName.c_str());
+	}
+	deleteConsoleGlobalObject();
+}
+
+TEST_F(DryRunF, DryRunSans)
+// Test without dry-run option.
+// Backup files should be created.
+{
+	assert(g_console != NULL);
+	g_console->setIsQuiet(true);		// change this to see results
+	// set the formatter options
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
+	astyleOptionsVector.push_back("--style=attach");
+	// process the file
+	g_console->processOptions(astyleOptionsVector);
+	g_console->processFiles();
+	// check that no backup files were created
+	vector<string> fileName = g_console->getFileName();
+	ASSERT_EQ(fileNames.size(), fileName.size());
+	for (size_t i = 0; i < fileNames.size(); i++)
+	{
+		EXPECT_EQ(fileNames[i], fileName[i]);
+		// check for .orig file
+		string origFileName = fileNames[i] + ".orig";
+		struct stat stBuf;
+		// display error if file is present
+		if (stat(origFileName.c_str(), &stBuf) == -1)
+			EXPECT_STREQ("expected an .orig file", origFileName.c_str());
+	}
+	deleteConsoleGlobalObject();
+}
+
+//----------------------------------------------------------------------------
 // AStyle line ends formatted
 // tests if a line end change formats the file
 //----------------------------------------------------------------------------
@@ -860,7 +957,7 @@ TEST_F(LineEndsFormattedF, LineEndWindows)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		EXPECT_EQ("\"no file\"", origFileName.c_str());
+		EXPECT_STREQ("no .orig file", origFileName.c_str());
 }
 
 TEST_F(LineEndsFormattedF, LineEndLinux)
@@ -880,7 +977,7 @@ TEST_F(LineEndsFormattedF, LineEndLinux)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		EXPECT_EQ("\"no file\"", origFileName.c_str());
+		EXPECT_STREQ("no .orig file", origFileName.c_str());
 }
 
 TEST_F(LineEndsFormattedF, LineEndMacOld)
@@ -900,7 +997,7 @@ TEST_F(LineEndsFormattedF, LineEndMacOld)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		EXPECT_EQ("\"no file\"", origFileName.c_str());
+		EXPECT_STREQ("no .orig file", origFileName.c_str());
 }
 
 //----------------------------------------------------------------------------
@@ -983,7 +1080,7 @@ TEST_F(LineEndsUnchangedF, LineEndWindows)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		EXPECT_EQ("\"no file\"", origFileName.c_str());
+		EXPECT_STREQ("no .orig file", origFileName.c_str());
 }
 
 TEST_F(LineEndsUnchangedF, LineEndLinux)
@@ -1003,7 +1100,7 @@ TEST_F(LineEndsUnchangedF, LineEndLinux)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		EXPECT_EQ("\"no file\"", origFileName.c_str());
+		EXPECT_STREQ("no .orig file", origFileName.c_str());
 }
 
 TEST_F(LineEndsUnchangedF, LineEndMacOld)
@@ -1023,7 +1120,7 @@ TEST_F(LineEndsUnchangedF, LineEndMacOld)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		EXPECT_EQ("\"no file\"", origFileName.c_str());
+		EXPECT_STREQ("no .orig file", origFileName.c_str());
 }
 
 //----------------------------------------------------------------------------
@@ -1105,7 +1202,7 @@ TEST_F(LineEndsDefaultF, LineEndWindows)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		EXPECT_EQ("\"no file\"", origFileName.c_str());
+		EXPECT_STREQ("no .orig file", origFileName.c_str());
 }
 
 TEST_F(LineEndsDefaultF, LineEndLinux)
@@ -1124,7 +1221,7 @@ TEST_F(LineEndsDefaultF, LineEndLinux)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		EXPECT_EQ("\"no file\"", origFileName.c_str());
+		EXPECT_STREQ("no .orig file", origFileName.c_str());
 }
 
 TEST_F(LineEndsDefaultF, LineEndMacOld)
@@ -1143,13 +1240,14 @@ TEST_F(LineEndsDefaultF, LineEndMacOld)
 	struct stat stBuf;
 	// display error if file is present
 	if (stat(origFileName.c_str(), &stBuf) != -1)
-		EXPECT_EQ("\"no file\"", origFileName.c_str());
+		EXPECT_STREQ("no .orig file", origFileName.c_str());
 }
 
 //----------------------------------------------------------------------------
-// AStyle line ends formatted
+// AStyle line ends format
 // tests if default line ends calls the convertLineEnds() function when needed
 //----------------------------------------------------------------------------
+
 struct LineEndsDefaultMixedF : public Test
 {
 	ASFormatter formatter;
@@ -1227,7 +1325,7 @@ TEST_F(LineEndsDefaultMixedF, LineEndWindows)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		EXPECT_EQ("\"no file\"", origFileName.c_str());
+		EXPECT_STREQ("no .orig file", origFileName.c_str());
 	// check that convertLineEnds is called
 	EXPECT_TRUE(g_console->getLineEndsMixed());
 	// the line ends must be checked manually
@@ -1250,7 +1348,7 @@ TEST_F(LineEndsDefaultMixedF, LineEndLinux)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		EXPECT_EQ("\"no file\"", origFileName.c_str());
+		EXPECT_STREQ("no .orig file", origFileName.c_str());
 	// check that convertLineEnds is called
 	EXPECT_TRUE(g_console->getLineEndsMixed());
 	// the line ends must be checked manually
@@ -1273,7 +1371,7 @@ TEST_F(LineEndsDefaultMixedF, LineEndMacOld)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		EXPECT_EQ("\"no file\"", origFileName.c_str());
+		EXPECT_STREQ("no .orig file", origFileName.c_str());
 	// check that convertLineEnds is called
 	EXPECT_TRUE(g_console->getLineEndsMixed());
 	// the line ends must be checked manually
@@ -1359,7 +1457,7 @@ TEST_F(LineEndsDefaultMixedSansF, LineEndWindows)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		EXPECT_EQ("\"no file\"", origFileName.c_str());
+		EXPECT_STREQ("no .orig file", origFileName.c_str());
 	// check that convertLineEnds is NOT called
 	EXPECT_FALSE(g_console->getLineEndsMixed());
 	// the line ends must be checked manually
@@ -1382,7 +1480,7 @@ TEST_F(LineEndsDefaultMixedSansF, LineEndLinux)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		EXPECT_EQ("\"no file\"", origFileName.c_str());
+		EXPECT_STREQ("no .orig file", origFileName.c_str());
 	// check that convertLineEnds is NOT called
 	EXPECT_FALSE(g_console->getLineEndsMixed());
 	// the line ends must be checked manually
@@ -1405,7 +1503,7 @@ TEST_F(LineEndsDefaultMixedSansF, LineEndMacOld)
 	struct stat stBuf;
 	// display error if file is not present
 	if (stat(origFileName.c_str(), &stBuf) == -1)
-		EXPECT_EQ("\"no file\"", origFileName.c_str());
+		EXPECT_STREQ("no .orig file", origFileName.c_str());
 	// check that convertLineEnds is NOT called
 	EXPECT_FALSE(g_console->getLineEndsMixed());
 	// the line ends must be checked manually
@@ -1453,46 +1551,6 @@ TEST(Other, ErrorExitWihMessage)
 #endif
 	deleteConsoleGlobalObject();
 }
-
-//----------------------------------------------------------------------------
-// AStyle BugFix tests
-//----------------------------------------------------------------------------
-
-TEST(BugFix, V201_CheckSumError)
-// Test with --break-blocks and --delete-empty-lines and missing closing bracket
-// Caused a checksum assert failure. This must be run in debug configuration.
-{
-	char textIn[] =
-		// this file is missing a closing bracket
-		"\nvoid foo()\n"
-		"{\n"
-		"    if (isBar)\n"
-		"        fooBar1();\n"
-		"\n"
-		"    fooBar2();\n";
-	// initialization
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setNoBackup(true);
-	// write test file
-	cleanTestDirectory(getTestDirectory());
-	string fileNames = getTestDirectory() + "/test1.cpp";
-	g_console->standardizePath(fileNames);
-	createTestFile(fileNames, textIn);
-	// set the formatter options
-	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	astyleOptionsVector.push_back("--break-blocks");
-	astyleOptionsVector.push_back("--delete-empty-lines");
-	// process the file
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
-	// Will actually get an assert error in astyle_main.cpp if this is not true.
-	EXPECT_TRUE(formatter.getChecksumDiff() == 0);
-	deleteConsoleGlobalObject();
-}
-
 
 //----------------------------------------------------------------------------
 

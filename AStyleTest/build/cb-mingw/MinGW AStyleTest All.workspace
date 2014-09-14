@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="MinGW AStyleTest All">
+		<Project filename="MinGW AStyleTest.cbp">
+			<Depends filename="MinGW GMock Lib.cbp" />
+		</Project>
+		<Project filename="MinGW AStyleTestCon.cbp">
+			<Depends filename="MinGW GMock Lib.cbp" />
+		</Project>
+		<Project filename="MinGW AStyleTestI18n.cbp">
+			<Depends filename="MinGW GMock Lib.cbp" />
+		</Project>
+		<Project filename="MinGW AStyleTestLib.cbp">
+			<Depends filename="MinGW GMock Lib.cbp" />
+		</Project>
 		<Project filename="MinGW GMock Lib.cbp" />
-		<Project filename="MinGW AStyleTest.cbp" />
-		<Project filename="MinGW AStyleTestCon.cbp" />
-		<Project filename="MinGW AStyleTestI18n.cbp" />
-		<Project filename="MinGW AStyleTestLib.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

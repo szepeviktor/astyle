@@ -174,6 +174,204 @@ TEST(Macro, wxWidgetsEventHandlerNonIndentComment)
 	delete[] textOut;
 }
 
+TEST(Macro, wxWidgetsIndentForceTabX)
+{
+	// wxWidgets event handler should be indented correctly with indent=force-tab-x
+	char text[] =
+		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
+		"END_EVENT_TABLE()\n"
+		"\n"
+		"void Foo()\n"
+		"{\n"
+		"    BEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"	EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"	EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
+		"    END_EVENT_TABLE()\n"
+		"\n"
+		"    lf (isFoo)\n"
+		"    {\n"
+		"	BEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"	    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"	    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
+		"	END_EVENT_TABLE()\n"
+		"    }\n"
+		"}";
+	char options[] = "indent=force-tab-x";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, wxWidgetsFillEmptyLines)
+{
+	// test fill empty lines in an event table
+	char textIn[] =
+		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"    EVT_PAINT(JP5Frm::WindowPaint)\n"
+		"\n"
+		"\n"
+		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"END_EVENT_TABLE()\n";
+	char text[] =
+		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
+		"    EVT_PAINT(JP5Frm::WindowPaint)\n"
+		"    \n"
+		"    \n"
+		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
+		"END_EVENT_TABLE()\n";
+	char options[] = "fill-empty-lines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, WxWidgetsPreprocessor)
+{
+	// preprocessor should NOT be indented
+	char text[] =
+		"\nBEGIN_EVENT_TABLE(ClassWizardDlg, wxDialog)\n"
+		"    EVT_BUTTON(XRCID(\"btnCommonDir\"), ClassWizardDlg::OnCommonDirClick)\n"
+		"#ifdef LOGGING\n"
+		"    EVT_EXPECT_TRUEBOX(XRCID(\"chkLowerCase\"), ClassWizardDlg::OnLowerCaseClick)\n"
+		"    EVT_BUTTON(XRCID(\"btnIncludeDir\"), ClassWizardDlg::OnIncludeDirClick)\n"
+		"#endif\n"
+		"    EVT_BUTTON(XRCID(\"btnImplDir\"), ClassWizardDlg::OnImplDirClick)\n"
+		"END_EVENT_TABLE()\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, WxWidgetsIndentPreprocBlock)
+{
+	// test indent preprocessor block in a wxWidgets event table
+	// should be indented as code, not as a preprocessor block
+	char text[] =
+		"\nBEGIN_EVENT_TABLE(DropDown, wxTransientWindow)\n"
+		"    EVT_MOUSE_EVENTS(DropDownPopup::OnMouse)\n"
+		"#if USE_POPUP_TIMER\n"
+		"    EVT_TIMER(wxID_ANY, DropDownPopup::OnTimer)\n"
+		"#endif // USE_POPUP_TIMER\n"
+		"    EVT_IDLE(DropDownPopup::OnIdle) // use Connect/Disconnect instead\n"
+		"END_EVENT_TABLE()";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, WxWidgetsIndentPreprocBlockSans)
+{
+	// test indent preprocessor block in a wxWidgets event table
+	// the block will NOT be indented because it is in a unintentable preprocessor
+	char text[] =
+		"\n#ifdef __BORLANDC__\n"
+		"    #pragma hdrstop\n"
+		"#endif\n"
+		"\n"
+		"#if wxUSE_POPUPWIN\n"
+		"\n"
+		"BEGIN_EVENT_TABLE(DropDown, wxTransientWindow)\n"
+		"    EVT_MOUSE_EVENTS(DropDownPopup::OnMouse)\n"
+		"#if USE_POPUP_TIMER\n"
+		"    EVT_TIMER(wxID_ANY, DropDownPopup::OnTimer)\n"
+		"#endif // USE_POPUP_TIMER\n"
+		"    EVT_IDLE(DropDownPopup::OnIdle) // use Connect/Disconnect instead\n"
+		"END_EVENT_TABLE()\n"
+		"\n"
+		"void Foo()\n"
+		"{}\n"
+		"\n"
+		"#endif // wxUSE_POPUPWIN";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, WxWidgetsIndentNamespace)
+{
+	// test indent preprocessor block in a indented namespace
+	// should be indented as code
+	char text[] =
+		"\nnamespace ScriptBindings\n"
+		"{\n"
+		"    BEGIN_EVENT_TABLE(XrcDialog, wxScrollingDialog)\n"
+		"        EVT_CHOICE(-1, XrcDialog::OnButton)\n"
+		"        EVT_COMBOBOX(-1, XrcDialog::OnButton)\n"
+		"        EVT_CHECKBOX(-1, XrcDialog::OnButton)\n"
+		"    END_EVENT_TABLE()\n"
+		"}";
+	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, WxWidgetsIndentNamespaceSans)
+{
+	// test indent preprocessor block in a indented namespace
+	// should be indented as code
+	char text[] =
+		"\nnamespace ScriptBindings\n"
+		"{\n"
+		"BEGIN_EVENT_TABLE(XrcDialog, wxScrollingDialog)\n"
+		"    EVT_CHOICE(-1, XrcDialog::OnButton)\n"
+		"    EVT_COMBOBOX(-1, XrcDialog::OnButton)\n"
+		"    EVT_CHECKBOX(-1, XrcDialog::OnButton)\n"
+		"END_EVENT_TABLE()\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, WxWidgetsIndentNamespaceIndentPreprocBlock)
+{
+	// test indent preprocessor block in a indented namespace
+	// includes apreprocessor statement
+	char text[] =
+		"\nnamespace ScriptBindings\n"
+		"{\n"
+		"    BEGIN_EVENT_TABLE(XrcDialog, wxScrollingDialog)\n"
+		"        EVT_CHOICE(-1, XrcDialog::OnButton)\n"
+		"#if USE_POPUP_TIMER\n"
+		"        EVT_COMBOBOX(-1, XrcDialog::OnButton)\n"
+		"#endif // USE_POPUP_TIMER\n"
+		"        EVT_CHECKBOX(-1, XrcDialog::OnButton)\n"
+		"    END_EVENT_TABLE()\n"
+		"}";
+	char options[] = "indent-namespaces, indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, WxWidgetsIndentNamespaceSansIndentPreprocBlock)
+{
+	// test indent preprocessor block in a NON-indented namespace
+	// includes apreprocessor statement
+	char text[] =
+		"\nnamespace ScriptBindings\n"
+		"{\n"
+		"BEGIN_EVENT_TABLE(XrcDialog, wxScrollingDialog)\n"
+		"    EVT_CHOICE(-1, XrcDialog::OnButton)\n"
+		"#if USE_POPUP_TIMER\n"
+		"    EVT_COMBOBOX(-1, XrcDialog::OnButton)\n"
+		"#endif // USE_POPUP_TIMER\n"
+		"    EVT_CHECKBOX(-1, XrcDialog::OnButton)\n"
+		"END_EVENT_TABLE()\n"
+		"}";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(Macro, QtForeach1)
 {
 	// Qt Q_FOREACH macro indent
@@ -362,36 +560,6 @@ TEST(Macro, MfcPropertyPages)
 		"    PROPPAGEID( CLSID_CColorPropPage )\n"
 		"END_PROPPAGEIDS(CblahCtrl)\n";
 	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(Macro, IndentForceTabX)
-{
-	// wxWidgets event handler should be indented correctly with indent=force-tab-x
-	char text[] =
-		"\nBEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
-		"    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
-		"    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
-		"END_EVENT_TABLE()\n"
-		"\n"
-		"void Foo()\n"
-		"{\n"
-		"    BEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
-		"	EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
-		"	EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
-		"    END_EVENT_TABLE()\n"
-		"\n"
-		"    lf (isFoo)\n"
-		"    {\n"
-		"	BEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
-		"	    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
-		"	    EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
-		"	END_EVENT_TABLE()\n"
-		"    }\n"
-		"}";
-	char options[] = "indent=force-tab-x";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2277,20 +2445,15 @@ TEST(Preprocessor, NestedIfElse2)
 
 TEST(Preprocessor, EndOnEmptyLine)
 {
-	// TODO: AStyle adds a space to the empty line
 	// preprocessor define ends with an empty line
-	char textIn[] =
+	// the empty line should not be padded
+	char text[] =
 		"\n#define ITEM_ITERATION_UVC_LOOP_END(BOTTOMY) \\\n"
 		"    } while ( p->m_y < BOTTOMY ); \\\n"
 		"\n"
 		"\n";
-	char text[] =
-		"\n#define ITEM_ITERATION_UVC_LOOP_END(BOTTOMY) \\\n"
-		"    } while ( p->m_y < BOTTOMY ); \\\n"
-		" \n"
-		"\n";
 	char options[] = "";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -2328,24 +2491,6 @@ TEST(Preprocessor, MissingOpener)
 		"    int foo = 2;\n"
 		"#endif\n"
 		"}\n";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(Preprocessor, WxWidgetsMacro)
-{
-	// preprocessor should NOT be indented
-	char text[] =
-		"\nBEGIN_EVENT_TABLE(ClassWizardDlg, wxDialog)\n"
-		"    EVT_BUTTON(XRCID(\"btnCommonDir\"), ClassWizardDlg::OnCommonDirClick)\n"
-		"#ifdef LOGGING\n"
-		"    EVT_EXPECT_TRUEBOX(XRCID(\"chkLowerCase\"), ClassWizardDlg::OnLowerCaseClick)\n"
-		"    EVT_BUTTON(XRCID(\"btnIncludeDir\"), ClassWizardDlg::OnIncludeDirClick)\n"
-		"#endif\n"
-		"    EVT_BUTTON(XRCID(\"btnImplDir\"), ClassWizardDlg::OnImplDirClick)\n"
-		"END_EVENT_TABLE()\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);

@@ -8,10 +8,10 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/AStyleTestI18nd.exe" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objI18nd/" />
+				<Option object_output="objI18n/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="--terse_printer" />
+				<Option parameters="--terse_output" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
@@ -31,7 +31,7 @@
 			</Target>
 			<Target title="Release">
 				<Option output="bin/AStyleTestI18n.exe" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objI18n/" />
+				<Option object_output="objI18n/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -54,7 +54,7 @@
 			</Target>
 			<Target title="Coverage">
 				<Option output="bin/AStyleTestI18nc.exe" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objI18nc/" />
+				<Option object_output="objI18n/Coverage/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>

@@ -10,6 +10,55 @@
 
 namespace {
 
+//----------------------------------------------------------------------------
+// AStyle version 2.05 TEST functions
+//----------------------------------------------------------------------------
+
+TEST(BugFix_V205, CaseIndentAfterAsmBlock)
+{
+	// Fix the extra indent in a 'case' statement after an _asm block.
+	// The '_asm' opening bracket was not identified as a block opener
+	// and the variable 'isInAsmBlock" was never being cleared
+	// in ASBeautifier.
+	char textIn[] =
+		"\nvoid foo() {\n"
+		"_asm {cld};\n"
+		"\n"
+		"    switch (var)\n"
+		"    {\n"
+		"    case 1:\n"
+		"            foo = this1;\n"
+		"        bar = this2;\n"
+		"        break;\n"
+		"\n"
+		"    default:\n"
+		"            foo = that1;\n"
+		"        bar = that2;\n"
+		"        break;\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    _asm {cld};\n"
+		"\n"
+		"    switch (var)\n"
+		"    {\n"
+		"    case 1:\n"
+		"        foo = this1;\n"
+		"        bar = this2;\n"
+		"        break;\n"
+		"\n"
+		"    default:\n"
+		"        foo = that1;\n"
+		"        bar = that2;\n"
+		"        break;\n"
+		"    }\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
 
 //----------------------------------------------------------------------------
 // AStyle version 2.04 TEST functions

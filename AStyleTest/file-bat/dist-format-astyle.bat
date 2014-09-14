@@ -2,7 +2,7 @@
 @echo off
 
 set PATH=PATH;"C:\Program Files\AStyle
-set prog=AStyle
+set prog=AStyle.exe
 
 REM  t - indent=tab
 REM  H - pad-header
@@ -22,10 +22,10 @@ REM z1 - windows lineends
 set options=  -A1xnxltpHCOwk1W3  -M60  -Qz1  --options=none
 
 echo Formatting AStyle
-echo options %options%  
+echo options %options%
 echo.
 
-%prog%  %options%  ..\..\AStyle\src\*.cpp  ..\..\AStyle\src\*.h 
+%prog%  %options%  ..\..\AStyle\src\*.cpp  ..\..\AStyle\src\*.h
 
 
 echo.

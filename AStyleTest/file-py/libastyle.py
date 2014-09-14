@@ -70,8 +70,9 @@ STATIC  = "static"
 
 # Visual Studio release
 #VS_RELEASE = "vs2008"
-VS_RELEASE = "vs2010"
+#VS_RELEASE = "vs2010"
 #VS_RELEASE = "vs2012"
+VS_RELEASE = "vs2013"
 
 # test directory name
 TEST_DIRECTORY = "TestData"
@@ -89,15 +90,16 @@ def build_astyle_executable(config):
 		print("Building AStyle Static")
 	else:
 		system_exit("Bad arg in build_astyle_executable(): " + config)
-	astylepath = get_astyle_build_directory(config)
+	slnpath = get_astyle_build_directory(config)
 	if os.name == "nt":
-		compile_astyle_windows(astylepath, config)
+		slnpath = slnpath + "/AStyle.sln"
+		compile_windows_executable(slnpath, config)
 	else:
-		compile_astyle_linux(astylepath, config)
+		compile_linux_executable(slnpath, config)
 
 # -----------------------------------------------------------------------------
 
-def compile_astyle_linux(astylepath, config):
+def compile_linux_executable(slnpath, config):
 	"""Compile the astyle executable for Linux.
 	"""
 	if config == DEBUG:
@@ -108,7 +110,7 @@ def compile_astyle_linux(astylepath, config):
 	if os.path.exists(buildfile):
 		remove_build_file(buildfile)
 	outfile = open(buildfile, 'w')
-	retval = subprocess.call(build, cwd=astylepath, stdout=outfile)
+	retval = subprocess.call(build, cwd=slnpath, stdout=outfile)
 	if retval:
 		system_exit("Bad build return: " + str(retval))
 	outfile.close()
@@ -116,29 +118,24 @@ def compile_astyle_linux(astylepath, config):
 
 # -----------------------------------------------------------------------------
 
-def compile_astyle_windows(astylepath, config):
+def compile_windows_executable(slnpath, config):
 	"""Compile the astyle executable for Windows.
 	"""
 	sdk = "v3.5"
-	vsdir = "vs2008"
-	if "vs2010" in astylepath:
+	if VS_RELEASE >= "vs2010":
 		sdk = "v4.0.30319"
-		vsdir = "vs2010"
-	elif "vs2012" in astylepath:
-		sdk = "v4.0.30319"
-		vsdir = "vs2012"
 	# remove the cache file as a precaution
-	cachepath = (get_astyle_directory()
-			+ "/build/"
-			+ vsdir
-			+ "/AStyle.sln.cache")
+	cachepath = slnpath + "/AStyle.sln.cache"
 	if os.path.isfile(cachepath):
 		os.remove(cachepath)
 	# call MSBuild
-	buildpath = (os.getenv("WINDIR")
-			+ "/Microsoft.NET/Framework/"
-			+ sdk
-			+ "/MSBuild.exe")
+	if VS_RELEASE >= "vs2013":
+		buildpath = "C:/Program Files (x86)/MSBuild/12.0/Bin/MSBuild.exe"
+	else:
+		buildpath = (os.getenv("WINDIR")
+					+ "/Microsoft.NET/Framework/"
+					+ sdk
+					+ "/MSBuild.exe")
 	if not os.path.isfile(buildpath):
 		message = "Cannot find build path: " + buildpath
 		system_exit(message)
@@ -148,10 +145,6 @@ def compile_astyle_windows(astylepath, config):
 		config_prop = "/property:Configuration=Static"
 	else:
 		config_prop = "/property:Configuration=Release"
-	slnpath = (get_astyle_directory()
-			+ "/build/"
-			+ vsdir
-			+ "/AStyle.sln")
 	platform_prop = "/property:Platform=Win32"
 	msbuild = ([buildpath, config_prop, platform_prop, slnpath])
 	buildfile = get_temp_directory() + "/build." + config + ".tmp"
@@ -351,7 +344,8 @@ def getch():
 				ch_in = sys.stdin.read(1)
 		finally:
 			termios.tcsetattr(fd_in, termios.TCSADRAIN, old_settings)
-	return ch_in
+	# convert to unicode for Python 3
+	return ch_in.decode('utf-8')
 
 # -----------------------------------------------------------------------------
 
@@ -360,7 +354,7 @@ def get_diff_path():
 	   endexe = True will add an ending '.exe' to Windows.
 	"""
 	if os.name == "nt":
-		exepath = "/Program Files/" + "/WinMerge/WinMergeU.exe"
+		exepath = "/Program Files (x86)" + "/WinMerge/WinMergeU.exe"
 		if not os.path.isfile(exepath):
 			message = "Cannot find diff path: " + exepath
 			system_exit(message)
@@ -527,7 +521,9 @@ def get_python_version():
 		version = "Python"
 	else:
 		version = platform.python_implementation()
-	version += " {0}.{1}  ".format(sys.version_info[0], sys.version_info[1])
+	version += " {0}.{1}.{2}  ".format(sys.version_info[0],
+									   sys.version_info[1],
+									   sys.version_info[2])
 	version += "({0})".format(platform.architecture()[0])
 	return version
 
@@ -653,7 +649,7 @@ def system_exit(message=''):
 		getch()
 	else:
 		print("\nEnd of script !")
-	sys.exit(0)
+	os._exit(0)
 
 # -----------------------------------------------------------------------------
 

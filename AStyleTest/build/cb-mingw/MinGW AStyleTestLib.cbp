@@ -8,10 +8,10 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/AStyleTestLibd.exe" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objLibd/" />
+				<Option object_output="objLib/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="--terse_printer" />
+				<Option parameters="--terse_output" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
@@ -32,7 +32,7 @@
 			</Target>
 			<Target title="Release">
 				<Option output="bin/AStyleTestLib.exe" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objLib/" />
+				<Option object_output="objLib/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -56,7 +56,7 @@
 			</Target>
 			<Target title="Coverage">
 				<Option output="bin/AStyleTestLibc.exe" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objLibc/" />
+				<Option object_output="objLib/Coverage/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>

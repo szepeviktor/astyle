@@ -8,10 +8,10 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/AStyleTestLibd" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objLibd/" />
+				<Option object_output="objLib/Debug/" />
 				<Option type="1" />
 				<Option compiler="icc" />
-				<Option parameters="--xxxterse_printer" />
+				<Option parameters="--terse_output" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-w2" />
@@ -32,11 +32,10 @@
 			</Target>
 			<Target title="Release">
 				<Option output="bin/AStyleTestLib" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objLib/" />
+				<Option object_output="objLib/Release/" />
 				<Option type="1" />
 				<Option compiler="icc" />
 				<Compiler>
-					<Add option="-Os" />
 					<Add option="-Wall" />
 					<Add option="-w2" />
 					<Add option="-Wextra" />
