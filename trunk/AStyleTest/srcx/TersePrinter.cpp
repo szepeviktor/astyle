@@ -398,6 +398,11 @@ string TersePrinter::ReplaceSummaryString(const string& summary_) const
 				summary.replace(si, 2, 1, '\r');
 				++si;
 			}
+			else if (summary[si + 1] == 't')
+			{
+				summary.replace(si, 2, 1, '\t');
+				++si;
+			}
 			else
 				summary.erase(si, 1);
 		}

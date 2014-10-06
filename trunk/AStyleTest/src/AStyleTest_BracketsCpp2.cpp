@@ -1213,7 +1213,7 @@ TEST(BracketsRunInCpp, MultipleCommentsRunIn)
 }
 
 //-------------------------------------------------------------------------
-// AStyle C++ Array Bracket Options
+// AStyle C++ Array Default Bracket Options
 // NOTE: Array brackets are NOT converted TO or FROM RunIn style
 //-------------------------------------------------------------------------
 
@@ -1568,6 +1568,31 @@ TEST(BracketsArrayNoneCpp, Comments2)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
+TEST(BracketsArrayNoneCpp, Enum)
+{
+	// test enum formatting
+	// the enum bracket should be space padded and should not be broken
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    enum SQGeneratorState{ eRunning, eSuspended, eDead };\n"
+		"};\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    enum SQGeneratorState { eRunning, eSuspended, eDead };\n"
+		"};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle C++ Array Break Bracket Options
+// NOTE: Array brackets are NOT converted TO or FROM RunIn style
+//-------------------------------------------------------------------------
 
 TEST(BracketsArrayBreakCpp, Break)
 {
@@ -1946,6 +1971,31 @@ TEST(BracketsArrayBreakCpp, Comments)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
+TEST(BracketsArrayBreakCpp, Enum)
+{
+	// test enum formatting
+	// the enum bracket should be space padded and should not be broken
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    enum SQGeneratorState{ eRunning, eSuspended, eDead };\n"
+		"};\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    enum SQGeneratorState { eRunning, eSuspended, eDead };\n"
+		"};\n";
+	char options[] = "style=allman";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle C++ Array Attach Bracket Options
+// NOTE: Array brackets are NOT converted TO or FROM RunIn style
+//-------------------------------------------------------------------------
 
 TEST(BracketsArrayAttachCpp, Break)
 {
@@ -2332,9 +2382,28 @@ TEST(BracketsArrayAttachCpp, Sans)
 	delete [] textOut;
 }
 
+TEST(BracketsArrayAttachCpp, Enum)
+{
+	// test enum formatting
+	// the enum bracket should be space padded and should not be broken
+	char textIn[] =
+		"\nvoid foo() {\n"
+		"    enum SQGeneratorState{ eRunning, eSuspended, eDead };\n"
+		"};\n";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    enum SQGeneratorState { eRunning, eSuspended, eDead };\n"
+		"};\n";
+	char options[] = "style=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
+// AStyle C++ Array Linux Bracket Options
+// NOTE: Array brackets are NOT converted TO or FROM RunIn style
 // Linux array brackets do NOT have complete tests.
-// There are tests in (BracketsLinuxCpp, Formatting1) and (BracketsLinuxCpp, Formatting2)
 //-------------------------------------------------------------------------
 
 TEST(BracketsArrayLinuxCpp, Break)
@@ -2410,8 +2479,29 @@ TEST(BracketsArrayLinuxCpp, RunIn1)
 	delete [] textOut;
 }
 
+TEST(BracketsArrayLinuxCpp, Enum)
+{
+	// test enum formatting
+	// the enum bracket should be space padded and should not be broken
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    enum SQGeneratorState{ eRunning, eSuspended, eDead };\n"
+		"};\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    enum SQGeneratorState { eRunning, eSuspended, eDead };\n"
+		"};\n";
+	char options[] = "style=kr";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
-// End Linux array bracket tests.
+// AStyle C++ Array RunIn Bracket Options
+// NOTE: Array brackets are NOT converted TO or FROM RunIn style
 //-------------------------------------------------------------------------
 
 TEST(BracketsArrayRunInCpp, Break1)
@@ -3074,8 +3164,26 @@ TEST(BracketsArrayRunInCpp, InStatement3)
 	delete [] textOut;
 }
 
+TEST(BracketsArrayRunInCpp, Enum)
+{
+	// test enum formatting
+	// the enum bracket should be space padded and should not be broken
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{   enum SQGeneratorState{ eRunning, eSuspended, eDead };\n"
+		"};\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{   enum SQGeneratorState { eRunning, eSuspended, eDead };\n"
+		"};\n";
+	char options[] = "style=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
-// AStyle C++ Array Bracket Non-In-Statement Options
+// AStyle C++ Array Non-In-Statement Bracket Options
 //-------------------------------------------------------------------------
 
 TEST(BracketsArrayCpp, ClearNonInStatementArray1)

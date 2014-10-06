@@ -48,8 +48,10 @@ def convert_class_functions(line):
 		return line
 	if "buffer.reserve" in line:
 		line = ''
-	elif "setOutputEOL" in line:
-		line = "outputEOL[4]"
+	elif "inStream->seekg" in line:		# two instances
+		line = ''
+	elif "streamLength" in line:
+		line = "streamLength"
 	else:
 		line = "unidentified function: " + line
 	return line

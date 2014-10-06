@@ -96,8 +96,6 @@ def convert_class_functions(line):
 		line = "emptyLineFill"
 	elif "setCStyle" in line:
 		line = "fileType"
-	elif "setPreprocessorIndent" in line:	# depreciated version 2.04
-		line = "preprocessorIndent"
 	elif "setPreprocDefineIndent" in line:
 		line = "shouldIndentPreprocDefine"
 	elif "setPreprocConditionalIndent" in line:

@@ -14,6 +14,41 @@ namespace {
 // AStyle C++11 Standard
 //----------------------------------------------------------------------------
 
+TEST(Cpp11Standard, NoExceptInClass)
+{
+	// Class indentation of C++11 'noexcept'.
+	// The colon should not unindent the line.
+	char text[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    int _x, _y;\n"
+		"    Foo(int x, int y) noexcept :\n"
+		"        _x(x), _y(y) {};\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, NoExceptInIndentedClass)
+{
+	// Class indentation of C++11 'noexcept' with an indented class.
+	// The colon should not unindent the line.
+	char text[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    private:\n"
+		"        int _x, _y;\n"
+		"        Foo(int x, int y) noexcept :\n"
+		"            _x(x), _y(y) {};\n"
+		"};";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(Cpp11Standard, RangeBasedForLoop1)
 {
 	// range-based for loop
@@ -134,6 +169,174 @@ TEST(Cpp11Standard, EnumWithBaseType2)
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(Cpp11Standard, EnumClass)
+{
+	// enum class should be recognized as an 'enum', not a 'class'
+	// enum class should be recognized as a bracket opener in ASBeautifier
+	char textIn[] =
+		"\nenum class test {\n"
+		"test1 = 1,\n"
+		"test2 = 2\n"
+		"};\n";
+	char text[] =
+		"\nenum class test\n"
+		"{\n"
+		"	test1 = 1,\n"
+		"	test2 = 2\n"
+		"};\n";
+	char options[] = "style=allman, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, EnumClassWithBaseType1)
+{
+	// enum class should be recognized as an 'enum', not a 'class'
+	// enum class should be recognized as a bracket opener in ASBeautifier
+	char textIn[] =
+		"\nenum class test : unsigned long\n"
+		"{\n"
+		"test1 = 1,\n"
+		"test2 = 2\n"
+		"};\n";
+	char text[] =
+		"\nenum class test : unsigned long {\n"
+		"	test1 = 1,\n"
+		"	test2 = 2\n"
+		"};\n";
+	char options[] = "style=java, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, EnumClassWithBaseType2)
+{
+	// enum class should be recognized as an 'enum', not a 'class'
+	// enum class should be recognized as a bracket opener in ASBeautifier
+	char textIn[] =
+		"\nenum class test\n"
+		": unsigned long\n"
+		"{\n"
+		"test1 = 1,\n"
+		"test2 = 2\n"
+		"};\n";
+	char text[] =
+		"\nenum class test\n"
+		"	: unsigned long {\n"
+		"	test1 = 1,\n"
+		"	test2 = 2\n"
+		"};\n";
+	char options[] = "style=kr, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, EnumClassWithBaseType3)
+{
+	// enum class should be recognized as an 'enum', not a 'class'
+	// enum class should be recognized as a bracket opener in ASBeautifier
+	char textIn[] =
+		"\nenum class test :\n"
+		"unsigned long {\n"
+		"test1 = 1,\n"
+		"test2 = 2\n"
+		"};\n";
+	char text[] =
+		"\nenum class test :\n"
+		"	unsigned long\n"
+		"{\n"
+		"	test1 = 1,\n"
+		"	test2 = 2\n"
+		"};\n";
+	char options[] = "style=vtk, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializersNone)
+{
+	// test uniform initializers with none brackets
+	// the uniform initializer bracket should NOT be space padded
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int j_one{ wrap(j + 1, x.size()) };\n"
+		"    for (int j{ 0 }; j < x.size(); j++) {}\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializersAttach)
+{
+	// test uniform initializers with attached brackets
+	// the uniform initializer bracket should NOT be space padded
+	char text[] =
+		"\nvoid foo() {\n"
+		"    int j_one{ wrap(j + 1, x.size()) };\n"
+		"    for (int j{ 0 }; j < x.size(); j++) {}\n"
+		"}";
+	char options[] = "style=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializersBreak)
+{
+	// test uniform initializers with broken brackets
+	// the uniform initializer bracket should NOT be space padded
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    int j_one{ wrap(j + 1, x.size()) };\n"
+		"    for (int j{ 0 }; j < x.size(); j++) {}\n"
+		"}";
+	char options[] = "style=allman";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializersRunIn)
+{
+	// test uniform initializers with run-in brackets
+	// the uniform initializer bracket should NOT be space padded
+	char text[] =
+		"\nvoid foo()\n"
+		"{   int j_one{ wrap(j + 1, x.size()) };\n"
+		"    for (int j{ 0 }; j < x.size(); j++) {}\n"
+		"}";
+	char options[] = "style=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializersConst)
+{
+	// The uniform initializer should be identified as an array-type.
+	// The 'const' keyword should not cause it to be a command-type
+	// which will break the brackets.
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    const string separator{ \" - \" };\n"
+		"    static const string separator{ \" - \" };\n"
+		"    const static string separator{ \" - \" };\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 //----------------------------------------------------------------------------
