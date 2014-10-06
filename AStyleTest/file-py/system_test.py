@@ -25,19 +25,18 @@ import time
 
 # select one of the following from libastyle
 # CODEBLOCKS
-# DRJAVA            # Java - Cannot compile
 # GWORKSPACE        # Objective-C
 # JEDIT             # Java
 # SCITE
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN
 # TESTPROJECT
-__project = libastyle.SHARPDEVELOP
+__project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a bracket style or any other option
 #__options = "-tapO"
-__options = libastyle.OPT1
+__options = libastyle.OPT0
 __options_x = ""
 
 # executable for test

@@ -2181,6 +2181,26 @@ TEST(PadOperator, BlockParensSans)
 	delete [] textOut;
 }
 
+TEST(PadOperator, MultiplyDereferencedPointer)
+{
+	// Test a multiply to a dereferenced pointer.
+	// The multiply should be padded.
+	char textIn[] =
+		"\nvoid foo() {\n"
+		"    foo(a* *b);\n"
+		"    return a* *b;\n"
+		"}";
+	char text[] =
+		"\nvoid foo() {\n"
+		"    foo(a * *b);\n"
+		"    return a * *b;\n"
+		"}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(PadOperator, ReferenceToPointer)
 {
 	// Test with a reference to pointer (*&).
@@ -4773,8 +4793,9 @@ TEST(AlignPointerNone, PointerToPointer2)
 TEST(AlignPointerNone, PointerToPointer3)
 {
 	// test pointer to pointer with space separation
-	char textIn[] =
-		"\nint main(int argc, char * *argv)\n"
+	// these do not change because of a multiply then a dereference (a * *b)
+	char text[] =
+		"\nint main(int argc, char **argv)\n"
 		"{\n"
 		"    char    * *bar1;\n"
 		"    char  * *  bar1;\n"
@@ -4783,18 +4804,8 @@ TEST(AlignPointerNone, PointerToPointer3)
 		"    char		*	*		bar1;\n"
 		"    char* *bar1;\n"
 		"}\n";
-	char text[] =
-		"\nint main(int argc, char **argv)\n"
-		"{\n"
-		"    char    **bar1;\n"
-		"    char  **  bar1;\n"
-		"    char **    bar1;\n"
-		"    char	**	bar1;\n"
-		"    char		**		bar1;\n"
-		"    char**bar1;\n"
-		"}\n";
 	char options[] = "";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -5173,6 +5184,20 @@ TEST(AlignPointerNone, ClosingFollowingChar)
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(AlignPointerNone, TrailingReferenceType)
+{
+	// Using a trailing reference type in a function declaration.
+	// Should not change the alignment.
+	char text[] =
+		"\n"
+		"auto method(int x)->int&;\n"
+		"auto method(int x)->int &;\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -5569,8 +5594,9 @@ TEST(AlignPointerType, PointerToPointer2)
 TEST(AlignPointerType, PointerToPointer3)
 {
 	// test pointer to pointer with space separation
+	// these do not change because of a multiply then a dereference (a * *b)
 	char textIn[] =
-		"\nint main(int argc, char * *argv)\n"
+		"\nint main(int argc, char **argv)\n"
 		"{\n"
 		"    char    * *bar1;\n"
 		"    char  * *  bar1;\n"
@@ -5582,12 +5608,12 @@ TEST(AlignPointerType, PointerToPointer3)
 	char text[] =
 		"\nint main(int argc, char** argv)\n"
 		"{\n"
-		"    char**    bar1;\n"
-		"    char**    bar1;\n"
-		"    char**    bar1;\n"
-		"    char**		bar1;\n"
-		"    char**				bar1;\n"
-		"    char** bar1;\n"
+		"    char    * *bar1;\n"
+		"    char  * *  bar1;\n"
+		"    char* *    bar1;\n"
+		"    char	*	*	bar1;\n"
+		"    char		*	*		bar1;\n"
+		"    char* *bar1;\n"
 		"}\n";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -6332,6 +6358,20 @@ TEST(AlignPointerType, ClosingFollowingChar)
 	delete [] textOut;
 }
 
+TEST(AlignPointerType, TrailingReferenceType)
+{
+	// Using a trailing reference type in a function declaration.
+	// Should not change the alignment.
+	char text[] =
+		"\n"
+		"auto method(int x)->int&;\n"
+		"auto method(int x)->int &;\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Align Pointer Middle
 //-------------------------------------------------------------------------
@@ -6637,7 +6677,7 @@ TEST(AlignPointerMiddle, PointerToPointer1)
 		"    char    **bar1;\n"
 		"    char  **  bar1;\n"
 		"    char**    bar1;\n"
-		"    char	*	*	bar1;\n"
+		"    char	**	bar1;\n"
 		"    char		**		bar1;\n"
 		"    char**bar1;\n"
 		"}\n";
@@ -6674,6 +6714,7 @@ TEST(AlignPointerMiddle, PointerToPointer2)
 TEST(AlignPointerMiddle, PointerToPointer3)
 {
 	// test pointer to pointer pointer with space separation
+	// these do not change because of a multiply then a dereference (a * *b)
 	char textIn[] =
 		"\nint main(int argc, char **argv)\n"
 		"{\n"
@@ -6687,12 +6728,12 @@ TEST(AlignPointerMiddle, PointerToPointer3)
 	char text[] =
 		"\nint main(int argc, char ** argv)\n"
 		"{\n"
-		"    char  **  bar1;\n"
-		"    char  **  bar1;\n"
-		"    char  **  bar1;\n"
-		"    char	**	bar1;\n"
-		"    char		**		bar1;\n"
-		"    char ** bar1;\n"
+		"    char    * *bar1;\n"
+		"    char  * *  bar1;\n"
+		"    char* *    bar1;\n"
+		"    char	*	*	bar1;\n"
+		"    char		*	*		bar1;\n"
+		"    char* *bar1;\n"
 		"}\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -7476,6 +7517,20 @@ TEST(AlignPointerMiddle, ClosingFollowingChar)
 	delete [] textOut;
 }
 
+TEST(AlignPointerMiddle, TrailingReferenceType)
+{
+	// Using a trailing reference type in a function declaration.
+	// Should not change the alignment.
+	char text[] =
+		"\n"
+		"auto method(int x)->int&;\n"
+		"auto method(int x)->int &;\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Align Pointer Name
 //-------------------------------------------------------------------------
@@ -7868,6 +7923,7 @@ TEST(AlignPointerName, PointerToPointer2)
 TEST(AlignPointerName, PointerToPointer3)
 {
 	// test pointer to pointer with space separation
+	// these do not change because of a multiply then a dereference (a * *b)
 	char textIn[] =
 		"\nint main(int argc, char** argv)\n"
 		"{\n"
@@ -7881,12 +7937,12 @@ TEST(AlignPointerName, PointerToPointer3)
 	char text[] =
 		"\nint main(int argc, char **argv)\n"
 		"{\n"
-		"    char    **bar1;\n"
-		"    char    **bar1;\n"
-		"    char    **bar1;\n"
-		"    char		**bar1;\n"
-		"    char				**bar1;\n"
-		"    char **bar1;\n"
+		"    char* *    bar1;\n"
+		"    char  * *  bar1;\n"
+		"    char    * *bar1;\n"
+		"    char	*	*	bar1;\n"
+		"    char		*	*		bar1;\n"
+		"    char* *bar1;\n"
 		"}\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -8634,6 +8690,20 @@ TEST(AlignPointerName, ClosingFollowingChar)
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(AlignPointerName, TrailingReferenceType)
+{
+	// Using a trailing reference type in a function declaration.
+	// Should not change the alignment.
+	char text[] =
+		"\n"
+		"auto method(int x)->int&;\n"
+		"auto method(int x)->int &;\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------

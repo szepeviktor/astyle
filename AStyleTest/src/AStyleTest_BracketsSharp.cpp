@@ -2765,6 +2765,26 @@ TEST(BracketsArraySharp, RunIn_Misc1)
 	delete [] textOut;
 }
 
+TEST(BracketsArraySharp, Enum)
+{
+	// test enum formatting
+	// the enum bracket should be space padded and should not be broken
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    enum SQGeneratorState{ eRunning, eSuspended, eDead };\n"
+		"};\n";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    enum SQGeneratorState { eRunning, eSuspended, eDead };\n"
+		"};\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle C# Array Bracket Non-In-Statement Options
 // Currently with C# some commands are handled as non-in-statement arrays

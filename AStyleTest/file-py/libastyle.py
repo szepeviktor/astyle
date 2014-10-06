@@ -22,7 +22,6 @@ else:
 
 # test project IDs
 CODEBLOCKS   = "CodeBlocks"
-DRJAVA       = "DrJava"             # Java - Cannot compile
 GWORKSPACE   = "GWorkspace"         # Objective C
 JEDIT        = "jEdit"              # Java
 #KDEVELOP     = "KDevelop"          # C++- To complicated to compile on Windows
@@ -41,7 +40,7 @@ OPT0 = ""
 # OPT1
 # align-pointer=type (k1), add-brackets (j), break-blocks=all (F),
 #     min-conditional-indent=0 (m0), pad-oper (p), pad-oparen (P)
-OPT1 = "-CSKNLwxwYM50m0FpPHUEk1yejOoc"
+OPT1 = "-CSKNLwxwxWYM50m0FpPHUEk1yejOoc"
 
 # OPT2
 # align-pointer=name (k3), align-reference=type (W1),
@@ -163,7 +162,7 @@ def get_7zip_path():
 	"""Get the 7zip executable path for the os environment.
 	"""
 	if os.name == "nt":
-		exepath = os.getenv("PROGRAMFILES", "C:/Program Files") + "/7-Zip/7z.exe"
+		exepath = "C:/Program Files/7-Zip/7z.exe"
 	else:
 		exepath = "7z"
 	return exepath
@@ -481,8 +480,6 @@ def get_project_filepaths(project):
 		filepaths.append(test_directory + "/CodeBlocks/src/*.cpp")
 		# filepath.append(test_directory + "/CodeBlocks/src/*.cxx")
 		filepaths.append(test_directory + "/CodeBlocks/src/*.h")
-	elif project == DRJAVA:
-		filepaths.append(test_directory + "/DrJava/*.java")
 	elif project == GWORKSPACE:
 		filepaths.append(test_directory + "/GWorkspace/*.m")
 		filepaths.append(test_directory + "/GWorkspace/*.h")

@@ -111,6 +111,40 @@ TEST(IndentClasses, EmptyClassSans)
 	delete [] textOut;
 }
 
+TEST(IndentClasses, MultipleInheritance1)
+{
+	// indent classes with multiple inheritance on separate lines
+	char text[] =
+		"\nclass SearchComboPopUp :\n"
+		"    public wxListBox,\n"
+		"    public wxComboPopup\n"
+		"{\n"
+		"public:\n"
+		"    int foo;\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentClasses, MultipleInheritance2)
+{
+	// indent classes with multiple inheritance on separate lines
+	char text[] =
+		"\nclass SearchComboPopUp\n"
+		"    : public wxListBox,\n"
+		"      public wxComboPopup\n"
+		"{\n"
+		"public:\n"
+		"    int foo;\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(IndentClasses, RunIn)
 {
 	// test indent class blocks with run-in brackets
@@ -341,9 +375,41 @@ TEST(IndentClasses, RunInCommentSans)
 	delete [] textOut;
 }
 
+TEST(IndentClasses, LineComment)
+{
+	// test line comment with indent class blocks
+	// line comment is before the opening bracket
+	//     and should NOT receive an extra indent
+	char text[] =
+		"\nclass FooClass\n"
+		"// -----------------\n"
+		"{\n"
+		"}\n";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentClasses, LineCommentSans)
+{
+	// test line comment without indent class blocks
+	// line comment is before the opening bracket
+	//     and should NOT receive an extra indent
+	char text[] =
+		"\nclass FooClass\n"
+		"// -----------------\n"
+		"{\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(IndentClasses, Comment)
 {
-	// test comment without indent class blocks
+	// test comment with indent class blocks
 	// comment is before the opening bracket
 	//     and should NOT receive an extra indent
 	char text[] =
@@ -648,6 +714,83 @@ TEST(IndentClasses, NestedStruct)
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(IndentClasses, FriendClass)
+{
+	// a 'friend class' statement should be ignored
+	char text[] =
+		"\nclass DebuggerManager\n"
+		"{\n"
+		"    private:\n"
+		"        friend class Manager;\n"
+		"    public:\n"
+		"        inf foo;\n"
+		"};";
+	char options[] = "indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentClasses, FriendClassSans)
+{
+	// a 'friend class' statement without indent-classes should be ignored
+	char text[] =
+		"\nclass DebuggerManager\n"
+		"{\n"
+		"private:\n"
+		"    friend class Manager;\n"
+		"public:\n"
+		"    inf foo;\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentClasses, SharpInheritance1)
+{
+	// a 'friend class' statement without indent-classes should be ignored
+	char text[] =
+		"\npublic class ReportDesignerView : AbstractViewContent,\n"
+		"    IClipboardHandler, IUndoHandler\n"
+		"{\n"
+		"}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentClasses, SharpInheritance2)
+{
+	// a 'friend class' statement without indent-classes should be ignored
+	char text[] =
+		"\npublic class ReportDesignerView\n"
+		"    : AbstractViewContent,\n"
+		"      IClipboardHandler, IUndoHandler\n"
+		"{\n"
+		"}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentClasses, JavaMultipleLine)
+{
+	// a Java class with multiple lines
+	char text[] =
+		"\n"
+		"public class VFSBrowser extends JPanel implements DefaultFocusComponent,\n"
+		"    DockableWindow\n"
+		"{}";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -2602,6 +2745,26 @@ TEST(IndentPreprocBlock, SansFillEmptyLines)
 	delete[] textOut;
 }
 
+TEST(IndentPreprocBlock, ClassHeader)
+{
+	// test indent preprocessor inside a class header
+	// should not use the preprocessor block indent
+	// use the class indent instead
+	char text[] =
+		"\nclass ValueTooltip :\n"
+		"#ifndef __WXMAC__\n"
+		"    public wxPopupWindow\n"
+		"#else\n"
+		"    public wxWindow\n"
+		"#endif\n"
+		"{\n"
+		"}";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(IndentPreprocBlock, Misc1)
 {
 	// this sequence caused a problem while testing
@@ -3447,6 +3610,88 @@ TEST(IndentCol1Comment, Sans)
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(IndentCol1Comment, Namespace1)
+{
+	// test in namespace before the opening bracket
+	// namespace is NOT indented
+	char text[] =
+		"\n// ---------------------------\n"
+		"namespace\n"
+		"// ---------------------------\n"
+		"{\n"
+		"// comment\n"
+		"}";
+	char options[] = "indent-col1-comments";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentCol1Comment, Namespace2)
+{
+	// test in namespace before the opening bracket
+	// namespace IS indented
+	char textIn[] =
+		"\n// ---------------------------\n"
+		"namespace\n"
+		"// ---------------------------\n"
+		"{\n"
+		"// comment\n"
+		"}";
+	char text[] =
+		"\n// ---------------------------\n"
+		"namespace\n"
+		"// ---------------------------\n"
+		"{\n"
+		"    // comment\n"
+		"}";
+	char options[] = "indent-namespaces, indent-col1-comments";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentCol1Comment, NamespaceSans1)
+{
+	// test in namespace before the opening bracket
+	// namespace is NOT indented, no indent-col1-comments
+	char textIn[] =
+		"\n// ---------------------------\n"
+		"namespace\n"
+		"// ---------------------------\n"
+		"{\n"
+		"    // comment\n"
+		"}";
+	char text[] =
+		"\n// ---------------------------\n"
+		"namespace\n"
+		"// ---------------------------\n"
+		"{\n"
+		"// comment\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentCol1Comment, NamespaceSans2)
+{
+	// test in namespace before the opening bracket
+	// namespace IS indented, no indent-col1-comments
+	char text[] =
+		"\n// ---------------------------\n"
+		"namespace\n"
+		"// ---------------------------\n"
+		"{\n"
+		"// comment\n"
+		"}";
+	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------

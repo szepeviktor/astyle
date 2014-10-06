@@ -33,8 +33,6 @@ def extract_project(project, all_files_option):
 		__extract_all_files = True
 	if project == libastyle.CODEBLOCKS:
 		extract_codeblocks()
-	elif project == libastyle.DRJAVA:
-		extract_drjava()
 	elif project == libastyle.GWORKSPACE:
 		extract_gworkspace()
 	elif project == libastyle.JEDIT:
@@ -117,16 +115,6 @@ def extract_codeblocks():
 	remove_test_directory("[Cc]ode[Bb]locks")
 	extract_test_tar("codeblocks*.gz", "codeblocks*.tar", ["*.cpp", "*.h"])
 	rename_test_directory("codeblocks-*", "CodeBlocks")
-
-# -----------------------------------------------------------------------------
-
-def extract_drjava():
-	"""Extract drjava files from archive to test directory.
-	"""
-	remove_test_directory("drjava-*")
-	remove_test_directory("[Dd]r[Jj]ava")
-	extract_test_zip("drjava*.zip", "", ["*.java"])
-	rename_test_directory("drjava-*", "DrJava")
 
 # -----------------------------------------------------------------------------
 
@@ -328,21 +316,19 @@ def test_all_compressed():
 		print("remove tar " + prtfile)
 		os.remove(file_in)
 	print()
-	#extract_project(libastyle.CODEBLOCKS, False)
-	print()
-	#extract_project(libastyle.DRJAVA, False)
+	extract_project(libastyle.CODEBLOCKS, False)
 	print()
 	extract_project(libastyle.GWORKSPACE, False)
 	print()
-	#extract_project(libastyle.JEDIT, False)
-	print()
+	extract_project(libastyle.JEDIT, False)
+	#print()
 	#extract_project(libastyle.KDEVELOP, False)
-	print()
+	#print()
 	#extract_project(libastyle.MONODEVELOP, False)
 	print()
-	#extract_project(libastyle.SCITE, False)
+	extract_project(libastyle.SCITE, False)
 	print()
-	#extract_project(libastyle.SHARPDEVELOP, False)
+	extract_project(libastyle.SHARPDEVELOP, False)
 	print()
 	extract_project(libastyle.TESTPROJECT, False)
 	print()
@@ -360,13 +346,12 @@ def test_all_tarballs():
 	print("TEST TARBALLS\n")
 	extract_project(libastyle.CODEBLOCKS, False)
 	print()
-	# no tarball for DRJAVA
 	extract_project(libastyle.GWORKSPACE, False)
 	print()
 	extract_project(libastyle.JEDIT, False)
-	print()
+	#print()
 	#extract_project(libastyle.KDEVELOP, False)
-	print()
+	#print()
 	#extract_project(libastyle.MONODEVELOP, False)
 	print()
 	# no tarball for SCITE

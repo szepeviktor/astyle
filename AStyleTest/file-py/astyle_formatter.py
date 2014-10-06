@@ -69,7 +69,7 @@ def convert_class_functions(line):
 	or "getForceTabIndentation" in line
 	or "getIndentLength" in line
 	or "getIndentString" in line
-	or "getPreprocessorIndent" in line		# depreciated in version 2.04
+	or "getNamespaceIndent" in line
 	or "getPreprocDefineIndent" in line
 	or "getTabLength" in line):
 		return []

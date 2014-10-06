@@ -23,17 +23,16 @@ import time
 
 # select one of the following from libastyle
 # CODEBLOCKS
-# DRJAVA            # Java - Cannot compile
 # GWORKSPACE        # Objective-C
 # JEDIT             # Java
 # SCITE
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN         # C# - 1000 files from SharpDevelop
 # TESTPROJECT
-__project = libastyle.CODEBLOCKS
+__project = libastyle.JEDIT
 
 # select OPT0 thru OPT3, or use customized options
-__options = libastyle.OPT0
+__options = libastyle.OPT1
 
 # options_x are for BOTH executables
 __options_x  = ""
@@ -41,7 +40,7 @@ __options_x  = ""
 __options_x2 = ""
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle24a"
+__astyleexe1 = "astyle25b"
 __astyleexe2 = "astyle"
 
 # select one of the following to unarchive files
