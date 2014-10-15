@@ -16,7 +16,7 @@
 #include <algorithm>
 #include "AStyleTestCon.h"
 #ifdef _WIN32
-#include <windows.h>
+	#include <windows.h>
 #endif
 
 //----------------------------------------------------------------------------
@@ -694,9 +694,9 @@ struct RussianF : public Test
 
 // OSX fails on the string compares, which actually are OK.
 #ifdef __APPLE__
-TEST_F(RussianF, DISABLED_Recursive1)
+	TEST_F(RussianF, DISABLED_Recursive1)
 #else
-TEST_F(RussianF, Recursive1)
+	TEST_F(RussianF, Recursive1)
 #endif
 // test single-byte recursive option
 {
@@ -725,9 +725,9 @@ TEST_F(RussianF, Recursive1)
 
 // OSX fails on the string compares, which actually are OK.
 #ifdef __APPLE__
-TEST_F(RussianF, DISABLED_Recursive2)
+	TEST_F(RussianF, DISABLED_Recursive2)
 #else
-TEST_F(RussianF, Recursive2)
+	TEST_F(RussianF, Recursive2)
 #endif
 // test single-byte recursive option with a single-byte directory in the options
 {
@@ -793,9 +793,9 @@ TEST_F(RussianF, Recursive3)
 // OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
-TEST_F(RussianF, DISABLED_RecursiveExclude)
+	TEST_F(RussianF, DISABLED_RecursiveExclude)
 #else
-TEST_F(RussianF, RecursiveExclude)
+	TEST_F(RussianF, RecursiveExclude)
 #endif
 // test single-byte recursive option with multi-byte excludes
 {
@@ -1073,9 +1073,9 @@ struct Codepage1252F : public Test
 
 // OSX fails on the string compares, which actually are OK.
 #ifdef __APPLE__
-TEST_F(Codepage1252F, DISABLED_Recursive1)
+	TEST_F(Codepage1252F, DISABLED_Recursive1)
 #else
-TEST_F(Codepage1252F, Recursive1)
+	TEST_F(Codepage1252F, Recursive1)
 #endif
 // test codepage 1252 recursive option
 {

@@ -10,9 +10,9 @@
 #include "gtest/gtest.h"
 
 #ifdef _WIN32
-#include <windows.h>
+	#include <windows.h>
 #else
-#include <stdarg.h>
+	#include <stdarg.h>
 #endif
 
 enum ConsoleColor
@@ -92,10 +92,10 @@ class TersePrinter : public EmptyTestEventListener
 // Color print functions.
 void ColoredPrintf(ConsoleColor color, const char* fmt, ...);
 #ifdef _WIN32
-WORD GetColorAttribute(ConsoleColor color);
+	WORD GetColorAttribute(ConsoleColor color);
 #else
-string GetAnsiColorCode(ConsoleColor color);
-bool ShouldUseColor(bool stdoutIsTty);
+	string GetAnsiColorCode(ConsoleColor color);
+	bool ShouldUseColor(bool stdoutIsTty);
 #endif
 
 #endif	// closes TERSE_PRINTER_H

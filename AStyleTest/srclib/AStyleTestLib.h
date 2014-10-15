@@ -7,9 +7,9 @@
 
 #include <gtest/gtest.h>
 #ifdef __BORLANDC__			// can't use gmock
-#include "gtest/gtest.h"
+	#include "gtest/gtest.h"
 #else
-#include "gmock/gmock.h"
+	#include "gmock/gmock.h"
 #endif
 // for gmock macros
 using namespace testing;
@@ -17,7 +17,7 @@ using namespace testing;
 // must be AFTER gmock.h
 // use this to test the Linux compile with MinGW
 #ifdef MINGW_LINUX
-#undef _WIN32
+	#undef _WIN32
 #endif
 
 #include <stdlib.h>
@@ -32,12 +32,12 @@ using namespace testing;
 // define STDCALL for Windows
 // MINGW defines STDCALL in Windows.h (actually windef.h)
 #ifdef _WIN32
-#ifndef STDCALL
-#define STDCALL __stdcall
-#endif
-// define STDCALL for non-Windows
+	#ifndef STDCALL
+		#define STDCALL __stdcall
+	#endif
+	// define STDCALL for non-Windows
 #else
-#define STDCALL
+	#define STDCALL
 #endif	// #ifdef _WIN32
 
 //-----------------------------------------------------------------------------
