@@ -2757,8 +2757,27 @@ TEST(IndentPreprocBlock, ClassHeader)
 		"#else\n"
 		"    public wxWindow\n"
 		"#endif\n"
-		"{\n"
-		"}";
+		"{}";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, ClassInitializer)
+{
+	// test indent preprocessor inside a class initializer
+	// should not use the preprocessor block indent
+	// use the initializer indent instead
+	char text[] =
+		"\nValueTooltip::ValueTooltip(cbWatch& watch, wxWindow* parent) :\n"
+		"#ifndef __WXMAC__\n"
+		"    wxPopupWindow(parent, wxBORDER_NONE | wxWANTS_CHARS),\n"
+		"#else\n"
+		"    wxWindow(parent, -1),\n"
+		"#endif\n"
+		"    m_watch(watch)\n"
+		"{}";
 	char options[] = "indent-preproc-block";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);

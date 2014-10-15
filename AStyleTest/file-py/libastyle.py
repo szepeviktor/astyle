@@ -48,7 +48,7 @@ OPT1 = "-CSKNLwxwxWYM50m0FpPHUEk1yejOoc"
 #     min-conditional-indent=3 (m3), pad-paren-out(d)
 #     pad-oper (p), delete-empty-lines (xe)
 # WITHOUT: keep-one-line-blocks (O), keep-one-line-statements (o),
-OPT2 = "-xGSKNLwM60m3fpdHUxeEk3W1yeJc"
+OPT2 = "-xGSKNLwxWM60m3fpdHUxeEk3W1yeJc"
 
 # OPT3
 # align-pointer=middle (k2), align-reference=name (W3),
@@ -56,7 +56,7 @@ OPT2 = "-xGSKNLwM60m3fpdHUxeEk3W1yeJc"
 #     remove-brackets (xj),
 # WITHOUT: add-brackets (j,J), break-blocks (f,F),
 #     pad-oper (p), delete-empty-lines (xe)
-OPT3 = "-CSKNLwM80m1DHUEk2W3yxj"
+OPT3 = "-CSKNLwxwM80m1DHUEk2W3yxj"
 
 # TEST SEPARATELY
 # max-code-length (xC), break-after-logical (xL)

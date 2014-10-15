@@ -259,7 +259,7 @@ TEST(Cpp11Standard, EnumClassWithBaseType3)
 	delete[] textOut;
 }
 
-TEST(Cpp11Standard, UniformInitializersNone)
+TEST(Cpp11Standard, UniformInitializerNone)
 {
 	// test uniform initializers with none brackets
 	// the uniform initializer bracket should NOT be space padded
@@ -275,7 +275,7 @@ TEST(Cpp11Standard, UniformInitializersNone)
 	delete[] textOut;
 }
 
-TEST(Cpp11Standard, UniformInitializersAttach)
+TEST(Cpp11Standard, UniformInitializerAttach)
 {
 	// test uniform initializers with attached brackets
 	// the uniform initializer bracket should NOT be space padded
@@ -290,7 +290,7 @@ TEST(Cpp11Standard, UniformInitializersAttach)
 	delete[] textOut;
 }
 
-TEST(Cpp11Standard, UniformInitializersBreak)
+TEST(Cpp11Standard, UniformInitializerBreak)
 {
 	// test uniform initializers with broken brackets
 	// the uniform initializer bracket should NOT be space padded
@@ -306,7 +306,7 @@ TEST(Cpp11Standard, UniformInitializersBreak)
 	delete[] textOut;
 }
 
-TEST(Cpp11Standard, UniformInitializersRunIn)
+TEST(Cpp11Standard, UniformInitializerRunIn)
 {
 	// test uniform initializers with run-in brackets
 	// the uniform initializer bracket should NOT be space padded
@@ -321,7 +321,7 @@ TEST(Cpp11Standard, UniformInitializersRunIn)
 	delete[] textOut;
 }
 
-TEST(Cpp11Standard, UniformInitializersConst)
+TEST(Cpp11Standard, UniformInitializerConst)
 {
 	// The uniform initializer should be identified as an array-type.
 	// The 'const' keyword should not cause it to be a command-type
@@ -333,6 +333,409 @@ TEST(Cpp11Standard, UniformInitializersConst)
 		"    static const string separator{ \" - \" };\n"
 		"    const static string separator{ \" - \" };\n"
 		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializerMisc1)
+{
+	// The uniform initializer should be identified as an array-type.
+	// The opening bracket should not be automatically space padded.
+	// The closing bracket should not be automatically broken from the line.
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    vector<int> x{ 0,\n"
+		"                   1,\n"
+		"                   2 }\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializerClassInitializerNone)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening connamd type bracket should be correctly identified.
+	// This type is for default brackets.
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : bar{0}\n"
+		"{\n"
+		"    foo(a,\n"
+		"        b);\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializerClassInitializerBreak)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening connamd type bracket should be correctly identified.
+	// This type is for broken brackets.
+	char textIn[] =
+		"\nFoo::Foo()\n"
+		"    : bar{0} {\n"
+		"    foo(a,\n"
+		"        b);\n"
+		"}";
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : bar{0}\n"
+		"{\n"
+		"    foo(a,\n"
+		"        b);\n"
+		"}";
+
+	char options[] = "style=allman";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializerClassInitializerAttach)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening connamd type bracket should be correctly identified.
+	// This type is for attached brackets.
+	char textIn[] =
+		"\nFoo::Foo()\n"
+		"    : bar{0}\n"
+		"{\n"
+		"    foo(a,\n"
+		"        b);\n"
+		"}";
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : bar{0} {\n"
+		"    foo(a,\n"
+		"        b);\n"
+		"}";
+	char options[] = "style=java";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializerClassInitializerLinux)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening connamd type bracket should be correctly identified.
+	// This type is for linux brackets.
+	char textIn[] =
+		"\nFoo::Foo()\n"
+		"    : bar{0} {\n"
+		"    foo(a,\n"
+		"        b);\n"
+		"}";
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : bar{0}\n"
+		"{\n"
+		"    foo(a,\n"
+		"        b);\n"
+		"}";
+	char options[] = "style=kr";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializerClassInitializerRunIn)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening command type bracket should be correctly identified.
+	// This type is for run-in brackets.
+	char textIn[] =
+		"\nFoo::Foo()\n"
+		"    : bar{0} {\n"
+		"    foo(a,\n"
+		"        b);\n"
+		"}";
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : bar{0}\n"
+		"{   foo(a,\n"
+		"        b);\n"
+		"}";
+	char options[] = "style=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializerClassInitializerOneLine)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	/// The opening command type bracket should be correctly identified.
+	char textIn[] =
+		"\nclass HasPtr\n"
+		"{\n"
+		"public:\n"
+		"    HasPtr(HasPtr && p) noexcept : ps{ p.ps }, i{ p.i }{ p.ps = 0; }\n"
+		"};";
+	char text[] =
+		"\nclass HasPtr\n"
+		"{\n"
+		"public:\n"
+		"    HasPtr(HasPtr && p) noexcept : ps{ p.ps }, i{ p.i } {\n"
+		"        p.ps = 0;\n"
+		"    }\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializerClassInitializerMultiLine1)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening bracket should be left as-is and not automatically space padded.
+	// The closing bracket should be left as-is and not automatically broken.
+	char text[] =
+		"\nMyClass::MyClass()\n"
+		"    : x{0,\n"
+		"        1,\n"
+		"        2},\n"
+		"      y{0}\n"
+		"{}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializerClassInitializerMultiLine2)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening bracket should be left as-is.
+	// The closing bracket should be left as-is.
+	char text[] =
+		"\nMyClass::MyClass()\n"
+		"    : x { 0,\n"
+		"          1,\n"
+		"          2\n"
+		"        },\n"
+		"      y { 0 }\n"
+		"{}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializer1)
+{
+	// uniform initializers are aligned on first variable
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : m_bar1{0},\n"
+		"      m_bar2{this, id},\n"
+		"      m_bar3{0}\n"
+		"{\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializer2)
+{
+	// uniform initializers are aligned on first variable
+	// colon on previous line
+	char text[] =
+		"\nFoo::Foo() :\n"
+		"    m_bar1{0},\n"
+		"    m_bar2{this, id},\n"
+		"    m_bar3{0}\n"
+		"{\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializer3)
+{
+	// uniform initializers are aligned on first variable
+	// multiple variables per line
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : m_bar1{0}, m_bar2{0},\n"
+		"      m_bar3{0}, m_bar4{0}, m_bar5{0},\n"
+		"      m_bar6{-100}, m_bar7{50}\n"
+		"{\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializer4)
+{
+	// uniform initializers are aligned on first variable
+	// comments after comma
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : m_FileGroups{*fgam}, // comment\n"
+		"      m_pOrigFileGroups{fgam},\n"
+		"      m_LastListSelection{0}\n"
+		"{\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializer5)
+{
+	// uniform initializers are aligned on first variable
+	// last line with brackets should be indented
+	char text[] =
+		"\nFooBar::FooBar(int width = 1, int style = wxSOLID,\n"
+		"               int cap = wxCAP_ROUND)\n"
+		"    : m_bar1{0}, m_bar2{0},\n"
+		"      m_bar3{0}, m_bar4{0},\n"
+		"      m_bar5{0}, m_bar6{NULL} {}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializer6)
+{
+	// uniform initializers are aligned on first variable
+	// initializer with multiple lines
+	// variables are aligned
+	// ending bracket is NOT broken
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : m_bar1{0,\n"
+		"             1,\n"
+		"             2},\n"
+		"      m_bar2{0},\n"
+		"      m_bar3{0} {}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializer7)
+{
+	// uniform initializers are aligned on first variable
+	// initializer brackets are NOT block openers
+	// the command bracket IS a block opener
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : bar { new Bar }\n"
+		"{\n"
+		"    foo( a,\n"
+		"         b );\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializer8)
+{
+	// uniform initializers are aligned on first variable
+	// variables are aligned
+	// ending bracket is NOT broken
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : bar { new Bar }\n"
+		"{\n"
+		"    foo( a,\n"
+		"         b );\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializer9)
+{
+	// uniform initializers are aligned on first variable
+	// class initializer with a "noexcept"
+	char textIn[] =
+		"\nclass HasPtr\n"
+		"{\n"
+		"public:\n"
+		"    HasPtr(HasPtr && p) noexcept : ps{p.ps}, i{p.i} { p.ps = 0; }\n"
+		"};";
+	char text[] =
+		"\nclass HasPtr\n"
+		"{\n"
+		"public:\n"
+		"    HasPtr(HasPtr && p) noexcept : ps{p.ps}, i{p.i} {\n"
+		"        p.ps = 0;\n"
+		"    }\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializer10)
+{
+	// uniform initializers are aligned on first variable
+	// colon on a line by itself
+	char text[] =
+		"\nstruct A\n"
+		"{\n"
+		"    A(int a, int b)\n"
+		"        :\n"
+		"        m_a {a},\n"
+		"        m_b {a}\n"
+		"    {}\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializerCommaFirst1)
+{
+	// "comma first" uniform initializers are aligned on the colon
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : m_bar1{0}\n"
+		"    ,  m_bar2{this, id}\n"
+		"    ,  m_bar3{0}\n"
+		"{}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializerCommaFirst2)
+{
+	// "comma first" uniform initializers are aligned on the colon
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : m_bar1{0},\n"
+		"    ,  m_bar2{this, id},\n"
+		"    ,  m_bar3{0} {}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -3835,6 +4238,54 @@ TEST(Comment, BeforeStatement_Misc7)
 	delete [] textOut;
 }
 
+TEST(Comment, NamespaceClass_Misc8)
+{
+	// line comments should indent with classes with inheritance
+	// line comments precede the brackets
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"class FooClass\n"
+		"    : public FooBase\n"
+		"// comment1\n"
+		"{\n"
+		"public:\n"
+		"    void foo()\n"
+		"    // comment2\n"
+		"    {\n"
+		"    }\n"
+		"};\n"
+		"}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Comment, NamespaceClass_Misc9)
+{
+	// line comments should indent with classes with inheritance
+	// linecomments precede the brackets
+	char text[] =
+		"\nnamespace FooName\n"
+		"{\n"
+		"    class FooClass\n"
+		"        : public FooBase\n"
+		"    // comment1\n"
+		"    {\n"
+		"    public:\n"
+		"        void foo()\n"
+		"        // comment2\n"
+		"        {\n"
+		"        }\n"
+		"    };\n"
+		"}\n";
+	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(Comment, LeadingSpaceCorrection1)
 {
 	// comment where the leading spaces need correction
@@ -5389,6 +5840,50 @@ TEST(MultipleVariable, MultipleSpacesToName)
 	delete [] textOut;
 }
 
+TEST(MultipleVariable, ClassHeader)
+{
+	// class headers are aligned on first variable
+	// last line with brackets should be indented
+	char text[] =
+		"\nclass ASBeautifier\n"
+		"    : protected ASResource1,\n"
+		"      protected ASResource2,\n"
+		"      protected ASBase {};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(MultipleVariable, ClassHeaderCommaFirst1)
+{
+	// "comma first" class headers are aligned on the colon
+	char text[] =
+		"\nclass ASBeautifier\n"
+		"    : protected ASResource1\n"
+		"    ,  protected ASResource2\n"
+		"    ,  protected ASBase\n"
+		"{};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(MultipleVariable, ClassHeaderCommaFirst2)
+{
+	// "comma first" class headers are aligned on the colon
+	char text[] =
+		"\nclass ASBeautifier\n"
+		"    : protected ASResource1\n"
+		"    ,  protected ASResource2\n"
+		"    ,  protected ASBase {};\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(MultipleVariable, ClassInitializer1)
 {
 	// class initializers are aligned on first variable
@@ -5461,8 +5956,8 @@ TEST(MultipleVariable, ClassInitializer5)
 	// class initializers are aligned on first variable
 	// last line with brackets should be indented
 	char text[] =
-		"\nFooBar(int width = 1, int style = wxSOLID,\n"
-		"       int cap = wxCAP_ROUND)\n"
+		"\nFooBar::FooBar(int width = 1, int style = wxSOLID,\n"
+		"               int cap = wxCAP_ROUND)\n"
 		"    : m_bar1(0), m_bar2(0),\n"
 		"      m_bar3(0), m_bar4(0),\n"
 		"      m_bar5(0), m_bar6(NULL) {}\n";
@@ -5512,6 +6007,35 @@ TEST(MultipleVariable, ClassInitializer7)
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(MultipleVariable, ClassInitializerCommaFirst1)
+{
+	// "comma first" class initializers are aligned on the colon
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : m_bar1(0)\n"
+		"    ,  m_bar2(this, id)\n"
+		"    ,  m_bar3(0)\n"
+		"{}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(MultipleVariable, ClassInitializerCommaFirst2)
+{
+	// "comma first" class initializers are aligned on the colon
+	char text[] =
+		"\nFoo::Foo()\n"
+		"    : m_bar1(0),\n"
+		"    ,  m_bar2(this, id),\n"
+		"    ,  m_bar3(0) {}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 TEST(MultipleVariable, Misc1)

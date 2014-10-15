@@ -40,7 +40,7 @@ __options_x  = ""
 __options_x2 = ""
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle25b"
+__astyleexe1 = "astyle25d"
 __astyleexe2 = "astyle"
 
 # select one of the following to unarchive files
