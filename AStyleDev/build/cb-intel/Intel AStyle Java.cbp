@@ -22,7 +22,7 @@
 					<Add option="-O3" />
 					<Add option="-w2" />
 					<Add option="-fno-exceptions" />
-					<Add option="-fpic" />
+					<Add option="-fPIC" />
 					<Add option="-fvisibility=hidden" />
 					<Add option="-DASTYLE_JNI" />
 					<Add option="-DNDEBUG" />
