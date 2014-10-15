@@ -24,7 +24,7 @@
 					<Add option="-W" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
-					<Add option="-fpic" />
+					<Add option="-fPIC" />
 					<Add option="-fvisibility=hidden" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_JNI" />
