@@ -6,7 +6,7 @@
 #include "TersePrinter.h"
 
 #ifdef LEAK_DETECTOR
-#include "vld.h"
+	#include "vld.h"
 #endif
 
 //----------------------------------------------------------------------------

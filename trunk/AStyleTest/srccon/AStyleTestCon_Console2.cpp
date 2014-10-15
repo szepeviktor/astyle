@@ -11,7 +11,7 @@
 #include <algorithm>
 #include "AStyleTestCon.h"
 #ifdef _WIN32
-#include <windows.h>
+	#include <windows.h>
 #endif
 
 //----------------------------------------------------------------------------

@@ -23,12 +23,12 @@ using namespace testing;
 // define STDCALL for Windows
 // MINGW defines STDCALL in Windows.h (actually windef.h)
 #ifdef _WIN32
-#ifndef STDCALL
-#define STDCALL __stdcall
-#endif
-// define STDCALL for non-Windows
+	#ifndef STDCALL
+		#define STDCALL __stdcall
+	#endif
+	// define STDCALL for non-Windows
 #else
-#define STDCALL
+	#define STDCALL
 #endif	// #ifdef _WIN32
 
 //-----------------------------------------------------------------------------

@@ -23,16 +23,16 @@
 //----------------------------------------------------------------------------
 
 #ifdef _WIN32
-#include <windows.h>
+	#include <windows.h>
 #else
-#include <dirent.h>
+	#include <dirent.h>
 #endif
 
 #include "TersePrinter.h"
 #include "AStyleTestCon.h"
 
 #ifdef LEAK_DETECTOR
-#include "vld.h"
+	#include "vld.h"
 #endif
 
 //-------------------------------------------------------------------------
@@ -56,9 +56,9 @@
 
 // directory paths to use for testing
 #ifdef _WIN32
-string g_testDirectory = "%USERPROFILE%\\Projects\\AStyleTest\\ut-testcon";
+	string g_testDirectory = "%USERPROFILE%\\Projects\\AStyleTest\\ut-testcon";
 #else
-string g_testDirectory = "$HOME/Projects/AStyleTest/ut-testcon";
+	string g_testDirectory = "$HOME/Projects/AStyleTest/ut-testcon";
 #endif
 
 // indicates i18n test

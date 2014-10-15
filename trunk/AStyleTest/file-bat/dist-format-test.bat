@@ -14,12 +14,13 @@ REM M50- max-instatement-indent=50
 REM  v - verbose
 REM  p - pad-oper
 REM  Q - formatted
-REM  w - indent-preprocessor
+REM  w - indent-preproc-define
 REM xn - attach-namespaces
 REM xl - attach inlines
+REM xW - indent-preproc-block
 REM z1 - windows lineends
 
-set options=  -A1xnTpHCOwk1  -M50  -Qz1  --options=none
+set options=  -A1xnTpHCOwxWk1  -M50  -Qz1  --options=none
 
 echo Formatting AStyleTest
 echo options %options%

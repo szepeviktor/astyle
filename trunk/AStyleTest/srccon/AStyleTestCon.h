@@ -57,12 +57,12 @@ bool writeOptionsFile(const string& optionsFileName, const char* fileIn);
 
 // windows specific functions
 #ifdef _WIN32
-void cleanTestDirectory(const wstring& directory);
-void displayLastError();
-void retryCreateDirectory(const string& directory);
-void retryRemoveDirectory(const wstring& directory);
-void sleep(int seconds);
-void systemAbort(const wstring& message);
+	void cleanTestDirectory(const wstring& directory);
+	void displayLastError();
+	void retryCreateDirectory(const string& directory);
+	void retryRemoveDirectory(const wstring& directory);
+	void sleep(int seconds);
+	void systemAbort(const wstring& message);
 #endif
 
 //-------------------------------------------------------------------------

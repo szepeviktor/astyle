@@ -11,14 +11,14 @@
 using namespace astyle;
 
 #ifdef _WIN32
-#include <windows.h>
+	#include <windows.h>
 #else
-#include <iconv.h>
+	#include <iconv.h>
 #endif
 
 #ifdef _MSC_VER
-#pragma warning(disable: 4996)  // secure version deprecation warnings
-#pragma warning(disable: 4267)  // 64 bit signed/unsigned loss of data
+	#pragma warning(disable: 4996)  // secure version deprecation warnings
+	#pragma warning(disable: 4267)  // 64 bit signed/unsigned loss of data
 #endif
 
 //----------------------------------------------------------------------------
@@ -510,9 +510,9 @@ struct AStyleMainUtf16F2 : public Test
 // OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
-TEST_F(AStyleMainUtf16F2, DISABLED_FormatUtf16)
+	TEST_F(AStyleMainUtf16F2, DISABLED_FormatUtf16)
 #else
-TEST_F(AStyleMainUtf16F2, FormatUtf16)
+	TEST_F(AStyleMainUtf16F2, FormatUtf16)
 #endif
 // NOTE: The conversion function uses the endianess of the computer
 //       so LE and BE cannot both be tested.

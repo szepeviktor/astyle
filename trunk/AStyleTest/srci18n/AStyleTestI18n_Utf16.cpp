@@ -11,9 +11,9 @@
 
 #include "AStyleTestCon.h"
 #ifdef _WIN32
-#include <windows.h>
+	#include <windows.h>
 #else
-#include <iconv.h>
+	#include <iconv.h>
 #endif
 
 //----------------------------------------------------------------------------
@@ -240,9 +240,9 @@ struct Utf8_16_Class : public Test
 // OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
-TEST_F(Utf8_16_Class, DISABLED_Utf8_To_Utf16_LE)
+	TEST_F(Utf8_16_Class, DISABLED_Utf8_To_Utf16_LE)
 #else
-TEST_F(Utf8_16_Class, Utf8_To_Utf16_LE)
+	TEST_F(Utf8_16_Class, Utf8_To_Utf16_LE)
 #endif
 // test AStyle Utf8 to Utf16 LE conversion functions
 {
@@ -271,9 +271,9 @@ TEST_F(Utf8_16_Class, Utf8_To_Utf16_LE)
 // OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
-TEST_F(Utf8_16_Class, DISABLED_Utf8_To_Utf16_BE)
+	TEST_F(Utf8_16_Class, DISABLED_Utf8_To_Utf16_BE)
 #else
-TEST_F(Utf8_16_Class, Utf8_To_Utf16_BE)
+	TEST_F(Utf8_16_Class, Utf8_To_Utf16_BE)
 #endif
 // test AStyle Utf8 to Utf16 BE conversion functions
 {
@@ -305,9 +305,9 @@ TEST_F(Utf8_16_Class, Utf8_To_Utf16_BE)
 // OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
-TEST_F(Utf8_16_Class, DISABLED_Utf16_LE_To_Utf8)
+	TEST_F(Utf8_16_Class, DISABLED_Utf16_LE_To_Utf8)
 #else
-TEST_F(Utf8_16_Class, Utf16_LE_To_Utf8)
+	TEST_F(Utf8_16_Class, Utf16_LE_To_Utf8)
 #endif
 // test AStyle Utf16 LE to Utf8 conversion functions
 {
@@ -330,9 +330,9 @@ TEST_F(Utf8_16_Class, Utf16_LE_To_Utf8)
 // OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
-TEST_F(Utf8_16_Class, DISABLED_Utf16_BE_To_Utf8)
+	TEST_F(Utf8_16_Class, DISABLED_Utf16_BE_To_Utf8)
 #else
-TEST_F(Utf8_16_Class, Utf16_BE_To_Utf8)
+	TEST_F(Utf8_16_Class, Utf16_BE_To_Utf8)
 #endif
 // test AStyle Utf16 BE to Utf8 conversion functions
 {
@@ -431,9 +431,9 @@ struct ProcessUtf16F : public Test
 // OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
-TEST_F(ProcessUtf16F, DISABLED_Utf16LE_Processing)
+	TEST_F(ProcessUtf16F, DISABLED_Utf16LE_Processing)
 #else
-TEST_F(ProcessUtf16F, Utf16LE_Processing)
+	TEST_F(ProcessUtf16F, Utf16LE_Processing)
 #endif
 // Test processing of UTF-16LE files
 {
@@ -469,9 +469,9 @@ TEST_F(ProcessUtf16F, Utf16LE_Processing)
 // OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
-TEST_F(ProcessUtf16F, DISABLED_Utf16BE_Processing)
+	TEST_F(ProcessUtf16F, DISABLED_Utf16BE_Processing)
 #else
-TEST_F(ProcessUtf16F, Utf16BE_Processing)
+	TEST_F(ProcessUtf16F, Utf16BE_Processing)
 #endif
 // Test processing of UTF-16BE files
 {
