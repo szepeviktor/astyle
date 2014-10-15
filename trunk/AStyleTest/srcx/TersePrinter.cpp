@@ -77,7 +77,7 @@ void TersePrinter::OnTestPartResult(const TestPartResult& test_part_result)
 		}
 		else
 		{
-			ColoredPrintf(COLOR_YELLOW, "%s", "[          ]\n");
+			ColoredPrintf(COLOR_RED, "%s", "[          ]\n");
 		}
 		// print the failed test summary
 		PrintFailedTestSummary(string(test_part_result.summary()));
@@ -110,14 +110,7 @@ void TersePrinter::OnTestEnd(const TestInfo& test_info)
 	else
 	{
 		ColoredPrintf(COLOR_RED, "%s", "[  FAILED  ] ");
-		printf("%s.%s", test_case_name_.c_str(), test_info_name_.c_str());
-		string filler;
-		size_t name_length = test_case_name_.length() + test_info_name_.length() + 1;
-		int filler_adjust = 60 - static_cast<int>(name_length);
-		if (filler_adjust < 0)
-			filler_adjust = 0;
-		filler.append(filler_adjust, '-');
-		printf("  %s\n", filler.c_str());
+		printf("%s.%s\n", test_case_name_.c_str(), test_info_name_.c_str());
 	}
 	fflush(stdout);
 }
