@@ -149,6 +149,9 @@ def initialize_library():
     """
     # change directory to the path where this script is located
     pydir = sys.path[0]
+    # remove the file name for Iron Python
+    if pydir[-3:] == ".py":
+        pydir = os.path.dirname(sys.path[0])
     os.chdir(pydir)
     # return the handle to the shared object
     if os.name == "nt":

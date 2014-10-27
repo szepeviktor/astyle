@@ -86,6 +86,9 @@ def initialize_exe():
     """
     # change directory to the path where this script is located
     pydir = sys.path[0]
+    # remove the file name for Iron Python
+    if pydir[-3:] == ".py":
+        pydir = os.path.dirname(sys.path[0])
     os.chdir(pydir)
     # return the executable name for the platform
     if os.name == "nt":
