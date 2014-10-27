@@ -225,8 +225,6 @@ def process_enhancer(enhancer_list):
 			chars_processed += 1
 			if chars_processed == 1:
 				enhancer_list.append("variableScope:" + src_path + ":" +  str(lines) + "\t\t\t\t// char ch\n")
-		if "newSpaceIndentLength / tabLength" in line:
-			enhancer_list.append("udivError:" + src_path + ":" +  str(lines) + "\t\t\t\t\t// newSpaceIndentLength / tabLength\n")
 	file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -276,6 +274,15 @@ def process_formatter(formatter_list):
 		if (line.startswith("assert")
 		and "adjustChecksumIn" in line):			# 2 lines
 			formatter_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
+		if (line.startswith("assert")
+		and "adjustChecksumOut" in line):
+			formatter_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
+		if (line.startswith("assert")
+		and "computeChecksumIn" in line):			# 2 lines
+			formatter_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
+		if (line.startswith("assert")
+		and "computeChecksumOut" in line):
+			formatter_list.append("assertWithSideEffect:" + src_path + ":" +  str(lines) + "\t\t// assert\n")
 		# unusedFunction warnings
 		if "ASFormatter::getChecksumIn" in line:
 			formatter_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getChecksumIn\n")
@@ -308,8 +315,6 @@ def process_localizer(localizer_list):
 			langid_processed += 1
 			if langid_processed == 1:
 				localizer_list.append("useInitializationList:" + src_path + ":" +  str(lines) + "\t\t// m_langID\n")
-		if line.startswith('size_t mbLen = wcstombs'):
-			localizer_list.append("nullPointer:" + src_path + ":" +  str(lines) + "\t\t\t\t// wcstombs\n")
 		# unusedFunction warnings
 		if "ASLocalizer::getTranslationClass" in line:
 			localizer_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getTranslationClass\n")
@@ -368,8 +373,11 @@ def run_cppcheck():
 	cppcheck.append("--xml-version=2")
 	cppcheck.append("--force")
 	cppcheck.append("--inconclusive")
-	cppcheck.append("--verbose")
+	cppcheck.append("--verbose")  # with version 1.67  this caused functionStatic to be missed !!!
 	cppcheck.append("--suppress=functionStatic")
+	cppcheck.append("--suppress=purgedConfiguration")
+	# this could be a bug in cppcheck 1.67 - false positives with unusedFunction suppression
+	cppcheck.append("--suppress=unmatchedSuppression")		# #########
 	cppcheck.append("--suppressions-list=" + __suppression_path)
 	cppcheck.append(__src_dir)
 	# shell=True keeps the console window open, but will not display if run from an editor
