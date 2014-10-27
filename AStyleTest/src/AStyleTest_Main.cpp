@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 	// example 9 will not work here because of user modifications.
 	// Change the following value to the number of tests (within 20).
 	if (useTersePrinter)
-		TersePrinter::PrintTestTotals(2240, __FILE__, __LINE__);
+		TersePrinter::PrintTestTotals(2260, __FILE__, __LINE__);
 	else
 		ColoredPrintf(COLOR_YELLOW, "\n* USING DEFAULT GTEST PRINTER *\n\n");
 #ifdef __WIN32

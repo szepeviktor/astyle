@@ -14,6 +14,29 @@ namespace {
 // AStyle version 2.05 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V205, AlignPointer)
+{
+	// This problem was caused by not clearing templateDepth when exiting checkIfTemplateOpener().
+	char textIn[] =
+		"\nclass Test\n"
+		"{\n"
+		"    void g(Test && a);\n"
+		"    void f(int i) { i < 1; }\n"
+		"    void g(Test && a);\n"
+		"};";
+	char text[] =
+		"\nclass Test\n"
+		"{\n"
+		"    void g(Test&& a);\n"
+		"    void f(int i) { i < 1; }\n"
+		"    void g(Test&& a);\n"
+		"};";
+	char options[] = "align-pointer=type, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V205, StructObjectIdentification)
 {
 	// This struct caused an indentation problem.

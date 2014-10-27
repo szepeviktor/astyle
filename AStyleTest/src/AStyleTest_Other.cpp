@@ -2290,6 +2290,38 @@ TEST(Enum, InStatementIndentTab2)
 	delete [] textOut;
 }
 
+TEST(Enum, LeadingComma1)
+{
+	// test enum with leading commas
+	char text[] =
+		"\nenum myCodes[] = {\n"
+		"    KEY_F4 = 0x013E\n"
+		"    , KEY_F5 = 0x013F\n"
+		"    , KEY_F6 = 0x0140\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Enum, LeadingComma2)
+{
+	// test enum with leading commas and multiple '=' per line
+	char text[] =
+		"\nstruct YesNoAuto {\n"
+		"    enum {\n"
+		"        Auto = 1, Auto = 2, Auto = 3\n"
+		"        , Yes\n"
+		"        , No\n"
+		"    };\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(Enum, EnumArgument1)
 {
 	// An enum argument is NOT an enum.

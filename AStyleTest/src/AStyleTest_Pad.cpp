@@ -5153,7 +5153,7 @@ TEST(AlignPointerNone, RvalueReference)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone, RvalueReferenceDeclaration)
+TEST(AlignPointerNone, RvalueReferenceDeclaration1)
 {
 	// test on a rvalue reference in a declaration.
 	char text[] =
@@ -5162,6 +5162,33 @@ TEST(AlignPointerNone, RvalueReferenceDeclaration)
 		"    void Foo1(int&&);\n"
 		"    void Foo2(int &&);\n"
 		"    void Foo2(int && );\n"
+		"};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, RvalueReferenceDeclaration2)
+{
+	// test on a rvalue reference in a declaration.
+	char text[] =
+		"\nstruct A {\n"
+		"    A& operator=(const A&&);\n"
+		"};";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerNone, RvalueReferenceOperatorOverload)
+{
+	// test on a rvalue reference in a declaration.
+	char text[] =
+		"\nstruct Test\n"
+		"{\n"
+		"    Test operator=(Test && rhs);\n"
 		"};";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -5194,6 +5221,21 @@ TEST(AlignPointerNone, TrailingReferenceType)
 		"\n"
 		"auto method(int x)->int&;\n"
 		"auto method(int x)->int &;\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AlignPointerNone, SquareBrackets)
+{
+	// A * in brackets is an operator.
+	// Should not change the alignment.
+	char text[] =
+		"\nclass Matrix\n"
+		"{\n"
+		"    Matrix() : data(new ValueType[m * n]) {}\n"
+		"};";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -6295,13 +6337,13 @@ TEST(AlignPointerType, RvalueReference)
 	char text[] =
 		"\nMemoryBlock&& f(MemoryBlock&& block)\n"
 		"{\n"
-		"    A&&  a_ref2 = a;\n"
+		"    A&& a_ref2 = a;\n"
 		"    B&& a_ref4 = B();\n"
 		"    return block;\n"
 		"}\n"
 		"\n"
 		"template <typename T>\n"
-		"void print_type_and_value(T&&  t)\n"
+		"void print_type_and_value(T&& t)\n"
 		"{\n"
 		"    S<T&&>::print(std::forward<T>(t));\n"
 		"}";
@@ -6311,7 +6353,7 @@ TEST(AlignPointerType, RvalueReference)
 	delete [] textOut;
 }
 
-TEST(AlignPointerType, RvalueReferenceDeclaration)
+TEST(AlignPointerType, RvalueReferenceDeclaration1)
 {
 	// test on a rvalue reference in a declaration.
 	char textIn[] =
@@ -6327,6 +6369,42 @@ TEST(AlignPointerType, RvalueReferenceDeclaration)
 		"    void Foo1(int&&);\n"
 		"    void Foo2(int&&);\n"
 		"    void Foo3(int&&);\n"
+		"};";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, RvalueReferenceDeclaration2)
+{
+	// test on a rvalue reference in a declaration.
+	char textIn[] =
+		"\nstruct A {\n"
+		"    A & operator=(const A && );\n"
+		"};";
+	char text[] =
+		"\nstruct A {\n"
+		"    A& operator=(const A&&);\n"
+		"};";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerType, RvalueReferenceOperatorOverload)
+{
+	// test on a rvalue reference in a declaration.
+	char textIn[] =
+		"\nstruct Test\n"
+		"{\n"
+		"    Test operator=(Test && rhs);\n"
+		"};";
+	char text[] =
+		"\nstruct Test\n"
+		"{\n"
+		"    Test operator=(Test&& rhs);\n"
 		"};";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -6366,6 +6444,21 @@ TEST(AlignPointerType, TrailingReferenceType)
 		"\n"
 		"auto method(int x)->int&;\n"
 		"auto method(int x)->int &;\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AlignPointerType, SquareBrackets)
+{
+	// A * in brackets is an operator.
+	// Should not change the alignment.
+	char text[] =
+		"\nclass Matrix\n"
+		"{\n"
+		"    Matrix() : data(new ValueType[m * n]) {}\n"
+		"};";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -7462,7 +7555,7 @@ TEST(AlignPointerMiddle, RvalueReference)
 		"template <typename T>\n"
 		"void print_type_and_value(T && t)\n"
 		"{\n"
-		"    S<T&&>::print(std::forward<T>(t));\n"
+		"    S<T &&>::print(std::forward<T>(t));\n"
 		"}";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -7470,7 +7563,7 @@ TEST(AlignPointerMiddle, RvalueReference)
 	delete [] textOut;
 }
 
-TEST(AlignPointerMiddle, RvalueReferenceDeclaration)
+TEST(AlignPointerMiddle, RvalueReferenceDeclaration1)
 {
 	// test on a rvalue reference in a declaration.
 	char textIn[] =
@@ -7486,6 +7579,42 @@ TEST(AlignPointerMiddle, RvalueReferenceDeclaration)
 		"    void Foo1(int &&);\n"
 		"    void Foo2(int &&);\n"
 		"    void Foo3(int &&);\n"
+		"};";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, RvalueReferenceDeclaration2)
+{
+	// test on a rvalue reference in a declaration.
+	char textIn[] =
+		"\nstruct A {\n"
+		"    A& operator=(const A&&);\n"
+		"};";
+	char text[] =
+		"\nstruct A {\n"
+		"    A & operator=(const A &&);\n"
+		"};";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerMiddle, RvalueReferenceOperatorOverload)
+{
+	// test on a rvalue reference in a declaration.
+	char textIn[] =
+		"\nstruct Test\n"
+		"{\n"
+		"    Test operator=(Test&&rhs);\n"
+		"};";
+	char text[] =
+		"\nstruct Test\n"
+		"{\n"
+		"    Test operator=(Test && rhs);\n"
 		"};";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -7525,6 +7654,21 @@ TEST(AlignPointerMiddle, TrailingReferenceType)
 		"\n"
 		"auto method(int x)->int&;\n"
 		"auto method(int x)->int &;\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AlignPointerMiddle, SquareBrackets)
+{
+	// A * in brackets is an operator.
+	// Should not change the alignment.
+	char text[] =
+		"\nclass Matrix\n"
+		"{\n"
+		"    Matrix() : data(new ValueType[m*n]) {}\n"
+		"};";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -8629,15 +8773,15 @@ TEST(AlignPointerName, RvalueReference)
 	char text[] =
 		"\nMemoryBlock &&f(MemoryBlock &&block)\n"
 		"{\n"
-		"    A  &&a_ref2 = a;\n"
+		"    A &&a_ref2 = a;\n"
 		"    B &&a_ref4 = B();\n"
 		"    return block;\n"
 		"}\n"
 		"\n"
 		"template <typename T>\n"
-		"void print_type_and_value(T  &&t)\n"
+		"void print_type_and_value(T &&t)\n"
 		"{\n"
-		"    S<T&&>::print(std::forward<T>(t));\n"
+		"    S<T &&>::print(std::forward<T>(t));\n"
 		"}";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -8645,7 +8789,7 @@ TEST(AlignPointerName, RvalueReference)
 	delete [] textOut;
 }
 
-TEST(AlignPointerName, RvalueReferenceDeclaration)
+TEST(AlignPointerName, RvalueReferenceDeclaration1)
 {
 	// test on a rvalue reference in a declaration.
 	char textIn[] =
@@ -8661,6 +8805,42 @@ TEST(AlignPointerName, RvalueReferenceDeclaration)
 		"    void Foo1(int &&);\n"
 		"    void Foo2(int &&);\n"
 		"    void Foo3(int &&);\n"
+		"};";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, RvalueReferenceDeclaration2)
+{
+	// test on a rvalue reference in a declaration.
+	char textIn[] =
+		"\nstruct A {\n"
+		"    A& operator=(const A&& );\n"
+		"};";
+	char text[] =
+		"\nstruct A {\n"
+		"    A &operator=(const A &&);\n"
+		"};";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AlignPointerName, RvalueReferenceOperatorOverload)
+{
+	// test on a rvalue reference in a declaration.
+	char textIn[] =
+		"\nstruct Test\n"
+		"{\n"
+		"    Test operator=(Test && rhs);\n"
+		"};";
+	char text[] =
+		"\nstruct Test\n"
+		"{\n"
+		"    Test operator=(Test &&rhs);\n"
 		"};";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -8700,6 +8880,21 @@ TEST(AlignPointerName, TrailingReferenceType)
 		"\n"
 		"auto method(int x)->int&;\n"
 		"auto method(int x)->int &;\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AlignPointerName, SquareBrackets)
+{
+	// A * in brackets is an operator.
+	// Should not change the alignment.
+	char text[] =
+		"\nclass Matrix\n"
+		"{\n"
+		"    Matrix() : data(new ValueType[m * n]) {}\n"
+		"};";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -9039,13 +9234,13 @@ TEST(AlignReferenceType, PointerName_Rvalue)
 	char text[] =
 		"\nMemoryBlock&& f(MemoryBlock&& block)\n"
 		"{\n"
-		"    A&&  a_ref2 = a;\n"
+		"    A&& a_ref2 = a;\n"
 		"    B&& a_ref4 = B();\n"
 		"    return block;\n"
 		"}\n"
 		"\n"
 		"template <typename T>\n"
-		"void print_type_and_value(T&&  t)\n"
+		"void print_type_and_value(T&& t)\n"
 		"{\n"
 		"    S<T&&>::print(std::forward<T>(t));\n"
 		"}";
@@ -9136,7 +9331,7 @@ TEST(AlignReferenceMiddle, PointerType)
 		"template <typename T>\n"
 		"void print_type_and_value(T && t)\n"
 		"{\n"
-		"    S<T&&>::print(std::forward<T>(t));\n"
+		"    S<T &&>::print(std::forward<T>(t));\n"
 		"}";
 	char options[] = "align-reference=middle, align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -9379,15 +9574,15 @@ TEST(AlignReferenceName, PointerType_Rvalue)
 	char text[] =
 		"\nMemoryBlock &&f(MemoryBlock &&block)\n"
 		"{\n"
-		"    A  &&a_ref2 = a;\n"
+		"    A &&a_ref2 = a;\n"
 		"    B &&a_ref4 = B();\n"
 		"    return block;\n"
 		"}\n"
 		"\n"
 		"template <typename T>\n"
-		"void print_type_and_value(T  &&t)\n"
+		"void print_type_and_value(T &&t)\n"
 		"{\n"
-		"    S<T&&>::print(std::forward<T>(t));\n"
+		"    S<T &&>::print(std::forward<T>(t));\n"
 		"}";
 	char options[] = "align-reference=name, align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -9754,7 +9949,7 @@ TEST(AlignReferenceToPointer, PointerName_CommentFollows)
 		"void Method1(char *&data,     // Data\n"
 		"             int length);     // Length\n"
 		"\n"
-		"void Method2(char  *&data,    // Data\n"
+		"void Method2(char *&data,     // Data\n"
 		"             int length);     // Length\n"
 		"\n"
 		"void Method3(char *&data,     // Data\n"
