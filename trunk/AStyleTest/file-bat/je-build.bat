@@ -2,25 +2,25 @@
 
 REM build jEdit using ant
 
-REM build.properties.sample must be modified to 
+REM build.properties.sample must be modified to
 REM build.dir=build and dist.dir=dist (not used)
 REM and saved as build.properties
 
 REM set directory of build.properties and build.xml
-set testdata=..\..\TestDataSys
+set testdata=..\..\TestDataSys\jEdit3
 
 REM set variables for ant
-set ANT_HOME=%PROGRAMFILES%\Java\apache-ant-1.8.4
-set JAVA_HOME=%PROGRAMFILES%\Java\jdk1.7.0
+set ANT_HOME=%PROGRAMFILES(x86)%\Java\apache-ant-1.9.4
+set JAVA_HOME=%PROGRAMFILES(x86)%\Java\jdk1.7.0_67
 set PATH=%PATH%;%ANT_HOME%\bin
 
-if not exist "%testdata%\jEdit" (
-echo no directory "%testdata%\jEdit"
+if not exist "%testdata%" (
+echo no directory "%testdata%"
 pause
 exit
 )
 
-cd   "%testdata%\jEdit"
+cd   "%testdata%"
 
 if exist build  (
 echo deleting build files

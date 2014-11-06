@@ -3,9 +3,9 @@
 REM build SharpDevelop using the releasebuild.bat file
 
 REM set directory
-set testdata=..\..\TestDataSys
+set testdata=..\..\TestDataSys\SharpDevelop3"
 
-cd   "%testdata%\SharpDevelop"
+cd   "%testdata%"
 
 REM if exist build  (
 REM echo deleting build files

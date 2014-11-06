@@ -2070,6 +2070,20 @@ TEST(PadOperator, Sans12)
 	delete [] textOut;
 }
 
+TEST(AlignPointerType, Sans13)
+{
+	// a dereference following a question mark should not be padded
+	char text[] =
+		"\n"
+		"Config newCfg = { somePtr ? *somePtr : DEFAULT_ENUM_VALUE,\n"
+		"                  otherPtr ? *otherPtr : std::wstring()\n"
+		"                };";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(PadOperator, CommaSemiColon)
 {
 	// semi-colons should ALWAYS be padded
@@ -2177,6 +2191,50 @@ TEST(PadOperator, BlockParensSans)
 		"}\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, ClassInitializer)
+{
+	// should pad operators in a class initializer
+	// this was added in release 2.05
+	char textIn[] =
+		"\nclass X {\n"
+		"    X() :\n"
+		"        v((char*)p),\n"
+		"        w(*p),\n"
+		"        x(a&&b),\n"
+		"        y(a*b),\n"
+		"        z(a&b) {}\n"
+		"};\n"
+		"\n"
+		"X() :\n"
+		"    v{(char*)p},\n"
+		"    w{*p},\n"
+		"    x{a&&b},\n"
+		"    y{a*b},\n"
+		"    z{a&b} {}\n"
+		"\n";
+	char text[] =
+		"\nclass X {\n"
+		"    X() :\n"
+		"        v((char*)p),\n"
+		"        w(*p),\n"
+		"        x(a && b),\n"
+		"        y(a * b),\n"
+		"        z(a & b) {}\n"
+		"};\n"
+		"\n"
+		"X() :\n"
+		"    v{(char*)p},\n"
+		"    w{*p},\n"
+		"    x{a && b},\n"
+		"    y{a * b},\n"
+		"    z{a & b} {}\n"
+		"\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -4584,7 +4642,7 @@ TEST(AlignPointerNone, AddressOf)
 	delete [] textOut;
 }
 
-TEST(AlignPointerNone, Dereference)
+TEST(AlignPointerNone, Dereference1)
 {
 	// dereference should NOT be changed
 	char text[] =
@@ -5399,7 +5457,7 @@ TEST(AlignPointerType, AddressOf)
 	delete [] textOut;
 }
 
-TEST(AlignPointerType, Dereference)
+TEST(AlignPointerType, Dereference1)
 {
 	// dereference should NOT be separated from the name
 	char text[] =
@@ -5460,6 +5518,20 @@ TEST(AlignPointerType, Dereference3)
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(AlignPointerType, Dereference4)
+{
+	// a dereference following a question mark should not be attached
+	char text[] =
+		"\n"
+		"Config newCfg = { somePtr ? *somePtr : DEFAULT_ENUM_VALUE,\n"
+		"                  otherPtr ? *otherPtr : std::wstring()\n"
+		"                };";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 TEST(AlignPointerType, GlobalVariables)
