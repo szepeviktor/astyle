@@ -2,11 +2,15 @@
 """ Run the AStyle system test.
     Tests every possible combination of bracket changes.
     Change the global variables to the desired values.
-    Run each bracket type twice to verify there are no changes.
-    Run brackets=none after each new bracket type to verify
+    -------------------------------------------------------
+    Runs each bracket type twice to verify there are no changes.
+    Runs brackets=none after each new bracket type to verify
         there are no changes and to check for consistency.
     Files with undesired changes will be copied to a Test directory
         where they can be checked with a diff program.
+	At end the application directory is renamed by appending the
+	    options number. This allows the application to be compiled
+		while another test is run with a different set of options.
 """
 
 # to disable the print statement and use the print() function (version 3 format)
@@ -53,8 +57,8 @@ __start = 1
 #__bracketsOLD = "__aa_bb_ll_gg_aa_ll_bb_gg_bb_aa_gg_ll_aa_"
 
 # bracket options and the order they are tested (start with number 1)
-# a = attached (A2), b = broken (A1), h = horstmann (A9), p = pico (A11),
-__brackets = "__aa_bb_hh_ahbp"
+# a = attached (A2), b = broken (A1), h = run-in (A9), p = pico (A11),
+__brackets = "__aa_bb_rr_arbp"
 
 # -----------------------------------------------------------------------------
 
@@ -76,19 +80,21 @@ def main():
 	libastyle.build_astyle_executable(get_astyle_config())
 	filepaths = libastyle.get_project_filepaths(__project)
 	excludes = libastyle.get_project_excludes(__project)
-	index = set_test_start(__brackets)
+	index = set_test_start()
+	remove_test_files(index)
+	remove_test_directories(index)
 	print("\nExtracting files")
 	libextract.extract_project(__project, __all_files_option)
 
 	# process the bracket options
 	while index < len(__brackets):
-		print_test_header(__brackets, index)
+		print_test_header(index)
 		testfile = get_test_file_name(index)
-		astyle = set_astyle_args(filepaths, excludes, __brackets, index)
+		astyle = set_astyle_args(filepaths, excludes, index)
 		print_formatting_message(astyle, __project)
 		call_artistic_style(astyle, testfile)
 		totformat, unused = print_astyle_totals(testfile)
-		files = check_formatted_files(testfile, __brackets, index)
+		files = check_formatted_files(testfile, index)
 		if len(files) > 0:
 			errors += totformat
 			errtests.append(get_test_directory_name(index))
@@ -97,6 +103,7 @@ def main():
 		os.remove(testfile)
 		index += 1
 
+	rename_output_file(filepaths)
 	print_run_total(errors, errtests, starttime)
 
 # -----------------------------------------------------------------------------
@@ -115,15 +122,15 @@ def call_artistic_style(astyle, testfile):
 
 # -----------------------------------------------------------------------------
 
-def check_formatted_files(testfile, brackets, index):
+def check_formatted_files(testfile, index):
 	"""Check the output for files that were formatted.
 	   Return is the number of files formatted.
 	"""
 	# check for conditions that are not errors
 	if index == 0:
 		return []
-	if (brackets[index] != brackets[index - 1]
-	and brackets[index] != '_'):
+	if (__brackets[index] != __brackets[index - 1]
+	and __brackets[index] != '_'):
 		return []
 	# get formatted files from the astyle report
 	files = libtest.get_formatted_files(testfile)
@@ -137,7 +144,7 @@ def copy_formatted_files(files, testfile, index):
 	testdir = get_test_directory_name(index)
 	if os.path.exists(testdir):
 		shutil.rmtree(testdir)
-	os.mkdir(testdir)
+	os.makedirs(testdir)
 	shutil.copy(testfile, testdir)
 	for file_in in files:
 		print("copying " + strip_directory_prefix(file_in))
@@ -165,31 +172,74 @@ def get_astyle_config():
 
 def get_bracket_option(index):
 	"""Get the bracket option from the "__brackets" symbol.
-	   a = attached (A2), b = broken (A1), h = horstmann (A9), p = pico (A11),
+	   a = attached (A2), b = broken (A1), r = run-in (A9), p = pico (A11),
 	"""
 	if __brackets[index] == 'a':
 		return "A2"
 	elif __brackets[index] == 'b':
 		return "A1"
-	elif __brackets[index] == 'h':
+	elif __brackets[index] == 'r':
 		return "A9"
 	elif __brackets[index] == 'p':
 		return "A11"
 	elif __brackets[index] == '_':
-		# add case indent for a '_' following a 'h'
-		if index > 0 and __brackets[index - 1] == 'h':
-			return "S"
-		else:
-			return ""
+		return ""
 	else:
 		libastyle.system_exit("Bad bracket option: " + str(__brackets[index]))
 
 # -----------------------------------------------------------------------------
 
-def get_test_directory_name(index):
-	"""Get name of the test directory for the given index.
+def get_modified_options(index):
+	"""Modify the options for the system tests.
+	   This is done so that the comparisons will be correct
+	   or so the program will compile.
 	"""
-	return "test{0}".format(index+1)
+	modified_options = __options
+	# run-in brackets must have indented switches
+	if (index > 0
+	and __brackets[index] == '_'
+	and __brackets[index - 1] == 'r'):
+		if modified_options.find('S') == -1:
+			modified_options = modified_options + "S"
+	# GWorkspace uses multi-line macros and cannot remove brackets (xj)
+	if __project == libastyle.GWORKSPACE:
+		modified_options = modified_options.replace("xj", "")
+	# GENERATE ERRORS FOR TESTING by changing the indent-cases option
+#	if index == 1 or index == 3 or index == 6 or index == 9:
+#		if modified_options.find('K') == -1:
+#			modified_options = modified_options + "K"
+#		else:
+#			modified_options = modified_options.replace("K", "")
+	# check for leading '-'
+	if len(modified_options.strip()) > 0 and modified_options[0] != '-':
+		modified_options = '-' + modified_options
+	return modified_options
+
+# -----------------------------------------------------------------------------
+
+def get_options_variable_name():
+	"""Get the name of the options variable from the global __options.
+	"""
+	if __options == libastyle.OPT0:
+		return "OPT0"
+	elif __options == libastyle.OPT1:
+		return "OPT1"
+	elif __options == libastyle.OPT2:
+		return "OPT2"
+	elif __options == libastyle.OPT3:
+		return "OPT3"
+	else:
+		libastyle.system_exit("\nCannot find options variable name: " + __options)
+
+# -----------------------------------------------------------------------------
+
+def get_test_directory_name(index):
+	"""Get name of the test directory for the requested options.
+	"""
+	options_suffix = get_options_variable_name()[-1]
+	dir_name = '_' + __project + options_suffix
+	dir_name += os.sep + "test{0}".format(index + 1)
+	return dir_name
 
 # -----------------------------------------------------------------------------
 
@@ -239,16 +289,7 @@ def print_run_header():
 		print("Using ({0}) {1}".format(libastyle.VS_RELEASE, __astyleexe), end=" ")
 	else:
 		print("Using {0}".format(__astyleexe), end=" ")
-	if __options == libastyle.OPT0:
-		print("OPT0", end=" ")
-	elif __options == libastyle.OPT1:
-		print("OPT1", end=" ")
-	elif __options == libastyle.OPT2:
-		print("OPT2", end=" ")
-	elif __options == libastyle.OPT3:
-		print("OPT3", end=" ")
-	else:
-		print(__options, end=" ")
+	print(get_options_variable_name(), end=" ")
 	if len(__options_x.strip()) > 0:
 		print(__options_x, end=" "),
 	print()
@@ -259,7 +300,6 @@ def print_run_total(errors, errtests, starttime):
 	"""Print total information for the entire run.
 	"""
 	print()
-	print('-' * 60)
 	stoptime = time.time()
 	runtime = int(stoptime - starttime + 0.5)
 	minute = int(runtime / 60)
@@ -271,66 +311,97 @@ def print_run_total(errors, errtests, starttime):
 	if errors == 0:
 		print(str(errors) + " errors")
 	else:
-		libastyle.set_error_color()
 		print(str(errors) + " errors in", end=" ")
 		for test in errtests:
-			print(test, end=" ")
+			# print only the test directory name
+			start = test.find("test")
+			print(test[start:], end=" ")
 		print()
 
 # -----------------------------------------------------------------------------
 
-def print_test_header(brackets, index):
+def print_test_header(index):
 	"""Print header information for a test.
 	"""
 	test_no = index + 1
 	print('\n' + ('-' * 60) + '\n')
-	print("TEST {0} OF {1}".format(test_no, len(brackets)), end='')
+	print("TEST {0} OF {1}".format(test_no, len(__brackets)), end='')
 	print(' ' * 12, end='')
 	print(libastyle.get_formatted_time())
-	print(brackets[:test_no])
-	print(brackets)
+	print(__brackets[:test_no])
+	print(__brackets)
 
 # -----------------------------------------------------------------------------
 
-def remove_test_directories(brackets, index):
-	"""Remove test directories for this run.
+def remove_test_directories(index):
+	"""Remove top test directory for this run.
 	   If there is an active process using the directory it cannot be removed.
 	   The active process will have to be killed to remove the directory.
 	"""
-	for i in range(index, len(brackets)):
-		testdir = get_test_directory_name(i)
-		if os.path.exists(testdir):
-			try:
-				shutil.rmtree(testdir)
-			except WindowsError as err:
-				print()
-				print(err)
-				message = ("The directory '{0}' must be removed "
-							"before continuing".format(testdir))
-				libastyle.system_exit(message)
+	testdir = get_test_directory_name(index)
+	# remove subdirectory
+	end = testdir.find(os.sep)
+	testdir = testdir[:end]
+	# remove top directory
+	if os.path.exists(testdir):
+		try:
+			shutil.rmtree(testdir)
+		except WindowsError as err:
+			print()
+			print(err)
+			message = ("The directory '{0}' must be removed "
+						"before continuing".format(testdir))
+			libastyle.system_exit(message)
 
 # -----------------------------------------------------------------------------
 
-def remove_test_files(brackets, index):
+def remove_test_files(index):
 	"""Remove test files for this run.
 	   If there is an active process using the file it cannot be removed.
 	   The active process will have to be killed to remove the file.
 	"""
-	for i in range(index, len(brackets)):
+	for i in range(index, len(__brackets)):
 		testfile = get_test_file_name(i)
 		if os.path.exists(testfile):
-			try:
-				os.remove(testfile)
-			except WindowsError as err:
-				print()
-				print(err)
-				message = ("The file '{0}' must be removed "
-							"before continuing").format(testfile)
-				libastyle.system_exit(message)
+			libextract.remove_test_directory(testfile)
 
 # -----------------------------------------------------------------------------
 
-def set_astyle_args(filepath, excludes, brackets, index):
+def rename_output_file(filepaths):
+	"""Rename the output file by appending the options variable number (0-3).
+	"""
+	print('\n' + ('-' * 60))
+	# extract filename
+	filepath = filepaths[0]
+	filepath =filepath.replace('\\', '/')
+	testdir = libastyle.get_test_directory()
+	start = len(testdir) + 1
+	end = filepath.find('/', start)
+	if end == -1:
+		libastyle.system_exit("Cannot find filename for rename: " + filepath)
+	dirname = filepath[start:end]
+	dirpath = testdir + '/' + dirname
+	options_suffix = get_options_variable_name()[-1]
+	newname = dirname + options_suffix
+	newpath =  dirpath + options_suffix
+	# rename by adding the option number to the end
+	if os.path.isdir(newpath):
+		libextract.remove_test_directory(newname)
+	print("rename {0} {1}".format(dirname, newname))
+	try:
+		shutil.move(dirpath, newpath)
+	except WindowsError as err:
+		time.sleep(2)
+		try:
+			shutil.move(dirpath, newpath)
+		except WindowsError as err:
+			print()
+			print(err)
+			libastyle.system_exit("Error in renaming output file: " + dirpath)
+
+# -----------------------------------------------------------------------------
+
+def set_astyle_args(filepath, excludes, index):
 	"""Set args for calling artistic style.
 	"""
 	# set astyle executable
@@ -340,8 +411,9 @@ def set_astyle_args(filepath, excludes, brackets, index):
 		args.append(file_in)
 	# set options - must create a backup file
 	args.append("-vRQ")
-	if len(__options) > 0:
-		args.append(__options)
+	modified_options = get_modified_options(index)
+	if len(modified_options) > 0:
+		args.append(modified_options)
 	if len(__options_x.strip()) > 0:
 		if __options_x[0] != '-':
 			libastyle.system_exit("options_x must begin with a '-'")
@@ -356,7 +428,7 @@ def set_astyle_args(filepath, excludes, brackets, index):
 
 # -----------------------------------------------------------------------------
 
-def set_test_start(brackets):
+def set_test_start():
 	"""Set the test number for start.
 	   Returns the starting index.
 	"""
@@ -367,17 +439,15 @@ def set_test_start(brackets):
 	if index > 0:
 		print("Start with test {0}".format(index+1))
 		# if needed decrease by one test
-		if brackets[index] == brackets[index-1]:
+		if __brackets[index] == __brackets[index-1]:
 			index -= 1
 			print("Starting with test {0} to avoid diffs".format(index+1))
-		elif brackets[index] == '_':
+		elif __brackets[index] == '_':
 			if index >= 2:
 				index -= 2
 			else:
 				index -= 1
 			print("Starting with test {0} to apply format".format(index+1))
-	remove_test_files(brackets, index)
-	remove_test_directories(brackets, index)
 	return index
 
 # -----------------------------------------------------------------------------

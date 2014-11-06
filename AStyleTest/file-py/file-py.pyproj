@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{e87f1a3e-37fd-4fee-a404-dd5260b01e5d}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>modify_shared_version.py</StartupFile>
+    <StartupFile>system_test.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>

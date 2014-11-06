@@ -54,9 +54,12 @@ OPT2 = "-xGSKNLwxWM60m3fpdHUxeEk3W1yeJc"
 # align-pointer=middle (k2), align-reference=name (W3),
 #     min-conditional-indent=1 (m1), pad-paren-in(D)
 #     remove-brackets (xj),
-# WITHOUT: add-brackets (j,J), break-blocks (f,F),
+# WITHOUT: indent-classes (C), indent-switches (S),
+#     indent-cases (K), indent-namespaces (N),
+#     indent-labels (L), indent-preproc-define (w),
+#     add-brackets (j,J), break-blocks (f,F),
 #     pad-oper (p), delete-empty-lines (xe)
-OPT3 = "-CSKNLwxwM80m1DHUEk2W3yxj"
+OPT3 = "-xwM80m1DHUEk2W3yxj"
 
 # TEST SEPARATELY
 # max-code-length (xC), break-after-logical (xL)

@@ -743,6 +743,402 @@ TEST(Cpp11Standard, UniformInitializerCommaFirst2)
 }
 
 //----------------------------------------------------------------------------
+// AStyle indent-off tag
+//----------------------------------------------------------------------------
+
+TEST(IndentOffTag, IndentOffTagLineComments)
+{
+	// indent-off tags with line comments
+	// should NOT be unindented
+	// the unpadded operators should NOT be padded
+	char textIn[] =
+		"\nvoid SetSystemInfo()\n"
+		"{\n"
+		"m_localeText->SetLabel(localeText);\n"
+		"            // *INDENT-OFF* - should not pad-oper\n"
+		"            wxString localeData=\n"
+		"                        osDesc + lineend+\n"
+		"                        langDesc + lineend +\n"
+		"                        bits + lineend;\n"
+		"            // *INDENT-ON* - end should not pad-oper\n"
+		"m_localeData->SetLabel(localeData);\n"
+		"}";
+	char text[] =
+		"\nvoid SetSystemInfo()\n"
+		"{\n"
+		"    m_localeText->SetLabel(localeText);\n"
+		"            // *INDENT-OFF* - should not pad-oper\n"
+		"            wxString localeData=\n"
+		"                        osDesc + lineend+\n"
+		"                        langDesc + lineend +\n"
+		"                        bits + lineend;\n"
+		"            // *INDENT-ON* - end should not pad-oper\n"
+		"    m_localeData->SetLabel(localeData);\n"
+		"}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentOffTag, IndentOffTagComments)
+{
+	// indent-off tags with comments
+	// should NOT be unindented
+	// the unpadded operators should NOT be padded
+	char textIn[] =
+		"\nvoid SetSystemInfo()\n"
+		"{\n"
+		"m_localeText->SetLabel(localeText);\n"
+		"            /*INDENT-OFF* - should not pad-oper*/\n"
+		"            wxString localeData=\n"
+		"                        osDesc + lineend+\n"
+		"                        langDesc + lineend +\n"
+		"                        bits + lineend;\n"
+		"            /*INDENT-ON*/\n"
+		"m_localeData->SetLabel(localeData);\n"
+		"}";
+	char text[] =
+		"\nvoid SetSystemInfo()\n"
+		"{\n"
+		"    m_localeText->SetLabel(localeText);\n"
+		"            /*INDENT-OFF* - should not pad-oper*/\n"
+		"            wxString localeData=\n"
+		"                        osDesc + lineend+\n"
+		"                        langDesc + lineend +\n"
+		"                        bits + lineend;\n"
+		"            /*INDENT-ON*/\n"
+		"    m_localeData->SetLabel(localeData);\n"
+		"}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentOffTag, IndentOffTagCommentsSans)
+{
+	// indent-off tags with invalid comments that are NOT single line
+	// indent-off tags are ignored and the text is unindented
+	// the unpadded operators should be padded
+	char textIn[] =
+		"\nvoid SetSystemInfo()\n"
+		"{\n"
+		"    m_localeText->SetLabel(localeText);\n"
+		"            /* *INDENT-OFF*\n"
+		"            */\n"
+		"            wxString localeData=\n"
+		"                        osDesc + lineend+\n"
+		"                        langDesc + lineend +\n"
+		"                        bits + lineend;\n"
+		"            /* *INDENT-ON*\n"
+		"            */\n"
+		"    m_localeData->SetLabel(localeData);\n"
+		"}";
+	char text[] =
+		"\nvoid SetSystemInfo()\n"
+		"{\n"
+		"    m_localeText->SetLabel(localeText);\n"
+		"    /* *INDENT-OFF*\n"
+		"    */\n"
+		"    wxString localeData =\n"
+		"        osDesc + lineend +\n"
+		"        langDesc + lineend +\n"
+		"        bits + lineend;\n"
+		"    /* *INDENT-ON*\n"
+		"    */\n"
+		"    m_localeData->SetLabel(localeData);\n"
+		"}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentOffTag, IndentOffArray1)
+{
+	// indent-off tags with an array
+	// should NOT change the indent
+	char text[] =
+		"\n// *INDENT-OFF*\n"
+		"const wxCmdLineEntryDesc cmdLineDesc[] =\n"
+		"{\n"
+		"    { wxCMD_LINE_SWITCH, CMD_ENTRY(\"h\"), CMD_ENTRY(\"help\"),\n"
+		"      wxCMD_LINE_VAL_NONE, wxCMD_LINE_OPTION_HELP },\n"
+		"    { wxCMD_LINE_SWITCH, CMD_ENTRY(\" ? \"), CMD_ENTRY(\" ? \"),\n"
+		"      wxCMD_LINE_VAL_NONE, wxCMD_LINE_OPTION_HELP }\n"
+		"};\n"
+		"// *INDENT-ON*\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentOffTag, IndentOffArray2)
+{
+	// indent-off tags with a C# array
+	// should NOT change the indent
+	char text[] =
+		"\nclass Foo\n"
+		"{\n"
+		"    void testAkAppend_data()\n"
+		"    {\n"
+		"        // *INDENT-OFF*\n"
+		"        updateParts(parts, { { \"Random Data\", 11 },\n"
+		"                             { \"Test Data\", 9 }\n"
+		"        });\n"
+		"        // *INDENT-ON*\n"
+		"    }\n"
+		"};\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentOffTag, IndentPreprocBlock)
+{
+	// indent-off tags with indent-preproc-block
+	// should NOT be indented
+	char text[] =
+		"\n// *INDENT-OFF*\n"
+		"#ifdef _WIN32\n"
+		"#define STDCALL __stdcall\n"
+		"#else\n"
+		"#define STDCALL\n"
+		"#endif\n"
+		"// *INDENT-ON*\n";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentOffTag, IndentPreprocBlockPartial)
+{
+	// indent-off tags with partial indent-preproc-block
+	// should NOT be indented after the tag
+	char textIn[] =
+		"\n#ifdef _WIN32\n"
+		"#define STDCALL __stdcall\n"
+		"// *INDENT-OFF*\n"
+		"#else\n"
+		"#define STDCALL\n"
+		"#endif\n"
+		"// *INDENT-ON*\n";
+	char text[] =
+		"\n#ifdef _WIN32\n"
+		"    #define STDCALL __stdcall\n"
+		"// *INDENT-OFF*\n"
+		"#else\n"
+		"#define STDCALL\n"
+		"#endif\n"
+		"// *INDENT-ON*\n";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentOffTag, IndentPreprocConditional)
+{
+	// indent-off tags with indent-preproc-cond
+	// should NOT be indented
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    // *INDENT-OFF*\n"
+		"#if wxUSE_UNICODE\n"
+		"    m_convertedText = wxString(wideBuff);\n"
+		"#else\n"
+		"    m_convertedText = wxString(buffer);\n"
+		"#endif\n"
+		"    // *INDENT-ON*\n"
+		"}\n";
+	char options[] = "indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentOffTag, IndentPreprocDefineLineComments)
+{
+	// indent-off tags using line comments with indent-preproc-define
+	// should NOT be indented
+	char textIn[] =
+		"\n// *INDENT-OFF*\n"
+		"#define GTEST_DECLARE_int32_(name) \\\n"
+		"        GTEST_API_ extern ::testing::internal::Int32 GTEST_FLAG(name)\n"
+		"// *INDENT-ON*\n"
+		"#define GTEST_DECLARE_string_(name) \\\n"
+		"        GTEST_API_ extern ::std::string GTEST_FLAG(name)\n";
+	char text[] =
+		"\n// *INDENT-OFF*\n"
+		"#define GTEST_DECLARE_int32_(name) \\\n"
+		"        GTEST_API_ extern ::testing::internal::Int32 GTEST_FLAG(name)\n"
+		"// *INDENT-ON*\n"
+		"#define GTEST_DECLARE_string_(name) \\\n"
+		"    GTEST_API_ extern ::std::string GTEST_FLAG(name)\n";
+
+	char options[] = "indent-preproc-define";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentOffTag, IndentPreprocDefineComments)
+{
+	// indent-off tags using comments with indent-preproc-define
+	// should NOT be indented
+	char textIn[] =
+		"\n/*INDENT-OFF*/\n"
+		"#define GTEST_DECLARE_int32_(name) \\\n"
+		"        GTEST_API_ extern ::testing::internal::Int32 GTEST_FLAG(name)\n"
+		"/*INDENT-ON*/\n"
+		"#define GTEST_DECLARE_string_(name) \\\n"
+		"        GTEST_API_ extern ::std::string GTEST_FLAG(name)\n";
+	char text[] =
+		"\n/*INDENT-OFF*/\n"
+		"#define GTEST_DECLARE_int32_(name) \\\n"
+		"        GTEST_API_ extern ::testing::internal::Int32 GTEST_FLAG(name)\n"
+		"/*INDENT-ON*/\n"
+		"#define GTEST_DECLARE_string_(name) \\\n"
+		"    GTEST_API_ extern ::std::string GTEST_FLAG(name)\n";
+
+	char options[] = "indent-preproc-define";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentOffTag, MissingIndentOffTag)
+{
+	// indent-on without an preceeding indent-off
+	// should NOT get a checksum error
+	char text[] =
+		"\n//\n"
+		"#ifdef _WIN32\n"
+		"#define STDCALL __stdcall\n"
+		"#else\n"
+		"#define STDCALL\n"
+		"#endif\n"
+		"// *INDENT-ON*\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentOffTag, MissingIndentOnTag)
+{
+	// indent-off without a following indent-on
+	// should NOT add an extra line at the end
+	char text[] =
+		"\n// *INDENT-OFF*\n"
+		"#ifdef _WIN32\n"
+		"#define STDCALL __stdcall\n"
+		"#else\n"
+		"#define STDCALL\n"
+		"#endif\n"
+		"//\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//----------------------------------------------------------------------------
+// AStyle indent-off line tag
+//----------------------------------------------------------------------------
+
+TEST(IndentOffLineTag, LineTagOperators)
+{
+	// indent-off line tag for operators
+	// first set of operators should NOT be padded
+	// second set of identical operators should be padded
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    x = a*b-((c*d)/e);  // *NOPAD*\n"
+		"    x = a&b;            /* *NOPAD* */\n"
+		"    x = (a&b);          /*NOPAD*/\n"
+		"    if (iPages*ROWS != iDatas)  //*NOPAD*\n"
+		"        iPages+=1;              // *NOPAD*\n"
+		"    if (age<3.0f&&age>0.0f)     // *NOPAD*\n"
+		"        setValue(age/3.0f);     // *NOPAD*\n"
+		"\n"
+		"    x = a*b-((c*d)/e);\n"
+		"    x = a&b;\n"
+		"    x = (a&b);\n"
+		"    if (iPages*ROWS != iDatas)\n"
+		"        iPages+=1;\n"
+		"    if (age<3.0f&&age>0.0f)\n"
+		"        setValue(age/3.0f);\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    x = a*b-((c*d)/e);  // *NOPAD*\n"
+		"    x = a&b;            /* *NOPAD* */\n"
+		"    x = (a&b);          /*NOPAD*/\n"
+		"    if (iPages*ROWS != iDatas)  //*NOPAD*\n"
+		"        iPages+=1;              // *NOPAD*\n"
+		"    if (age<3.0f&&age>0.0f)     // *NOPAD*\n"
+		"        setValue(age/3.0f);     // *NOPAD*\n"
+		"\n"
+		"    x = a * b - ((c * d) / e);\n"
+		"    x = a & b;\n"
+		"    x = (a & b);\n"
+		"    if (iPages * ROWS != iDatas)\n"
+		"        iPages += 1;\n"
+		"    if (age < 3.0f && age > 0.0f)\n"
+		"        setValue(age / 3.0f);\n"
+		"}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentOffLineTag, LineTagPointersAndReferences)
+{
+	// indent-off line tag for pointers and references
+	// first set of pointers and references should NOT be padded
+	// second set of identical pointers and references should be padded
+	char textIn[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    string*bar;     // *NOPAD*\n"
+		"    string&bar;     /* *NOPAD* */\n"
+		"    string**bar;    /*NOPAD*/\n"
+		"    string&&bar;    // *NOPAD*\n"
+		"\n"
+		"    string*bar;\n"
+		"    string&bar;\n"
+		"    string**bar;\n"
+		"    string&&bar;\n"
+		"}";
+	char text[] =
+		"\nvoid foo()\n"
+		"{\n"
+		"    string*bar;     // *NOPAD*\n"
+		"    string&bar;     /* *NOPAD* */\n"
+		"    string**bar;    /*NOPAD*/\n"
+		"    string&&bar;    // *NOPAD*\n"
+		"\n"
+		"    string* bar;\n"
+		"    string &bar;\n"
+		"    string** bar;\n"
+		"    string &&bar;\n"
+		"}";
+	char options[] = "align-pointer=type, align-reference=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//----------------------------------------------------------------------------
 // AStyle Macro formatting
 // Test wxWidgets, Qt, MFC, and Boost macros recognized by AStyle
 //----------------------------------------------------------------------------

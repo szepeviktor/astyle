@@ -14,6 +14,29 @@ namespace {
 // AStyle version 2.05 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V205, PadOperator)
+{
+	// Beginning with version 2.05 this should be considered an operator.
+	char textIn[] =
+		"\nstruct Bar\n"
+		"{\n"
+		"    int foo = 2;\n"
+		"    int bar = 4;\n"
+		"    int baz = foo*bar;\n"
+		"};";
+	char text[] =
+		"\nstruct Bar\n"
+		"{\n"
+		"    int foo = 2;\n"
+		"    int bar = 4;\n"
+		"    int baz = foo * bar;\n"
+		"};";
+	char options[] = "pad-oper, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V205, AlignPointer)
 {
 	// This problem was caused by not clearing templateDepth when exiting checkIfTemplateOpener().
