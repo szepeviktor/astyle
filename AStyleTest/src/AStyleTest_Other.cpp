@@ -360,7 +360,7 @@ TEST(Cpp11Standard, UniformInitializerMisc1)
 TEST(Cpp11Standard, UniformInitializerClassInitializerNone)
 {
 	// The uniform initializer in a class initializer is an array-type.
-	// The opening connamd type bracket should be correctly identified.
+	// The opening command type bracket should be correctly identified.
 	// This type is for default brackets.
 	char text[] =
 		"\nFoo::Foo()\n"
@@ -378,7 +378,7 @@ TEST(Cpp11Standard, UniformInitializerClassInitializerNone)
 TEST(Cpp11Standard, UniformInitializerClassInitializerBreak)
 {
 	// The uniform initializer in a class initializer is an array-type.
-	// The opening connamd type bracket should be correctly identified.
+	// The opening command type bracket should be correctly identified.
 	// This type is for broken brackets.
 	char textIn[] =
 		"\nFoo::Foo()\n"
@@ -403,7 +403,7 @@ TEST(Cpp11Standard, UniformInitializerClassInitializerBreak)
 TEST(Cpp11Standard, UniformInitializerClassInitializerAttach)
 {
 	// The uniform initializer in a class initializer is an array-type.
-	// The opening connamd type bracket should be correctly identified.
+	// The opening command type bracket should be correctly identified.
 	// This type is for attached brackets.
 	char textIn[] =
 		"\nFoo::Foo()\n"
@@ -427,7 +427,7 @@ TEST(Cpp11Standard, UniformInitializerClassInitializerAttach)
 TEST(Cpp11Standard, UniformInitializerClassInitializerLinux)
 {
 	// The uniform initializer in a class initializer is an array-type.
-	// The opening connamd type bracket should be correctly identified.
+	// The opening command type bracket should be correctly identified.
 	// This type is for linux brackets.
 	char textIn[] =
 		"\nFoo::Foo()\n"
@@ -1014,7 +1014,7 @@ TEST(IndentOffTag, IndentPreprocDefineComments)
 
 TEST(IndentOffTag, MissingIndentOffTag)
 {
-	// indent-on without an preceeding indent-off
+	// indent-on without an preceding indent-off
 	// should NOT get a checksum error
 	char text[] =
 		"\n//\n"
@@ -1192,7 +1192,7 @@ TEST(Macro, wxWidgetsIndentForceTabX)
 		"	EVT_MENU(ID_MENU_FILE_EXIT, JP5Frm::MenuFileExit)\n"
 		"    END_EVENT_TABLE()\n"
 		"\n"
-		"    lf (isFoo)\n"
+		"    if (isFoo)\n"
 		"    {\n"
 		"	BEGIN_EVENT_TABLE(JP5Frm,wxFrame)\n"
 		"	    EVT_MENU(ID_MENU_FILE_OPEN, JP5Frm::MenuFileOpen)\n"
@@ -1268,7 +1268,7 @@ TEST(Macro, WxWidgetsIndentPreprocBlock)
 TEST(Macro, WxWidgetsIndentPreprocBlockSans)
 {
 	// test indent preprocessor block in a wxWidgets event table
-	// the block will NOT be indented because it is in a unintentable preprocessor
+	// the block will NOT be indented because it is in a un-indentable preprocessor
 	char text[] =
 		"\n#ifdef __BORLANDC__\n"
 		"    #pragma hdrstop\n"
@@ -1335,7 +1335,7 @@ TEST(Macro, WxWidgetsIndentNamespaceSans)
 TEST(Macro, WxWidgetsIndentNamespaceIndentPreprocBlock)
 {
 	// test indent preprocessor block in a indented namespace
-	// includes apreprocessor statement
+	// includes a preprocessor statement
 	char text[] =
 		"\nnamespace ScriptBindings\n"
 		"{\n"
@@ -1356,7 +1356,7 @@ TEST(Macro, WxWidgetsIndentNamespaceIndentPreprocBlock)
 TEST(Macro, WxWidgetsIndentNamespaceSansIndentPreprocBlock)
 {
 	// test indent preprocessor block in a NON-indented namespace
-	// includes apreprocessor statement
+	// includes a preprocessor statement
 	char text[] =
 		"\nnamespace ScriptBindings\n"
 		"{\n"
@@ -1416,7 +1416,7 @@ TEST(Macro, QtForeach2)
 
 TEST(Macro, QtForeachPadHeader)
 {
-	// Qt foreach macro args should pad header
+	// Qt foreach macro should pad header
 	char textIn[] =
 		"\nint foo()\n"
 		"{\n"
@@ -1443,7 +1443,7 @@ TEST(Macro, QtForeachPadHeader)
 
 TEST(Macro, QtForeachAlignPointer)
 {
-	// Qt foreach macro args should default to pionter
+	// Qt foreach macro should default to pointer
 	char textIn[] =
 		"\nint foo()\n"
 		"{\n"
@@ -1490,7 +1490,7 @@ TEST(Macro, QtForever1)
 
 TEST(Macro, QtForever2)
 {
-	// Qtforever macro indent
+	// Qt forever macro indent
 	char text[] =
 		"\nint foo()\n"
 		"{\n"
@@ -1576,7 +1576,7 @@ TEST(CharacterSet, ExtendedCharacterSet)
 	// Clang issues a compiler warning for "illegal character encoding".
 #ifndef __clang__
 	// multi-byte characters (c) and ü should not cause assert error with
-	//     Visual Studio isalpha(), isalnum(), is punct(), etc.
+	//     Visual Studio isalpha(), isalnum(), ispunct(), etc.
 	// will happen only in the debug build
 	char text[] =
 		"\n// © is character 169\n"
@@ -1600,7 +1600,7 @@ TEST(CharacterSet, ExtendedCharacterSet)
 TEST(CharacterSet, UnicodeCharacterSet)
 {
 	// unicode characters should not cause assert error with
-	//     Visual Studio isalpha(), isalnum(), is punct(), etc.
+	//     Visual Studio isalpha(), isalnum(), ispunct(), etc.
 	// will happen only in the debug build
 	char text[] =
 		"\n// \xF0\x80\xA0\xB0 is a unicode UTF-8 character\n"
@@ -1622,7 +1622,7 @@ TEST(CharacterSet, UnicodeCharacterSet)
 TEST(CharacterSet, UTF8WithBOM)
 {
 	// UTF-8 BOM should not cause assert error with
-	//     Visual Studio isalpha(), isalnum(), is punct(), etc.
+	//     Visual Studio isalpha(), isalnum(), ispunct(), etc.
 	//     and should recognize "namespace" as a keyword
 	// will happen only in the debug build
 	char textIn[] =
@@ -4005,7 +4005,7 @@ TEST(Comment, BracketsNone_NamespaceClassIndent_Attach)
 TEST(Comment, BracketsNone_NamespaceClassIndent_RunIn)
 {
 	// comments should indent with namespaces and classes
-	// brackets=none with with run-in brackets
+	// brackets=none with run-in brackets
 	char textIn[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -4693,7 +4693,7 @@ TEST(Comment, NamespaceClass_Misc8)
 TEST(Comment, NamespaceClass_Misc9)
 {
 	// line comments should indent with classes with inheritance
-	// linecomments precede the brackets
+	// line comments precede the brackets
 	char text[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -6144,7 +6144,7 @@ TEST(Assembler, NoParensOrSemiColons)
 }
 
 //----------------------------------------------------------------------------
-// AStyle Multiple Varables separated by commas
+// AStyle Multiple Variables separated by commas
 //----------------------------------------------------------------------------
 
 TEST(MultipleVariableAssignments, Standard)

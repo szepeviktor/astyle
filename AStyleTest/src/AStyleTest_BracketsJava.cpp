@@ -187,7 +187,7 @@ TEST(BracketsNoneJava, RunIn)
 
 TEST(BracketsNoneJava, EnumConstructorBreak)
 {
-	// test defzult brackets option with an enum constructor
+	// test default brackets option with an enum constructor
 	char text[] =
 		"\npublic enum Scope\n"
 		"{\n"
@@ -1211,7 +1211,7 @@ TEST_F(BracketsStroustrupJavaF, ShortOption)
 
 TEST_F(BracketsStroustrupJavaF, BreakClosing)
 {
-	// test stroustrup brackets option, with brea closing brackets
+	// test stroustrup brackets option, with break closing brackets
 	char text[] =
 		"\npublic class FooClass {\n"
 		"    private bool var1;\n"
@@ -1656,7 +1656,7 @@ TEST_F(BracketsOtherJavaF, IndentNamespaces_IndentClass)
 
 TEST(BracketsOtherJava, ClassContinuation_Attached)
 {
-	// test with class continuaton and attached brackets
+	// test with class continuation and attached brackets
 	char text[] =
 		"\npublic class Foo\n"
 		"    extends Bar1\n"
@@ -1671,7 +1671,7 @@ TEST(BracketsOtherJava, ClassContinuation_Attached)
 
 TEST(BracketsOtherJava, ClassContinuation_Broken)
 {
-	// test with class continuaton and broken brackets
+	// test with class continuation and broken brackets
 	char text[] =
 		"\npublic class Foo\n"
 		"    extends Bar1\n"
@@ -1733,7 +1733,7 @@ TEST(BracketsOtherJava, NestedClass)
 TEST(BracketsOtherJava, StaticConstructor)
 {
 	// test gnu style option, with static constructor
-	// sould NOT indent the method opening bracket
+	// should NOT indent the method opening bracket
 	char text[] =
 		"\npublic class FooClass\n"
 		"{\n"

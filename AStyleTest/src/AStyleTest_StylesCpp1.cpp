@@ -5765,7 +5765,7 @@ TEST(StyleGnuCpp, Struct)
 		"    int j;\n"
 		"};\n"
 		"\n"
-		"// struct with inheritence and method\n"
+		"// struct with inheritance and method\n"
 		"struct b_fooStruct : public bar\n"
 		"{\n"
 		"    Foobar(bool isBar)\n"

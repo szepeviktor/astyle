@@ -65,6 +65,9 @@
     <ClCompile Include="..\..\..\src\AStyleTest_NEW_OPTIONS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\AStyleTest_AlignPointer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\AStyleTest.h">

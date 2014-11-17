@@ -127,7 +127,7 @@ TEST(BugFix_V205, CaseIndentAfterAsmBlock)
 
 TEST(BugFix_V204, PreprocessorRecognition)
 {
-	// Should not identify $#errormsg as a preprocessor.
+	// Should not identify ##errormsg as a preprocessor.
 	char text[] =
 		"\n#define compile_time_assert(test, errormsg)                 \\\n"
 		"    do {                                                    \\\n"
@@ -660,7 +660,7 @@ TEST(BugFix_V202, BreakBeforeAssignmenOperator3)
 
 TEST(BugFix_V202, PointerPreceedsAPaddedParen)
 {
-	// Pointer preceeding a padded paren was spaced incorrectly
+	// Pointer preceding a padded paren was spaced incorrectly
 	char textIn[] =
 		"\nclass CrashHandler\n"
 		"{\n"
@@ -1037,7 +1037,7 @@ TEST(BugFix_V201, NotInTemplate)
 
 TEST(BugFix_V201, PointerOrReferenceAtEndOfLine)
 {
-	// Test align-pointer=name mis-aligining a pointer followed by a space at end of line.
+	// Test align-pointer=name mis-aligning a pointer followed by a space at end of line.
 	// The following test has a space after the * and & at end of line.
 	// It was causing the * or & to be attached to the type on the first format.
 	// Following formats moved it to the correct position.
@@ -1208,7 +1208,7 @@ TEST(BugFix_V201, SwitchBracketInPreprocessor1)
 {
 	// Test that the bracket before a preprocessor statement in a "switch" is recognized.
 	// If enhance is called with the argument isInPreprocessor instead of isImmediatelyPostPreprocessor,
-	// the preceeding bracket will not be recognized. This causes the "switch" statement closing
+	// the preceding bracket will not be recognized. This causes the "switch" statement closing
 	// bracket to be incorrectly indented.
 	char text[] =
 		"\nvoid wxsListBox::OnBuildCreatingCode()\n"
@@ -1280,7 +1280,7 @@ TEST(BugFix_V201, SwitchBracketInPreprocessor2)
 
 TEST(BugFix_V201, PopParenStackOnBracket)
 {
-	// Test that paren stack is popped when an attached bracket preceeding a comment is broken.
+	// Test that paren stack is popped when an attached bracket preceding a comment is broken.
 	// In the test case it caused the bracket following line "public bool ShowingDialog"
 	// to not be broken.
 	char textIn[] =
@@ -1791,7 +1791,7 @@ TEST(BugFix_V201, TwoGreaterSymblolsClosingTemplate)
 
 TEST(BugFix_V201, Col1ElseWithPreceedingBracket)
 {
-	// else in col 1 with preceeding bracket tests a seldom used branch
+	// else in col 1 with preceding bracket tests a seldom used branch
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -1973,7 +1973,7 @@ TEST(BugFix_V201, DefinitionsNotHeaders)
 
 TEST(BugFix_V201, SharpPeekNextTextMultiLineComment)
 {
-	// test C# peekNextText() with multi-ine comment before the text
+	// test C# peekNextText() with multi-line comment before the text
 	char text[] =
 		"\npublic interface FooInterface {\n"
 		"    int FooGet {\n"
@@ -2145,7 +2145,7 @@ TEST(BugFix_V124, AppendAttachedBracketInsideCommentsLineBreak)
 
 TEST(BugFix_V124, ElseAttachedToLineComment)
 {
-	// else should not be attached to a line coment
+	// else should not be attached to a line comment
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -2302,7 +2302,7 @@ TEST(BugFix_V124, SharpNonParenHeader_Delegate)
 TEST(BugFix_V124, PadCommentBeforeTab)
 {
 	// space padding the bracket should NOT pad a comment
-	//     when the commet is preceeded by a tab
+	//     when the comment is preceded by a tab
 	//     but should delete a space when preceded spaces
 	char textIn[] =
 		"\nvoid foo() {\n"
@@ -3268,7 +3268,7 @@ TEST(BugFix_V123, UnmatchedBracketsInPreprocessor2)
 TEST(BugFix_V123, DeleteLinesAfterPreprocessor)
 {
 	// empty lines after a preprocessor
-	// should should NOT be attached to the preprocessor
+	// should NOT be attached to the preprocessor
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"

@@ -280,6 +280,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\AStyleTest_AlignPointer.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_BracketsCpp1.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_BracketsCpp2.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_BracketsJava.cpp" />

@@ -459,7 +459,7 @@ TEST(BracketsNoneCpp, Misc3)
 
 TEST(BracketsNoneCpp, ClassContinuation_Attach)
 {
-	// test with class continuaton and attached brackets
+	// test with class continuation and attached brackets
 	char text[] =
 		"\nclass Foo :\n"
 		"    public Bar {\n"
@@ -474,7 +474,7 @@ TEST(BracketsNoneCpp, ClassContinuation_Attach)
 
 TEST(BracketsNoneCpp, ClassContinuation_Break)
 {
-	// test with class continuaton and broken brackets
+	// test with class continuation and broken brackets
 	char text[] =
 		"\nclass Foo :\n"
 		"    public Bar\n"
@@ -1579,7 +1579,7 @@ TEST(BracketsBreakCpp, Misc3)
 
 TEST(BracketsBreakCpp, ClassContinuation)
 {
-	// test with class continuaton and broken brackets
+	// test with class continuation and broken brackets
 	char text[] =
 		"\nclass Foo :\n"
 		"    public Bar\n"
@@ -2654,7 +2654,7 @@ TEST(BracketsAttachCpp, Misc3)
 
 TEST(BracketsAttachCpp, ClassContinuation)
 {
-	// test with class continuaton and attached brackets
+	// test with class continuation and attached brackets
 	char text[] =
 		"\nclass Foo :\n"
 		"    public Bar {\n"
@@ -3517,7 +3517,7 @@ TEST_F(BracketsLinuxCppF, NamespaceClass)
 TEST_F(BracketsLinuxCppF, BreakClosing)
 {
 	// test break closing brackets option with linux brackets
-	// effective only with attach or lnux brackets
+	// effective only with attach or linux brackets
 	char text[] =
 		"\nnamespace FooName\n"
 		"{\n"
@@ -3914,7 +3914,7 @@ TEST(BracketsLinuxCpp, Misc3)
 
 TEST(BracketsLinuxCpp, ClassContinuation)
 {
-	// test with class continuaton and linux brackets
+	// test with class continuation and linux brackets
 	char text[] =
 		"\nclass Foo :\n"
 		"    public Bar\n"
@@ -5283,7 +5283,7 @@ TEST(BracketsStroustrupCpp, Misc3)
 {
 	// test stroustrup brackets option with a macro
 	// bracket type will be incorrectly classified as an array
-	// but should not break ay the semi colon
+	// but should not break at the semi colon
 	char text[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -5299,7 +5299,7 @@ TEST(BracketsStroustrupCpp, Misc3)
 
 TEST(BracketsStroustrupCpp, ClassContinuation)
 {
-	// test with class continuaton and stroustrup brackets
+	// test with class continuation and stroustrup brackets
 	char text[] =
 		"\nclass Foo :\n"
 		"    public Bar {\n"

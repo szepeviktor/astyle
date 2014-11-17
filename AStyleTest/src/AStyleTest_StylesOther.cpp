@@ -541,7 +541,7 @@ TEST(StyleJava, Gnu_NestedClass)
 TEST(StyleJava, Gnu_StaticConstructor)
 {
 	// test gnu style with static constructor
-	// sould NOT indent the method opening bracket
+	// should NOT indent the method opening bracket
 	char text[] =
 		"\npublic class FooClass\n"
 		"{\n"

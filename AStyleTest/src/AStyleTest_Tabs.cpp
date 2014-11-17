@@ -621,7 +621,7 @@ TEST(Tabs, ForceTabX_6)
 TEST(Tabs, ForceTabX_Short6)
 {
 	// Test short option with a tab length of 6 spaces
-	// and a default indentof 3 spaces.
+	// and a default indent of 3 spaces.
 	char text[] =
 		"\nvoid Foo(bool isFoo)\n"
 		"{\n"
@@ -786,7 +786,7 @@ TEST(Tabs, ForceTabX_Horstmann3)
 TEST(Tabs, ForceTabX_Horstmann4)
 {
 	// Test force-tab option with Horstmann brackets
-	// with atab-size of 6 spaces and an indent size of 4 spaces.
+	// with a tab-size of 6 spaces and an indent size of 4 spaces.
 	char text[] =
 		"\nvoid Foo(bool isFoo)\n"
 		"{   if (isFoo\n"

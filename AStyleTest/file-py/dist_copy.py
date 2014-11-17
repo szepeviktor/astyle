@@ -73,7 +73,7 @@ def build_linux_distribution():
 	# permissions = read/write by the owner and read only by everyone else
 	mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 	os.chmod(make_path_clang, mode)
-	print("build/clang copied")
+	print("    clang")
 
 	# build/gcc directory
 	astyle_build_gcc = __astyle_dir + "/build/gcc/"
@@ -84,7 +84,7 @@ def build_linux_distribution():
 	# permissions = read/write by the owner and read only by everyone else
 	mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 	os.chmod(make_path_gcc, mode)
-	print("build/gcc copied")
+	print("    gcc")
 
 	# build/intel directory
 	astyle_build_intel = __astyle_dir + "/build/intel/"
@@ -95,7 +95,9 @@ def build_linux_distribution():
 	# permissions = read/write by the owner and read only by everyone else
 	mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 	os.chmod(make_path_intel, mode)
-	print("build/intel copied")
+	print("    intel")
+
+	print("build copied")
 
 	# create tar.bz2
 	tarname = "astyle_{0}_linux.tar".format(__release)
@@ -136,7 +138,27 @@ def build_mac_distribution():
 	# permissions = read/write by the owner and read only by everyone else
 	mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 	os.chmod(make_path_mac, mode)
-	print("build/mac copied")
+	print("    mac")
+
+	# build/xcode directory
+	astyle_build_xcode = __astyle_dir + "/build/xcode/"
+	dist_build_xcode = dist_astyle +  "/build/xcode/"
+	shutil.copytree(astyle_build_xcode, dist_build_xcode)
+	# permissions = read/write by the owner and read only by everyone else
+	mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+	for file_in in ("/AStyle.xcodeproj/project.pbxproj",
+			        "/AStyleA.xcodeproj/project.pbxproj",
+			        "/AStyleDylib.xcodeproj/project.pbxproj",
+			        "/AStyleJava.xcodeproj/project.pbxproj"):
+		os.chmod(dist_build_xcode + file_in, mode)
+	# permissions = read/write/exe by the owner and read only by everyone else
+	mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IROTH)
+	for file_in in ("/install.sh",
+			        "/uninstall.sh"):
+		os.chmod(dist_build_xcode + file_in, mode)
+	print("    xcode")
+
+	print("build copied")
 
 	# create tar.gz
 	tarname = "astyle_{0}_macosx.tar".format(__release)
@@ -173,9 +195,9 @@ def build_vms_distribution():
 	dist_build_vms = dist_astyle + "/build/vms/"
 	os.makedirs(dist_build_vms)
 	for file_in in ("descrip.mms",
-			     "java.opt",
-			     "lib.opt",
-			     "vmsbuild.com"):
+			        "java.opt",
+			        "lib.opt",
+			        "vmsbuild.com"):
 		shutil.copy(astyle_build_vms + file_in, dist_build_vms)
 	print("build/vms copied")
 
@@ -290,13 +312,18 @@ def copy_astyle_doc(dist_doc, to_dos=False):
 	deleted = 0
 	docfiles = glob.glob(__astyle_dir + "/doc/*")
 	for filepath in docfiles:
-		# don't copy these files
-		if "Archive" in filepath:
-			deleted += 1
-			sep = filepath.rfind(os.sep)
-			print("    " + filepath[sep+1:] + " - not copied")
-		else:
+		sep = filepath.rfind(os.sep)
+		filename = filepath[sep + 1:]
+		if (filename == "astyle.html"
+		or filename == "install.html"
+		or filename == "license.html"
+		or filename == "news.html"
+		or filename == "notes.html"
+		or filename == "styles.css"):
 			shutil.copy(filepath, dist_doc)
+			print("    " + filename)
+		else:
+			deleted += 1
 	convert_line_ends(dist_doc, to_dos)
 	# verify copy - had a problem with bad filenames
 	distfiles = (glob.glob(dist_doc + "/*.html")
@@ -366,8 +393,8 @@ def copy_vs20xx_directories(astyle_build_dir, dist_astyle_build):
 					filtfiles = glob.glob(astyle_build_dir + vsdir[:-1] + projdir + "*.*.filters")
 					for filter_in in filtfiles:
 						shutil.copy(filter_in, dist_astyle_proj)
-
-			print("build/" + vsdir[1:-1] + " copied")
+			print("    " + vsdir[1:-1])
+	print("build copied")
 
 # -----------------------------------------------------------------------------
 
@@ -394,7 +421,7 @@ def verify_localizer_signature():
 	"""Verify that ASLocalizer.cpp does NOT have a signature (BOM).
 	"""
 	localizerpath = libastyle.get_astyle_directory() + "/src/ASLocalizer.cpp"
-	file_fd = os.open(localizerpath, os.O_RDONLY | os.O_BINARY)
+	file_fd = os.open(localizerpath, os.O_RDONLY)
 	file_bytes = os.read(file_fd, 8)
 	if file_bytes[:3] == b"\xEF\xBB\xBF":
 		libastyle.system_exit("\nASLocalizer.cpp must NOT have a signature")

@@ -1683,7 +1683,7 @@ TEST(KeepOneLineBlocks, IndentAfterHeaderSansBrackets)
 
 TEST(KeepOneLineBlocks, IndentSansHeader)
 {
-	// test one line blocks indentation withouta header
+	// test one line blocks indentation without a header
 	char text[] =
 		"\nvoid foo(bool isFoo)\n"
 		"{\n"
@@ -1906,7 +1906,7 @@ TEST(AddBrackets, SemiFollows)
 TEST(AddBrackets, Sharp)
 {
 	// test add brackets to C# headers
-	// 'delegate' statement contans brackets
+	// 'delegate' statement contains brackets
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -2135,7 +2135,7 @@ TEST(AddBrackets, Attach)
 
 TEST(AddBrackets, RunIn)
 {
-	// test add brackets for run-in brakets
+	// test add brackets for run-in brackets
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -2456,7 +2456,7 @@ TEST(AddOneLineBrackets, SemiFollows)
 TEST(AddOneLineBrackets, Sharp)
 {
 	// test add one line brackets to C# headers
-	// 'delegate' statement contans brackets
+	// 'delegate' statement contains brackets
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -2607,7 +2607,7 @@ TEST(AddOneLineBrackets, Attach)
 
 TEST(AddOneLineBrackets, RunIn)
 {
-	// test add one line brackets for run-in brakets
+	// test add one line brackets for run-in brackets
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -2821,7 +2821,7 @@ TEST(RemoveBrackets, ShortOption)
 
 TEST(RemoveBrackets, WithEmptyLine1)
 {
-	// test with a preceeding empty line
+	// test with a preceding empty line
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -3072,7 +3072,7 @@ TEST(RemoveBrackets, BreakBlocks2)
 
 TEST(RemoveBrackets, CommentSans1)
 {
-	// don't remove if a preceeding comment
+	// don't remove if a preceding comment
 	char text[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -3095,7 +3095,7 @@ TEST(RemoveBrackets, CommentSans1)
 
 TEST(RemoveBrackets, CommentSans2)
 {
-	// don't remove if a preceeding column 1 comment
+	// don't remove if a preceding column 1 comment
 	char text[] =
 		"\nvoid Foo() {\n"
 		"    if(result)\n"

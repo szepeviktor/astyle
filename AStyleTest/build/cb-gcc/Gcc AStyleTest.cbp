@@ -84,6 +84,7 @@
 		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
 		<Unit filename="../../../AStyle/src/astyle_main.h" />
 		<Unit filename="../../src/AStyleTest.h" />
+		<Unit filename="../../src/AStyleTest_AlignPointer.cpp" />
 		<Unit filename="../../src/AStyleTest_BracketsCpp1.cpp" />
 		<Unit filename="../../src/AStyleTest_BracketsCpp2.cpp" />
 		<Unit filename="../../src/AStyleTest_BracketsJava.cpp" />
