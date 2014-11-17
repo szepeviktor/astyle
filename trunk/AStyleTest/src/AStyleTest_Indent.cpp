@@ -1116,7 +1116,7 @@ TEST(IndentSwitches, IndentForceTabX)
 TEST(IndentSwitches, Comment1)
 {
 	// test switch block comments
-	// comments NOT immediately preceeding a 'case'
+	// comments NOT immediately preceding a 'case'
 	char text[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -1144,7 +1144,7 @@ TEST(IndentSwitches, Comment1)
 TEST(IndentSwitches, Comment1Sans)
 {
 	// test switch block NOT indented comments
-	// comments immediately preceeding a 'case'
+	// comments immediately preceding a 'case'
 	char text[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -2778,6 +2778,52 @@ TEST(IndentPreprocBlock, ClassInitializer)
 		"#endif\n"
 		"    m_watch(watch)\n"
 		"{}";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, UnmatchedParen)
+{
+	// test indent preprocessor with an unmatched paren
+	// should NOT use the preprocessor block indent
+	// should align the paren indent
+	char text[] =
+		"\n#ifndef ASTYLE_MAIN_H\n"
+		"#define ASTYLE_MAIN_H\n"
+		"\n"
+		"#ifdef ASTYLE_LIB\n"
+		"utf16_t* AStyleMain(const utf16_t* pSourceIn,\n"
+		"                    const utf16_t* pOptions);\n"
+		"#endif\n"
+		"\n"
+		"#endif";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentPreprocBlock, UnmatchedParenNegative)
+{
+	// test indent preprocessor with an negative unmatched paren
+	// the preprocessor block contains only a closing paren
+	// should NOT use the preprocessor block indent
+	// should align the paren indent
+	char text[] =
+		"\nwxRegEx reStepI(wxT(\"(((\"),\n"
+		"#ifndef __WXMAC__\n"
+		"                wxRE_ADVANCED);\n"
+		"#else\n"
+		"                wxRE_EXTENDED);\n"
+		"#endif\n"
+		"wxRegEx reStepI2(_T(\"\\A\"),\n"
+		"#ifndef __WXMAC__\n"
+		"                 wxRE_ADVANCED);\n"
+		"#else\n"
+		"                 wxRE_EXTENDED);\n"
+		"#endif";
 	char options[] = "indent-preproc-block";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);

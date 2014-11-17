@@ -157,7 +157,7 @@ TEST(BracketsNoneSharp, EmptyBrackets)
 
 TEST(BracketsNoneSharp, EmptyBracketsWithComments)
 {
-	// test default brackets option (do not change) wint ending comments
+	// test default brackets option (do not change) with ending comments
 	// do not change empty brackets
 	char text[] =
 		"\npublic class FooClass // comment\n"

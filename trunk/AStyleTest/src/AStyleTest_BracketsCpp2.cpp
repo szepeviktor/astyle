@@ -621,7 +621,7 @@ TEST(BracketsRunInCpp, Misc3)
 {
 	// test run-in brackets option with a macro
 	// bracket type will be incorrectly classified as an array
-	// but should not break ay the semi colon
+	// but should not break at the semi colon
 	char text[] =
 		"\nvoid foo()\n"
 		"{   YY_RULE_SETUP\n"
@@ -636,7 +636,7 @@ TEST(BracketsRunInCpp, Misc3)
 
 TEST(BracketsRunInCpp, ClassContinuation)
 {
-	// test with class continuaton and run-in brackets
+	// test with class continuation and run-in brackets
 	char text[] =
 		"\nclass Foo :\n"
 		"    public Bar\n"
@@ -652,7 +652,7 @@ TEST(BracketsRunInCpp, ClassContinuation)
 
 TEST(BracketsRunInCpp, ClassContinuation_IndentClass)
 {
-	// test with class continuaton, run-in brackets, and indented class blocks
+	// test with class continuation, run-in brackets, and indented class blocks
 	char text[] =
 		"\nclass Foo :\n"
 		"    public Bar\n"
@@ -1515,7 +1515,7 @@ TEST(BracketsArrayNoneCpp, InStatement2)
 
 TEST(BracketsArrayNoneCpp, Comments1)
 {
-	// test array formatting with preceeding comments
+	// test array formatting with preceding comments
 	// use indent=tab to check indent character
 	char textIn[] =
 		"\nstatic tAction StateTable[enStates][enEvents] = {\n"
@@ -2046,7 +2046,7 @@ TEST(BracketsArrayAttachCpp, Attach)
 
 TEST(BracketsArrayAttachCpp, RunIn1)
 {
-	// test array formatting with horstamnn brackets
+	// test array formatting with horstmann brackets
 	// should attach a run-in bracket
 	// use indent=tab to check indent character
 	char textIn[] =
@@ -2069,7 +2069,7 @@ TEST(BracketsArrayAttachCpp, RunIn1)
 
 TEST(BracketsArrayAttachCpp, RunIn2)
 {
-	// test array formatting with horstamnn brackets
+	// test array formatting with horstmann brackets
 	// should attach a run-in bracket
 	// use indent=tab to check indent character
 	char textIn[] =
@@ -2198,7 +2198,7 @@ TEST(BracketsArrayAttachCpp, RunIn6)
 
 TEST(BracketsArrayAttachCpp, RunInLineComments)
 {
-	// test array formatting wih following line comments
+	// test array formatting with following line comments
 	// should attach run-in line comment run-ins
 	// use indent=tab to check indent character
 	char textIn[] =
@@ -2223,7 +2223,7 @@ TEST(BracketsArrayAttachCpp, RunInLineComments)
 
 TEST(BracketsArrayAttachCpp, RunInComments)
 {
-	// test array formatting wih following comments
+	// test array formatting with following comments
 	// should attach run-in comment run-ins
 	// use indent=tab to check indent character
 	char textIn[] =
@@ -2367,7 +2367,7 @@ TEST(BracketsArrayAttachCpp, Comments)
 TEST(BracketsArrayAttachCpp, Sans)
 {
 	// test array formatting
-	// should not attach if preceeded by an empty line
+	// should not attach if preceded by an empty line
 	char text[] =
 		"\nconst char *foo[] =\n"
 		"\n"

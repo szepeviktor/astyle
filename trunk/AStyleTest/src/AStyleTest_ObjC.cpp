@@ -1114,7 +1114,7 @@ TEST(ObjCPadMethodColon, LimitsAll)
 TEST(ObjCPadMethodColon, SingleCharFollowsNone)
 {
 	// Test pad-method-colon=none 'for' and 'while' loop limits.
-	// The single char fillowing the colon should be recognized.
+	// The single char following the colon should be recognized.
 	// This and pad-method-colon=all will test all options.
 	char textIn[] =
 		"\nvoid Foo()\n"
@@ -1141,7 +1141,7 @@ TEST(ObjCPadMethodColon, SingleCharFollowsNone)
 TEST(ObjCPadMethodColon, SingleCharFollowsAll)
 {
 	// Test pad-method-colon=all 'for' and 'while' loop limits.
-	// The single char fillowing the colon should be recognized.
+	// The single char following the colon should be recognized.
 	// This and pad-method-colon=none will test all options.
 	char textIn[] =
 		"\nvoid Foo()\n"
@@ -1494,7 +1494,7 @@ TEST(ObjCOther, GoogleWithAccessModifiers)
 
 TEST(ObjCOther, GoogleWithMultilineInterface)
 {
-	// test google style option with a multiline interface
+	// test google style option with a multi-line interface
 	char text[] =
 		"\n@interface Foo\n"
 		"    : NSObject {\n"
@@ -1562,7 +1562,7 @@ TEST(ObjCOther, InterfaceContinuation1)
 
 TEST(ObjCOther, InterfaceContinuation2)
 {
-	// test google style option with a multiline interface
+	// test google style option with a multi-line interface
 	// attached bracket
 	char text[] =
 		"\n@interface Foo1 :\n"
@@ -1582,7 +1582,7 @@ TEST(ObjCOther, InterfaceContinuation2)
 
 TEST(ObjCOther, InterfaceContinuation3)
 {
-	// test google style option with a multiline interface
+	// test google style option with a multi-line interface
 	// broken bracket
 	char text[] =
 		"\n@interface Foo1 :\n"

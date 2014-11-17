@@ -1378,7 +1378,7 @@ TEST(MaxCodeLength, BreakMaximum3)
 
 TEST(MaxCodeLength, BreakAfterLineBreak)
 {
-	// First IF line shouldbreak twice on the first try.
+	// First IF line should break twice on the first try.
 	// The second break is done after the following line is read into currentLine.
 	char textIn[] =
 		"\npublic void NewException()\n"
@@ -1676,7 +1676,7 @@ TEST(MaxCodeLength, AlignPointerToType1)
 TEST(MaxCodeLength, AlignPointerToType2)
 {
 	// Test max code length with align-pointer=type.
-	// Preceeding a dereference should break before the dereference.
+	// Preceding a dereference should break before the dereference.
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -1697,7 +1697,7 @@ TEST(MaxCodeLength, AlignPointerToType2)
 TEST(MaxCodeLength, AlignPointerToType3)
 {
 	// Test max code length with align-pointer=type for a reference.
-	// Preceeding a dereference should break before the dereference.
+	// Preceding a dereference should break before the dereference.
 	char textIn[] =
 		"\nvoid Foo()\n"
 		"{\n"
@@ -1766,7 +1766,7 @@ TEST(MaxCodeLength, AddBrackets3)
 TEST(MaxCodeLength, AddBrackets4)
 {
 	// Test max code length with add-brackets.
-	// Should NOT break on the the comma following the number 1.
+	// Should NOT break on the comma following the number 1.
 	// This will leave a long line that will break on a subsequent run.
 	// It should adjust the break point to the highest space split point.
 	char textIn[] =
@@ -1983,7 +1983,7 @@ TEST(MaxCodeLength, PadParen5)
 TEST(MaxCodeLength, PadParen6)
 {
 	// Test max code length with pad-paren.
-	// Should should break before "property" when the paren is padded.
+	// Should break before "property" when the paren is padded.
 	char textIn[] =
 		"\nvoid foo()\n"
 		"{\n"
@@ -2353,7 +2353,7 @@ TEST(MaxCodeLength, AlignToMiddle3)
 
 TEST(MaxCodeLength, AlignToMiddle4)
 {
-	// The poiner at the end is formatted as a cast.
+	// The pointer at the end is formatted as a cast.
 	// The line should break without causing an exception in debug.
 	char textIn[] =
 		"\nvoid Foo()\n"
@@ -2404,7 +2404,7 @@ TEST(MaxCodeLength, AlignToName1)
 
 TEST(MaxCodeLength, AlignToName2)
 {
-	// The poiner at the end is formatted as a cast.
+	// The pointer at the end is formatted as a cast.
 	// The line should break without causing an exception in debug.
 	char textIn[] =
 		"\nvoid Foo()\n"
@@ -2528,7 +2528,7 @@ TEST(MaxCodeLength, BreakPastMaxCodeLength5)
 		"\nvoid foo()\n"
 		"{\n"
 		"    if((dir != Encrypt) && (dir != Decrypt))return RIJNDAEL_UNSUPPORTED_DIRECTION;\n"
-		"    // should be preceeded by an empty line\n"
+		"    // should be preceded by an empty line\n"
 		"}\n";
 	char text[] =
 		"\nvoid foo()\n"
@@ -2537,7 +2537,7 @@ TEST(MaxCodeLength, BreakPastMaxCodeLength5)
 		"            && (dir != Decrypt))return\n"
 		"                    RIJNDAEL_UNSUPPORTED_DIRECTION;\n"
 		"\n"
-		"    // should be preceeded by an empty line\n"
+		"    // should be preceded by an empty line\n"
 		"}\n";
 	char options[] = "max-code-length=50, break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);

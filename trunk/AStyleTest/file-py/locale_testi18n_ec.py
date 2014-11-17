@@ -12,7 +12,7 @@ import time
 
 # global variables ------------------------------------------------------------
 # always uses the debug configuration
-__builddir = libastyle.get_astyletest_directory() + "/build/cb-ec"
+__builddir = libastyle.get_astyletest_directory() + "/build/cb-bcc"
 
 # -----------------------------------------------------------------------------
 
@@ -62,9 +62,9 @@ def build_testi18n_executable():
 	arg1 = "--build"
 	arg2 = "--target=Debug"
 	arg3 = "--no-batch-window-close"
-	gmpath = __builddir + "/EC GTest Lib.cbp"
+	gmpath = __builddir + "/Bcc GTest Lib.cbp"
 	gmbuild = ([buildpath, arg1, arg2, arg3, gmpath])
-	cbpath = __builddir + "/EC AStyleTestI18n.cbp"
+	cbpath = __builddir + "/Bcc AStyleTestI18n.cbp"
 	cbbuild = ([buildpath, arg1, arg2, arg3, cbpath])
 	buildfile = libastyle.get_temp_directory() + "/build.txt"
 	outfile = open(buildfile, 'w')
