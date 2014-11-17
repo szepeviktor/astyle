@@ -378,7 +378,7 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
         <span class="hl slc"># if an error occurs, the return is a type(None) object</span>
         <span class="hl kwa">if</span> <span class="hl kwb">type</span><span class="hl opt">(</span>formatted_text<span class="hl opt">) ==</span> <span class="hl kwb">type</span><span class="hl opt">(</span><span class="hl kwa">None</span><span class="hl opt">):</span>
             <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Error in formatting&quot;</span><span class="hl opt">,</span> file_path<span class="hl opt">)</span>
-            sys<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+            os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
         <span class="hl slc"># unicode must be decoded from utf-8 bytes</span>
         <span class="hl slc"># decoding from utf-8 will not cause an exception</span>
         <span class="hl kwa">if</span> __is_unicode__<span class="hl opt">:</span>
@@ -430,7 +430,7 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
     end <span class="hl opt">=</span> file_path<span class="hl opt">.</span><span class="hl kwd">find</span><span class="hl opt">(</span><span class="hl str">&quot;src-p&quot;</span><span class="hl opt">)</span>
     <span class="hl kwa">if</span> end <span class="hl opt">== -</span><span class="hl num">1</span><span class="hl opt">:</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find source directory&quot;</span><span class="hl opt">,</span> file_path<span class="hl opt">)</span>
-        sys<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
     file_path <span class="hl opt">=</span> file_path<span class="hl opt">[</span><span class="hl num">0</span><span class="hl opt">:</span>end<span class="hl opt">]</span>
     file_path <span class="hl opt">=</span> file_path <span class="hl opt">+</span> <span class="hl str">&quot;test-data&quot;</span> <span class="hl opt">+</span> os<span class="hl opt">.</span>sep <span class="hl opt">+</span> file_name
     <span class="hl kwa">return</span> file_path
@@ -453,12 +453,12 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
         <span class="hl slc"># &quot;No such file or directory: &lt;file&gt;&quot;</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span>err<span class="hl opt">)</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot open&quot;</span><span class="hl opt">,</span> file_path<span class="hl opt">)</span>
-        sys<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
     <span class="hl kwa">except</span> <span class="hl kwc">UnicodeError</span> <span class="hl kwa">as</span> err<span class="hl opt">:</span>
         <span class="hl slc"># &quot;'&lt;codec&gt;' codec can't decode byte 0x81 in position 40813: &lt;message&gt;&quot;</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span>err<span class="hl opt">)</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot read&quot;</span><span class="hl opt">,</span> file_path<span class="hl opt">)</span>
-        sys<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
     file_in<span class="hl opt">.</span><span class="hl kwd">close</span><span class="hl opt">()</span>
     <span class="hl kwa">return</span> text_in
 
@@ -470,6 +470,9 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
     <span class="hl slc"># change directory to the path where this script is located</span>
     pydir <span class="hl opt">=</span> sys<span class="hl opt">.</span>path<span class="hl opt">[</span><span class="hl num">0</span><span class="hl opt">]</span>
+    <span class="hl slc"># remove the file name for Iron Python</span>
+    <span class="hl kwa">if</span> pydir<span class="hl opt">[-</span><span class="hl num">3</span><span class="hl opt">:] ==</span> <span class="hl str">&quot;.py&quot;</span><span class="hl opt">:</span>
+        pydir <span class="hl opt">=</span> os<span class="hl opt">.</span>path<span class="hl opt">.</span><span class="hl kwd">dirname</span><span class="hl opt">(</span>sys<span class="hl opt">.</span>path<span class="hl opt">[</span><span class="hl num">0</span><span class="hl opt">])</span>
     os<span class="hl opt">.</span><span class="hl kwd">chdir</span><span class="hl opt">(</span>pydir<span class="hl opt">)</span>
     <span class="hl slc"># return the handle to the shared object</span>
     <span class="hl kwa">if</span> os<span class="hl opt">.</span>name <span class="hl opt">==</span> <span class="hl str">&quot;nt&quot;</span><span class="hl opt">:</span>
@@ -498,17 +501,17 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
     <span class="hl str">&quot;&quot;&quot;Load the shared object for Linux platforms.</span>
 <span class="hl str">       The shared object must be in the same folder as this python script.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
-    shared <span class="hl opt">=</span> os<span class="hl opt">.</span>path<span class="hl opt">.</span><span class="hl kwd">join</span><span class="hl opt">(</span>sys<span class="hl opt">.</span>path<span class="hl opt">[</span><span class="hl num">0</span><span class="hl opt">],</span> <span class="hl str">&quot;libastyle.so&quot;</span><span class="hl opt">)</span>
+    shared <span class="hl opt">=</span> os<span class="hl opt">.</span>path<span class="hl opt">.</span><span class="hl kwd">join</span><span class="hl opt">(</span>sys<span class="hl opt">.</span>path<span class="hl opt">[</span><span class="hl num">0</span><span class="hl opt">],</span> <span class="hl str">&quot;libastyle-2.05.so&quot;</span><span class="hl opt">)</span>
     <span class="hl slc"># os.name does not always work for mac</span>
     <span class="hl kwa">if</span> sys<span class="hl opt">.</span>platform <span class="hl opt">==</span> <span class="hl str">&quot;darwin&quot;</span><span class="hl opt">:</span>
-        shared <span class="hl opt">=</span> shared<span class="hl opt">.</span><span class="hl kwd">replace</span><span class="hl opt">(</span><span class="hl str">&quot;libastyle.so&quot;</span><span class="hl opt">,</span> <span class="hl str">&quot;libastyle.dylib&quot;</span><span class="hl opt">)</span>
+        shared <span class="hl opt">=</span> shared<span class="hl opt">.</span><span class="hl kwd">replace</span><span class="hl opt">(</span><span class="hl str">&quot;.so&quot;</span><span class="hl opt">,</span> <span class="hl str">&quot;.dylib&quot;</span><span class="hl opt">)</span>
     <span class="hl kwa">try</span><span class="hl opt">:</span>
         libc <span class="hl opt">=</span> cdll<span class="hl opt">.</span><span class="hl kwd">LoadLibrary</span><span class="hl opt">(</span>shared<span class="hl opt">)</span>
     <span class="hl kwa">except</span> <span class="hl kwc">OSError</span> <span class="hl kwa">as</span> err<span class="hl opt">:</span>
         <span class="hl slc"># &quot;cannot open shared object file: No such file or directory&quot;</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span>err<span class="hl opt">)</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find &quot;</span><span class="hl opt">,</span> shared<span class="hl opt">)</span>
-        sys<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
     <span class="hl kwa">return</span> libc
 
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
@@ -519,7 +522,7 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
 <span class="hl str">       An exception is handled if the dll bits do not match the Python</span>
 <span class="hl str">       executable bits (32 vs 64).</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
-    dll <span class="hl opt">=</span> <span class="hl str">&quot;AStyle.dll&quot;</span>
+    dll <span class="hl opt">=</span> <span class="hl str">&quot;AStyle-2.05.dll&quot;</span>
     <span class="hl kwa">try</span><span class="hl opt">:</span>
         libc <span class="hl opt">=</span> windll<span class="hl opt">.</span><span class="hl kwd">LoadLibrary</span><span class="hl opt">(</span>dll<span class="hl opt">)</span>
     <span class="hl slc"># exception for CPython</span>
@@ -532,18 +535,18 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
             <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;You may be mixing 32 and 64 bit code&quot;</span><span class="hl opt">)</span>
         <span class="hl kwa">else</span><span class="hl opt">:</span>
             <span class="hl kwa">print</span><span class="hl opt">(</span>err<span class="hl opt">.</span>strerror<span class="hl opt">)</span>
-        sys<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
     <span class="hl slc"># exception for IronPython</span>
     <span class="hl kwa">except</span> <span class="hl kwc">OSError</span> <span class="hl kwa">as</span> err<span class="hl opt">:</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot load library&quot;</span><span class="hl opt">,</span> dll<span class="hl opt">)</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;If the library is available you may be mixing 32 and 64 bit code&quot;</span><span class="hl opt">)</span>
-        sys<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
     <span class="hl slc"># exception for IronPython</span>
     <span class="hl slc"># this sometimes occurs with IronPython during debug</span>
     <span class="hl slc"># rerunning will probably fix</span>
     <span class="hl kwa">except</span> <span class="hl kwc">TypeError</span> <span class="hl kwa">as</span> err<span class="hl opt">:</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;TypeError - rerunning will probably fix&quot;</span><span class="hl opt">)</span>
-        sys<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
     <span class="hl kwa">return</span> libc
 
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
@@ -569,7 +572,7 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
         <span class="hl slc"># &quot;'&lt;codec&gt;' codec can't encode characters in position 0-2: &lt;message&gt;&quot;</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span>err<span class="hl opt">)</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot write&quot;</span><span class="hl opt">,</span> file_path<span class="hl opt">)</span>
-        sys<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
     file_out<span class="hl opt">.</span><span class="hl kwd">close</span><span class="hl opt">()</span>
 
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
@@ -592,7 +595,7 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
     <span class="hl kwa">if</span> __is_unicode__<span class="hl opt">:</span>
         err <span class="hl opt">=</span> err<span class="hl opt">.</span><span class="hl kwd">decode</span><span class="hl opt">()</span>
     <span class="hl kwa">print</span><span class="hl opt">(</span>err<span class="hl opt">)</span>
-    sys<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+    os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
 
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
@@ -650,7 +653,7 @@ MEMORY_ALLOCATION <span class="hl opt">=</span> <span class="hl kwd">MEMORY_ALLO
 <span class="hl slc"># make the module executable</span>
 <span class="hl kwa">if</span> __name__ <span class="hl opt">==</span> <span class="hl str">&quot;__main__&quot;</span><span class="hl opt">:</span>
     <span class="hl kwd">main</span><span class="hl opt">()</span>
-    sys<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">0</span><span class="hl opt">)</span>
+    os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">0</span><span class="hl opt">)</span>
 
 </pre>
     </div>

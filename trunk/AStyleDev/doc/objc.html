@@ -199,9 +199,9 @@
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
                          <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
-                         <span class="hl kwb">void</span> <span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
+                         <span class="hl kwb">void</span> <span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">const char</span><span class="hl opt">*),</span>
                          <span class="hl kwb">char</span><span class="hl opt">* (</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
-<span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">);</span>
+<span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">const char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">);</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl opt">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl opt">);</span>
 
 <span class="hl slc">// other functions</span>
@@ -268,7 +268,7 @@ NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span c
 <span class="hl opt">}</span>
 
 <span class="hl slc">// Error handler for the Artistic Style formatter.</span>
-<span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">)</span>
+<span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">const char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">)</span>
 <span class="hl opt">{</span>   <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;astyle error %d&quot;</span><span class="hl opt">,</span> errorNumber<span class="hl opt">);</span>
     <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;%s&quot;</span><span class="hl opt">,</span> errorMessage<span class="hl opt">);</span>
 <span class="hl opt">}</span>

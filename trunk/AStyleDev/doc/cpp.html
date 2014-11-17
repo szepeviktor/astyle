@@ -188,10 +188,13 @@
 <span class="hl com"> */</span>
 
 <span class="hl ppc">#include &lt;stdlib.h&gt;</span>
-<span class="hl ppc">#include &lt;string.h&gt;</span>         <span class="hl slc">// need both string and string.h for GCC</span>
-<span class="hl ppc"></span><span class="hl ppc">#include &lt;string&gt;</span>
+<span class="hl ppc">#include &lt;string&gt;</span>
 <span class="hl ppc">#include &lt;fstream&gt;</span>
 <span class="hl ppc">#include &lt;iostream&gt;</span>
+<span class="hl ppc">#if defined(__GNUC__)</span>
+<span class="hl ppc">#include &lt;string.h&gt;</span>         <span class="hl slc">// need both string and string.h for GCC</span>
+<span class="hl ppc"></span><span class="hl ppc">#endif</span>
+
 <span class="hl kwa">using namespace</span> std<span class="hl opt">;</span>
 
 <span class="hl slc">// allow for different calling conventions in Linux and Windows</span>
@@ -202,14 +205,12 @@
 <span class="hl ppc">#endif</span>
 
 <span class="hl slc">// functions to call AStyleMain</span>
-<span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
-<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
-<span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span>
-<span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> pSourceIn<span class="hl opt">,</span>
-                         <span class="hl kwb">const char</span><span class="hl opt">*</span> pOptions<span class="hl opt">,</span>
-                         <span class="hl kwb">void</span> <span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*),</span>
-                         <span class="hl kwb">char</span><span class="hl opt">* (</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
-<span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">);</span>
+<span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span> <span class="hl kwb">const char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">(</span><span class="hl kwb">void</span><span class="hl opt">);</span>
+<span class="hl kwc">extern</span> <span class="hl str">&quot;C&quot;</span> <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">AStyleMain</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> sourceIn<span class="hl opt">,</span>
+                                    <span class="hl kwb">const char</span><span class="hl opt">*</span> optionsIn<span class="hl opt">,</span>
+                                    <span class="hl kwb">void</span> <span class="hl opt">(</span>STDCALL<span class="hl opt">*</span> fpError<span class="hl opt">)(</span><span class="hl kwb">int</span><span class="hl opt">,</span> <span class="hl kwb">const char</span><span class="hl opt">*),</span>
+                                    <span class="hl kwb">char</span><span class="hl opt">* (</span>STDCALL<span class="hl opt">*</span> fpAlloc<span class="hl opt">)(</span><span class="hl kwb">unsigned long</span><span class="hl opt">));</span>
+<span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">const char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">);</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl opt">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl opt">);</span>
 
 <span class="hl slc">// other functions</span>
@@ -226,11 +227,11 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</sp
                                 <span class="hl str">&quot;AStyleDev/test-data/ASFormatter.cpp&quot;</span><span class="hl opt">,</span>
                                 <span class="hl str">&quot;AStyleDev/test-data/astyle.h&quot;</span>
                               <span class="hl opt">};</span>
-    <span class="hl kwb">const char</span><span class="hl opt">*</span> options <span class="hl opt">= (</span><span class="hl kwb">char</span><span class="hl opt">*)</span><span class="hl str">&quot;-A2tOP&quot;</span><span class="hl opt">;</span>
+    <span class="hl kwb">const char</span><span class="hl opt">*</span> options <span class="hl opt">=</span> <span class="hl str">&quot;-A2tOP&quot;</span><span class="hl opt">;</span>
     <span class="hl kwb">size_t</span> arraySize <span class="hl opt">=</span> <span class="hl kwa">sizeof</span><span class="hl opt">(</span>fileName<span class="hl opt">) /</span> <span class="hl kwa">sizeof</span><span class="hl opt">(</span>fileName<span class="hl opt">[</span><span class="hl num">0</span><span class="hl opt">]);</span>
 
     <span class="hl slc">// get Artistic Style version</span>
-    <span class="hl kwb">char</span><span class="hl opt">*</span> version <span class="hl opt">=</span> <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
+    <span class="hl kwb">const char</span><span class="hl opt">*</span> version <span class="hl opt">=</span> <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
     cout <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;Example C++ - AStyle &quot;</span> <span class="hl opt">&lt;&lt;</span> version <span class="hl opt">&lt;&lt;</span> endl<span class="hl opt">;</span>
 
     <span class="hl slc">// process the input files</span>
@@ -264,7 +265,7 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</sp
 <span class="hl opt">}</span>
 
 <span class="hl slc">// Error handler for the Artistic Style formatter.</span>
-<span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">)</span>
+<span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">const char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">)</span>
 <span class="hl opt">{</span>   cout <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;astyle error &quot;</span> <span class="hl opt">&lt;&lt;</span> errorNumber <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span>
          <span class="hl opt">&lt;&lt;</span> errorMessage <span class="hl opt">&lt;&lt;</span> endl<span class="hl opt">;</span>
 <span class="hl opt">}</span>
