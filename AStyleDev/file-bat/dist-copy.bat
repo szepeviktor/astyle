@@ -2,11 +2,11 @@
 @echo off
 
 set distdir=..\DistExamples
-set distcpp=example-cpp_2.04
-set distjava=example-java_2.04
-set distobjc=example-objc_2.04
-set distsharp=example-sharp_2.04
-set distpython=example-python_2.04
+set distcpp=example-cpp_2.05
+set distjava=example-java_2.05
+set distobjc=example-objc_2.05
+set distsharp=example-sharp_2.05
+set distpython=example-python_2.05
 set zippath=%PROGRAMFILES%\7-Zip\7z.exe
 
 REM create the distribution directory
@@ -77,11 +77,11 @@ if not exist %distpython%  md  %distpython%
 if exist %distpython%\src-p\*  del %distpython%\src-p\*  /q
 if exist %distpython%\test-data\*  del %distpython%\test-data\*  /q
 REM copy only the required programs
-xcopy ..\src-py\ExampleByte.py  %distpython%\src-p\  /q
+xcopy ..\src-p\ExampleByte.py  %distpython%\src-p\  /q
 if errorlevel 2 pause
-xcopy ..\src-py\ExampleExe.py  %distpython%\src-p\  /q
+xcopy ..\src-p\ExampleExe.py  %distpython%\src-p\  /q
 if errorlevel 2 pause
-xcopy ..\src-py\ExampleUnicode.py  %distpython%\src-p\  /q
+xcopy ..\src-p\ExampleUnicode.py  %distpython%\src-p\  /q
 if errorlevel 2 pause
 REM copy the files
 xcopy ..\test-data\*  %distpython%\test-data\  /q
