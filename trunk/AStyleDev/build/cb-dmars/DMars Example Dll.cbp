@@ -24,7 +24,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="/delexecutable" />
-					<Add library="AStyle-2.05" />
+					<Add library="AStyle-2.06" />
 					<Add directory="bin" />
 				</Linker>
 				<ExtraCommands>
