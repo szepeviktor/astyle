@@ -14,7 +14,7 @@ import sys
 # global variables ------------------------------------------------------------
 
 __old_release = "2.05"
-__new_release = "2.05"
+__new_release = "2.06"
 
 __file_update = False			# should the files be updated?
 
@@ -26,7 +26,7 @@ def main():
 	print (libastyle.get_python_version())
 	print("Modify Shared Version from", __old_release, "to", __new_release)
 	if not __file_update:
-		print("Files NOT Updated")
+		print("\nFILES NOT UPDATED")
 	# must use this version for newline option on the file open
 	if platform.python_implementation() == "CPython" and sys.version_info[0] >= 3:
 		pass
@@ -38,6 +38,7 @@ def main():
 	project_extension_list = ["Makefile", ".cbp", ".vcproj", ".vcxproj", ".pbxproj"]
 	project_directory_list = [libastyle.get_project_directory(True) + "AStyle/build",
 					          libastyle.get_project_directory(True) + "AStyleDev/build",
+					          libastyle.get_project_directory(True) + "AStyleTest/build",
 					          libastyle.get_project_directory(True) + "AStyleWin/build",
 					          libastyle.get_project_directory(True) + "AStyleWx/build"]
 	update_project_files(project_directory_list, project_extension_list)
@@ -49,9 +50,12 @@ def main():
 					         libastyle.get_project_directory(True) + "AStyleDev/src-j",
 					         libastyle.get_project_directory(True) + "AStyleDev/src-p",
 					         libastyle.get_project_directory(True) + "AStyleDev/src-s",
+					         libastyle.get_project_directory(True) + "AStyleTest/src",
 					         libastyle.get_project_directory(True) + "AStyleWin/src",
 					         libastyle.get_project_directory(True) + "AStyleWx/src"]
 	update_source_files(source_directory_list, source_extension_list)
+	if not __file_update:
+		print("FILES NOT UPDATED")
 
 # -----------------------------------------------------------------------------
 

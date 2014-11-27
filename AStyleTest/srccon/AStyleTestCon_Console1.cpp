@@ -18,8 +18,8 @@
 namespace {
 
 //----------------------------------------------------------------------------
-// AStyle processOptions() for console and file options
-// test vectors excludeVector, excludeHitsVector, fileNameVector, optionsVector, fileOptionsVector
+// AStyle processOptions() for console options
+// test vectors excludeVector, excludeHitsVector, fileNameVector, optionsVector
 //----------------------------------------------------------------------------
 
 TEST(ProcessOptions, ExcludeVector)
@@ -29,18 +29,18 @@ TEST(ProcessOptions, ExcludeVector)
 	createConsoleGlobalObject(formatter);
 	// build excludeVector
 	vector<string> excludesIn;
-	excludesIn.push_back("--exclude=../test/prog1.cpp");
-	excludesIn.push_back("--exclude=../test\\prog2.cpp");
-	excludesIn.push_back("--exclude=../test/prog3.cpp");
+	excludesIn.push_back("--exclude=../dir1/prog1.cpp");
+	excludesIn.push_back("--exclude=../dir1\\prog2.cpp");
+	excludesIn.push_back("--exclude=../dir1/prog3.cpp");
 	excludesIn.push_back("--exclude=prog4.cpp");
 	excludesIn.push_back("--exclude=/prog5.cpp");
 	excludesIn.push_back("--exclude=\\prog6.cpp");
-	excludesIn.push_back("--exclude=../testdir1/");
-	excludesIn.push_back("--exclude=..\\testdir2");
-	excludesIn.push_back("--exclude=../testdir3\\");
-	excludesIn.push_back("--exclude=testdir4");
-	excludesIn.push_back("--exclude=/testdir5");
-	excludesIn.push_back("--exclude=\\testdir6");
+	excludesIn.push_back("--exclude=../dir1/");
+	excludesIn.push_back("--exclude=..\\dir2");
+	excludesIn.push_back("--exclude=../dir3\\");
+	excludesIn.push_back("--exclude=dir4");
+	excludesIn.push_back("--exclude=/dir5");
+	excludesIn.push_back("--exclude=\\dir6");
 	g_console->processOptions(excludesIn);
 	// build vector for checking results
 	vector<string> excludes;
@@ -64,12 +64,12 @@ TEST(ProcessOptions, ExcludeHitsVector)
 	createConsoleGlobalObject(formatter);
 	// build excludeHitsVector
 	vector<string> excludesIn;
-	excludesIn.push_back("--exclude=../test/prog1.cpp");
-	excludesIn.push_back("--exclude=../test\\prog2.cpp");
-	excludesIn.push_back("--exclude=../test/prog3.cpp");
-	excludesIn.push_back("--exclude=../testdir1/");
-	excludesIn.push_back("--exclude=..\\testdir2");
-	excludesIn.push_back("--exclude=../testdir3\\");
+	excludesIn.push_back("--exclude=../dir/prog1.cpp");
+	excludesIn.push_back("--exclude=../dir\\prog2.cpp");
+	excludesIn.push_back("--exclude=../dir/prog3.cpp");
+	excludesIn.push_back("--exclude=../dir3/");
+	excludesIn.push_back("--exclude=..\\dir4");
+	excludesIn.push_back("--exclude=../dir\\");
 	g_console->processOptions(excludesIn);
 	// check excludeHitsVector
 	vector<bool> excludeHitsVector = g_console->getExcludeHitsVector();
@@ -120,306 +120,6 @@ TEST(ProcessOptions, OptionsVector)
 	deleteConsoleGlobalObject();
 }
 
-TEST(ProcessOptions, FileOptionsVector)
-// test processOptions for fileOptionsVector with --options=###
-{
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	char fileIn[] =
-		"# this line is a comment\n"
-		"--style=attach   # this is a line-end comment\n"
-		"\n"
-		"# long options can be written without the preceding '--'\n"
-		"indent-switches     # cannot do this on the command line\n"
-		"\n"
-		"# short options must have the preceding '-'\r\n"
-		"-t -p\r\n"
-		"\n"
-		"# short options can be concatenated together\n"
-		"-M65Ucv\n"
-		"\n"
-		"# options can have CR line ends\r"
-		"pad-oper,-H\r"
-		"\r"
-		"# options can be separated with commas\n"
-		"indent-classes,-K\n";
-#ifdef __BORLANDC__
-	// Embarcadero istream does not recognize '\r' line ends
-	for (size_t ec = 0; ec < strlen(fileIn); ec++)
-		if (fileIn[ec] == '\r' && fileIn[ec + 1] != '\n')
-			fileIn[ec] = '\n';
-#endif
-	vector<string> fileOptions;
-	fileOptions.push_back("--style=attach");
-	fileOptions.push_back("indent-switches");
-	fileOptions.push_back("-t");
-	fileOptions.push_back("-p");
-	fileOptions.push_back("-M65Ucv");
-	fileOptions.push_back("pad-oper");
-	fileOptions.push_back("-H");
-	fileOptions.push_back("indent-classes");
-	fileOptions.push_back("-K");
-	// write the options file
-	string optionsFileName = getTestDirectory() + "/astylerc.txt";
-	g_console->standardizePath(optionsFileName);
-	if (!writeOptionsFile(optionsFileName, fileIn))
-		return;
-	// build fileOptionsVector
-	vector<string> optionsIn;
-	optionsIn.push_back("--options=" + optionsFileName);
-	g_console->processOptions(optionsIn);
-	// check fileOptionsVector
-	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
-	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
-	for (size_t i = 0; i < fileOptionsVector.size(); i++)
-		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
-	removeTestFile(optionsFileName);
-	deleteConsoleGlobalObject();
-}
-
-TEST(ProcessOptions, FileOptionsVector_EnvironmentVariable)
-// test processOptions for fileOptionsVector
-//     with ARTISTIC_STYLE_OPTIONS enviromnent variable
-{
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	char fileIn[] =
-		"--style=allman\n"
-		"-OoP\n"
-		"--indent-classes\n";
-	vector<string> fileOptions;
-	fileOptions.push_back("--style=allman");
-	fileOptions.push_back("-OoP");
-	fileOptions.push_back("--indent-classes");
-	// set the new environment variable
-	string envFilePath =  getTestDirectory() + "/astylexx";
-	string envValue = "ARTISTIC_STYLE_OPTIONS=" + envFilePath;
-	g_console->standardizePath(envFilePath);
-	g_console->standardizePath(envValue);
-	int isError = putenv(const_cast<char*>(envValue.c_str()));
-	if (isError)
-	{
-		systemPause("Cannot set ARTISTIC_STYLE_OPTIONS environment variable");
-		return;
-	}
-	// write the options file
-	if (!writeOptionsFile(envFilePath.c_str(), fileIn))
-		return;
-	// build fileOptionsVector
-	vector<string> optionsIn;
-	g_console->processOptions(optionsIn);
-	// check fileOptionsVector
-	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
-	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
-	for (size_t i = 0; i < fileOptionsVector.size(); i++)
-		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
-	// clear the environment variable
-	string envClear = "ARTISTIC_STYLE_OPTIONS=";
-	putenv(const_cast<char*>(envClear.c_str()));
-	// cleanup
-	removeTestFile(envFilePath);
-	deleteConsoleGlobalObject();
-}
-
-TEST(ProcessOptions, FileOptionsVector_Home)
-// test processOptions for fileOptionsVector with $HOME options
-{
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	char fileIn[] =
-		"--style=allman\n"
-		"-OoP\n"
-		"--indent-classes\n";
-	vector<string> fileOptions;
-	fileOptions.push_back("--style=allman");
-	fileOptions.push_back("-OoP");
-	fileOptions.push_back("--indent-classes");
-	// write the file
-#ifdef _WIN32
-	char* env = getenv("USERPROFILE");
-	char name[] = "/astylerc";
-#else
-	char* env = getenv("HOME");
-	char name[] = "/.astylerc";
-#endif
-	if (env == NULL)
-	{
-		systemPause("Cannot get $HOME directory");
-		return;
-	}
-	// write the options file
-	string optionsFileName = string(env) + name;
-	g_console->standardizePath(optionsFileName);
-	if (!writeOptionsFile(optionsFileName, fileIn))
-		return;
-	// build fileOptionsVector
-	vector<string> optionsIn;
-	g_console->processOptions(optionsIn);
-	// check fileOptionsVector
-	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
-	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
-	for (size_t i = 0; i < fileOptionsVector.size(); i++)
-		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
-	removeTestFile(optionsFileName);
-	deleteConsoleGlobalObject();
-}
-
-TEST(ProcessOptions, FileOptionsVector_None)
-// test processOptions for fileOptionsVector with --options=none
-// should not process the astylerc file
-{
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	char fileIn[] =
-		"--style=allman\n"
-		"-OoP\n"
-		"--indent-classes\n";
-	// write the file
-#ifdef _WIN32
-	char* env = getenv("USERPROFILE");
-	char name[] = "/astylerc";
-#else
-	char* env = getenv("HOME");
-	char name[] = "/.astylerc";
-#endif
-	if (env == NULL)
-	{
-		systemPause("Cannot get $HOME directory");
-		return;
-	}
-	string optionsFileName = string(env) + name;
-	g_console->standardizePath(optionsFileName);
-	if (!writeOptionsFile(optionsFileName, fileIn))
-		return;
-	// build fileOptionsVector
-	vector<string> optionsIn;
-	optionsIn.push_back("--options=none");
-	g_console->processOptions(optionsIn);
-	// check fileOptionsVector
-	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
-	EXPECT_TRUE(fileOptionsVector.size() == 0);
-	removeTestFile(optionsFileName);
-	deleteConsoleGlobalObject();
-}
-
-TEST(ProcessOptions, FileOptionsVector_NoLineEnd)
-// test processOptions for fileOptionsVector with --options=###
-//    and NO final line end
-{
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	char fileIn[] =
-		"--style=allman\n"
-		"-OoP\n"
-		"--indent-classes";		// *** no final line end ***
-	vector<string> fileOptions;
-	fileOptions.push_back("--style=allman");
-	fileOptions.push_back("-OoP");
-	fileOptions.push_back("--indent-classes");
-	// write the options file
-	string optionsFileName = getTestDirectory() + "/astylerc";
-	g_console->standardizePath(optionsFileName);
-	if (!writeOptionsFile(optionsFileName, fileIn))
-		return;
-	// build fileOptionsVector
-	vector<string> optionsIn;
-	optionsIn.push_back("--options=" + optionsFileName);
-	g_console->processOptions(optionsIn);
-	// check fileOptionsVector
-	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
-	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
-	for (size_t i = 0; i < fileOptionsVector.size(); i++)
-		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
-	removeTestFile(optionsFileName);
-	deleteConsoleGlobalObject();
-}
-
-TEST(ProcessOptions, FileOptionsVector_Error)
-// test processOptions for file option errors
-{
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	char fileIn[] =
-		"--style=allman\n"
-		"-OoP\n"
-		"--invalid1\n"
-		"--invalid2\n"
-		"--invalid3\n"
-		"--indent-classes\n";
-	vector<string> fileOptions;
-	fileOptions.push_back("--style=allman");
-	fileOptions.push_back("-OoP");
-	fileOptions.push_back("--invalid1");
-	fileOptions.push_back("--invalid2");
-	fileOptions.push_back("--invalid3");
-	fileOptions.push_back("--indent-classes");
-	// write options the file
-	string optionsFileName = getTestDirectory() + "/astylerc.txt";
-	g_console->standardizePath(optionsFileName);
-	if (!writeOptionsFile(optionsFileName, fileIn))
-		return;
-	// build optionsIn
-	vector<string> optionsIn;
-	optionsIn.push_back("--options=" + optionsFileName);
-	optionsIn.push_back("--ascii");		// output in English
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
-	// test processOptions with invalid file options
-	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_FAILURE),
-				"Invalid option file options:\n"
-				"invalid1\n"
-				"invalid2\n"
-				"invalid3\n\n"
-				"For help on options type 'astyle -h'");
-#endif
-	removeTestFile(optionsFileName);
-	deleteConsoleGlobalObject();
-}
-
-TEST(ProcessOptions, FileOptionsVector_FileError1)
-// test processOptions with an options file error
-// input with --options=###
-// invalidrc.txt is not a valid file
-{
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	// build optionsIn
-	string optionsFileName = "../../srccon/invalidrc.txt";
-	g_console->standardizePath(optionsFileName);
-	vector<string> optionsIn;
-	optionsIn.push_back("--options=" + optionsFileName);
-	optionsIn.push_back("--ascii");		// output in English
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
-	// test processOptions with options file error
-	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_FAILURE),
-				"Cannot open options file");
-#endif
-	deleteConsoleGlobalObject();
-}
-
-TEST(ProcessOptions, FileOptionsVector_FileError2)
-// test processOptions with an options file error
-// input with --options= (no filename)
-{
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	// build optionsIn
-	vector<string> optionsIn;
-	optionsIn.push_back("--options=");
-	optionsIn.push_back("--ascii");		// output in English
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
-	// test processOptions with options file error
-	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_FAILURE),
-				"Cannot open options file");
-#endif
-	deleteConsoleGlobalObject();
-}
-
 TEST(ProcessOptions, GetCurrentDirectory)
 // test getCurrentDirectory function
 {
@@ -429,7 +129,7 @@ TEST(ProcessOptions, GetCurrentDirectory)
 	g_console->setIsQuiet(true);		// change this to see results
 	char textIn[] = "void foo(){}\n";
 	// a file without a path will call the g_console->getCurrentDirectory
-	string testFile = "/testGetCurrentDirectory.cpp";
+	string testFile = "/GetCurrentDirectory.cpp";
 	string testFilePath = getCurrentDirectory() + testFile;
 	g_console->standardizePath(testFilePath);
 	// write the output file to the current directory
@@ -633,6 +333,337 @@ TEST(ProcessOptions, IgnoreExcludeErrorsAndDisplayOption_Short)
 	// check console options
 	EXPECT_TRUE(g_console->getIgnoreExcludeErrors());
 	EXPECT_TRUE(g_console->getIgnoreExcludeErrorsDisplay());
+	deleteConsoleGlobalObject();
+}
+
+//----------------------------------------------------------------------------
+// AStyle processOptions() for file options
+// test vector fileOptionsVector
+//----------------------------------------------------------------------------
+
+TEST(ProcessFileOptions, OptionsPath)
+// test processOptions for fileOptionsVector with --options=###
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	char fileIn[] =
+		"# this line is a comment\n"
+		"--style=attach   # this is a line-end comment\n"
+		"\n"
+		"# long options can be written without the preceding '--'\n"
+		"indent-switches     # cannot do this on the command line\n"
+		"\n"
+		"# short options must have the preceding '-'\r\n"
+		"-t -p\r\n"
+		"\n"
+		"# short options can be concatenated together\n"
+		"-M65Ucv\n"
+		"\n"
+		"# options can have CR line ends\r"
+		"pad-oper,-H\r"
+		"\r"
+		"# options can be separated with commas\n"
+		"indent-classes,-K\n";
+#ifdef __BORLANDC__
+	// Embarcadero istream does not recognize '\r' line ends
+	for (size_t ec = 0; ec < strlen(fileIn); ec++)
+		if (fileIn[ec] == '\r' && fileIn[ec + 1] != '\n')
+			fileIn[ec] = '\n';
+#endif
+	vector<string> fileOptions;
+	fileOptions.push_back("--style=attach");
+	fileOptions.push_back("indent-switches");
+	fileOptions.push_back("-t");
+	fileOptions.push_back("-p");
+	fileOptions.push_back("-M65Ucv");
+	fileOptions.push_back("pad-oper");
+	fileOptions.push_back("-H");
+	fileOptions.push_back("indent-classes");
+	fileOptions.push_back("-K");
+	// write the options file
+	string optionsFileName = getTestDirectory() + "/astylerc.txt";
+	g_console->standardizePath(optionsFileName);
+	if (!writeOptionsFile(optionsFileName, fileIn))
+		return;
+	// build fileOptionsVector
+	vector<string> optionsIn;
+	optionsIn.push_back("--options=" + optionsFileName);
+	g_console->processOptions(optionsIn);
+	// check fileOptionsVector
+	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < fileOptionsVector.size(); i++)
+		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
+	removeTestFile(optionsFileName);
+	deleteConsoleGlobalObject();
+}
+
+TEST(ProcessFileOptions, AStyleEnvironmentVariable)
+// test processOptions for fileOptionsVector
+//     with ARTISTIC_STYLE_OPTIONS enviromnent variable
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	char fileIn[] =
+		"--style=allman\n"
+		"-OoP\n"
+		"--indent-classes\n";
+	vector<string> fileOptions;
+	fileOptions.push_back("--style=allman");
+	fileOptions.push_back("-OoP");
+	fileOptions.push_back("--indent-classes");
+	// set the new environment variable
+	string envFilePath = getTestDirectory() + "/astylexx";
+	string envValue = "ARTISTIC_STYLE_OPTIONS=" + envFilePath;
+	g_console->standardizePath(envFilePath);
+	g_console->standardizePath(envValue);
+	int isError = putenv(const_cast<char*>(envValue.c_str()));
+	if (isError)
+	{
+		systemPause("Cannot set ARTISTIC_STYLE_OPTIONS environment variable");
+		return;
+	}
+	// write the options file
+	if (!writeOptionsFile(envFilePath.c_str(), fileIn))
+		return;
+	// build fileOptionsVector
+	vector<string> optionsIn;
+	g_console->processOptions(optionsIn);
+	// check fileOptionsVector
+	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < fileOptionsVector.size(); i++)
+		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
+	// clear the environment variable
+	string envClear = "ARTISTIC_STYLE_OPTIONS=";
+	putenv(const_cast<char*>(envClear.c_str()));
+	// cleanup
+	removeTestFile(envFilePath);
+	deleteConsoleGlobalObject();
+}
+
+TEST(ProcessFileOptions, HomeEnvironmentVariable)
+// test processOptions for fileOptionsVector with $HOME options
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	char fileIn[] =
+		"--style=allman\n"
+		"-OoP\n"
+		"--indent-classes\n";
+	vector<string> fileOptions;
+	fileOptions.push_back("--style=allman");
+	fileOptions.push_back("-OoP");
+	fileOptions.push_back("--indent-classes");
+	// write the options file
+	string optionsFileName = getDefaultOptionsFilePath();
+	g_console->standardizePath(optionsFileName);
+	if (!writeOptionsFile(optionsFileName, fileIn))
+		return;
+	// build fileOptionsVector
+	vector<string> optionsIn;
+	g_console->processOptions(optionsIn);
+	// check fileOptionsVector
+	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < fileOptionsVector.size(); i++)
+		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
+	removeTestFile(optionsFileName);
+	deleteConsoleGlobalObject();
+}
+
+TEST(ProcessFileOptions, DisabledOptionsFile)
+// test processOptions for fileOptionsVector with --options=none
+// should not process the astylerc file
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	char fileIn[] =
+		"--style=allman\n"
+		"-OoP\n"
+		"--indent-classes\n";
+	// write the options file
+	string optionsFileName = getDefaultOptionsFilePath();
+	g_console->standardizePath(optionsFileName);
+	if (!writeOptionsFile(optionsFileName, fileIn))
+		return;
+	// build fileOptionsVector
+	vector<string> optionsIn;
+	optionsIn.push_back("--options=none");
+	g_console->processOptions(optionsIn);
+	// check fileOptionsVector
+	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	EXPECT_TRUE(fileOptionsVector.size() == 0);
+	removeTestFile(optionsFileName);
+	deleteConsoleGlobalObject();
+}
+
+TEST(ProcessFileOptions, NoFinalLineEnd)
+// test processOptions for fileOptionsVector with --options=###
+//    and NO final line end
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	char fileIn[] =
+		"--style=allman\n"
+		"-OoP\n"
+		"--indent-classes";		// *** no final line end ***
+	vector<string> fileOptions;
+	fileOptions.push_back("--style=allman");
+	fileOptions.push_back("-OoP");
+	fileOptions.push_back("--indent-classes");
+	// write the options file
+	string optionsFileName = getTestDirectory() + "/astylerc";
+	g_console->standardizePath(optionsFileName);
+	if (!writeOptionsFile(optionsFileName, fileIn))
+		return;
+	// build fileOptionsVector
+	vector<string> optionsIn;
+	optionsIn.push_back("--options=" + optionsFileName);
+	g_console->processOptions(optionsIn);
+	// check fileOptionsVector
+	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < fileOptionsVector.size(); i++)
+		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
+	removeTestFile(optionsFileName);
+	deleteConsoleGlobalObject();
+}
+
+TEST(ProcessFileOptions, OptionErrors)
+// test processOptions for file option errors
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	char fileIn[] =
+		"--style=allman\n"
+		"-OoP\n"
+		"--invalid1\n"
+		"--invalid2\n"
+		"--invalid3\n"
+		"--indent-classes\n";
+	vector<string> fileOptions;
+	fileOptions.push_back("--style=allman");
+	fileOptions.push_back("-OoP");
+	fileOptions.push_back("--invalid1");
+	fileOptions.push_back("--invalid2");
+	fileOptions.push_back("--invalid3");
+	fileOptions.push_back("--indent-classes");
+	// write options the file
+	string optionsFileName = getTestDirectory() + "/astylerc.txt";
+	g_console->standardizePath(optionsFileName);
+	if (!writeOptionsFile(optionsFileName, fileIn))
+		return;
+	// build optionsIn
+	vector<string> optionsIn;
+	optionsIn.push_back("--options=" + optionsFileName);
+	optionsIn.push_back("--ascii");		// output in English
+	// cannot use death test with leak finder
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// test processOptions with invalid file options
+	EXPECT_EXIT(g_console->processOptions(optionsIn),
+				ExitedWithCode(EXIT_FAILURE),
+				"Invalid option file options:\n"
+				"invalid1\n"
+				"invalid2\n"
+				"invalid3\n\n"
+				"For help on options type 'astyle -h'");
+#endif
+	removeTestFile(optionsFileName);
+	deleteConsoleGlobalObject();
+}
+
+TEST(ProcessFileOptions, FileError1)
+// test processOptions with an options file error
+// input with --options=###
+// invalidrc.txt is not a valid file
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	// build optionsIn
+	string optionsFileName = "../../srccon/invalidrc.txt";
+	g_console->standardizePath(optionsFileName);
+	vector<string> optionsIn;
+	optionsIn.push_back("--options=" + optionsFileName);
+	optionsIn.push_back("--ascii");		// output in English
+	// cannot use death test with leak finder
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// test processOptions with options file error
+	EXPECT_EXIT(g_console->processOptions(optionsIn),
+				ExitedWithCode(EXIT_FAILURE),
+				"Cannot open options file");
+#endif
+	deleteConsoleGlobalObject();
+}
+
+TEST(ProcessFileOptions, FileError2)
+// test processOptions with an options file error
+// input with --options= (no filename)
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	// build optionsIn
+	vector<string> optionsIn;
+	optionsIn.push_back("--options=");
+	optionsIn.push_back("--ascii");		// output in English
+	// cannot use death test with leak finder
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// test processOptions with options file error
+	EXPECT_EXIT(g_console->processOptions(optionsIn),
+				ExitedWithCode(EXIT_FAILURE),
+				"Cannot open options file");
+#endif
+	deleteConsoleGlobalObject();
+}
+
+TEST(ProcessFileOptions, Excludes)
+// test processOptions with resource fileexcludes
+// input with --options=###
+// the quotes must be removed from the excludeVector
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	char fileIn[] =
+		"--exclude=\"prog 1.cpp\"\n"
+		"exclude=\"\\prog 2.cpp\"\n"
+		"\"--exclude=/prog 3.cpp\"\n"
+		"\"exclude=prog 4.cpp\"\n"
+		"--exclude=prog-5.cpp exclude=prog-5a.cpp\n"
+		// missing closing quote are OK if followed by delimiter
+		"--exclude=\"prog 6.cpp\n"
+		"--exclude=\"prog 7.cpp, exclude=prog-7a.cpp\n"
+		"--exclude=\"prog 8.cpp\t --exclude=\"prog 8a.cpp\n";
+	// build excludesOut containing the astylerc.txt excluded files
+	vector<string> excludesOut;
+	excludesOut.push_back("prog 1.cpp");
+	excludesOut.push_back("prog 2.cpp");
+	excludesOut.push_back("prog 3.cpp");
+	excludesOut.push_back("prog 4.cpp");
+	excludesOut.push_back("prog-5.cpp");
+	excludesOut.push_back("prog-5a.cpp");
+	excludesOut.push_back("prog 6.cpp");
+	excludesOut.push_back("prog 7.cpp");
+	excludesOut.push_back("prog-7a.cpp");
+	excludesOut.push_back("prog 8.cpp");
+	excludesOut.push_back("prog 8a.cpp");
+	for (size_t i = 0; i < excludesOut.size(); i++)
+		g_console->standardizePath(excludesOut[i], true);
+	// write the options file
+	string optionsFileName = getTestDirectory() + "/astylerc.txt";
+	g_console->standardizePath(optionsFileName);
+	if (!writeOptionsFile(optionsFileName, fileIn))
+		return;
+	// build fileOptionsVector
+	vector<string> optionsIn;
+	optionsIn.push_back("--options=" + optionsFileName);
+	g_console->processOptions(optionsIn);
+	// check excludeVector
+	vector<string> excludeVector = g_console->getExcludeVector();
+	EXPECT_EQ(excludesOut.size(), excludeVector.size()) << "Vector sizes not equal.";
+	// NOTE: errors may not display correctly on Windows because of '\' in file paths
+	for (size_t i = 0; i < excludeVector.size(); i++)
+		EXPECT_EQ(excludesOut[i], excludeVector[i]);
+	removeTestFile(optionsFileName);
 	deleteConsoleGlobalObject();
 }
 
@@ -942,7 +973,7 @@ struct ChecksumF : public Test
 			"}";
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
-		fileName = getTestDirectory() + "/TestChecksum.cpp";
+		fileName = getTestDirectory() + "/Checksum.cpp";
 		createTestFile(fileName, textIn);
 	}
 
@@ -1050,7 +1081,7 @@ TEST(Checksum, CheckSumError)
 	g_console->setNoBackup(true);
 	// write test file
 	cleanTestDirectory(getTestDirectory());
-	string fileNames = getTestDirectory() + "/test1.cpp";
+	string fileNames = getTestDirectory() + "/file1.cpp";
 	g_console->standardizePath(fileNames);
 	createTestFile(fileNames, textIn);
 	// set the formatter options

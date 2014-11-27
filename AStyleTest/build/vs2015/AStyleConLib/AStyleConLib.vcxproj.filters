@@ -11,34 +11,34 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console1.cpp">
+    <ClCompile Include="..\..\..\..\AStyle\src\ASBeautifier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Main.cpp">
+    <ClCompile Include="..\..\..\..\AStyle\src\ASEnhancer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Print.cpp">
+    <ClCompile Include="..\..\..\..\AStyle\src\ASFormatter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srcx\TersePrinter.cpp">
+    <ClCompile Include="..\..\..\..\AStyle\src\ASResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console3.cpp">
+    <ClCompile Include="..\..\..\..\AStyle\src\astyle_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console2.cpp">
+    <ClCompile Include="..\..\..\..\AStyle\src\ASLocalizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\srccon\AStyleTestCon.h">
+    <ClInclude Include="..\..\..\..\AStyle\src\astyle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\srcx\TersePrinter.h">
+    <ClInclude Include="..\..\..\..\AStyle\src\astyle_main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\srcx\gtest-options.lst" />
+    <ClInclude Include="..\..\..\..\AStyle\src\ASLocalizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -105,25 +105,22 @@ int main(int argc, char** argv)
 		delete listeners.Release(listeners.default_result_printer());
 		listeners.Append(new TersePrinter(useTerseOutput, useColor));
 	}
-	// begin unit testing
+	// Begin unit testing.
+	// The default options file is renamed to avoid errors in testing.
 	createTestDirectory(getTestDirectory());
+	renameDefaultOptionsFile();
 	int retval = RUN_ALL_TESTS();
+	restoreDefaultOptionsFile();
 	// Print verification if terse_printer.
 	// Verify that all tests were run. This can occur if a source file
 	// is missing from the project. The UnitTest reflection API in
 	// example 9 will not work here because of user modifications.
-	if (useTersePrinter)
-	{
-		if (g_isI18nTest)
-			// Change the following value to the number of tests (within 10).
-			TersePrinter::PrintTestTotals( 70 , __FILE__, __LINE__ );
-		else
-			// Change the following value to the number of tests (within 10).
-			TersePrinter::PrintTestTotals( 97 , __FILE__, __LINE__);
-	}
+	if (g_isI18nTest)
+		// Change the following value to the number of tests (within 20).
+		TersePrinter::PrintTestTotals(70, __FILE__, __LINE__);
 	else
-		ColoredPrintf(COLOR_YELLOW, "\n* USING DEFAULT GTEST PRINTER *\n\n");
-
+		// Change the following value to the number of tests (within 20).
+		TersePrinter::PrintTestTotals(97, __FILE__, __LINE__);
 	if (g_isI18nTest)
 		printI18nMessage();
 #ifdef __WIN32
@@ -160,14 +157,14 @@ int main(int argc, char** argv)
 
 #ifdef _WIN32
 void cleanTestDirectory(const string& directoryMB)
-// Windows remove files and sub directories from the test directory
+// WINDOWS remove files and sub directories from the test directory
 {
 	wstring directory = convertToWideChar(directoryMB);
 	cleanTestDirectory(directory);
 }
 
 void cleanTestDirectory(const wstring& directory)
-// Windows remove files and sub directories from the test directory
+// WINDOWS remove files and sub directories from the test directory
 {
 	WIN32_FIND_DATAW FindFileData;
 	// Find the first file in the directory
@@ -214,6 +211,7 @@ void cleanTestDirectory(const wstring& directory)
 }
 
 void displayLastError()
+// WINDOWS error message
 {
 	LPSTR msgBuf;
 	DWORD lastError = GetLastError();
@@ -276,6 +274,7 @@ void retryRemoveDirectory(const wstring& directory)
 }
 
 void sleep(int seconds)
+// WINDOWS sleep
 {
 	clock_t endwait;
 	endwait = clock_t (clock () + seconds * CLOCKS_PER_SEC);
@@ -283,6 +282,7 @@ void sleep(int seconds)
 }
 
 void systemAbort(const wstring& message)
+// WINDOWS abort
 {
 	wcout << message << endl;
 	exit(EXIT_FAILURE);
@@ -460,6 +460,21 @@ string getCurrentDirectory()
 	return currentDirectory;
 }
 
+string getDefaultOptionsFilePath()
+// Return the path of the default options file for the platform.
+{
+#ifdef _WIN32
+	char* env = getenv("USERPROFILE");
+	char name[] = "/astylerc";
+#else
+	char* env = getenv("HOME");
+	char name[] = "/.astylerc";
+#endif
+	if (env == NULL)
+		systemAbort("Cannot get $HOME directory");
+	return string(env) + name;
+}
+
 string& getTestDirectory()
 // return file path of the global test directory
 {
@@ -506,6 +521,36 @@ void removeTestFile(const string& testFileName)
 	if (errno)
 		ASTYLE_ABORT(string(strerror(errno))
 					 + "\nCannot remove test file: " + testFileName);
+}
+
+void renameDefaultOptionsFile()
+// Rename a default options file so test functions will not use or overwrite it.
+// Returns false if the file doesn't exist.
+{
+	string oldPath = getDefaultOptionsFilePath();
+	string newPath = oldPath + ".orig";
+	int result = rename(oldPath.c_str(), newPath.c_str());
+	if (result && errno != ENOENT)
+	{
+		string errMessage = "Error renaming default options file: ";
+		errMessage.append(strerror(errno));
+		systemAbort(errMessage);
+	}
+}
+
+void restoreDefaultOptionsFile()
+// Restore the original default options file.
+{
+	string newPath = getDefaultOptionsFilePath();
+	string oldPath = newPath + ".orig";
+	int result = rename(oldPath.c_str(), newPath.c_str());
+	if (result && errno != ENOENT)
+	{
+		string errMessage = "Error restoring default options file: ";
+		errMessage.append(strerror(errno));
+		systemAbort(errMessage);
+	}
+
 }
 
 void setTestDirectory()

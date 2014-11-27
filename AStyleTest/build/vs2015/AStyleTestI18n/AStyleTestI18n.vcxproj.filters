@@ -11,22 +11,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\srccon\AStyleTestCon_Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Print.cpp">
+    <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_I18n.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\srcx\TersePrinter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console3.cpp">
+    <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_Localizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console2.cpp">
+    <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_Utf_Bom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_Utf16.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

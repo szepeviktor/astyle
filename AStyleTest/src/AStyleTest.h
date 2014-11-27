@@ -37,8 +37,24 @@ using namespace testing;
 
 typedef void (STDCALL* fpError)(int, const char*);      // pointer to callback error handler
 typedef char* (STDCALL* fpAlloc)(unsigned long);		// pointer to callback memory allocation
+
+#ifdef ASTYLE_DYLIB
+// For dynamically loaded shared library.
+// Currently only Visual Studio 2013 (1800) and greater are set up for dynamic dlls.
+// The other compilers use a static linking.
+#if defined(ASTYLE_DYLIB) && !(defined(_MSC_VER) && _MSC_VER >= 1800)
+	#error - ASTYLE_DYLIB works only with the Visual Studio 2013 and greater
+#endif
+typedef char* (STDCALL* fpASMain) (const char* sourceIn,
+								   const char* optionsIn,
+								   fpError errorHandler,
+								   fpAlloc memoryAlloc);
+extern fpASMain AStyleMain;		// defined in AStyleTest_Main
+#else
+// For linked shared library.
 extern "C" char* STDCALL AStyleMain(const char*, const char*, fpError, fpAlloc);
 extern "C" const char* STDCALL AStyleGetVersion (void);
+#endif
 
 //-----------------------------------------------------------------------------
 // declarations for AStyleMainUtf16 library build
