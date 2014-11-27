@@ -11,30 +11,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Print.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\srcx\TersePrinter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console3.cpp">
+    <ClCompile Include="..\..\..\srclib\AStyleTestLib_Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console2.cpp">
+    <ClCompile Include="..\..\..\srclib\AStyleTestLib_AStyleMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\srccon\AStyleTestCon.h">
+    <ClInclude Include="..\..\..\srcx\TersePrinter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\srcx\TersePrinter.h">
+    <ClInclude Include="..\..\..\srclib\AStyleTestLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

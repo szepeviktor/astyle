@@ -33,7 +33,7 @@ TEST(TestCase2, StringPrintSpecifierEQ_Fails)
 {
 	string expected = "%s %n";
 	string actual   = "%n %s";
-	EXPECT_EQ(expected, actual);
+	EXPECT_EQ(expected, actual) << "EXPECT_EQ string failure.";
 }
 
 TEST(TestCase2, StringPrintSpecifierNE_Fails)
@@ -41,7 +41,7 @@ TEST(TestCase2, StringPrintSpecifierNE_Fails)
 {
 	string expected = "%s %n";
 	string actual   = "%s %n";
-	EXPECT_NE(expected, actual);
+	EXPECT_NE(expected, actual) << "EXPECT_NE string failure.";
 }
 
 TEST(TestCase2, CStringEQ_Fails)
@@ -79,7 +79,7 @@ TEST(TestCase2, DeathTest_WrongMessage)
 	// test ok but wrong message
 	EXPECT_EXIT(errorExit("Actual message."),
 	            ExitedWithCode(EXIT_FAILURE),
-	            "Expected message.");
+	            "Expected message.") << "EXPECT_EXIT with wrong message.";
 }
 
 TEST(TestCase2, DeathTest_Fails)
@@ -87,7 +87,7 @@ TEST(TestCase2, DeathTest_Fails)
 	// test fails with wrong return code
 	EXPECT_EXIT(errorExit("Expected message."),
 	            ExitedWithCode(EXIT_SUCCESS),
-	            "Expected message.");
+	            "Expected message.") << "EXPECT_EXIT with wrong exit status.";;
 }
 
 TEST(TestCase2, DeathTest_FailsToDie)
@@ -95,7 +95,7 @@ TEST(TestCase2, DeathTest_FailsToDie)
 	// test fails with wrong return code
 	EXPECT_EXIT(errorNoExit("Expected message."),
 	            ExitedWithCode(EXIT_SUCCESS),
-	            "Expected message.");
+	            "Expected message.") << "EXPECT_EXIT fails to die.";;
 }
 
 TEST(TestCase2, TrueFalse_Fails)

@@ -662,7 +662,7 @@ TEST(AlignPointerNone, RvalueReferenceDeclaration2)
 	// test on a rvalue reference in a declaration.
 	char text[] =
 		"\nstruct A {\n"
-		"    A& operator=(const A&&);\n"
+		"    A& operator=( const A&& );\n"
 		"};";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -1020,8 +1020,8 @@ TEST(AlignPointerType, Cast1)
 		"    const string* bar;          // comment0\n"
 		"    foo = (RefNode**) bar();    // comment1\n"
 		"    foo = (RefNode*) bar();     // comment2\n"
-		"    foo = ( RefNode**) bar();   // comment1\n"
-		"    foo = ( RefNode*) bar();    // comment2\n"
+		"    foo = ( RefNode** ) bar();  // comment1\n"
+		"    foo = ( RefNode* ) bar();   // comment2\n"
 		"    foo = const_cast<RefNode**>(bar());  // comment3\n"
 		"    foo = const_cast<RefNode*>(bar());   // comment4\n"
 		"}\n";
@@ -1863,14 +1863,14 @@ TEST(AlignPointerType, RvalueReferenceDeclaration1)
 		"{\n"
 		"    void Foo1(int&&);\n"
 		"    void Foo2(int &&);\n"
-		"    void Foo3(int && );\n"
+		"    void Foo3( int && );\n"
 		"};";
 	char text[] =
 		"\nclass FooClass\n"
 		"{\n"
 		"    void Foo1(int&&);\n"
 		"    void Foo2(int&&);\n"
-		"    void Foo3(int&&);\n"
+		"    void Foo3( int&& );\n"
 		"};";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1883,11 +1883,11 @@ TEST(AlignPointerType, RvalueReferenceDeclaration2)
 	// test on a rvalue reference in a declaration.
 	char textIn[] =
 		"\nstruct A {\n"
-		"    A & operator=(const A && );\n"
+		"    A & operator=( const A && );\n"
 		"};";
 	char text[] =
 		"\nstruct A {\n"
-		"    A& operator=(const A&&);\n"
+		"    A& operator=( const A&& );\n"
 		"};";
 	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1920,14 +1920,14 @@ TEST(AlignPointerType, ClosingFollowingChar)
 	// But not for templates.
 	char textIn[] =
 		"\n"
-		"void Foo(char* , char * );     // comment\n"
+		"void Foo( char* , char * );    // comment\n"
 		"void Foo(char *, char*);       // comment\n"
 		"\n"
 		"vector< ParseTree * > m_TreeStack;   // comment\n"
 		"vector<ParseTree*> m_TreeStack;      // comment\n";
 	char text[] =
 		"\n"
-		"void Foo(char*, char*);        // comment\n"
+		"void Foo( char*, char* );      // comment\n"
 		"void Foo(char*, char*);        // comment\n"
 		"\n"
 		"vector< ParseTree* > m_TreeStack;    // comment\n"
@@ -2191,8 +2191,8 @@ TEST(AlignPointerMiddle, Cast1)
 		"    const string * bar;         // comment0\n"
 		"    foo = (RefNode **) bar();   // comment1\n"
 		"    foo = (RefNode *) bar();    // comment2\n"
-		"    foo = ( RefNode **) bar();  // comment1\n"
-		"    foo = ( RefNode *) bar();   // comment2\n"
+		"    foo = ( RefNode ** ) bar(); // comment1\n"
+		"    foo = ( RefNode * ) bar();  // comment2\n"
 		"    foo = const_cast<RefNode **>(bar()); // comment3\n"
 		"    foo = const_cast<RefNode *>(bar());  // comment4\n"
 		"}\n";
@@ -3073,14 +3073,14 @@ TEST(AlignPointerMiddle, RvalueReferenceDeclaration1)
 		"{\n"
 		"    void Foo1(int&&);\n"
 		"    void Foo2(int &&);\n"
-		"    void Foo3(int && );\n"
+		"    void Foo3( int && );\n"
 		"};";
 	char text[] =
 		"\nclass FooClass\n"
 		"{\n"
 		"    void Foo1(int &&);\n"
 		"    void Foo2(int &&);\n"
-		"    void Foo3(int &&);\n"
+		"    void Foo3( int && );\n"
 		"};";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -3093,11 +3093,11 @@ TEST(AlignPointerMiddle, RvalueReferenceDeclaration2)
 	// test on a rvalue reference in a declaration.
 	char textIn[] =
 		"\nstruct A {\n"
-		"    A& operator=(const A&&);\n"
+		"    A& operator=( const A&& );\n"
 		"};";
 	char text[] =
 		"\nstruct A {\n"
-		"    A & operator=(const A &&);\n"
+		"    A & operator=( const A && );\n"
 		"};";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -3130,14 +3130,14 @@ TEST(AlignPointerMiddle, ClosingFollowingChar)
 	// But not for templates.
 	char textIn[] =
 		"\n"
-		"void Foo(char* , char * );     // comment\n"
+		"void Foo( char* , char * );    // comment\n"
 		"void Foo(char *, char*);       // comment\n"
 		"\n"
 		"vector< ParseTree * > m_TreeStack;   // comment\n"
 		"vector<ParseTree*> m_TreeStack;      // comment\n";
 	char text[] =
 		"\n"
-		"void Foo(char *, char *);      // comment\n"
+		"void Foo( char *, char * );    // comment\n"
 		"void Foo(char *, char *);      // comment\n"
 		"\n"
 		"vector< ParseTree * > m_TreeStack;   // comment\n"
@@ -3453,8 +3453,8 @@ TEST(AlignPointerName, Cast1)
 		"    const string *bar;          // comment0\n"
 		"    foo = (RefNode **) bar();   // comment1\n"
 		"    foo = (RefNode *) bar();    // comment2\n"
-		"    foo = ( RefNode **) bar();  // comment1\n"
-		"    foo = ( RefNode *) bar();   // comment2\n"
+		"    foo = ( RefNode ** ) bar(); // comment1\n"
+		"    foo = ( RefNode * ) bar();  // comment2\n"
 		"    foo = const_cast<RefNode **>(bar()); // comment3\n"
 		"    foo = const_cast<RefNode *>(bar());  // comment4\n"
 		"}\n";
@@ -4299,14 +4299,14 @@ TEST(AlignPointerName, RvalueReferenceDeclaration1)
 		"{\n"
 		"    void Foo1(int&&);\n"
 		"    void Foo2(int &&);\n"
-		"    void Foo3(int && );\n"
+		"    void Foo3( int && );\n"
 		"};";
 	char text[] =
 		"\nclass FooClass\n"
 		"{\n"
 		"    void Foo1(int &&);\n"
 		"    void Foo2(int &&);\n"
-		"    void Foo3(int &&);\n"
+		"    void Foo3( int && );\n"
 		"};";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -4319,11 +4319,11 @@ TEST(AlignPointerName, RvalueReferenceDeclaration2)
 	// test on a rvalue reference in a declaration.
 	char textIn[] =
 		"\nstruct A {\n"
-		"    A& operator=(const A&& );\n"
+		"    A& operator=( const A&& );\n"
 		"};";
 	char text[] =
 		"\nstruct A {\n"
-		"    A &operator=(const A &&);\n"
+		"    A &operator=( const A && );\n"
 		"};";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -4356,14 +4356,14 @@ TEST(AlignPointerName, ClosingFollowingChar)
 	// But not for templates.
 	char textIn[] =
 		"\n"
-		"void Foo(char* , char * );     // comment\n"
+		"void Foo( char* , char * );    // comment\n"
 		"void Foo(char *, char*);       // comment\n"
 		"\n"
 		"vector< ParseTree * > m_TreeStack;   // comment\n"
 		"vector<ParseTree*> m_TreeStack;      // comment\n";
 	char text[] =
 		"\n"
-		"void Foo(char *, char *);      // comment\n"
+		"void Foo( char *, char * );    // comment\n"
 		"void Foo(char *, char *);      // comment\n"
 		"\n"
 		"vector< ParseTree * > m_TreeStack;   // comment\n"
