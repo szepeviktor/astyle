@@ -32,7 +32,7 @@
 					<Add library="cw32mt" />
 					<Add library="import32" />
 					<Add library="kernel32" />
-					<Add library="AStyle-2.05" />
+					<Add library="AStyle-2.06" />
 					<Add directory="bin" />
 				</Linker>
 				<ExtraCommands>

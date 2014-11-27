@@ -18,20 +18,20 @@
 				<Option projectResourceIncludeDirsRelation="1" />
 				<Option projectLibDirsRelation="1" />
 				<Compiler>
-					<Add option="-Wall" />
 					<Add option="-fno-rtti" />
 					<Add option="-O3" />
-					<Add option="-w2" />
-					<Add option="-wd1419" />
-					<Add option="-fno-exceptions" />
+					<Add option="-Wall" />
+					<Add option="-w3" />
 					<Add option="-Wextra" />
+					<Add option="-fno-exceptions" />
 					<Add option="-DNDEBUG" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add option="-static-intel" />
+					<Add option="-wd10237" />
 					<Add option="-Xlinker -rpath -Xlinker ./bin" />
-					<Add library="astyle-2.05" />
+					<Add library="astyle-2.06" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>

@@ -22,7 +22,7 @@
 				<Linker>
 					<Add option="-framework Foundation" />
 					<Add library="objc" />
-					<Add library="astyle-2.05" />
+					<Add library="astyle-2.06" />
 					<Add directory="debug" />
 				</Linker>
 			</Target>
@@ -42,7 +42,7 @@
 				<Linker>
 					<Add option="-framework Foundation" />
 					<Add library="objc" />
-					<Add library="astyle-2.05" />
+					<Add library="astyle-2.06" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>

@@ -154,7 +154,7 @@ def load_linux_so():
     """Load the shared object for Linux platforms.
        The shared object must be in the same folder as this python script.
     """
-    shared = os.path.join(sys.path[0], "libastyle-2.05.so")
+    shared = os.path.join(sys.path[0], "libastyle-2.06.so")
     # os.name does not always work for mac
     if sys.platform == "darwin":
         shared = shared.replace(".so", ".dylib")
@@ -175,7 +175,7 @@ def load_windows_dll():
        An exception is handled if the dll bits do not match the Python
        executable bits (32 vs 64).
     """
-    dll = "AStyle-2.05.dll"
+    dll = "AStyle-2.06.dll"
     try:
         libc = windll.LoadLibrary(dll)
     # exception for CPython

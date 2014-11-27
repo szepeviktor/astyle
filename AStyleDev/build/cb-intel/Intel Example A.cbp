@@ -20,10 +20,10 @@
 				<Option projectLibDirsRelation="1" />
 				<Compiler>
 					<Add option="-fno-rtti" />
-					<Add option="-Wall" />
-					<Add option="-w2" />
-					<Add option="-fno-exceptions" />
+					<Add option="-Wall" /> />
+					<Add option="-w3" />
 					<Add option="-Wextra" />
+					<Add option="-fno-exceptions" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DNDEBUG" />
 				</Compiler>
@@ -43,14 +43,15 @@
 					<Add option="-O3" />
 					<Add option="-Wall" />
 					<Add option="-w2" />
-					<Add option="-fno-exceptions" />
+					<Add option="-w3" />
 					<Add option="-Wextra" />
-					<Add option="-wd1419" />
+					<Add option="-fno-exceptions" />
 					<Add option="-DNDEBUG" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add option="-static-intel" />
+					<Add option="-wd10237" />
 					<Add library="astylelib" />
 					<Add directory="bin" />
 				</Linker>
