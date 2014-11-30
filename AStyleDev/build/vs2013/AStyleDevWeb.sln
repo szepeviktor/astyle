@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Web
-VisualStudioVersion = 12.0.30626.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{1AA559BF-D49D-4090-8F6C-0006DEF5142C}"
 	ProjectSection(SolutionItems) = preProject
@@ -10,7 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{1AA559BF-D49
 		..\..\doc\gnustep.html = ..\..\doc\gnustep.html
 		..\..\doc\greenlcd.css = ..\..\doc\greenlcd.css
 		..\..\doc\index.html = ..\..\doc\index.html
-		..\..\doc\index_2.3.html = ..\..\doc\index_2.3.html
 		..\..\doc\jni.html = ..\..\doc\jni.html
 		..\..\doc\manxome.css = ..\..\doc\manxome.css
 		..\..\doc\navy.css = ..\..\doc\navy.css
