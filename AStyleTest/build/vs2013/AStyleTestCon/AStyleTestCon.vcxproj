@@ -254,6 +254,7 @@
     <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console3.cpp" />
     <ClCompile Include="..\..\..\srccon\AStyleTestCon_Main.cpp" />
     <ClCompile Include="..\..\..\srccon\AStyleTestCon_Print.cpp" />
+    <ClCompile Include="..\..\..\srcx\LeakDetector.cpp" />
     <ClCompile Include="..\..\..\srcx\TersePrinter.cpp" />
   </ItemGroup>
   <ItemGroup>

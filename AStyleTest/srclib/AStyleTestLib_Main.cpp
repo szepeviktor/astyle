@@ -5,10 +5,6 @@
 #include "AStyleTestLib.h"
 #include "TersePrinter.h"
 
-#ifdef LEAK_DETECTOR
-	#include "vld.h"
-#endif
-
 //----------------------------------------------------------------------------
 // global variables
 //----------------------------------------------------------------------------

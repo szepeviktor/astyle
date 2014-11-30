@@ -281,6 +281,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\srclib\AStyleTestLib_AStyleMain.cpp" />
     <ClCompile Include="..\..\..\srclib\AStyleTestLib_Main.cpp" />
+    <ClCompile Include="..\..\..\srcx\LeakDetector.cpp" />
     <ClCompile Include="..\..\..\srcx\TersePrinter.cpp">
     </ClCompile>
   </ItemGroup>

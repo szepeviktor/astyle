@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTest", "AStyleTest\AStyleTest.vcxproj", "{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -51,10 +51,10 @@ Global
 		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.Debug|Win32.Build.0 = Debug|Win32
 		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.Debug|x64.ActiveCfg = Debug|x64
 		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.Debug|x64.Build.0 = Debug|x64
-		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.LeakDetector|Win32.ActiveCfg = Debug|Win32
-		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.LeakDetector|Win32.Build.0 = Debug|Win32
-		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.LeakDetector|x64.ActiveCfg = Debug|x64
-		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.LeakDetector|x64.Build.0 = Debug|x64
+		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.LeakDetector|Win32.ActiveCfg = LeakDetector|Win32
+		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.LeakDetector|Win32.Build.0 = LeakDetector|Win32
+		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.LeakDetector|x64.ActiveCfg = LeakDetector|x64
+		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.LeakDetector|x64.Build.0 = LeakDetector|x64
 		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.Release|Win32.ActiveCfg = Release|Win32
 		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.Release|Win32.Build.0 = Release|Win32
 		{8F7F6B41-5F56-4898-BD1F-22E08EA19818}.Release|x64.ActiveCfg = Release|x64

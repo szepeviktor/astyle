@@ -14,9 +14,6 @@
     <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\srccon\AStyleTestCon_Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -27,6 +24,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Console2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\srcx\LeakDetector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

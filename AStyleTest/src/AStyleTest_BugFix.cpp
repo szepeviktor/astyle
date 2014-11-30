@@ -14,7 +14,23 @@ namespace {
 // AStyle version 2.06 TEST functions
 //----------------------------------------------------------------------------
 
-TEST(BugFix_V206, EnumTest)
+TEST(BugFix_V206, PointerInACast)
+{
+	// Recogninion of a pointer in a C++ cast.
+	// The static_cast in the last line has a pointer
+	// that should NOT be padded with pad-oper.
+	char text[] =
+		"\nCSyncClockFilter::CSyncClockFilter(HRESULT* phr)\n"
+		"    : CBaseFilter(nullptr, &m_Lock, CLSID_NULL)\n"
+		"    , m_Clock(static_cast<IBaseFilter*>(this), phr)\n"
+		"{}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V206, EnumRecognition)
 {
 	// an enum return type is NOT an enumeration
 	// the pointer dereference should not change
