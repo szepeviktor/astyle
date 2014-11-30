@@ -294,6 +294,7 @@
     <ClCompile Include="..\..\..\src\AStyleTest_StylesCpp2.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_StylesOther.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Tabs.cpp" />
+    <ClCompile Include="..\..\..\srcx\LeakDetector.cpp" />
     <ClCompile Include="..\..\..\srcx\TersePrinter.cpp">
     </ClCompile>
   </ItemGroup>

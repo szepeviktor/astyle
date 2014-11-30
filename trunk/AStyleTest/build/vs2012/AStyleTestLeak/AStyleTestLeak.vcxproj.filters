@@ -33,7 +33,7 @@
     <ClCompile Include="..\..\..\..\AStyle\src\ASLocalizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srcx\AStyleTestLeak_LeakDetector.cpp">
+    <ClCompile Include="..\..\..\srcx\LeakDetector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

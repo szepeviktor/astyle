@@ -26,6 +26,9 @@
     <ClCompile Include="..\..\..\srcx\TersePrinter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\srcx\LeakDetector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\srccon\AStyleTestCon.h">

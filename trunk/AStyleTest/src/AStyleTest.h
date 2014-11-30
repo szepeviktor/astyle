@@ -43,7 +43,7 @@ typedef char* (STDCALL* fpAlloc)(unsigned long);		// pointer to callback memory 
 // Currently only Visual Studio 2013 (1800) and greater are set up for dynamic dlls.
 // The other compilers use a static linking.
 #if defined(ASTYLE_DYLIB) && !(defined(_MSC_VER) && _MSC_VER >= 1800)
-	#error - ASTYLE_DYLIB works only with the Visual Studio 2013 and greater
+	#error - ASTYLE_DYLIB works only with Visual Studio 2013 and greater
 #endif
 typedef char* (STDCALL* fpASMain) (const char* sourceIn,
 								   const char* optionsIn,

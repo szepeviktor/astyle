@@ -101,7 +101,7 @@
     <ClCompile Include="..\..\..\..\AStyle\src\ASLocalizer.cpp" />
     <ClCompile Include="..\..\..\..\AStyle\src\ASResource.cpp" />
     <ClCompile Include="..\..\..\..\AStyle\src\astyle_main.cpp" />
-    <ClCompile Include="..\..\..\srcx\AStyleTestLeak_LeakDetector.cpp" />
+    <ClCompile Include="..\..\..\srcx\LeakDetector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\AStyle\src\ASLocalizer.h" />

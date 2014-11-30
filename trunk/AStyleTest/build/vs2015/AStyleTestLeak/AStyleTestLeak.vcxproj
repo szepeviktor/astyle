@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="LeakDetector|Win32">
       <Configuration>LeakDetector</Configuration>
@@ -101,7 +101,7 @@
     <ClCompile Include="..\..\..\..\AStyle\src\ASLocalizer.cpp" />
     <ClCompile Include="..\..\..\..\AStyle\src\ASResource.cpp" />
     <ClCompile Include="..\..\..\..\AStyle\src\astyle_main.cpp" />
-    <ClCompile Include="..\..\..\srcx\AStyleTestLeak_LeakDetector.cpp" />
+    <ClCompile Include="..\..\..\srcx\LeakDetector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\AStyle\src\ASLocalizer.h" />

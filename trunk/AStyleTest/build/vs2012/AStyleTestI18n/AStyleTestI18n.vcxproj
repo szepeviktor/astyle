@@ -255,6 +255,7 @@
     <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_I18n.cpp" />
     <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_Utf16.cpp" />
     <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_Utf_Bom.cpp" />
+    <ClCompile Include="..\..\..\srcx\LeakDetector.cpp" />
     <ClCompile Include="..\..\..\srcx\TersePrinter.cpp" />
   </ItemGroup>
   <ItemGroup>

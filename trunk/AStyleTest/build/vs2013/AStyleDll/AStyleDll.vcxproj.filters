@@ -30,6 +30,9 @@
     <ClCompile Include="..\..\..\..\AStyle\src\astyle_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\srcx\LeakDetector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\AStyle\src\astyle.h">
