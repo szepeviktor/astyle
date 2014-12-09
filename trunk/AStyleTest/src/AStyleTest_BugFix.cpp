@@ -30,23 +30,6 @@ TEST(BugFix_V206, PointerInACast)
 	delete[] textOut;
 }
 
-TEST(BugFix_V206, EnumRecognition)
-{
-	// an enum return type is NOT an enumeration
-	// the pointer dereference should not change
-	char text[] =
-		"\nenum SomeEnum SomeFunc(int _var)\n"
-		"{\n"
-		"    assert(frame && *len);\n"
-		"    bar();\n"
-		"    *_var = 1;\n"
-		"}";
-	char options[] = "align-pointer=type";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
 //----------------------------------------------------------------------------
 // AStyle version 2.05 TEST functions
 //----------------------------------------------------------------------------
