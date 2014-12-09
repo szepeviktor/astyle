@@ -746,7 +746,7 @@ TEST(Cpp11Standard, UniformInitializerCommaFirst2)
 // AStyle indent-off tag
 //----------------------------------------------------------------------------
 
-TEST(IndentOffTag, IndentOffTagLineComments)
+TEST(DisableFormatting, IndentOffTagLineComments)
 {
 	// indent-off tags with line comments
 	// should NOT be unindented
@@ -781,7 +781,7 @@ TEST(IndentOffTag, IndentOffTagLineComments)
 	delete[] textOut;
 }
 
-TEST(IndentOffTag, IndentOffTagComments)
+TEST(DisableFormatting, IndentOffTagComments)
 {
 	// indent-off tags with comments
 	// should NOT be unindented
@@ -816,7 +816,7 @@ TEST(IndentOffTag, IndentOffTagComments)
 	delete[] textOut;
 }
 
-TEST(IndentOffTag, IndentOffTagCommentsSans)
+TEST(DisableFormatting, IndentOffTagCommentsSans)
 {
 	// indent-off tags with invalid comments that are NOT single line
 	// indent-off tags are ignored and the text is unindented
@@ -855,7 +855,37 @@ TEST(IndentOffTag, IndentOffTagCommentsSans)
 	delete[] textOut;
 }
 
-TEST(IndentOffTag, IndentOffArray1)
+TEST(DisableFormatting, IndentOffFirstInFile)
+{
+	// indent-off tag is the first line in the file
+	char text[] =
+		"// *INDENT-OFF*\n"
+		"#ifdef _WIN32\n"
+		"       #define STDCALL __stdcall\n"
+		"#endif\n"
+		"// *INDENT-ON*\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(DisableFormatting, IndentOnLastInFile)
+{
+	// indent-on tag is the last line in the file with no LF
+	char text[] =
+		"\n// *INDENT-OFF*\n"
+		"#ifdef _WIN32\n"
+		"       #define STDCALL __stdcall\n"
+		"#endif\n"
+		"// *INDENT-ON*";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(DisableFormatting, IndentOffArray1)
 {
 	// indent-off tags with an array
 	// should NOT change the indent
@@ -875,7 +905,7 @@ TEST(IndentOffTag, IndentOffArray1)
 	delete[] textOut;
 }
 
-TEST(IndentOffTag, IndentOffArray2)
+TEST(DisableFormatting, IndentOffArray2)
 {
 	// indent-off tags with a C# array
 	// should NOT change the indent
@@ -897,7 +927,7 @@ TEST(IndentOffTag, IndentOffArray2)
 	delete[] textOut;
 }
 
-TEST(IndentOffTag, IndentPreprocBlock)
+TEST(DisableFormatting, IndentPreprocBlock)
 {
 	// indent-off tags with indent-preproc-block
 	// should NOT be indented
@@ -915,7 +945,7 @@ TEST(IndentOffTag, IndentPreprocBlock)
 	delete[] textOut;
 }
 
-TEST(IndentOffTag, IndentPreprocBlockPartial)
+TEST(DisableFormatting, IndentPreprocBlockPartial)
 {
 	// indent-off tags with partial indent-preproc-block
 	// should NOT be indented after the tag
@@ -941,7 +971,7 @@ TEST(IndentOffTag, IndentPreprocBlockPartial)
 	delete[] textOut;
 }
 
-TEST(IndentOffTag, IndentPreprocConditional)
+TEST(DisableFormatting, IndentPreprocConditional)
 {
 	// indent-off tags with indent-preproc-cond
 	// should NOT be indented
@@ -962,7 +992,7 @@ TEST(IndentOffTag, IndentPreprocConditional)
 	delete[] textOut;
 }
 
-TEST(IndentOffTag, IndentPreprocDefineLineComments)
+TEST(DisableFormatting, IndentPreprocDefineLineComments)
 {
 	// indent-off tags using line comments with indent-preproc-define
 	// should NOT be indented
@@ -987,7 +1017,7 @@ TEST(IndentOffTag, IndentPreprocDefineLineComments)
 	delete[] textOut;
 }
 
-TEST(IndentOffTag, IndentPreprocDefineComments)
+TEST(DisableFormatting, IndentPreprocDefineComments)
 {
 	// indent-off tags using comments with indent-preproc-define
 	// should NOT be indented
@@ -1012,7 +1042,7 @@ TEST(IndentOffTag, IndentPreprocDefineComments)
 	delete[] textOut;
 }
 
-TEST(IndentOffTag, MissingIndentOffTag)
+TEST(DisableFormatting, MissingIndentOffTag)
 {
 	// indent-on without an preceding indent-off
 	// should NOT get a checksum error
@@ -1030,10 +1060,9 @@ TEST(IndentOffTag, MissingIndentOffTag)
 	delete[] textOut;
 }
 
-TEST(IndentOffTag, MissingIndentOnTag)
+TEST(DisableFormatting, MissingIndentOnTag1)
 {
 	// indent-off without a following indent-on
-	// should NOT add an extra line at the end
 	char text[] =
 		"\n// *INDENT-OFF*\n"
 		"#ifdef _WIN32\n"
@@ -1048,11 +1077,28 @@ TEST(IndentOffTag, MissingIndentOnTag)
 	delete[] textOut;
 }
 
+TEST(DisableFormatting, MissingIndentOnTag2)
+{
+	// indent-off without a following indent-on and no ending carriage return
+	char text[] =
+		"\n// *INDENT-OFF*\n"
+		"#ifdef _WIN32\n"
+		"#define STDCALL __stdcall\n"
+		"#else\n"
+		"#define STDCALL\n"
+		"#endif\n"
+		"//";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle indent-off line tag
 //----------------------------------------------------------------------------
 
-TEST(IndentOffLineTag, LineTagOperators)
+TEST(DisableLineFormatting, LineTagOperators)
 {
 	// indent-off line tag for operators
 	// first set of operators should NOT be padded
@@ -1101,7 +1147,7 @@ TEST(IndentOffLineTag, LineTagOperators)
 	delete[] textOut;
 }
 
-TEST(IndentOffLineTag, LineTagPointersAndReferences)
+TEST(DisableLineFormatting, LineTagPointersAndReferences)
 {
 	// indent-off line tag for pointers and references
 	// first set of pointers and references should NOT be padded
@@ -1468,6 +1514,23 @@ TEST(Macro, QtForeachAlignPointer)
 	delete[] textOut;
 }
 
+TEST(Macro, QtForeachSans)
+{
+	// Qt foreach may be used as a variable in C++.
+	// Brackets should not attach.
+	// The following line should be indented correctly.
+	char text[] =
+		"\nvoid astyle_bug()\n"
+		"{\n"
+		"    const bool foreach = true;\n"
+		"    const bool xxxxxxx = true;\n"
+		"}";
+	char options[] = "add-brackets";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(Macro, QtForever1)
 {
 	// Qt Q_FOREVER macro indent
@@ -1503,6 +1566,21 @@ TEST(Macro, QtForever2)
 		"        }\n"
 		"}";
 	char options[] = "style=gnu";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Macro, QtForeverSans)
+{
+	// Qt forever may be used as a variable in C++.
+	// Brackets should not attach.
+	char text[] =
+		"\nvoid astyle_bug()\n"
+		"{\n"
+		"    const bool forever = true;\n"
+		"}";
+	char options[] = "add-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2718,6 +2796,23 @@ TEST(Enum, LeadingComma2)
 	delete[] textOut;
 }
 
+TEST(BugFix_V206, EnumReturnType)
+{
+	// an enum return type is NOT an enumeration
+	// the pointer dereference should not change
+	char text[] =
+		"\nenum SomeEnum SomeFunc(int _var)\n"
+		"{\n"
+		"    assert(frame && *len);\n"
+		"    bar();\n"
+		"    *_var = 1;\n"
+		"}";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(Enum, EnumArgument1)
 {
 	// An enum argument is NOT an enum.
@@ -2756,6 +2851,22 @@ TEST(Enum, EnumArgument2)
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(Enum, EnumArgument3)
+{
+	// An enum argument is NOT an enum.
+	// The brackets will be changed if it is incorrectly flagged.
+	char text[] =
+		"\nvoid cliConsoleDiagnostic (struct Command* chain,\n"
+		"                           enum ErrorType errtype,\n"
+		"                           size_t argstr_len)\n"
+		"{\n"
+		"}\n";
+	char options[] = "style=kr";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 TEST(Enum, Misc1)

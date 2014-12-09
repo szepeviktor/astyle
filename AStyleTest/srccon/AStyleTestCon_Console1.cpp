@@ -1275,6 +1275,81 @@ TEST(HeaderVectorSequence, BuildPreDefinitionHeaders)
 	}
 }
 
+
+//----------------------------------------------------------------------------
+// AStyle Disable Formatting
+//----------------------------------------------------------------------------
+
+struct DisableFormattingF : public Test
+{
+	ASFormatter formatter;
+
+	DisableFormattingF()
+	{
+		cleanTestDirectory(getTestDirectory());
+		createConsoleGlobalObject(formatter);
+	}
+
+	~DisableFormattingF()
+	{
+		deleteConsoleGlobalObject();
+	}
+};
+
+TEST_F(DisableFormattingF, Unchanged)
+// test disable formatting with an unchanged file
+{
+	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setNoBackup(true);
+	// create test file
+	char text[] =
+		"\n// disable formatting unchanged\n"
+		"/*INDENT-OFF*/\n"
+		"#ifdef _WIN32\n"
+		"       #define STDCALL __stdcall\n"
+		"#endif\n"
+		"/*INDENT-ON*/\n";
+	string fileName = getTestDirectory() + "/DisableFormatting.cpp";
+	g_console->standardizePath(fileName);
+	createTestFile(fileName, text);
+	// call astyle processOptions()
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
+	g_console->processOptions(astyleOptionsVector);
+	// call astyle processFiles()
+	g_console->processFiles();
+	// check for file not formatted
+	EXPECT_TRUE(g_console->getFilesAreIdentical());
+}
+
+TEST_F(DisableFormattingF, Formatted)
+// test disable formatting with a formatted file
+{
+	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	g_console->setIsQuiet(true);		// change this to see results
+	g_console->setNoBackup(true);
+	// create test file - the first line will be unindented
+	char text[] =
+		"\n    // disable formatting formatted\n"
+		"/*INDENT-OFF*/\n"
+		"#ifdef _WIN32\n"
+		"       #define STDCALL __stdcall\n"
+		"#endif\n"
+		"/*INDENT-ON*/\n";
+	string fileName = getTestDirectory() + "/DisableFormatting.cpp";
+	g_console->standardizePath(fileName);
+	createTestFile(fileName, text);
+	// call astyle processOptions()
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
+	g_console->processOptions(astyleOptionsVector);
+	// call astyle processFiles()
+	g_console->processFiles();
+	// check for file formatted
+	EXPECT_FALSE(g_console->getFilesAreIdentical());
+}
+
 //----------------------------------------------------------------------------
 // AStyle Removed Options release 2.02
 //----------------------------------------------------------------------------

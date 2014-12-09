@@ -13,8 +13,8 @@ import sys
 
 # global variables ------------------------------------------------------------
 
-__old_release = "2.05"
-__new_release = "2.06"
+__old_release = "2.06"
+__new_release = "2.05.1"
 
 __file_update = False			# should the files be updated?
 
