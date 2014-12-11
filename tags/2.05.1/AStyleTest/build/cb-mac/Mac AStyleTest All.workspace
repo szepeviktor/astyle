@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Mac AStyleTest All">
+		<Project filename="Mac AStyleTest.cbp">
+			<Depends filename="Mac GMockA.cbp" />
+		</Project>
+		<Project filename="Mac AStyleTestCon.cbp">
+			<Depends filename="Mac GMockA.cbp" />
+		</Project>
+		<Project filename="Mac AStyleTestI18n.cbp">
+			<Depends filename="Mac GMockA.cbp" />
+		</Project>
+		<Project filename="Mac AStyleTestLib.cbp">
+			<Depends filename="Mac GMockA.cbp" />
+		</Project>
+		<Project filename="Mac GMockA.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>
