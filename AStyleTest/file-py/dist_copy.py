@@ -18,7 +18,7 @@ import time
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-__release = "2.05"
+__release = "2.05.1"
 # inut from AStyle directory
 __astyle_dir = libastyle.get_astyle_directory()
 # output to Project directory
