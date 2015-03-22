@@ -4,7 +4,7 @@
 set PATH=PATH;"C:\Program Files\AStyle
 set prog=AStyle
 
-REM  t - indent=tab
+REM  T - indent=force-tab
 REM  H - pad-header
 REM  C - indent-classes
 REM  O - keep-one-line-blocks

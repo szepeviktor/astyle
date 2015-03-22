@@ -128,9 +128,9 @@ void loadLibrary()
 {
 #ifdef ASTYLE_DYLIB
 #ifdef NDEBUG
-	AStyleLib = LoadLibrary(".\\AStyle-2.05.1.dll");
+	AStyleLib = LoadLibrary(".\\AStyle-2.06.dll");
 #else
-	AStyleLib = LoadLibrary(".\\AStyle-2.05.1d.dll");
+	AStyleLib = LoadLibrary(".\\AStyle-2.06d.dll");
 #endif
 	if (!AStyleLib)
 	{

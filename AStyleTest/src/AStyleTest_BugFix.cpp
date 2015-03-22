@@ -14,6 +14,44 @@ namespace {
 // AStyle version 2.06 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V206, CSharpUsingStatement)
+{
+	// Recogninion of a C# "using" statement as a header.
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    using (Process proc = Process.Start(astylewx))\n"
+		"    {\n"
+		"        proc.WaitForExit();\n"
+		"    }\n"
+		"    using (Process proc = Process.Start(astylewx))\n"
+		"        proc.WaitForExit();\n"
+		"}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V206, CSharpUsingStatementSans)
+{
+	// Recogninion of a C# "using" declaration as a non-header.
+	// The LoadContents method following a "using" directive should be indented.
+	char text[] =
+		"\nusing System;\n"
+		"\n"
+		"public class AnalysisPanel : XmlPanel\n"
+		"{\n"
+		"    public void LoadContents()\n"
+		"    {\n"
+		"    }\n"
+		"}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V206, PointerInACast)
 {
 	// Recogninion of a pointer in a C++ cast.

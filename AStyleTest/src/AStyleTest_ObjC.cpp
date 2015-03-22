@@ -733,7 +733,7 @@ TEST(ObjCPadMethodPrefix, ShortOption)
 
 TEST(ObjCPadMethodPrefix, UnPadMethodPrefix)
 {
-	// Test objective-c with unpad-method-prefix.
+	// Test objective-c with pad-method-prefix and unpad-method-prefix.
 	// The result should be pad-method-prefix.
 	char textIn[] =
 		"\n"
@@ -751,15 +751,15 @@ TEST(ObjCPadMethodPrefix, UnPadMethodPrefix)
 		"\n"
 		"- (void)Foo4\n"
 		"{ }";
-	char options[] = "pad-method-prefix, pad-method-prefix";
+	char options[] = "pad-method-prefix, unpad-method-prefix";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(ObjCPadMethodPrefix, SansClassPrefix)
+TEST(ObjCPadMethodPrefix, SansPadUnPad)
 {
-	// Test objective-c with no class prefix option.
+	// Test objective-c with no method prefix option.
 	// The result should be no change.
 	char text[] =
 		"\n"
@@ -773,6 +773,32 @@ TEST(ObjCPadMethodPrefix, SansClassPrefix)
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(ObjCPadMethodPrefix, Comments)
+{
+	// Test pad method prefix with comments.
+	// The comment alignment should be maintained.
+	char textIn[] =
+		"\n"
+		"-(void)Foo1;       // comment\n"
+		"+ (void)Foo2;      // comment\n"
+		"-    (void)Foo3;   /* comment */\n"
+		"\n"
+		"-(void)Foo4        // comment\n"
+		"{ }";
+	char text[] =
+		"\n"
+		"- (void)Foo1;      // comment\n"
+		"+ (void)Foo2;      // comment\n"
+		"- (void)Foo3;      /* comment */\n"
+		"\n"
+		"- (void)Foo4       // comment\n"
+		"{ }";
+	char options[] = "pad-method-prefix";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -827,6 +853,221 @@ TEST(ObjCUnPadMethodPrefix, ShortOption)
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(ObjCUnPadMethodPrefix, Comments)
+{
+	// Test unpad-method-prefix with comments.
+	// The comment alignment should be maintained.
+	char textIn[] =
+		"\n"
+		"-(void)Foo1;       // comment\n"
+		"+ (void)Foo2;      // comment\n"
+		"-    (void)Foo3;   /* comment */\n"
+		"\n"
+		"-(void)Foo4        // comment\n"
+		"{ }";
+	char text[] =
+		"\n"
+		"-(void)Foo1;       // comment\n"
+		"+(void)Foo2;       // comment\n"
+		"-(void)Foo3;       /* comment */\n"
+		"\n"
+		"-(void)Foo4        // comment\n"
+		"{ }";
+	char options[] = "unpad-method-prefix";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Objective-C Pad Return Type
+//-------------------------------------------------------------------------
+
+TEST(ObjCPadReturnType, LongOption)
+{
+	// Test pad return type long option.
+	char textIn[] =
+		"\n"
+		"-(void)Foo1;\n"
+		"+(void)   Foo2;\n"
+		"\n"
+		"-(void)Foo3\n"
+		"{ }";
+	char text[] =
+		"\n"
+		"-(void) Foo1;\n"
+		"+(void) Foo2;\n"
+		"\n"
+		"-(void) Foo3\n"
+		"{ }";
+	char options[] = "pad-return-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadReturnType, ShortOption)
+{
+	// Test pad return type short option.
+	char textIn[] =
+		"\n"
+		"-(void)Foo1;\n"
+		"+(void)   Foo2;\n"
+		"\n"
+		"-(void)Foo3\n"
+		"{ }";
+	char text[] =
+		"\n"
+		"-(void) Foo1;\n"
+		"+(void) Foo2;\n"
+		"\n"
+		"-(void) Foo3\n"
+		"{ }";
+	char options[] = "-xq";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadReturnType, UnPadReturnType)
+{
+	// Test objective-c with pad-return-type and unpad-return-type.
+	// The result should be pad-return-type.
+	char textIn[] =
+		"\n"
+		"-(void) Foo1;\n"
+		"+(void)   Foo2;\n"
+		"\n"
+		"-(void) Foo3\n"
+		"{ }";
+	char text[] =
+		"\n"
+		"-(void) Foo1;\n"
+		"+(void) Foo2;\n"
+		"\n"
+		"-(void) Foo3\n"
+		"{ }";
+	char options[] = "pad-return-type, unpad-return-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadReturnType, SansPadUnPad)
+{
+	// Test objective-c with no return type option.
+	// The result should be no change.
+	char text[] =
+		"\n"
+		"-(void)Foo1;\n"
+		"+(void) Foo2;\n"
+		"\n"
+		"-(void)  Foo3\n"
+		"{ }";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadReturnType, Comments)
+{
+	// Test pad return type with comments.
+	// The comment alignment should be maintained.
+	char textIn[] =
+		"\n"
+		"-(void)Foo1;       // comment\n"
+		"+(void)   Foo2;    /* comment */\n"
+		"\n"
+		"-(void)Foo3        // comment\n"
+		"{ }";
+	char text[] =
+		"\n"
+		"-(void) Foo1;      // comment\n"
+		"+(void) Foo2;      /* comment */\n"
+		"\n"
+		"-(void) Foo3       // comment\n"
+		"{ }";
+	char options[] = "pad-return-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Objective-C UnPad Return Type
+//-------------------------------------------------------------------------
+
+TEST(ObjCUnPadReturnType, LongOption)
+{
+	// Test unpad return type long option.
+	char textIn[] =
+		"\n"
+		"-(void)   Foo1;\n"
+		"+(void)Foo2;\n"
+		"\n"
+		"-(void) Foo3\n"
+		"{ }";
+	char text[] =
+		"\n"
+		"-(void)Foo1;\n"
+		"+(void)Foo2;\n"
+		"\n"
+		"-(void)Foo3\n"
+		"{ }";
+	char options[] = "unpad-return-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCUnPadReturnType, ShortOption)
+{
+	// Test unpad return type short option.
+	char textIn[] =
+		"\n"
+		"-(void)   Foo1;\n"
+		"+(void)Foo2;\n"
+		"\n"
+		"-(void) Foo3\n"
+		"{ }";
+	char text[] =
+		"\n"
+		"-(void)Foo1;\n"
+		"+(void)Foo2;\n"
+		"\n"
+		"-(void)Foo3\n"
+		"{ }";
+	char options[] = "-xr";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCUnPadReturnType, Comments)
+{
+	// Test unpad return type with comments.
+	// The comment alignment should be maintained.
+	char textIn[] =
+		"\n"
+		"-(void)   Foo1;    // comment\n"
+		"+(void)Foo2;       /* comment */\n"
+		"\n"
+		"-(void) Foo3       // comment\n"
+		"{ }";
+	char text[] =
+		"\n"
+		"-(void)Foo1;       // comment\n"
+		"+(void)Foo2;       /* comment */\n"
+		"\n"
+		"-(void)Foo3        // comment\n"
+		"{ }";
+	char options[] = "unpad-return-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -1207,6 +1448,90 @@ TEST(ObjCPadMethodColon, EndOfLineFollowsAll)
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(ObjCPadMethodColon, NoneComment)
+{
+	// Test pad-method-colon=none with following comments.
+	char textIn[] =
+		"\n"
+		"-(void)foo1:(int)row;     // comment\n"
+		"-(void)foo2 : (int)row;   // comment\n"
+		"-(void)foo3: (int)row;    /* comment */\n"
+		"-(void)foo4 :(int)row;    // comment\n";
+	char text[] =
+		"\n"
+		"-(void)foo1:(int)row;     // comment\n"
+		"-(void)foo2:(int)row;     // comment\n"
+		"-(void)foo3:(int)row;     /* comment */\n"
+		"-(void)foo4:(int)row;     // comment\n";
+	char options[] = "pad-method-colon=none";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColon, AllComment)
+{
+	// Test pad-method-colon=none with following comments.
+	char textIn[] =
+		"\n"
+		"-(void)foo1:(int)row;     // comment\n"
+		"-(void)foo2 : (int)row;   // comment\n"
+		"-(void)foo3: (int)row;    /* comment */\n"
+		"-(void)foo4 :(int)row;    // comment\n";
+	char text[] =
+		"\n"
+		"-(void)foo1 : (int)row;   // comment\n"
+		"-(void)foo2 : (int)row;   // comment\n"
+		"-(void)foo3 : (int)row;   /* comment */\n"
+		"-(void)foo4 : (int)row;   // comment\n";
+	char options[] = "pad-method-colon=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColon, AfterComment)
+{
+	// Test pad-method-colon=none with following comments.
+	char textIn[] =
+		"\n"
+		"-(void)foo1:(int)row;     // comment\n"
+		"-(void)foo2 : (int)row;   // comment\n"
+		"-(void)foo3:  (int)row;   /* comment */\n"
+		"-(void)foo4 :(int)row;    // comment\n";
+	char text[] =
+		"\n"
+		"-(void)foo1: (int)row;    // comment\n"
+		"-(void)foo2: (int)row;    // comment\n"
+		"-(void)foo3: (int)row;    /* comment */\n"
+		"-(void)foo4: (int)row;    // comment\n";
+	char options[] = "pad-method-colon=after";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColon, BeforeComment)
+{
+	// Test pad-method-colon=none with following comments.
+	char textIn[] =
+		"\n"
+		"-(void)foo1:(int)row;     // comment\n"
+		"-(void)foo2  : (int)row;  // comment\n"
+		"-(void)foo3: (int)row;    /* comment */\n"
+		"-(void)foo4 :(int)row;    // comment\n";
+	char text[] =
+		"\n"
+		"-(void)foo1 :(int)row;    // comment\n"
+		"-(void)foo2 :(int)row;    // comment\n"
+		"-(void)foo3 :(int)row;    /* comment */\n"
+		"-(void)foo4 :(int)row;    // comment\n";
+	char options[] = "pad-method-colon=before";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, Selector)

@@ -31,13 +31,13 @@ import time
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN         # C# - 1000 files from SharpDevelop
 # TESTPROJECT
-__project = libastyle.CODEBLOCKS
+__project = libastyle.SHARPDEVELOP
 
 # select OPT0 thru OPT3, or use customized options
 __options    = libastyle.OPT0
 
 # options_x are for BOTH executables
-__options_x  =  "-k1"
+__options_x  =  ""
 # options_x2 are for ONLY exe2 to test new options
 __options_x2 = ""
 
@@ -45,7 +45,7 @@ __options_x2 = ""
 #__options = "-tapOHUk3"
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle25"
+__astyleexe1 = "astyle26b"
 __astyleexe2 = "astyle"
 
 # select one of the following to format files in the OLD directory

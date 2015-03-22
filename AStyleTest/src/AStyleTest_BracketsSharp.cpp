@@ -2562,9 +2562,9 @@ TEST(BracketsArraySharp, None_Comments)
 	char text[] =
 		"\nstatic readonly\n"
 		"int[][] _stateTable =             { // 0    1    2    3    4\n"
-		"    /* 0: in Code       */ new int[] { 1  , 7  , 0  , 0  , 0  },\n"
-		"    /* 1: after quote   */ new int[] { 2  , 6  , 10 , 0  , 8  },\n"
-		"    /* 2: after d-quote */ new int[] { 3  , 7  , 0  , 0  , 0  }\n"
+		"    /* 0: in Code       */ new int[] { 1,   7,   0,   0,   0 },\n"
+		"    /* 1: after quote   */ new int[] { 2,   6,   10,  0,   8 },\n"
+		"    /* 2: after d-quote */ new int[] { 3,   7,   0,   0,   0 }\n"
 		"};\n";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -2615,9 +2615,9 @@ TEST(BracketsArraySharp, Break_Comments)
 		"\nstatic readonly\n"
 		"int[][] _stateTable =               // 0    1    2    3    4\n"
 		"{\n"
-		"    /* 0: in Code       */ new int[] { 1  , 7  , 0  , 0  , 0  },\n"
-		"    /* 1: after quote   */ new int[] { 2  , 6  , 10 , 0  , 8  },\n"
-		"    /* 2: after d-quote */ new int[] { 3  , 7  , 0  , 0  , 0  }\n"
+		"    /* 0: in Code       */ new int[] { 1,   7,   0,   0,   0 },\n"
+		"    /* 1: after quote   */ new int[] { 2,   6,   10,  0,   8 },\n"
+		"    /* 2: after d-quote */ new int[] { 3,   7,   0,   0,   0 }\n"
 		"};\n";
 	char options[] = "style=allman, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -2668,9 +2668,9 @@ TEST(BracketsArraySharp, Attach_Comments)
 	char text[] =
 		"\nstatic readonly\n"
 		"int[][] _stateTable =             { // 0    1    2    3    4\n"
-		"    /* 0: in Code       */ new int[] { 1  , 7  , 0  , 0  , 0  },\n"
-		"    /* 1: after quote   */ new int[] { 2  , 6  , 10 , 0  , 8  },\n"
-		"    /* 2: after d-quote */ new int[] { 3  , 7  , 0  , 0  , 0  }\n"
+		"    /* 0: in Code       */ new int[] { 1,   7,   0,   0,   0 },\n"
+		"    /* 1: after quote   */ new int[] { 2,   6,   10,  0,   8 },\n"
+		"    /* 2: after d-quote */ new int[] { 3,   7,   0,   0,   0 }\n"
 		"};\n";
 	char options[] = "style=java, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
@@ -2721,9 +2721,9 @@ TEST(BracketsArraySharp, RunIn_Comments)
 	char text[] =
 		"\nstatic readonly\n"
 		"int[][] _stateTable =               // 0    1    2    3    4\n"
-		"{   /* 0: in Code       */ new int[] { 1  , 7  , 0  , 0  , 0  },\n"
-		"    /* 1: after quote   */ new int[] { 2  , 6  , 10 , 0  , 8  },\n"
-		"    /* 2: after d-quote */ new int[] { 3  , 7  , 0  , 0  , 0  }\n"
+		"{   /* 0: in Code       */ new int[] { 1,   7,   0,   0,   0 },\n"
+		"    /* 1: after quote   */ new int[] { 2,   6,   10,  0,   8 },\n"
+		"    /* 2: after d-quote */ new int[] { 3,   7,   0,   0,   0 }\n"
 		"};\n";
 	char options[] = "style=horstmann, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
