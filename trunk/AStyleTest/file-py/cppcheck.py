@@ -104,6 +104,8 @@ def process_astyle_main(astyle_main_list):
 			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getFileNameVector\n")
 		if "ASConsole::getFileOptionsVector(" in line:
 			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getFileOptionsVector\n")
+		if "ASConsole::getFilesAreIdentical(" in line:
+			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getFilesAreIdentical\n")
 		if "ASConsole::getFilesFormatted(" in line:
 			astyle_main_list.append("unusedFunction:" + src_path + ":" +  str(lines) + "\t\t\t// getFilesFormatted\n")
 		if "ASConsole::getIgnoreExcludeErrors(" in line:

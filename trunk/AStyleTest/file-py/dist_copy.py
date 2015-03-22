@@ -54,6 +54,10 @@ def build_linux_distribution():
 	dist_astyle = dist_base + "/astyle"
 	os.makedirs(dist_astyle)
 
+	# top directory
+	dist_top = dist_astyle + "/"
+	copy_astyle_top(dist_top)
+
 	# doc directory
 	dist_doc = dist_astyle + "/doc/"
 	os.mkdir(dist_doc)
@@ -119,6 +123,10 @@ def build_mac_distribution():
 	dist_astyle = dist_base + "/astyle"
 	os.makedirs(dist_astyle)
 
+	# top directory
+	dist_top = dist_astyle + "/"
+	copy_astyle_top(dist_top)
+
 	# doc directory
 	dist_doc = dist_astyle + "/doc/"
 	os.mkdir(dist_doc)
@@ -180,6 +188,10 @@ def build_vms_distribution():
 	dist_astyle = dist_base + "/astyle"
 	os.makedirs(dist_astyle)
 
+	# top directory
+	dist_top = dist_astyle + "/"
+	copy_astyle_top(dist_top)
+
 	# doc directory
 	dist_doc = dist_astyle + "/doc/"
 	os.mkdir(dist_doc)
@@ -230,6 +242,10 @@ def build_windows_distribution():
 	astyle_build_directory = libastyle.get_astyle_build_directory(libastyle.STATIC)
 	shutil.copy(astyle_build_directory + "/binstatic/AStyle.exe", dist_astyle_bin)
 	print("exe copied ({0})".format(vsdir))
+
+	# top directory
+	dist_top = dist_astyle + "/"
+	copy_astyle_top(dist_top, True)
 
 	# doc directory
 	dist_doc = dist_astyle + "/doc/"
@@ -283,7 +299,7 @@ def convert_line_ends(dist_dir, to_dos):
 	   Needs tofrodos package.
 	   All files in a directory are converted.
 	"""
-	files = glob.glob(dist_dir + "*")
+	files = glob.glob(dist_dir + "*.*")
 	if os.name == "nt":
 		exedir = "C:/Programs/tofrodos/"
 		if to_dos:
@@ -316,7 +332,6 @@ def copy_astyle_doc(dist_doc, to_dos=False):
 		filename = filepath[sep + 1:]
 		if (filename == "astyle.html"
 		or filename == "install.html"
-		or filename == "license.html"
 		or filename == "news.html"
 		or filename == "notes.html"
 		or filename == "styles.css"):
@@ -357,6 +372,34 @@ def copy_astyle_src(dist_src, to_dos=False):
 		mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 		os.chmod(srcfile, mode)
 	print("src copied")
+
+# -----------------------------------------------------------------------------
+
+def copy_astyle_top(dist_top, to_dos=False):
+	"""Copy files in the top directory to a distribution directory.
+	"""
+	deleted = 0
+	docfiles = glob.glob(__astyle_dir + "/*")
+	for filepath in docfiles:
+		sep = filepath.rfind(os.sep)
+		filename = filepath[sep + 1:]
+		if (filename == "LICENSE.txt"
+		or filename == "README.txt"):
+			shutil.copy(filepath, dist_top)
+			print("    " + filename)
+		else:
+			deleted += 1
+	convert_line_ends(dist_top, to_dos)
+	# verify copy - had a problem with bad filenames
+	distfiles = (glob.glob(dist_top + "/*.txt"))
+	if len(distfiles) != len(docfiles) - deleted:
+		libastyle.system_exit("Error copying top: " + str(len(distfiles)))
+	# change file permissions
+	for srcfile in distfiles:
+		# read/write by the owner and read only by everyone else (-rw-r--r--)
+		mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+		os.chmod(srcfile, mode)
+	print("top copied")
 
 # -----------------------------------------------------------------------------
 

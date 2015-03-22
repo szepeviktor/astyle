@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """Modify the Artistic Style version number in the shared library compiles.
 """
 
@@ -13,8 +13,8 @@ import sys
 
 # global variables ------------------------------------------------------------
 
-__old_release = "2.06"
-__new_release = "2.05.1"
+__old_release = "2.05.1"
+__new_release = "2.06"
 
 __file_update = False			# should the files be updated?
 
@@ -45,7 +45,8 @@ def main():
 
 	# source file directories
 	source_extension_list = [".properties", ".cpp", ".m", ".java", ".py", ".cs"]
-	source_directory_list = [libastyle.get_project_directory(True) + "AStyleDev/src-c",
+	source_directory_list = [libastyle.get_project_directory(True) + "AStyle/src",
+					         libastyle.get_project_directory(True) + "AStyleDev/src-c",
 					         libastyle.get_project_directory(True) + "AStyleDev/src-o",
 					         libastyle.get_project_directory(True) + "AStyleDev/src-j",
 					         libastyle.get_project_directory(True) + "AStyleDev/src-p",
@@ -53,7 +54,10 @@ def main():
 					         libastyle.get_project_directory(True) + "AStyleTest/src",
 					         libastyle.get_project_directory(True) + "AStyleWin/src",
 					         libastyle.get_project_directory(True) + "AStyleWx/src"]
-	update_source_files(source_directory_list, source_extension_list)
+	# exclude files with utf-8 encoding (...Other.cpp seems to be an error in linux)
+	source_excludes = [libastyle.get_project_directory(True) + "AStyle/src/ASLocalizer.cpp",
+					   libastyle.get_project_directory(True) + "AStyleTest/src/AStyleTest_Other.cpp"]
+	update_source_files(source_directory_list, source_extension_list, source_excludes)
 	if not __file_update:
 		print("FILES NOT UPDATED")
 
@@ -104,7 +108,7 @@ def modify_input_file(filepath, updated_file_list):
 	with open(filepath, mode='r', newline='') as file_in:
 		for line in file_in:
 			lines += 1
-			if pattern.search(line):
+			if pattern.search(line) or ('"' + __old_release + '"' in line):
 				line = line.replace(__old_release, __new_release)
 				file_changed = True
 			updated_file_list.append(line)
@@ -144,7 +148,7 @@ def update_project_files(project_directory_list, project_extension_list):
 
 # -----------------------------------------------------------------------------
 
-def update_source_files(source_directory_list, source_extension_list):
+def update_source_files(source_directory_list, source_extension_list, source_excludes):
 	"""Update version number in the dource files.
 	   The directory list and file extensions are in main().
 	"""
@@ -153,16 +157,21 @@ def update_source_files(source_directory_list, source_extension_list):
 	for i in range(len(source_directory_list)):
 		source_files_list = []
 		get_requested_files(source_directory_list[i], source_extension_list, source_files_list)
+		# remove excludes
+		for j in range(len(source_excludes)):
+			source_excludes[j] = source_excludes[j].replace('\\', '/')
+			if source_excludes[j] in source_files_list:
+				source_files_list.remove(source_excludes[j])
 		# update the files with shared object references
-		for j in range(len(source_files_list)):
+		for k in range(len(source_files_list)):
 			updated_file = []
-			file_changed = modify_input_file(source_files_list[j], updated_file)
+			file_changed = modify_input_file(source_files_list[k], updated_file)
 			if file_changed:
-				filepath = get_printble_filepath(source_files_list[j])
+				filepath = get_printble_filepath(source_files_list[k])
 				print(filepath)
 				source_total += 1
 				if __file_update:
-					write_output_file(updated_file, source_files_list[j])
+					write_output_file(updated_file, source_files_list[k])
 	print("Source Files", source_total)
 	print()
 

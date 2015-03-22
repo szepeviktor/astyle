@@ -2070,7 +2070,7 @@ TEST(PadOperator, Sans12)
 	delete [] textOut;
 }
 
-TEST(AlignPointerType, Sans13)
+TEST(PadOperator, Sans13)
 {
 	// a dereference following a question mark should not be padded
 	char text[] =
@@ -2525,6 +2525,129 @@ TEST(PadOperator, SansTemplate2)
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Pad Comma
+//-------------------------------------------------------------------------
+
+TEST(PadComma, UnpadBefore)
+{
+	// test unpad before comma, including comment alignment
+	char textIn[] =
+		"\nvoid foo(void*   , void*);    // comment\n"
+		"\n"
+		"void Foo(int , int    , char * , int)    // comment\n"
+		"{\n"
+		"    fooBar1(Line()  , var1);    // comment 1\n"
+		"    fooBar2(var2  , var3);      // comment 2\n"
+		"}";
+	char text[] =
+		"\nvoid foo(void*, void*);       // comment\n"
+		"\n"
+		"void Foo(int, int, char *, int)          // comment\n"
+		"{\n"
+		"    fooBar1(Line(), var1);      // comment 1\n"
+		"    fooBar2(var2, var3);        // comment 2\n"
+		"}";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(PadComma, UnpadBeforeSans)
+{
+	// test disable block formatting with unpad before comma
+	// the spaces before the commas are NOT removed
+	char text[] =
+		"\n// *INDENT-OFF*\n"
+		"static readonly\n"
+		"int[][] _stateTable = {             // 0    1    2    3    4\n"
+		"    /* 0: in Code       */ new int[] { 1  , 7  , 0  , 0  , 0 },\n"
+		"    /* 1: after quote   */ new int[] { 2  , 6  , 10 , 0  , 8 },\n"
+		"    /* 2: after d-quote */ new int[] { 3  , 7  , 0  , 0  , 0 }\n"
+		"};\n"
+		"// *INDENT-ON*\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(PadComma, LongOption)
+{
+	// test pad-comma long option
+	char textIn[] =
+		"\nvoid foo(void*   ,void*);\n"
+		"\n"
+		"void Foo(int ,int   ,char *  ,int)  // comment\n"
+		"{\n"
+		"    fooBar1(Line() ,var1);    // comment 1\n"
+		"    fooBar2(var2, var3);      // comment 2\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo(void*, void*);\n"
+		"\n"
+		"void Foo(int, int, char *, int)     // comment\n"
+		"{\n"
+		"    fooBar1(Line(), var1);    // comment 1\n"
+		"    fooBar2(var2, var3);      // comment 2\n"
+		"}\n";
+	char options[] = "pad-comma";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(PadComma, ShortOption)
+{
+	// test pad-comma short option
+	char textIn[] =
+		"\nvoid foo(void*   ,void*);\n"
+		"\n"
+		"void Foo(int ,int   ,char *  ,int)  // comment\n"
+		"{\n"
+		"    fooBar1(Line() ,var1);    // comment 1\n"
+		"    fooBar2(var2, var3);      // comment 2\n"
+		"}\n";
+	char text[] =
+		"\nvoid foo(void*, void*);\n"
+		"\n"
+		"void Foo(int, int, char *, int)     // comment\n"
+		"{\n"
+		"    fooBar1(Line(), var1);    // comment 1\n"
+		"    fooBar2(var2, var3);      // comment 2\n"
+		"}\n";
+	char options[] = "-xg";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(PadComma, Array)
+{
+	// commas should be padded with pad-comma
+	char textIn[] =
+		"\n"
+		"static bool[,] set = {\n"
+		"    {T,T,x,T, x,T,x,T, T,T,x,T, T,T,T,x},\n"
+		"    {x,x,x,x, x,x,x,x, x,x,x,T, T,T,T,x},\n"
+		"    {T,T,x,T, x,T,x,T, T,T,x,T, T,T,T,x},\n"
+		"    {x,T,T,T, T,T,T,T, T,T,T,T, T,T,T,T}\n"
+		"};\n";
+	char text[] =
+		"\n"
+		"static bool[,] set = {\n"
+		"    {T, T, x, T, x, T, x, T, T, T, x, T, T, T, T, x},\n"
+		"    {x, x, x, x, x, x, x, x, x, x, x, T, T, T, T, x},\n"
+		"    {T, T, x, T, x, T, x, T, T, T, x, T, T, T, T, x},\n"
+		"    {x, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T}\n"
+		"};\n";
+	char options[] = "pad-comma";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------

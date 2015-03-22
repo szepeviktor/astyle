@@ -686,11 +686,10 @@ TEST(AlignPointerNone, RvalueReferenceOperatorOverload)
 
 TEST(AlignPointerNone, ClosingFollowingChar)
 {
-	// Following char is closed for parens and commas.
-	// But not for templates.
+	// Following a * is not closed for templates.
 	char text[] =
 		"\n"
-		"void Foo(char * , char * );    // comment\n"
+		"void Foo(char *, char * );     // comment\n"
 		"void Foo(char *, char *);      // comment\n"
 		"\n"
 		"vector< ParseTree* > m_TreeStack;    // comment\n"
@@ -1916,11 +1915,10 @@ TEST(AlignPointerType, RvalueReferenceOperatorOverload)
 
 TEST(AlignPointerType, ClosingFollowingChar)
 {
-	// Following char is closed for parens and commas.
-	// But not for templates.
+	// Following a * is not closed for templates.
 	char textIn[] =
 		"\n"
-		"void Foo( char* , char * );    // comment\n"
+		"void Foo( char*, char * );     // comment\n"
 		"void Foo(char *, char*);       // comment\n"
 		"\n"
 		"vector< ParseTree * > m_TreeStack;   // comment\n"
@@ -3126,11 +3124,10 @@ TEST(AlignPointerMiddle, RvalueReferenceOperatorOverload)
 
 TEST(AlignPointerMiddle, ClosingFollowingChar)
 {
-	// Following char is closed for parens and commas.
-	// But not for templates.
+	// Following a * is not closed for templates.
 	char textIn[] =
 		"\n"
-		"void Foo( char* , char * );    // comment\n"
+		"void Foo( char*, char * );     // comment\n"
 		"void Foo(char *, char*);       // comment\n"
 		"\n"
 		"vector< ParseTree * > m_TreeStack;   // comment\n"
@@ -4352,11 +4349,10 @@ TEST(AlignPointerName, RvalueReferenceOperatorOverload)
 
 TEST(AlignPointerName, ClosingFollowingChar)
 {
-	// Following char is closed for parens and commas.
-	// But not for templates.
+	// Following a * is not closed for templates.
 	char textIn[] =
 		"\n"
-		"void Foo( char* , char * );    // comment\n"
+		"void Foo( char*, char * );     // comment\n"
 		"void Foo(char *, char*);       // comment\n"
 		"\n"
 		"vector< ParseTree * > m_TreeStack;   // comment\n"
