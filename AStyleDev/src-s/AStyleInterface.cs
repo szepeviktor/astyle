@@ -9,32 +9,32 @@ public class AStyleInterface
 #if (WINDOWS)
 // Windows will NOT attach an extension to a filename containing dots (.).
 #if (DEBUG)
-    private const String dllName = "astyle-2.06d.dll";
+    private const string DllName = "astyle-2.06d.dll";
 #else
-    private const String dllName = "astyle-2.06.dll";
+    private const string DllName = "astyle-2.06.dll";
 #endif
 #else
 #if (DEBUG)
-    private const String dllName = "astyle-2.06d";
+    private const string DllName = "astyle-2.06d";
 #else
-    private const String dllName = "astyle-2.06";
+    private const string DllName = "astyle-2.06";
 #endif
 #endif
     /// AStyleGetVersion DllImport.
-    /// Cannot use String as a return value because Mono runtime will attempt to
+    /// Cannot use string as a return value because Mono runtime will attempt to
     /// free the returned pointer resulting in a runtime crash.
     /// NOTE: CharSet.Unicode is NOT used here.
-    [DllImport(dllName)]
+    [DllImport(DllName)]
     private static extern IntPtr AStyleGetVersion();
 
     /// AStyleMainUtf16 DllImport.
-    /// Cannot use String as a return value because Mono runtime will attempt to
+    /// Cannot use string as a return value because Mono runtime will attempt to
     /// free the returned pointer resulting in a runtime crash.
     /// NOTE: CharSet.Unicode and wide strings are used here.
-    [DllImport(dllName, CharSet = CharSet.Unicode)]
+    [DllImport(DllName, CharSet = CharSet.Unicode)]
     private static extern IntPtr AStyleMainUtf16(
-        [MarshalAs(UnmanagedType.LPWStr)] String sIn,
-        [MarshalAs(UnmanagedType.LPWStr)] String sOptions,
+        [MarshalAs(UnmanagedType.LPWStr)] string sIn,
+        [MarshalAs(UnmanagedType.LPWStr)] string sOptions,
         AStyleErrorDelgate errorFunc,
         AStyleMemAllocDelgate memAllocFunc
     );
@@ -44,7 +44,7 @@ public class AStyleInterface
     private delegate IntPtr AStyleMemAllocDelgate(int size);
     private delegate void AStyleErrorDelgate(
         int errorNum,
-        [MarshalAs(UnmanagedType.LPStr)] String error
+        [MarshalAs(UnmanagedType.LPStr)] string error
     );
 
     /// AStyleMainUtf16 Delegates.
@@ -59,10 +59,10 @@ public class AStyleInterface
 
     /// Call the AStyleMainUtf16 function in Artistic Style.
     /// An empty string is returned on error.
-    public String FormatSource(String textIn, String options)
+    public string FormatSource(string textIn, string options)
     {   // Return the allocated string
         // Memory space is allocated by OnAStyleMemAlloc, a callback function
-        String sTextOut = String.Empty;
+        string sTextOut = string.Empty;
         try
         {   IntPtr pText = AStyleMainUtf16(textIn, options, AStyleError, AStyleMemAlloc);
             if (pText != IntPtr.Zero)
@@ -76,7 +76,7 @@ public class AStyleInterface
         }
         catch (DllNotFoundException)
         {   //Console.WriteLine(e.ToString());
-            Console.WriteLine("Cannot load native library: " + dllName);
+            Console.WriteLine("Cannot load native library: " + DllName);
             Console.WriteLine("The program has terminated!");
             Environment.Exit(1);
         }
@@ -89,8 +89,8 @@ public class AStyleInterface
     /// Get the Artistic Style version number.
     /// Does not need to terminate on error.
     /// But the exception must be handled when a function is called.
-    public String GetVersion()
-    {   String sVersion = String.Empty;
+    public string GetVersion()
+    {   string sVersion = string.Empty;
         try
         {   IntPtr pVersion = AStyleGetVersion();
             if (pVersion != IntPtr.Zero)
@@ -105,7 +105,7 @@ public class AStyleInterface
         }
         catch (DllNotFoundException)
         {   //Console.WriteLine(e.ToString());
-            Console.WriteLine("Cannot load native library: " + dllName);
+            Console.WriteLine("Cannot load native library: " + DllName);
             Console.WriteLine("The program has terminated!");
             Environment.Exit(1);
         }
@@ -123,7 +123,7 @@ public class AStyleInterface
     }
 
     /// Display errors from Artistic Style .
-    private void OnAStyleError(int errorNumber, String errorMessage)
+    private void OnAStyleError(int errorNumber, string errorMessage)
     {   Console.WriteLine("AStyle error " + errorNumber + "\n" + errorMessage);
     }
 
