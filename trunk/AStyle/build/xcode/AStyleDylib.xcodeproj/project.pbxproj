@@ -17,7 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BF4E3EA5188B19C8005C5AD0 /* libastyle-2.05.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libastyle-2.05.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF4E3EA5188B19C8005C5AD0 /* libastyle-2.06.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libastyle-2.06.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFAB841B188B1ACD00DFE955 /* ASBeautifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASBeautifier.cpp; sourceTree = "<group>"; };
 		BFAB841C188B1ACD00DFE955 /* ASEnhancer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASEnhancer.cpp; sourceTree = "<group>"; };
 		BFAB841D188B1ACD00DFE955 /* ASFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASFormatter.cpp; sourceTree = "<group>"; };
@@ -51,7 +51,7 @@
 		BF4E3EA6188B19C8005C5AD0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BF4E3EA5188B19C8005C5AD0 /* libastyle-2.05.dylib */,
+				BF4E3EA5188B19C8005C5AD0 /* libastyle-2.06.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -100,7 +100,7 @@
 			);
 			name = AStyleDylib;
 			productName = AStyleDylib;
-			productReference = BF4E3EA5188B19C8005C5AD0 /* libastyle-2.05.dylib */;
+			productReference = BF4E3EA5188B19C8005C5AD0 /* libastyle-2.06.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -230,7 +230,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OBJROOT = Build/Intermediates;
-				PRODUCT_NAME = "astyle-2.05";
+				PRODUCT_NAME = "astyle-2.06";
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = Build/Products;
@@ -258,7 +258,7 @@
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OBJROOT = Build/Intermediates;
-				PRODUCT_NAME = "astyle-2.05";
+				PRODUCT_NAME = "astyle-2.06";
 				SKIP_INSTALL = YES;
 				SYMROOT = Build/Products;
 			};

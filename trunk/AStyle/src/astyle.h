@@ -4,9 +4,7 @@
  *   Copyright (C) 2014 by Jim Pattee
  *   <http://www.gnu.org/licenses/lgpl-3.0.html>
  *
- *   This file is a part of Artistic Style - an indentation and
- *   reformatting tool for C, C++, C# and Java source files.
- *   <http://astyle.sourceforge.net>
+ *   This file is a part of Artistic Style <http://astyle.sourceforge.net>.
  *
  *   Artistic Style is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU Lesser General Public License as published
@@ -218,7 +216,7 @@ class ASResource
 		static const string AS_DO, AS_WHILE;
 		static const string AS_FOR;
 		static const string AS_SWITCH, AS_CASE, AS_DEFAULT;
-		static const string AS_TRY, AS_CATCH, AS_THROW, AS_THROWS, AS_FINALLY;
+		static const string AS_TRY, AS_CATCH, AS_THROW, AS_THROWS, AS_FINALLY, AS_USING;
 		static const string _AS_TRY, _AS_FINALLY, _AS_EXCEPT;
 		static const string AS_PUBLIC, AS_PROTECTED, AS_PRIVATE;
 		static const string AS_CLASS, AS_STRUCT, AS_UNION, AS_INTERFACE, AS_NAMESPACE;
@@ -673,7 +671,10 @@ class ASFormatter : public ASBeautifier
 		void setBreakOneLineBlocksMode(bool state);
 		void setMethodPrefixPaddingMode(bool state);
 		void setMethodPrefixUnPaddingMode(bool state);
+		void setReturnTypePaddingMode(bool state);
+		void setReturnTypeUnPaddingMode(bool state);
 		void setCloseTemplatesMode(bool state);
+		void setCommaPaddingMode(bool state);
 		void setDeleteEmptyLinesMode(bool state);
 		void setIndentCol1CommentsMode(bool state);
 		void setLineEndFormat(LineEndFormat fmt);
@@ -868,6 +869,7 @@ class ASFormatter : public ASBeautifier
 		ObjCColonPad objCColonPadMode;
 		LineEndFormat lineEnd;
 		bool isVirgin;
+		bool shouldPadCommas;
 		bool shouldPadOperators;
 		bool shouldPadParensOutside;
 		bool shouldPadFirstParen;
@@ -941,6 +943,7 @@ class ASFormatter : public ASBeautifier
 		bool isCharImmediatelyPostPointerOrReference;
 		bool isInObjCMethodDefinition;
 		bool isInObjCInterface;
+		bool isInObjCReturnType;
 		bool isInObjCSelector;
 		bool breakCurrentOneLineBlock;
 		bool shouldRemoveNextClosingBracket;
@@ -959,6 +962,8 @@ class ASFormatter : public ASBeautifier
 		bool shouldPadMethodColon;
 		bool shouldPadMethodPrefix;
 		bool shouldUnPadMethodPrefix;
+		bool shouldPadReturnType;
+		bool shouldUnPadReturnType;
 		bool shouldDeleteEmptyLines;
 		bool needHeaderOpeningBracket;
 		bool shouldBreakLineAtNextChar;
@@ -970,6 +975,7 @@ class ASFormatter : public ASBeautifier
 		bool isImmediatelyPostComment;
 		bool isImmediatelyPostLineComment;
 		bool isImmediatelyPostEmptyBlock;
+		bool isImmediatelyPostObjCMethodPrefix;
 		bool isImmediatelyPostPreprocessor;
 		bool isImmediatelyPostReturn;
 		bool isImmediatelyPostThrow;
