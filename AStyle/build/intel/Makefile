@@ -1,5 +1,6 @@
 # Make file for Intel compiler on Linux or compatible OS
-# The license.html file describes the conditions under which this software may be distributed.
+# The license.html file describes the conditions under 
+# which this software may be distributed.
 #
 
 # Before running "make" the COMPILER environment variables must be set.
@@ -7,9 +8,10 @@
 #     source /opt/intel/bin/compilervars.sh  [ ia32 | intel64 ]
 # Refer to the install instructions for details.
 # If the environment variables are set, INTEL_LICENSE_FILE will be defined.
-ifndef INTEL_LICENSE_FILE
-    $(error The compiler environment variables are not set)
-endif
+# NOTE: This does not work if 'sudo' is used, as in 'install' and 'uninstall'.
+#ifndef INTEL_LICENSE_FILE
+#    $(error The compiler environment variables are not set)
+#endif
 
 # list of source files
 SRC = astyle_main.cpp \
@@ -34,9 +36,6 @@ ifndef prefix
     prefix=/usr
 endif
 SYSCONF_PATH=$(prefix)/share/doc/astyle
-# the path was changed in release 2.01
-# SYSCONF_PATH_OLD may be removed at the appropriate time
-SYSCONF_PATH_OLD=$(prefix)/share/astyle
 
 # define macros
 bindir = bin
@@ -70,8 +69,8 @@ ifdef LDFLAGS
     LDFLAGSr   = $(LDFLAGS)
     LDFLAGSd   = $(LDFLAGS)
 else
-    LDFLAGSr   = -s -static-intel
-    LDFLAGSd   = -static-intel
+    LDFLAGSr   = -s
+    LDFLAGSd   =
 endif
 
 # object files are built from the source list $(SRC)
@@ -90,42 +89,42 @@ OBJsjd = $(patsubst %.cpp,$(objdir)/%_sjd.o,$(SRC))
 # OBJ
 $(objdir)/%.o:  %.cpp  astyle.h  astyle_main.h
 	@ mkdir -p $(objdir)
-	$(CXX) $(CFLAGSr) -c -o $@ $<
+	$(CXX) $(CFLAGSr) -c $< -o $@
 
 # OBJd
 $(objdir)/%_d.o:  %.cpp  astyle.h  astyle_main.h
 	@ mkdir -p $(objdir)
-	$(CXX) $(CFLAGSd) -c -o $@ $<
+	$(CXX) $(CFLAGSd) -c $< -o $@
 
 # OBJs
 $(objdir)/%_s.o:  %.cpp  astyle.h
 	@ mkdir -p $(objdir)
-	$(CXX) $(CFLAGSs) -c -o $@ $<
+	$(CXX) $(CFLAGSs) -c $< -o $@
 
 # OBJsd
 $(objdir)/%_sd.o:  %.cpp  astyle.h
 	@ mkdir -p $(objdir)
-	$(CXX) $(CFLAGSsd) -c -o $@ $<
+	$(CXX) $(CFLAGSsd) -c $< -o $@
 
 # OBJa
 $(objdir)/%_a.o:  %.cpp  astyle.h
 	@ mkdir -p $(objdir)
-	$(CXX) $(CFLAGSa) -c -o $@ $<
+	$(CXX) $(CFLAGSa) -c $< -o $@
 
 # OBJad
 $(objdir)/%_ad.o:  %.cpp  astyle.h
 	@ mkdir -p $(objdir)
-	$(CXX) $(CFLAGSad) -c -o $@ $<
+	$(CXX) $(CFLAGSad) -c $< -o $@
 
 # OBJsj
 $(objdir)/%_sj.o:  %.cpp  astyle.h
 	@ mkdir -p $(objdir)
-	$(CXX) $(CFLAGSsj) -c -o $@ $<
+	$(CXX) $(CFLAGSsj) -c $< -o $@
 
 # OBJsjd
 $(objdir)/%_sjd.o:  %.cpp  astyle.h
 	@ mkdir -p $(objdir)
-	$(CXX) $(CFLAGSsjd) -c -o $@ $<
+	$(CXX) $(CFLAGSsjd) -c $< -o $@
 
 ##################################################
 # define build dependencies for each command
@@ -142,14 +141,14 @@ astyled:  $(OBJd)
 	$(CXX) $(LDFLAGSd) -o $(bindir)/$@ $^
 	@ echo
 
-shared:  libastyle-2.05.1.so
-libastyle-2.05.1.so:  $(OBJs)
+shared:  libastyle-2.06.so
+libastyle-2.06.so:  $(OBJs)
 	@ mkdir -p $(bindir)
 	$(CXX) -shared $(LDFLAGSr) -o $(bindir)/$@ $^
 	@ echo
 
-shareddebug:  libastyle-2.05.1d.so
-libastyle-2.05.1d.so:  $(OBJsd)
+shareddebug:  libastyle-2.06d.so
+libastyle-2.06d.so:  $(OBJsd)
 	@ mkdir -p $(bindir)
 	$(CXX) -shared $(LDFLAGSd) -o $(bindir)/$@ $^
 	@ echo
@@ -166,14 +165,14 @@ libastyled.a:  $(OBJad)
 	ar crs $(bindir)/$@ $^
 	@ echo
 
-java:  libastyle-2.05.1j.so
-libastyle-2.05.1j.so:  $(OBJsj)
+java:  libastyle-2.06j.so
+libastyle-2.06j.so:  $(OBJsj)
 	@ mkdir -p $(bindir)
 	$(CXX) -shared $(LDFLAGSr) -o $(bindir)/$@ $^
 	@ echo
 
-javadebug:  libastyle-2.05.1jd.so
-libastyle-2.05.1jd.so:  $(OBJsjd)
+javadebug:  libastyle-2.06jd.so
+libastyle-2.06jd.so:  $(OBJsjd)
 	@ mkdir -p $(bindir)
 	$(CXX) -shared $(LDFLAGSd) -o $(bindir)/$@ $^
 	@ echo
@@ -198,13 +197,7 @@ install:
 	do \
 		$(INSTALL)  -m 644  $$files  $(SYSCONF_PATH)/html; \
 	done
-	@if [ -d $(SYSCONF_PATH_OLD) ];  then \
-		rm -rf $(SYSCONF_PATH_OLD); \
-	fi
 
 uninstall:
 	rm -f $(ipath)/astyle
 	rm -rf $(SYSCONF_PATH)
-	@if [ -d $(SYSCONF_PATH_OLD) ];  then \
-		rm -rf $(SYSCONF_PATH_OLD); \
-	fi

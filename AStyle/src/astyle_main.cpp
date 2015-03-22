@@ -4,9 +4,7 @@
  *   Copyright (C) 2014 by Jim Pattee
  *   <http://www.gnu.org/licenses/lgpl-3.0.html>
  *
- *   This file is a part of Artistic Style - an indentation and
- *   reformatting tool for C, C++, C# and Java source files.
- *   <http://astyle.sourceforge.net>
+ *   This file is a part of Artistic Style <http://astyle.sourceforge.net>.
  *
  *   Artistic Style is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU Lesser General Public License as published
@@ -110,7 +108,7 @@ namespace astyle {
 	jmethodID g_mid;
 #endif
 
-const char* g_version = "2.05.1";
+const char* g_version = "2.06";
 
 //-----------------------------------------------------------------------------
 // ASStreamIterator class
@@ -1735,6 +1733,9 @@ void ASConsole::printHelp() const
 	cout << "    --pad-oper  OR  -p\n";
 	cout << "    Insert space padding around operators.\n";
 	cout << endl;
+	cout << "    --pad-comma  OR  -xg\n";
+	cout << "    Insert space padding around commas and semicolons.\n";
+	cout << endl;
 	cout << "    --pad-paren  OR  -P\n";
 	cout << "    Insert space padding around parenthesis on both the outside\n";
 	cout << "    and the inside.\n";
@@ -1846,6 +1847,12 @@ void ASConsole::printHelp() const
 	cout << "    --unpad-method-prefix  OR  -xR\n";
 	cout << "    Remove all space padding after the '-' or '+' Objective-C\n";
 	cout << "    method prefix.\n";
+	cout << endl;
+	cout << "    --pad-return-type  OR  -xq\n";
+	cout << "    Insert space padding after the Objective-C return type.\n";
+	cout << endl;
+	cout << "    --unpad-return-type  OR  -xr\n";
+	cout << "    Remove all space padding after the Objective-C return type.\n";
 	cout << endl;
 	cout << "    --pad-method-colon=none    OR  -xP\n";
 	cout << "    --pad-method-colon=all     OR  -xP1\n";
@@ -2876,6 +2883,10 @@ void ASOptions::parseOption(const string &arg, const string &errorInfo)
 	{
 		formatter.setOperatorPaddingMode(true);
 	}
+	else if (isOption(arg, "xg", "pad-comma"))
+	{
+		formatter.setCommaPaddingMode(true);
+	}
 	else if ( isOption(arg, "xe", "delete-empty-lines") )
 	{
 		formatter.setDeleteEmptyLinesMode(true);
@@ -3041,6 +3052,14 @@ void ASOptions::parseOption(const string &arg, const string &errorInfo)
 	else if ( isOption(arg, "xR", "unpad-method-prefix") )
 	{
 		formatter.setMethodPrefixUnPaddingMode(true);
+	}
+	else if (isOption(arg, "xq", "pad-return-type"))
+	{
+		formatter.setReturnTypePaddingMode(true);
+	}
+	else if (isOption(arg, "xr", "unpad-return-type"))
+	{
+		formatter.setReturnTypeUnPaddingMode(true);
 	}
 	else if ( isOption(arg, "xP0", "pad-method-colon=none") )
 	{
