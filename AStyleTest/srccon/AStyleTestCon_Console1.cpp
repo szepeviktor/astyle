@@ -231,12 +231,12 @@ TEST(ProcessOptions, ConsoleOptions_Error)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid command line options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_FAILURE),
-				"Invalid command line options:\n"
-				"invalid1\n"
-				"invalid2\n"
-				"invalid3\n\n"
-				"For help on options type 'astyle -h'");
+	            ExitedWithCode(EXIT_FAILURE),
+	            "Invalid command line options:\n"
+	            "invalid1\n"
+	            "invalid2\n"
+	            "invalid3\n\n"
+	            "For help on options type 'astyle -h'");
 #endif
 	deleteConsoleGlobalObject();
 }
@@ -347,23 +347,23 @@ TEST(ProcessFileOptions, OptionsPath)
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
 	char fileIn[] =
-		"# this line is a comment\n"
-		"--style=attach   # this is a line-end comment\n"
-		"\n"
-		"# long options can be written without the preceding '--'\n"
-		"indent-switches     # cannot do this on the command line\n"
-		"\n"
-		"# short options must have the preceding '-'\r\n"
-		"-t -p\r\n"
-		"\n"
-		"# short options can be concatenated together\n"
-		"-M65Ucv\n"
-		"\n"
-		"# options can have CR line ends\r"
-		"pad-oper,-H\r"
-		"\r"
-		"# options can be separated with commas\n"
-		"indent-classes,-K\n";
+	    "# this line is a comment\n"
+	    "--style=attach   # this is a line-end comment\n"
+	    "\n"
+	    "# long options can be written without the preceding '--'\n"
+	    "indent-switches     # cannot do this on the command line\n"
+	    "\n"
+	    "# short options must have the preceding '-'\r\n"
+	    "-t -p\r\n"
+	    "\n"
+	    "# short options can be concatenated together\n"
+	    "-M65Ucv\n"
+	    "\n"
+	    "# options can have CR line ends\r"
+	    "pad-oper,-H\r"
+	    "\r"
+	    "# options can be separated with commas\n"
+	    "indent-classes,-K\n";
 #ifdef __BORLANDC__
 	// Embarcadero istream does not recognize '\r' line ends
 	for (size_t ec = 0; ec < strlen(fileIn); ec++)
@@ -405,9 +405,9 @@ TEST(ProcessFileOptions, AStyleEnvironmentVariable)
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
 	char fileIn[] =
-		"--style=allman\n"
-		"-OoP\n"
-		"--indent-classes\n";
+	    "--style=allman\n"
+	    "-OoP\n"
+	    "--indent-classes\n";
 	vector<string> fileOptions;
 	fileOptions.push_back("--style=allman");
 	fileOptions.push_back("-OoP");
@@ -448,9 +448,9 @@ TEST(ProcessFileOptions, HomeEnvironmentVariable)
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
 	char fileIn[] =
-		"--style=allman\n"
-		"-OoP\n"
-		"--indent-classes\n";
+	    "--style=allman\n"
+	    "-OoP\n"
+	    "--indent-classes\n";
 	vector<string> fileOptions;
 	fileOptions.push_back("--style=allman");
 	fileOptions.push_back("-OoP");
@@ -479,9 +479,9 @@ TEST(ProcessFileOptions, DisabledOptionsFile)
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
 	char fileIn[] =
-		"--style=allman\n"
-		"-OoP\n"
-		"--indent-classes\n";
+	    "--style=allman\n"
+	    "-OoP\n"
+	    "--indent-classes\n";
 	// write the options file
 	string optionsFileName = getDefaultOptionsFilePath();
 	g_console->standardizePath(optionsFileName);
@@ -505,9 +505,9 @@ TEST(ProcessFileOptions, NoFinalLineEnd)
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
 	char fileIn[] =
-		"--style=allman\n"
-		"-OoP\n"
-		"--indent-classes";		// *** no final line end ***
+	    "--style=allman\n"
+	    "-OoP\n"
+	    "--indent-classes";		// *** no final line end ***
 	vector<string> fileOptions;
 	fileOptions.push_back("--style=allman");
 	fileOptions.push_back("-OoP");
@@ -536,12 +536,12 @@ TEST(ProcessFileOptions, OptionErrors)
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
 	char fileIn[] =
-		"--style=allman\n"
-		"-OoP\n"
-		"--invalid1\n"
-		"--invalid2\n"
-		"--invalid3\n"
-		"--indent-classes\n";
+	    "--style=allman\n"
+	    "-OoP\n"
+	    "--invalid1\n"
+	    "--invalid2\n"
+	    "--invalid3\n"
+	    "--indent-classes\n";
 	vector<string> fileOptions;
 	fileOptions.push_back("--style=allman");
 	fileOptions.push_back("-OoP");
@@ -562,12 +562,12 @@ TEST(ProcessFileOptions, OptionErrors)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid file options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_FAILURE),
-				"Invalid option file options:\n"
-				"invalid1\n"
-				"invalid2\n"
-				"invalid3\n\n"
-				"For help on options type 'astyle -h'");
+	            ExitedWithCode(EXIT_FAILURE),
+	            "Invalid option file options:\n"
+	            "invalid1\n"
+	            "invalid2\n"
+	            "invalid3\n\n"
+	            "For help on options type 'astyle -h'");
 #endif
 	removeTestFile(optionsFileName);
 	deleteConsoleGlobalObject();
@@ -590,8 +590,8 @@ TEST(ProcessFileOptions, FileError1)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with options file error
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_FAILURE),
-				"Cannot open options file");
+	            ExitedWithCode(EXIT_FAILURE),
+	            "Cannot open options file");
 #endif
 	deleteConsoleGlobalObject();
 }
@@ -610,8 +610,8 @@ TEST(ProcessFileOptions, FileError2)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with options file error
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_FAILURE),
-				"Cannot open options file");
+	            ExitedWithCode(EXIT_FAILURE),
+	            "Cannot open options file");
 #endif
 	deleteConsoleGlobalObject();
 }
@@ -624,15 +624,15 @@ TEST(ProcessFileOptions, Excludes)
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
 	char fileIn[] =
-		"--exclude=\"prog 1.cpp\"\n"
-		"exclude=\"\\prog 2.cpp\"\n"
-		"\"--exclude=/prog 3.cpp\"\n"
-		"\"exclude=prog 4.cpp\"\n"
-		"--exclude=prog-5.cpp exclude=prog-5a.cpp\n"
-		// missing closing quote are OK if followed by delimiter
-		"--exclude=\"prog 6.cpp\n"
-		"--exclude=\"prog 7.cpp, exclude=prog-7a.cpp\n"
-		"--exclude=\"prog 8.cpp\t --exclude=\"prog 8a.cpp\n";
+	    "--exclude=\"prog 1.cpp\"\n"
+	    "exclude=\"\\prog 2.cpp\"\n"
+	    "\"--exclude=/prog 3.cpp\"\n"
+	    "\"exclude=prog 4.cpp\"\n"
+	    "--exclude=prog-5.cpp exclude=prog-5a.cpp\n"
+	    // missing closing quote are OK if followed by delimiter
+	    "--exclude=\"prog 6.cpp\n"
+	    "--exclude=\"prog 7.cpp, exclude=prog-7a.cpp\n"
+	    "--exclude=\"prog 8.cpp\t --exclude=\"prog 8a.cpp\n";
 	// build excludesOut containing the astylerc.txt excluded files
 	vector<string> excludesOut;
 	excludesOut.push_back("prog 1.cpp");
@@ -680,10 +680,10 @@ struct FileSuffixF : public Test
 	FileSuffixF()
 	{
 		char textIn[] =
-			"\nvoid foo()\n"
-			"{\n"
-			"bar();\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "bar();\n"
+		    "}\n";
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
 		fileNames.push_back(getTestDirectory() + "/suffix1.cpp");
@@ -843,10 +843,10 @@ struct PreserveDateF : public Test
 	PreserveDateF()
 	{
 		char textIn[] =
-			"\nvoid foo()\n"
-			"{\n"
-			"bar();\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "bar();\n"
+		    "}\n";
 		struct tm t;
 #ifdef _WIN32
 		// Sat Jan 01 2000
@@ -959,18 +959,18 @@ struct ChecksumF : public Test
 	{
 		textChecksum = 9699;
 		char textIn[] =
-			"\n#include <stdio.h>\n"
-			"\n"
-			"void foo(int a)\n"
-			"{\n"
-			"    int i = 10;\n"
-			"    int i2 = 12;\n"
-			"    int i3 = i + i2;\n"
-			"    printf(\"i3 = %d\", i3);\n"
-			"    // for add-brackets test\n"
-			"    if (a == 0)\n"
-			"        x = 0;\n"
-			"}";
+		    "\n#include <stdio.h>\n"
+		    "\n"
+		    "void foo(int a)\n"
+		    "{\n"
+		    "    int i = 10;\n"
+		    "    int i2 = 12;\n"
+		    "    int i3 = i + i2;\n"
+		    "    printf(\"i3 = %d\", i3);\n"
+		    "    // for add-brackets test\n"
+		    "    if (a == 0)\n"
+		    "        x = 0;\n"
+		    "}";
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
 		fileName = getTestDirectory() + "/Checksum.cpp";
@@ -1067,13 +1067,13 @@ TEST(Checksum, CheckSumError)
 // Caused a checksum assert failure. This must be run in debug configuration.
 {
 	char textIn[] =
-		// this file is missing a closing bracket
-		"\nvoid foo()\n"
-		"{\n"
-		"    if (isBar)\n"
-		"        fooBar1();\n"
-		"\n"
-		"    fooBar2();\n";
+	    // this file is missing a closing bracket
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (isBar)\n"
+	    "        fooBar1();\n"
+	    "\n"
+	    "    fooBar2();\n";
 	// initialization
 	ASFormatter formatter;
 	createConsoleGlobalObject(formatter);
@@ -1304,12 +1304,12 @@ TEST_F(DisableFormattingF, Unchanged)
 	g_console->setNoBackup(true);
 	// create test file
 	char text[] =
-		"\n// disable formatting unchanged\n"
-		"/*INDENT-OFF*/\n"
-		"#ifdef _WIN32\n"
-		"       #define STDCALL __stdcall\n"
-		"#endif\n"
-		"/*INDENT-ON*/\n";
+	    "\n// disable formatting unchanged\n"
+	    "/*INDENT-OFF*/\n"
+	    "#ifdef _WIN32\n"
+	    "       #define STDCALL __stdcall\n"
+	    "#endif\n"
+	    "/*INDENT-ON*/\n";
 	string fileName = getTestDirectory() + "/DisableFormatting.cpp";
 	g_console->standardizePath(fileName);
 	createTestFile(fileName, text);
@@ -1331,12 +1331,12 @@ TEST_F(DisableFormattingF, Formatted)
 	g_console->setNoBackup(true);
 	// create test file - the first line will be unindented
 	char text[] =
-		"\n    // disable formatting formatted\n"
-		"/*INDENT-OFF*/\n"
-		"#ifdef _WIN32\n"
-		"       #define STDCALL __stdcall\n"
-		"#endif\n"
-		"/*INDENT-ON*/\n";
+	    "\n    // disable formatting formatted\n"
+	    "/*INDENT-OFF*/\n"
+	    "#ifdef _WIN32\n"
+	    "       #define STDCALL __stdcall\n"
+	    "#endif\n"
+	    "/*INDENT-ON*/\n";
 	string fileName = getTestDirectory() + "/DisableFormatting.cpp";
 	g_console->standardizePath(fileName);
 	createTestFile(fileName, text);
@@ -1372,13 +1372,13 @@ TEST(RemovedOptions, V202)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid command line options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_FAILURE),
-				"Invalid command line options:\n"
-				"brackets=horstmann\n"
-				"indent-brackets\n"
-				"indent-blocks\n"
-				"B\n"
-				"G\n");
+	            ExitedWithCode(EXIT_FAILURE),
+	            "Invalid command line options:\n"
+	            "brackets=horstmann\n"
+	            "indent-brackets\n"
+	            "indent-blocks\n"
+	            "B\n"
+	            "G\n");
 #endif
 	deleteConsoleGlobalObject();
 }
@@ -1406,17 +1406,17 @@ TEST(RemovedOptions, V204)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid command line options
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_FAILURE),
-				"brackets=attach\n"
-				"brackets=break\n"
-				"brackets=run-in\n"
-				"brackets=linux\n"
-				"brackets=stroustrup\n"
-				"a\n"
-				"b\n"
-				"g\n"
-				"l\n"
-				"u\n");
+	            ExitedWithCode(EXIT_FAILURE),
+	            "brackets=attach\n"
+	            "brackets=break\n"
+	            "brackets=run-in\n"
+	            "brackets=linux\n"
+	            "brackets=stroustrup\n"
+	            "a\n"
+	            "b\n"
+	            "g\n"
+	            "l\n"
+	            "u\n");
 #endif
 	deleteConsoleGlobalObject();
 }

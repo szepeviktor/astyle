@@ -140,7 +140,7 @@ void loadLibrary()
 	}
 	// get AStyleMain function
 	AStyleMain = reinterpret_cast<fpASMain>(
-					 GetProcAddress(reinterpret_cast<HMODULE>(AStyleLib), "AStyleMain"));
+	                 GetProcAddress(reinterpret_cast<HMODULE>(AStyleLib), "AStyleMain"));
 	if (!AStyleMain)
 	{
 		cout << "Cannot get dll address for AStyleMain!" << endl;

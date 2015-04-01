@@ -124,8 +124,8 @@ TEST_F(ProcessUtf32F, Utf32LE_Abort)
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	EXPECT_EXIT(g_console->processFiles(),
-				ExitedWithCode(EXIT_FAILURE),
-				"Cannot process UTF-32 encoding");
+	            ExitedWithCode(EXIT_FAILURE),
+	            "Cannot process UTF-32 encoding");
 #endif
 }
 
@@ -152,8 +152,8 @@ TEST_F(ProcessUtf32F, Utf32BE_Abort)
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	EXPECT_EXIT(g_console->processFiles(),
-				ExitedWithCode(EXIT_FAILURE),
-				"Cannot process UTF-32 encoding");
+	            ExitedWithCode(EXIT_FAILURE),
+	            "Cannot process UTF-32 encoding");
 #endif
 }
 

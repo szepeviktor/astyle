@@ -20,7 +20,8 @@ REM xl - attach inlines
 REM xW - indent-preproc-block
 REM z1 - windows lineends
 
-set options=  -A1xnTpHCOwxWk1  -M50  -Qz1  --options=none
+REM OLD options=  -A1xnTpHCOwxWk1  -M50  -Qz1  --options=none
+set options= -A1xntpHSOwxWk1 -M60  -Qz1 --options=none
 
 echo Formatting AStyleTest
 echo options %options%

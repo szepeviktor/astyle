@@ -35,45 +35,45 @@ class PrintF : public Test
 // The functions were "borrowed" from the CapturedStream class in gtest-port.cc
 // of Google Test (gtest).
 {
-	public:
-		ASFormatter formatter;		// required formatter object
-		vector<string> fileNames;	// files created for test
-		size_t filesExcluded;		// number of files excluded from formatting
+public:
+	ASFormatter formatter;		// required formatter object
+	vector<string> fileNames;	// files created for test
+	size_t filesExcluded;		// number of files excluded from formatting
 
-		// variables for redirecting stdout
-		int fd_;					// stream to capture
-		int uncaptured_fd_;			// stdout stream
-		string filename_;			// temporary file holding the stdout output
+	// variables for redirecting stdout
+	int fd_;					// stream to capture
+	int uncaptured_fd_;			// stdout stream
+	string filename_;			// temporary file holding the stdout output
 
-	public:
-		PrintF();
+public:
+	PrintF();
 
-		~PrintF();
+	~PrintF();
 
-		// make adjustments to expected text
-		void adjustText(string& text);
+	// make adjustments to expected text
+	void adjustText(string& text);
 
-		// make adjustments to textOut
-		void adjustTextOut(string& textOut);
+	// make adjustments to textOut
+	void adjustTextOut(string& textOut);
 
-		// build a vector of files to exclude
-		void buildExcludeVector();
+	// build a vector of files to exclude
+	void buildExcludeVector();
 
-		// get today's date in MDY format
-		string getCurrentDate();
+	// get today's date in MDY format
+	string getCurrentDate();
 
-		// redirect the stdout stream to a temporary file
-		void redirectStream();
+	// redirect the stdout stream to a temporary file
+	void redirectStream();
 
-		// restore the stdout stream and return the captured text
-		string restoreStream();
+	// restore the stdout stream and return the captured text
+	string restoreStream();
 
-	private:
-		// called by the constructor to build the test files
-		void createTestFiles();
+private:
+	// called by the constructor to build the test files
+	void createTestFiles();
 
-		// called by restoreStream() to read the entire content of a file as a string
-		string readEntireFile(FILE* file);
+	// called by restoreStream() to read the entire content of a file as a string
+	string readEntireFile(FILE* file);
 };
 
 PrintF::PrintF()
@@ -158,8 +158,8 @@ void PrintF::adjustTextOut(string& textOut)
 	// delete any decimals in the time (problem with Embarcadero)
 	size_t decimal = textOut.rfind('.');
 	if (decimal != string::npos
-			&& textOut.length() > 30
-			&& decimal > textOut.length() - 30)
+	        && textOut.length() > 30
+	        && decimal > textOut.length() - 30)
 	{
 		// delete to the next space
 		size_t space = textOut.find(' ', decimal);
@@ -185,15 +185,15 @@ void PrintF::createTestFiles()
 // called by the constructor to build the test files
 {
 	char textFormatted[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"bar();\n"
-		"}\n";
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "bar();\n"
+	    "}\n";
 	char textUnchanged[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"    bar();\n"
-		"}\n";
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    bar();\n"
+	    "}\n";
 	cleanTestDirectory(getTestDirectory());
 	fileNames.push_back(getTestDirectory() + "/fileFormatted.cpp");
 	g_console->standardizePath(fileNames.back());
@@ -288,11 +288,11 @@ TEST_F(PrintF, DefaultWildcard)
 	assert(g_console != NULL);
 	// expected text
 	string text =
-		"------------------------------------------------------------\n"
-		"Directory  <test_directory>/*.cpp\n"
-		"------------------------------------------------------------\n"
-		"Formatted  fileFormatted.cpp\n"
-		"Unchanged  fileUnchanged.cpp\n";
+	    "------------------------------------------------------------\n"
+	    "Directory  <test_directory>/*.cpp\n"
+	    "------------------------------------------------------------\n"
+	    "Formatted  fileFormatted.cpp\n"
+	    "Unchanged  fileUnchanged.cpp\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -317,12 +317,12 @@ TEST_F(PrintF, DefaultWildcard_Exclude)
 	assert(g_console != NULL);
 	// expected text
 	string text =
-		"------------------------------------------------------------\n"
-		"Directory  <test_directory>/*.cpp\n"
-		"Exclude  fileExcluded.cpp\n"
-		"------------------------------------------------------------\n"
-		"Formatted  fileFormatted.cpp\n"
-		"Unchanged  fileUnchanged.cpp\n";
+	    "------------------------------------------------------------\n"
+	    "Directory  <test_directory>/*.cpp\n"
+	    "Exclude  fileExcluded.cpp\n"
+	    "------------------------------------------------------------\n"
+	    "Formatted  fileFormatted.cpp\n"
+	    "Unchanged  fileUnchanged.cpp\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -349,14 +349,14 @@ TEST_F(PrintF, DefaultWildcard_ExcludeError)
 	assert(g_console != NULL);
 	// expected text
 	string text =
-		"------------------------------------------------------------\n"
-		"Directory  <test_directory>/*.cpp\n"
-		"Exclude  fileExcluded.cpp\n"
-		"Exclude (unmatched)  noExcludedFile.cpp\n"
-		"Exclude (unmatched)  noExcludedDirectory\n"
-		"------------------------------------------------------------\n"
-		"Formatted  fileFormatted.cpp\n"
-		"Unchanged  fileUnchanged.cpp\n";
+	    "------------------------------------------------------------\n"
+	    "Directory  <test_directory>/*.cpp\n"
+	    "Exclude  fileExcluded.cpp\n"
+	    "Exclude (unmatched)  noExcludedFile.cpp\n"
+	    "Exclude (unmatched)  noExcludedDirectory\n"
+	    "------------------------------------------------------------\n"
+	    "Formatted  fileFormatted.cpp\n"
+	    "Unchanged  fileUnchanged.cpp\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -386,12 +386,12 @@ TEST_F(PrintF, DefaultWildcard_ExcludeErrorNoPrint)
 	assert(g_console != NULL);
 	// expected text
 	string text =
-		"------------------------------------------------------------\n"
-		"Directory  <test_directory>/*.cpp\n"
-		"Exclude  fileExcluded.cpp\n"
-		"------------------------------------------------------------\n"
-		"Formatted  fileFormatted.cpp\n"
-		"Unchanged  fileUnchanged.cpp\n";
+	    "------------------------------------------------------------\n"
+	    "Directory  <test_directory>/*.cpp\n"
+	    "Exclude  fileExcluded.cpp\n"
+	    "------------------------------------------------------------\n"
+	    "Formatted  fileFormatted.cpp\n"
+	    "Unchanged  fileUnchanged.cpp\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -422,10 +422,10 @@ TEST_F(PrintF, FormattedWildcard)
 	g_console->setIsFormattedOnly(true);		// test variable
 	// expected text
 	string text =
-		"------------------------------------------------------------\n"
-		"Directory  <test_directory>/*.cpp\n"
-		"------------------------------------------------------------\n"
-		"Formatted  fileFormatted.cpp\n";
+	    "------------------------------------------------------------\n"
+	    "Directory  <test_directory>/*.cpp\n"
+	    "------------------------------------------------------------\n"
+	    "Formatted  fileFormatted.cpp\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -451,15 +451,15 @@ TEST_F(PrintF, VerboseWildcard_OptionsFile)
 	g_console->setIsVerbose(true);		// test variable
 	// expected text
 	string text =
-		"Artistic Style <version>     <date>\n"
-		"Using default options file <test_directory>/astylerc.txt\n"
-		"------------------------------------------------------------\n"
-		"Directory  <test_directory>/*.cpp\n"
-		"------------------------------------------------------------\n"
-		"Formatted  fileFormatted.cpp\n"
-		"Unchanged  fileUnchanged.cpp\n"
-		"------------------------------------------------------------\n"
-		" 1 formatted   1 unchanged   0 seconds   12 lines\n";
+	    "Artistic Style <version>     <date>\n"
+	    "Using default options file <test_directory>/astylerc.txt\n"
+	    "------------------------------------------------------------\n"
+	    "Directory  <test_directory>/*.cpp\n"
+	    "------------------------------------------------------------\n"
+	    "Formatted  fileFormatted.cpp\n"
+	    "Unchanged  fileUnchanged.cpp\n"
+	    "------------------------------------------------------------\n"
+	    " 1 formatted   1 unchanged   0 seconds   12 lines\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -488,13 +488,13 @@ TEST_F(PrintF, VerboseFormattedWildcard)
 	g_console->setIsFormattedOnly(true);		// test variable
 	// expected text
 	string text =
-		"Artistic Style <version>     <date>\n"
-		"------------------------------------------------------------\n"
-		"Directory  <test_directory>/*.cpp\n"
-		"------------------------------------------------------------\n"
-		"Formatted  fileFormatted.cpp\n"
-		"------------------------------------------------------------\n"
-		" 1 formatted   1 unchanged   0 seconds   12 lines\n";
+	    "Artistic Style <version>     <date>\n"
+	    "------------------------------------------------------------\n"
+	    "Directory  <test_directory>/*.cpp\n"
+	    "------------------------------------------------------------\n"
+	    "Formatted  fileFormatted.cpp\n"
+	    "------------------------------------------------------------\n"
+	    " 1 formatted   1 unchanged   0 seconds   12 lines\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -569,10 +569,10 @@ TEST_F(PrintF, VerboseSingleFile_OptionsFile)
 	g_console->setIsVerbose(true);		// test variable
 	// expected text
 	string text =
-		"Artistic Style <version>     <date>\n"
-		"Using default options file <test_directory>/astylerc.txt\n"
-		"Formatted  <test_directory>/fileFormatted.cpp\n"
-		" 1 formatted   0 unchanged   0 seconds   6 lines\n";
+	    "Artistic Style <version>     <date>\n"
+	    "Using default options file <test_directory>/astylerc.txt\n"
+	    "Formatted  <test_directory>/fileFormatted.cpp\n"
+	    " 1 formatted   0 unchanged   0 seconds   6 lines\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;

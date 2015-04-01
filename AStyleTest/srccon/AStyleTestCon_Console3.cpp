@@ -32,27 +32,27 @@ class ProcessOptions3F : public Test
 // The functions were "borrowed" from the CapturedStream class in gtest-port.cc of
 // Google Test (gtest).
 {
-	public:
-		// variables for redirecting stdout
-		int fd_;					// stream to capture
-		int uncaptured_fd_;			// stdout stream
-		string filename_;			// temporary file holding the stdout output
+public:
+	// variables for redirecting stdout
+	int fd_;					// stream to capture
+	int uncaptured_fd_;			// stdout stream
+	string filename_;			// temporary file holding the stdout output
 
-	public:
-		ProcessOptions3F();
+public:
+	ProcessOptions3F();
 
-		~ProcessOptions3F();
+	~ProcessOptions3F();
 
-		// redirect the stdout stream to a temporary file
-		void redirectStream();
+	// redirect the stdout stream to a temporary file
+	void redirectStream();
 
-		// restore the stdout stream and return the captured text
-		string restoreStream();
+	// restore the stdout stream and return the captured text
+	string restoreStream();
 
-	private:
+private:
 
-		// called by restoreStream() to read the entire content of a file as a string
-		string readEntireFile(FILE* file);
+	// called by restoreStream() to read the entire content of a file as a string
+	string readEntireFile(FILE* file);
 };
 
 ProcessOptions3F::ProcessOptions3F()
@@ -166,8 +166,8 @@ TEST_F(ProcessOptions3F, HelpOption)
 	// test processOptions for help option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_SUCCESS),
-				"");
+	            ExitedWithCode(EXIT_SUCCESS),
+	            "");
 	string textOut = restoreStream();
 	// check a sample of the text
 	size_t heading1 = textOut.find("Bracket Style Options:");
@@ -196,8 +196,8 @@ TEST_F(ProcessOptions3F, HelpOption_Short1)
 	// test processOptions for help option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_SUCCESS),
-				"");
+	            ExitedWithCode(EXIT_SUCCESS),
+	            "");
 	string textOut = restoreStream();
 	// check a sample of the text
 	size_t heading1 = textOut.find("Bracket Style Options:");
@@ -226,8 +226,8 @@ TEST_F(ProcessOptions3F, HelpOption_Short2)
 	// test processOptions for help option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_SUCCESS),
-				"");
+	            ExitedWithCode(EXIT_SUCCESS),
+	            "");
 	string textOut = restoreStream();
 	// check a sample of the text
 	size_t heading1 = textOut.find("Bracket Style Options:");
@@ -256,8 +256,8 @@ TEST_F(ProcessOptions3F, VersionOption)
 	// test processOptions for version option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_SUCCESS),
-				"");
+	            ExitedWithCode(EXIT_SUCCESS),
+	            "");
 	string textOut = restoreStream();
 	// check a sample of the text
 	size_t output = textOut.find("Artistic Style Version ");
@@ -282,8 +282,8 @@ TEST_F(ProcessOptions3F, VersionOption_Short)
 	// test processOptions for version option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_SUCCESS),
-				"");
+	            ExitedWithCode(EXIT_SUCCESS),
+	            "");
 	string textOut = restoreStream();
 	// check a sample of the text
 	size_t output = textOut.find("Artistic Style Version ");
@@ -313,8 +313,8 @@ TEST_F(ProcessOptions3F, HtmlOption)
 	// test processOptions for html option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_SUCCESS),
-				"");
+	            ExitedWithCode(EXIT_SUCCESS),
+	            "");
 	string textOut = restoreStream();
 	// check a sample of the text for valid exit
 	size_t output = textOut.find("Opening HTML documentation");
@@ -342,8 +342,8 @@ TEST_F(ProcessOptions3F, HtmlOption_Short)
 	// test processOptions for html option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_SUCCESS),
-				"");
+	            ExitedWithCode(EXIT_SUCCESS),
+	            "");
 	string textOut = restoreStream();
 	// check a sample of the text for valid exit
 	size_t output = textOut.find("Opening HTML documentation");
@@ -372,14 +372,14 @@ TEST_F(ProcessOptions3F, HtmlOption_ValidFileName)
 	// test processOptions for html option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_SUCCESS),
-				"");
+	            ExitedWithCode(EXIT_SUCCESS),
+	            "");
 	string textOut = restoreStream();
 	// check a sample of the text
 	size_t output = textOut.find("Opening HTML documentation ");
 	// allow "Cannot open" message if the path is correct
 	if (output == string::npos
-			&& textOut.find("Cannot open HTML file") != string::npos)
+	        && textOut.find("Cannot open HTML file") != string::npos)
 	{
 #ifdef _WIN32
 		output = textOut.find("\\AStyle\\doc\\astyle.html");
@@ -409,8 +409,8 @@ TEST_F(ProcessOptions3F, HtmlOption_InvalidFileName)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for invalid file name
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
-				ExitedWithCode(EXIT_SUCCESS),
-				"");
+	            ExitedWithCode(EXIT_SUCCESS),
+	            "");
 	string textOut = restoreStream();
 	// check a sample of the text
 	size_t output = textOut.find("Cannot open HTML file");

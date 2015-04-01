@@ -177,7 +177,7 @@ void cleanTestDirectory(const wstring& directory)
 	{
 		// skip these
 		if (wcscmp(FindFileData.cFileName, L".") == 0
-				||  wcscmp(FindFileData.cFileName, L"..") == 0)
+		        ||  wcscmp(FindFileData.cFileName, L"..") == 0)
 			continue;
 		// clean and remove sub directories
 		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
@@ -212,13 +212,13 @@ void displayLastError()
 	LPSTR msgBuf;
 	DWORD lastError = GetLastError();
 	FormatMessage(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-		NULL,
-		lastError,
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),  // Default language
-		(LPSTR) &msgBuf,
-		0,
-		NULL
+	    FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+	    NULL,
+	    lastError,
+	    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),  // Default language
+	    (LPSTR) &msgBuf,
+	    0,
+	    NULL
 	);
 	// Display the string.
 	cout << "Error (" << lastError << ") " << msgBuf << endl;
@@ -298,7 +298,7 @@ void cleanTestDirectory(const string& directory)
 	DIR* dp = opendir(directory.c_str());
 	if (errno)
 		ASTYLE_ABORT(string(strerror(errno))
-					 + "\nCannot open directory for clean: " + directory);
+		             + "\nCannot open directory for clean: " + directory);
 	// remove files and sub directories
 	while ((entry = readdir(dp)) != NULL)
 	{
@@ -307,10 +307,10 @@ void cleanTestDirectory(const string& directory)
 		stat(entryFilepath.c_str(), &statbuf);
 		if (errno)
 			ASTYLE_ABORT(string(strerror(errno))
-						 + "\nError getting file status for clean: " + directory);
+			             + "\nError getting file status for clean: " + directory);
 		// skip these
 		if (strcmp(entry->d_name, ".") == 0
-				|| strcmp(entry->d_name, "..") == 0)
+		        || strcmp(entry->d_name, "..") == 0)
 			continue;
 		// clean and remove sub directories
 		if (S_ISDIR(statbuf.st_mode))
@@ -320,7 +320,7 @@ void cleanTestDirectory(const string& directory)
 			rmdir(subDirectoryPath.c_str());
 			if (errno)
 				ASTYLE_ABORT(string(strerror(errno))
-							 + "\nCannot remove directory for clean: " + subDirectoryPath);
+				             + "\nCannot remove directory for clean: " + subDirectoryPath);
 			continue;
 		}
 		// remove the file
@@ -330,13 +330,13 @@ void cleanTestDirectory(const string& directory)
 			remove(filePathName.c_str());
 			if (errno)
 				ASTYLE_ABORT(string(strerror(errno))
-							 + "\nCannot remove file for clean: " + filePathName);
+				             + "\nCannot remove file for clean: " + filePathName);
 		}
 	}
 	closedir(dp);
 	if (errno)
 		ASTYLE_ABORT(string(strerror(errno))
-					 + "\nError processing directory for clean: " + directory);
+		             + "\nError processing directory for clean: " + directory);
 }
 
 void displayLastError()
@@ -404,8 +404,8 @@ void createTestFile(const string& testFilePath, const char* testFileText, int si
 	// verify test directory
 	string testDir = getTestDirectory();
 	if (testFilePath.compare(0, testDir.length(), testDir) != 0
-			|| !(testFilePath[testDir.length()] == '/'
-				 || testFilePath[testDir.length()] == '\\'))
+	        || !(testFilePath[testDir.length()] == '/'
+	             || testFilePath[testDir.length()] == '\\'))
 		ASTYLE_ABORT("File not written to test directory: " + testFilePath);
 	// write the output file
 	ofstream fout(testFilePath.c_str(), ios::binary | ios::trunc);
@@ -481,7 +481,7 @@ void printI18nMessage()
 {
 	// print i18n message for Windows tests
 	if (!g_testedJapanese || !g_testedGreek || !g_testedRussian
-			|| !g_testedMultiLanguage || !g_testedCodepage1252)
+	        || !g_testedMultiLanguage || !g_testedCodepage1252)
 	{
 		printf("%c", '\n');		// double space
 		// print tested
@@ -516,7 +516,7 @@ void removeTestFile(const string& testFileName)
 	remove(testFileName.c_str());
 	if (errno)
 		ASTYLE_ABORT(string(strerror(errno))
-					 + "\nCannot remove test file: " + testFileName);
+		             + "\nCannot remove test file: " + testFileName);
 }
 
 void renameDefaultOptionsFile()
