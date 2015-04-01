@@ -786,6 +786,7 @@ class ASFormatter : public ASBeautifier
 		void padObjCMethodColon();
 		void padOperators(const string* newOperator);
 		void padParens();
+		void padParenObjC(void);
 		void processPreprocessor();
 		void resetEndOfStatement();
 		void setAttachClosingBracketMode(bool state);

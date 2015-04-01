@@ -157,11 +157,11 @@
         <a class="contents" href="#_Objective_C_Options">Objective&#8209;C&nbsp;Options</a>
     </p>
     <p class="contents2">
-        <a class="contents" href="#_align-method-colon">align&#8209;method&#8209;colon</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_pad-method-prefix">pad&#8209;method&#8209;prefix</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_unpad-method-prefix">unpad&#8209;method&#8209;prefix</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_pad-return-type">pad&#8209;return&#8209;type</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_unpad-return-type">unpad&#8209;return&#8209;type</a>&nbsp;&nbsp;&nbsp;
+        <a class="contents" href="#_align-method-colon">align&#8209;method&#8209;colon</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_pad-method-colon">pad&#8209;method&#8209;colon</a>&nbsp;&nbsp;&nbsp;
     </p>
     <p class="contents1">
@@ -2076,7 +2076,7 @@ else
         <code class="title">--mode=c</code><br />
         <code class="title">--mode=cs</code><br />
         <code class="title">--mode=java</code><br />
-        Indent a C type, C#, or Java file. C type files are C, C++, C++/CLI, and Objective-C.&nbsp; The option is usually
+        Indent a C type, C#, or Java file. C type files are C, C++, C++/CLI, and Objective-C. The option is usually
         set from the file extension for each file. You can override the setting with this entry. It will be used for all
         files regardless of the file extension. It allows the formatter to identify language specific syntax such as C++
         classes, templates, and keywords.
@@ -2091,33 +2091,18 @@ else
     <h3 id="_Objective_C_Options">Objective&#8209;C Options</h3>
 
     <p>
+        These options are effective for Objective&#8209;C files only
+    </p>
+    <p>
         Because of the longer indents sometimes needed for Objective&#8209;C, the option "max-instatement-indent" may
         need to be increased. If you are not getting the paren and square bracket alignment you want, try increasing this
         value. The option is described in the "Indentation Options" section.
     </p>
-    <p id="_align-method-colon">
-        <code class="title">--align-method-colon / -xM</code><br />
-        Align the colons in Objective&#8209;C method declarations. This option is effective for Objective&#8209;C
-        files only.
-    </p>
-    <div class="code">
-        <pre>-(void)deleteKey:(id)key
-    atIndex:(int)index
-    ofNode:(Node*)node;</pre>
-        <p class="code">
-            becomes:
-        </p>
-        <pre>-(void)deleteKey:(id)key
-         atIndex:(int)index
-          ofNode:(Node*)node;</pre>
-    </div>
-    <p>
-        &nbsp;
-    </p>
     <p id="_pad-method-prefix">
         <code class="title">--pad-method-prefix / -xQ</code><br />
-        Insert space padding after the '-' or '+' Objective&#8209;C method prefix. This will add exactly one space. Any
-        additional spaces will be deleted. This option is effective for Objective&#8209;C files only.
+        Insert space padding <b>after</b> the '-' or '+' Objective&#8209;C method prefix. This will add exactly one space. Any
+        additional spaces will be deleted. This option takes 
+        precedence over the pad-paren options.
     </p>
     <div class="code">
         <pre>-(void)foo1;
@@ -2133,8 +2118,8 @@ else
     </p>
     <p id="_unpad-method-prefix">
         <code class="title">--unpad-method-prefix / -xR</code><br />
-        Remove all space padding after the '-' or '+' Objective&#8209;C method prefix. If used with pad&#8209;method&#8209;prefix,
-        this option will be ignored. This option is effective for Objective&#8209;C files only.
+        Remove all space padding <b>after</b> the &#39;-&#39; or &#39;+&#39; Objective&#8209;C method prefix.&nbsp; This option
+        will be ignored if used with pad&#8209;method&#8209;prefix. It takes precedence over the pad-paren options.
     </p>
     <div class="code">
         <pre>- (void)foo1;
@@ -2150,9 +2135,8 @@ else
     </p>
     <p id="_pad-return-type">
         <code class="title">--pad-return-type / -xq</code><br />
-        Insert space padding after the Objective&#8209;C 
-        return type. This will add exactly one space. Any
-        additional spaces will be deleted. This option is effective for Objective&#8209;C files only.
+        Insert space padding <b>after</b> the Objective&#8209;C return type. This will add exactly one
+        space. Any additional spaces will be deleted. This option takes precedence over the pad-paren options.
     </p>
     <div class="code">
         <pre>-(void)foo1;
@@ -2168,9 +2152,8 @@ else
     </p>
     <p id="_unpad-return-type">
         <code class="title">--unpad-return-type / -xr</code><br />
-        Remove all space padding after the Objective&#8209;C 
-        return type. If used with pad&#8209;return-type,
-        this option will be ignored. This option is effective for Objective&#8209;C files only.
+        Remove all space padding <b>after</b> the Objective&#8209;C return type. This option
+        will be ignored if used with pad&#8209;return&#8209;type. It takes precedence over the pad-paren options.
     </p>
     <div class="code">
         <pre>-(void) foo1;
@@ -2184,16 +2167,31 @@ else
     <p>
         &nbsp;
     </p>
+    <p id="_align-method-colon">
+        <code class="title">--align-method-colon / -xM</code><br />
+        Align the colons in Objective&#8209;C method declarations.</p>
+    <div class="code">
+        <pre>-(void)deleteKey:(id)key
+    atIndex:(int)index
+    ofNode:(Node*)node;</pre>
+        <p class="code">
+            becomes:
+        </p>
+        <pre>-(void)deleteKey:(id)key
+         atIndex:(int)index
+          ofNode:(Node*)node;</pre>
+    </div>
+    <p>
+        &nbsp;
+    </p>
     <p id="_pad-method-colon">
         <code class="title">--pad-method-colon=none&nbsp;&nbsp; / -xP0<br />
             --pad-method-colon=all&nbsp;&nbsp;&nbsp; / -xP1<br />
             --pad-method-colon=after&nbsp; / -xP2<br />
             --pad-method-colon=before / -xP3
         </code><br />
-        Add or remove space padding before or after the colons in an Objective&#8209;C method call. These options will
-        pad exactly one space. Any additional spaces will be deleted. Colons immediately preceding a paren will not be
-        padded. This option is effective for Objective&#8209;C files only.
-    </p>
+        Add or remove space padding before or after the colons in an Objective&#8209;C method call. These options will pad 
+        exactly one space. Any additional spaces will be deleted.</p>
     <div class="code">
         <p class="code">
             with pad-method-colon=none:
@@ -2248,7 +2246,7 @@ else
     </p>
     <p id="_exclude">
         <code class="title">--exclude=<span class="option">####</span></code><br />
-        Specify a file or sub directory #### to be excluded from processing.&nbsp;
+        Specify a file or sub directory #### to be excluded from processing.
     </p>
     <p>
         Excludes are matched from the end of the file path. An exclude option of "templates" will exclude ALL directories
