@@ -28,6 +28,11 @@
         <li>Fix C# to always recognize &quot;forever&quot; as a header.</li>
         <li>Fix end of line comments for &quot;pad-method-prefix&quot; and &quot;unpad-method-prefix&quot;.</li>
         <li>Fix end of line comments for &quot;pad-method-colon&quot;.</li>
+        <li>Refactoring:
+            <ul>
+                <li>Consolidate scattered ASFormatter conditional statements into a padParenObjC method.</li>
+           </ul>
+        </li>
     </ul>
 
     <h3>Artistic Style 2.05.1&nbsp; (December 2014)</h3>
@@ -91,7 +96,7 @@
         <li>Fix indentation of C# &quot;let&quot; statements.</li>
         <li>Fix a few omissions with &quot;fill-empty-lines&quot;.</li>
         <li>Fix file read to read 64K blocks of data.</li>
-        <li>Refactor to un-obfuscate (clarify) the code, and improve design and decomposition::
+        <li>Refactor to un-obfuscate (clarify) the code, and improve design and decomposition:
             <ul>
                 <li>Extract class Utf8_16 from ASConsole. </li>
                 <li>Replace Linux dependency on iconv with a Utf8_16 class for ASLibrary.</li>

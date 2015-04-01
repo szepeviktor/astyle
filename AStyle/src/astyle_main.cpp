@@ -1837,9 +1837,6 @@ void ASConsole::printHelp() const
 	cout << endl;
 	cout << "Objective-C Options:\n";
 	cout << "--------------------\n";
-	cout << "    --align-method-colon  OR  -xM\n";
-	cout << "    Align the colons in an Objective-C method definition.\n";
-	cout << endl;
 	cout << "    --pad-method-prefix  OR  -xQ\n";
 	cout << "    Insert space padding after the '-' or '+' Objective-C\n";
 	cout << "    method prefix.\n";
@@ -1853,6 +1850,9 @@ void ASConsole::printHelp() const
 	cout << endl;
 	cout << "    --unpad-return-type  OR  -xr\n";
 	cout << "    Remove all space padding after the Objective-C return type.\n";
+	cout << endl;
+	cout << "    --align-method-colon  OR  -xM\n";
+	cout << "    Align the colons in an Objective-C method definition.\n";
 	cout << endl;
 	cout << "    --pad-method-colon=none    OR  -xP\n";
 	cout << "    --pad-method-colon=all     OR  -xP1\n";
@@ -2625,7 +2625,7 @@ void ASOptions::parseOption(const string &arg, const string &errorInfo)
 	{
 		formatter.setFormattingStyle(STYLE_WHITESMITH);
 	}
-	else if (isOption(arg, "style=vtk"))
+	else if ( isOption(arg, "style=vtk") )
 	{
 		formatter.setFormattingStyle(STYLE_VTK);
 	}
@@ -3041,10 +3041,6 @@ void ASOptions::parseOption(const string &arg, const string &errorInfo)
 		formatter.setStripCommentPrefix(true);
 	}
 	// Objective-C options
-	else if ( isOption(arg, "xM", "align-method-colon") )
-	{
-		formatter.setAlignMethodColon(true);
-	}
 	else if ( isOption(arg, "xQ", "pad-method-prefix") )
 	{
 		formatter.setMethodPrefixPaddingMode(true);
@@ -3060,6 +3056,10 @@ void ASOptions::parseOption(const string &arg, const string &errorInfo)
 	else if (isOption(arg, "xr", "unpad-return-type"))
 	{
 		formatter.setReturnTypeUnPaddingMode(true);
+	}
+	else if (isOption(arg, "xM", "align-method-colon"))
+	{
+		formatter.setAlignMethodColon(true);
 	}
 	else if ( isOption(arg, "xP0", "pad-method-colon=none") )
 	{
