@@ -174,10 +174,10 @@ struct AStyleMainF1 : public Test
 	AStyleMainF1()
 	{
 		char text[] =
-			"\nvoid foo()\n"
-			"{\n"
-			"    bar();\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "    bar();\n"
+		    "}\n";
 		char options[] = "";
 		// initialize variables
 		text8 = NULL;
@@ -242,10 +242,10 @@ TEST_F(AStyleMainF1, InvalidOption)
 	// memory HAS been allocated for this error
 	// the source will be formatted without the option
 	char text[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"\tbar();\n"
-		"}\n";
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "\tbar();\n"
+	    "}\n";
 	char options[] = "invalid-option, indent=tab";
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = ::AStyleMain(text8, options, errorHandler2, memoryAlloc);
@@ -272,10 +272,10 @@ struct AStyleMainUtf16F1 : public Test
 	AStyleMainUtf16F1()
 	{
 		char text[] =
-			"\nvoid foo()\n"
-			"{\n"
-			"    bar();\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "    bar();\n"
+		    "}\n";
 		char options[] = "";
 		// initialize variables
 		text16 = NULL;
@@ -342,10 +342,10 @@ TEST_F(AStyleMainUtf16F1, InvalidOption)
 	// test error handling for an invalid option
 	// the source will be formatted without the option
 	char text[] =
-		"\nvoid foo()\n"
-		"{\n"
-		"\tbar();\n"
-		"}\n";
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "\tbar();\n"
+	    "}\n";
 	char options[] = "invalid-option, indent=tab";
 	// convert 16 bit options
 	ASLibrary library;
@@ -460,26 +460,26 @@ struct AStyleMainUtf16F2 : public Test
 		options16Len = 0;
 		// set textOut variables
 		char textIn[] =
-			"\nprivate void foo()\n"
-			"{\n"
-			"    // 文件已经 被修改\n"		// Chinese
-			"    Chinese(\"导出结束\");\n"
-			"\n"
-			"    // アイウオ カキク\n"		// Japanese
-			"    Japanese(\"スセタチ\");\n"
-			"\n"
-			"    // 선택된 컨트롤\n"		// Korean
-			"    Korean(\"비트맵 에디터\");\n"
-			"\n"
-			"    // ΓΔΘΛ αβγλ\n"			// Greek
-			"    Greek(\"ξπρσ ΞΦΨΩ\");\n"
-			"\n"
-			"    // АБВГ ДЕЁЖ\n"			// Russian
-			"    Russian(\"ЗИЙК ЛПФЦ\");\n"
-			"\n"
-			"    // ÄÄ ÖÖ ÜÜ ßßßß\n"		// German (ß can cause problem with conversions)
-			"    German(\"ää öö üü\");\n"
-			"}\n";
+		    "\nprivate void foo()\n"
+		    "{\n"
+		    "    // 文件已经 被修改\n"		// Chinese
+		    "    Chinese(\"导出结束\");\n"
+		    "\n"
+		    "    // アイウオ カキク\n"		// Japanese
+		    "    Japanese(\"スセタチ\");\n"
+		    "\n"
+		    "    // 선택된 컨트롤\n"		// Korean
+		    "    Korean(\"비트맵 에디터\");\n"
+		    "\n"
+		    "    // ΓΔΘΛ αβγλ\n"			// Greek
+		    "    Greek(\"ξπρσ ΞΦΨΩ\");\n"
+		    "\n"
+		    "    // АБВГ ДЕЁЖ\n"			// Russian
+		    "    Russian(\"ЗИЙК ЛПФЦ\");\n"
+		    "\n"
+		    "    // ÄÄ ÖÖ ÜÜ ßßßß\n"		// German (ß can cause problem with conversions)
+		    "    German(\"ää öö üü\");\n"
+		    "}\n";
 		char optionsIn[] = "style=allman, mode=cs";
 		// create text8 values
 		size_t text8Len = strlen(textIn);

@@ -34,11 +34,11 @@ TEST(ASLocalizer, LCIDLanguageIdentification)
 {
 #ifdef _WIN32
 	size_t lcid[] = { 1036,		// 0x040C  France
-					  2060,		// 0x080C  Belgium
-					  3084,		// 0x0C0C  Canada
-					  5132,		// 0x140C  Luxembourg
-					  4108,		// 0x100C  Switzerland
-					};
+	                  2060,		// 0x080C  Belgium
+	                  3084,		// 0x0C0C  Canada
+	                  5132,		// 0x140C  Luxembourg
+	                  4108,		// 0x100C  Switzerland
+	                };
 	size_t lcidCount = sizeof(lcid) / sizeof(lcid[0]);
 	for (size_t i = 0; i < lcidCount; i++)
 	{
@@ -55,13 +55,13 @@ TEST(ASLocalizer, NameLanguageIdentification)
 // http://msdn.microsoft.com/en-us/library/ee797784%28v=cs.20%29.aspx
 {
 	char localeName[][20] = { "fr",
-							  "fr_BE",				// Belgium
-							  "fr_CA@euro",			// Canada
-							  "fr_FR",				// France
-							  "fr_LU.iso1252",		// Luxembourg
-							  "fr_MC",				// Monaco
-							  "fr_CH.iso1252@euro",	// Switzerland
-							};
+	                          "fr_BE",				// Belgium
+	                          "fr_CA@euro",			// Canada
+	                          "fr_FR",				// France
+	                          "fr_LU.iso1252",		// Luxembourg
+	                          "fr_MC",				// Monaco
+	                          "fr_CH.iso1252@euro",	// Switzerland
+	                        };
 	size_t localeCount = sizeof(localeName) / sizeof(localeName[0]);
 	for (size_t i = 0; i < localeCount; i++)
 	{

@@ -40,10 +40,10 @@ struct GetFilePathsF : public Test
 	GetFilePathsF()
 	{
 		char textIn[] =
-			"\nvoid foo()\n"
-			"{\n"
-			"bar();\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "bar();\n"
+		    "}\n";
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
 		fileNames.push_back(getTestDirectory() + "/getFilePaths1.cpp");
@@ -175,13 +175,13 @@ TEST_F(GetFilePathsF, FilePathsError)
 		++i;
 	}
 	string regex = "No file to process " + astyleOptionsVector.back() +
-				   "\nDid you intend to use --recursive?";
+	               "\nDid you intend to use --recursive?";
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
-				ExitedWithCode(EXIT_FAILURE),
-				regex);
+	            ExitedWithCode(EXIT_FAILURE),
+	            regex);
 #endif
 }
 
@@ -210,8 +210,8 @@ TEST_F(GetFilePathsF, FilePathsErrorRecursive)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
-				ExitedWithCode(EXIT_FAILURE),
-				regex);
+	            ExitedWithCode(EXIT_FAILURE),
+	            regex);
 #endif
 }
 
@@ -238,8 +238,8 @@ TEST_F(GetFilePathsF, FilePathsErrorSansFilename)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
-				ExitedWithCode(EXIT_FAILURE),
-				regex);
+	            ExitedWithCode(EXIT_FAILURE),
+	            regex);
 #endif
 }
 
@@ -270,8 +270,8 @@ TEST_F(GetFilePathsF, FilePathsErrorRecursiveSansWildcard)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
-				ExitedWithCode(EXIT_FAILURE),
-				regex);
+	            ExitedWithCode(EXIT_FAILURE),
+	            regex);
 #endif
 }
 
@@ -301,8 +301,8 @@ TEST_F(GetFilePathsF, FilePathsErrorInDirectoryName)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
 	EXPECT_EXIT(g_console->processFiles(),
-				ExitedWithCode(EXIT_FAILURE),
-				regex);
+	            ExitedWithCode(EXIT_FAILURE),
+	            regex);
 #endif
 }
 
@@ -319,10 +319,10 @@ struct GetFileTypeF : public Test
 	GetFileTypeF()
 	{
 		char textIn[] =
-			"\nvoid foo()\n"
-			"{\n"
-			"    bar();\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "    bar();\n"
+		    "}\n";
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
 		fileNames.push_back(getTestDirectory() + "/getFileType1.cpp");
@@ -415,10 +415,10 @@ struct LanguageVectorsF : public Test
 	LanguageVectorsF()
 	{
 		char textIn[] =
-			"\nvoid foo()\n"
-			"{\n"
-			"    bar();\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "    bar();\n"
+		    "}\n";
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
 		fileNames.push_back(getTestDirectory() + "/getFileType1.cpp");
@@ -551,10 +551,10 @@ struct RecursiveF : public Test
 	RecursiveF()
 	{
 		char textIn[] =
-			"\nvoid foo()\n"
-			"{\n"
-			"bar();\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "bar();\n"
+		    "}\n";
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
 		// create directories
@@ -693,14 +693,14 @@ TEST_F(RecursiveF, ExcludeErrors)
 	g_console->processOptions(astyleOptionsVector);
 	// error message regular expression
 	string regex = "Exclude .unmatched.  ecursive1.cpp\n"
-				   "Exclude .unmatched.  ubdir1a\n"
-				   "Did you intend to use --recursive";
+	               "Exclude .unmatched.  ubdir1a\n"
+	               "Did you intend to use --recursive";
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with unmatched excludes
 	EXPECT_EXIT(g_console->processFiles(),
-				ExitedWithCode(EXIT_FAILURE),
-				regex);
+	            ExitedWithCode(EXIT_FAILURE),
+	            regex);
 #endif
 }
 
@@ -720,13 +720,13 @@ TEST_F(RecursiveF, ExcludeErrorsRecursive)
 	g_console->processOptions(astyleOptionsVector);
 	// error message regular expression
 	string regex = "Exclude .unmatched.  ecursive1.cpp\n"
-				   "Exclude .unmatched.  ubdir1a";
+	               "Exclude .unmatched.  ubdir1a";
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with unmatched excludes
 	EXPECT_EXIT(g_console->processFiles(),
-				ExitedWithCode(EXIT_FAILURE),
-				regex);
+	            ExitedWithCode(EXIT_FAILURE),
+	            regex);
 #endif
 }
 
@@ -796,10 +796,10 @@ struct DryRunF : public Test
 	DryRunF()
 	{
 		char textIn[] =
-			"\nvoid foo()\n"
-			"{\n"
-			"    bar();\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "    bar();\n"
+		    "}\n";
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
 		// create test files
@@ -902,20 +902,20 @@ struct LineEndsFormattedF : public Test
 	LineEndsFormattedF()
 	{
 		textLinuxStr =			// has macold line ends
-			"\rvoid foo()\r"
-			"{\r"
-			"    bar()\r"
-			"}\r";
+		    "\rvoid foo()\r"
+		    "{\r"
+		    "    bar()\r"
+		    "}\r";
 		textWindowsStr =		// has linux line ends
-			"\nvoid foo()\n"
-			"{\n"
-			"    bar()\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "    bar()\n"
+		    "}\n";
 		textMacOldStr =			// has windows line ends
-			"\r\nvoid foo()\r\n"
-			"{\r\n"
-			"    bar()\r\n"
-			"}\r\n";
+		    "\r\nvoid foo()\r\n"
+		    "{\r\n"
+		    "    bar()\r\n"
+		    "}\r\n";
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
 		// build text strings
@@ -1025,20 +1025,20 @@ struct LineEndsUnchangedF : public Test
 	LineEndsUnchangedF()
 	{
 		textLinuxStr =			// has linux line ends
-			"\nvoid foo()\n"
-			"{\n"
-			"    bar()\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "    bar()\n"
+		    "}\n";
 		textWindowsStr =		// has windows line ends
-			"\r\nvoid foo()\r\n"
-			"{\r\n"
-			"    bar()\r\n"
-			"}\r\n";
+		    "\r\nvoid foo()\r\n"
+		    "{\r\n"
+		    "    bar()\r\n"
+		    "}\r\n";
 		textMacOldStr =			// has macold line ends
-			"\rvoid foo()\r"
-			"{\r"
-			"    bar()\r"
-			"}\r";
+		    "\rvoid foo()\r"
+		    "{\r"
+		    "    bar()\r"
+		    "}\r";
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
 		// build text strings
@@ -1148,20 +1148,20 @@ struct LineEndsDefaultF : public Test
 	LineEndsDefaultF()
 	{
 		textLinuxStr =			// has linux line ends
-			"\nvoid foo()\n"
-			"{\n"
-			"    bar()\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "    bar()\n"
+		    "}\n";
 		textWindowsStr =		// has windows line ends
-			"\r\nvoid foo()\r\n"
-			"{\r\n"
-			"    bar()\r\n"
-			"}\r\n";
+		    "\r\nvoid foo()\r\n"
+		    "{\r\n"
+		    "    bar()\r\n"
+		    "}\r\n";
 		textMacOldStr =			// has macold line ends
-			"\rvoid foo()\r"
-			"{\r"
-			"    bar()\r"
-			"}\r";
+		    "\rvoid foo()\r"
+		    "{\r"
+		    "    bar()\r"
+		    "}\r";
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
 		// build text strings
@@ -1268,23 +1268,23 @@ struct LineEndsDefaultMixedF : public Test
 	LineEndsDefaultMixedF()
 	{
 		textLinuxStr =
-			"\r\nvoid foo()\r\n"	// not a linux line end
-			"{\n"
-			"    bar1()\n"
-			"    bar2()\n"
-			"}\n";
+		    "\r\nvoid foo()\r\n"	// not a linux line end
+		    "{\n"
+		    "    bar1()\n"
+		    "    bar2()\n"
+		    "}\n";
 		textWindowsStr =
-			"\rvoid foo()\r"		// not a windows line end
-			"{\r\n"
-			"    bar1()\r\n"
-			"    bar2()\r\n"
-			"}\r\n";
+		    "\rvoid foo()\r"		// not a windows line end
+		    "{\r\n"
+		    "    bar1()\r\n"
+		    "    bar2()\r\n"
+		    "}\r\n";
 		textMacOldStr =
-			"\r\nvoid foo()\r\n"	// not a macold line end
-			"{\r"
-			"    bar1()\r"
-			"    bar2()\r"
-			"}\r";
+		    "\r\nvoid foo()\r\n"	// not a macold line end
+		    "{\r"
+		    "    bar1()\r"
+		    "    bar2()\r"
+		    "}\r";
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
 		// build text strings
@@ -1403,20 +1403,20 @@ struct LineEndsDefaultMixedSansF : public Test
 	LineEndsDefaultMixedSansF()
 	{
 		textLinuxStr =
-			"\nvoid foo()\n"
-			"{\n"
-			"    bar()\r\n"		// not a linux line end
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "    bar()\r\n"		// not a linux line end
+		    "}\n";
 		textWindowsStr =
-			"\r\nvoid foo()\r\n"
-			"{\r\n"
-			"    bar()\r"		// not a windows line end
-			"}\r\n";
+		    "\r\nvoid foo()\r\n"
+		    "{\r\n"
+		    "    bar()\r"		// not a windows line end
+		    "}\r\n";
 		textMacOldStr =
-			"\rvoid foo()\r"
-			"{\r"
-			"    bar()\r\n"		// not a macold line end
-			"}\r";
+		    "\rvoid foo()\r"
+		    "{\r"
+		    "    bar()\r\n"		// not a macold line end
+		    "}\r";
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
 		// build text strings
@@ -1531,8 +1531,8 @@ TEST(Other, ErrorExit)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// death test without error message
 	EXPECT_EXIT(g_console->error(),
-				ExitedWithCode(EXIT_FAILURE),
-				"\nArtistic Style ");	// "Artistic Style has terminated!"
+	            ExitedWithCode(EXIT_FAILURE),
+	            "\nArtistic Style ");	// "Artistic Style has terminated!"
 #endif
 	deleteConsoleGlobalObject();
 }
@@ -1546,8 +1546,8 @@ TEST(Other, ErrorExitWihMessage)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// death test with error message
 	EXPECT_EXIT(g_console->error("why", "what"),
-				ExitedWithCode(EXIT_FAILURE),
-				"why what\n\nArtistic Style ");	// "Artistic Style has terminated!"
+	            ExitedWithCode(EXIT_FAILURE),
+	            "why what\n\nArtistic Style ");	// "Artistic Style has terminated!"
 #endif
 	deleteConsoleGlobalObject();
 }

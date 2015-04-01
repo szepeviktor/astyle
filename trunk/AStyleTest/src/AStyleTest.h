@@ -46,9 +46,9 @@ typedef char* (STDCALL* fpAlloc)(unsigned long);		// pointer to callback memory 
 	#error - ASTYLE_DYLIB works only with Visual Studio 2013 and greater
 #endif
 typedef char* (STDCALL* fpASMain) (const char* sourceIn,
-								   const char* optionsIn,
-								   fpError errorHandler,
-								   fpAlloc memoryAlloc);
+                                   const char* optionsIn,
+                                   fpError errorHandler,
+                                   fpAlloc memoryAlloc);
 extern fpASMain AStyleMain;		// defined in AStyleTest_Main
 #else
 // For linked shared library.

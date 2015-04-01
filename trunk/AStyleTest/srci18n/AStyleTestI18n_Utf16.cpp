@@ -193,27 +193,27 @@ struct Utf8_16_Class : public Test
 		text16Len = 0;
 		// set textOut variables
 		wchar_t textIn[] =
-			L"\xfeff"						// 16 or 32 bit LE byte order mark (BOM)
-			L"\nvoid foo()\n"
-			L"{\n"
-			L"    // 文件已经 被修改\n"		// Chinese
-			L"    Chinese(\"导出结束\");\n"
-			L"\n"
-			L"    // アイウオ カキク\n"		// Japanese
-			L"    Japanese(\"スセタチ\");\n"
-			L"\n"
-			L"    // 선택된 컨트롤\n"		// Korean
-			L"    Korean(\"비트맵 에디터\");\n"
-			L"\n"
-			L"    // ΓΔΘΛ αβγλ\n"			// Greek
-			L"    Greek(\"ξπρσ ΞΦΨΩ\");\n"
-			L"\n"
-			L"    // АБВГ ДЕЁЖ\n"			// Russian
-			L"    Russian(\"ЗИЙК ЛПФЦ\");\n"
-			L"\n"
-			L"    // ÄÄ ÖÖ ÜÜ ßßßß\n"		// German (ß can cause problem with conversions)
-			L"    German(\"ää öö üü\");\n"
-			L"}\n";
+		    L"\xfeff"						// 16 or 32 bit LE byte order mark (BOM)
+		    L"\nvoid foo()\n"
+		    L"{\n"
+		    L"    // 文件已经 被修改\n"		// Chinese
+		    L"    Chinese(\"导出结束\");\n"
+		    L"\n"
+		    L"    // アイウオ カキク\n"		// Japanese
+		    L"    Japanese(\"スセタチ\");\n"
+		    L"\n"
+		    L"    // 선택된 컨트롤\n"		// Korean
+		    L"    Korean(\"비트맵 에디터\");\n"
+		    L"\n"
+		    L"    // ΓΔΘΛ αβγλ\n"			// Greek
+		    L"    Greek(\"ξπρσ ΞΦΨΩ\");\n"
+		    L"\n"
+		    L"    // АБВГ ДЕЁЖ\n"			// Russian
+		    L"    Russian(\"ЗИЙК ЛПФЦ\");\n"
+		    L"\n"
+		    L"    // ÄÄ ÖÖ ÜÜ ßßßß\n"		// German (ß can cause problem with conversions)
+		    L"    German(\"ää öö üü\");\n"
+		    L"}\n";
 		// compute 8 bit values using native functions
 		text8BitStr = WideCharToUtf8Str(textIn);
 		text8Bit = text8BitStr.c_str();
@@ -256,7 +256,7 @@ struct Utf8_16_Class : public Test
 	// test Astyle Utf8ToUtf16() function return
 	char* utf16Out = new char[utf16ComputedSize + sizeofUtf16];
 	size_t utf16ConvertedSize = utf8_16.Utf8ToUtf16(const_cast<char*>(text8Bit),
-													text8Len + 1, isBigEndian, utf16Out);
+	                                                text8Len + 1, isBigEndian, utf16Out);
 	EXPECT_EQ(text16Len + sizeofUtf16, utf16ConvertedSize);
 	// must convert utf16 to utf8 using native functions for gtest comparison
 #ifdef _WIN32
@@ -288,7 +288,7 @@ struct Utf8_16_Class : public Test
 	// test Astyle Utf8ToUtf16() function return
 	char* utf16Out = new char[utf16ComputedSize + sizeofUtf16];
 	size_t utf16ConvertedSize = utf8_16.Utf8ToUtf16(const_cast<char*>(text8Bit),
-													text8Len + 1, isBigEndian, utf16Out);
+	                                                text8Len + 1, isBigEndian, utf16Out);
 	EXPECT_EQ(text16Len + sizeofUtf16, utf16ConvertedSize);
 	// must convert utf16 to utf8 using native functions for gtest comparison
 #ifdef _WIN32
@@ -320,7 +320,7 @@ struct Utf8_16_Class : public Test
 	// test Astyle Utf16ToUtf8() function return
 	char* utf8Out = new char[utf8ComputedSize + 1];
 	size_t utf8ConvertedSize = utf8_16.Utf16ToUtf8(const_cast<char*>(text16Bit),
-												   text16Len + 1, isBigEndian, true, utf8Out);
+	                                               text16Len + 1, isBigEndian, true, utf8Out);
 	EXPECT_EQ(text8Len + 1, utf8ConvertedSize);
 	// test Astyle Utf16ToUtf8() function text conversion
 	EXPECT_STREQ(utf8Out, text8Bit);
@@ -346,7 +346,7 @@ struct Utf8_16_Class : public Test
 	// test Astyle Utf16ToUtf8() function return
 	char* utf8Out = new char[utf8ComputedSize + 1];
 	size_t utf8ConvertedSize = utf8_16.Utf16ToUtf8(const_cast<char*>(text16Bit),
-												   text16Len + 1, isBigEndian, true, utf8Out);
+	                                               text16Len + 1, isBigEndian, true, utf8Out);
 	EXPECT_EQ(text8Len + 1, utf8ConvertedSize);
 	// test Astyle Utf16ToUtf8() function text conversion
 	EXPECT_TRUE(strncmp(utf8Out, text8Bit, text8Len) == 0);
@@ -381,27 +381,27 @@ struct ProcessUtf16F : public Test
 		text16Len = 0;
 		// set textOut variables
 		wchar_t textIn[] =
-			L"\xfeff"						// 16 or 32 bit LE byte order mark (BOM)
-			L"\nvoid foo()\n"
-			L"{\n"
-			L"    // 文件已经 被修改\n"		// Chinese
-			L"    Chinese(\"导出结束\");\n"
-			L"\n"
-			L"    // アイウオ カキク\n"		// Japanese
-			L"    Japanese(\"スセタチ\");\n"
-			L"\n"
-			L"    // 선택된 컨트롤\n"		// Korean
-			L"    Korean(\"비트맵 에디터\");\n"
-			L"\n"
-			L"    // ΓΔΘΛ αβγλ\n"			// Greek
-			L"    Greek(\"ξπρσ ΞΦΨΩ\");\n"
-			L"\n"
-			L"    // АБВГ ДЕЁЖ\n"			// Russian
-			L"    Russian(\"ЗИЙК ЛПФЦ\");\n"
-			L"\n"
-			L"    // ÄÄ ÖÖ ÜÜ ßßßß\n"		// German (ß can cause problem with conversions)
-			L"    German(\"ää öö üü\");\n"
-			L"}\n";
+		    L"\xfeff"						// 16 or 32 bit LE byte order mark (BOM)
+		    L"\nvoid foo()\n"
+		    L"{\n"
+		    L"    // 文件已经 被修改\n"		// Chinese
+		    L"    Chinese(\"导出结束\");\n"
+		    L"\n"
+		    L"    // アイウオ カキク\n"		// Japanese
+		    L"    Japanese(\"スセタチ\");\n"
+		    L"\n"
+		    L"    // 선택된 컨트롤\n"		// Korean
+		    L"    Korean(\"비트맵 에디터\");\n"
+		    L"\n"
+		    L"    // ΓΔΘΛ αβγλ\n"			// Greek
+		    L"    Greek(\"ξπρσ ΞΦΨΩ\");\n"
+		    L"\n"
+		    L"    // АБВГ ДЕЁЖ\n"			// Russian
+		    L"    Russian(\"ЗИЙК ЛПФЦ\");\n"
+		    L"\n"
+		    L"    // ÄÄ ÖÖ ÜÜ ßßßß\n"		// German (ß can cause problem with conversions)
+		    L"    German(\"ää öö üü\");\n"
+		    L"}\n";
 		// compute 8 bit values using native functions
 		text8BitStr = WideCharToUtf8Str(textIn);
 		text8Bit = text8BitStr.c_str();

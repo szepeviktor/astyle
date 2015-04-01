@@ -441,22 +441,22 @@ WORD GetColorAttribute(ConsoleColor color)
 {
 	switch (color)
 	{
-	case COLOR_RED:
-		return FOREGROUND_RED;
-	case COLOR_GREEN:
-		return FOREGROUND_GREEN;
-	case COLOR_BLUE:
-		return FOREGROUND_BLUE;
-	case COLOR_YELLOW:
-		return FOREGROUND_RED | FOREGROUND_GREEN;
-	case COLOR_MAGENTA:
-		return FOREGROUND_RED | FOREGROUND_BLUE;
-	case COLOR_CYAN:
-		return FOREGROUND_GREEN | FOREGROUND_BLUE;
-	case COLOR_WHITE:
-		return FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
-	default:
-		return 0;
+		case COLOR_RED:
+			return FOREGROUND_RED;
+		case COLOR_GREEN:
+			return FOREGROUND_GREEN;
+		case COLOR_BLUE:
+			return FOREGROUND_BLUE;
+		case COLOR_YELLOW:
+			return FOREGROUND_RED | FOREGROUND_GREEN;
+		case COLOR_MAGENTA:
+			return FOREGROUND_RED | FOREGROUND_BLUE;
+		case COLOR_CYAN:
+			return FOREGROUND_GREEN | FOREGROUND_BLUE;
+		case COLOR_WHITE:
+			return FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+		default:
+			return 0;
 	}
 }
 
@@ -485,22 +485,22 @@ string GetAnsiColorCode(ConsoleColor color)
 {
 	switch (color)
 	{
-	case COLOR_RED:
-		return "\033[1;31m";
-	case COLOR_GREEN:
-		return "\033[1;32m";
-	case COLOR_YELLOW:
-		return "\033[1;33m";
-	case COLOR_BLUE:
-		return "\033[1;34m";
-	case COLOR_MAGENTA:
-		return "\033[1;35m";
-	case COLOR_CYAN:
-		return "\033[1;36m";
-	case COLOR_WHITE:
-		return "\033[1;37m";
-	default:
-		return "\033[1;39m";
+		case COLOR_RED:
+			return "\033[1;31m";
+		case COLOR_GREEN:
+			return "\033[1;32m";
+		case COLOR_YELLOW:
+			return "\033[1;33m";
+		case COLOR_BLUE:
+			return "\033[1;34m";
+		case COLOR_MAGENTA:
+			return "\033[1;35m";
+		case COLOR_CYAN:
+			return "\033[1;36m";
+		case COLOR_WHITE:
+			return "\033[1;37m";
+		default:
+			return "\033[1;39m";
 	}
 }
 

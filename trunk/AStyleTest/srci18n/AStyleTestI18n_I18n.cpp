@@ -155,10 +155,10 @@ struct JapaneseF : public Test
 #endif
 		// set textOut variables
 		textOutStr =
-			"\nvoid foo()\n"
-			"{\n"
-			"bar();\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "bar();\n"
+		    "}\n";
 		textOut = textOutStr.c_str();
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
@@ -235,8 +235,8 @@ TEST_F(JapaneseF, Recursive2)
 	for (int i = 0; i < static_cast<int>(fileNames.size()); i++)
 	{
 		if (fileNames[i].find("recursive1.cpp") != string::npos
-				|| fileNames[i].find("recursive8.cpp") != string::npos
-				|| fileNames[i].find("recursive9.cpp") != string::npos)
+		        || fileNames[i].find("recursive8.cpp") != string::npos
+		        || fileNames[i].find("recursive9.cpp") != string::npos)
 			fileNames.erase(fileNames.begin() + i--);
 	}
 	// run the test
@@ -306,11 +306,11 @@ TEST_F(JapaneseF, RecursiveExclude)
 	for (int i = 0; i < static_cast<int>(fileNames.size()); i++)
 	{
 		if (fileNames[i].find("recursive1.cpp") != string::npos
-				|| fileNames[i].find("recursive4.cpp") != string::npos
-				|| fileNames[i].find("recursive5.cpp") != string::npos
-				|| fileNames[i].find("recursive6.cpp") != string::npos
-				|| fileNames[i].find("recursive7.cpp") != string::npos
-				|| fileNames[i].find("recursive9.cpp") != string::npos)
+		        || fileNames[i].find("recursive4.cpp") != string::npos
+		        || fileNames[i].find("recursive5.cpp") != string::npos
+		        || fileNames[i].find("recursive6.cpp") != string::npos
+		        || fileNames[i].find("recursive7.cpp") != string::npos
+		        || fileNames[i].find("recursive9.cpp") != string::npos)
 			fileNames.erase(fileNames.begin() + i--);
 	}
 	// run the test
@@ -402,10 +402,10 @@ struct GreekF : public Test
 #endif
 		// set textOut variables
 		textOutStr =
-			"\nvoid foo()\n"
-			"{\n"
-			"bar();\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "bar();\n"
+		    "}\n";
 		textOut = textOutStr.c_str();
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
@@ -483,8 +483,8 @@ TEST_F(GreekF, Recursive2)
 	for (int i = 0; i < static_cast<int>(fileNames.size()); i++)
 	{
 		if (fileNames[i].find("recursive1.cpp") != string::npos
-				|| fileNames[i].find("recursive8.cpp") != string::npos
-				|| fileNames[i].find("recursive9.cpp") != string::npos)
+		        || fileNames[i].find("recursive8.cpp") != string::npos
+		        || fileNames[i].find("recursive9.cpp") != string::npos)
 			fileNames.erase(fileNames.begin() + i--);
 	}
 	// run the test
@@ -552,11 +552,11 @@ TEST_F(GreekF, RecursiveExclude)
 	for (int i = 0; i < static_cast<int>(fileNames.size()); i++)
 	{
 		if (fileNames[i].find("recursive1.cpp") != string::npos
-				|| fileNames[i].find("recursive4.cpp") != string::npos
-				|| fileNames[i].find("recursive5.cpp") != string::npos
-				|| fileNames[i].find("recursive6.cpp") != string::npos
-				|| fileNames[i].find("recursive7.cpp") != string::npos
-				|| fileNames[i].find("recursive9.cpp") != string::npos)
+		        || fileNames[i].find("recursive4.cpp") != string::npos
+		        || fileNames[i].find("recursive5.cpp") != string::npos
+		        || fileNames[i].find("recursive6.cpp") != string::npos
+		        || fileNames[i].find("recursive7.cpp") != string::npos
+		        || fileNames[i].find("recursive9.cpp") != string::npos)
 			fileNames.erase(fileNames.begin() + i--);
 	}
 	// run the test
@@ -652,10 +652,10 @@ struct RussianF : public Test
 #endif
 		// set textOut variables
 		textOutStr =
-			"\nvoid foo()\n"
-			"{\n"
-			"bar();\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "bar();\n"
+		    "}\n";
 		textOut = textOutStr.c_str();
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
@@ -742,8 +742,8 @@ struct RussianF : public Test
 	for (int i = 0; i < static_cast<int>(fileNames.size()); i++)
 	{
 		if (fileNames[i].find("recursive1.cpp") != string::npos
-				|| fileNames[i].find("recursive8.cpp") != string::npos
-				|| fileNames[i].find("recursive9.cpp") != string::npos)
+		        || fileNames[i].find("recursive8.cpp") != string::npos
+		        || fileNames[i].find("recursive9.cpp") != string::npos)
 			fileNames.erase(fileNames.begin() + i--);
 	}
 	// run the test
@@ -821,11 +821,11 @@ TEST_F(RussianF, Recursive3)
 	for (int i = 0; i < static_cast<int>(fileNames.size()); i++)
 	{
 		if (fileNames[i].find("recursive1.cpp") != string::npos
-				|| fileNames[i].find("recursive4.cpp") != string::npos
-				|| fileNames[i].find("recursive5.cpp") != string::npos
-				|| fileNames[i].find("recursive6.cpp") != string::npos
-				|| fileNames[i].find("recursive7.cpp") != string::npos
-				|| fileNames[i].find("recursive9.cpp") != string::npos)
+		        || fileNames[i].find("recursive4.cpp") != string::npos
+		        || fileNames[i].find("recursive5.cpp") != string::npos
+		        || fileNames[i].find("recursive6.cpp") != string::npos
+		        || fileNames[i].find("recursive7.cpp") != string::npos
+		        || fileNames[i].find("recursive9.cpp") != string::npos)
 			fileNames.erase(fileNames.begin() + i--);
 	}
 	// run the test
@@ -903,10 +903,10 @@ struct MultiLanguageF : public Test
 			return;
 		// set textOut variables
 		textOutStr =
-			"\nvoid foo()\n"
-			"{\n"
-			"bar();\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "bar();\n"
+		    "}\n";
 		textOut = textOutStr.c_str();
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
@@ -990,17 +990,17 @@ struct Codepage1252F : public Test
 		// Windows must check for codepage 1252.
 		// get buffer for codepageRecursive1
 		int bufSize = GetLocaleInfo(LOCALE_SYSTEM_DEFAULT,
-									LOCALE_IDEFAULTANSICODEPAGE,
-									NULL,
-									0);
+		                            LOCALE_IDEFAULTANSICODEPAGE,
+		                            NULL,
+		                            0);
 		char* value = new(nothrow) char[bufSize];
 		if (value == NULL)
 			systemAbort("Bad memory alloc for GetLocaleInfo in Codepage1252F");
 		// get codepage
 		GetLocaleInfo(LOCALE_SYSTEM_DEFAULT,
-					  LOCALE_IDEFAULTANSICODEPAGE,
-					  value,
-					  sizeof(value) / sizeof(char));
+		              LOCALE_IDEFAULTANSICODEPAGE,
+		              value,
+		              sizeof(value) / sizeof(char));
 		int codepage = atoi(value);
 		delete [] value;
 		if (codepage != 1252)
@@ -1016,10 +1016,10 @@ struct Codepage1252F : public Test
 			return;
 		// set textOut variables
 		textOutStr =
-			"\nvoid foo()\n"
-			"{\n"
-			"bar();\n"
-			"}\n";
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "bar();\n"
+		    "}\n";
 		textOut = textOutStr.c_str();
 		cleanTestDirectory(getTestDirectory());
 		createConsoleGlobalObject(formatter);
