@@ -229,6 +229,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/include,
+					/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/include/darwin,
 					/System/Library/Frameworks/JavaVM.framework/Headers,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
@@ -260,6 +262,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/include,
+					/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/include/darwin,
 					/System/Library/Frameworks/JavaVM.framework/Headers,
 				);
 				LLVM_LTO = YES;

@@ -3,13 +3,20 @@
 
 # to test on Linux use "make  linux=1"
 
-# list of source files
+# list of source files for astyle
 SRC = astyle_main.cpp \
       ASBeautifier.cpp \
       ASFormatter.cpp \
       ASEnhancer.cpp \
       ASLocalizer.cpp \
       ASResource.cpp
+
+# list of source files for libraries without ASLocalizer
+SRCx = astyle_main.cpp \
+       ASBeautifier.cpp \
+       ASFormatter.cpp \
+       ASEnhancer.cpp \
+       ASResource.cpp
 
 # source directories
 vpath %.cpp ../../src
@@ -26,9 +33,6 @@ ifndef prefix
     prefix=/usr
 endif
 SYSCONF_PATH=$(prefix)/share/doc/astyle
-# the path was changed in release 2.01
-# SYSCONF_PATH_OLD may be removed at the appropriate time
-SYSCONF_PATH_OLD=$(prefix)/share/astyle
 
 # define macros
 dylib = dylib
@@ -37,80 +41,100 @@ bindir = bin
 objdir = obj
 ipath=$(prefix)/bin
 CBASEFLAGS = -W -Wall -fno-rtti -fno-exceptions
-UNIVFLAGS = -arch i386 -arch x86_64
-JAVAINCS   = -I/System/Library/Frameworks/JavaVM.framework/Headers
+LDBASEFLAGS =
+JAVAINCS  = -I/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/include \
+-I/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/include/darwin \
+-I/System/Library/Frameworks/JavaVM.framework/Headers
 CXX = clang++
 INSTALL=install -o $(USER) -g wheel
 # INSTALL=install -o 0 -g 0
-
-# set debug directories for DEBUG=1 on the command line
-ifdef DEBUG
-    bindir = debug
-    objdir = objd
-endif
 
 # for testing on linux
 ifdef linux
     dylib = so
     dynamiclib = -shared
+    CXX = g++
     JAVAINCS   = -I$(JAVA_HOME)/include
 endif
 
 ##################################################
 
 # define compile options for each build
-# CFLAGS from the command line is added or defaults are used
 ifdef CFLAGS
-ifdef DEBUG
-    CFLAGSas = -g $(CBASEFLAGS) $(CFLAGS)
+    CFLAGSr   = -DNDEBUG $(CBASEFLAGS) $(CFLAGS)
+    CFLAGSd   = -g $(CBASEFLAGS) $(CFLAGS)
 else
-    CFLAGSas = -DNDEBUG $(CBASEFLAGS) $(CFLAGS)
+    CFLAGSr   = -DNDEBUG -O3 $(CBASEFLAGS)
+    CFLAGSd   = -g $(CBASEFLAGS)
 endif
-else
-ifdef DEBUG
-    CFLAGSas = -g $(CBASEFLAGS)
-else
-    CFLAGSas = -DNDEBUG -O3 $(CBASEFLAGS)
-endif
-endif
-CFLAGSs   = -DASTYLE_LIB -fPIC -fvisibility=hidden $(CFLAGSas)
-CFLAGSa   = -DASTYLE_LIB $(CFLAGSas)
-CFLAGSsj  = -DASTYLE_JNI -fPIC -fvisibility=hidden $(CFLAGSas) $(JAVAINCS)
+CFLAGSs   = -DASTYLE_LIB -fPIC $(CFLAGSr)
+CFLAGSsd  = -DASTYLE_LIB -fPIC $(CFLAGSd)
+CFLAGSa   = -DASTYLE_LIB $(CFLAGSr)
+CFLAGSad  = -DASTYLE_LIB $(CFLAGSd)
+CFLAGSsj  = -DASTYLE_JNI -fPIC $(CFLAGSr) $(JAVAINCS)
+CFLAGSsjd = -DASTYLE_JNI -fPIC $(CFLAGSd) $(JAVAINCS)
 
 # define link options
 ifdef LDFLAGS
-    LDFLAGSr = $(LDFLAGS)
-    LDFLAGSd = $(LDFLAGS)
+    LDFLAGSr = $(LDBASEFLAGS) $(LDFLAGS)
+    LDFLAGSd = $(LDBASEFLAGS) $(LDFLAGS)
+else
+    LDFLAGSr = $(LDBASEFLAGS)
+    LDFLAGSd = $(LDBASEFLAGS)
 endif
 
 # object files are built from the source list $(SRC)
 # a suffix is added for each build
 OBJ   = $(patsubst %.cpp,$(objdir)/%.o,$(SRC))
-OBJs  = $(patsubst %.cpp,$(objdir)/%_s.o,$(SRC))
-OBJa  = $(patsubst %.cpp,$(objdir)/%_a.o,$(SRC))
-OBJsj  = $(patsubst %.cpp,$(objdir)/%_sj.o,$(SRC))
+OBJd  = $(patsubst %.cpp,$(objdir)/%_d.o,$(SRC))
+OBJs  = $(patsubst %.cpp,$(objdir)/%_s.o,$(SRCx))
+OBJsd = $(patsubst %.cpp,$(objdir)/%_sd.o,$(SRCx))
+OBJa  = $(patsubst %.cpp,$(objdir)/%_a.o,$(SRCx))
+OBJad = $(patsubst %.cpp,$(objdir)/%_ad.o,$(SRCx))
+OBJsj  = $(patsubst %.cpp,$(objdir)/%_sj.o,$(SRCx))
+OBJsjd = $(patsubst %.cpp,$(objdir)/%_sjd.o,$(SRCx))
 
 # define object file rule (with the suffix) for each build
 
 # OBJ
 $(objdir)/%.o:  %.cpp  astyle.h  astyle_main.h
 	@ mkdir -p $(objdir)
-	$(CXX) $(CFLAGSas) -c -o $@ $<
+	$(CXX) $(CFLAGSr) -c $< -o $@
+
+# OBJd
+$(objdir)/%_d.o:  %.cpp  astyle.h  astyle_main.h
+	@ mkdir -p $(objdir)
+	$(CXX) $(CFLAGSd) -c $< -o $@
 
 # OBJs
 $(objdir)/%_s.o:  %.cpp  astyle.h
 	@ mkdir -p $(objdir)
-	$(CXX) $(CFLAGSs) $(UNIVFLAGS) -c -o $@ $<
+	$(CXX) $(CFLAGSs) -c $< -o $@
+
+# OBJsd
+$(objdir)/%_sd.o:  %.cpp  astyle.h
+	@ mkdir -p $(objdir)
+	$(CXX) $(CFLAGSsd) -c $< -o $@
 
 # OBJa
 $(objdir)/%_a.o:  %.cpp  astyle.h
 	@ mkdir -p $(objdir)
-	$(CXX) $(CFLAGSa) -c -o $@ $<
+	$(CXX) $(CFLAGSa) -c $< -o $@
+
+# OBJad
+$(objdir)/%_ad.o:  %.cpp  astyle.h
+	@ mkdir -p $(objdir)
+	$(CXX) $(CFLAGSad) -c $< -o $@
 
 # OBJsj
 $(objdir)/%_sj.o:  %.cpp  astyle.h
 	@ mkdir -p $(objdir)
-	$(CXX) $(CFLAGSsj) $(UNIVFLAGS) -c -o $@ $<
+	$(CXX) $(CFLAGSsj) -c $< -o $@
+
+# OBJsjd
+$(objdir)/%_sjd.o:  %.cpp  astyle.h
+	@ mkdir -p $(objdir)
+	$(CXX) $(CFLAGSsjd) -c $< -o $@
 
 ##################################################
 # define build dependencies for each command
@@ -118,14 +142,26 @@ $(objdir)/%_sj.o:  %.cpp  astyle.h
 release:  astyle
 astyle:  $(OBJ)
 	@ mkdir -p $(bindir)
-	$(CXX) $(LDFLAGSr) -o $(bindir)/$@ $^
-	strip $(bindir)/$@
+	$(CXX) $(LDFLAGSr) -dead_strip -o $(bindir)/AStyle $^
+	strip $(bindir)/AStyle
 	@ echo
 
-shared:  libastyle-2.06.$(dylib)
-libastyle-2.06.$(dylib):  $(OBJs)
+debug:  astyled
+astyled:  $(OBJd)
 	@ mkdir -p $(bindir)
-	$(CXX) $(dynamiclib) $(LDFLAGSr) $(UNIVFLAGS) -o $(bindir)/$@ $^
+	$(CXX) $(LDFLAGSd) -o $(bindir)/AStyled $^
+	@ echo
+
+shared:  libastyle.$(dylib)
+libastyle.$(dylib):  $(OBJs)
+	@ mkdir -p $(bindir)
+	$(CXX) $(dynamiclib) $(LDFLAGSr) -o $(bindir)/libastyle-2.06.$(dylib) $^
+	@ echo
+
+shareddebug:  libastyled.$(dylib)
+libastyled.$(dylib):  $(OBJsd)
+	@ mkdir -p $(bindir)
+	$(CXX) $(dynamiclib) $(LDFLAGSd) -o $(bindir)/libastyle-2.06d.$(dylib) $^
 	@ echo
 
 static:  libastyle.a
@@ -134,13 +170,27 @@ libastyle.a:  $(OBJa)
 	ar crs $(bindir)/$@ $^
 	@ echo
 
-java:  libastyle-2.06j.$(dylib)
-libastyle-2.06j.$(dylib):  $(OBJsj)
+staticdebug:  libastyled.a
+libastyled.a:  $(OBJad)
 	@ mkdir -p $(bindir)
-	$(CXX) $(dynamiclib) $(LDFLAGSr) $(UNIVFLAGS) -o $(bindir)/$@ $^
+	ar crs $(bindir)/$@ $^
 	@ echo
 
-all:  release  static  shared
+java:  libastylej.$(dylib)
+libastylej.$(dylib):  $(OBJsj)
+	@ mkdir -p $(bindir)
+	$(CXX) $(dynamiclib) $(LDFLAGSr) -o $(bindir)/libastyle-2.06j.$(dylib) $^
+	@ echo
+
+javadebug:  libastylejd.$(dylib)
+libastylejd.$(dylib):  $(OBJsjd)
+	@ mkdir -p $(bindir)
+	$(CXX) $(dynamiclib) $(LDFLAGSd) -o $(bindir)/libastyle-2.06jd.$(dylib) $^
+	@ echo
+
+all:  release debug shared shareddebug static staticdebug
+
+javaall:  java javadebug
 
 clean:
 	rm -f $(objdir)/*.o $(bindir)/*astyle*
@@ -160,16 +210,9 @@ install:
 	@mkdir -p $(SYSCONF_PATH)/html;
 	@for files in ../../doc/*.html  ../../doc/*.css; \
 	do \
-		$(INSTALL)  -m 644  $$files  $(SYSCONF_PATH)/html; \
+		$(INSTALL)  -m 644  "$$files"  $(SYSCONF_PATH)/html; \
 	done
-
-	@if [ -d $(SYSCONF_PATH_OLD) ];  then \
-		rm -rf $(SYSCONF_PATH_OLD); \
-	fi
 
 uninstall:
 	rm -f $(ipath)/astyle
 	rm -rf $(SYSCONF_PATH)
-	@if [ -d $(SYSCONF_PATH_OLD) ];  then \
-		rm -rf $(SYSCONF_PATH_OLD); \
-	fi
