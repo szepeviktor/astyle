@@ -32,6 +32,8 @@
 					<Add option="-Wno-weak-vtables" />
 					<Add option="-DTARGET_RT_MAC_CFM=0" />
 					<Add option="-DASTYLE_JNI" />
+					<Add directory="/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/include" />
+					<Add directory="/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/include/darwin" />
 					<Add directory="/System/Library/Frameworks/JavaVM.framework/Headers" />
 				</Compiler>
 			</Target>
@@ -62,6 +64,8 @@
 					<Add option="-DTARGET_RT_MAC_CFM=0" />
 					<Add option="-DASTYLE_JNI" />
 					<Add option="-DNDEBUG" />
+					<Add directory="/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/include" />
+					<Add directory="/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/include/darwin" />
 					<Add directory="/System/Library/Frameworks/JavaVM.framework/Headers" />
 				</Compiler>
 			</Target>
