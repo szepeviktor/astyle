@@ -7,7 +7,6 @@
  * p.contents entries are for the table of contents
  * a.contents are table of contents links (not underlined)
  * a.links are links (underlined)
- * .footer is the image table at the bottom of the page
  * img does not have a border
  * pre is a predefined format for formatting code
  */
@@ -30,9 +29,6 @@ a.contents:hover { color: #F00000; text-decoration: none; }
 
 a:link, a:visited { color: #0000A0; text-decoration: underline; }
 a:hover { color: #F00000; text-decoration: underline; }
-
-center.footer { margin-left: -0.4in; margin-top: 0.25in; }
-h2.footer { font-size: x-large; margin-top: 0; margin-left: 0; }
 
 img { border: none; }
 
