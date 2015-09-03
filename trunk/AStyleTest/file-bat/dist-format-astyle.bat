@@ -27,8 +27,10 @@ echo Formatting AStyle
 echo options %options%
 echo.
 
-%prog%  %options%  ..\..\AStyle\src\*.cpp  ..\..\AStyle\src\*.h
-
+%prog%  %options%  ..\..\AStyle\src\*.cpp
+echo.
+%prog%  %options%  ..\..\AStyle\src\*.h
+echo.
 
 echo.
 echo * * * *  end of format  * * * *

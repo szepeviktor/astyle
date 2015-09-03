@@ -1,66 +1,49 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTestI18n", "AStyleTestI18n\AStyleTestI18n.vcxproj", "{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599} = {8563FBDA-FEDC-4233-B585-EBDA55E1C599}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GTestLib", "GTestLib\GTestLib.vcxproj", "{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleConLib", "AStyleConLib\AStyleConLib.vcxproj", "{8563FBDA-FEDC-4233-B585-EBDA55E1C599}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C} = {C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}
-	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMockLib", "GMockLib\GMockLib.vcxproj", "{D336FE81-2B92-49AF-A040-D30C384C8FD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
-		LeakDetector|Win32 = LeakDetector|Win32
-		LeakDetector|x64 = LeakDetector|x64
-		Release|Win32 = Release|Win32
+		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Debug|Win32.ActiveCfg = Debug|Win32
-		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Debug|Win32.Build.0 = Debug|Win32
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Debug|x64.ActiveCfg = Debug|x64
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Debug|x64.Build.0 = Debug|x64
-		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.LeakDetector|Win32.ActiveCfg = LeakDetector|Win32
-		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.LeakDetector|Win32.Build.0 = LeakDetector|Win32
-		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.LeakDetector|x64.ActiveCfg = LeakDetector|x64
-		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.LeakDetector|x64.Build.0 = LeakDetector|x64
-		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|Win32.ActiveCfg = Release|Win32
-		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|Win32.Build.0 = Release|Win32
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Debug|x86.ActiveCfg = Debug|Win32
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Debug|x86.Build.0 = Debug|Win32
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|x64.ActiveCfg = Release|x64
 		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|x64.Build.0 = Release|x64
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|Win32.ActiveCfg = Debug|Win32
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|Win32.Build.0 = Debug|Win32
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|x86.ActiveCfg = Release|Win32
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|x86.Build.0 = Release|Win32
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|x64.ActiveCfg = Debug|x64
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|x64.Build.0 = Debug|x64
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|Win32.ActiveCfg = Debug|Win32
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|Win32.Build.0 = Debug|Win32
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|x64.ActiveCfg = Debug|x64
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|x64.Build.0 = Debug|x64
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|Win32.ActiveCfg = Release|Win32
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|Win32.Build.0 = Release|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|x86.ActiveCfg = Debug|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|x86.Build.0 = Debug|Win32
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|x64.ActiveCfg = Release|x64
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|x64.Build.0 = Release|x64
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Debug|Win32.Build.0 = Debug|Win32
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Debug|x64.ActiveCfg = Debug|x64
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Debug|x64.Build.0 = Debug|x64
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.LeakDetector|Win32.ActiveCfg = Debug|Win32
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.LeakDetector|Win32.Build.0 = Debug|Win32
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.LeakDetector|x64.ActiveCfg = Debug|x64
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.LeakDetector|x64.Build.0 = Debug|x64
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Release|Win32.ActiveCfg = Release|Win32
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Release|Win32.Build.0 = Release|Win32
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Release|x64.ActiveCfg = Release|x64
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Release|x64.Build.0 = Release|x64
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|x86.ActiveCfg = Release|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|x86.Build.0 = Release|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x64.ActiveCfg = Debug|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x64.Build.0 = Debug|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x86.ActiveCfg = Debug|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x86.Build.0 = Debug|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x64.ActiveCfg = Release|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x64.Build.0 = Release|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x86.ActiveCfg = Release|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

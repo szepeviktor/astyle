@@ -58,7 +58,7 @@ int main(int argc, char** argv)
 	// is missing from the project. The UnitTest reflection API in
 	// example 9 will not work here because of user modifications.
 	// Change the following value to the number of tests (within 20).
-	TersePrinter::PrintTestTotals(2300, __FILE__, __LINE__);
+	TersePrinter::PrintTestTotals(2340, __FILE__, __LINE__);
 
 #ifdef __WIN32
 	printf("%c", '\n');

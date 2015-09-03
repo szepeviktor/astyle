@@ -530,154 +530,6 @@ TEST_F(ObjCStyleF, Lisp)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Objective-C Align Method Colon
-//-------------------------------------------------------------------------
-
-TEST(ObjCAlignMethodColon, LongOption)
-{
-	// Test align-method-colon long option.
-	char text[] =
-	    "\n"
-	    "- (BOOL)tableView:(NSTableView *)tableView\n"
-	    "       acceptDrop:(id <NSDraggingInfo>)info\n"
-	    "              row:(int)row";
-	char options[] = "align-method-colon";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(ObjCAlignMethodColon, ShortOption)
-{
-	// Test align-method-colon short option.
-	char text[] =
-	    "\n"
-	    "- (BOOL)tableView:(NSTableView *)tableView\n"
-	    "       acceptDrop:(id <NSDraggingInfo>)info\n"
-	    "              row:(int)row";
-	char options[] = "-xM";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(ObjCAlignMethodColon, Headers)
-{
-	// Test align-method-colon headers.
-	char text[] =
-	    "\n"
-	    "- (BOOL)tableView:(NSTableView *)tableView\n"
-	    "       acceptDrop:(id <NSDraggingInfo>)info\n"
-	    "              row:(int)row;\n"
-	    "\n"
-	    "- (id)tableView:(NSTableView *)aTableView\n"
-	    "    objectValueForTableColumn:(NSTableColumn *)aTableColumn\n"
-	    "            row:(int)rowIndex;\n"
-	    "\n"
-	    "- (BOOL)openFile:(NSString *)fullPath\n"
-	    " withApplication:(NSString *)appname\n"
-	    "   andDeactivate:(BOOL)flag;";
-	char options[] = "align-method-colon";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(ObjCAlignMethodColon, MethodsBreak)
-{
-	// Test align-method-colon methods with broken brackets.
-	char text[] =
-	    "\n"
-	    "- (BOOL)tableView:(NSTableView *)tableView\n"
-	    "       acceptDrop:(id <NSDraggingInfo>)info\n"
-	    "              row:(int)row\n"
-	    "{ }\n"
-	    "\n"
-	    "- (id)tableView:(NSTableView *)aTableView\n"
-	    "    objectValueForTableColumn:(NSTableColumn *)aTableColumn\n"
-	    "            row:(int)rowIndex\n"
-	    "{ }\n"
-	    "\n"
-	    "- (BOOL)openFile:(NSString *)fullPath\n"
-	    " withApplication:(NSString *)appname\n"
-	    "   andDeactivate:(BOOL)flag\n"
-	    "{ }\n";
-	char options[] = "align-method-colon";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(ObjCAlignMethodColon, MethodsAttach)
-{
-	// Test align-method-colon methods with attached brackets.
-	char text[] =
-	    "\n"
-	    "- (BOOL)tableView:(NSTableView *)tableView\n"
-	    "       acceptDrop:(id <NSDraggingInfo>)info\n"
-	    "              row:(int)row {\n"
-	    "}\n"
-	    "\n"
-	    "- (id)tableView:(NSTableView *)aTableView\n"
-	    "    objectValueForTableColumn:(NSTableColumn *)aTableColumn\n"
-	    "            row:(int)rowIndex {\n"
-	    "}\n"
-	    "\n"
-	    "- (BOOL)openFile:(NSString *)fullPath\n"
-	    " withApplication:(NSString *)appname\n"
-	    "   andDeactivate:(BOOL)flag {\n"
-	    "}\n";
-	char options[] = "align-method-colon";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(ObjCAlignMethodColon, Define1)
-{
-	// Test align-method-colon methods with a define.
-	// The define should not be formatted.
-	char text[] =
-	    "\n"
-	    "#define BZ_UPDATE_CRC(crcVar,cha)            \\\n"
-	    "{                                            \\\n"
-	    "   crcVar = (crcVar << 8) ^                  \\\n"
-	    "            BZ2_crc32Table[(crcVar >> 24) ^  \\\n"
-	    "                           ((UChar)cha)];    \\\n"
-	    "}";
-	char options[] = "align-method-colon";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(ObjCAlignMethodColon, Define2)
-{
-	// Test align-method-colon methods with an indented define.
-	// The define should be formatted correctly.
-	char textIn[] =
-	    "\n"
-	    "#define BZ_UPDATE_CRC(crcVar,cha)            \\\n"
-	    "{                                            \\\n"
-	    "   crcVar = (crcVar << 8) ^                  \\\n"
-	    "            BZ2_crc32Table[(crcVar >> 24) ^  \\\n"
-	    "                           ((UChar)cha)];    \\\n"
-	    "}";
-	char text[] =
-	    "\n"
-	    "#define BZ_UPDATE_CRC(crcVar,cha)            \\\n"
-	    "    {                                            \\\n"
-	    "        crcVar = (crcVar << 8) ^                  \\\n"
-	    "                 BZ2_crc32Table[(crcVar >> 24) ^  \\\n"
-	    "                                ((UChar)cha)];    \\\n"
-	    "    }";
-	char options[] = "align-method-colon, indent-preproc-define";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-//-------------------------------------------------------------------------
 // AStyle Objective-C Pad Method Prefix
 //-------------------------------------------------------------------------
 
@@ -1834,6 +1686,271 @@ TEST(ObjCPadMethodColon, CSharpFile)
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Objective-C Align Method Colon
+//-------------------------------------------------------------------------
+
+TEST(ObjCAlignMethodColon, LongOption)
+{
+	// Test align-method-colon long option.
+	char text[] =
+	    "\n"
+	    "- (BOOL)tableView:(NSTableView *)tableView\n"
+	    "       acceptDrop:(id <NSDraggingInfo>)info\n"
+	    "              row:(int)row";
+	char options[] = "align-method-colon";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCAlignMethodColon, ShortOption)
+{
+	// Test align-method-colon short option.
+	char text[] =
+	    "\n"
+	    "- (BOOL)tableView:(NSTableView *)tableView\n"
+	    "       acceptDrop:(id <NSDraggingInfo>)info\n"
+	    "              row:(int)row";
+	char options[] = "-xM";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCAlignMethodColon, Headers)
+{
+	// Test align-method-colon headers.
+	char text[] =
+	    "\n"
+	    "- (BOOL)tableView:(NSTableView *)tableView\n"
+	    "       acceptDrop:(id <NSDraggingInfo>)info\n"
+	    "              row:(int)row;\n"
+	    "\n"
+	    "- (id)tableView:(NSTableView *)aTableView\n"
+	    "    objectValueForTableColumn:(NSTableColumn *)aTableColumn\n"
+	    "                          row:(int)rowIndex;\n"
+	    "\n"
+	    "- (BOOL)openFile:(NSString *)fullPath\n"
+	    "    withApplication:(NSString *)appname\n"
+	    "      andDeactivate:(BOOL)flag;";
+	char options[] = "align-method-colon";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCAlignMethodColon, MethodsBreak)
+{
+	// Test align-method-colon methods with broken brackets.
+	char text[] =
+	    "\n"
+	    "- (BOOL)tableView:(NSTableView *)tableView\n"
+	    "       acceptDrop:(id <NSDraggingInfo>)info\n"
+	    "              row:(int)row\n"
+	    "{ }\n"
+	    "\n"
+	    "- (id)tableView:(NSTableView *)aTableView\n"
+	    "    objectValueForTableColumn:(NSTableColumn *)aTableColumn\n"
+	    "                          row:(int)rowIndex\n"
+	    "{ }\n"
+	    "\n"
+	    "- (BOOL)openFile:(NSString *)fullPath\n"
+	    "    withApplication:(NSString *)appname\n"
+	    "      andDeactivate:(BOOL)flag\n"
+	    "{ }\n";
+	char options[] = "align-method-colon";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCAlignMethodColon, MethodsAttach)
+{
+	// Test align-method-colon methods with attached brackets.
+	char text[] =
+	    "\n"
+	    "- (BOOL)tableView:(NSTableView *)tableView\n"
+	    "       acceptDrop:(id <NSDraggingInfo>)info\n"
+	    "              row:(int)row {\n"
+	    "}\n"
+	    "\n"
+	    "- (id)tableView:(NSTableView *)aTableView\n"
+	    "    objectValueForTableColumn:(NSTableColumn *)aTableColumn\n"
+	    "                          row:(int)rowIndex {\n"
+	    "}\n"
+	    "\n"
+	    "- (BOOL)openFile:(NSString *)fullPath\n"
+	    "    withApplication:(NSString *)appname\n"
+	    "      andDeactivate:(BOOL)flag {\n"
+	    "}\n";
+	char options[] = "align-method-colon";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCAlignMethodColon, MethodsAttachToLongest)
+{
+	// Test align-method-colon methods with attached brackets.
+	// Attached bracket is the longest line.
+	char text[] =
+	    "\n"
+	    "- (void)short : (GTMFoo *)theFoo\n"
+	    "          longKeyword : (NSRect)theRect\n"
+	    "                error : (NSError **)theError\n"
+	    "    evenLongerKeyword : (float)theInterval {\n"
+	    "}\n";
+	char options[] = "align-method-colon";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCAlignMethodColon, MultiLineDefinition)
+{
+	// Test align-method-colon methods with multi-line definition.
+	// Semicolon is the longest line.
+	char text[] =
+	    "\n"
+	    "- (void)short : (GTMFoo *)theFoo\n"
+	    "          longKeyword : (NSRect)theRect\n"
+	    "                error : (NSError **)theError\n"
+	    "    evenLongerKeyword : (float)theInterval;\n";
+	char options[] = "align-method-colon";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCAlignMethodColon, Define1)
+{
+	// Test align-method-colon methods with a define.
+	// The define should not be formatted.
+	char text[] =
+	    "\n"
+	    "#define BZ_UPDATE_CRC(crcVar,cha)            \\\n"
+	    "{                                            \\\n"
+	    "   crcVar = (crcVar << 8) ^                  \\\n"
+	    "            BZ2_crc32Table[(crcVar >> 24) ^  \\\n"
+	    "                           ((UChar)cha)];    \\\n"
+	    "}";
+	char options[] = "align-method-colon";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCAlignMethodColon, Define2)
+{
+	// Test align-method-colon methods with an indented define.
+	// The define should be formatted correctly.
+	char textIn[] =
+	    "\n"
+	    "#define BZ_UPDATE_CRC(crcVar,cha)            \\\n"
+	    "{                                            \\\n"
+	    "   crcVar = (crcVar << 8) ^                  \\\n"
+	    "            BZ2_crc32Table[(crcVar >> 24) ^  \\\n"
+	    "                           ((UChar)cha)];    \\\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "#define BZ_UPDATE_CRC(crcVar,cha)            \\\n"
+	    "    {                                            \\\n"
+	    "        crcVar = (crcVar << 8) ^                  \\\n"
+	    "                 BZ2_crc32Table[(crcVar >> 24) ^  \\\n"
+	    "                                ((UChar)cha)];    \\\n"
+	    "    }";
+	char options[] = "align-method-colon, indent-preproc-define";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCAlignMethodColon, PadMethodColonNone)
+{
+	// Test align-method-colon with pad-method-colon=none.
+	char textIn[] =
+	    "\n"
+	    "- (id)tableView :(NSTableView *)aTableView\n"
+	    "    objectValueForTableColumn : (NSTableColumn *)aTableColumn\n"
+	    "                          row   :  (int)rowIndex\n"
+	    "{ }\n";
+	char text[] =
+	    "\n"
+	    "- (id)tableView:(NSTableView *)aTableView\n"
+	    "    objectValueForTableColumn:(NSTableColumn *)aTableColumn\n"
+	    "                          row:(int)rowIndex\n"
+	    "{ }\n";
+	char options[] = "align-method-colon, pad-method-colon=none";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCAlignMethodColon, PadMethodColonAll)
+{
+	// Test align-method-colon with pad-method-colon=all.
+	char textIn[] =
+	    "\n"
+	    "- (id)tableView : (NSTableView *)aTableView\n"
+	    "    objectValueForTableColumn:(NSTableColumn *)aTableColumn\n"
+	    "                          row   :  (int)rowIndex\n"
+	    "{ }\n";
+	char text[] =
+	    "\n"
+	    "- (id)tableView : (NSTableView *)aTableView\n"
+	    "    objectValueForTableColumn : (NSTableColumn *)aTableColumn\n"
+	    "                          row : (int)rowIndex\n"
+	    "{ }\n";
+	char options[] = "align-method-colon, pad-method-colon=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCAlignMethodColon, PadMethodColonAfter)
+{
+	// Test align-method-colon with pad-method-colon=after.
+	char textIn[] =
+	    "\n"
+	    "- (id)tableView :(NSTableView *)aTableView\n"
+	    "    objectValueForTableColumn : (NSTableColumn *)aTableColumn\n"
+	    "                          row   :  (int)rowIndex\n"
+	    "{ }\n";
+	char text[] =
+	    "\n"
+	    "- (id)tableView: (NSTableView *)aTableView\n"
+	    "    objectValueForTableColumn: (NSTableColumn *)aTableColumn\n"
+	    "                          row: (int)rowIndex\n"
+	    "{ }\n";
+	char options[] = "align-method-colon, pad-method-colon=after";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCAlignMethodColon, PadMethodColonBefore)
+{
+	// Test align-method-colon with pad-method-colon=before.
+	char textIn[] =
+	    "\n"
+	    "- (id)tableView: (NSTableView *)aTableView\n"
+	    "    objectValueForTableColumn : (NSTableColumn *)aTableColumn\n"
+	    "                          row   :  (int)rowIndex\n"
+	    "{ }\n";
+	char text[] =
+	    "\n"
+	    "- (id)tableView :(NSTableView *)aTableView\n"
+	    "    objectValueForTableColumn :(NSTableColumn *)aTableColumn\n"
+	    "                          row :(int)rowIndex\n"
+	    "{ }\n";
+	char options[] = "align-method-colon, pad-method-colon=before";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------

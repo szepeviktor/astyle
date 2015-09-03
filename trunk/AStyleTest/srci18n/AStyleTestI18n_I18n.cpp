@@ -134,7 +134,7 @@ struct JapaneseF : public Test
 		// The language of the system local should be Japanese.
 		// The system default locale is set from the Windows Control Panel,
 		//     Region and Language, Administrative, Change system locale...
-		// LCID is from http://msdn.microsoft.com/en-us/library/0h88fahh%28VS.85%29.aspx
+		// LCID is from https://msdn.microsoft.com/en-us/library/ms912047(WinEmbedded.10).aspx
 		// 1041 - Japanese
 		// Must compare LCIDs, not names
 		LCID lcid = GetSystemDefaultLCID();
@@ -381,7 +381,7 @@ struct GreekF : public Test
 		// The language of the system local should be Greek.
 		// The system default locale is set from the Windows Control Panel,
 		//     Region and Language, Administrative, Change system locale...
-		// LCID is from http://msdn.microsoft.com/en-us/library/0h88fahh%28VS.85%29.aspx
+		// LCID is from https://msdn.microsoft.com/en-us/library/ms912047(WinEmbedded.10).aspx
 		// 1032 - Greek
 		// Must compare LCIDs, not names
 		LCID lcid = GetSystemDefaultLCID();
@@ -631,7 +631,7 @@ struct RussianF : public Test
 		// The language of the system local should be Russian.
 		// The system default locale is set from the Windows Control Panel,
 		//     Region and Language, Administrative, Change system locale...
-		// LCID is from http://msdn.microsoft.com/en-us/library/0h88fahh%28VS.85%29.aspx
+		// LCID is from https://msdn.microsoft.com/en-us/library/ms912047(WinEmbedded.10).aspx
 		// 1049 - Russian
 		// Must compare LCIDs, not names
 		LCID lcid = GetSystemDefaultLCID();
@@ -888,7 +888,7 @@ struct MultiLanguageF : public Test
 	{
 #ifdef _WIN32
 		// Windows cannot do multi language.
-		// LCID is from http://msdn.microsoft.com/en-us/library/0h88fahh%28VS.85%29.aspx
+		// LCID is from https://msdn.microsoft.com/en-us/library/ms912047(WinEmbedded.10).aspx
 		LCID lcid = GetSystemDefaultLCID();
 		if (lcid != 9999)		// will not compare true
 		{
@@ -1031,27 +1031,29 @@ struct Codepage1252F : public Test
 		fileNames.push_back(englishPath + "/english1.cpp");
 		// create a directory and files in French
 		// French symbols are copied from http://french.typeit.org/
-		string frenchPath = getTestDirectory() + "/french ùûüÿàâçéèêëïîôœ";
+		string frenchPath = getTestDirectory() + "/french ùûüÿàâæçéèêëïîôœ";
 		createTestDirectory(frenchPath);
 		fileNames.push_back(frenchPath + "/french1.cpp");
 		// create a directory and files in Spanish
-		// Spanish symbols are copied from http://www.studyspanish.com/pronunciation/alphabet.htm
-		string spanishPath = getTestDirectory() + "/spanish Ññ";
+		// Spanish symbols are copied from
+		// http://www.optonet.inter.edu/helpful-info/ascii-codes-for-spanish-characters.html
+		string spanishPath = getTestDirectory() + "/spanish áéíóúÁÍÚüÑÉÓÜ";
 		createTestDirectory(spanishPath);
 		fileNames.push_back(spanishPath + "/spanish1.cpp");
 		// create a directory and files in Danish
-		// Danish symbols are copied from http://users.cybercity.dk/~nmb3879/tree.html
-		string danishPath = getTestDirectory() + "/danish æøå";
+		// Danish symbols are copied from http://www.danishkin.com/characters.html
+		string danishPath = getTestDirectory() + "/danish åÅæÆØöÖüÜ";
 		createTestDirectory(danishPath);
 		fileNames.push_back(danishPath + "/danish1.cpp");
 		// create a directory and files in Sweedish
-		// Sweedish symbols are copied from http://www.omniglot.com/writing/swedish.htm
-		string sweedishPath = getTestDirectory() + "/sweedish åäö";
+		// Sweedish symbols are copied from
+		// http://altcodes.se/special-ascii-codes/swedish-letters-found-keyboard/?lang=en
+		string sweedishPath = getTestDirectory() + "/sweedish åäöÅÄÖ";
 		createTestDirectory(sweedishPath);
 		fileNames.push_back(sweedishPath + "/sweedish1.cpp");
 		// create a directory and files in Icelandic
 		// Icelandic symbols are copied from http://www.omniglot.com/writing/icelandic.htm
-		string icelandicPath = getTestDirectory() + "/icelandic ðéóúæö";
+		string icelandicPath = getTestDirectory() + "/icelandic ÐðÉéÝýÆæÖö";
 		createTestDirectory(icelandicPath);
 		fileNames.push_back(icelandicPath + "/icelandic1.cpp");
 		// write the test files
@@ -1073,9 +1075,9 @@ struct Codepage1252F : public Test
 
 // OSX fails on the string compares, which actually are OK.
 #ifdef __APPLE__
-	TEST_F(Codepage1252F, DISABLED_Recursive1)
+	TEST_F(Codepage1252F, DISABLED_RecursiveMultiLanguage)
 #else
-	TEST_F(Codepage1252F, Recursive1)
+	TEST_F(Codepage1252F, RecursiveMultiLanguage)
 #endif
 // test codepage 1252 recursive option
 {
@@ -1096,8 +1098,7 @@ struct Codepage1252F : public Test
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
-//		cout << fileNames[i] << endl;
-//		cout << fileName[i] << endl;
+		// comment out g_console->setIsQuiet(true) above to see the results
 		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
 	}
 }
@@ -1349,7 +1350,9 @@ TEST(Other, SetCLocale)
 	ASSERT_NE("C", localeName) << "This compiler does not support C++ locales";
 #ifndef __BORLANDC__
 	// Embarcadero is OK, just the display sequence is different
-	// the C++ local should also set the C locale
+	// The C++ local should also set the C locale.
+	// The following test fails on Windows 10.
+	// Don't know if Microsoft will change it or not.
 	EXPECT_EQ(locale().name(), setlocale(LC_ALL, NULL));
 #endif
 	// Force an error if MinGW now supports C++ locales.
