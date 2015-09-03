@@ -41,10 +41,10 @@ echo.
 echo.
 %prog%  %options%  ..\srclib\*.h
 echo.
-REM override force-tabs with tabs
-%prog%  %options%  -t  ..\srcx\*.cpp
+%prog%  %options%  ..\srcx\*.cpp
 echo.
-%prog%  %options%  -t  ..\srcx\*.h
+%prog%  %options%  ..\srcx\*.h
+echo.
 
 echo.
 echo * * * *  end of format  * * * *

@@ -494,7 +494,7 @@ void printI18nMessage()
 		if (g_testedMultiLanguage)
 			printf("%s\n", "Language tested: Multi-Language.");
 		if (g_testedCodepage1252)
-			printf("%s\n", "Codepage tested: 1252.");
+			printf("%s\n", "Language tested: Codepage 1252.");
 		// print not tested
 		if (!g_testedJapanese)
 			printf("%s\n", "Language not tested: Japanese.");
@@ -505,7 +505,7 @@ void printI18nMessage()
 		if (!g_testedMultiLanguage)
 			printf("%s\n", "Language not tested: Multi-Language.");
 		if (!g_testedCodepage1252)
-			printf("%s\n", "Codepage not tested: 1252.");
+			printf("%s\n", "Language not tested: Codepage 1252.");
 	}
 }
 
