@@ -1,0 +1,17 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src-p", "src-p", "{230BAB62-FCB5-4BD4-B081-4FA01A80D2B4}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\src-p\ExampleByte.py = ..\..\src-p\ExampleByte.py
+		..\..\src-p\ExampleExe.py = ..\..\src-p\ExampleExe.py
+		..\..\src-p\ExampleUnicode.py = ..\..\src-p\ExampleUnicode.py
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
