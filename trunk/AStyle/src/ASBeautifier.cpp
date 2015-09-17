@@ -21,8 +21,6 @@ static int g_preprocessorCppExternCBracket;
  */
 ASBeautifier::ASBeautifier()
 {
-	g_preprocessorCppExternCBracket = 0;
-
 	waitingBeautifierStack = NULL;
 	activeBeautifierStack = NULL;
 	waitingBeautifierStackLengthStack = NULL;
@@ -283,6 +281,7 @@ void ASBeautifier::init(ASSourceIterator* iter)
 	sourceIterator = iter;
 	initVectors();
 	ASBase::init(getFileType());
+	g_preprocessorCppExternCBracket = 0;
 
 	initContainer(waitingBeautifierStack, new vector<ASBeautifier*>);
 	initContainer(activeBeautifierStack, new vector<ASBeautifier*>);

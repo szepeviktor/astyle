@@ -28,7 +28,6 @@
 #endif
 
 #ifdef __DMC__
-	#include <locale.h>
 	// digital mars doesn't have these
 	const size_t SUBLANG_CHINESE_MACAU = 5;
 	const size_t LANG_HINDI = 57;
@@ -43,6 +42,7 @@
 
 #include <cstdio>
 #include <iostream>
+#include <locale.h>		// needed by some compilers
 #include <stdlib.h>
 #include <typeinfo>
 
