@@ -1089,7 +1089,7 @@ TEST(Checksum, CheckSumError)
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	astyleOptionsVector.push_back("--break-blocks");
 	astyleOptionsVector.push_back("--delete-empty-lines");
-	// process the file
+	// call astyle processFiles()
 	g_console->processOptions(astyleOptionsVector);
 	g_console->processFiles();
 	// Will actually get an assert error in astyle_main.cpp if this is not true.
