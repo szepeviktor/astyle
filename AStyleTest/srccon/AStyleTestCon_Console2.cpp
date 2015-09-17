@@ -15,13 +15,6 @@
 #endif
 
 //----------------------------------------------------------------------------
-// global variables
-//----------------------------------------------------------------------------
-
-// defined in astyle_main.cpp
-extern int _CRT_glob;
-
-//----------------------------------------------------------------------------
 // anonymous namespace
 //----------------------------------------------------------------------------
 
@@ -1508,48 +1501,6 @@ TEST_F(LineEndsDefaultMixedSansF, LineEndMacOld)
 	EXPECT_FALSE(g_console->getLineEndsMixed());
 	// the line ends must be checked manually
 //	systemPause("Check MacOld Line Ends");
-}
-
-//----------------------------------------------------------------------------
-// AStyle other tests
-//----------------------------------------------------------------------------
-
-TEST(Other, MingwFileGlobbing)
-// test that MinGW file globbing is turned OFF
-{
-	// _CRT_glob is a global variable defined in astyle_main.cpp
-	// will get a link error if it is not defined in the GLOBAL namespace
-	EXPECT_TRUE(_CRT_glob == 0);
-}
-
-TEST(Other, ErrorExit)
-// test the error exit without message
-{
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
-	// death test without error message
-	EXPECT_EXIT(g_console->error(),
-	            ExitedWithCode(EXIT_FAILURE),
-	            "\nArtistic Style ");	// "Artistic Style has terminated!"
-#endif
-	deleteConsoleGlobalObject();
-}
-
-TEST(Other, ErrorExitWihMessage)
-// test the error exit with message
-{
-	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
-	// death test with error message
-	EXPECT_EXIT(g_console->error("why", "what"),
-	            ExitedWithCode(EXIT_FAILURE),
-	            "why what\n\nArtistic Style ");	// "Artistic Style has terminated!"
-#endif
-	deleteConsoleGlobalObject();
 }
 
 //----------------------------------------------------------------------------

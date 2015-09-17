@@ -486,7 +486,7 @@ TEST(BreakElseIfs, ShortOption)
 	delete [] textOut;
 }
 
-TEST(BreakElseIfs, Sans)
+TEST(BreakElseIfs, Sans1)
 {
 	// test without break else/if
 	// else/if statements should be joined
@@ -562,6 +562,34 @@ TEST(BreakElseIfs, Sans)
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(BreakElseIfs, Sans2)
+{
+	// test without break else/if
+	// but do NOT join to #else following an else
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "#ifdef sun\n"
+	    "    if (isUDP(mSettings)) {\n"
+	    "        UDPSingleServer();\n"
+	    "    }\n"
+	    "    else\n"
+	    "#else\n"
+	    "    if (isSingleUDP(mSettings)) {\n"
+	    "        UDPSingleServer();\n"
+	    "    }\n"
+	    "    else\n"
+	    "#endif\n"
+	    "    {\n"
+	    "        thread_Settings *tempSettings = NULL;\n"
+	    "    }\n"
+	    "}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, KeepOneLineBlocks)

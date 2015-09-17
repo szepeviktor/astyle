@@ -373,7 +373,7 @@ def run_cppcheck():
        --xml-version=2    Use new xml format.
     """
     if os.name == "nt":
-        exepath = "C:/Program Files (x86)/Cppcheck/cppcheck.exe"
+        exepath = "C:/Program Files/Cppcheck/cppcheck.exe"
         if not os.path.exists(exepath):
             libastyle.system_exit("Cannot find executable: " + exepath)
     else:

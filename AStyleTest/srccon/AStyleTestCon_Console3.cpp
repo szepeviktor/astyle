@@ -17,6 +17,14 @@
 #endif
 
 //----------------------------------------------------------------------------
+// global variables
+//----------------------------------------------------------------------------
+
+// defined in astyle_main.cpp
+// used by MingwFileGlobbing test
+extern int _CRT_glob;
+
+//----------------------------------------------------------------------------
 // anonymous namespace
 //----------------------------------------------------------------------------
 
@@ -417,6 +425,87 @@ TEST_F(ProcessOptions3F, HtmlOption_InvalidFileName)
 	EXPECT_FALSE(output == string::npos) << "Unexpected termination message:\n" << textOut;
 #else
 	restoreStream();
+#endif
+	deleteConsoleGlobalObject();
+}
+
+//----------------------------------------------------------------------------
+// AStyle other tests
+//----------------------------------------------------------------------------
+
+TEST(Other, MingwFileGlobbing)
+// test that MinGW file globbing is turned OFF
+{
+	// _CRT_glob is a global variable defined in astyle_main.cpp
+	// will get a link error if it is not defined in the GLOBAL namespace
+	EXPECT_TRUE(_CRT_glob == 0);
+}
+
+TEST(Other, GlobalPreprocessorExternBracket)
+// Test that g_preprocessorCppExternCBracket is reset for each file.
+{
+	// The ASBeautifier global variable g_preprocessorCppExternCBracket
+	// must be cleared in the "init" method instead of the constructor.
+	// If not cleared, the "int a;" will not be indented
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	vector<string> astyleOptionsVector;
+	g_console->setIsQuiet(true);		// change this to see results
+	// test files
+	char textIn1[] =
+	    "\n#ifdef __cplusplus\n"
+	    "#endif\n";
+	char textIn2[] =
+	    "\nextern \"C\" {\n"
+	    "    int a;\n"
+	    "}\n";
+	// create test files
+	cleanTestDirectory(getTestDirectory());
+	string filename1 = getTestDirectory() + "/externBracket1.cpp";
+	g_console->standardizePath(filename1);
+	createTestFile(filename1, textIn1);
+	string filename2 = getTestDirectory() + "/externBracket2.cpp";
+	g_console->standardizePath(filename2);
+	createTestFile(filename2, textIn2);
+	// call astyle processFiles()
+	astyleOptionsVector.push_back(filename1);
+	astyleOptionsVector.push_back(filename2);
+	g_console->processOptions(astyleOptionsVector);
+	g_console->processFiles();
+	// Check for 2nd file not formatted.
+	// If the ASBeautifier global variable is not reset,
+	// "int a;" line will not be indented.
+	EXPECT_TRUE(g_console->getFilesAreIdentical())
+	        << "Global variable has not been reset";
+	deleteConsoleGlobalObject();
+}
+
+TEST(Other, ErrorExit)
+// test the error exit without message
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	// cannot use death test with leak finder
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// death test without error message
+	EXPECT_EXIT(g_console->error(),
+	            ExitedWithCode(EXIT_FAILURE),
+	            "\nArtistic Style ");	// "Artistic Style has terminated!"
+#endif
+	deleteConsoleGlobalObject();
+}
+
+TEST(Other, ErrorExitWihMessage)
+// test the error exit with message
+{
+	ASFormatter formatter;
+	createConsoleGlobalObject(formatter);
+	// cannot use death test with leak finder
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// death test with error message
+	EXPECT_EXIT(g_console->error("why", "what"),
+	            ExitedWithCode(EXIT_FAILURE),
+	            "why what\n\nArtistic Style ");	// "Artistic Style has terminated!"
 #endif
 	deleteConsoleGlobalObject();
 }
