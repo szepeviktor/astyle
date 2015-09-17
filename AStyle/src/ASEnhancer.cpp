@@ -182,8 +182,7 @@ void ASEnhancer::convertSpaceIndentToForceTab(string& line) const
 	// replace leading spaces with tab indents
 	size_t newSpaceIndentLength = line.find_first_not_of(" \t");
 	size_t tabCount = newSpaceIndentLength / tabLength;		// truncate extra spaces
-	line.erase(0U, tabCount * tabLength);
-	line.insert(0U, tabCount, '\t');
+	line.replace(0U, tabCount * tabLength, tabCount, '\t');
 }
 
 /**
@@ -257,19 +256,19 @@ int ASEnhancer::indentLine(string& line, int indent) const
 		convertForceTabIndentToSpaces(line);
 		// insert the space indents
 		charsToInsert = indent * indentLength;
-		line.insert(0U, charsToInsert, ' ');
+		line.insert(line.begin(), charsToInsert, ' ');
 		// replace leading spaces with tab indents
 		convertSpaceIndentToForceTab(line);
 	}
 	else if (useTabs)
 	{
 		charsToInsert = indent;
-		line.insert(0U, charsToInsert, '\t');
+		line.insert(line.begin(), charsToInsert, '\t');
 	}
 	else // spaces
 	{
 		charsToInsert = indent * indentLength;
-		line.insert(0U, charsToInsert, ' ');
+		line.insert(line.begin(), charsToInsert, ' ');
 	}
 
 	return charsToInsert;

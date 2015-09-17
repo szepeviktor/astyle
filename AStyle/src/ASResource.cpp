@@ -297,17 +297,19 @@ void ASResource::buildIndentableHeaders(vector<const string*>* indentableHeaders
 */
 void ASResource::buildIndentableMacros(vector<const pair<const string, const string>* >* indentableMacros)
 {
+	typedef pair<const string, const string> macro_pair;
+
 	// the pairs must be retained in memory
-	static const struct pair<const string, const string> macros[] =
+	static const macro_pair macros[] =
 	{
 		// wxWidgets
-		make_pair("BEGIN_EVENT_TABLE", "END_EVENT_TABLE"),
-		make_pair("wxBEGIN_EVENT_TABLE", "wxEND_EVENT_TABLE"),
+		macro_pair("BEGIN_EVENT_TABLE", "END_EVENT_TABLE"),
+		macro_pair("wxBEGIN_EVENT_TABLE", "wxEND_EVENT_TABLE"),
 		// MFC
-		make_pair("BEGIN_DISPATCH_MAP", "END_DISPATCH_MAP"),
-		make_pair("BEGIN_EVENT_MAP", "END_EVENT_MAP"),
-		make_pair("BEGIN_MESSAGE_MAP", "END_MESSAGE_MAP"),
-		make_pair("BEGIN_PROPPAGEIDS", "END_PROPPAGEIDS"),
+		macro_pair("BEGIN_DISPATCH_MAP", "END_DISPATCH_MAP"),
+		macro_pair("BEGIN_EVENT_MAP", "END_EVENT_MAP"),
+		macro_pair("BEGIN_MESSAGE_MAP", "END_MESSAGE_MAP"),
+		macro_pair("BEGIN_PROPPAGEIDS", "END_PROPPAGEIDS"),
 	};
 
 	size_t elements = sizeof(macros) / sizeof(macros[0]);

@@ -36,6 +36,7 @@
 #include <cstdlib>
 #include <errno.h>
 #include <fstream>
+#include <locale.h>		// needed by some compilers
 #include <sstream>
 
 // includes for recursive getFileNames() function
@@ -54,10 +55,6 @@
 		#include <lib$routines.h>
 		#include <starlet.h>
 	#endif /* __VMS */
-#endif
-
-#ifdef __DMC__
-	#include <locale.h>
 #endif
 
 // turn off MinGW automatic file globbing

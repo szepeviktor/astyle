@@ -1087,8 +1087,12 @@ string ASFormatter::nextLine()
 				isNonParenHeader = findHeader(nonParenHeaders) != NULL;
 
 				// join 'else if' statements
-				if (currentHeader == &AS_IF && previousHeader == &AS_ELSE && isInLineBreak
-				        && !shouldBreakElseIfs && !isCharImmediatelyPostLineComment)
+				if (currentHeader == &AS_IF
+				        && previousHeader == &AS_ELSE
+				        && isInLineBreak
+				        && !shouldBreakElseIfs
+				        && !isCharImmediatelyPostLineComment
+				        && !isImmediatelyPostPreprocessor)
 				{
 					// 'else' must be last thing on the line
 					size_t start = formattedLine.length() >= 6 ? formattedLine.length() - 6 : 0;
@@ -4720,8 +4724,7 @@ void ASFormatter::formatRunIn()
 			indent.append(indentLength_, ' ');
 		// replace spaces indents with tab indents
 		size_t tabCount = indent.length() / tabLength_;		// truncate extra spaces
-		indent.erase(0U, tabCount * tabLength_);
-		indent.insert(0U, tabCount, '\t');
+		indent.replace(0U, tabCount * tabLength_, tabCount, '\t');
 		horstmannIndentChars = indentLength_;
 		if (indent[0] == ' ')			// allow for bracket
 			indent.erase(0, 1);
