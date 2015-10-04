@@ -4,6 +4,21 @@ This removes the warning:
 warning #10237: -lcilkrts linked in dynamically, static library not available
 
 -----------------------------------------------------------
+RELEASE 2016-.0.109  Similar to 2015-1.133
+-----------------------------------------------------------
+The Release compile displays the remarks:
+remark #11074: Inlining inhibited by limit max-size
+remark #11074: Inlining inhibited by limit max-total-size
+remark #11076: To get full report use -qopt-report=4 -qopt-report-phase ipo
+
+The option -Wextra no longer removes the remarks
+To remove the remarks:
+add the option -wd11074,11076
+or select the option -O0 (Disable optimizations)
+
+Do NOT use -no-inline-max-total-size
+
+-----------------------------------------------------------
 RELEASE 2015-1.133
 -----------------------------------------------------------
 The Release compile displays the remarks:
@@ -14,6 +29,7 @@ remark #11076: To get full report use -qopt-report=4 -qopt-report-phase ipo
 To remove the remarks:
 add the option -Wextra
 or -wd11074,11076
+
 Do NOT use -no-inline-max-total-size
 
 -----------------------------------------------------------
