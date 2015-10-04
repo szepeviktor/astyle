@@ -16,8 +16,8 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include" />
-					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include/win32" />
+					<Add directory="$(JAVA_HOME)/include" />
+					<Add directory="$(JAVA_HOME)/include/win32" />
 				</Compiler>
 				<Linker>
 					<Add library="kernel32" />
@@ -34,8 +34,8 @@
 					<Add option="-o" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include" />
-					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include/win32" />
+					<Add directory="$(JAVA_HOME)/include" />
+					<Add directory="$(JAVA_HOME)/include/win32" />
 				</Compiler>
 				<Linker>
 					<Add library="kernel32" />

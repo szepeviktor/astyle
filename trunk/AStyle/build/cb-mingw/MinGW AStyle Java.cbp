@@ -18,8 +18,8 @@
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include" />
-					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include/win32" />
+					<Add directory="$(JAVA_HOME)/include" />
+					<Add directory="$(JAVA_HOME)/include/win32" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--add-stdcall-alias" />
@@ -38,8 +38,8 @@
 					<Add option="-fno-exceptions" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include" />
-					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include/win32" />
+					<Add directory="$(JAVA_HOME)/include" />
+					<Add directory="$(JAVA_HOME)/include/win32" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -75,8 +75,8 @@
 					<Add option="-fno-exceptions" />
 					<Add option="-fno-rtti" />
 					<Add option="-DASTYLE_JNI" />
-					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include" />
-					<Add directory="C:/Program Files (x86)/Java/jdk1.7.0_55/include/win32" />
+					<Add directory="$(JAVA_HOME)/include" />
+					<Add directory="$(JAVA_HOME)/include/win32" />
 				</Compiler>
 			</Target>
 		</Build>
