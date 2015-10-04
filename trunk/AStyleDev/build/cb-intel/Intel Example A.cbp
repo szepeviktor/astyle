@@ -20,10 +20,11 @@
 				<Option projectLibDirsRelation="1" />
 				<Compiler>
 					<Add option="-fno-rtti" />
-					<Add option="-Wall" /> />
+					<Add option="-Wall" />
 					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
+					<Add option="-wd11074,11076" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DNDEBUG" />
 				</Compiler>

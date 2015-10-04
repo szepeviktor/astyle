@@ -22,6 +22,7 @@
 					<Add option="-fno-exceptions" />
 					<Add option="-fPIC" />
 					<Add option="-fvisibility=hidden" />
+					<Add option="-wd11074,11076" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DDNDEBUG" />
 				</Compiler>
