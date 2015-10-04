@@ -13,6 +13,9 @@
 		<Project filename="Intel AStyleTestLib.cbp">
 			<Depends filename="Intel GMockA.cbp" />
 		</Project>
+		<Project filename="Intel AStyleTestLoc.cbp">
+			<Depends filename="Intel GMockA.cbp" />
+		</Project>
 		<Project filename="Intel GMockA.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

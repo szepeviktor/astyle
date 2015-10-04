@@ -1,4 +1,4 @@
-#! /usr/bin/python
+﻿#! /usr/bin/python
 """Check astyle_main.cpp "settext" translations to the test variables in
    AStyleTestI18n_Localizer.cpp.
    The test for the individual languages are done by AStyleTestI18n_Localizer.cpp.
@@ -8,6 +8,7 @@
 from __future__ import print_function
 
 import libastyle        # local directory
+import os
 
 # global variables ------------------------------------------------------------
 
@@ -22,7 +23,11 @@ def main():
     astyle_strings = []     # _() translation strings in astyle_main.cpp
     test_strings = []           # test strings in TranslationF
     astyle_path = libastyle.get_astyle_directory() + "/src/astyle_main.cpp"
-    test_path = libastyle.get_astyletest_directory() + "/srci18n/AStyleTestI18n_Localizer.cpp"
+    if not os.path.exists(astyle_path):
+        libastyle.system_exit("\nCannot locate file " + astyle_path)
+    test_path = libastyle.get_astyletest_directory() + "/srcloc/AStyleTestLoc.cpp"
+    if not os.path.exists(test_path):
+        libastyle.system_exit("\nCannot locate file " + test_path)
     libastyle.set_text_color()
     print(libastyle.get_python_version())
     get_astyle_strings(astyle_strings, astyle_path)

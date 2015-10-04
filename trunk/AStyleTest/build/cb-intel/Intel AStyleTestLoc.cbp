@@ -2,13 +2,13 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Intel AStyleTestI18n" />
+		<Option title="Intel AStyleTestLoc" />
 		<Option pch_mode="2" />
 		<Option compiler="icc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/AStyleTestI18nd" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objI18n/Debug/" />
+				<Option output="bin/AStyleTestLocd" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objLoc/Debug/" />
 				<Option type="1" />
 				<Option compiler="icc" />
 				<Option parameters="--terse_output" />
@@ -18,8 +18,6 @@
 					<Add option="-g" />
 					<Add option="-Wextra" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
-					<Add option="-DASTYLECON_LIB" />
-					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
 					<Add directory="../../../gmock/gtest/include" />
@@ -30,8 +28,8 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/AStyleTestI18n" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objI18n/Release/" />
+				<Option output="bin/AStyleTestLoc" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objLoc/Release/" />
 				<Option type="1" />
 				<Option compiler="icc" />
 				<Compiler>
@@ -40,9 +38,7 @@
 					<Add option="-Wextra" />
 					<Add option="-wd11074,11076" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
-					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DNDEBUG" />
-					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
 					<Add directory="../../../gmock/gtest/include" />
@@ -54,20 +50,10 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
-		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
-		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
 		<Unit filename="../../../AStyle/src/ASLocalizer.cpp" />
 		<Unit filename="../../../AStyle/src/ASLocalizer.h" />
-		<Unit filename="../../../AStyle/src/ASResource.cpp" />
-		<Unit filename="../../../AStyle/src/astyle.h" />
-		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
-		<Unit filename="../../../AStyle/src/astyle_main.h" />
-		<Unit filename="../../srccon/AStyleTestCon.h" />
-		<Unit filename="../../srccon/AStyleTestCon_Main.cpp" />
-		<Unit filename="../../srci18n/AStyleTestI18n_I18n.cpp" />
-		<Unit filename="../../srci18n/AStyleTestI18n_Utf16.cpp" />
-		<Unit filename="../../srci18n/AStyleTestI18n_Utf_Bom.cpp" />
+		<Unit filename="../../srcloc/AStyleTestLoc.cpp" />
+		<Unit filename="../../srcloc/AStyleTestLoc_Main.cpp" />
 		<Unit filename="../../srcx/TersePrinter.cpp" />
 		<Unit filename="../../srcx/TersePrinter.h" />
 		<Extensions>

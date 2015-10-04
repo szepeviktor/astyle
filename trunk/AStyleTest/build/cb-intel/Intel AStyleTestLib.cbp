@@ -39,6 +39,7 @@
 					<Add option="-Wall" />
 					<Add option="-w2" />
 					<Add option="-Wextra" />
+					<Add option="-wd11074,11076" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_LIB" />

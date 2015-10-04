@@ -13,6 +13,9 @@
 		<Project filename="Bcc AStyleTestLib.cbp">
 			<Depends filename="Bcc GTest Lib.cbp" />
 		</Project>
+		<Project filename="Bcc AStyleTestLoc.cbp">
+			<Depends filename="Bcc GTest Lib.cbp" />
+		</Project>
 		<Project filename="Bcc GTest Lib.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

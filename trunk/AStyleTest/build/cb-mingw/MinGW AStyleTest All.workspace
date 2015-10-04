@@ -13,6 +13,9 @@
 		<Project filename="MinGW AStyleTestLib.cbp">
 			<Depends filename="MinGW GMock Lib.cbp" />
 		</Project>
+		<Project filename="MinGW AStyleTestLoc.cbp">
+			<Depends filename="MinGW GMock Lib.cbp" />
+		</Project>
 		<Project filename="MinGW GMock Lib.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
