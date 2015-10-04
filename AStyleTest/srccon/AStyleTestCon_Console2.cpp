@@ -491,8 +491,9 @@ TEST(LanguageVectors, MultipleObjects)
 // Additional tests are done by the "GetFileTypeF" and
 // "LanguageVectorsF" tests.
 {
-// clang on Linux doesn't like the ASStreamIterator template
-#if !defined(__clang__) || defined(__APPLE__)
+// TODO fix this?
+// some compilers don't like the ASStreamIterator template
+#if !defined(__clang__) && !defined(__INTEL_COMPILER) && !defined(__APPLE__)
 	ASFormatter formatter1;
 	// Aborted here in Debug for static objects:
 	// "Assertion `container == __null' failed."

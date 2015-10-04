@@ -15,8 +15,12 @@
 	#include <windows.h>
 #endif
 
-#include "AStyleTestCon.h"
+#include "gtest/gtest.h"
+
 #include "ASLocalizer.h"
+
+using namespace astyle;
+using namespace testing;
 
 //----------------------------------------------------------------------------
 // anonymous namespace
@@ -414,7 +418,7 @@ struct TranslationF : public Test
 	bool hasLineEnd(T& stringIn)
 	// Check for a ending line end character.
 	{
-		int lastChar = stringIn.length() - 1;
+		size_t lastChar = stringIn.length() - 1;
 		if (lastChar > 0 && stringIn[lastChar] == '\n')
 			return true;
 		return false;

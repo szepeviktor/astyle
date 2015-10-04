@@ -13,6 +13,9 @@
 		<Project filename="Gcc AStyleTestLib.cbp">
 			<Depends filename="Gcc GMockA.cbp" />
 		</Project>
+		<Project filename="Gcc AStyleTestLoc.cbp">
+			<Depends filename="Gcc GMockA.cbp" />
+		</Project>
 		<Project filename="Gcc GMockA.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

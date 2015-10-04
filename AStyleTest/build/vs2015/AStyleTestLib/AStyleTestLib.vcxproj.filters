@@ -20,9 +20,6 @@
     <ClCompile Include="..\..\..\srclib\AStyleTestLib_AStyleMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srcx\LeakDetector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\srcx\TersePrinter.h">

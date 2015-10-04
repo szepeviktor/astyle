@@ -13,6 +13,9 @@
 		<Project filename="Clang AStyleTestLib.cbp">
 			<Depends filename="Clang GMockA.cbp" />
 		</Project>
+		<Project filename="Clang AStyleTestLoc.cbp">
+			<Depends filename="Clang GMockA.cbp" />
+		</Project>
 		<Project filename="Clang GMockA.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

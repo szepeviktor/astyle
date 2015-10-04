@@ -41,7 +41,8 @@
 					<Add option="-Wall" />
 					<Add option="-w2" />
 					<Add option="-fno-exceptions" />
-					<Add option="-Wextra" />
+					<Add option="-extra" />
+					<Add option="-wd11074,11076" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DNDEBUG" />
