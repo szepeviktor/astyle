@@ -160,7 +160,7 @@ def compile_windows_executable(slnpath, config):
     else:
         config_prop = "/property:Configuration=Release"
     platform_prop = "/property:Platform=Win32"
-    if VS_RELEASE > "vs2013":
+    if VS_RELEASE >= "vs2013":
         platform_prop = "/property:Platform=x86"
     msbuild = ([buildpath, config_prop, platform_prop, slnpath])
     buildfile = get_temp_directory() + "/build." + config + ".tmp"
@@ -633,7 +633,7 @@ def system_exit(message=''):
         getch()
     else:
         print("\nEnd of script !")
-    os._exit(0)
+    sys.exit
 
 # -----------------------------------------------------------------------------
 
