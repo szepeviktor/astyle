@@ -32,40 +32,9 @@
 					<Add directory="bin" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cmd /c  copy /y  bin\AStyle-2.06.dll  ..\..\src-c\ &gt; NUL" />
 					<Add after="cmd /c  copy /y  bin\AStyle-2.06.dll  ..\..\src-p\ &gt; NUL" />
 					<Add after="cmd /c  copy /y  bin\AStyle-2.06.dll  ..\..\src-s\  &gt; NUL" />
 				</ExtraCommands>
-			</Target>
-			<Target title="Lint">
-				<Option output="bin/AStyle-2.06.dll" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objDlll/" />
-				<Option type="3" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-Wshadow" />
-					<Add option="-Winit-self" />
-					<Add option="-Wredundant-decls" />
-					<Add option="-Wcast-align" />
-					<Add option="-Wundef" />
-					<Add option="-Wfloat-equal" />
-					<Add option="-Winline" />
-					<Add option="-Wmissing-declarations" />
-					<Add option="-Wmissing-include-dirs" />
-					<Add option="-Wswitch-enum" />
-					<Add option="-Wswitch-default" />
-					<Add option="-Wmain" />
-					<Add option="-pedantic" />
-					<Add option="-std=c++0x" />
-					<Add option="-std=c++98" />
-					<Add option="-Wextra" />
-					<Add option="-Wall" />
-					<Add option="-fno-exceptions" />
-					<Add option="-fno-rtti" />
-					<Add option="-Wwrite-strings" />
-					<Add option="-Woverloaded-virtual" />
-					<Add option="-DASTYLE_LIB" />
-				</Compiler>
 			</Target>
 		</Build>
 		<VirtualTargets>

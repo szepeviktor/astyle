@@ -7,5 +7,6 @@
 		<Project filename="Clang Example A.cbp" />
 		<Project filename="Clang Example O.cbp" />
 		<Project filename="Clang Example So.cbp" />
+		<Project filename="Clang Example ObjC So.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

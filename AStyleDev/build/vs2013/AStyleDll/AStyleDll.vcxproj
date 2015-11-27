@@ -103,8 +103,8 @@
     <PostBuildEvent>
       <Message>
       </Message>
-      <Command>cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-p\
-cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Command>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-p\
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -129,7 +129,7 @@ cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Com
       <Message>
       </Message>
       <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-p\
-cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-s\ </Command>
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -159,8 +159,8 @@ cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-s\ </Com
     <PostBuildEvent>
       <Message>
       </Message>
-      <Command>cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-p\
-cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Command>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-p\
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -188,8 +188,8 @@ cmd /c  copy /y  $(TargetDir)\$(TargetFileName)  $(SolutionDir)..\..\src-s\</Com
     <PostBuildEvent>
       <Message>
       </Message>
-      <Command> cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-p\
-cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-s\</Command>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-p\
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

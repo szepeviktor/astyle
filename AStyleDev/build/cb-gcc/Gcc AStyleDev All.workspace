@@ -7,5 +7,6 @@
 		<Project filename="Gcc Example A.cbp" />
 		<Project filename="Gcc Example O.cbp" />
 		<Project filename="Gcc Example So.cbp" />
+		<Project filename="Gcc Example ObjC So.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

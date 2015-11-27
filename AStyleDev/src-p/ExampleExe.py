@@ -1,9 +1,9 @@
 #! /usr/bin/python
 
-""" ExampleExe.py
-    This program calls the Artistic Style executable to format the AStyle source files.
-    The Artistic Style executable must be in the same directory as this script.
-    It will work with either Python version 2 or 3 (unicode).
+"""ExampleExe.py
+   This program calls the Artistic Style executable to format the AStyle source files.
+   The Artistic Style executable must be in the same directory as this script.
+   It will work with either Python version 2 or 3 (unicode).
 """
 
 # to disable the print statement and use the print() function (version 3 format)
