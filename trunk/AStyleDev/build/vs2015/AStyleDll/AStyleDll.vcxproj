@@ -150,10 +150,12 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain%4016
 /EXPORT:AStyleGetVersion=_AStyleGetVersion%400 </AdditionalOptions>
     </Link>
+    <PostBuildEvent>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-p\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -167,8 +169,10 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-p\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -194,6 +198,9 @@
       <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain%4016
 /EXPORT:AStyleGetVersion=_AStyleGetVersion%400 </AdditionalOptions>
     </Link>
+    <PostBuildEvent>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-p\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Static|Win32'">
     <ClCompile>
@@ -220,6 +227,9 @@
       <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain%4016
 /EXPORT:AStyleGetVersion=_AStyleGetVersion%400 </AdditionalOptions>
     </Link>
+    <PostBuildEvent>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-p\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -243,6 +253,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
+    <PostBuildEvent>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-p\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Static|x64'">
     <ClCompile>
@@ -267,6 +280,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
+    <PostBuildEvent>
+      <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-p\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

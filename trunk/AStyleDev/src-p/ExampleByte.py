@@ -1,11 +1,11 @@
 #! /usr/bin/python
 
-""" ExampleByte.py
-    This program calls the Artistic Style DLL to format the AStyle source files.
-    The Artistic Style DLL must be in the same directory as this script.
-    The Artistic Style DLL must have the same bit size (32 or 64) as the Python executable.
-    It will work with either Python version 2 or 3 (unicode).
-    For Python 3 the files are retained in byte format and not converted to Unicode.
+"""ExampleByte.py
+   This program calls the Artistic Style DLL to format the AStyle source files.
+   The Artistic Style DLL must be in the same directory as this script.
+   The Artistic Style DLL must have the same bit size (32 or 64) as the Python executable.
+   It will work with either Python version 2 or 3 (unicode).
+   For Python 3 the files are retained in byte format and not converted to Unicode.
 """
 
 # to disable the print statement and use the print() function (version 3 format)
@@ -50,6 +50,8 @@ def main():
             print("Error in formatting", file_path)
             os._exit(1)
         save_source_code_bytes(formatted_bytes, file_path)
+        # allocated memory is deleted here, not in the allocation function
+        del formatted_bytes
         print("Formatted", file_path)
 
 # -----------------------------------------------------------------------------
