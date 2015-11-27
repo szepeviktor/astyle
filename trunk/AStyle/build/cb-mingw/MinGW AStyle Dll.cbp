@@ -48,6 +48,7 @@
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Wnon-virtual-dtor" />
 					<Add option="-Wshadow" />
 					<Add option="-Winit-self" />
 					<Add option="-Wredundant-decls" />
@@ -59,6 +60,7 @@
 					<Add option="-Wmissing-declarations" />
 					<Add option="-Wmissing-include-dirs" />
 					<Add option="-Wswitch-enum" />
+					<Add option="-Wswitch-default" />
 					<Add option="-Wmain" />
 					<Add option="-pedantic" />
 					<Add option="-std=c++0x" />
@@ -70,6 +72,8 @@
 					<Add option="-Wwrite-strings" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fno-rtti" />
+					<Add option="-Wwrite-strings" />
+					<Add option="-Woverloaded-virtual" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>
 				<Linker>
