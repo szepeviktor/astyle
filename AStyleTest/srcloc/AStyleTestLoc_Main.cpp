@@ -1,3 +1,19 @@
+// AStyleTestLoc_Main.cpp
+// Copyright (c) 2015 by Jim Pattee <jimp03@email.com>.
+// Licensed under the MIT license.
+// License.txt describes the conditions under which this software may be distributed.
+
+
+// This module tests the Localizer and Translate classes.
+//
+// language ID http://msdn.microsoft.com/en-us/library/ee797784%28v=cs.20%29.aspx
+//
+// AStyleTestI18n tests the internationalization component of the ASConsole
+// class only. It uses the following source files from AStyleTestCon and
+// AStyleTest: AStyleTestCon.h, TersePrinter.h AStyleTestCon_Main.cpp,
+// AStyleTest_leakFinder.cpp, and TersePrinter.cpp.
+
+
 //----------------------------------------------------------------------------
 // headers
 //----------------------------------------------------------------------------

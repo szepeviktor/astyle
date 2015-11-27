@@ -380,6 +380,9 @@ def run_cppcheck():
         exepath = "cppcheck"
     verify_cppcheck_version(exepath)
     cppcheck = [exepath]
+    # -j<jobs> is threads to use for silmutaneous checking
+    # runs faster but messages for the files are mixed
+    cppcheck.append("-j2")
     cppcheck.append("--enable=all")
     cppcheck.append("--xml-version=2")
     cppcheck.append("--force")
@@ -387,8 +390,6 @@ def run_cppcheck():
     cppcheck.append("--verbose")  # with version 1.67  this caused functionStatic to be missed !!!
     cppcheck.append("--suppress=functionStatic")
     cppcheck.append("--suppress=purgedConfiguration")
-    # this could be a bug in cppcheck 1.67 - false positives with unusedFunction suppression
-    cppcheck.append("--suppress=unmatchedSuppression")		# #########
     cppcheck.append("--suppressions-list=" + __suppression_path)
     cppcheck.append(__src_dir)
     # shell=True keeps the console window open, but will not display if run from an editor

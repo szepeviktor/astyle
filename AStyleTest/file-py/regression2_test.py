@@ -1,4 +1,4 @@
-#! /usr/bin/python
+﻿#! /usr/bin/python
 """ Run the AStyle regression test.
     Tests the output of a new program against an older one.
     Change the global variables to the desired values.
@@ -46,7 +46,7 @@ __options_x2 = ""
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
 __astyleexe1 = "astyle26c"
-__astyleexe2 = "astyled"
+__astyleexe2 = "astyle"
 
 # select one of the following to format files in the OLD directory
 __formatOLD = True
@@ -199,7 +199,7 @@ def get_astyle_config():
     config = libastyle.DEBUG
     if (__astyleexe1.lower() == "astyle"
     or __astyleexe2.lower() == "astyle"):
-        config = libastyle.RELEASE
+        config = libastyle.STATIC
     return config
 
 # -----------------------------------------------------------------------------

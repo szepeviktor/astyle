@@ -139,7 +139,6 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain%4016
 /EXPORT:AStyleGetVersion=_AStyleGetVersion%400 </AdditionalOptions>
     </Link>
@@ -156,7 +155,6 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
