@@ -24,8 +24,8 @@
 					<Add option="-w-8004" />
 					<Add option="-w-8071" />
 					<Add option="-w-8080" />
-					<Add directory="../../../gtest-1.6.0/include" />
-					<Add directory="../../../gtest-1.6.0" />
+					<Add directory="../../../gmock-1.7.0/gtest/include" />
+					<Add directory="../../../gmock-1.7.0/gtest" />
 				</Compiler>
 				<Linker>
 					<Add option="-c" />
@@ -51,8 +51,8 @@
 					<Add option="-w-8027" />
 					<Add option="-w-8080" />
 					<Add option="-DNDEBUG" />
-					<Add directory="../../../gtest-1.6.0/include" />
-					<Add directory="../../../gtest-1.6.0" />
+					<Add directory="../../../gmock-1.7.0/gtest/include" />
+					<Add directory="../../../gmock-1.7.0/gtest" />
 				</Compiler>
 				<Linker>
 					<Add option="-c" />
@@ -64,7 +64,7 @@
 				</ExtraCommands>
 			</Target>
 		</Build>
-		<Unit filename="../../../gtest-1.6.0/src/gtest-all.cc" />
+		<Unit filename="../../../gtest-1.7.0/gtest/src/gtest-all.cc" />
 		<Extensions>
 			<code_completion />
 			<envvars />

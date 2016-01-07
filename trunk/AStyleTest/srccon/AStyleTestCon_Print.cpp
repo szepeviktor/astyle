@@ -1,8 +1,7 @@
 // AStyleTestCon_Print.cpp
-// Copyright (c) 2015 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
 // Licensed under the MIT license.
 // License.txt describes the conditions under which this software may be distributed.
-
 
 // AStyleTestCon tests the ASConsole class only. This class is used only in
 // the console build. It also tests the parseOption function for options used
@@ -36,7 +35,7 @@ extern const char* g_version;
 //----------------------------------------------------------------------------
 
 namespace {
-
+//
 //----------------------------------------------------------------------------
 // AStyle PrintF Class
 //----------------------------------------------------------------------------

@@ -34,7 +34,6 @@ using namespace testing;
 // the failed tests but in an enhanced form.
 class TersePrinter : public EmptyTestEventListener
 {
-
 public:
 
 	explicit TersePrinter(bool useTerseOutput_, bool /* use_color */)

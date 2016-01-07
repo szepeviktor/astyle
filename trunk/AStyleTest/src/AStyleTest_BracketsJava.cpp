@@ -1,12 +1,11 @@
 // AStyleTest_BracketsJava.cpp
-// Copyright (c) 2015 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
 // Licensed under the MIT license.
 // License.txt describes the conditions under which this software may be distributed.
 
 //-----------------------------------------------------------------------------
 // AStyle Java Bracket Options
 //-----------------------------------------------------------------------------
-
 
 //----------------------------------------------------------------------------
 // headers
@@ -19,7 +18,7 @@
 //----------------------------------------------------------------------------
 
 namespace {
-
+//
 //-----------------------------------------------------------------------------
 // AStyle Java Bracket Options
 //-----------------------------------------------------------------------------
@@ -2007,7 +2006,6 @@ TEST(BracketsArrayJava, RunIn_OneLineBlock2)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-
 
 //-------------------------------------------------------------------------
 // AStyle Java Array Bracket Non-In-Statement Options

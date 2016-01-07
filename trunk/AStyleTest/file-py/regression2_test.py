@@ -46,11 +46,11 @@ __options_x2 = ""
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
 __astyleexe1 = "astyle26c"
-__astyleexe2 = "astyle"
+__astyleexe2 = "astyled"
 
 # select one of the following to format files in the OLD directory
-__formatOLD = True
-#__formatOLD = False
+#__formatOLD = True
+__formatOLD = False
 
 # extract all files options, use False for speed, use True to compile
 #__all_files_option = True
@@ -199,7 +199,7 @@ def get_astyle_config():
     config = libastyle.DEBUG
     if (__astyleexe1.lower() == "astyle"
     or __astyleexe2.lower() == "astyle"):
-        config = libastyle.STATIC
+        config = libastyle.RELEASE
     return config
 
 # -----------------------------------------------------------------------------
