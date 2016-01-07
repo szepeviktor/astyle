@@ -1,5 +1,5 @@
 // AStyleTest_Other.cpp
-// Copyright (c) 2015 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
 // Licensed under the MIT license.
 // License.txt describes the conditions under which this software may be distributed.
 
@@ -14,7 +14,7 @@
 //----------------------------------------------------------------------------
 
 namespace {
-
+//
 //----------------------------------------------------------------------------
 // AStyle C++11 Standard
 //----------------------------------------------------------------------------
@@ -326,7 +326,7 @@ TEST(Cpp11Standard, UniformInitializerRunIn)
 	delete[] textOut;
 }
 
-TEST(Cpp11Standard, UniformInitializerConst)
+TEST(Cpp11Standard, UniformInitializerConst1)
 {
 	// The uniform initializer should be identified as an array-type.
 	// The 'const' keyword should not cause it to be a command-type
@@ -339,6 +339,28 @@ TEST(Cpp11Standard, UniformInitializerConst)
 	    "    const static string separator{ \" - \" };\n"
 	    "}";
 	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Standard, UniformInitializerConst2)
+{
+	// The uniform initializer should be identified as an array-type.
+	// The 'const' keyword should not cause it to be a command-type
+	// which will break the brackets.
+	char text[] =
+		"\nusing Container = std::vector<std::pair<int, int>>;\n"
+		"\n"
+		"const Container c1 { {0, 0} };\n"
+		"Container const c2 { {0, 0} };\n"
+		"\n"
+		"volatile Container c1 { {0, 0} };\n"
+		"Container volatile c2 { {0, 0} };\n"
+		"\n"
+		"const Container c3 ( { {0, 0} } );\n"
+		"Container const c4 ( { {0, 0} } );\n";
+	char options[] = "style=allman";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1722,26 +1744,6 @@ TEST(CharacterSet, UTF8WithBOM)
 }
 
 //----------------------------------------------------------------------------
-// AStyle Virgin Line Tests
-//----------------------------------------------------------------------------
-
-TEST(VirginLine, Brackets)
-{
-	// test bracket on second line
-	// linux bracket should not attach
-	char text[] =
-	    "void Foo(bool isFoo)\n"
-	    "{\n"
-	    "    if (isFoo)\n"
-	    "        bar();\n"
-	    "}\n";
-	char options[] = "style=kr";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-//----------------------------------------------------------------------------
 // AStyle short options beginning with x for errors.
 // This tests the error conditions.
 //----------------------------------------------------------------------------
@@ -2145,7 +2147,6 @@ TEST(ConsoleShortOption, Help2Short)
 	EXPECT_TRUE(textOut != NULL);
 	delete [] textOut;
 }
-
 
 //----------------------------------------------------------------------------
 // AStyle default line ends
@@ -6632,6 +6633,92 @@ TEST(MultipleVariable, Misc2)
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+//----------------------------------------------------------------------------
+// Other Tests
+//----------------------------------------------------------------------------
+
+TEST(Other, VirginLineBrackets)
+{
+	// test bracket on second line
+	// linux bracket should not attach
+	char text[] =
+	    "void Foo(bool isFoo)\n"
+	    "{\n"
+	    "    if (isFoo)\n"
+	    "        bar();\n"
+	    "}\n";
+	char options[] = "style=kr";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Other, MaintainAssignmenPadding)
+{
+	// assignment and other padding should be maintained
+	char text[] =
+	    "void Foo()\n"
+	    "{\n"
+	    "    // align by =\n"
+	    "    pointerAlignment       = PTR_ALIGN_NONE;\n"
+	    "    shouldPadOperators     = false;\n"
+	    "    shouldPadParensOutside = false;\n"
+	    "\n"
+	    "    // align by ==\n"
+	    "    if (one           == STYLE_ALLMAN\n"
+	    "            ||  three == STYLE_KR\n"
+	    "            ||  five  == STYLE_WHITESMITH)\n"
+	    "    {}\n"
+	    "\n"
+	    "    // align by m_ (and =)\n"
+	    "    int    m_int    = 1;\n"
+	    "    char   m_char   = 'x';\n"
+	    "    string m_string = \"string\";\n"
+	    "\n"
+	    "    // align by period (and =)\n"
+	    "    Environment.Exit      = 1;\n"
+	    "    Console    .WriteLine = \"line\";\n"
+	    "}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Other, Cpp14DigitSeparator)
+{
+	// C++14 single quotation mark as digit separator.
+	// Some lines will be indented if not recognized.
+	char text[] =
+	    "\n"
+	    "long decval=1'048'576;   //groups of three digits\n"
+	    "long hexval=0x10'0000;   // four digits\n"
+	    "long hexval=0xbc'd1'4e;  // hex before and after\n"
+	    "long octval=00'04'00'00; //two digits\n"
+	    "long binval=0b100'000000;//six digits\n"
+	    "wchar_t wide= L'0';\n"
+	    "cout << 10'000 << endl;\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Other, Cpp14DigitSeparatorNegative)
+{
+	// C++14 single quotation mark ise not a digit separator.
+	// Will get a "Debug Assertion Failed" if chars are not cast as
+	// (unsigned char) in astyle isDigitSeparator() function.
+	char text[] =
+	    "\n"
+	    "int negBeg = \x81'0';  // negative value before single quote\n"
+	    "int negEnd = 0'\x81';  // negative value after single quote\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 //----------------------------------------------------------------------------

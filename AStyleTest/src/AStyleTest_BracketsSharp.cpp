@@ -1,12 +1,11 @@
 // AStyleTest_BracketsSharp.cpp
-// Copyright (c) 2015 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
 // Licensed under the MIT license.
 // License.txt describes the conditions under which this software may be distributed.
 
 //-----------------------------------------------------------------------------
 // AStyle C# Bracket Options
 //-----------------------------------------------------------------------------
-
 
 //----------------------------------------------------------------------------
 // headers
@@ -19,7 +18,7 @@
 //----------------------------------------------------------------------------
 
 namespace {
-
+//
 //-----------------------------------------------------------------------------
 // AStyle C# Bracket Options
 //-----------------------------------------------------------------------------

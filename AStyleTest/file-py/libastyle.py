@@ -71,6 +71,7 @@ OPT3 = "-xwM80m1DHUEk2W3yxj"
 DEBUG   = "debug"
 RELEASE = "release"
 STATIC  = "static"
+# STATIC_XP is currently not a valid configuration
 STATIC_XP = "static xp"
 
 # Visual Studio release

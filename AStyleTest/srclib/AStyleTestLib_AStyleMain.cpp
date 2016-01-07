@@ -1,8 +1,7 @@
 // AStyleTestLib_AStyleMain.cpp
-// Copyright (c) 2015 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
 // Licensed under the MIT license.
 // License.txt describes the conditions under which this software may be distributed.
-
 
 //  FILE ENCODING IS UTF-8 WITHOUT A BOM.
 //  русский    中文（简体）    日本    한국의
@@ -162,7 +161,7 @@ char* Utf16ToUtf8(utf16_t* utf16In)
 //----------------------------------------------------------------------------
 
 namespace {
-
+//
 //----------------------------------------------------------------------------
 // Test error reporting conditions in AStyleMain
 //----------------------------------------------------------------------------

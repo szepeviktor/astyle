@@ -41,7 +41,7 @@ __options_x2 = ""
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
 __astyleexe1 = "astyle26c"
-__astyleexe2 = "astyle"
+__astyleexe2 = "astyled"
 
 # select one of the following to unarchive files
 __extract_files = True
@@ -115,7 +115,7 @@ def get_astyle_config():
     config = libastyle.DEBUG
     if (__astyleexe1.lower() == "astyle"
     or __astyleexe2.lower() == "astyle"):
-        config = libastyle.STATIC
+        config = libastyle.RELEASE
     return config
 
 # -----------------------------------------------------------------------------

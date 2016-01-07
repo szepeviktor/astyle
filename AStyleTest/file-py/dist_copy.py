@@ -169,22 +169,32 @@ def build_windows_distribution():
     print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
     print("*          Copying AStyle Windows Distribution          *")
     print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
-    print("Building release", __release)
+    # the following variables may be modified
     vsdir = libastyle.VS_RELEASE
+    vscfg= libastyle.STATIC
+
     print("Compiling with", vsdir)
+    print("Building release", __release)
     if not vsdir >= "vs2013":
         libastyle.system_exit("Must compile with vs2013 or greater in libastyle: " + vsdir)
     dist_base = __base_dir + "/DistWindows"
     dist_astyle = dist_base + "/AStyle"
     os.makedirs(dist_astyle)
-    libastyle.build_astyle_executable(libastyle.STATIC_XP)
+    libastyle.build_astyle_executable(vscfg)
 
     # Windows includes an executable in the bin directory
-    print("copying exe ({0})".format(vsdir))
+    print("copying exe")
     dist_astyle_bin = dist_astyle + "/bin/"
     os.mkdir(dist_astyle_bin)
-    astyle_build_directory = libastyle.get_astyle_build_directory(libastyle.STATIC_XP)
-    shutil.copy(astyle_build_directory + "/binstatic_xp/AStyle.exe", dist_astyle_bin)
+    astyle_build_directory = libastyle.get_astyle_build_directory(vscfg)
+    if vscfg ==  libastyle.DEBUG:
+        shutil.copy(astyle_build_directory + "/debug/AStyle.exe", dist_astyle_bin)
+    elif vscfg ==  libastyle.RELEASE:
+        shutil.copy(astyle_build_directory + "/bin/AStyle.exe", dist_astyle_bin)
+    elif vscfg ==  libastyle.STATIC:
+        shutil.copy(astyle_build_directory + "/binstatic/AStyle.exe", dist_astyle_bin)
+    else:
+        libastyle.system_exit("Invalid compile configuration: " + vscfg)
 
     # top directory
     dist_top = dist_astyle + "/"

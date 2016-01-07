@@ -1,5 +1,5 @@
 // AStyleTest_StylesCpp2.cpp
-// Copyright (c) 2015 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
 // Licensed under the MIT license.
 // License.txt describes the conditions under which this software may be distributed.
 
@@ -14,7 +14,7 @@
 //----------------------------------------------------------------------------
 
 namespace {
-
+//
 //----------------------------------------------------------------------------
 // AStyle C++ text for style tests
 //----------------------------------------------------------------------------
@@ -713,7 +713,6 @@ TEST_F(StyleHorstmannCppF, LongOption)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
-
 
 TEST_F(StyleHorstmannCppF, ShortOption)
 {
