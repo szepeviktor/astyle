@@ -10,38 +10,38 @@ using System.Text;
 /// for C# files.
 public class Example
 {   /// Main function for this example.
-    public static void Main(string[] args)
+    public static void Main(String[] args)
     {   // files to pass to AStyle
-        string[] fileName =  { "AStyleDev/test-data/ASBeautifier.cpp",
+        String[] fileName =  { "AStyleDev/test-data/ASBeautifier.cpp",
                                "AStyleDev/test-data/ASFormatter.cpp",
                                "AStyleDev/test-data/astyle.h"
                              };
 
         // options to pass to AStyle
         // mode=cs is required for C# files
-        string options = "style=java, indent=tab, mode=cs";
+        String options = "style=java, indent=tab, mode=cs";
 
         // create an object
         AStyleInterface AStyle = new AStyleInterface();
 
         // get Artistic Style version
         // does not need to terminate on an error
-        string version = AStyle.GetVersion();
-        if (version != string.Empty)
+        String version = AStyle.GetVersion();
+        if (version != String.Empty)
             Console.WriteLine("Example C# - AStyle " + version);
 
         // process the files
         for (int i = 0; i < fileName.Length; i++)
         {   // get the text to format
-            string filePath = GetProjectDirectory(fileName[i]);
-            string textIn = GetText(filePath);
+            String filePath = GetProjectDirectory(fileName[i]);
+            String textIn = GetText(filePath);
 
             // call the Artistic Style formatting function
             // does not need to terminate on an error
-            string textOut = AStyle.FormatSource(textIn, options);
+            String textOut = AStyle.FormatSource(textIn, options);
             // does not need to terminate on an error
             // an error message has been displayed by the error handler
-            if (textOut == string.Empty)
+            if (textOut == String.Empty)
             {   Console.WriteLine("Cannot format "  + filePath);
                 continue;
             }
@@ -55,7 +55,7 @@ public class Example
     }
 
     ///  Error message function for this example.
-    private static void Error(string message)
+    private static void Error(String message)
     {   Console.WriteLine(message);
         Console.WriteLine("The program has terminated!");
         Environment.Exit(1);
@@ -63,20 +63,20 @@ public class Example
 
     /// Prepend the project directory to the subpath.
     /// This may need to be changed for your directory structure.
-    private static string GetProjectDirectory(string subPath)
-    {   string homeDirectory = null;
+    private static String GetProjectDirectory(String subPath)
+    {   String homeDirectory = null;
         if (Environment.OSVersion.Platform == PlatformID.Unix ||
                 Environment.OSVersion.Platform == PlatformID.MacOSX)
         {   homeDirectory = Environment.GetEnvironmentVariable("HOME");
             // HOME is not always recognized on OSX, this usually works
             if (homeDirectory == null)
-                homeDirectory = Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+                homeDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         }
         else
             homeDirectory = Environment.GetEnvironmentVariable("USERPROFILE");
         if (homeDirectory == null)
             Error("Cannot find HOME directory!");
-        string projectPath = homeDirectory + "/Projects/" + subPath;
+        String projectPath = homeDirectory + "/Projects/" + subPath;
         return projectPath;
     }
 
@@ -84,19 +84,19 @@ public class Example
     ///  Usually the text would be obtained from an edit control.
     private static string GetText(string filePath)
     {   // create input buffers
-        const int ReadSize = 131072;     // 128 KB
-        StringBuilder bufferIn = new StringBuilder(ReadSize);
-        char[] fileIn = new char[ReadSize];
+        const int readSize = 131072;     // 128 KB
+        StringBuilder bufferIn = new StringBuilder(readSize);
+        char[] fileIn = new char[readSize];
 
         // read file data
         try
         {   FileStream file = new FileStream(filePath, FileMode.Open);
             StreamReader streamIn = new StreamReader(file);
             // use ReadBlock to preserve the current line endings
-            int charsIn = streamIn.ReadBlock(fileIn, 0, ReadSize);
+            int charsIn = streamIn.ReadBlock(fileIn, 0, readSize);
             while (charsIn != 0)
             {   bufferIn.Append(fileIn, 0, charsIn);
-                charsIn = streamIn.ReadBlock(fileIn, 0, ReadSize);
+                charsIn = streamIn.ReadBlock(fileIn, 0, readSize);
             }
             streamIn.Close();
         }
@@ -118,9 +118,9 @@ public class Example
 
     ///  Return the formatted text.
     ///  Usually the text would be returned to an edit control.
-    private static void SetText(string textOut, string filePath)
+    private static void SetText(String textOut, String filePath)
     {   // create a backup file
-        string origfilePath = filePath + ".orig";
+        String origfilePath = filePath + ".orig";
         File.Delete(origfilePath);                  // remove a pre-existing file
         FileInfo outFile = new FileInfo(filePath);
         outFile.MoveTo(origfilePath);

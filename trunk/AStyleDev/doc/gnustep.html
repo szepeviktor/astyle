@@ -48,8 +48,9 @@
         shell scripts. There are limits, of course, to what can be done.
     </p>
     <p>
-        GNUstep application packages can optionally be installed from the installer web page. Since they are Mac applications
-        the menu display is separate from the application window. This can be changed by running the "System Preferences"
+        GNUstep application packages 
+        are an optional install from the installer web page. Since they are Mac applications
+        the menu display will be separate from the application window. This can be changed by running the "System Preferences"
         program and selecting Themes &gt; WinUXThem. Most applications will then display a window with a menu at the top
         as in Windows. <a href="http://www.gnustep.it/enrico/gworkspace/">GWorkspace</a> is a fairly large application
         that includes source code. It can be used as a reference for Objective&#8209;C coding. The GNUstep MSYS shell
@@ -62,12 +63,14 @@
         used for the compile. You can use either the MinGW compiler that comes with MSYS or a separate installation. MinGW
         can link directly against the DLL, a library file is not necessary (but can be used if you want). In the following
         options the "-L.\" is for linking with a DLL in the same directory as the example. If the library is in another
-        location the compile option must be changed to reflect this. Options for compiling the Example program are:
+        location the compile option must be changed to reflect this. The option -Wl,-enable-stdcall-fixup disables a 
+        warning message for 32&#8209;bit compiles. Options for compiling the Example program using the GNUstep compiler
+        are:
     </p>
     <p>
-        $(CompilerPath)\bin\gcc&nbsp; Example.m&nbsp; -o&nbsp;Example<br />
+        $(GNUstepPath)\bin\gcc&nbsp; Example.m&nbsp; -o&nbsp;Example<br />
         -I$(GNUstepPath)\GNUstep\System\Library\Headers&nbsp; -fconstant-string-class=NSConstantString&nbsp; -D_NATIVE_OBJC_EXCEPTIONS<br />
-        -Os&nbsp; -Wall&nbsp; -Wextra<br />
+        -Os&nbsp; -Wall&nbsp; -Wextra&nbsp; -Wl,-enable-stdcall-fixup<br />
         -L$(GNUstepPath)\GNUstep\System\Library\Libraries&nbsp; -lgnustep-base&nbsp; -lobjc<br />
         -L.\&nbsp; -lAStyle
     </p>
