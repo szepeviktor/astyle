@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8F7F6B41-5F56-4898-BD1F-22E08EA19818}</ProjectGuid>
+    <ProjectGuid>{4F4C256E-3664-4F87-9211-5303AACCE01D}</ProjectGuid>
     <RootNamespace>AStyleLib</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>

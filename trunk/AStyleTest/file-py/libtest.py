@@ -49,7 +49,7 @@ def diff_formatted_files(filepaths, diff_old=False):
         filepath = filepath.replace('\\', '/')
         stripfile = strip_test_directory_prefix(filepath)
         print("{0} of {1} {2}".format(numin, len(filepaths), stripfile))
-        ch_in = libastyle.getch()
+        ch_in = libastyle.get_ch()
         if ch_in == 'n' or ch_in == 'N' or ch_in == 'm' or ch_in == 'M':
             continue
         if ch_in == 'q' or ch_in == 'Q':
@@ -252,7 +252,7 @@ def test_file_write(filename):
 
 # make the module executable
 if __name__ == "__main__":
-    libastyle.set_text_color()
     print(libastyle.get_python_version())
+    print("Testing Library Functions")
     test_all_functions()
     libastyle.system_exit()

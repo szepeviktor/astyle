@@ -241,8 +241,8 @@ void removeTestDirectory(const string& dirName)
 void retryCreateDirectory(const string& directory)
 // WINDOWS wait for directories to be removed
 {
-	// sleep a max of 20 seconds for the remove
-	for (size_t seconds = 1; seconds <= 20; seconds++)
+	// sleep a max of 5 seconds for the remove
+	for (size_t seconds = 1; seconds <= 5; seconds++)
 	{
 		sleep(1);
 		BOOL ok = ::CreateDirectory(directory.c_str(), NULL);

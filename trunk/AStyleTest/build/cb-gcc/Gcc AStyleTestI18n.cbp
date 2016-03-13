@@ -11,7 +11,7 @@
 				<Option object_output="objI18n/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="--terse_printer" />
+				<Option parameters="--terse_output" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />

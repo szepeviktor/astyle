@@ -45,12 +45,12 @@ __options_x2 = ""
 #__options = "-tapOHUk3"
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle26c"
-__astyleexe2 = "astyled"
+__astyleexe1 = "astyle26d"
+__astyleexe2 = "astyle"
 
 # select one of the following to format files in the OLD directory
-#__formatOLD = True
-__formatOLD = False
+__formatOLD = True
+#__formatOLD = False
 
 # extract all files options, use False for speed, use True to compile
 #__all_files_option = True
@@ -63,7 +63,7 @@ def main():
     """
     # initialization
     starttime = time.time()
-    libastyle.set_text_color()
+    libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
     locale.setlocale(locale.LC_ALL, "")
     verify_options_x_variable()

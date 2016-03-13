@@ -24,7 +24,7 @@ def main():
     header_path = libastyle.get_astyle_directory() + "/src/astyle.h"
     beautifier_path = libastyle.get_astyle_directory() + "/src/ASBeautifier.cpp"
 
-    libastyle.set_text_color()
+    libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
     get_header_variables(header_variables, header_path)
     get_constructor_variables(class_variables, beautifier_path)

@@ -7,8 +7,7 @@
 //
 // AStyleTestI18n tests the internationalization component of the ASConsole
 // class only. It uses the following source files from AStyleTestCon and
-// AStyleTest: AStyleTestCon.h, TersePrinter.h AStyleTestCon_Main.cpp,
-// AStyleTest_leakFinder.cpp, and TersePrinter.cpp.
+// AStyleTest: AStyleTestCon.h and AStyleTestCon_Main.cpp.
 
 //----------------------------------------------------------------------------
 // headers
@@ -130,7 +129,7 @@ TEST_F(ProcessUtf32F, Utf32LE_Abort)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	EXPECT_EXIT(g_console->processFiles(),
 	            ExitedWithCode(EXIT_FAILURE),
-	            "Cannot process UTF-32 encoding");
+	            "UTF-32");
 #endif
 }
 
@@ -158,7 +157,7 @@ TEST_F(ProcessUtf32F, Utf32BE_Abort)
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	EXPECT_EXIT(g_console->processFiles(),
 	            ExitedWithCode(EXIT_FAILURE),
-	            "Cannot process UTF-32 encoding");
+	            "UTF-32");
 #endif
 }
 

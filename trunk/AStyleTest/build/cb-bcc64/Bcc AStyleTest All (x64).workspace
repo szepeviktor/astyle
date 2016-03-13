@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Bcc AStyleTest All (x64)">
+		<Project filename="Bcc AStyleTestLoc (x64).cbp">
+			<Depends filename="Bcc GTest Lib (x64).cbp" />
+		</Project>
+		<Project filename="Bcc GTest Lib (x64).cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

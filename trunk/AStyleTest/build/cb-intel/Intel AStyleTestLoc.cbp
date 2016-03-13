@@ -16,6 +16,7 @@
 					<Add option="-Wall" />
 					<Add option="-w2" />
 					<Add option="-g" />
+					<Add option="-std=c++11" />
 					<Add option="-Wextra" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add directory="../../srcx" />
@@ -35,6 +36,7 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-w2" />
+					<Add option="-std=c++11" />
 					<Add option="-Wextra" />
 					<Add option="-wd11074,11076" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />

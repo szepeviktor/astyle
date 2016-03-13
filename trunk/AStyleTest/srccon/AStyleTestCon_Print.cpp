@@ -462,7 +462,7 @@ TEST_F(PrintF, VerboseWildcard_OptionsFile)
 	g_console->setIsVerbose(true);		// test variable
 	// expected text
 	string text =
-	    "Artistic Style <version>     <date>\n"
+	    "Artistic Style <version>                            <date>\n"
 	    "Using default options file <test_directory>/astylerc.txt\n"
 	    "------------------------------------------------------------\n"
 	    "Directory  <test_directory>/*.cpp\n"
@@ -499,7 +499,7 @@ TEST_F(PrintF, VerboseFormattedWildcard)
 	g_console->setIsFormattedOnly(true);		// test variable
 	// expected text
 	string text =
-	    "Artistic Style <version>     <date>\n"
+	    "Artistic Style <version>                            <date>\n"
 	    "------------------------------------------------------------\n"
 	    "Directory  <test_directory>/*.cpp\n"
 	    "------------------------------------------------------------\n"
@@ -580,7 +580,7 @@ TEST_F(PrintF, VerboseSingleFile_OptionsFile)
 	g_console->setIsVerbose(true);		// test variable
 	// expected text
 	string text =
-	    "Artistic Style <version>     <date>\n"
+	    "Artistic Style <version>                            <date>\n"
 	    "Using default options file <test_directory>/astylerc.txt\n"
 	    "Formatted  <test_directory>/fileFormatted.cpp\n"
 	    " 1 formatted   0 unchanged   0 seconds   6 lines\n";

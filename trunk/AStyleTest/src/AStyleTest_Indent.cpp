@@ -2482,11 +2482,10 @@ TEST(IndentPreprocBlock, FollowsNonIndentablePreprocessor)
 	delete[] textOut;
 }
 
-TEST(IndentPreprocBlock, HeaderIncludeGuard)
+TEST(IndentPreprocBlock, HeaderIncludeGuard1)
 {
 	// test indent preprocessor with a header include guard
 	// the include guard should be bypassed and included directives indented
-	// THIS FILE MUST BE LONG ENOUGH TO EXCEED THE INCLUDE GUARD LIMIT
 	char text[] =
 	    "\n/* * * * * * * * * * * * * * * * * * *\n"
 	    " *   astyle.h\n"
@@ -2516,6 +2515,20 @@ TEST(IndentPreprocBlock, HeaderIncludeGuard)
 	delete[] textOut;
 }
 
+TEST(IndentPreprocBlock, HeaderIncludeGuard2)
+{
+	// test indent preprocessor with a header include guard
+	// the include guard should be bypassed
+	char text[] =
+	    "\n#if !defined( __CHARTDEF_H__ )\n"
+	    "#define __CHARTDEF_H__\n"
+	    "#endif\n";
+	char options[] = "indent-preproc-block";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(IndentPreprocBlock, Namespace)
 {
 	// test indent preprocessor block within a namespace
@@ -2538,7 +2551,6 @@ TEST(IndentPreprocBlock, Namespace)
 TEST(IndentPreprocBlock, NamespaceIncludeGuard)
 {
 	// test indent preprocessor block within a namespace and include guard
-	// THIS FILE MUST BE LONG ENOUGH TO EXCEED THE INCLUDE GUARD LIMIT
 	char text[] =
 	    "\n#ifndef ASTYLE_H\n"
 	    "#define ASTYLE_H\n"
@@ -2573,7 +2585,6 @@ TEST(IndentPreprocBlock, EmbeddedPreprocessor)
 {
 	// test indent preprocessor block within a unindented preprocessor
 	// the embedded preprocessor beginning with _WIN32 should be indented
-	// THIS FILE MUST BE LONG ENOUGH TO EXCEED THE INCLUDE GUARD LIMIT
 	char textIn[] =
 	    "\n#ifndef ASTYLE_H\n"
 	    "#define ASTYLE_H\n"

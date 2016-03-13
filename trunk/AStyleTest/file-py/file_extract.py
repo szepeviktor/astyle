@@ -31,7 +31,7 @@ __all_files_option = False
 def main():
     """Call the library procedure to extract the requested project.
     """
-    libastyle.set_text_color()
+    libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
     starttime = time.time()
     libextract.extract_project(__project, __all_files_option)

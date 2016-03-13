@@ -22,7 +22,7 @@ def main():
     sharpfile = "test-csharp.txt"
 
     # initialization
-    libastyle.set_text_color()
+    libastyle.set_text_color("yellow")
     os.chdir(libastyle.get_file_py_directory())
     if not os.path.exists(testfile):
         libastyle.system_exit(

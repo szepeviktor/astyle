@@ -15,6 +15,7 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
@@ -35,6 +36,7 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
@@ -56,6 +58,7 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
 					<Add directory="../../srcx" />

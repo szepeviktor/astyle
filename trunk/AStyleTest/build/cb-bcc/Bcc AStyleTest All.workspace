@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Bcc AStyleTest All">
-		<Project filename="Bcc AStyleTest.cbp" />
-		<Project filename="Bcc AStyleTestCon.cbp" />
-		<Project filename="Bcc AStyleTestI18n.cbp" />
-		<Project filename="Bcc AStyleTestLib.cbp" />
-		<Project filename="Bcc AStyleTestLoc.cbp" />
+		<Project filename="Bcc AStyleTest.cbp">
+			<Depends filename="Bcc GTest Lib.cbp" />
+		</Project>
+		<Project filename="Bcc AStyleTestCon.cbp">
+			<Depends filename="Bcc GTest Lib.cbp" />
+		</Project>
+		<Project filename="Bcc AStyleTestI18n.cbp">
+			<Depends filename="Bcc GTest Lib.cbp" />
+		</Project>
+		<Project filename="Bcc AStyleTestLib.cbp">
+			<Depends filename="Bcc GTest Lib.cbp" />
+		</Project>
+		<Project filename="Bcc GTest Lib.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

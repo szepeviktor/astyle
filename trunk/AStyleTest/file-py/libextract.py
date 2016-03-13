@@ -379,8 +379,9 @@ def test_print_time(starttime, stoptime):
 # make the module executable
 # run tests if executed as stand-alone
 if __name__ == "__main__":
-    libastyle.set_text_color()
     print(libastyle.get_python_version())
+    print("Testing Library Functions")
+    print()
     test_all_compressed()
     test_all_tarballs()
     libastyle.system_exit()

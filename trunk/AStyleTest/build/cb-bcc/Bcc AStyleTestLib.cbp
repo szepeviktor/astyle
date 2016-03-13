@@ -23,7 +23,7 @@
 					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock-1.7.0/gtest/include" />
+					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-c" />
@@ -56,7 +56,7 @@
 					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock-1.7.0/gtest/include" />
+					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-c" />

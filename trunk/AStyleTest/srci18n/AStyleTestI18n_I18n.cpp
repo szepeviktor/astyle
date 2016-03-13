@@ -1,17 +1,16 @@
-﻿// AStyleTestI18n_I18n.cpp
+// AStyleTestI18n_I18n.cpp
 // Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
 // Licensed under the MIT license.
 // License.txt describes the conditions under which this software may be distributed.
-
-//  FILE ENCODING IS UTF-8 WITH A BOM.
-//  русский    中文（简体）    日本    한국의
 //
+//  File encoding for this file is UTF-8 WITH a byte order mark (BOM).
+// русский    中文（简体）    日本語    한국의
+
 // This module tests the non-ascii files and directories on disk.
 //
 // AStyleTestI18n tests the internationalization component of the ASConsole
 // class only. It uses the following source files from AStyleTestCon and
-// AStyleTest: AStyleTestCon.h, TersePrinter.h AStyleTestCon_Main.cpp,
-// AStyleTest_leakFinder.cpp, and TersePrinter.cpp.
+// AStyleTest: AStyleTestCon.h and AStyleTestCon_Main.cpp.
 
 //----------------------------------------------------------------------------
 // headers
@@ -1034,8 +1033,8 @@ struct Codepage1252F : public Test
 		createTestDirectory(englishPath);
 		fileNames.push_back(englishPath + "/english1.cpp");
 		// create a directory and files in French
-		// French symbols are copied from http://french.typeit.org/
-		string frenchPath = getTestDirectory() + "/french ùûüÿàâæçéèêëïîôœ";
+		// French symbols are copied from https://en.wikipedia.org/wiki/French_orthography
+		string frenchPath = getTestDirectory() + "/french ÀàÂâÆæÄäÇçÔôŒœÖöÙùÛûÜüŸÿ";
 		createTestDirectory(frenchPath);
 		fileNames.push_back(frenchPath + "/french1.cpp");
 		// create a directory and files in Spanish
@@ -1352,17 +1351,10 @@ TEST(Other, SetCLocale)
 	// the C++ locale should not be the classic locale
 	string localeName = locale().name();
 	ASSERT_NE("C", localeName) << "This compiler does not support C++ locales";
-#ifndef __BORLANDC__
-	// Embarcadero is OK, just the display sequence is different
-	// The C++ local should also set the C locale.
-	// The following test fails on Windows 10.
-	// Don't know if Microsoft will change it or not.
-	EXPECT_EQ(locale().name(), setlocale(LC_ALL, NULL));
-#endif
+#ifdef __MINGW32__
 	// Force an error if MinGW now supports C++ locales.
 	// Does it support wide character streams also?
 	// If it does, conversion to Unicode may be possible.
-#ifdef __MINGW32__
 	FAIL() << "MINGW NOW SUPPORTS C++ LOCALES";
 #endif
 }

@@ -7,8 +7,7 @@
 //
 // AStyleTestI18n tests the internationalization component of the ASConsole
 // class only. It uses the following source files from AStyleTestCon and
-// AStyleTest: AStyleTestCon.h, TersePrinter.h AStyleTestCon_Main.cpp,
-// AStyleTest_leakFinder.cpp, and TersePrinter.cpp.
+// AStyleTest: AStyleTestCon.h and AStyleTestCon_Main.cpp.
 
 //----------------------------------------------------------------------------
 // headers

@@ -10,11 +10,11 @@ REM File paths without a dash work ok with TLIB.
 
 set binpath=C:\Programs\Embarcadero\EC6.80\bin
 
-if exist bin\gtestd.lib del  bin\gtestd.lib
+if exist bin\gtest.lib del  bin\gtest.lib
 
-echo Linking gtestd.lib
+echo Linking gtest.lib
 
-%binpath%\tlib.exe /C /P64 bin\gtestd.lib + "obj\Debug\gmock\gtest\src\gtest-all.obj"
+%binpath%\tlib64.exe /C /P64 bin\gtest.lib + "obj\Release\gmock\gtest\src\gtest-all.obj"
 
 REM echo -
 REM pause
