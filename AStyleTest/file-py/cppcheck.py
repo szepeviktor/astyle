@@ -4,6 +4,17 @@
     with the current line numbers.
 """
 
+# To use the cppcheck naming.py extension, activate the "--dump"
+# option in the following run_cppcheck() function. This creates
+# the .dump files in the src folder. Then run naming.py in cmd.exe
+# with the following options:
+# ------------------------------------
+# "c:\program files\python 3.5\python"
+# "c:\program files\cppcheck\addons\naming.py"
+# --var="^([a-z]|AS_|_[a-z]|_AS_)" --function="^([a-z]|AS[A-Z])"
+# "c:\users\jimp\projects\astyle\src\asbeautifier.cpp.dump"
+# ------------------------------------
+
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
 
@@ -94,6 +105,10 @@ def process_astyle_main(astyle_main_list):
             continue
         if line.startswith("//"):
             continue
+        if line.startswith("if (!isdigit((unsigned char)arg[1]))"):
+            args_processed += 1
+            if args_processed == 2:
+                astyle_main_list.append("arrayIndexOutOfBounds:" + src_path + ":" + str(lines) + "\t// arg[1]\n")
         # unusedFunction warnings
         if "ASConsole::getExcludeHitsVector(" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t\t// getExcludeHitsVector\n")
@@ -145,10 +160,6 @@ def process_astyle_main(astyle_main_list):
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t\t// AStyleGetVersion\n")
         if "AStyleMainUtf16(" in line and "STDCALL" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t\t// AStyleMainUtf16\n")
-        if line.startswith("if (!isdigit((unsigned char)arg[1]))"):
-            args_processed += 1
-            if args_processed == 2:
-                astyle_main_list.append("arrayIndexOutOfBounds:" + src_path + ":" + str(lines) + "\t\t\t// arg[1]\n")
     file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -206,6 +217,8 @@ def process_beautifier(beautifier_list):
             beautifier_list.append("copyCtorPointerCopying:" + src_path + ":" + str(lines) + "\t// preCommandHeaders\n")
         if line.startswith("indentableHeaders = other.indentableHeaders"):
             beautifier_list.append("copyCtorPointerCopying:" + src_path + ":" + str(lines) + "\t// indentableHeaders\n")
+#        if "iter < container->end()" in line:
+#            beautifier_list.append("stlBoundaries:" + src_path + ":" + str(lines) + "\t\t\t// stlBoundaries\n")
         if line.startswith("char ch"):
             chars_processed += 1
             if chars_processed == 1 or chars_processed == 3:
@@ -253,6 +266,7 @@ def process_file_suppressions(file_suppression_list):
     file_suppression_list.append("uninitMemberVar:" + __src_dir + "ASBeautifier.cpp\n")
     file_suppression_list.append("uninitMemberVar:" + __src_dir + "ASEnhancer.cpp\n")
     file_suppression_list.append("uninitMemberVar:" + __src_dir + "ASFormatter.cpp\n")
+    file_suppression_list.append("uninitMemberVar:" + __src_dir + "astyle_main.cpp\n")      # from version 1.72
 
 # -----------------------------------------------------------------------------
 
@@ -383,13 +397,13 @@ def run_cppcheck():
     # -j<jobs> is threads to use for silmutaneous checking
     # runs faster but messages for the files are mixed
     cppcheck.append("-j2")
+    #cppcheck.append("--dump")
     cppcheck.append("--enable=all")
     cppcheck.append("--xml-version=2")
-    cppcheck.append("--force")
+    cppcheck.append("--force")      # needed for astyle_main.cpp
     cppcheck.append("--inconclusive")
-    cppcheck.append("--verbose")  # with version 1.67  this caused functionStatic to be missed !!!
+    cppcheck.append("--verbose")
     cppcheck.append("--suppress=functionStatic")
-    cppcheck.append("--suppress=purgedConfiguration")
     cppcheck.append("--suppressions-list=" + __suppression_path)
     cppcheck.append(__src_dir)
     # shell=True keeps the console window open, but will not display if run from an editor

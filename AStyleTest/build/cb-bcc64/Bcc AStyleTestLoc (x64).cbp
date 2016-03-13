@@ -2,15 +2,15 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Bcc AStyleTestLoc" />
+		<Option title="Bcc AStyleTestLoc (x64)" />
 		<Option pch_mode="2" />
-		<Option compiler="embarcadero_compiler_680" />
+		<Option compiler="embarcadero_compiler_x64_680" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/AStyleTestLocd" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objLoc/Debug/" />
 				<Option type="1" />
-				<Option compiler="embarcadero_compiler_680" />
+				<Option compiler="embarcadero_compiler_x64_680" />
 				<Option parameters="--terse_output" />
 				<Compiler>
 					<Add option="-w" />
@@ -21,26 +21,23 @@
 					<Add option="-w-8080" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock-1.7.0/gtest/include" />
+					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-c" />
 					<Add option="-Gn" />
 					<Add option="-x" />
-					<Add library="cw32mt" />
-					<Add library="import32" />
+					<Add library="cw64mt" />
+					<Add library="import64" />
 					<Add library="gtestd" />
 					<Add directory="bin" />
 				</Linker>
-				<ExtraCommands>
-					<Add after="cmd /c  del  bin\*.tds" />
-				</ExtraCommands>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/AStyleTestLoc" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objLoc/Release" />
 				<Option type="1" />
-				<Option compiler="embarcadero_compiler_680" />
+				<Option compiler="embarcadero_compiler_x64_680" />
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-tWC" />
@@ -52,20 +49,17 @@
 					<Add option="-DNDEBUG" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock-1.7.0/gtest/include" />
+					<Add directory="../../../gmock/gtest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-c" />
 					<Add option="-Gn" />
 					<Add option="-x" />
-					<Add library="cw32mt" />
-					<Add library="import32" />
+					<Add library="cw64mt" />
+					<Add library="import64" />
 					<Add library="gtest" />
 					<Add directory="bin" />
 				</Linker>
-				<ExtraCommands>
-					<Add after="cmd /c  del  bin\*.tds" />
-				</ExtraCommands>
 			</Target>
 		</Build>
 		<Unit filename="../../../AStyle/src/ASLocalizer.cpp" />

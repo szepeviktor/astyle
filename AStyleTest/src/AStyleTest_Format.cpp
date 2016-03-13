@@ -2916,6 +2916,42 @@ TEST(RemoveBrackets, WithEmptyLine2)
 	delete [] textOut;
 }
 
+TEST(RemoveBrackets, WithEmptyLine3)
+{
+	// test attached brackets with a empty lines
+	char textIn[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (IsUsingTree()) {\n"
+	    "\n"
+	    "        m_pTree->Delete();\n"
+	    "\n"
+	    "    }\n"
+	    "    else {\n"
+	    "\n"
+	    "	     m_pCommands->Clear();\n"
+	    "	     m_pCategories->Clear();\n"
+	    "    }\n"
+	    "}";
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (IsUsingTree())\n"
+	    "\n"
+	    "        m_pTree->Delete();\n"
+	    "\n"
+	    "    else {\n"
+	    "\n"
+	    "        m_pCommands->Clear();\n"
+	    "        m_pCategories->Clear();\n"
+	    "    }\n"
+	    "}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(RemoveBrackets, Sans)
 {
 	// don't remove if not a single statement
@@ -3101,6 +3137,94 @@ TEST(RemoveBrackets, BreakBlocks2)
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(RemoveBrackets, Comment1)
+{
+	// remove one-line brackets with a comment
+	char textIn[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (keycode == WXK_RETURN)\n"
+	    "        { myidx = 0; } // Edit\n"
+	    "}";
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (keycode == WXK_RETURN)\n"
+	    "        myidx = 0;   // Edit\n"
+	    "}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(RemoveBrackets, Comment2)
+{
+	// remove one-line brackets with a comment
+	char textIn[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "     if ( (target = Convert()) )\n"
+	    "    {;}//ok\n"
+	    "}";
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if ( (target = Convert()) )\n"
+	    "        ; //ok\n"
+	    "}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(RemoveBrackets, Comment3)
+{
+	// remove brackets with a comment following closing bracket
+	char textIn[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    for(size_t i = 0; i < Count; ++i)\n"
+	    "    {\n"
+	    "        AppendToLog(Output[i]);\n"
+	    "    } // end for : idx: i\n"
+	    "}";
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    for(size_t i = 0; i < Count; ++i)\n"
+	    "        AppendToLog(Output[i]);\n"
+	    "    // end for : idx: i\n"
+	    "}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(RemoveBrackets, Comment4)
+{
+	// remove attached bracket with a comment
+	char textIn[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (isFoo) {  // comment\n"
+	    "        bar();\n"
+	    "    }\n"
+	    "}";
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (isFoo)    // comment\n"
+	    "        bar();\n"
+	    "}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, CommentSans1)
@@ -3413,28 +3537,6 @@ TEST(RemoveBrackets, BracketInComment2)
 	    "}";
 	char options[] = "remove-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(RemoveBrackets, AttachedBracketWithComment)
-{
-	// test remove attached bracket with a comment
-	char textIn[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    if (isFoo) {  // comment\n"
-	    "        bar();\n"
-	    "    }\n"
-	    "}";
-	char text[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    if (isFoo)    // comment\n"
-	    "        bar();\n"
-	    "}";
-	char options[] = "remove-brackets";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }

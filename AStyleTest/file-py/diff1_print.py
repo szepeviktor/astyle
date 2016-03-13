@@ -14,7 +14,7 @@ import os
 def main():
     """Main processing function.
     """
-    libastyle.set_text_color()
+    libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
     os.chdir(libastyle.get_file_py_directory())
     testfile = "test.txt"

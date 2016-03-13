@@ -41,6 +41,8 @@ echo.
 echo.
 %prog%  %options%  ..\srclib\*.h
 echo.
+%prog%  %options%  ..\srcloc\*.cpp
+echo.
 %prog%  %options%  ..\srcx\*.cpp
 echo.
 %prog%  %options%  ..\srcx\*.h

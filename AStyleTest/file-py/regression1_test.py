@@ -40,7 +40,7 @@ __options_x  = ""
 __options_x2 = ""
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle26c"
+__astyleexe1 = "astyle26d"
 __astyleexe2 = "astyled"
 
 # select one of the following to unarchive files
@@ -58,7 +58,7 @@ def main():
     """
     # initialization
     starttime = time.time()
-    libastyle.set_text_color()
+    libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
     locale.setlocale(locale.LC_ALL, "")
     verify_options_x_variable()

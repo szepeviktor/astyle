@@ -23,7 +23,7 @@ def main():
     if platform.python_implementation() == "IronPython":
         libastyle.system_exit("IronPython is not currently supported")
 
-    libastyle.set_text_color()
+    libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
 
     languages = (

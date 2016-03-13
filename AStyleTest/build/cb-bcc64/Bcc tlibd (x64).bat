@@ -14,7 +14,7 @@ if exist bin\gtestd.lib del  bin\gtestd.lib
 
 echo Linking gtestd.lib
 
-%binpath%\tlib.exe /C /P64 bin\gtestd.lib + "obj\Debug\gmock\gtest\src\gtest-all.obj"
+%binpath%\tlib64.exe /C /P64 bin\gtestd.lib + "obj\Debug\gmock\gtest\src\gtest-all.obj"
 
 REM echo -
 REM pause

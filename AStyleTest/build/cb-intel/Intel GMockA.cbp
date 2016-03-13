@@ -45,8 +45,8 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="../../../gmock-1.7.0/gtest/src/gtest-all.cc" />
-		<Unit filename="../../../gmock-1.7.0/src/gmock-all.cc" />
+		<Unit filename="../../../gmock/gtest/src/gtest-all.cc" />
+		<Unit filename="../../../gmock/src/gmock-all.cc" />
 		<Extensions>
 			<code_completion />
 			<envvars />

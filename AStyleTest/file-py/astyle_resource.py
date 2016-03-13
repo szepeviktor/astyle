@@ -23,7 +23,7 @@ def main():
     pre_command_variables = []      # pre-command header variables
     resource_path = libastyle.get_astyle_directory() + "/src/ASResource.cpp"
 
-    libastyle.set_text_color()
+    libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
     get_header_variables(header_variables, resource_path)
     get_np_header_variables(np_header_variables, resource_path)

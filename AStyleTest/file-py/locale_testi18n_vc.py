@@ -21,7 +21,7 @@ def main():
     """Main processing function.
     """
     # initialization
-    libastyle.set_text_color()
+    libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
     verify_os()
     exepath = "C:/Windows/AppPatch/AppLoc.exe"

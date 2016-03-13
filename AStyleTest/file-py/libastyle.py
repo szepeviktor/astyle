@@ -14,9 +14,9 @@ import sys
 import time
 
 if os.name == "nt":
-    import msvcrt			# Windows only for getch()
+    import msvcrt			# Windows only for get_ch()
 else:
-    import termios, tty		# Linux only for getch()
+    import termios, tty		# Linux only for get_ch()
 
 # global variables ------------------------------------------------------------
 
@@ -303,13 +303,13 @@ def get_astyletest_directory(endsep=False):
 
 # -----------------------------------------------------------------------------
 
-def getch():
-    """getch() for Windows and Linux.
+def get_ch():
+    """get_ch() for Windows and Linux.
        This won't work unless run from a terminal.
     """
     # this must be executed from a terminal
     if not is_executed_from_console():
-        system_exit("libastyle.getch() must be run from the console")
+        system_exit("libastyle.get_ch() must be run from the console")
     # WINDOWS uses msvcrt
     if os.name == "nt":
         # clear buffer
@@ -550,13 +550,8 @@ def get_test_directory(endsep=False):
 def is_executed_from_console():
     """Check if this script is run is from the console or from an editor.
        If run from a console the sys.stdin will be a TTY.
-       sys.stdin.fileno() seems to work OK for Windows.
-       The AttributeError exception occurs when run from Visual Studio Shell.
     """
-    try:
-        return os.isatty(sys.stdin.fileno())
-    except AttributeError:
-        return False
+    return sys.stdin.isatty()
 
 # -----------------------------------------------------------------------------
 
@@ -576,28 +571,6 @@ def remove_build_file(buildfile):
 
 # -----------------------------------------------------------------------------
 
-def set_error_color():
-    """Change text color if script is run from the console.
-    """
-    if is_executed_from_console():
-        if os.name == "nt":
-            os.system("color 0C")
-        else:
-            os.system("echo -n '[1;31m'")
-
-# -----------------------------------------------------------------------------
-
-def set_ok_color():
-    """Change text color if script is run from the console.
-    """
-    if is_executed_from_console():
-        if os.name == "nt":
-            os.system("color 0A")
-        else:
-            os.system("echo -n '[1;32m'")
-
-# -----------------------------------------------------------------------------
-
 def set_test_directory(test_directory):
     """Change the name of the global test directory.
     """
@@ -611,14 +584,36 @@ def set_test_directory(test_directory):
 
 # -----------------------------------------------------------------------------
 
-def set_text_color():
+def set_text_color(color):
     """Change text color if script is run from the console.
     """
     if is_executed_from_console():
         if os.name == "nt":
-            os.system("color 0E")
+            color_values = { "blue"    : "color 09",
+                             "cyan"    : "color 0B",
+                             "green"   : "color 0A",
+                             "magenta" : "color 0D",
+                             "red"     : "color 0C",
+                             "white"   : "color 0F",
+                             "yellow"  : "color 0E", }
+
+            system_code = color_values.get(color, "invalid")
+            if system_code == "invalid":
+                system_exit("Invalid color param " + color)
+            os.system(system_code)
         else:
-            os.system("echo -n '[1;33m'")
+            color_values = { "blue"    : "echo -n '[1;34m'",
+                             "cyan"    : "echo -n '[1;36m'",
+                             "green"   : "echo -n '[1;32m'",
+                             "magenta" : "echo -n '[1;35m'",
+                             "red"     : "echo -n '[1;31m'",
+                             "white"   : "echo -n '[1;37m'",
+                             "yellow"  : "echo -n '[1;33m'", }
+
+            system_code = color_values.get(color, "invalid")
+            if system_code == "invalid":
+                system_exit("Invalid color param " + color)
+            os.system(system_code)
 
 # -----------------------------------------------------------------------------
 
@@ -626,15 +621,16 @@ def system_exit(message=''):
     """Accept keyboard input to assure a message is noticed.
     """
     if len(message.strip()) > 0:
-        set_error_color()
+        set_text_color("red")
         print(message)
     # pause if script is run from the console
     if is_executed_from_console():
         print("\nPress any key to end . . .")
-        getch()
+        get_ch()
     else:
         print("\nEnd of script !")
-    sys.exit
+    # this does NOT raise a SystemExit exception like sys.exit()
+    os._exit(0)
 
 # -----------------------------------------------------------------------------
 
@@ -659,16 +655,14 @@ def test_all_functions():
     get_temp_directory()
     get_test_directory()
     is_executed_from_console()
-    set_error_color()
-    set_ok_color()
-    set_text_color()
+    set_text_color("white")
 
 # -----------------------------------------------------------------------------
 
 # make the module executable
 # run tests if executed as stand-alone
 if __name__ == "__main__":
-    set_text_color()
     print(get_python_version())
+    print("Testing Library Functions")
     test_all_functions()
     system_exit()

@@ -17,13 +17,16 @@
     <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_I18n.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srcx\TersePrinter.cpp">
+    <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_Utf16.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_Utf_Bom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srci18n\AStyleTestI18n_Utf16.cpp">
+    <ClCompile Include="..\..\..\srcx\TersePrinter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\srcx\LeakDetector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

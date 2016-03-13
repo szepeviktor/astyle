@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+VisualStudioVersion = 14.0.25008.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "file-py", "file-py", "{084B9868-57C6-4FFC-8207-1E513CF9C2D5}"
 	ProjectSection(SolutionItems) = preProject
@@ -9,7 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "file-py", "file-py", "{084B
 		..\..\file-py\astyle_console.py = ..\..\file-py\astyle_console.py
 		..\..\file-py\astyle_enhancer.py = ..\..\file-py\astyle_enhancer.py
 		..\..\file-py\astyle_formatter.py = ..\..\file-py\astyle_formatter.py
-		..\..\file-py\astyle_localizer.py = ..\..\file-py\astyle_localizer.py
+		..\..\file-py\astyle_localizer1.py = ..\..\file-py\astyle_localizer1.py
+		..\..\file-py\astyle_localizer2.py = ..\..\file-py\astyle_localizer2.py
 		..\..\file-py\astyle_protected.py = ..\..\file-py\astyle_protected.py
 		..\..\file-py\astyle_resource.py = ..\..\file-py\astyle_resource.py
 		..\..\file-py\astyle_streamiter.py = ..\..\file-py\astyle_streamiter.py

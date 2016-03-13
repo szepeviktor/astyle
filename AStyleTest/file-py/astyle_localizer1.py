@@ -1,7 +1,6 @@
 ﻿#! /usr/bin/python
-"""Check astyle_main.cpp "settext" translations to the test variables in
-   AStyleTestI18n_Localizer.cpp.
-   The test for the individual languages are done by AStyleTestI18n_Localizer.cpp.
+"""Check astyle_main.cpp "settext" translation strings to the test variables
+   in AStyleTestLoc.cpp.
 """
 
 # to disable the print statement and use the print() function (version 3 format)
@@ -12,7 +11,7 @@ import os
 
 # global variables ------------------------------------------------------------
 
-__print_detail = False              # print line numbers and total variables
+__print_detail = False          # print line numbers and total variables
 __print_variables = False       # print the variables in the lists
 
 # -----------------------------------------------------------------------------
@@ -20,22 +19,25 @@ __print_variables = False       # print the variables in the lists
 def main():
     """Main processing function."""
 
-    astyle_strings = []     # _() translation strings in astyle_main.cpp
-    test_strings = []           # test strings in TranslationF
+    astyle_strings = []         # _() translation strings in astyle_main.cpp
+    test_strings = []           # test strings in AStyleTestLoc.cpp
     astyle_path = libastyle.get_astyle_directory() + "/src/astyle_main.cpp"
     if not os.path.exists(astyle_path):
         libastyle.system_exit("\nCannot locate file " + astyle_path)
     test_path = libastyle.get_astyletest_directory() + "/srcloc/AStyleTestLoc.cpp"
     if not os.path.exists(test_path):
         libastyle.system_exit("\nCannot locate file " + test_path)
-    libastyle.set_text_color()
+    libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
     get_astyle_strings(astyle_strings, astyle_path)
     get_test_strings(test_strings, test_path)
 
+    # remove duplicate entries in astyle_strings from Linux and Windows functions
+    astyle_strings = set(astyle_strings)
+    astyle_strings = list(astyle_strings)
     print("Checking astyle_main strings to TranslationF.")
     total_astyle_strings = len(astyle_strings)
-    print("There are {0} translated strings in astyle_main.".format(total_astyle_strings))
+    print("There are {0} unique translated strings in astyle_main.".format(total_astyle_strings))
     print()
 
     find_string_diffs(astyle_strings, test_strings)
@@ -43,7 +45,9 @@ def main():
     if __print_variables:
         astyle_strings.sort()
         test_strings.sort()
+        print()
         print(astyle_strings)
+        print()
         print(test_strings)
 
 # -----------------------------------------------------------------------------
@@ -109,7 +113,7 @@ def get_astyle_strings(astyle_strings, astyle_path):
 # -----------------------------------------------------------------------------
 
 def get_test_strings(test_strings, test_path):
-    """Read the AStyleTestI18n_Localizer.cpp file and save the test strings."""
+    """Read the AStyleTestLoc.cpp file and save the test strings."""
 
     test_lines = [0, 0]     # line numbers for TranslationF constructor
     test_total = 0          # total variables for header

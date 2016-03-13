@@ -22,7 +22,7 @@ __file_update = False           # should the files be updated?
 
 def main():
     """Main processing function."""
-    libastyle.set_text_color()
+    libastyle.set_text_color("yellow")
     print (libastyle.get_python_version())
     print("Modify Java JDK Version from", __old_release, "to", __new_release)
     if not __file_update:

@@ -71,7 +71,7 @@ def main():
 
     #initialization
     starttime = time.time()
-    libastyle.set_text_color()
+    libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
     locale.setlocale(locale.LC_ALL, "")
     print_run_header()

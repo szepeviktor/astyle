@@ -350,16 +350,16 @@ TEST(Cpp11Standard, UniformInitializerConst2)
 	// The 'const' keyword should not cause it to be a command-type
 	// which will break the brackets.
 	char text[] =
-		"\nusing Container = std::vector<std::pair<int, int>>;\n"
-		"\n"
-		"const Container c1 { {0, 0} };\n"
-		"Container const c2 { {0, 0} };\n"
-		"\n"
-		"volatile Container c1 { {0, 0} };\n"
-		"Container volatile c2 { {0, 0} };\n"
-		"\n"
-		"const Container c3 ( { {0, 0} } );\n"
-		"Container const c4 ( { {0, 0} } );\n";
+	    "\nusing Container = std::vector<std::pair<int, int>>;\n"
+	    "\n"
+	    "const Container c1 { {0, 0} };\n"
+	    "Container const c2 { {0, 0} };\n"
+	    "\n"
+	    "volatile Container c1 { {0, 0} };\n"
+	    "Container volatile c2 { {0, 0} };\n"
+	    "\n"
+	    "const Container c3 ( { {0, 0} } );\n"
+	    "Container const c4 ( { {0, 0} } );\n";
 	char options[] = "style=allman";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
