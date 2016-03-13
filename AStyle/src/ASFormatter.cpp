@@ -607,8 +607,7 @@ string ASFormatter::nextLine()
 			currentLine[charNum] = currentChar = ' ';
 			shouldRemoveNextClosingBracket = false;
 			assert(adjustChecksumIn(-'}'));
-			// if the line is empty, delete it
-			if (currentLine.find_first_not_of(" \t"))
+			if (isEmptyLine(currentLine))
 				continue;
 		}
 
@@ -5985,6 +5984,8 @@ bool ASFormatter::isIndentablePreprocessorBlock(string& firstLine, size_t index)
 	bool blockContainsBrackets = false;
 	bool blockContainsDefineContinuation = false;
 	bool isInClassConstructor = false;
+	bool isPotentialHeaderGuard = false;	// ifndef is first preproc statement
+	bool isPotentialHeaderGuard2 = false;	// define is within the first proproc
 	int  numBlockIndents = 0;
 	int  lineParenCount = 0;
 	string nextLine_ = firstLine.substr(index);
@@ -6055,6 +6056,8 @@ bool ASFormatter::isIndentablePreprocessorBlock(string& firstLine, size_t index)
 					{
 						processedFirstConditional = true;
 						isFirstPreprocConditional = true;
+						if (isNDefPreprocStatement(nextLine_, preproc))
+							isPotentialHeaderGuard = true;
 					}
 				}
 				else if (preproc == "endif")
@@ -6065,9 +6068,13 @@ bool ASFormatter::isIndentablePreprocessorBlock(string& firstLine, size_t index)
 					if (numBlockIndents == 0)
 						goto EndOfWhileLoop;
 				}
-				else if (preproc == "define" && nextLine_[nextLine_.length() - 1] == '\\')
+				else if (preproc == "define")
 				{
-					blockContainsDefineContinuation = true;
+					if (nextLine_[nextLine_.length() - 1] == '\\')
+						blockContainsDefineContinuation = true;
+					// check for potential header include guards
+					else if (isPotentialHeaderGuard && numBlockIndents == 1)
+						isPotentialHeaderGuard2 = true;
 				}
 				i = nextLine_.length();
 				continue;
@@ -6107,11 +6114,11 @@ EndOfWhileLoop:
 	// find next executable instruction
 	// this WILL RESET the get pointer
 	string nextText = peekNextText("", false, needReset);
-	// bypass header include guards, with an exception for small test files
+	// bypass header include guards
 	if (isFirstPreprocConditional)
 	{
 		isFirstPreprocConditional = false;
-		if (nextText.empty() && sourceIterator->getStreamLength() > 250)
+		if (nextText.empty() && isPotentialHeaderGuard2)
 		{
 			isInIndentableBlock = false;
 			preprocBlockEnd = 0;
@@ -6122,6 +6129,23 @@ EndOfWhileLoop:
 		preprocBlockEnd = 0;
 	// peekReset() is done by previous peekNextText()
 	return isInIndentableBlock;
+}
+
+bool ASFormatter::isNDefPreprocStatement(string& nextLine_, string& preproc) const
+{
+	if (preproc == "ifndef")
+		return true;
+	// check for '!defined'
+	if (preproc == "if")
+	{
+		size_t i = nextLine_.find("!");
+		if (i == string::npos)
+			return false;
+		i = nextLine_.find_first_not_of(" \t", ++i);
+		if (i != string::npos && nextLine_.compare(i, 7, "defined") == 0)
+			return true;
+	}
+	return false;
 }
 
 /**

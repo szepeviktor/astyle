@@ -1981,7 +1981,7 @@ void ASConsole::processOptions(vector<string>& argvOptions)
 		{
 			optionsFileName = getParam(arg, "--options=");
 			optionsFileRequired = true;
-			if (optionsFileName.compare("") == 0)
+			if (optionsFileName.empty())
 				setOptionsFileName(" ");
 		}
 		else if ( isOption(arg, "-h")
@@ -2023,31 +2023,31 @@ void ASConsole::processOptions(vector<string>& argvOptions)
 	// get options file path and name
 	if (shouldParseOptionsFile)
 	{
-		if (optionsFileName.compare("") == 0)
+		if (optionsFileName.empty())
 		{
 			char* env = getenv("ARTISTIC_STYLE_OPTIONS");
 			if (env != NULL)
 				setOptionsFileName(env);
 		}
-		if (optionsFileName.compare("") == 0)
+		if (optionsFileName.empty())
 		{
 			char* env = getenv("HOME");
 			if (env != NULL)
 				setOptionsFileName(string(env) + "/.astylerc");
 		}
-		if (optionsFileName.compare("") == 0)
+		if (optionsFileName.empty())
 		{
 			char* env = getenv("USERPROFILE");
 			if (env != NULL)
 				setOptionsFileName(string(env) + "/astylerc");
 		}
-		if (optionsFileName.compare("") != 0)
+		if (!optionsFileName.empty())
 			standardizePath(optionsFileName);
 	}
 
 	// create the options file vector and parse the options for errors
 	ASOptions options(formatter);
-	if (optionsFileName.compare("") != 0)
+	if (!optionsFileName.empty())
 	{
 		ifstream optionsIn(optionsFileName.c_str());
 		if (optionsIn)
@@ -2210,7 +2210,13 @@ void ASConsole::printVerboseHeader() const
 	ptr = localtime(&lt);
 	strftime(str, 20, "%x", ptr);
 	// print the header
-	printf("Artistic Style %s     %s\n", g_version, str);
+	// 60 is the length of the separator in printSeparatingLine()
+	string header = "Artistic Style " + string(g_version);
+	size_t numSpaces = 60 - header.length() - strlen(str);
+	header.append(numSpaces, ' ');
+	header.append(str);
+	header.append("\n");
+	printf("%s", header.c_str());
 	// print options file
 	if (!optionsFileName.empty())
 		printf(_("Using default options file %s\n"), optionsFileName.c_str());

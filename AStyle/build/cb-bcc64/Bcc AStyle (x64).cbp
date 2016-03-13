@@ -58,6 +58,7 @@
 		<Unit filename="../../src/astyle.h" />
 		<Unit filename="../../src/astyle_main.cpp" />
 		<Unit filename="../../src/astyle_main.h" />
+		<Unit filename="Errors.txt" />
 		<Extensions>
 			<code_completion />
 			<envvars />

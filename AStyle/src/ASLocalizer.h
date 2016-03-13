@@ -79,107 +79,74 @@ protected:
 // These classes have only a constructor which builds the language vector.
 //----------------------------------------------------------------------------
 
+class Bulgarian : public Translation
+{ public: Bulgarian(); };
+
 class ChineseSimplified : public Translation
-{
-public:
-	ChineseSimplified();
-};
+{ public: ChineseSimplified(); };
 
 class ChineseTraditional : public Translation
-{
-public:
-	ChineseTraditional();
-};
+{ public: ChineseTraditional(); };
 
 class Dutch : public Translation
-{
-public:
-	Dutch();
-};
+{ public: Dutch(); };
 
 class English : public Translation
-{
-public:
-	English();
-};
+{ public: English(); };
+
+class Estonian : public Translation
+{ public: Estonian(); };
 
 class Finnish : public Translation
-{
-public:
-	Finnish();
-};
+{ public: Finnish(); };
 
 class French : public Translation
-{
-public:
-	French();
-};
+{ public: French(); };
 
 class German : public Translation
-{
-public:
-	German();
-};
+{ public: German(); };
+
+class Greek : public Translation
+{ public: Greek(); };
 
 class Hindi : public Translation
-{
-public:
-	Hindi();
-};
+{ public: Hindi(); };
+
+class Hungarian : public Translation
+{ public: Hungarian(); };
 
 class Italian : public Translation
-{
-public:
-	Italian();
-};
+{ public: Italian(); };
 
 class Japanese : public Translation
-{
-public:
-	Japanese();
-};
+{ public: Japanese(); };
 
 class Korean : public Translation
-{
-public:
-	Korean();
-};
+{ public: Korean(); };
+
+class Norwegian : public Translation
+{ public: Norwegian(); };
 
 class Polish : public Translation
-{
-public:
-	Polish();
-};
+{ public: Polish(); };
 
 class Portuguese : public Translation
-{
-public:
-	Portuguese();
-};
+{ public: Portuguese(); };
+
+class Romanian : public Translation
+{ public: Romanian(); };
 
 class Russian : public Translation
-{
-public:
-	Russian();
-};
+{ public: Russian(); };
 
 class Spanish : public Translation
-{
-public:
-	Spanish();
-};
+{ public: Spanish(); };
 
 class Swedish : public Translation
-{
-public:
-	Swedish();
-};
+{ public: Swedish(); };
 
 class Ukrainian : public Translation
-{
-public:
-	Ukrainian();
-};
+{ public: Ukrainian(); };
 
 
 #endif	//  ASTYLE_LIB

@@ -21,7 +21,7 @@
     <h3>Artistic Style 2.06&nbsp; (Pending)</h3>
 
     <p>
-        A new option, &quot;pad&#8209;comma&quot;, will add a space following a comma. The option &quot;pad&#8209;oper&quot;
+        A new option, &quot;pad-comma&quot;, will add a space following a comma. The option &quot;pad-oper&quot;
         has not been changed and will also add a space following a comma.
     </p>
     <p>
@@ -29,28 +29,68 @@
         where this is not wanted.
     </p>
     <p>
-        New Objective&#8209;C options "pad&#8209;return&#8209;type" and &quot;unpad&#8209;return&#8209;type&quot; will
-        add or remove space padding after the Objective&#8209;C return type. It is described in the "Objective&#8209;C"
+        New Objective-C options "pad-return-type" and &quot;unpad-return-type&quot; will
+        add or remove space padding after the Objective-C return type. It is described in the "Objective-C"
         section of the documentation.
     </p>
     <p>
-        The Objective&#8209;C align&#8209;method&#8209;colon has been changed for method declarations and definitions.
-        For multi&#8209;line arguments when the first keyword is shorter than the others the colons are aligned on the
+        The Objective-C align-method-colon has been changed for method declarations and definitions.
+        For multi-line arguments when the first keyword is shorter than the others the colons are aligned on the
         longest line instead of the first line. The alignment includes room for the indentation. This aligns all colons
         after the first line for a better appaerance. Arguments that do not have a short keyword in the first line will
-        remain the same. This style conforms to the Google Objective&#8209;C Style Guide.
+        remain the same. This style conforms to the Google Objective-C Style Guide.
     </p>
     <p>
-        The Objective&#8209;C align&#8209;method&#8209;colon option is now applied to Objective&#8209;C method calls in
+        The Objective-C align-method-colon option is now applied to Objective-C method calls in
         addition to method declarations and definitions.
     </p>
     <p>
-        Processing for c++14 single&#8209;quote digit separators has been added.
+        Processing for C++14 single-quote digit separators has been added.
+    </p>
+    <p>
+        Translations have been added for Bulgarian, Estonian, Greek, Hungarian, Norwegian, and 
+        Romanian. The translations were done with an automated translation program, Google Translate, so they may
+        not be the best translation possible. The translations are at the end of ASLocalizer.cpp in the form of an English-Translation 
+        pair. If you correct a translation, send the source as a bug report and it will be included in the next 
+        release. To add a language, see &quot;Internationalization&quot; in the &quot;General Information&quot; section of the 
+        documentation.</p>
+    <p>
+        &nbsp;
     </p>
 
     <h4>
-        New
-        Software License
+        Visual Studio 2015 UTF-8 Files
+    </h4>
+
+    <p>
+        In order to be used on both Linux and Windows, the ASLocalizer.cpp UTF-8 file in Artistic Style does not 
+        contain a Byte Order Mark (BOM).&nbsp; With Visual Studio 2015 there has been a change in how UTF-8 files 
+        without a BOM are processed. The new procedure is described 
+        <a href="https://blogs.msdn.microsoft.com/vcblog/2016/02/22/new-options-for-managing-character-sets-in-the-microsoft-cc-compiler/"
+            target="_blank" title="open new window">here</a>. 
+        It affects only the language translations in the &quot;.exe&quot; file. The shared libraries and static libraries
+        are not affected. It is necessary only if you are unsin a translation other than English.
+    </p>
+
+    <p>
+        In addition to the &quot;auto detect...&quot; option in 
+        Tools &gt; Options... &gt; Text Editor &gt; General, an additional compiler option is 
+        required. The option &quot;/source&#8209;charset:utf&#8209;8&quot; must be added to the project properties at C++ &gt; Command
+        Line, Additional Options. Since the non-unicode files in Artistic Style are ASCII, the option can be applied to
+        the entire project instead of just one file. This aopion has been added in the files distributed with Artistic Style.
+    </p>
+    <p>
+        This compiler option was not available until Update 2 of Visual Studio. If you are using an earlier version a
+        BOM should be added to the file with File &gt; &quot;Advanced Save Options...&quot;, change the encoding to &quot;Unicode
+        (UTF-8 with signature) - Codepage 65001&quot;.
+    </p>
+    <p>
+        In the above &quot;Visual C++ Team Blog&quot; Microsoft mentions that in a future major release of the compiler,
+        they would like to change default handling of BOM-less files to assume UTF-8.
+    </p>
+
+    <h4>
+        New Software License
     </h4>
 
     <p>
@@ -82,7 +122,6 @@
     <h4>
         Microsoft Clang Compiler
     </h4>
-
 
     <p>
         The Microsoft Clang Compiler is available with Visual Studio 2015 Update 1. It is usually 
@@ -139,8 +178,8 @@
 
     <p>
         The executable in the Windows distribution package is now compiled with a Visual Studio version that will no 
-        longer work on Windows XP. Beginning with Visual Studio 2012, auto&#8209;vectorization tries to make loops run
-        faster by automatically vectorizing the code. Auto&#8209;vectorization is on by default, there are no compiler
+        longer work on Windows XP. Beginning with Visual Studio 2012, auto-vectorization tries to make loops run
+        faster by automatically vectorizing the code. Auto-vectorization is on by default, there are no compiler
         switches, #pragmas, or hints. But it uses SSE instructions not available in Windows XP. Microsoft ended 
         support and updates for XP on April 8, 2014, and the usage share percentage continues to decrease.
     </p>
@@ -149,44 +188,22 @@
         compiler should produce an XP executable.
     </p>
     <p>
-        To compile on a non&#8209;XP machine for use on&nbsp; XP, using a compiler other than Visaul Studio should always
+        To compile on a non-XP machine for use on XP, using a compiler other than Visaul Studio should always
         produce an XP executable. Using Vusual Studio 2010 or earlier should always produce an XP executable. If 
-        you are using Visual Studio 2012, 2013, or 2015 on a non&#8209;XP machine, do the following for the Artistic Style
+        you are using Visual Studio 2012, 2013, or 2015 on a non-XP machine, do the following for the Artistic Style
         configuration you want to use:
     </p>
     <ul>
         <li>&quot;Windows XP Support for C++&quot; must be installed. It is available as an option in the Visual Studio install
-            and can be installed as a modification to the original install.</li>
-        <li>In the Artistic Style Properties, change General &gt; Platform Toolset, to &quot;Windows XP&quot;.</li>
+            and can be installed as a modification to the current install.</li>
+        <li>In the Artistic Style Properties, change General &gt; Platform Toolset, to &quot;Windows XP&quot; for your Visual
+            Studio version.</li>
         <li>In the Artistic Style Properties, change C/C++ &gt; Preprocessor &gt; Preprocessor Definitions to include 
             _USING_V110_SDK71_.</li>
         <li>Change other Properties if you want, such as Output Directory or Target Name.</li>
         <li>Compile. The output should be executable on Windows XP. It will also execute on the later versions of Windows.
         </li>
     </ul>
-
-    <h4>
-        SourceForge
-    </h4>
-
-    <p>
-        Recently, SourceForge began adding potentially unwanted programs (PUPs), also known as &quot;crapware&quot;, to
-        software installers of certain applications. Some large projects have already left the site. Artistic Style does
-        not use installer downloads and therefore was not affected by this. Downloads are in the form 
-        of .zip or .tar.gz files. However, having the PUPs available on the host site affects the integrity of every
-        application that uses the site.
-    </p>
-    <p>
-        What is even more troubling is that the uBlock browser add&#8209;on, and all of its spin&#8209;offs, is now blocking
-        access to the site by default. Even though Artistic Style has never used PUPs, the site is prevented from loading.
-        The block can be easily removed, but may discourage some people from using the software. are.
-    </p>
-    <p>
-        SourceForge is apparently taking steps to correct the situation. If this is not resolved fairly soon, Artistic
-        Style will be relocated to another site. If this happens, I will give notification of the new site at the 
-        current SourceForge address.
-    ess.
-    </p>
 
     <h4>
         Acknowledgments
