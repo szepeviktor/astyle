@@ -690,6 +690,7 @@ private:  // functions
 	bool isSharpStyleWithParen(const string* header) const;
 	bool isStructAccessModified(string& firstLine, size_t index) const;
 	bool isIndentablePreprocessorBlock(string& firstLine, size_t index);
+	bool isNDefPreprocStatement(string& firstLine, string& preproc) const;
 	bool isUnaryOperator() const;
 	bool isUniformInitializerBracket() const;
 	bool isImmediatelyPostCast() const;
