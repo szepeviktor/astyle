@@ -1,11 +1,11 @@
 #! /usr/bin/python
 
-"""ExampleByte.py
-   This program calls the Artistic Style DLL to format the AStyle source files.
-   The Artistic Style DLL must be in the same directory as this script.
-   The Artistic Style DLL must have the same bit size (32 or 64) as the Python executable.
-   It will work with either Python version 2 or 3 (unicode).
-   For Python 3 the files are retained in byte format and not converted to Unicode.
+""" ExampleByte.py
+    This program calls the Artistic Style DLL to format the AStyle source files.
+    The Artistic Style DLL must be in the same directory as this script.
+    The Artistic Style DLL must have the same bit size (32 or 64) as the Python executable.
+    It will work with either Python version 2 or 3 (unicode).
+    For Python 3 the files are retained in byte format and not converted to Unicode.
 """
 
 # to disable the print statement and use the print() function (version 3 format)
@@ -25,7 +25,7 @@ __is_unicode__ = False
 # -----------------------------------------------------------------------------
 
 def main():
-    """Main processing function.
+    """ Main processing function.
     """
     files = ["ASBeautifier.cpp", "ASFormatter.cpp", "astyle.h"]
     # options are byte code for AStyle input
@@ -57,10 +57,10 @@ def main():
 # -----------------------------------------------------------------------------
 
 def format_source_bytes(libc, bytes_in, option_bytes):
-    """Format the bytes_in by calling the AStyle shared object (DLL).
-       The variable bytes_in is expected to be a byte string.
-       The return value is a byte string.
-       If an error occurs, the return value is a NoneType object.
+    """ Format the bytes_in by calling the AStyle shared object (DLL).
+        The variable bytes_in is expected to be a byte string.
+        The return value is a byte string.
+        If an error occurs, the return value is a NoneType object.
     """
     astyle_main = libc.AStyleMain
     astyle_main.restype = c_char_p
@@ -73,8 +73,8 @@ def format_source_bytes(libc, bytes_in, option_bytes):
 # -----------------------------------------------------------------------------
 
 def get_astyle_version_bytes(libc):
-    """Get the version number from the AStyle shared object (DLL).
-       The function return value is a byte string.
+    """ Get the version number from the AStyle shared object (DLL).
+        The function return value is a byte string.
     """
     astyle_version = libc.AStyleGetVersion
     astyle_version.restype = c_char_p
@@ -84,9 +84,9 @@ def get_astyle_version_bytes(libc):
 # -----------------------------------------------------------------------------
 
 def get_project_directory(file_name):
-    """Find the directory path and prepend it to the file name.
-       The source is expected to be in the "src-p" directory.
-       This may need to be changed for your directory structure.
+    """ Find the directory path and prepend it to the file name.
+        The source is expected to be in the "src-p" directory.
+        This may need to be changed for your directory structure.
     """
     file_path = sys.path[0]
     end = file_path.find("src-p")
@@ -100,9 +100,9 @@ def get_project_directory(file_name):
 # -----------------------------------------------------------------------------
 
 def get_source_code_bytes(file_path):
-    """Get the source code as bytes.
-       Opening the file as binary will read it as a byte string.
-       The return value is a byte string.
+    """ Get the source code as bytes.
+        Opening the file as binary will read it as a byte string.
+        The return value is a byte string.
     """
     # read the file as a byte string by declaring it as binary
     # version 3 will read unicode if not declared as binary
@@ -120,8 +120,8 @@ def get_source_code_bytes(file_path):
 # -----------------------------------------------------------------------------
 
 def initialize_library():
-    """Set the file path and load the shared object (DLL).
-       Return the handle to the shared object (DLL).
+    """ Set the file path and load the shared object (DLL).
+        Return the handle to the shared object (DLL).
     """
     # change directory to the path where this script is located
     pydir = sys.path[0]
@@ -139,8 +139,8 @@ def initialize_library():
 # -----------------------------------------------------------------------------
 
 def initialize_platform():
-    """Check the python_implementation and the python_version.
-       Update the global variables __is_iron_python__ and __is_unicode__.
+    """ Check the python_implementation and the python_version.
+        Update the global variables __is_iron_python__ and __is_unicode__.
     """
     global __is_iron_python__, __is_unicode__
     if platform.python_implementation() == "CPython":
@@ -153,8 +153,8 @@ def initialize_platform():
 # -----------------------------------------------------------------------------
 
 def load_linux_so():
-    """Load the shared object for Linux platforms.
-       The shared object must be in the same folder as this python script.
+    """ Load the shared object for Linux platforms.
+        The shared object must be in the same folder as this python script.
     """
     shared = os.path.join(sys.path[0], "libastyle-2.06.so")
     # os.name does not always work for mac
@@ -172,10 +172,10 @@ def load_linux_so():
 # -----------------------------------------------------------------------------
 
 def load_windows_dll():
-    """Load the dll for Windows platforms.
-       The shared object must be in the same folder as this python script.
-       An exception is handled if the dll bits do not match the Python
-       executable bits (32 vs 64).
+    """ Load the dll for Windows platforms.
+        The shared object must be in the same folder as this python script.
+        An exception is handled if the dll bits do not match the Python
+        executable bits (32 vs 64).
     """
     dll = "AStyle-2.06.dll"
     try:
@@ -207,9 +207,9 @@ def load_windows_dll():
 # -----------------------------------------------------------------------------
 
 def save_source_code_bytes(bytes_out, file_path):
-    """Save the source code as bytes.
-       The variable bytes_in is expected to be a byte string.
-       Opening the file as binary will save it as a byte string.
+    """ Save the source code as bytes.
+        The variable bytes_in is expected to be a byte string.
+        Opening the file as binary will save it as a byte string.
     """
     # remove old .orig, if any
     backup_path = file_path + ".orig"
@@ -235,9 +235,9 @@ def save_source_code_bytes(bytes_out, file_path):
 
 # AStyle Error Handler Callback
 def error_handler(num, err):
-    """AStyle callback error handler.
-       The return error string (err) is always byte type.
-       It is converted to unicode for Python 3.
+    """ AStyle callback error handler.
+        The return error string (err) is always byte type.
+        It is converted to unicode for Python 3.
     """
     print("Error in input {0}".format(num))
     if __is_unicode__:
@@ -265,9 +265,9 @@ __allocated__ = c_char_p
 
 # AStyle Memory Allocation Callback
 def memory_allocation(size):
-    """AStyle callback memory allocation.
-       The size to allocate is always byte type.
-       The allocated memory MUST BE FREED by the calling function.
+    """ AStyle callback memory allocation.
+        The size to allocate is always byte type.
+        The allocated memory MUST BE FREED by the calling function.
     """
     # ctypes are different for CPython and IronPython
     global __allocated__
