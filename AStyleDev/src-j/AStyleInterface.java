@@ -5,13 +5,17 @@
 * Changing the class name requires changing Artistic Style.
 */
 
+import java.io.File;
+
 class AStyleInterface
-{   /**
-    *  Call the AStyleMain function in Artistic Style.
-    *  @param   textIn   A string containing the source code to be formatted.
-    *  @param   options  A string of options to Artistic Style.
-    *  @return  A String containing the formatted source from Artistic Style,
-    *           or an empty string on error.
+{   static private String libraryName = null;
+
+    /**
+    * Call the AStyleMain function in Artistic Style.
+    * @param   textIn   A string containing the source code to be formatted.
+    * @param   options  A string of options to Artistic Style.
+    * @return  A String containing the formatted source from Artistic Style,
+    *         or an empty string on error.
     */
     public String formatSource(String textIn, String options)
     {   // Return the allocated string
@@ -22,14 +26,14 @@ class AStyleInterface
         }
         catch (UnsatisfiedLinkError e)
         {   //~ System.out.println(e.getMessage());
-            System.out.println("Cannot call function AStyleMain");
+            error("Cannot call the Java AStyleMain function");
         }
         return textOut;
     }
 
     /**
-    *  Call the AStyleGetVersion function in Artistic Style.
-    *  @return  A String containing the version number from Artistic Style.
+    * Call the AStyleGetVersion function in Artistic Style.
+    * @return  A String containing the version number from Artistic Style.
     */
     public String getVersion()
     {   String version = new String();
@@ -38,12 +42,12 @@ class AStyleInterface
         }
         catch (UnsatisfiedLinkError e)
         {   //~ System.out.println(e.getMessage());
-            System.out.println("Cannot call function GetVersion");
+            error("Cannot call the Java AStyleGetVersion function");
         }
         return version;
     }
 
-    // functions to call Artistic Style ---------------------------------------------------
+    // functions to load Artistic Style -------------------------------------------------
 
     /**
     * Static constructor to load the native Artistic Style library.
@@ -52,31 +56,76 @@ class AStyleInterface
     */
     static
     {   // load shared library from the classpath
-        String astylePath = System.getProperty("user.dir")
+        String astyleDirectory = System.getProperty("user.dir");
+        String astyleName = getLibraryName(astyleDirectory);
+        String astylePath = astyleDirectory
                             + System.getProperty("file.separator")
-                            + System.mapLibraryName("astyle-2.06j");
+                            + astyleName;
+
         try
         {   System.load(astylePath);
         }
         catch (UnsatisfiedLinkError e)
         {   System.out.println(e.getMessage());
-            System.out.println("Cannot load native library " + astylePath);
-            System.out.println("The program has terminated!");
-            System.exit(1);
+            error("Cannot load native library " + astylePath);
         }
     }
 
     /**
-    *  Calls the AStyleMain function in Artistic Style.
-    *
-    *  @param   textIn   A string containing the source code to be formatted.
-    *  @param   options  A string of options to Artistic Style.
-    *  @return  A String containing the formatted source from Artistic Style.
+    * Called by static constructor to get the shared library name.
+    * This will get any version of the library in the classpath.
+    * Usually a specific version would be obtained, in which case a constant
+    * could be used for the library name.
+    * @param  astyleDirectory  The directory containing the shared library.
+    * @return  The name of the shared library found in the directory.
+    */
+    static private String getLibraryName(String astyleDirectory)
+    {   // get the shared library extension for the platform
+        String fileExt = System.mapLibraryName("");
+        int dot = fileExt.indexOf(".");
+        fileExt = fileExt.substring(dot);
+        // get a library name in the classpath
+        File directory = new File(astyleDirectory);
+        for (File filePath : directory.listFiles())
+        {   String fileName = filePath.getName().toLowerCase();
+            if (filePath.isFile()
+                    && fileName.endsWith(fileExt)
+                    && (fileName.startsWith("astyle")
+                        || fileName.startsWith("libastyle"))
+                    &&  fileName.contains("j"))
+            {   libraryName = filePath.getName();
+                break;
+            }
+        }
+        if (libraryName == null)
+        {   error("Cannot find native library in "
+                  + astyleDirectory
+                  + System.getProperty("file.separator"));
+        }
+        return libraryName;
+    }
+
+    /*
+    * Error message function for this example.
+    */
+    private static void error(String message)
+    {   System.out.println(message);
+        System.out.println("The program has terminated!");
+        System.exit(1);
+    }
+
+    /**
+    * Calls the Java AStyleMain function in Artistic Style.
+    * The function name is constructed from method names in this program.
+    * @param   textIn   A string containing the source code to be formatted.
+    * @param   options  A string of options to Artistic Style.
+    * @return  A String containing the formatted source from Artistic Style.
     */
     public native String AStyleMain(String textIn, String options);
 
     /**
-    * Calls the AStyleGetVersion function in Artistic Style.
+    * Calls the Java AStyleGetVersion function in Artistic Style.
+    * The function name is constructed from method names in this program.
     *
     * @return    A String containing the version number of Artistic Style.
     */
@@ -89,7 +138,6 @@ class AStyleInterface
     * parameters are correct.
     * Changing the method name requires changing Artistic Style.
     * Signature: (ILjava/lang/String;)V.
-    *
     *  @param  errorNumber   The error number from Artistic Style.
     *  @param  errorMessage  The error message from Artistic Style.
     */
