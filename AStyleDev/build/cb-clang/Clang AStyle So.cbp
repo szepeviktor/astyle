@@ -38,6 +38,7 @@
 					<Add after="cp  bin/libastyle-2.06.so  ../../src-o/" />
 					<Add after="cp  bin/libastyle-2.06.so  ../../src-p/" />
 					<Add after="cp  bin/libastyle-2.06.so  ../../src-s/" />
+					<Add after="cp  bin/libastyle-2.06.so  ../../src-s2/" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>

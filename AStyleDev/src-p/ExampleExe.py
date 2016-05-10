@@ -43,8 +43,16 @@ def display_astyle_version(exe):
     astyle = [exe, "--version"]
     retval = subprocess.call(astyle)
     if retval:
-        print("Bad astyle return: " + str(retval))
-        os._exit(1)
+        error("Bad astyle return: " + str(retval))
+
+# -----------------------------------------------------------------------------
+
+def error(message):
+    """ Error message function for this example.
+    """
+    print(message)
+    print("The program has terminated!")
+    os._exit(1)
 
 # -----------------------------------------------------------------------------
 
@@ -58,8 +66,7 @@ def format_source_code(exe, file_path, options):
     astyle = [exe, options, file_path]
     retval = subprocess.call(astyle)
     if retval:
-        print("Bad astyle return: " + str(retval))
-        os._exit(1)
+        error("Bad astyle return: " + str(retval))
 
 # -----------------------------------------------------------------------------
 
@@ -71,8 +78,7 @@ def get_project_directory(file_name):
     file_path = sys.path[0]
     end = file_path.find("src-p")
     if end == -1:
-        print("Cannot find source directory", file_path)
-        os._exit(1)
+        error("Cannot find source directory " + file_path)
     file_path = file_path[0:end]
     file_path = file_path + "test-data" + os.sep + file_name
     return file_path
@@ -93,12 +99,15 @@ def initialize_exe():
     # return the executable name for the platform
     if os.name == "nt":
         exe = "AStyle.exe"
+        if not os.path.isfile(exe):
+            exe = "AStyled.exe"
     else:
         exe = "astyle"
+        if not os.path.isfile(exe):
+            exe = "astyled"
     # verify the astyle executable is available
     if not os.path.isfile(exe):
-        print("Cannot find", exe)
-        os._exit(1)
+        error("Cannot find " + exe)
     return exe
 
 # -----------------------------------------------------------------------------

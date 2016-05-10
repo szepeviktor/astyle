@@ -114,8 +114,9 @@
       <WarningLevel>Level4</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain%4016
-/EXPORT:AStyleGetVersion=_AStyleGetVersion%400 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain@16
+/EXPORT:AStyleMainUtf16=_AStyleMainUtf16@16
+/EXPORT:AStyleGetVersion=_AStyleGetVersion@0</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>

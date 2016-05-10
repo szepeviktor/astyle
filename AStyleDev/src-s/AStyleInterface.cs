@@ -9,62 +9,60 @@ public class AStyleInterface
 #if (WINDOWS)
 // Windows will NOT attach an extension to a filename containing dots (.).
 #if (DEBUG)
-    private const String dllName = "astyle-2.06d.dll";
+    private const string dllName = "astyle-2.06d.dll";
 #else
-    private const String dllName = "astyle-2.06.dll";
+    private const string dllName = "astyle-2.06.dll";
 #endif
 #else
 #if (DEBUG)
-    private const String dllName = "astyle-2.06d";
+    private const string dllName = "astyle-2.06d";
 #else
-    private const String dllName = "astyle-2.06";
+    private const string dllName = "astyle-2.06";
 #endif
 #endif
     /// AStyleGetVersion DllImport.
-    /// Cannot use String as a return value because Mono runtime will attempt to
+    /// Cannot use string as a return value because Mono runtime will attempt to
     /// free the returned pointer resulting in a runtime crash.
     /// NOTE: CharSet.Unicode is NOT used here.
     [DllImport(dllName)]
     private static extern IntPtr AStyleGetVersion();
 
     /// AStyleMainUtf16 DllImport.
-    /// Cannot use String as a return value because Mono runtime will attempt to
+    /// Cannot use string as a return value because Mono runtime will attempt to
     /// free the returned pointer resulting in a runtime crash.
-    /// NOTE: CharSet.Unicode and wide strings are used here.
+    /// NOTE: CharSet.Unicode and wide strings ARE used here.
     [DllImport(dllName, CharSet = CharSet.Unicode)]
     private static extern IntPtr AStyleMainUtf16(
-        [MarshalAs(UnmanagedType.LPWStr)] String sIn,
-        [MarshalAs(UnmanagedType.LPWStr)] String sOptions,
-        AStyleErrorDelgate errorFunc,
-        AStyleMemAllocDelgate memAllocFunc
+        [MarshalAs(UnmanagedType.LPWStr)] string textIn,
+        [MarshalAs(UnmanagedType.LPWStr)] string options,
+        AStyleErrorDelgate AStyleError,
+        AStyleMemAllocDelgate AStyleMemAlloc
     );
 
     /// AStyleMainUtf16 callbacks.
     /// NOTE: Wide strings are NOT used here.
-    private delegate IntPtr AStyleMemAllocDelgate(int size);
     private delegate void AStyleErrorDelgate(
         int errorNum,
-        [MarshalAs(UnmanagedType.LPStr)] String error
+        [MarshalAs(UnmanagedType.LPStr)] string error
     );
+    private delegate IntPtr AStyleMemAllocDelgate(int size);
 
-    /// AStyleMainUtf16 Delegates.
-    private AStyleMemAllocDelgate AStyleMemAlloc;
-    private AStyleErrorDelgate AStyleError;
-
-    /// Declare callback functions.
-    public AStyleInterface()
-    {   AStyleMemAlloc = new AStyleMemAllocDelgate(OnAStyleMemAlloc);
-        AStyleError = new AStyleErrorDelgate(OnAStyleError);
+    /// Error handler to abort the program.
+    private void Error(string message)
+    {   Console.WriteLine(message);
+        Console.WriteLine("The program has terminated!");
+        Environment.Exit(1);
     }
 
     /// Call the AStyleMainUtf16 function in Artistic Style.
     /// An empty string is returned on error.
-    public String FormatSource(String textIn, String options)
+    public string FormatSource(string textIn, string options)
     {   // Return the allocated string
-        // Memory space is allocated by OnAStyleMemAlloc, a callback function
-        String sTextOut = String.Empty;
+        // Memory space is allocated by AStyleMemAlloc, a callback function
+        string sTextOut = String.Empty;
         try
-        {   IntPtr pText = AStyleMainUtf16(textIn, options, AStyleError, AStyleMemAlloc);
+        {   IntPtr pText = AStyleMainUtf16(textIn, options,
+                                           AStyleError, AStyleMemAlloc);
             if (pText != IntPtr.Zero)
             {   sTextOut = Marshal.PtrToStringUni(pText);
                 Marshal.FreeHGlobal(pText);
@@ -72,25 +70,21 @@ public class AStyleInterface
         }
         catch (BadImageFormatException e)
         {   Console.WriteLine(e.ToString());
-            Console.WriteLine("You may be mixing 32 and 64 bit code!");
+            Error("You may be mixing 32 and 64 bit code!");
         }
         catch (DllNotFoundException)
         {   //Console.WriteLine(e.ToString());
-            Console.WriteLine("Cannot load native library: " + dllName);
-            Console.WriteLine("The program has terminated!");
-            Environment.Exit(1);
+            Error("Cannot load native library: " + dllName);
         }
         catch (Exception e)
-        {   Console.WriteLine(e.ToString());
+        {   Error(e.ToString());
         }
         return sTextOut;
     }
 
     /// Get the Artistic Style version number.
-    /// Does not need to terminate on error.
-    /// But the exception must be handled when a function is called.
-    public String GetVersion()
-    {   String sVersion = String.Empty;
+    public string GetVersion()
+    {   string sVersion = String.Empty;
         try
         {   IntPtr pVersion = AStyleGetVersion();
             if (pVersion != IntPtr.Zero)
@@ -99,32 +93,26 @@ public class AStyleInterface
         }
         catch (BadImageFormatException e)
         {   Console.WriteLine(e.ToString());
-            Console.WriteLine("You may be mixing 32 and 64 bit code!");
-            Console.WriteLine("The program has terminated!");
-            Environment.Exit(1);
+            Error("You may be mixing 32 and 64 bit code!");
         }
         catch (DllNotFoundException)
         {   //Console.WriteLine(e.ToString());
-            Console.WriteLine("Cannot load native library: " + dllName);
-            Console.WriteLine("The program has terminated!");
-            Environment.Exit(1);
+            Error("Cannot load native library: " + dllName);
         }
         catch (Exception e)
-        {   Console.WriteLine(e.ToString());
-            Console.WriteLine("The program has terminated!");
-            Environment.Exit(1);
+        {   Error(e.ToString());
         }
         return sVersion;
     }
 
-    /// Allocate the memory for the Artistic Style return string.
-    private IntPtr OnAStyleMemAlloc(int size)
+    /// AStyleMainUtf16 callback to allocate memory for the return string.
+    private IntPtr AStyleMemAlloc(int size)
     {   return Marshal.AllocHGlobal(size);
     }
 
-    /// Display errors from Artistic Style.
-    private void OnAStyleError(int errorNumber, string errorMessage)
-    {   Console.WriteLine("AStyle error " + errorNumber + "\n" + errorMessage);
+    /// AStyleMainUtf16 callback to display errors from Artistic Style.
+    private void AStyleError(int errorNumber, string error)
+    {   Console.WriteLine("AStyle error " + errorNumber + "\n" + error);
     }
 
 }   // class AStyleInterface

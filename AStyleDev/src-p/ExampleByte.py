@@ -47,12 +47,20 @@ def main():
         formatted_bytes = format_source_bytes(libc, bytes_in, option_bytes)
         # if an error occurs, the return is a type(None) object
         if type(formatted_bytes) is type(None):
-            print("Error in formatting", file_path)
-            os._exit(1)
+            error("Error in formatting " + file_path)
         save_source_code_bytes(formatted_bytes, file_path)
         # allocated memory is deleted here, not in the allocation function
         del formatted_bytes
         print("Formatted", file_path)
+
+# -----------------------------------------------------------------------------
+
+def error(message):
+    """ Error message function for this example.
+    """
+    print(message)
+    print("The program has terminated!")
+    os._exit(1)
 
 # -----------------------------------------------------------------------------
 
@@ -83,6 +91,30 @@ def get_astyle_version_bytes(libc):
 
 # -----------------------------------------------------------------------------
 
+def get_library_name():
+    """ Get an astyle shared library name in the current directory.
+        This will get any version of the library in the directory.
+        Usually a specific version would be obtained, in which case a constant
+        could be used for the library name.
+    """
+    if platform.system() == "Windows":
+        libext = ".dll"
+    elif platform.system() == "Linux":
+        libext = ".so"
+    elif platform.system() == "Darwin":
+        libext = ".dylib"
+    else:
+        error("Cannot indetify platform: " + platform.system())
+    for file_name in os.listdir():
+        if (os.path.isfile(file_name)
+        and file_name.lower().endswith(libext)
+        and (file_name.lower().startswith("astyle")
+             or  file_name.lower().startswith("libastyle"))):
+            return file_name
+    error("Cannot find native library in " + os.getcwd() + os.path.sep)
+
+# -----------------------------------------------------------------------------
+
 def get_project_directory(file_name):
     """ Find the directory path and prepend it to the file name.
         The source is expected to be in the "src-p" directory.
@@ -91,8 +123,7 @@ def get_project_directory(file_name):
     file_path = sys.path[0]
     end = file_path.find("src-p")
     if end == -1:
-        print("Cannot find source directory", file_path)
-        os._exit(1)
+        error("Cannot find source directory " + file_path)
     file_path = file_path[0:end]
     file_path = file_path + "test-data" + os.sep + file_name
     return file_path
@@ -112,8 +143,7 @@ def get_source_code_bytes(file_path):
     except IOError as err:
         # "No such file or directory: <file>"
         print(err)
-        print("Cannot open", file_path)
-        os._exit(1)
+        error("Cannot open " + file_path)
     file_in.close()
     return bytes_in
 
@@ -156,17 +186,14 @@ def load_linux_so():
     """ Load the shared object for Linux platforms.
         The shared object must be in the same folder as this python script.
     """
-    shared = os.path.join(sys.path[0], "libastyle-2.06.so")
-    # os.name does not always work for mac
-    if sys.platform == "darwin":
-        shared = shared.replace(".so", ".dylib")
+    shared_name = get_library_name()
+    shared = os.getcwd() + os.path.sep + shared_name
     try:
         libc = cdll.LoadLibrary(shared)
     except OSError as err:
         # "cannot open shared object file: No such file or directory"
         print(err)
-        print("Cannot find", shared)
-        os._exit(1)
+        error("Cannot find " + shared)
     return libc
 
 # -----------------------------------------------------------------------------
@@ -177,31 +204,29 @@ def load_windows_dll():
         An exception is handled if the dll bits do not match the Python
         executable bits (32 vs 64).
     """
-    dll = "AStyle-2.06.dll"
+    dll_name = get_library_name()
+    dll = os.getcwd() + os.path.sep + dll_name
     try:
         libc = windll.LoadLibrary(dll)
     # exception for CPython
     except WindowsError as err:
         # print(err)
-        print("Cannot load library", dll)
+        print("Cannot load library " + dll)
         if err.winerror == 126:     #  "The specified module could not be found"
-            print("Cannot find", dll)
+            error("Cannot find " + dll)
         elif err.winerror == 193:   #  "%1 is not a valid Win32 application"
-            print("You may be mixing 32 and 64 bit code")
+            error("You may be mixing 32 and 64 bit code")
         else:
-            print(err.strerror)
-        os._exit(1)
+            error(err.strerror)
     # exception for IronPython
     except OSError as err:
         print("Cannot load library", dll)
-        print("If the library is available you may be mixing 32 and 64 bit code")
-        os._exit(1)
+        error("If the library is available you may be mixing 32 and 64 bit code")
     # exception for IronPython
     # this sometimes occurs with IronPython during debug
     # rerunning will probably fix
     except TypeError as err:
-        print("TypeError - rerunning will probably fix")
-        os._exit(1)
+        error("TypeError - rerunning will probably fix")
     return libc
 
 # -----------------------------------------------------------------------------
@@ -242,8 +267,7 @@ def error_handler(num, err):
     print("Error in input {0}".format(num))
     if __is_unicode__:
         err = err.decode()
-    print(err)
-    os._exit(1)
+    error(err)
 
 # -----------------------------------------------------------------------------
 
@@ -301,4 +325,4 @@ MEMORY_ALLOCATION = MEMORY_ALLOCATION_CALLBACK(memory_allocation)
 # make the module executable
 if __name__ == "__main__":
     main()
-    os._exit
+    os._exit(0)

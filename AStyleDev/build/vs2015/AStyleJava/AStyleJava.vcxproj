@@ -41,7 +41,6 @@
     <ProjectGuid>{08A9EBC2-F740-4017-9D8B-44028E9E04D8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>AStyleJava</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -151,6 +150,9 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain@16
+/EXPORT:AStyleMainUtf16=_AStyleMainUtf16@16
+/EXPORT:AStyleGetVersion=_AStyleGetVersion@0 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
       <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-j\</Command>
@@ -196,6 +198,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain@16
+/EXPORT:AStyleMainUtf16=_AStyleMainUtf16@16
+/EXPORT:AStyleGetVersion=_AStyleGetVersion@0 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
       <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-j\</Command>
@@ -224,6 +229,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain@16
+/EXPORT:AStyleMainUtf16=_AStyleMainUtf16@16
+/EXPORT:AStyleGetVersion=_AStyleGetVersion@0 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
       <Command>cmd /c  copy /y  $(TargetDir)$(TargetFileName) $(SolutionDir)..\..\src-j\</Command>

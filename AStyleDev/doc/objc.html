@@ -18,42 +18,37 @@
     <h2 class="large">Calling Artistic Style from an Objective&#8209;C Program</h2>
 
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
     <p class="noindent">
         Artistic Style can be compiled as a shared library (DLL) or a static library and linked with an Objective&#8209;C
         program. This is usually done on a Mac OS X computer. However,&nbsp; <a href="gnustep.html">Objective&#8209;C on Windows
             and Linux</a> contains information on compiling and running Objective&#8209;C programs using GNUstep. It has
-        instructions for compiling the following example program on Windows or Linux.
-    </p>
+        instructions for compiling the following example program on Windows or Linux.</p>
 
     <h3>Compile Options</h3>
 
     <p>
-        To compile AStyle for use with an Objective&#8209;C program the compile option ASTYLE_LIB must be defined. Then AStyle will
-        accept the files and options as parameters from a function call. It is the responsibility of the calling program
-        to read the source files and accept the options from the user via a graphical interface or other method. These
-        are then passed via the function call. After the source files are formatted they will be returned to the calling
-        program, which must then save the source file and take other appropriate action.
-    </p>
+        To compile AStyle for use with an Objective&#8209;C program the compile option ASTYLE_LIB must be defined. Then
+        AStyle will accept the files and options as parameters from a function call. It is the responsibility of the calling
+        program to read the source files and accept the options from the user via a graphical interface or other method.
+        These are then passed via the function call. After the source files are formatted they will be returned to the
+        calling program, which must then save the source file and take other appropriate action.</p>
     <p>
         Visual Studio users can also use the option ASTYLE_NO_VCX (no Visual C exports) to remove the 
         __declspec(dllexport) definition from Visual C. Use this only for static libraries or when the AStyle source 
-        is included in the compile. Do NOT use this when compiled as a shared (dynamic) library. It is effective only 
+        is included in the compile. Do NOT use this when compiled as a shared (dynamic) library. It is effective only
         for Visual Studio 2012 and higher. It will NOT work with previous versions. It has no effect with other 
-        compilers since they require a separate option to create the import library and export files.
-    </p>
+        compilers since they require a separate option to create the import library and export files.</p>
     <p>
         The source can also be included in a program or another shared library (DLL) instead of being compiled by 
-        itself. It should be compiled with the options ASTYLE_LIB (and ASTYLE_NO_VCX for Visual C) to get the function call instead
-        of the console build. Then include it with the other source modules and call it using the AStyleMain function.
-    </p>
+        itself. It should be compiled with the options ASTYLE_LIB (and ASTYLE_NO_VCX for Visual C) to get the function
+        call instead of the console build. Then include it with the other source modules and call it using the AStyleMain
+        function.</p>
 
     <h3>AStyleMain Function</h3>
 
     <p>
-        This function is called to format the source code.
-    </p>
+        This function is called to format the source code.</p>
 
     <h4>Syntax</h4>
 
@@ -69,83 +64,74 @@
 
     <p>
         <i>pSourceIn</i><br />
-        A pointer to the source file to be formatted.
-    </p>
+        A pointer to the source file to be formatted.</p>
     <p>
         <i>pOptions</i><br />
         A pointer to the formatting options. They should be in the same format as in the default options file. The options
         may be set apart by new-lines, commas, tabs or spaces. The long options do not need the "--" prefix. Comments
-        may be used but they must be terminated by a new-line "\n" character.
-    </p>
+        may be used but they must be terminated by a new-line "\n" character.</p>
     <p>
-        If the file to be formatted is a Java or C# file, the file mode option must be included (e.g. mode=java or mode=cs).
-    </p>
+        If the file is not a C/C++ file the file mode option "mode=java" or "mode=cs" must be included. Otherwise the
+        default mode of C/C++ is used.</p>
     <p>
         <i>fpError</i><br />
         A pointer to the error handling function. If there are errors in the parameters pSourceIn
         or pOptions, this function is called. It should display an error message and then either abort or continue the
         program depending on the error. The first parameter is a number identifying the error. The second parameter is
-        a pointer to a standard error message.
-    </p>
+        a pointer to a standard error message.</p>
     <p>
         Error messages numbered 100-199 are errors that prevent the file from being formatted. A NULL pointer is returned
         to the calling program. Error messages numbered 200-299 are errors that do NOT prevent the file from being formatted.
         A valid pointer and a formatted file are returned. This will occur if an invalid option is sent to AStyleMain.
-        The calling program has the option of accepting or rejecting the formatted file.
-    </p>
+        The calling program has the option of accepting or rejecting the formatted file.</p>
     <p>
         <i>fpAlloc</i><br />
         A pointer to the memory allocation function. The calling program must allocate memory for the output source file.
-        This function will be called when the memory is needed. The parameter is the amount of memory that should be allocated.
-    </p>
+        This function will be called when the memory is needed. The parameter is the amount of memory that should be 
+        allocated.</p>
     <p>
-        NSZoneMalloc is typically used to allocate variable sized memory. An error for this results in a NSMallocException. This
-        means that exception handling must
-        be used to catch the error. If instead, a &#8220;C&#8221; malloc function is used, the error results in a NULL
-        return. In this case it simplifies the error handling since the NULL is simply returned to AStyle. The example
-        program uses malloc instead of NSZoneMalloc.
-    </p>
+        NSZoneMalloc is typically used to allocate variable sized memory. An error for this results in a NSMallocException.
+        This means that exception handling must be used to catch the error. If instead, a &#8220;C&#8221; malloc function
+        is used, the error results in a NULL return. In this case it simplifies the error handling since the NULL is simply
+        returned to AStyle. The example program uses malloc instead of NSZoneMalloc.</p>
     <p>
         A NSZoneMalloc can be used if you want but do not abort the program in the memory allocation function. An error
         message may be printed but return a NULL pointer to AStyle and handle the error when AStyle returns from formatting
-        the text.
-    </p>
+        the text.</p>
     <p>
-        The calling program is responsible for freeing the allocated memory when it is no longer needed.
-    </p>
+        The calling program is responsible for freeing the allocated memory when it is no longer needed.</p>
 
     <h4>Return Value</h4>
 
     <p>
-        If the function succeeds, the return value is a pointer to the formatted source code.
-    </p>
+        If the function succeeds, the return value is a pointer to the formatted source code.</p>
     <p>
         If the function fails, the return value is NULL. Before the NULL is returned an error message will be sent to
-        the error handling function.
-    </p>
+        the error handling function.</p>
     <p>
-        This function typically fails for one of the following reasons:
-    </p>
+        This function typically fails for one of the following reasons:</p>
     <ul>
         <li>an invalid parameter value, usually a NULL pointer.</li>
         <li>the memory allocation function (fpAlloc) returns a NULL.</li>
     </ul>
+    <p>
+        The function will NOT fail for an invalid option in the formatting options. In this case an error message 
+        is sent to the error handling function and the formatted source code is returned without using the invalid 
+        option.</p>
 
     <h4>Remarks</h4>
 
     <p>
         The STDCALL macro is defined for Windows as <i>__stdcall</i>. It is needed if AStyle is compiled as a Windows
-        shared library (DLL). For Linux it is defined but does not have a value.
-    </p>
+        shared library (DLL). For Linux it is defined but does not have a value.</p>
     <p>
-        The calling program is responsible for freeing the memory allocated by <i>fpAlloc</i> when it is no longer needed.
-    </p>
+        The calling program is responsible for freeing the memory allocated by <i>fpAlloc</i> when it is no longer 
+        needed.</p>
 
     <h3>AStyleGetVersion Function</h3>
 
     <p>
-        This function is called to get the Artistic Style version number.
-    </p>
+        This function is called to get the Artistic Style version number.</p>
 
     <h4>Syntax</h4>
 
@@ -157,15 +143,13 @@
     <h4>Return Value</h4>
 
     <p>
-        A pointer to the Artistic Style version number.
-    </p>
+        A pointer to the Artistic Style version number.</p>
 
     <h4>Remarks</h4>
 
     <p>
         The STDCALL macro is defined for Windows as <i>__stdcall</i>. It is needed if AStyle is compiled as a Windows
-        shared library (DLL). For Linux it is defined but does not have a value.
-    </p>
+        shared library (DLL). For Linux it is defined but does not have a value.</p>
 
     <h3>Example</h3>
 
@@ -173,11 +157,9 @@
         The following example formats source files by calling the Artistic Style formatter. It is a console application
         but the procedure for a GUI is the same. The example can be copied and pasted into a source file. Or it can be
         downloaded with test data from the "Developer Information" page. The source code for Artistic Style must be added
-        as a shared library (DLL), a static library, or included with the example source.
-    </p>
+        as a shared library (DLL), a static library, or included with the example source.</p>
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
     <div class="hl">
         <pre class="hl">
  
@@ -337,8 +319,7 @@ NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span c
 </pre>
     </div>
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
 
     <center style="margin-left: -0.4in;">
         <a href="http://sourceforge.net/projects/astyle">
@@ -346,8 +327,8 @@ NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span c
     </center>
 
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
 </body>
 
 </html>
+

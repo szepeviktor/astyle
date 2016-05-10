@@ -93,7 +93,8 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain@16
-/EXPORT:AStyleGetVersion=_AStyleGetVersion@0 %(AdditionalOptions)</AdditionalOptions>
+/EXPORT:AStyleMainUtf16=_AStyleMainUtf16@16
+/EXPORT:AStyleGetVersion=_AStyleGetVersion@0</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
@@ -147,7 +148,8 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain@16
-/EXPORT:AStyleGetVersion=_AStyleGetVersion@0 %(AdditionalOptions)</AdditionalOptions>
+/EXPORT:AStyleMainUtf16=_AStyleMainUtf16@16
+/EXPORT:AStyleGetVersion=_AStyleGetVersion@0</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
