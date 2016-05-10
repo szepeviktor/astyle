@@ -17,21 +17,18 @@
     <h2 class="large">Objective&#8209;C on Windows and Linux</h2>
 
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
     <p class="noindent">
         The best platform for developing Objective&#8209;C is Mac OS. But Objective&#8209;C programs can also be compiled
         and run on Windows or Linux by using GNUstep and an Objective&#8209;C compiler. GNUstep is an object-oriented
         library that provides the programmer with a range of libraries and utilities for building Objective&#8209;C
-        applications. GNUstep is generally compatible with recent developments of the MacOS (Cocoa) API.
-    </p>
+        applications. GNUstep is generally compatible with recent developments of the MacOS (Cocoa) API.</p>
     <p class="noindent">
         Objective&#8209;C development environments are not readily available on Windows or Linux.
         CodeBlocks can be used if additional options are set and an Objective-C compiler is used.. The Example program
         can also be compiled by using a text editor with compile capability such as SciTE. Or it may be compiled from
         the command line. Or scripts can be written using Python, Batch, Bash, or other scripting languages. Compile options
-        for each platform are included in the following descriptions.
-    </p>
+        for each platform are included in the following descriptions.</p>
 
     <h3>Objective&#8209;C on Windows</h3>
 
@@ -40,13 +37,11 @@
         since it is included with GNUstep. If MinGW is installed separately be sure to include the Objective&#8209;C compiler
         package. The GNUstep installation packages are available at the <a href="http://www.gnustep.org/experience/Windows.html">
             GNUstep Windows Installer</a> page. For development you will need GNUstep MSYS, GNUstep Core, and GNUstep
-        Devel. GNUstep Cairo is optional. For now, it is best to use the "stable" packages.
-    </p>
+        Devel. GNUstep Cairo is optional. For now, it is best to use the "stable" packages.</p>
     <p>
         GNUstep MSYS is an application of the MinGW MSYS system. It consists of a console shell and supporting programs
         that are used to simulate a Linux environment. It can build programs that use the Linux Autoconf system and run
-        shell scripts. There are limits, of course, to what can be done.
-    </p>
+        shell scripts. There are limits, of course, to what can be done.</p>
     <p>
         GNUstep application packages 
         are an optional install from the installer web page. Since they are Mac applications
@@ -55,8 +50,7 @@
         as in Windows. <a href="http://www.gnustep.it/enrico/gworkspace/">GWorkspace</a> is a fairly large application
         that includes source code. It can be used as a reference for Objective&#8209;C coding. The GNUstep MSYS shell
         must be used for the compile since Autoconf is used. There are INSTALL instructions in the top level GWorkspace
-        directory.
-    </p>
+        directory.</p>
     <p>
         To compile the Artistic Style Example program the GNUstep development packages must be installed. Artistic Style
         should be compiled with MinGW as a DLL or static library for linking with the example. MSYS and Autoconf are NOT
@@ -65,58 +59,50 @@
         options the "-L.\" is for linking with a DLL in the same directory as the example. If the library is in another
         location the compile option must be changed to reflect this. The option -Wl,-enable-stdcall-fixup disables a 
         warning message for 32&#8209;bit compiles. Options for compiling the Example program using the GNUstep compiler
-        are:
-    </p>
+        are:</p>
     <p>
         $(GNUstepPath)\bin\gcc&nbsp; Example.m&nbsp; -o&nbsp;Example<br />
         -I$(GNUstepPath)\GNUstep\System\Library\Headers&nbsp; -fconstant-string-class=NSConstantString&nbsp; -D_NATIVE_OBJC_EXCEPTIONS<br />
         -Os&nbsp; -Wall&nbsp; -Wextra&nbsp; -Wl,-enable-stdcall-fixup<br />
         -L$(GNUstepPath)\GNUstep\System\Library\Libraries&nbsp; -lgnustep-base&nbsp; -lobjc<br />
-        -L.\&nbsp; -lAStyle
-    </p>
+        -L.\&nbsp; -lAStyle</p>
     <p>
         The compiled Example will run as any other console program. If Artistic Style is linked as a DLL it must be in
-        the same directory as the example, or in another system path directory.
-    </p>
+        the same directory as the example, or in another system path directory.</p>
 
     <h3>Objective&#8209;C on Linux</h3>
 
     <p>
         Objective&#8209;C on Linux requires the GNUstep packages and the GCC or Clang compiler. On many systems GNUstep
-        will be available as a packaged install. For a typical installation the gobjc, gobjc++, gnustep, and gnustep-core-devel
-        packages are needed. The gobjc packages are the Objective&#8209;C compilers for GCC. If packages are not available
-        they can be compiled with source code available at the <a href="http://www.gnustep.org/">GNUstep</a> website.
-    </p>
+        will be available as a packaged install. For a typical installation the gobjc, gobjc++, gnustep, and 
+        gnustep-core-devel packages are needed. The gobjc packages are the Objective&#8209;C compilers for GCC. If packages
+        are not available they can be compiled with source code available at the 
+        <a href="http://www.gnustep.org/">GNUstep</a> website.</p>
     <p>
         With Gnome systems, GNUstep programs will be added to the system menu. Applications installed are System
         Preferences, Gorm, Project Center, GWorkspace, and a few others. Since they are Mac applications the 
         application menu display is separate from the application window. This can NOT be changed with "System Preferences"
         as on Windows. <a href="http://www.gnustep.it/enrico/gworkspace/">GWorkspace</a>
         is a fairly large application that includes source code if downloaded from the website. It can be used as a reference
-        for Objective&#8209;C coding. There are INSTALL instructions in the top level GWorkspace directory.
-    </p>
+        for Objective&#8209;C coding. There are INSTALL instructions in the top level GWorkspace directory.</p>
     <p>
         To compile the Artistic Style Example program the GNUstep development packages must be installed. Artistic Style
         should be compiled as a shared or static library for linking with the example. In the following options the "-L./"
         and "-Wl,-rpath,./" are for linking and executing with a shared library in the same directory as the example.
         If the library is in another location the compile options must be changed to reflect this. On some installations
-        GNUstep may install to different directories. Options for compiling the Example program are:
-    </p>
+        GNUstep may install to different directories. Options for compiling the Example program are:</p>
     <p>
         gcc &nbsp; Example.m&nbsp; -o Example<br />
         -I/usr/include/GNUstep&nbsp; -fconstant-string-class=NSConstantString&nbsp; -D_NATIVE_OBJC_EXCEPTIONS<br />
         -Os&nbsp; -Wall&nbsp; -Wextra<br />
         -L/usr/lib/GNUstep&nbsp; -lgnustep-base&nbsp; -lobjc<br />
         -L./&nbsp; -lastyle<br />
-        -Wl,-rpath,./
-    </p>
+        -Wl,-rpath,./</p>
     <p>
         The compiled Example will run as any other console program. If Artistic Style is linked as a shared library it
-        must be in the same directory as the example when compiled with the above options.
-    </p>
+        must be in the same directory as the example when compiled with the above options.</p>
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
 
     <center style="margin-left: -0.4in;">
         <a href="http://sourceforge.net/projects/astyle">
@@ -124,8 +110,7 @@
     </center>
 
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
 </body>
 
 </html>

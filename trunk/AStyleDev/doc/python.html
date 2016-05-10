@@ -18,52 +18,37 @@
     <h2 class="large">Calling Artistic Style from a Python Script</h2>
 
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
     <p class="noindent">
-        Artistic style can be called from a Python script, either as an executable or a shared library (DLL). 
-        There are three Python scripts in the download along with the test files. The scripts will run on either Python 2, Python
-        3, or Iron Python.
-    </p>
+        Artistic style can be called from a Python script as a shared library (DLL). There are two Python scripts in the
+        download along with the test files. The scripts will run on either Python 2, Python 3, or Iron Python.</p>
     <p class="noindent">
-        Example.Exe.py calls the Artistic Style executable. An Artistic Style executable
-        must be in the same folder as the Python script. The source files are never read by the script. This is the easiest
-        way to call the program.
-    </p>
-    <p class="noindent">
-        The other scripts, ExampleByte.py and ExampleUnicode.py, use Artistic Style as a shared library. The source code
-        is read into the program. A shared library
-        must be in the same folder as the Python scripts. The two scripts have different ways of handling the Python 3
-        Unicode. The following example is ExampleUnicode.py which uses Unicode
-        strings and a shared library.
-    </p>
+        The scripts, ExampleByte.py and ExampleUnicode.py, use Artistic Style as a shared library. The source code
+        is read into the program. A shared library must be in the same folder as the Python scripts. The two scripts have
+        different ways of handling the Python 3 Unicode. The following example is ExampleUnicode.py which uses Unicode
+        strings and a shared library.</p>
 
     <h3>Compile Options</h3>
 
     <p>
-        To compile Artistic Style as a shared library for use with a Python script the compile option ASTYLE_LIB must be defined.
-        Then it
-        will accept the files and options as parameters from a function call instead of the command line. It is the responsibility
-        of the calling program to read the source files and accept the options from the user via a graphical interface
-        or other method. These are then passed via the function call described below. After the source files are formatted
-        they will be returned to the calling program, which must then save the source file and take other appropriate
-        action.
-    </p>
+        To compile Artistic Style as a shared library for use with a Python script the compile option ASTYLE_LIB must
+        be defined. Then it will accept the files and options as parameters from a function call instead of the command
+        line. It is the responsibility of the calling program to read the source files and accept the options from the
+        user via a graphical interface or other method. These are then passed via the function call described below. After
+        the source files are formatted they will be returned to the calling program, which must then save the source file
+        and take other appropriate action.</p>
 
     <h3>Handling Python 3 Unicode</h3>
 
     <p>
-        Python 3 
-        and Iron Python use Unicode strings instead of byte strings like Python 2. This can be handled a couple of ways when
-        processing disk files and sending them to Artistic Style.
-    </p>
+        Python 3 and Iron Python use Unicode strings instead of byte strings like Python 2. This can be handled a couple
+        of ways when processing disk files and sending them to Artistic Style.</p>
     <p>
         One way is to declare the file as binary. This will read the file as a byte string instead of a Unicode string.
         In this case you don't need to be concerned with file encoding and the file can be saved or sent to Artistic Style
         without decoding. The disadvantage of doing this is there are byte strings that you have to keep track of and
         the strings not Unicode. The Python script ExampleByte.py uses this method. The names of byte strings contain
-        the word "byte" so they can be easily identified.
-    </p>
+        the word "byte" so they can be easily identified.</p>
     <p>
         Another way is to use the version 3 default and read the file as a Unicode string. The file is read using the
         default system encoding. If a file uses a different encoding, it can be decoded using the Python "codecs" class
@@ -71,20 +56,17 @@
         sent to Artistic Style can always be encoded with UTF-8. The advantage of this method is you can work with the
         file in Unicode. The disadvantage is the encoding and decoding that has to be done and the exceptions that should
         be handled. The file ExampleUnicode.py uses this method. This is the method used in the following example and
-        that is described in the following discussion.
-    </p>
+        that is described in the following discussion.</p>
 
     <h3>AStyleMain Function Call</h3>
 
     <p>
-        The function format_source_code<span class="hl opt"></span> is called to format the source code.
-    </p>
+        The function format_source_code<span class="hl opt"></span> is called to format the source code.</p>
     <p>
-        Calling the Artistic Style shared library or DLL requires using the Python <strong>ctypes</strong> foreign function 
-        library. It provides C compatible data types, and allows calling functions in a shared library or DLL. All of the text 
-        sent to Artistic Style must be in byte format, not Unicode. The entire function is shown so you can see the setup for 
-        calling Artistic Style.
-    </p>
+        Calling the Artistic Style shared library or DLL requires using the Python <strong>ctypes</strong> foreign function
+        library. It provides C compatible data types, and allows calling functions in a shared library or DLL. All of
+        the text sent to Artistic Style must be in byte format, not Unicode. The entire function is shown so you can see
+        the setup for calling Artistic Style.</p>
 
     <h4>Syntax</h4>
 
@@ -106,64 +88,61 @@
     </div>
 
     <h4>Parameters</h4>
+
     <p>
         <i>text_in</i><br />
-        A byte string containing the source file to be formatted. For Python 3 it is encoded to UTF-8. This is a Unicode
-        byte format that can be processed by Artistic Style. Since UTF-8 is a Unicode encoding no errors should occur.
-    </p>
+        A byte string containing the source file to be formatted. For Python 3 it is encoded to UTF-8. This is a 
+        Unicode byte format that can be processed by Artistic Style. Since UTF-8 is a Unicode encoding no errors 
+        should occur.</p>
     <p>
         <i>options<span class="hl opt"></span></i><br />
         A byte string containing the formatting options. They should be in the same format as in the default options file.
         The options may be set apart by new-lines, commas, tabs or spaces. The long options do not need the "--" prefix.
-        Comments may be used but they must be terminated by a new-line "\n" character.
-    </p>
+        Comments may be used but they must be terminated by a new-line "\n" character.</p>
     <p>
         If the file is not a C/C++ file the file mode option "mode=java" or "mode=cs" must be included. Otherwise the
         default mode of C/C++ is used. For Python 3 the options are explicitly declared as byte format with a "b" preceding
-        the string.
-    </p>
+        the string.</p>
     <p>
         <i>ERROR_HANDLER</i><br />
         A pointer to the error handling function. This function is called if there are errors in the text_in or options.
-        This function and the callback declaration are described below.
-    </p>
+        This function and the callback declaration are described below.</p>
     <p>
         <i></i><em>MEMORY_ALLOCATION</em><br />
         A pointer to the memory allocation function. The memory must be allocated for the output source file. This function
-        will be called when the memory is needed. This function and the callback declaration are described below.
-    </p>
+        will be called when the memory is needed. This function and the callback declaration are described below.</p>
 
     <h4>Return Value</h4>
 
     <p>
-        The return type is declared as c_char_p before the function call.
-    </p>
+        The return type is declared as c_char_p before the function call.</p>
     <p>
-        If the function succeeds, the return value is a <strong>byte</strong> string containing the formatted source code.
-    </p>
+        If the function succeeds, the return value is a <strong>byte</strong> string containing the formatted source 
+        code.</p>
     <p>
         If the function fails, the return value is a "NoneType" object. Before the object is returned, an error message
-        will be sent to the error handling function.
-    </p>
+        will be sent to the error handling function.</p>
     <p>
-        This function typically fails for one of the following reasons:
-    </p>
+        This function typically fails for one of the following reasons:</p>
     <ul>
         <li>an invalid pointer parameter. </li>
         <li>the memory allocation function MEMORY_ALLOCATION fails. </li>
     </ul>
+    <p>
+        The function will NOT fail for an invalid option in the formatting options. In this case an error message 
+        is sent to the error handling function and the formatted source code is returned without using the invalid 
+        option.</p>
 
     <h4>Remarks</h4>
+
     <p>
         The calling program is responsible for freeing the memory allocated by the MEMORY_ALLOCATION function when it
-        is no longer needed. In the example this will be done by the MEMORY_ALLOCATION function.
-    </p>
+        is no longer needed. In the example this will be done by the MEMORY_ALLOCATION function.</p>
 
     <h3>Callback Functions</h3>
 
     <p>
-        Two function pointers must be defined for the call to AStyleMain.
-    </p>
+        Two function pointers must be defined for the call to AStyleMain.</p>
 
     <h4>Memory Allocation Callback</h4>
 
@@ -206,17 +185,14 @@ __allocated__ <span class="hl opt">=</span> c_char_p
     <h4>Remarks</h4>
 
     <p>
-        The parameter to this function is the amount of memory that should be allocated.
-    </p>
+        The parameter to this function is the amount of memory that should be allocated.</p>
     <p>
         The memory allocation callback creates a buffer for accepting the formatted file from Artistic Style. 
-        The procedures are different for Python and Iron Python.
-    </p>
+        The procedures are different for Python and Iron Python.</p>
     <p>
         Global instructions
         following the function define the arguments for the callback function used by
-        AStyleMain.
-    </p>
+        AStyleMain.</p>
 
     <h4>Error Handler Callback</h4>
 
@@ -238,34 +214,28 @@ __allocated__ <span class="hl opt">=</span> c_char_p
     <h4>Remarks</h4>
 
     <p>
-        The error handler callback displays the error message. For Python 3 
-        and Iron Python the message is decoded to Unicode. Since the
-        error messages are in ASCII an exception is not handled. It should display an error message and then either abort or continue
-        the program depending
-        on the error. The first parameter is a number identifying the error. The second parameter is a pointer to a standard
-        error message.
-    </p>
+        The error handler callback displays the error message. For Python 3 and Iron Python the message is decoded to
+        Unicode. Since the error messages are in ASCII an exception is not handled. It should display an error message
+        and then either abort or continue the program depending on the error. The first parameter is a number identifying
+        the error. The second parameter is a pointer to a standard error message.</p>
     <p>
         Error messages numbered 100-199 are errors that prevent the file from being formatted. A NULL pointer is returned
         to the calling program. Error messages numbered 200-299 are errors that do NOT prevent the file from being formatted.
         A valid pointer and a formatted file are returned. This will occur if an invalid option is sent to AStyleMain.
-        The calling program has the option of accepting or rejecting the formatted file.
-    </p>
+        The calling program has the option of accepting or rejecting the formatted file.</p>
     <p>
-        Global instructions following the function define the arguments for the callback function used by AStyleMain.
-    </p>
+        Global instructions following the function define the arguments for the callback function used by 
+        AStyleMain.</p>
 
     <h3>AStyleGetVersion Function Call</h3>
 
     <p>
-        This function is called to get the Artistic Style version number.
-    </p>
+        This function is called to get the Artistic Style version number.</p>
     <p>
         As with calling the format source function, this also requires using the Python <strong>ctypes</strong> foreign
         function library. The entire function is shown so you can see the setup for calling Artistic Style. The actual
         call to Artistic Style is:<br />
-        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;version = astyle_version()
-    </p>
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;version = astyle_version()</p>
 
     <h4>Syntax</h4>
 
@@ -288,20 +258,17 @@ __allocated__ <span class="hl opt">=</span> c_char_p
     <h4>Return Value</h4>
 
     <p>
-        The return type is declared as c_char_p before the function call.
-    </p>
+        The return type is declared as c_char_p before the function call.</p>
 
     <p>
-        The return value is the byte string containing the Artistic Style version number.
-    </p>
+        The return value is the byte string containing the Artistic Style version number.</p>
 
     <h4>Remarks</h4>
 
     <p>
         For Python 3 
         and Iron Python the formatted_text is decoded to Unicode. Since it is ASCII characters only, no exceptions should
-        occur.
-    </p>
+        occur.</p>
 
     <h3>Example Unicode</h3>
 
@@ -312,22 +279,20 @@ __allocated__ <span class="hl opt">=</span> c_char_p
         Or it can be downloaded with test data from the "Developer Information" page. The Artistic Style source code must
         be compiled as a shared library (DLL) using the option ASTYLE_LIB. The shared library must then be copied to the
         directory that contains the Python script. The directory of the source code files to be formatted is a relative
-        path in the function process_files. This may need to be changed to reflect your directory structure.
-    </p>
+        path in the function process_files. This may need to be changed to reflect your directory structure.</p>
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
     <div class="hl">
         <pre class="hl">
         
 <span class="hl slc">#! /usr/bin/python</span>
 
-<span class="hl str">&quot;&quot;&quot;ExampleUnicode.py</span>
-<span class="hl str">   This program calls the Artistic Style DLL to format the AStyle source files.</span>
-<span class="hl str">   The Artistic Style DLL must be in the same directory as this script.</span>
-<span class="hl str">   The Artistic Style DLL must have the same bit size (32 or 64) as the Python executable.</span>
-<span class="hl str">   It will work with either Python version 2 or 3 (unicode).</span>
-<span class="hl str">   For Python 3 the files are converted to Unicode and encoded or decoded as needed.</span>
+<span class="hl str">&quot;&quot;&quot; ExampleUnicode.py</span>
+<span class="hl str">    This program calls the Artistic Style DLL to format the AStyle source files.</span>
+<span class="hl str">    The Artistic Style DLL must be in the same directory as this script.</span>
+<span class="hl str">    The Artistic Style DLL must have the same bit size (32 or 64) as the Python executable.</span>
+<span class="hl str">    It will work with either Python version 2 or 3 (unicode).</span>
+<span class="hl str">    For Python 3 the files are converted to Unicode and encoded or decoded as needed.</span>
 <span class="hl str">&quot;&quot;&quot;</span>
 
 <span class="hl slc"># to disable the print statement and use the print() function (version 3 format)</span>
@@ -347,7 +312,7 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
 <span class="hl kwa">def</span> <span class="hl kwd">main</span><span class="hl opt">():</span>
-    <span class="hl str">&quot;&quot;&quot;Main processing function.</span>
+    <span class="hl str">&quot;&quot;&quot; Main processing function.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
     files <span class="hl opt">= [</span><span class="hl str">&quot;ASBeautifier.cpp&quot;</span><span class="hl opt">,</span> <span class="hl str">&quot;ASFormatter.cpp&quot;</span><span class="hl opt">,</span> <span class="hl str">&quot;astyle.h&quot;</span><span class="hl opt">]</span>
     options <span class="hl opt">=</span> <span class="hl str">&quot;-A2tOP&quot;</span>
@@ -378,8 +343,7 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
         formatted_text <span class="hl opt">=</span> <span class="hl kwd">format_source_code</span><span class="hl opt">(</span>libc<span class="hl opt">,</span> text_in<span class="hl opt">,</span> options_in<span class="hl opt">)</span>
         <span class="hl slc"># if an error occurs, the return is a type(None) object</span>
         <span class="hl kwa">if</span> <span class="hl kwb">type</span><span class="hl opt">(</span>formatted_text<span class="hl opt">) ==</span> <span class="hl kwb">type</span><span class="hl opt">(</span><span class="hl kwa">None</span><span class="hl opt">):</span>
-            <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Error in formatting&quot;</span><span class="hl opt">,</span> file_path<span class="hl opt">)</span>
-            os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+            <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Error in formatting &quot;</span> <span class="hl opt">+</span> file_path<span class="hl opt">)</span>
         <span class="hl slc"># unicode must be decoded from utf-8 bytes</span>
         <span class="hl slc"># decoding from utf-8 will not cause an exception</span>
         <span class="hl kwa">if</span> __is_unicode__<span class="hl opt">:</span>
@@ -391,11 +355,20 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
 
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
+<span class="hl kwa">def</span> <span class="hl kwd">error</span><span class="hl opt">(</span>message<span class="hl opt">):</span>
+    <span class="hl str">&quot;&quot;&quot; Error message function for this example.</span>
+<span class="hl str">    &quot;&quot;&quot;</span>
+    <span class="hl kwa">print</span><span class="hl opt">(</span>message<span class="hl opt">)</span>
+    <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">)</span>
+    os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+
+<span class="hl slc"># -----------------------------------------------------------------------------</span>
+
 <span class="hl kwa">def</span> <span class="hl kwd">format_source_code</span><span class="hl opt">(</span>libc<span class="hl opt">,</span> text_in<span class="hl opt">,</span> options<span class="hl opt">):</span>
-    <span class="hl str">&quot;&quot;&quot;Format the text_in by calling the AStyle shared object (DLL).</span>
-<span class="hl str">       The variable text_in is expected to be a byte string.</span>
-<span class="hl str">       The return value is a byte string.</span>
-<span class="hl str">       If an error occurs, the return value is a NoneType object.</span>
+    <span class="hl str">&quot;&quot;&quot; Format the text_in by calling the AStyle shared object (DLL).</span>
+<span class="hl str">        The variable text_in is expected to be a byte string.</span>
+<span class="hl str">        The return value is a byte string.</span>
+<span class="hl str">        If an error occurs, the return value is a NoneType object.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
     astyle_main <span class="hl opt">=</span> libc<span class="hl opt">.</span>AStyleMain
     astyle_main<span class="hl opt">.</span>restype <span class="hl opt">=</span> c_char_p
@@ -408,10 +381,10 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
 <span class="hl kwa">def</span> <span class="hl kwd">get_astyle_version</span><span class="hl opt">(</span>libc<span class="hl opt">):</span>
-    <span class="hl str">&quot;&quot;&quot;Get the version number from the AStyle shared object (DLL).</span>
-<span class="hl str">       The AStyle return value is always byte type.</span>
-<span class="hl str">       It is converted to unicode for Python 3.</span>
-<span class="hl str">       Since the version is ascii the decoding will not cause an exception.</span>
+    <span class="hl str">&quot;&quot;&quot; Get the version number from the AStyle shared object (DLL).</span>
+<span class="hl str">        The AStyle return value is always byte type.</span>
+<span class="hl str">        It is converted to unicode for Python 3.</span>
+<span class="hl str">        Since the version is ascii the decoding will not cause an exception.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
     astyle_version <span class="hl opt">=</span> libc<span class="hl opt">.</span>AStyleGetVersion
     astyle_version<span class="hl opt">.</span>restype <span class="hl opt">=</span> c_char_p
@@ -422,16 +395,39 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
 
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
+<span class="hl kwa">def</span> <span class="hl kwd">get_library_name</span><span class="hl opt">():</span>
+    <span class="hl str">&quot;&quot;&quot; Get an astyle shared library name in the current directory.</span>
+<span class="hl str">        This will get any version of the library in the directory.</span>
+<span class="hl str">        Usually a specific version would be obtained, in which case a constant</span>
+<span class="hl str">        could be used for the library name.</span>
+<span class="hl str">    &quot;&quot;&quot;</span>
+    <span class="hl kwa">if</span> platform<span class="hl opt">.</span><span class="hl kwd">system</span><span class="hl opt">() ==</span> <span class="hl str">&quot;Windows&quot;</span><span class="hl opt">:</span>
+        libext <span class="hl opt">=</span> <span class="hl str">&quot;.dll&quot;</span>
+    <span class="hl kwa">elif</span> platform<span class="hl opt">.</span><span class="hl kwd">system</span><span class="hl opt">() ==</span> <span class="hl str">&quot;Linux&quot;</span><span class="hl opt">:</span>
+        libext <span class="hl opt">=</span> <span class="hl str">&quot;.so&quot;</span>
+    <span class="hl kwa">elif</span> platform<span class="hl opt">.</span><span class="hl kwd">system</span><span class="hl opt">() ==</span> <span class="hl str">&quot;Darwin&quot;</span><span class="hl opt">:</span>
+        libext <span class="hl opt">=</span> <span class="hl str">&quot;.dylib&quot;</span>
+    <span class="hl kwa">else</span><span class="hl opt">:</span>
+        <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot indetify platform: &quot;</span> <span class="hl opt">+</span> platform<span class="hl opt">.</span><span class="hl kwd">system</span><span class="hl opt">())</span>
+    <span class="hl kwa">for</span> file_name <span class="hl kwa">in</span> os<span class="hl opt">.</span><span class="hl kwd">listdir</span><span class="hl opt">():</span>
+        <span class="hl kwa">if</span> <span class="hl opt">(</span>os<span class="hl opt">.</span>path<span class="hl opt">.</span><span class="hl kwd">isfile</span><span class="hl opt">(</span>file_name<span class="hl opt">)</span>
+        <span class="hl kwa">and</span> file_name<span class="hl opt">.</span><span class="hl kwd">lower</span><span class="hl opt">().</span><span class="hl kwd">endswith</span><span class="hl opt">(</span>libext<span class="hl opt">)</span>
+        <span class="hl kwa">and</span> <span class="hl opt">(</span>file_name<span class="hl opt">.</span><span class="hl kwd">lower</span><span class="hl opt">().</span><span class="hl kwd">startswith</span><span class="hl opt">(</span><span class="hl str">&quot;astyle&quot;</span><span class="hl opt">)</span>
+             <span class="hl kwa">or</span>  file_name<span class="hl opt">.</span><span class="hl kwd">lower</span><span class="hl opt">().</span><span class="hl kwd">startswith</span><span class="hl opt">(</span><span class="hl str">&quot;libastyle&quot;</span><span class="hl opt">))):</span>
+            <span class="hl kwa">return</span> file_name
+    <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find native library in &quot;</span> <span class="hl opt">+</span> os<span class="hl opt">.</span><span class="hl kwd">getcwd</span><span class="hl opt">() +</span> os<span class="hl opt">.</span>path<span class="hl opt">.</span>sep<span class="hl opt">)</span>
+
+<span class="hl slc"># -----------------------------------------------------------------------------</span>
+
 <span class="hl kwa">def</span> <span class="hl kwd">get_project_directory</span><span class="hl opt">(</span>file_name<span class="hl opt">):</span>
-    <span class="hl str">&quot;&quot;&quot;Find the directory path and prepend it to the file name.</span>
-<span class="hl str">       The source is expected to be in the &quot;src-p&quot; directory.</span>
-<span class="hl str">       This may need to be changed for your directory structure.</span>
+    <span class="hl str">&quot;&quot;&quot; Find the directory path and prepend it to the file name.</span>
+<span class="hl str">        The source is expected to be in the &quot;src-p&quot; directory.</span>
+<span class="hl str">        This may need to be changed for your directory structure.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
     file_path <span class="hl opt">=</span> sys<span class="hl opt">.</span>path<span class="hl opt">[</span><span class="hl num">0</span><span class="hl opt">]</span>
     end <span class="hl opt">=</span> file_path<span class="hl opt">.</span><span class="hl kwd">find</span><span class="hl opt">(</span><span class="hl str">&quot;src-p&quot;</span><span class="hl opt">)</span>
     <span class="hl kwa">if</span> end <span class="hl opt">== -</span><span class="hl num">1</span><span class="hl opt">:</span>
-        <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find source directory&quot;</span><span class="hl opt">,</span> file_path<span class="hl opt">)</span>
-        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+        <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find source directory &quot;</span> <span class="hl opt">+</span> file_path<span class="hl opt">)</span>
     file_path <span class="hl opt">=</span> file_path<span class="hl opt">[</span><span class="hl num">0</span><span class="hl opt">:</span>end<span class="hl opt">]</span>
     file_path <span class="hl opt">=</span> file_path <span class="hl opt">+</span> <span class="hl str">&quot;test-data&quot;</span> <span class="hl opt">+</span> os<span class="hl opt">.</span>sep <span class="hl opt">+</span> file_name
     <span class="hl kwa">return</span> file_path
@@ -439,10 +435,10 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
 <span class="hl kwa">def</span> <span class="hl kwd">get_source_code</span><span class="hl opt">(</span>file_path<span class="hl opt">):</span>
-    <span class="hl str">&quot;&quot;&quot;Get the source code (unicode in Version 3).</span>
-<span class="hl str">       Opening the file as non-binary will read it as a unicode string.</span>
-<span class="hl str">       An exception is handled in case the file cannot be decoded using</span>
-<span class="hl str">       the system default codec.</span>
+    <span class="hl str">&quot;&quot;&quot; Get the source code (unicode in Version 3).</span>
+<span class="hl str">        Opening the file as non-binary will read it as a unicode string.</span>
+<span class="hl str">        An exception is handled in case the file cannot be decoded using</span>
+<span class="hl str">        the system default codec.</span>
 <span class="hl str">       The return value is a unicode string.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
     <span class="hl slc"># version 3 will read unicode since the file is not declared as binary</span>
@@ -453,21 +449,19 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
     <span class="hl kwa">except</span> <span class="hl kwc">IOError</span> <span class="hl kwa">as</span> err<span class="hl opt">:</span>
         <span class="hl slc"># &quot;No such file or directory: &lt;file&gt;&quot;</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span>err<span class="hl opt">)</span>
-        <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot open&quot;</span><span class="hl opt">,</span> file_path<span class="hl opt">)</span>
-        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+        <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot open &quot;</span> <span class="hl opt">+</span> file_path<span class="hl opt">)</span>
     <span class="hl kwa">except</span> <span class="hl kwc">UnicodeError</span> <span class="hl kwa">as</span> err<span class="hl opt">:</span>
         <span class="hl slc"># &quot;'&lt;codec&gt;' codec can't decode byte 0x81 in position 40813: &lt;message&gt;&quot;</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span>err<span class="hl opt">)</span>
-        <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot read&quot;</span><span class="hl opt">,</span> file_path<span class="hl opt">)</span>
-        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+        <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot read &quot;</span> <span class="hl opt">+</span> file_path<span class="hl opt">)</span>
     file_in<span class="hl opt">.</span><span class="hl kwd">close</span><span class="hl opt">()</span>
     <span class="hl kwa">return</span> text_in
 
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
 <span class="hl kwa">def</span> <span class="hl kwd">initialize_library</span><span class="hl opt">():</span>
-    <span class="hl str">&quot;&quot;&quot;Set the file path and load the shared object (DLL).</span>
-<span class="hl str">       Return the handle to the shared object (DLL).</span>
+    <span class="hl str">&quot;&quot;&quot; Set the file path and load the shared object (DLL).</span>
+<span class="hl str">        Return the handle to the shared object (DLL).</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
     <span class="hl slc"># change directory to the path where this script is located</span>
     pydir <span class="hl opt">=</span> sys<span class="hl opt">.</span>path<span class="hl opt">[</span><span class="hl num">0</span><span class="hl opt">]</span>
@@ -485,8 +479,8 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
 <span class="hl kwa">def</span> <span class="hl kwd">initialize_platform</span><span class="hl opt">():</span>
-    <span class="hl str">&quot;&quot;&quot;Check the python_implementation and the python_version.</span>
-<span class="hl str">       Update the global variables __is_iron_python__ and __is_unicode__.</span>
+    <span class="hl str">&quot;&quot;&quot; Check the python_implementation and the python_version.</span>
+<span class="hl str">        Update the global variables __is_iron_python__ and __is_unicode__.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
     <span class="hl kwa">global</span> __is_iron_python__<span class="hl opt">,</span> __is_unicode__
     <span class="hl kwa">if</span> platform<span class="hl opt">.</span><span class="hl kwd">python_implementation</span><span class="hl opt">() ==</span> <span class="hl str">&quot;CPython&quot;</span><span class="hl opt">:</span>
@@ -499,64 +493,59 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
 <span class="hl kwa">def</span> <span class="hl kwd">load_linux_so</span><span class="hl opt">():</span>
-    <span class="hl str">&quot;&quot;&quot;Load the shared object for Linux platforms.</span>
-<span class="hl str">       The shared object must be in the same folder as this python script.</span>
+    <span class="hl str">&quot;&quot;&quot; Load the shared object for Linux platforms.</span>
+<span class="hl str">        The shared object must be in the same folder as this python script.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
-    shared <span class="hl opt">=</span> os<span class="hl opt">.</span>path<span class="hl opt">.</span><span class="hl kwd">join</span><span class="hl opt">(</span>sys<span class="hl opt">.</span>path<span class="hl opt">[</span><span class="hl num">0</span><span class="hl opt">],</span> <span class="hl str">&quot;libastyle-2.05.so&quot;</span><span class="hl opt">)</span>
-    <span class="hl slc"># os.name does not always work for mac</span>
-    <span class="hl kwa">if</span> sys<span class="hl opt">.</span>platform <span class="hl opt">==</span> <span class="hl str">&quot;darwin&quot;</span><span class="hl opt">:</span>
-        shared <span class="hl opt">=</span> shared<span class="hl opt">.</span><span class="hl kwd">replace</span><span class="hl opt">(</span><span class="hl str">&quot;.so&quot;</span><span class="hl opt">,</span> <span class="hl str">&quot;.dylib&quot;</span><span class="hl opt">)</span>
+    shared_name <span class="hl opt">=</span> <span class="hl kwd">get_library_name</span><span class="hl opt">()</span>
+    shared <span class="hl opt">=</span> os<span class="hl opt">.</span><span class="hl kwd">getcwd</span><span class="hl opt">() +</span> os<span class="hl opt">.</span>path<span class="hl opt">.</span>sep <span class="hl opt">+</span> shared_name
     <span class="hl kwa">try</span><span class="hl opt">:</span>
         libc <span class="hl opt">=</span> cdll<span class="hl opt">.</span><span class="hl kwd">LoadLibrary</span><span class="hl opt">(</span>shared<span class="hl opt">)</span>
     <span class="hl kwa">except</span> <span class="hl kwc">OSError</span> <span class="hl kwa">as</span> err<span class="hl opt">:</span>
         <span class="hl slc"># &quot;cannot open shared object file: No such file or directory&quot;</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span>err<span class="hl opt">)</span>
-        <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find &quot;</span><span class="hl opt">,</span> shared<span class="hl opt">)</span>
-        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+        <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find &quot;</span> <span class="hl opt">+</span> shared<span class="hl opt">)</span>
     <span class="hl kwa">return</span> libc
 
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
 <span class="hl kwa">def</span> <span class="hl kwd">load_windows_dll</span><span class="hl opt">():</span>
-    <span class="hl str">&quot;&quot;&quot;Load the dll for Windows platforms.</span>
-<span class="hl str">       The shared object must be in the same folder as this python script.</span>
-<span class="hl str">       An exception is handled if the dll bits do not match the Python</span>
-<span class="hl str">       executable bits (32 vs 64).</span>
+    <span class="hl str">&quot;&quot;&quot; Load the dll for Windows platforms.</span>
+<span class="hl str">        The shared object must be in the same folder as this python script.</span>
+<span class="hl str">        An exception is handled if the dll bits do not match the Python</span>
+<span class="hl str">        executable bits (32 vs 64).</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
-    dll <span class="hl opt">=</span> <span class="hl str">&quot;AStyle-2.05.dll&quot;</span>
+    dll_name <span class="hl opt">=</span> <span class="hl kwd">get_library_name</span><span class="hl opt">()</span>
+    dll <span class="hl opt">=</span> os<span class="hl opt">.</span><span class="hl kwd">getcwd</span><span class="hl opt">() +</span> os<span class="hl opt">.</span>path<span class="hl opt">.</span>sep <span class="hl opt">+</span> dll_name
     <span class="hl kwa">try</span><span class="hl opt">:</span>
         libc <span class="hl opt">=</span> windll<span class="hl opt">.</span><span class="hl kwd">LoadLibrary</span><span class="hl opt">(</span>dll<span class="hl opt">)</span>
     <span class="hl slc"># exception for CPython</span>
     <span class="hl kwa">except</span> <span class="hl kwc">WindowsError</span> <span class="hl kwa">as</span> err<span class="hl opt">:</span>
         <span class="hl slc"># print(err)</span>
-        <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot load library&quot;</span><span class="hl opt">,</span> dll<span class="hl opt">)</span>
+        <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot load library &quot;</span> <span class="hl opt">+</span> dll<span class="hl opt">)</span>
         <span class="hl kwa">if</span> err<span class="hl opt">.</span>winerror <span class="hl opt">==</span> <span class="hl num">126</span><span class="hl opt">:</span>     <span class="hl slc">#  &quot;The specified module could not be found&quot;</span>
-            <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find&quot;</span><span class="hl opt">,</span> dll<span class="hl opt">)</span>
+            <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find &quot;</span> <span class="hl opt">+</span> dll<span class="hl opt">)</span>
         <span class="hl kwa">elif</span> err<span class="hl opt">.</span>winerror <span class="hl opt">==</span> <span class="hl num">193</span><span class="hl opt">:</span>   <span class="hl slc">#  &quot;%1 is not a valid Win32 application&quot;</span>
-            <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;You may be mixing 32 and 64 bit code&quot;</span><span class="hl opt">)</span>
+            <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;You may be mixing 32 and 64 bit code&quot;</span><span class="hl opt">)</span>
         <span class="hl kwa">else</span><span class="hl opt">:</span>
-            <span class="hl kwa">print</span><span class="hl opt">(</span>err<span class="hl opt">.</span>strerror<span class="hl opt">)</span>
-        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+            <span class="hl kwd">error</span><span class="hl opt">(</span>err<span class="hl opt">.</span>strerror<span class="hl opt">)</span>
     <span class="hl slc"># exception for IronPython</span>
     <span class="hl kwa">except</span> <span class="hl kwc">OSError</span> <span class="hl kwa">as</span> err<span class="hl opt">:</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot load library&quot;</span><span class="hl opt">,</span> dll<span class="hl opt">)</span>
-        <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;If the library is available you may be mixing 32 and 64 bit code&quot;</span><span class="hl opt">)</span>
-        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+        <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;If the library is available you may be mixing 32 and 64 bit code&quot;</span><span class="hl opt">)</span>
     <span class="hl slc"># exception for IronPython</span>
     <span class="hl slc"># this sometimes occurs with IronPython during debug</span>
     <span class="hl slc"># rerunning will probably fix</span>
     <span class="hl kwa">except</span> <span class="hl kwc">TypeError</span> <span class="hl kwa">as</span> err<span class="hl opt">:</span>
-        <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;TypeError - rerunning will probably fix&quot;</span><span class="hl opt">)</span>
-        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+        <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;TypeError - rerunning will probably fix&quot;</span><span class="hl opt">)</span>
     <span class="hl kwa">return</span> libc
 
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
 <span class="hl kwa">def</span> <span class="hl kwd">save_source_code</span><span class="hl opt">(</span>text_out<span class="hl opt">,</span> file_path<span class="hl opt">):</span>
-    <span class="hl str">&quot;&quot;&quot;Save the source code as bytes.</span>
-<span class="hl str">       The variable text_out is Unicode in Python 3.</span>
-<span class="hl str">       The text_out will be encoded to a byte string using the default codec.</span>
-<span class="hl str">       An exception is handled in case the file cannot be encoded.</span>
+    <span class="hl str">&quot;&quot;&quot; Save the source code as bytes.</span>
+<span class="hl str">        The variable text_out is Unicode in Python 3.</span>
+<span class="hl str">        The text_out will be encoded to a byte string using the default codec.</span>
+<span class="hl str">        An exception is handled in case the file cannot be encoded.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
     <span class="hl slc"># remove old .orig, if any</span>
     backup_path <span class="hl opt">=</span> file_path <span class="hl opt">+</span> <span class="hl str">&quot;.orig&quot;</span>
@@ -572,8 +561,7 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
     <span class="hl kwa">except</span> <span class="hl kwc">UnicodeError</span> <span class="hl kwa">as</span> err<span class="hl opt">:</span>
         <span class="hl slc"># &quot;'&lt;codec&gt;' codec can't encode characters in position 0-2: &lt;message&gt;&quot;</span>
         <span class="hl kwa">print</span><span class="hl opt">(</span>err<span class="hl opt">)</span>
-        <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot write&quot;</span><span class="hl opt">,</span> file_path<span class="hl opt">)</span>
-        os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+        <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot write &quot;</span> <span class="hl opt">+</span> file_path<span class="hl opt">)</span>
     file_out<span class="hl opt">.</span><span class="hl kwd">close</span><span class="hl opt">()</span>
 
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
@@ -588,15 +576,14 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
 
 <span class="hl slc"># AStyle Error Handler Callback</span>
 <span class="hl kwa">def</span> <span class="hl kwd">error_handler</span><span class="hl opt">(</span>num<span class="hl opt">,</span> err<span class="hl opt">):</span>
-    <span class="hl str">&quot;&quot;&quot;AStyle callback error handler.</span>
-<span class="hl str">       The return error string (err) is always byte type.</span>
-<span class="hl str">       It is converted to unicode for Python 3.</span>
+    <span class="hl str">&quot;&quot;&quot; AStyle callback error handler.</span>
+<span class="hl str">        The return error string (err) is always byte type.</span>
+<span class="hl str">        It is converted to unicode for Python 3.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
     <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Error in input {0}&quot;</span><span class="hl opt">.</span><span class="hl kwd">format</span><span class="hl opt">(</span>num<span class="hl opt">))</span>
     <span class="hl kwa">if</span> __is_unicode__<span class="hl opt">:</span>
         err <span class="hl opt">=</span> err<span class="hl opt">.</span><span class="hl kwd">decode</span><span class="hl opt">()</span>
-    <span class="hl kwa">print</span><span class="hl opt">(</span>err<span class="hl opt">)</span>
-    os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+    <span class="hl kwd">error</span><span class="hl opt">(</span>err<span class="hl opt">)</span>
 
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
@@ -618,9 +605,9 @@ __allocated__ <span class="hl opt">=</span> c_char_p
 
 <span class="hl slc"># AStyle Memory Allocation Callback</span>
 <span class="hl kwa">def</span> <span class="hl kwd">memory_allocation</span><span class="hl opt">(</span>size<span class="hl opt">):</span>
-    <span class="hl str">&quot;&quot;&quot;AStyle callback memory allocation.</span>
-<span class="hl str">       The size to allocate is always byte type.</span>
-<span class="hl str">       The allocated memory MUST BE FREED by the calling function.</span>
+    <span class="hl str">&quot;&quot;&quot; AStyle callback memory allocation.</span>
+<span class="hl str">        The size to allocate is always byte type.</span>
+<span class="hl str">        The allocated memory MUST BE FREED by the calling function.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
     <span class="hl slc"># ctypes are different for CPython and IronPython</span>
     <span class="hl kwa">global</span> __allocated__
@@ -660,8 +647,7 @@ MEMORY_ALLOCATION <span class="hl opt">=</span> <span class="hl kwd">MEMORY_ALLO
     </div>
 
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
 
     <center style="margin-left: -0.4in;">
         <a href="http://sourceforge.net/projects/astyle">
@@ -669,9 +655,9 @@ MEMORY_ALLOCATION <span class="hl opt">=</span> <span class="hl kwd">MEMORY_ALLO
     </center>
 
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
 
 </body>
 
 </html>
+

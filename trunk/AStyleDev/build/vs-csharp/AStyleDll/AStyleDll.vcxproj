@@ -22,7 +22,6 @@
     <ProjectGuid>{B58AA63B-0A06-41B2-8A76-3E543B719C50}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>AStyleDll</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -103,6 +102,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>false</OptimizeReferences>
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
+      <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain@16
+/EXPORT:AStyleMainUtf16=_AStyleMainUtf16@16
+/EXPORT:AStyleGetVersion=_AStyleGetVersion@0</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -136,6 +138,9 @@
       <GenerateDebugInformation>No</GenerateDebugInformation>
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <OptimizeReferences>false</OptimizeReferences>
+      <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain@16
+/EXPORT:AStyleMainUtf16=_AStyleMainUtf16@16
+/EXPORT:AStyleGetVersion=_AStyleGetVersion@0</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

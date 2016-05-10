@@ -18,15 +18,13 @@
     <h2 class="large">Calling Artistic Style from a C# Program</h2>
 
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
     <p class="noindent">
-        Artistic Style can be compiled as a shared library (DLL) and called from a C# program.
-    </p>
+        Artistic Style can be compiled as a shared library (DLL) and called from a C# program.</p>
     <p class="noindent">
-        A compiled C# program can be run on any platform. Artistic Style, however, is a C++ program and must be compiled
-        on the platform on which it will run. Once this is done Artistic Style can be called from a C# program.
-    </p>
+        A C# program compiled with &quot;Any CPU&quot; can be run on any platform. Artistic Style, however, is a C++ program
+        and must be compiled for the platform on which it will run. Once this is done Artistic Style can be called from
+        a C# program.</p>
 
     <h3>Compile Options</h3>
 
@@ -34,165 +32,140 @@
         To compile Artistic Style for use with a C# program the compile option ASTYLE_LIB must be defined. Then it will
         accept the files and options as parameters from a function call instead of the command line. It is the responsibility
         of the calling program to read the source files and accept the options from the user via a graphical interface
-        or other method. These are then passed via the function call described below. After the source files are formatted they
-        will be returned to the calling program, which must then save the source file and take other appropriate action.
-    </p>
+        or other method. These are then passed via the function call described below. After the source files are formatted
+        they will be returned to the calling program, which must then save the source file and take other appropriate
+        action.</p>
 
     <h3>AStyleMainUtf16 Method</h3>
 
     <p>
-        This method is called to format the source code.
-    </p>
+        This method is called to format the source code. Wide strings ARE used here.</p>
 
     <h4>Syntax</h4>
 
     <div class="hl">
         <pre class="hl">    <span class="hl slc">/// AStyleMainUtf16 DllImport.</span>
-    <span class="hl slc">/// NOTE: CharSet.Unicode and wide strings are used here.</span>
-    <span class="hl opt">[</span><span class="hl kwd">DllImport</span><span class="hl opt">(</span>dllName<span class="hl opt">,</span> CharSet <span
-        class="hl opt">=</span> CharSet<span class="hl opt">.</span>Unicode<span class="hl opt">)]</span>
+    <span class="hl slc">/// Cannot use string as a return value because Mono runtime will attempt to</span>
+    <span class="hl slc">/// free the returned pointer resulting in a runtime crash.</span>
+    <span class="hl slc">/// NOTE: CharSet.Unicode and wide strings ARE used here.</span>
+    <span class="hl opt">[</span><span class="hl kwd">DllImport</span><span class="hl opt">(</span>dllName<span class="hl opt">,</span> CharSet <span class="hl opt">=</span> CharSet<span class="hl opt">.</span>Unicode<span class="hl opt">)]</span>
     <span class="hl kwa">private static</span> extern IntPtr <span class="hl kwd">AStyleMainUtf16</span><span class="hl opt">(</span>
-        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span
-            class="hl opt">.</span>LPWStr<span class="hl opt">)]</span> String sIn<span class="hl opt">,</span>
-        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span
-            class="hl opt">.</span>LPWStr<span class="hl opt">)]</span> String sOptions<span class="hl opt">,</span>
-        AStyleErrorDelgate errorFunc<span class="hl opt">,</span>
-        AStyleMemAllocDelgate memAllocFunc
-    <span class="hl opt">);</span></pre>
+        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span>LPWStr<span class="hl opt">)]</span> <span class="hl kwb">string</span> textIn<span class="hl opt">,</span>
+        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span>LPWStr<span class="hl opt">)]</span> <span class="hl kwb">string</span> options<span class="hl opt">,</span>
+        AStyleErrorDelgate AStyleError<span class="hl opt">,</span>
+        AStyleMemAllocDelgate AStyleMemAlloc
+    <span class="hl opt">);</span>
+</pre>
     </div>
 
     <h4>Parameters</h4>
 
     <p>
-        <i>sIn</i><br />
-        A wide-string pointer to the source file to be formatted.
-    </p>
+        <i>textIn</i><br />
+        A <strong>wide-string</strong> pointer to the source file to be formatted.</p>
     <p>
-        <i>sOptions</i><br />
-        A wide-string pointer to the formatting options. They should be in the same format as in the default options file.
-        The options may be set apart by new-lines, commas, tabs or spaces. The long options do not need the "--" prefix.
-        Comments may be used but they must be terminated by a new-line "\n" character.
-    </p>
+        <i>options</i><br />
+        A <strong>wide-string</strong> pointer to the formatting options. They should be in the same format as in the
+        default options file. The options may be set apart by new-lines, commas, tabs or spaces. The long options do not
+        need the "--" prefix. Comments may be used but they must be terminated by a new-line "\n" character.</p>
     <p>
-        For a C# file the file mode option "mode=cs" must be included. Otherwise the default mode of C/C++ is used.
-    </p>
+        If the file is not a C/C++ file the file mode option "mode=java" or "mode=cs" must be included. Otherwise the
+        default mode of C/C++ is used.</p>
     <p>
-        <i>errorFunc</i><br />
-        A delegate containing the error handling function. If there are errors in the parameters sIn or sOptions, this function
-        is called. See the following section on Callback Methods for more information..
-    </p>
+        <em>AStyleError</em><br />
+        A delegate containing the error handling function. If there are errors in the parameters textIn or options, this
+        function is called. See the following section on Callback Methods for more information.</p>
     <p>
-        <i>memAllocFunc</i><br />
-        A delegate to the memory allocation function. The calling program must allocate memory
-        for the output source file. See the following section on Callback Methods for more information.
-    </p>
+        <em>AStyleMemAlloc</em><br />
+        A delegate to the memory allocation function. The calling program must allocate memory for the output source file.
+        See the following section on Callback Methods for more information.</p>
     <p>
-        The calling program is responsible for freeing the allocated memory when it is no longer needed.
-    </p>
+        The calling program is responsible for freeing the allocated memory when it is no longer needed.</p>
 
     <h4>Return Value</h4>
 
     <p>
         If the function succeeds, the return value is an IntPtr to the formatted source code. This function returns a
-        16-bit Unicode string. The IntPtr should be converted to a C# string using Marshal.PtrToString<strong>Uni</strong>.
-    </p>
+        16-bit Unicode string. The IntPtr should be converted to a C# string using Marshal.PtrToStringUni.</p>
     <p>
-        If the function fails, the return value is a pointer to an empty string. Before the pointer is returned, an error message
-        will be sent to
-        the error handling function.
-    </p>
+        If the function fails, the return value is a pointer to an empty string. Before the pointer is returned, an error
+        message will be sent to the error handling function.</p>
     <p>
-        This function typically fails for one of the following reasons:
-    </p>
+        This function typically fails for one of the following reasons:</p>
     <ul>
         <li>an invalid parameter value, usually an invalid pointer.</li>
         <li>the memory allocation function (memAllocFunc) returns a NULL.</li>
     </ul>
+    <p>
+        The function will NOT fail for an invalid option in the formatting options. In this case an error message 
+        is sent to the error handling function and the formatted source code is returned without using the invalid 
+        option.</p>
 
     <h4>Remarks</h4>
 
     <p>
-        The calling program is responsible for freeing the memory allocated by memAllocFunc when it is no longer needed.
-    </p>
+        The calling program is responsible for freeing the memory allocated by memAllocFunc when it is no longer 
+        needed.</p>
     <p>
-        The call to AStyleMainUtf16 should be placed in a try/catch block that contains a DllNotFoundException to handle a
-        missing shared library and an EntryPointNotFoundException to handle not finding the entry point. A BadImageFormatException
-        will be thrown if the shared object (dll) does not use the same bit configuration (32 or 64) as the calling program.
-    </p>
+        The call to AStyleMainUtf16 should be placed in a try/catch block that contains a DllNotFoundException to handle
+        a missing shared library and an EntryPointNotFoundException to handle not finding the entry point. A 
+        BadImageFormatException will be thrown if the shared object (dll) does not use the same bit configuration 
+        (32 or 64) as the calling program.</p>
 
     <h3>Callback Methods</h3>
 
     <p>
-        Callback methods must be delegated for the call to AStyleMainUtf16.
-    </p>
+        Callback methods must be delegated for the call to AStyleMainUtf16. Wide strings are NOT used here.</p>
 
     <h4>Syntax</h4>
 
     <div class="hl">
-        <pre class="hl">    <span class="hl slc">/// AStyleMainUtf16</span> callbacks.
+        <pre class="hl">    <span class="hl slc">/// AStyleMainUtf16 callbacks.</span>
     <span class="hl slc">/// NOTE: Wide strings are NOT used here.</span>
-    <span class="hl kwa">private delegate</span> IntPtr <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl opt">(</span><span class="hl kwb">int</span> size<span class="hl opt">);</span>
     <span class="hl kwa">private delegate</span> <span class="hl kwb">void</span> <span class="hl kwd">AStyleErrorDelgate</span><span class="hl opt">(</span>
         <span class="hl kwb">int</span> errorNum<span class="hl opt">,</span>
-        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span>LPStr<span class="hl opt">)]</span> String error
+        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span>LPStr<span class="hl opt">)]</span> <span class="hl kwb">string</span> error
     <span class="hl opt">);</span>
-
-    <span class="hl slc">/// AStyleMainUtf16 Delegates.</span>
-    <span class="hl kwa">private</span> AStyleMemAllocDelgate AStyleMemAlloc<span class="hl opt">;</span>
-    <span class="hl kwa">private</span> AStyleErrorDelgate AStyleError<span class="hl opt">;</span>
-
-    <span class="hl slc">/// Declare callback functions.</span>
-    <span class="hl kwa">public</span> <span class="hl kwd">AStyleInterface</span><span class="hl opt">()</span>
-    <span class="hl opt">{</span>   AStyleMemAlloc <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl opt">(</span>OnAStyleMemAlloc<span class="hl opt">);</span>
-        AStyleError <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleErrorDelgate</span><span class="hl opt">(</span>OnAStyleError<span class="hl opt">);</span>
-    <span class="hl opt">}</span></pre>
+    <span class="hl kwa">private delegate</span> IntPtr <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl opt">(</span><span class="hl kwb">int</span> size<span class="hl opt">);</span>
+</pre>
     </div>
 
     <h4>Remarks</h4>
 
     <p>
-        The methods OnAStyleMemAlloc and OnAStyleError contain the memory allocation and error handling methods. These
-        methods must be written to allocate the required memory and process any errors returned from AStyleMainUtf16. The delegates
-        AStyleMemAllocDelgate and AStyleErrorDelgate are used in the call to AStyleMainUtf16. The delegates are similar to
-        C++ function pointers, but are type safe.
-    </p>
+        The delegates AStyleErrorDelegate and AStyleMemAllocDelegate delegate the error handling and memory allocation
+        methods. These methods  process any errors and allocate the required memory returned from AStyleMainUtf16. The
+        delegates are similar to C++ function pointers, but are type safe. </p>
     <p>
         <i>AStyleErrorDelgate</i><br />
-        OnAStyleError is called if there are errors in the string parameters in the call
-        to AStyleMainUtf16. It should display an error message and then either abort or continue the program depending on the
-        error. The first parameter is a number identifying the error. The second parameter is a pointer to a standard
-        error message. The error message
-        is Not Unicode. The message is deleted when the error handler returns.
-    </p>
+        AStyleError is called if there are errors in the string parameters in the call to AStyleMainUtf16. It should display
+        an error message and then either abort or continue the program depending on the error. The first parameter is
+        a number identifying the error. The second parameter is a pointer to a standard error message. The error message
+        is Not Unicode. The message is deleted when the error handler returns.</p>
     <p>
         Error messages numbered 100-199 are errors that prevent the file from being formatted. A NULL pointer is returned
         to the calling program. Error messages numbered 200-299 are errors that do NOT prevent the file from being formatted.
         A valid string containing a formatted file is returned. This will occur if an invalid option is sent to AStyleMainUtf16.
-        The calling program has the option of accepting or rejecting the formatted file.
-    </p>
+        The calling program has the option of accepting or rejecting the formatted file.</p>
     <p>
         <i>AStyleMemAllocDelgate</i><br />
-        OnAStyleMemAlloc is the memory allocation method. The program must allocate
+        AStyleMemAlloc is the memory allocation method. The program must allocate
         memory for the output source file. This function will be called when the memory is needed. The parameter is the
         amount of memory that should be allocated
-        in number of char's.
-    </p>
+        in number of char's.</p>
     <p>
         Memory should be allocated using Marshal.AllocHGlobal. With this method, if there is an allocation exception,
         a NULL pointer will be sent to AStyleMainUtf16. Artistic Style will generate an error message and return an empty
-        string from the AStyleMainUtf16 function. The calling program can handle the exception at this point rather than in the
-        memory
-        allocation function. See the following example program for the procedure.
-    </p>
+        string from the AStyleMainUtf16 function. The calling program can handle the exception at this point rather than
+        in the memory allocation function. See the following example program for the procedure.</p>
     <p>
-        The calling program is responsible for freeing the memory allocated by memAllocFunc when it is no longer needed.
-    </p>
+        The calling program is responsible for freeing the memory allocated by memAllocFunc when it is no longer 
+        needed.</p>
 
     <h3>AStyleGetVersion Method</h3>
 
     <p>
-        This method is called to get the Artistic Style version number.
-    </p>
+        This method is called to get the Artistic Style version number.</p>
 
     <h4>Syntax</h4>
 
@@ -206,32 +179,33 @@
 
     <p>
         The return value is an IntPtr to the Artistic Style version number. This function does NOT return Unicode. The
-        IntPtr should be converted to a C# string using Marshal.PtrToString<strong>Ansi</strong>.
-    </p>
+        IntPtr should be converted to a C# string using Marshal.PtrToStringAnsi.</p>
 
     <h4>Remarks</h4>
 
     <p>
         The call to AStyleGetVersion should be placed in a try/catch block that contains a DllNotFoundException to handle
-        a missing shared library and an EntryPointNotFoundException to handle not finding the entry point. A BadImageFormatException
-        will be thrown if the shared object (dll) does not use the same bit configuration (32 or 64) as the calling program.
-    </p>
+        a missing shared library and an EntryPointNotFoundException to handle not finding the entry point. A 
+        BadImageFormatException will be thrown if the shared object (dll) does not use the same bit configuration 
+        (32 or 64) as the calling program.</p>
 
     <h3>Example</h3>
 
     <p>
         The following example formats source files by calling the Artistic Style formatter. It is a console application
         but the procedure for a GUI is the same. The two classes can be copied and pasted into source files. Or they can
-        be downloaded with test data from the "Developer Information" page. The Artistic Style source code must be compiled
+        be downloaded with test data from the "Developer Information" page. </p>
+    <p>
+        The Artistic Style source code must be compiled
         as a shared library (DLL) using the option ASTYLE_LIB. The shared library must be copied to the directory that
         contains the C# executable (it is loaded from the current directory). The directory of the files to be formatted
         is an absolute path in the function getProjectDirectory() in Example.cs. This will need to be changed to reflect
         your directory structure. When the program is run be sure the current working directory is the directory with
-        the executable and shared library.
-    </p>
+        the executable and shared library.</p>
     <p>
-        &nbsp;
-    </p>
+        The Example class is identical in both C# examples. The differences are in the AStyleInterface class.</p>
+    <p>
+        &nbsp;</p>
     <div class="hl">
         <pre class="hl"> 
 <span class="hl slc">// Example.cs</span>
@@ -248,33 +222,33 @@
 <span class="hl opt">{</span>   <span class="hl slc">/// Main function for this example.</span>
     <span class="hl kwa">public static</span> <span class="hl kwb">void</span> <span class="hl kwd">Main</span><span class="hl opt">(</span><span class="hl kwb">string</span><span class="hl opt">[]</span> args<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl slc">// files to pass to AStyle</span>
-        String<span class="hl opt">[]</span> fileName <span class="hl opt">=  {</span> <span class="hl str">&quot;AStyleDev/test-data/ASBeautifier.cpp&quot;</span><span class="hl opt">,</span>
+        <span class="hl kwb">string</span><span class="hl opt">[]</span> fileName <span class="hl opt">=  {</span> <span class="hl str">&quot;AStyleDev/test-data/ASBeautifier.cpp&quot;</span><span class="hl opt">,</span>
                                <span class="hl str">&quot;AStyleDev/test-data/ASFormatter.cpp&quot;</span><span class="hl opt">,</span>
                                <span class="hl str">&quot;AStyleDev/test-data/astyle.h&quot;</span>
                              <span class="hl opt">};</span>
 
         <span class="hl slc">// options to pass to AStyle</span>
         <span class="hl slc">// mode=cs is required for C# files</span>
-        String options <span class="hl opt">=</span> <span class="hl str">&quot;style=java, indent=tab, mode=cs&quot;</span><span class="hl opt">;</span>
+        <span class="hl kwb">string</span> options <span class="hl opt">=</span> <span class="hl str">&quot;-A2tOP&quot;</span><span class="hl opt">;</span>
 
         <span class="hl slc">// create an object</span>
         AStyleInterface AStyle <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleInterface</span><span class="hl opt">();</span>
 
         <span class="hl slc">// get Artistic Style version</span>
         <span class="hl slc">// does not need to terminate on an error</span>
-        String version <span class="hl opt">=</span> AStyle<span class="hl opt">.</span><span class="hl kwd">GetVersion</span><span class="hl opt">();</span>
+        <span class="hl kwb">string</span> version <span class="hl opt">=</span> AStyle<span class="hl opt">.</span><span class="hl kwd">GetVersion</span><span class="hl opt">();</span>
         <span class="hl kwa">if</span> <span class="hl opt">(</span>version <span class="hl opt">!=</span> String<span class="hl opt">.</span>Empty<span class="hl opt">)</span>
             Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;Example C# - AStyle &quot;</span> <span class="hl opt">+</span> version<span class="hl opt">);</span>
 
         <span class="hl slc">// process the files</span>
         <span class="hl kwa">for</span> <span class="hl opt">(</span><span class="hl kwb">int</span> i <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span> i <span class="hl opt">&lt;</span> fileName<span class="hl opt">.</span>Length<span class="hl opt">;</span> i<span class="hl opt">++)</span>
         <span class="hl opt">{</span>   <span class="hl slc">// get the text to format</span>
-            String filePath <span class="hl opt">=</span> <span class="hl kwd">GetProjectDirectory</span><span class="hl opt">(</span>fileName<span class="hl opt">[</span>i<span class="hl opt">]);</span>
-            String textIn <span class="hl opt">=</span> <span class="hl kwd">GetText</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
+            <span class="hl kwb">string</span> filePath <span class="hl opt">=</span> <span class="hl kwd">GetProjectDirectory</span><span class="hl opt">(</span>fileName<span class="hl opt">[</span>i<span class="hl opt">]);</span>
+            <span class="hl kwb">string</span> textIn <span class="hl opt">=</span> <span class="hl kwd">GetText</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
 
             <span class="hl slc">// call the Artistic Style formatting function</span>
             <span class="hl slc">// does not need to terminate on an error</span>
-            String textOut <span class="hl opt">=</span> AStyle<span class="hl opt">.</span><span class="hl kwd">FormatSource</span><span class="hl opt">(</span>textIn<span class="hl opt">,</span> options<span class="hl opt">);</span>
+            <span class="hl kwb">string</span> textOut <span class="hl opt">=</span> AStyle<span class="hl opt">.</span><span class="hl kwd">FormatSource</span><span class="hl opt">(</span>textIn<span class="hl opt">,</span> options<span class="hl opt">);</span>
             <span class="hl slc">// does not need to terminate on an error</span>
             <span class="hl slc">// an error message has been displayed by the error handler</span>
             <span class="hl kwa">if</span> <span class="hl opt">(</span>textOut <span class="hl opt">==</span> String<span class="hl opt">.</span>Empty<span class="hl opt">)</span>
@@ -291,7 +265,7 @@
     <span class="hl opt">}</span>
 
     <span class="hl slc">///  Error message function for this example.</span>
-    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">Error</span><span class="hl opt">(</span>String message<span class="hl opt">)</span>
+    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl kwb">string</span> message<span class="hl opt">)</span>
     <span class="hl opt">{</span>   Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span>message<span class="hl opt">);</span>
         Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
         Environment<span class="hl opt">.</span><span class="hl kwd">Exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
@@ -299,26 +273,26 @@
 
     <span class="hl slc">/// Prepend the project directory to the subpath.</span>
     <span class="hl slc">/// This may need to be changed for your directory structure.</span>
-    <span class="hl kwa">private static</span> String <span class="hl kwd">GetProjectDirectory</span><span class="hl opt">(</span>String subPath<span class="hl opt">)</span>
-    <span class="hl opt">{</span>   String homeDirectory <span class="hl opt">=</span> <span class="hl kwa">null</span><span class="hl opt">;</span>
+    <span class="hl kwa">private static</span> <span class="hl kwb">string</span> <span class="hl kwd">GetProjectDirectory</span><span class="hl opt">(</span><span class="hl kwb">string</span> subPath<span class="hl opt">)</span>
+    <span class="hl opt">{</span>   <span class="hl kwb">string</span> homeDirectory <span class="hl opt">=</span> <span class="hl kwa">null</span><span class="hl opt">;</span>
         <span class="hl kwa">if</span> <span class="hl opt">(</span>Environment<span class="hl opt">.</span>OSVersion<span class="hl opt">.</span>Platform <span class="hl opt">==</span> PlatformID<span class="hl opt">.</span>Unix <span class="hl opt">||</span>
                 Environment<span class="hl opt">.</span>OSVersion<span class="hl opt">.</span>Platform <span class="hl opt">==</span> PlatformID<span class="hl opt">.</span>MacOSX<span class="hl opt">)</span>
         <span class="hl opt">{</span>   homeDirectory <span class="hl opt">=</span> Environment<span class="hl opt">.</span><span class="hl kwd">GetEnvironmentVariable</span><span class="hl opt">(</span><span class="hl str">&quot;HOME&quot;</span><span class="hl opt">);</span>
             <span class="hl slc">// HOME is not always recognized on OSX, this usually works</span>
             <span class="hl kwa">if</span> <span class="hl opt">(</span>homeDirectory <span class="hl opt">==</span> <span class="hl kwa">null</span><span class="hl opt">)</span>
-                homeDirectory <span class="hl opt">=</span> Environment<span class="hl opt">.</span><span class="hl kwd">GetFolderPath</span><span class="hl opt">(</span>System<span class="hl opt">.</span>Environment<span class="hl opt">.</span>SpecialFolder<span class="hl opt">.</span>Personal<span class="hl opt">);</span>
+                homeDirectory <span class="hl opt">=</span> Environment<span class="hl opt">.</span><span class="hl kwd">GetFolderPath</span><span class="hl opt">(</span>Environment<span class="hl opt">.</span>SpecialFolder<span class="hl opt">.</span>Personal<span class="hl opt">);</span>
         <span class="hl opt">}</span>
         <span class="hl kwa">else</span>
             homeDirectory <span class="hl opt">=</span> Environment<span class="hl opt">.</span><span class="hl kwd">GetEnvironmentVariable</span><span class="hl opt">(</span><span class="hl str">&quot;USERPROFILE&quot;</span><span class="hl opt">);</span>
         <span class="hl kwa">if</span> <span class="hl opt">(</span>homeDirectory <span class="hl opt">==</span> <span class="hl kwa">null</span><span class="hl opt">)</span>
             <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find HOME directory!&quot;</span><span class="hl opt">);</span>
-        String projectPath <span class="hl opt">=</span> homeDirectory <span class="hl opt">+</span> <span class="hl str">&quot;/Projects/&quot;</span> <span class="hl opt">+</span> subPath<span class="hl opt">;</span>
+        <span class="hl kwb">string</span> projectPath <span class="hl opt">=</span> homeDirectory <span class="hl opt">+</span> <span class="hl str">&quot;/Projects/&quot;</span> <span class="hl opt">+</span> subPath<span class="hl opt">;</span>
         <span class="hl kwa">return</span> projectPath<span class="hl opt">;</span>
     <span class="hl opt">}</span>
 
     <span class="hl slc">///  Get the text to be formatted.</span>
     <span class="hl slc">///  Usually the text would be obtained from an edit control.</span>
-    <span class="hl kwa">private static</span> String <span class="hl kwd">GetText</span><span class="hl opt">(</span><span class="hl kwb">string</span> filePath<span class="hl opt">)</span>
+    <span class="hl kwa">private static</span> <span class="hl kwb">string</span> <span class="hl kwd">GetText</span><span class="hl opt">(</span><span class="hl kwb">string</span> filePath<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl slc">// create input buffers</span>
         <span class="hl kwb">const int</span> readSize <span class="hl opt">=</span> <span class="hl num">131072</span><span class="hl opt">;</span>     <span class="hl slc">// 128 KB</span>
         StringBuilder bufferIn <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">StringBuilder</span><span class="hl opt">(</span>readSize<span class="hl opt">);</span>
@@ -354,9 +328,9 @@
 
     <span class="hl slc">///  Return the formatted text.</span>
     <span class="hl slc">///  Usually the text would be returned to an edit control.</span>
-    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">SetText</span><span class="hl opt">(</span>String textOut<span class="hl opt">,</span> String filePath<span class="hl opt">)</span>
+    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">SetText</span><span class="hl opt">(</span><span class="hl kwb">string</span> textOut<span class="hl opt">,</span> <span class="hl kwb">string</span> filePath<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl slc">// create a backup file</span>
-        String origfilePath <span class="hl opt">=</span> filePath <span class="hl opt">+</span> <span class="hl str">&quot;.orig&quot;</span><span class="hl opt">;</span>
+        <span class="hl kwb">string</span> origfilePath <span class="hl opt">=</span> filePath <span class="hl opt">+</span> <span class="hl str">&quot;.orig&quot;</span><span class="hl opt">;</span>
         File<span class="hl opt">.</span><span class="hl kwd">Delete</span><span class="hl opt">(</span>origfilePath<span class="hl opt">);</span>                  <span class="hl slc">// remove a pre-existing file</span>
         FileInfo outFile <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">FileInfo</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
         outFile<span class="hl opt">.</span><span class="hl kwd">MoveTo</span><span class="hl opt">(</span>origfilePath<span class="hl opt">);</span>
@@ -382,18 +356,12 @@
 </pre>
     </div>
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
     <p>
-        Beginning with version 2.04 of Artistic Style UTF-16 Unicode can be used by calling the function AStyleMainUtf16.
-        The changes from previous versions are indicated by a <span style="background-color: #990000; color: #f0f0f0;">&nbsp;red&nbsp;background&nbsp;</span>.
-        The old method can still be used but to convert Unicode you will need to convert to and from UTF-8 in the C# program
-        and call AStyleMain instead. A method for UTF-8 conversion can probably be found on the internet. With C#, UTF-16
-        Unicode is used in both Linux and Windows.
-    </p>
+        Beginning with version 2.04 of Artistic Style, UTF-16 Unicode can be used by calling the function AStyleMainUtf16.
+        With C# UTF-16 Unicode is used in both Windows and Linux.</p>
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
     <div class="hl">
         <pre class="hl">        
 <span class="hl slc">// AStyleInterface.cs</span>
@@ -407,88 +375,82 @@
 <span class="hl ppc">#if (WINDOWS)</span>
 <span class="hl slc">// Windows will NOT attach an extension to a filename containing dots (.).</span>
 <span class="hl ppc">#if (DEBUG)</span>
-    <span class="hl kwa">private</span> <span class="hl kwb">const</span> String dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.05d.dll&quot;</span><span class="hl opt">;</span>
+    <span class="hl kwa">private</span> <span class="hl kwb">const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.06d.dll&quot;</span><span class="hl opt">;</span>
 <span class="hl ppc">#else</span>
-    <span class="hl kwa">private</span> <span class="hl kwb">const</span> String dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.05.dll&quot;</span><span class="hl opt">;</span>
+    <span class="hl kwa">private</span> <span class="hl kwb">const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.06.dll&quot;</span><span class="hl opt">;</span>
 <span class="hl ppc">#endif</span>
 <span class="hl ppc">#else</span>
 <span class="hl ppc">#if (DEBUG)</span>
-    <span class="hl kwa">private</span> <span class="hl kwb">const</span> String dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.05d&quot;</span><span class="hl opt">;</span>
+    <span class="hl kwa">private</span> <span class="hl kwb">const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.06d&quot;</span><span class="hl opt">;</span>
 <span class="hl ppc">#else</span>
-    <span class="hl kwa">private</span> <span class="hl kwb">const</span> String dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.05&quot;</span><span class="hl opt">;</span>
+    <span class="hl kwa">private</span> <span class="hl kwb">const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.06&quot;</span><span class="hl opt">;</span>
 <span class="hl ppc">#endif</span>
 <span class="hl ppc">#endif</span>
     <span class="hl slc">/// AStyleGetVersion DllImport.</span>
-    <span class="hl slc">/// Cannot use String as a return value because Mono runtime will attempt to</span>
+    <span class="hl slc">/// Cannot use string as a return value because Mono runtime will attempt to</span>
     <span class="hl slc">/// free the returned pointer resulting in a runtime crash.</span>
-    <span class="hl slc"><span style="background-color: #660000">/// NOTE: CharSet.Unicode is NOT used here.</span></span>
+    <span class="hl slc">/// NOTE: CharSet.Unicode is NOT used here.</span>
     <span class="hl opt">[</span><span class="hl kwd">DllImport</span><span class="hl opt">(</span>dllName<span class="hl opt">)]</span>
     <span class="hl kwa">private static</span> extern IntPtr <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
 
     <span class="hl slc">/// AStyleMainUtf16 DllImport.</span>
-    <span class="hl slc">/// Cannot use String as a return value because Mono runtime will attempt to</span>
+    <span class="hl slc">/// Cannot use string as a return value because Mono runtime will attempt to</span>
     <span class="hl slc">/// free the returned pointer resulting in a runtime crash.</span>
-    <span class="hl slc" style="background-color: #660000"><span class="hl slc">/// NOTE: CharSet.Unicode and wide strings are used here.</span></span>
-    <span class="hl opt">[</span><span class="hl kwd">DllImport</span><span class="hl opt">(</span>dllName<span class="hl opt">,</span> <span class="hl slc" style="background-color: #660000">CharSet <span class="hl opt">=</span> CharSet<span class="hl opt">.</span>Unicode<span class="hl opt"></span></span>)]
-    <span class="hl kwa">private static</span> extern IntPtr <span class="hl slc" style="background-color: #660000"><span class="hl kwd">AStyleMainUtf16</span></span><span class="hl opt">(</span>
-        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span><span class="hl slc" style="background-color: #660000">LPWStr</span><span class="hl opt">)]</span> String sIn<span class="hl opt">,</span>
-        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span><span class="hl slc" style="background-color: #660000">LPWStr</span><span class="hl opt">)]</span> String sOptions<span class="hl opt">,</span>
-        AStyleErrorDelgate errorFunc<span class="hl opt">,</span>
-        AStyleMemAllocDelgate memAllocFunc
+    <span class="hl slc">/// NOTE: CharSet.Unicode and wide strings ARE used here.</span>
+    <span class="hl opt">[</span><span class="hl kwd">DllImport</span><span class="hl opt">(</span>dllName<span class="hl opt">,</span> CharSet <span class="hl opt">=</span> CharSet<span class="hl opt">.</span>Unicode<span class="hl opt">)]</span>
+    <span class="hl kwa">private static</span> extern IntPtr <span class="hl kwd">AStyleMainUtf16</span><span class="hl opt">(</span>
+        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span>LPWStr<span class="hl opt">)]</span> <span class="hl kwb">string</span> textIn<span class="hl opt">,</span>
+        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span>LPWStr<span class="hl opt">)]</span> <span class="hl kwb">string</span> options<span class="hl opt">,</span>
+        AStyleErrorDelgate AStyleError<span class="hl opt">,</span>
+        AStyleMemAllocDelgate AStyleMemAlloc
     <span class="hl opt">);</span>
 
-    <span class="hl slc">/// <span class="hl slc" style="background-color: #660000">AStyleMainUtf16</span> callbacks.</span>
-    <span class="hl slc"><span class="hl slc" style="background-color: #660000">/// NOTE: Wide strings are NOT used here.</span></span>
-    <span class="hl kwa">private delegate</span> IntPtr <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl opt">(</span><span class="hl kwb">int</span> size<span class="hl opt">);</span>
+    <span class="hl slc">/// AStyleMainUtf16 callbacks.</span>
+    <span class="hl slc">/// NOTE: Wide strings are NOT used here.</span>
     <span class="hl kwa">private delegate</span> <span class="hl kwb">void</span> <span class="hl kwd">AStyleErrorDelgate</span><span class="hl opt">(</span>
         <span class="hl kwb">int</span> errorNum<span class="hl opt">,</span>
-        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span>LPStr<span class="hl opt">)]</span> String error
+        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span>LPStr<span class="hl opt">)]</span> <span class="hl kwb">string</span> error
     <span class="hl opt">);</span>
+    <span class="hl kwa">private delegate</span> IntPtr <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl opt">(</span><span class="hl kwb">int</span> size<span class="hl opt">);</span>
 
-    <span class="hl slc">/// <span class="hl slc" style="background-color: #660000">AStyleMainUtf16</span> Delegates.</span>
-    <span class="hl kwa">private</span> AStyleMemAllocDelgate AStyleMemAlloc<span class="hl opt">;</span>
-    <span class="hl kwa">private</span> AStyleErrorDelgate AStyleError<span class="hl opt">;</span>
-
-    <span class="hl slc">/// Declare callback functions.</span>
-    <span class="hl kwa">public</span> <span class="hl kwd">AStyleInterface</span><span class="hl opt">()</span>
-    <span class="hl opt">{</span>   AStyleMemAlloc <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl opt">(</span>OnAStyleMemAlloc<span class="hl opt">);</span>
-        AStyleError <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleErrorDelgate</span><span class="hl opt">(</span>OnAStyleError<span class="hl opt">);</span>
+    <span class="hl slc">/// Error handler to abort the program.</span>
+    <span class="hl kwa">private</span> <span class="hl kwb">void</span> <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl kwb">string</span> message<span class="hl opt">)</span>
+    <span class="hl opt">{</span>   Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span>message<span class="hl opt">);</span>
+        Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
+        Environment<span class="hl opt">.</span><span class="hl kwd">Exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
     <span class="hl opt">}</span>
 
-    <span class="hl slc">/// Call the <span class="hl slc" style="background-color: #660000">AStyleMainUtf16</span> function in Artistic Style.</span>
+    <span class="hl slc">/// Call the AStyleMainUtf16 function in Artistic Style.</span>
     <span class="hl slc">/// An empty string is returned on error.</span>
-    <span class="hl kwa">public</span> String <span class="hl kwd">FormatSource</span><span class="hl opt">(</span>String textIn<span class="hl opt">,</span> String options<span class="hl opt">)</span>
+    <span class="hl kwa">public</span> <span class="hl kwb">string</span> <span class="hl kwd">FormatSource</span><span class="hl opt">(</span><span class="hl kwb">string</span> textIn<span class="hl opt">,</span> <span class="hl kwb">string</span> options<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl slc">// Return the allocated string</span>
-        <span class="hl slc">// Memory space is allocated by OnAStyleMemAlloc, a callback function</span>
-        String sTextOut <span class="hl opt">=</span> String<span class="hl opt">.</span>Empty<span class="hl opt">;</span>
+        <span class="hl slc">// Memory space is allocated by AStyleMemAlloc, a callback function</span>
+        <span class="hl kwb">string</span> sTextOut <span class="hl opt">=</span> String<span class="hl opt">.</span>Empty<span class="hl opt">;</span>
         <span class="hl kwa">try</span>
-        <span class="hl opt">{</span>   IntPtr pText <span class="hl opt">=</span> <span class="hl kwd"><span class="hl slc" style="background-color: #660000">AStyleMainUtf16</span></span><span class="hl opt">(</span>textIn<span class="hl opt">,</span> options<span class="hl opt">,</span> AStyleError<span class="hl opt">,</span> AStyleMemAlloc<span class="hl opt">);</span>
+        <span class="hl opt">{</span>   IntPtr pText <span class="hl opt">=</span> <span class="hl kwd">AStyleMainUtf16</span><span class="hl opt">(</span>textIn<span class="hl opt">,</span> options<span class="hl opt">,</span>
+                                           AStyleError<span class="hl opt">,</span> AStyleMemAlloc<span class="hl opt">);</span>
             <span class="hl kwa">if</span> <span class="hl opt">(</span>pText <span class="hl opt">!=</span> IntPtr<span class="hl opt">.</span>Zero<span class="hl opt">)</span>
-            <span class="hl opt">{</span>   sTextOut <span class="hl opt">=</span> Marshal<span class="hl opt">.</span><span class="hl kwd"><span class="hl slc" style="background-color: #660000">PtrToStringUni</span></span><span class="hl opt">(</span>pText<span class="hl opt">);</span>
+            <span class="hl opt">{</span>   sTextOut <span class="hl opt">=</span> Marshal<span class="hl opt">.</span><span class="hl kwd">PtrToStringUni</span><span class="hl opt">(</span>pText<span class="hl opt">);</span>
                 Marshal<span class="hl opt">.</span><span class="hl kwd">FreeHGlobal</span><span class="hl opt">(</span>pText<span class="hl opt">);</span>
             <span class="hl opt">}</span>
         <span class="hl opt">}</span>
         <span class="hl kwa">catch</span> <span class="hl opt">(</span>BadImageFormatException e<span class="hl opt">)</span>
         <span class="hl opt">{</span>   Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span>e<span class="hl opt">.</span><span class="hl kwd">ToString</span><span class="hl opt">());</span>
-            Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;You may be mixing 32 and 64 bit code!&quot;</span><span class="hl opt">);</span>
+            <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl str">&quot;You may be mixing 32 and 64 bit code!&quot;</span><span class="hl opt">);</span>
         <span class="hl opt">}</span>
         <span class="hl kwa">catch</span> <span class="hl opt">(</span>DllNotFoundException<span class="hl opt">)</span>
         <span class="hl opt">{</span>   <span class="hl slc">//Console.WriteLine(e.ToString());</span>
-            Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot load native library: &quot;</span> <span class="hl opt">+</span> dllName<span class="hl opt">);</span>
-            Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
-            Environment<span class="hl opt">.</span><span class="hl kwd">Exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
+            <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot load native library: &quot;</span> <span class="hl opt">+</span> dllName<span class="hl opt">);</span>
         <span class="hl opt">}</span>
         <span class="hl kwa">catch</span> <span class="hl opt">(</span>Exception e<span class="hl opt">)</span>
-        <span class="hl opt">{</span>   Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span>e<span class="hl opt">.</span><span class="hl kwd">ToString</span><span class="hl opt">());</span>
+        <span class="hl opt">{</span>   <span class="hl kwd">Error</span><span class="hl opt">(</span>e<span class="hl opt">.</span><span class="hl kwd">ToString</span><span class="hl opt">());</span>
         <span class="hl opt">}</span>
         <span class="hl kwa">return</span> sTextOut<span class="hl opt">;</span>
     <span class="hl opt">}</span>
 
     <span class="hl slc">/// Get the Artistic Style version number.</span>
-    <span class="hl slc">/// Does not need to terminate on error.</span>
-    <span class="hl slc">/// But the exception must be handled when a function is called.</span>
-    <span class="hl kwa">public</span> String <span class="hl kwd">GetVersion</span><span class="hl opt">()</span>
-    <span class="hl opt">{</span>   String sVersion <span class="hl opt">=</span> String<span class="hl opt">.</span>Empty<span class="hl opt">;</span>
+    <span class="hl kwa">public</span> <span class="hl kwb">string</span> <span class="hl kwd">GetVersion</span><span class="hl opt">()</span>
+    <span class="hl opt">{</span>   <span class="hl kwb">string</span> sVersion <span class="hl opt">=</span> String<span class="hl opt">.</span>Empty<span class="hl opt">;</span>
         <span class="hl kwa">try</span>
         <span class="hl opt">{</span>   IntPtr pVersion <span class="hl opt">=</span> <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
             <span class="hl kwa">if</span> <span class="hl opt">(</span>pVersion <span class="hl opt">!=</span> IntPtr<span class="hl opt">.</span>Zero<span class="hl opt">)</span>
@@ -497,32 +459,26 @@
         <span class="hl opt">}</span>
         <span class="hl kwa">catch</span> <span class="hl opt">(</span>BadImageFormatException e<span class="hl opt">)</span>
         <span class="hl opt">{</span>   Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span>e<span class="hl opt">.</span><span class="hl kwd">ToString</span><span class="hl opt">());</span>
-            Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;You may be mixing 32 and 64 bit code!&quot;</span><span class="hl opt">);</span>
-            Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
-            Environment<span class="hl opt">.</span><span class="hl kwd">Exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
+            <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl str">&quot;You may be mixing 32 and 64 bit code!&quot;</span><span class="hl opt">);</span>
         <span class="hl opt">}</span>
         <span class="hl kwa">catch</span> <span class="hl opt">(</span>DllNotFoundException<span class="hl opt">)</span>
         <span class="hl opt">{</span>   <span class="hl slc">//Console.WriteLine(e.ToString());</span>
-            Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot load native library: &quot;</span> <span class="hl opt">+</span> dllName<span class="hl opt">);</span>
-            Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
-            Environment<span class="hl opt">.</span><span class="hl kwd">Exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
+            <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot load native library: &quot;</span> <span class="hl opt">+</span> dllName<span class="hl opt">);</span>
         <span class="hl opt">}</span>
         <span class="hl kwa">catch</span> <span class="hl opt">(</span>Exception e<span class="hl opt">)</span>
-        <span class="hl opt">{</span>   Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span>e<span class="hl opt">.</span><span class="hl kwd">ToString</span><span class="hl opt">());</span>
-            Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
-            Environment<span class="hl opt">.</span><span class="hl kwd">Exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
+        <span class="hl opt">{</span>   <span class="hl kwd">Error</span><span class="hl opt">(</span>e<span class="hl opt">.</span><span class="hl kwd">ToString</span><span class="hl opt">());</span>
         <span class="hl opt">}</span>
         <span class="hl kwa">return</span> sVersion<span class="hl opt">;</span>
     <span class="hl opt">}</span>
 
-    <span class="hl slc">/// Allocate the memory for the Artistic Style return string.</span>
-    <span class="hl kwa">private</span> IntPtr <span class="hl kwd">OnAStyleMemAlloc</span><span class="hl opt">(</span><span class="hl kwb">int</span> size<span class="hl opt">)</span>
+    <span class="hl slc">/// AStyleMainUtf16 callback to allocate memory for the return string.</span>
+    <span class="hl kwa">private</span> IntPtr <span class="hl kwd">AStyleMemAlloc</span><span class="hl opt">(</span><span class="hl kwb">int</span> size<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl kwa">return</span> Marshal<span class="hl opt">.</span><span class="hl kwd">AllocHGlobal</span><span class="hl opt">(</span>size<span class="hl opt">);</span>
     <span class="hl opt">}</span>
 
-    <span class="hl slc">/// Display errors from Artistic Style .</span>
-    <span class="hl kwa">private</span> <span class="hl kwb">void</span> <span class="hl kwd">OnAStyleError</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> String errorMessage<span class="hl opt">)</span>
-    <span class="hl opt">{</span>   Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;AStyle error &quot;</span> <span class="hl opt">+</span> errorNumber <span class="hl opt">+</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span> <span class="hl opt">+</span> errorMessage<span class="hl opt">);</span>
+    <span class="hl slc">/// AStyleMainUtf16 callback to display errors from Artistic Style.</span>
+    <span class="hl kwa">private</span> <span class="hl kwb">void</span> <span class="hl kwd">AStyleError</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">string</span> error<span class="hl opt">)</span>
+    <span class="hl opt">{</span>   Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;AStyle error &quot;</span> <span class="hl opt">+</span> errorNumber <span class="hl opt">+</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span> <span class="hl opt">+</span> error<span class="hl opt">);</span>
     <span class="hl opt">}</span>
 
 <span class="hl opt">}</span>   <span class="hl slc">// class AStyleInterface</span>
@@ -531,8 +487,7 @@
     </div>
 
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
 
     <center style="margin-left: -0.4in;">
         <a href="http://sourceforge.net/projects/astyle">
@@ -540,9 +495,9 @@
     </center>
 
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
 
 </body>
 
 </html>
+
