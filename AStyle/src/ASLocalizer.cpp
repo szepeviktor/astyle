@@ -1,6 +1,6 @@
 // ASLocalizer.cpp
 // Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
-// Licensed under the MIT license.
+// This code is licensed under the MIT License.
 // License.txt describes the conditions under which this software may be distributed.
 //
 // File encoding for this file is UTF-8 WITHOUT a byte order mark(BOM).
@@ -382,23 +382,22 @@ bool Translation::getWideTranslation(const string& stringIn, wstring& wideOut) c
 
 string& Translation::translate(const string& stringIn) const
 // Translate a string.
-// Return a static string instead of a member variable so the method can have a "const" designation.
+// Return a mutable string so the method can have a "const" designation.
 // This allows "settext" to be called from a "const" method.
 {
-	static string mbTranslation;
-	mbTranslation.clear();
+	m_mbTranslation.clear();
 	for (size_t i = 0; i < m_translation.size(); i++)
 	{
 		if (m_translation[i].first == stringIn)
 		{
-			mbTranslation = convertToMultiByte(m_translation[i].second);
+			m_mbTranslation = convertToMultiByte(m_translation[i].second);
 			break;
 		}
 	}
 	// not found, return english
-	if (mbTranslation.empty())
-		mbTranslation = stringIn;
-	return mbTranslation;
+	if (m_mbTranslation.empty())
+		m_mbTranslation = stringIn;
+	return m_mbTranslation;
 }
 
 //----------------------------------------------------------------------------

@@ -1,7 +1,4 @@
 # Make file for Intel compiler on Linux or compatible OS
-# The license.html file describes the conditions under
-# which this software may be distributed.
-#
 
 # Before running "make" the COMPILER environment variables must be set.
 # To set the environment variables "source" the compiler environment script:

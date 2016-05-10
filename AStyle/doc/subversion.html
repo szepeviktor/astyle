@@ -15,8 +15,7 @@
     <h1>Artistic Style Subversion Repository</h1>
 
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
 
     <h3>Artistic Style</h3>
 
@@ -24,74 +23,115 @@
         The latest development source is in the Artistic Style repository at SourceForge. It can be checked out using
         Subversion. The source code is under development and some changes take several weeks to complete. The intermediate
         source files have not been through the extensive system tests that are done before each release. Use reasonable
-        precautions when using source code from the repository.
-    </p>
+        precautions when using source code from the repository.</p>
     <p>
-        The current version is in the "trunk/AStyle" branch of the repository. The file and directory names are case sensitive.
-    </p>
+        The current version is in the "trunk/AStyle" branch of the repository. The file and directory names are case 
+        sensitive.</p>
     <p>
         A sample checkout is:<br />
-        <strong>svn&nbsp; checkout&nbsp; "https://svn.code.sf.net/p/astyle/code/trunk/AStyle"&nbsp; "$HOME/astyle"</strong>
-    </p>
+        <strong>svn&nbsp; checkout&nbsp; "https://svn.code.sf.net/p/astyle/code/trunk/AStyle"&nbsp; 
+            "$HOME/astyle"</strong></p>
     <p>
         You can also <a href="https://sourceforge.net/p/astyle/code/HEAD/tree/">browse the subversion repository</a>.
         The current development release is in the "trunk" directory. This gives you a view into the current status of
-        the project's code without actually checking-out the files.
-    </p>
+        the project's code without actually checking-out the files.</p>
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
 
     <h3>Other Projects</h3>
 
     <p>
         Two additional Artistic Style projects are available in the repository. They are not maintained for the general
-        public but are available if you want them. You may have to create your own project files and scripts to use them.
-        These projects require the Artistic Style project above. They are an extension that requires the Artistic Style
-        source. All projects, and any additional source required, should be installed in the same top level folder.
-    </p>
+        public but are available if you want them. You may have to create your own project files and scripts to use 
+        them.</p>
+    <p>
+        All projects, and any additional source required, should be installed in the same top level folder. A sample file
+        directory containing ALL the projects should look as follows. The project dependencies are described 
+        below.</p>
+    <pre>    Projects
+        AStyle
+        AStyleDev
+        AStyleTest
+        AStyleWx
+        AStyleWxTest
+        googlemock
+        googletest</pre>
 
     <h4>AStyleDev</h4>
 
     <p>
         AStyleDev contains the development files that are made available in the "Developer Information" section. Refer
-        to that section for more information.
-    </p>
+        to that section for more information.</p>
+    <p>
+        These projects require the Artistic Style project to compile.</p>
     <p>
         A sample checkout is:<br />
-        svn&nbsp; checkout&nbsp; "https://svn.code.sf.net/p/astyle/code/trunk/AStyleDev"&nbsp; "$HOME/astyledev"
-    </p>
+        <strong>svn&nbsp; checkout&nbsp; "https://svn.code.sf.net/p/astyle/code/trunk/AStyleDev"&nbsp; "$HOME/astyledev"
+        </strong></p>
 
     <h4>AStyleTest</h4>
 
     <p>
         AStyleTest contains the unit test programs and test scripts for Artistic Style. There are over 2000 tests in the
-        main test program.
-    </p>
+        main test program.</p>
+    <p>
+        This project requires the Artistic Style project to compile.
+        In addition, the test program requires Google Mock and Google Test described below.</p>
     <p>
         A sample checkout is:<br />
-        svn&nbsp; checkout&nbsp; "https://svn.code.sf.net/p/astyle/code/trunk/AStyleTest"&nbsp; "$HOME/astyletest"
-    </p>
+        <strong>svn&nbsp; checkout&nbsp; "https://svn.code.sf.net/p/astyle/code/trunk/AStyleTest"&nbsp; "$HOME/astyletest"
+        </strong></p>
+
+    <h4>AStyleWx</h4>
+
     <p>
-        In addition to the Artistic Style source the test program requires
-        <a href="http://code.google.com/p/googlemock/"
-            target="_blank" title="open new window">Google Mock</a>. This is the Google multi-platform framework for writing
-        C++ unit tests. The main Artistic Style test project, AStyleTest, actually uses &quot;integration&quot; tests
-        instead of &quot;unit&quot; tests. This type of testing can be effective for programs that were written without
-        unit tests to begin with.
-    </p>
+        AStyleTest contains a GUI test program for Artistic Style. </p>
     <p>
-        &nbsp;
-    </p>
+        This project requires the Artistic Style project to compile. Downloadable files are made available in &quot;AStyleWx
+        Test Program&quot;. Refer to that section for more information. </p>
+    <p>
+        A sample checkout is:<br />
+        <strong>svn&nbsp; checkout&nbsp; "https://svn.code.sf.net/p/astyle/code/trunk/AStyleWx&quot;&nbsp; "$HOME/astylewx&quot;
+        </strong></p>
+
+    <h4>AStyleWxTest</h4>
+
+    <p>
+        AStyleTest contains the unit test programs and test scripts for AStyleWx.&nbsp; </p>
+    <p>
+        This project requires the AStyleWx project to compile. In addition, the test program requires Google Mock and
+        Google Test described below.</p>
+    <p>
+        A sample checkout is:<br />
+        <strong>svn&nbsp; checkout&nbsp; "https://svn.code.sf.net/p/astyle/code/trunk/AStyleWxTest"&nbsp; "$HOME/astylewxtest"
+        </strong></p>
+
+    <h4>Gogle Mock andGoogle Test</h4>
+
+    <p>
+        Google Mock and Google Test is the Google multi-platform framework for writing C++ unit tests.
+        It is available at <a href="https://github.com/google/googlemock" target="_blank" title="open new window">GitHub</a>.
+        It can be downloaded as a zip file by pressing the &quot;Download ZIP&quot; button. The defalt is to download
+        the master development branch. The latest stable release can be obtained by selecting Branch, tags, then select
+        the latest release. For release 1.7 and older, googlemock has not been transfered to the googletest repository.
+        Download googletest from the current GitHub repository. Then get the same release of googlemock <a href="https://github.com/google/googlemock"
+            target="_blank" title="open new window">here</a>.</p>
+    <p>
+        The Artistic Style project files are set up to use googletest and googlemock installed in the top level folder
+        as indicated above. The library compile for googlemock includes googletest. The library compile for googletest
+        includes only googletest. The AStyle test programs have their own project files for compiling the test platform.
+        There are also compile projects in the google modules if you want to use them. They create a static library file
+        that is linked with the test program. The google downloads contain instructions for using the package.</p>
+
+    <p>
+        &nbsp;</p>
 
     <p style="margin-left: -0.4in; text-align: center;">
         <a href="http://sourceforge.net/projects/astyle">
-            <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=2319&type=16" alt="" /></a>
-    </p>
+            <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=2319&type=16" alt="" /></a></p>
 
     <p>
-        &nbsp;
-    </p>
+        &nbsp;</p>
 
 </body>
 

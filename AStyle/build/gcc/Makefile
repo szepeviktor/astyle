@@ -1,5 +1,4 @@
 # Make file for GCC compiler on Linux or compatible OS
-# The license.html file describes the conditions under which this software may be distributed.
 
 # list of source files for astyle
 SRC = astyle_main.cpp \
