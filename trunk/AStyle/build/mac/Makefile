@@ -1,5 +1,4 @@
 # Make file for Clang compiler on Mac OS X
-# The license.html file describes the conditions under which this software may be distributed.
 
 # to test on Linux use "make  linux=1"
 
