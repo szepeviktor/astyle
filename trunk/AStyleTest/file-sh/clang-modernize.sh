@@ -9,43 +9,42 @@ echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 echo "*                     clang modernize                     *"
 echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 
-# options="-loop-convert"
-
 cd $srcdir
 
-echo
-#~ echo astyle.h
-clang-modernize-3.5  ASFormatter.cpp  --  -std=c++11
-echo
-#~ echo astyle_main.h
-#~ clang++ "$srcdir/astyle_main.h" --analyze
-#~ echo
-#~ echo ASLocalizer.h
-#~ clang++ "$srcdir/ASLocalizer.h" --analyze
-#~ echo
-#~ echo ASBeautifier
-#~ clang++ "$srcdir/ASBeautifier.cpp" --analyze
-#~ echo
-#~ echo ASEnhancer
-#~ clang++ "$srcdir/ASEnhancer.cpp" --analyze
-#~ echo
-#~ echo ASFormatter
-#~ clang++ "$srcdir/ASFormatter.cpp" --analyze
-#~ echo
-#~ echo ASLocalizer
-#~ clang++ "$srcdir/ASLocalizer.cpp" --analyze
-#~ echo
-#~ echo ASResource
-#~ clang++ "$srcdir/ASResource.cpp" --analyze
-#~ echo
-#~ echo astyle_main
-#~ clang++ "$srcdir/astyle_main.cpp" --analyze
+echo -e "\nASBeautifier.cpp"
+cp -f -v  ASBeautifier.cpp  clang-asbeautifier.cpp
+clang-modernize-3.7  -risk=risky  -summary  clang-asbeautifier.cpp
 
-#~ echo
-#~ echo Removing .gch files
-#~ rm  $srcdir/*.gch
-#~ echo Removing .plist files
-#~ rm  *.plist
+echo -e "\nASEnhancer.cpp"
+cp -f -v  ASEnhancer.cpp  clang-asenhancer.cpp
+clang-modernize-3.7  -risk=risky  -summary  clang-asenhancer.cpp
 
-#~ echo
+echo -e "\nASFormatter.cpp"
+cp -f -v  ASFormatter.cpp  clang-asformatter.cpp
+clang-modernize-3.7  -risk=risky  -summary  clang-asformatter.cpp
+
+echo -e "\nASLocalizer.cpp"
+cp -f -v  ASLocalizer.cpp  clang-aslocalizer.cpp
+clang-modernize-3.7  -risk=risky  -summary  clang-aslocalizer.cpp
+
+echo -e "\nASResource.cpp"
+cp -f -v  ASResource.cpp  clang-asresource.cpp
+clang-modernize-3.7  -risk=risky  -summary  clang-asresource.cpp
+
+# NOTE: header extension must be .hpp to use c++
+echo -e "\nASLocalizer.h"
+cp -f -v  ASLocalizer.h  clang-aslocalizer.hpp
+clang-modernize-3.7  -risk=risky  -summary  clang-aslocalizer.hpp
+
+# NOTE: header extension must be .hpp to use c++
+echo -e "\nastyle.h"
+cp -f -v  astyle.h  clang-astyle.hpp
+clang-modernize-3.7  -risk=risky  -summary  clang-astyle.hpp
+
+# NOTE: header extension must be .hpp to use c++
+echo -e "\nastyle_main.h"
+cp -f -v  astyle_main.h  clang-astyle_main.hpp
+clang-modernize-3.7  -risk=risky  -summary  clang-astyle_main.hpp
+
+echo
 #~ read -sn1 -p "Press Enter to end . . ."

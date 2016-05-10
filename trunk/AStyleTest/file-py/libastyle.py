@@ -98,12 +98,15 @@ def build_astyle_executable(config):
     elif config == STATIC and os.name == "nt":
         print("Building AStyle Static")
     elif config == STATIC_XP and os.name == "nt":
-        print("Building AStyle Static XP")
+        print("Building AStyle Static-XP")
     else:
         system_exit("Bad arg in build_astyle_executable(): " + config)
     slnpath = get_astyle_build_directory(config)
     if os.name == "nt":
-        slnpath = slnpath + "/AStyle.sln"
+        if config == STATIC_XP:
+            slnpath = slnpath + "/AStyle-XP.sln"
+        else:
+            slnpath = slnpath + "/AStyle.sln"
         compile_windows_executable(slnpath, config)
     else:
         compile_linux_executable(slnpath, config)
@@ -154,10 +157,8 @@ def compile_windows_executable(slnpath, config):
         system_exit(message)
     if config == DEBUG:
         config_prop = "/property:Configuration=Debug"
-    elif config == STATIC:
+    elif config == STATIC or config == STATIC_XP:
         config_prop = "/property:Configuration=Static"
-    elif config == STATIC_XP:
-        config_prop = "/property:Configuration=Static XP"
     else:
         config_prop = "/property:Configuration=Release"
     platform_prop = "/property:Platform=Win32"
@@ -208,7 +209,10 @@ def get_astyle_build_directory(config):
         system_exit("Bad arg in get_astyle_build_directory(): " + config)
     astyledir = get_astyle_directory()
     if os.name == "nt":
-        subpath = "/build/" + VS_RELEASE
+        if config == STATIC_XP:
+            subpath = "/build/" + VS_RELEASE + "-xp"
+        else:
+            subpath = "/build/" + VS_RELEASE
     else:
         subpath = "/build/gcc"
     astylepath = astyledir + subpath

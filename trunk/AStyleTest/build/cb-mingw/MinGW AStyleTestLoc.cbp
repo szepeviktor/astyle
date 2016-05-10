@@ -19,7 +19,7 @@
 					<Add option="-g" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libstdc++" />
@@ -40,7 +40,7 @@
 					<Add option="-DNDEBUG" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -63,7 +63,7 @@
 					<Add option="-ftest-coverage" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libstdc++" />

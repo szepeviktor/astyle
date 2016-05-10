@@ -21,8 +21,8 @@
 					<Add directory="../../srclib" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
-					<Add directory="../../../gmock/include" />
+					<Add directory="../../../googletest/include" />
+					<Add directory="../../../googlemock/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-import" />
@@ -44,8 +44,8 @@
 					<Add directory="../../srclib" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
-					<Add directory="../../../gmock/include" />
+					<Add directory="../../../googletest/include" />
+					<Add directory="../../../googlemock/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -69,8 +69,8 @@
 					<Add directory="../../srclib" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
-					<Add directory="../../../gmock/include" />
+					<Add directory="../../../googletest/include" />
+					<Add directory="../../../googlemock/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-import" />

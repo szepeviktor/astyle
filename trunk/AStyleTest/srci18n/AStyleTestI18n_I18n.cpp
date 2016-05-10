@@ -1,6 +1,6 @@
 // AStyleTestI18n_I18n.cpp
 // Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
-// Licensed under the MIT license.
+// This code is licensed under the MIT License.
 // License.txt describes the conditions under which this software may be distributed.
 //
 //  File encoding for this file is UTF-8 WITH a byte order mark (BOM).

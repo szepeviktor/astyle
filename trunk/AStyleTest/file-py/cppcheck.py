@@ -26,7 +26,6 @@ import subprocess
 
 # global variables ------------------------------------------------------------
 
-__expected_version = "1.60"
 __src_dir = libastyle.get_astyle_directory() + "/src/"
 __py_dir = libastyle.get_astyletest_directory() + "/file-py/"
 __suppression_path = __py_dir + "cppcheck-suppress"
@@ -266,7 +265,7 @@ def process_file_suppressions(file_suppression_list):
     file_suppression_list.append("uninitMemberVar:" + __src_dir + "ASBeautifier.cpp\n")
     file_suppression_list.append("uninitMemberVar:" + __src_dir + "ASEnhancer.cpp\n")
     file_suppression_list.append("uninitMemberVar:" + __src_dir + "ASFormatter.cpp\n")
-    file_suppression_list.append("uninitMemberVar:" + __src_dir + "astyle_main.cpp\n")      # from version 1.72
+    #file_suppression_list.append("uninitMemberVar:" + __src_dir + "astyle_main.cpp\n")      # from version 1.72
 
 # -----------------------------------------------------------------------------
 
@@ -428,9 +427,6 @@ def verify_cppcheck_version(exepath):
     version = version.rstrip(b"\r\n")
     if platform.python_version_tuple()[0] >= '3':
         version = version.decode()
-    if version < __expected_version:
-        print("Cppcheck version", version,
-                "is less than expected version", __expected_version, "\n")
 
 # -----------------------------------------------------------------------------
 

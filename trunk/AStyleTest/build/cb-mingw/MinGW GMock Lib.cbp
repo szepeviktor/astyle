@@ -18,10 +18,10 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-Wno-unused-variable" />
-					<Add directory="../../../gmock" />
-					<Add directory="../../../gmock/gtest" />
-					<Add directory="../../../gmock/include" />
-					<Add directory="../../../gmock/gtest/include" />
+					<Add directory="../../../googlemock" />
+					<Add directory="../../../googletest" />
+					<Add directory="../../../googlemock/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -35,10 +35,10 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-Wno-unused-variable" />
-					<Add directory="../../../gmock" />
-					<Add directory="../../../gmock/gtest" />
-					<Add directory="../../../gmock/include" />
-					<Add directory="../../../gmock/gtest/include" />
+					<Add directory="../../../googlemock" />
+					<Add directory="../../../googletest" />
+					<Add directory="../../../googlemock/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -48,8 +48,8 @@
 		<VirtualTargets>
 			<Add alias="Coversge" targets="Debug;" />
 		</VirtualTargets>
-		<Unit filename="../../../gmock/gtest/src/gtest-all.cc" />
-		<Unit filename="../../../gmock/src/gmock-all.cc" />
+		<Unit filename="../../../googletest/src/gtest-all.cc" />
+		<Unit filename="../../../googlemock/src/gmock-all.cc" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -22,7 +22,6 @@
     <ProjectGuid>{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>AStyleTestLoc</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -96,7 +95,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\include;..\..\..\..\gmock\gtest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FunctionLevelLinking>false</FunctionLevelLinking>
     </ClCompile>
@@ -114,7 +113,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\include;..\..\..\..\gmock\gtest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FunctionLevelLinking>false</FunctionLevelLinking>
     </ClCompile>
@@ -134,7 +133,7 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\include;..\..\..\..\gmock\gtest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,7 +153,7 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\include;..\..\..\..\gmock\gtest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
