@@ -11,7 +11,7 @@ import java.io.*;
 
 public class Example
 {   /*
-    *  Main function for this example.
+    * Main function for this example.
     */
     public static void main(String[] args)
     {   // files to pass to AStyle
@@ -22,7 +22,7 @@ public class Example
 
         // options to pass to AStyle
         // mode=java is required for Java files
-        String options = "style=java, indent=tab, mode=java";
+        String options = "-A2tOP";
 
         // create an object
         AStyleInterface astyle = new AStyleInterface();
@@ -57,7 +57,7 @@ public class Example
     }
 
     /*
-    *  Error message function for this example.
+    * Error message function for this example.
     */
     private static void error(String message)
     {   System.out.println(message);
@@ -76,8 +76,8 @@ public class Example
     }
 
     /*
-    *  Get the text to be formatted.
-    *  Usually the text would be obtained from an edit control.
+    * Get the text to be formatted.
+    * Usually the text would be obtained from an edit control.
     */
     private static String getText(String filePath)
     {   // create input buffers
@@ -111,8 +111,8 @@ public class Example
     }
 
     /*
-    *  Return the formatted text.
-    *  Usually the text would be returned to an edit control.
+    * Return the formatted text.
+    * Usually the text would be returned to an edit control.
     */
     private static void setText(String textOut, String filePath)
     {   // create a backup file
