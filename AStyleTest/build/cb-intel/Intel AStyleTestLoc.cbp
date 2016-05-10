@@ -21,7 +21,7 @@
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add library="gmockd" />
@@ -43,7 +43,7 @@
 					<Add option="-DNDEBUG" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />

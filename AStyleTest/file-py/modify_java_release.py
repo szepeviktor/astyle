@@ -27,6 +27,11 @@ def main():
     print("Modify Java JDK Version from", __old_release, "to", __new_release)
     if not __file_update:
         print("Files NOT Updated")
+    # must use this version for newline option on the file open
+    if platform.python_implementation() == "CPython" and sys.version_info[0] >= 3:
+        pass
+    else:
+        libastyle.system_exit("Must use CPython version 3 or greater")
     print()
 
     # project file directories

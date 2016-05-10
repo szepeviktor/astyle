@@ -1,6 +1,6 @@
 ﻿// AStyleTestI18n_Utf16.cpp
 // Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
-// Licensed under the MIT license.
+// This code is licensed under the MIT License.
 // License.txt describes the conditions under which this software may be distributed.
 
 // This module tests the utf-8 and utf-16 file encodings.

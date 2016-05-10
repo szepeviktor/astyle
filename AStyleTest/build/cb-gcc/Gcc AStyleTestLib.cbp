@@ -22,8 +22,8 @@
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/include" />
-					<Add directory="../../../gmock/gtest/include" />
+					<Add directory="../../../googlemock/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add library="gmockd" />
@@ -46,8 +46,8 @@
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/include" />
-					<Add directory="../../../gmock/gtest/include" />
+					<Add directory="../../../googlemock/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -74,8 +74,8 @@
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/include" />
-					<Add directory="../../../gmock/gtest/include" />
+					<Add directory="../../../googlemock/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg" />

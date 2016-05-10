@@ -13,7 +13,7 @@ import sys
 
 # global variables ------------------------------------------------------------
 
-__old_release = "2.05.1"
+__old_release = "2.06"
 __new_release = "2.06"
 
 __file_update = False           # should the files be updated?
@@ -47,8 +47,8 @@ def main():
     source_extension_list = [".properties", ".cpp", ".m", ".java", ".py", ".cs"]
     source_directory_list = [libastyle.get_project_directory(True) + "AStyle/src",
                              libastyle.get_project_directory(True) + "AStyleDev/src-c",
-                             libastyle.get_project_directory(True) + "AStyleDev/src-o",
                              libastyle.get_project_directory(True) + "AStyleDev/src-j",
+                             libastyle.get_project_directory(True) + "AStyleDev/src-o",
                              libastyle.get_project_directory(True) + "AStyleDev/src-p",
                              libastyle.get_project_directory(True) + "AStyleDev/src-s",
                              libastyle.get_project_directory(True) + "AStyleTest/src",

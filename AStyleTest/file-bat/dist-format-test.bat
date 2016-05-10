@@ -4,24 +4,24 @@
 set PATH=PATH;"C:\Program Files\AStyle
 set prog=AStyle
 
-REM  T - indent=force-tab
-REM  H - pad-header
-REM  C - indent-classes
-REM  O - keep-one-line-blocks
-REM k1 - align-pointer=type
-REM W3 - align-reference=name
-REM M50- max-instatement-indent=50
-REM  v - verbose
-REM  p - pad-oper
-REM  Q - formatted
-REM  w - indent-preproc-define
+REM  t - indent=tab
 REM xn - attach-namespaces
-REM xl - attach inlines
+REM  S - indent-switches
 REM xW - indent-preproc-block
+REM  w - indent-preproc-define
+REM  p - pad-oper
+REM  H - pad-header
+REM k1 - align-pointer=type
+REM  O - keep-one-line-blocks
+
+REM M60- max-instatement-indent=60
+
+REM  Q - formatted (print)
 REM z1 - windows lineends
 
-REM OLD options=  -A1xnTpHCOwxWk1  -M50  -Qz1  --options=none
-set options= -A1xntpHSOwxWk1 -M60  -Qz1 --options=none
+
+REM OLD set options= -A1xntpHSOwxWk1 -M60  -Qz1 --options=none
+set options= -A1txnSxWwpHk1O  -M60  -Qz1 --options=none
 
 echo Formatting AStyleTest
 echo options %options%

@@ -1,7 +1,6 @@
 ﻿#! /usr/bin/python
-""" Create the distribution files for Artistic Style.
-    Windows distribution is created on Windows.
-    Linux distribution is created on Linux.
+""" Create the Windows XP distribution files for Artistic Style.
+    Windows distribution only. No Linux.
 """
 
 # to disable the print statement and use the print() function (version 3 format)
@@ -37,129 +36,8 @@ def main():
     if os.name == "nt":
         build_windows_distribution()
     else:
-        build_linux_distribution()
-        build_mac_distribution()
-#		build_vms_distribution()
-
-# -----------------------------------------------------------------------------
-
-def build_linux_distribution():
-    """Copy astyle files to the linux directory.
-    """
-    print()
-    print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
-    print("*           Copying AStyle Linux Distribution           *")
-    print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
-    dist_base = __base_dir + "/DistLinux"
-    dist_astyle = dist_base + "/astyle"
-    os.makedirs(dist_astyle)
-
-    # top directory
-    dist_top = dist_astyle + "/"
-    copy_astyle_top(dist_top)
-
-    # build directory
-    dist_build = dist_astyle + "/build"
-    os.mkdir(dist_build)
-    copy_linux_build_directories(dist_build)
-
-    # doc directory
-    dist_doc = dist_astyle + "/doc/"
-    os.mkdir(dist_doc)
-    copy_astyle_doc(dist_doc)
-
-    # src directory
-    dist_src = dist_astyle + "/src/"
-    os.mkdir(dist_src)
-    copy_astyle_src(dist_src)
-
-    # create tar.bz2
-    tarname = "astyle_{0}_linux.tar".format(__release)
-    call_7zip(dist_base, tarname)
-    bz2name = tarname + ".gz"
-    call_7zip(dist_base, bz2name)
-
-# -----------------------------------------------------------------------------
-
-def build_mac_distribution():
-    """Copy astyle files to the mac directory.
-    """
-    print()
-    print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
-    print("*            Copying AStyle Mac Distribution            *")
-    print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
-    print("Building release", __release)
-    dist_base = __base_dir + "/DistMac"
-    dist_astyle = dist_base + "/astyle"
-    os.makedirs(dist_astyle)
-
-    # top directory
-    dist_top = dist_astyle + "/"
-    copy_astyle_top(dist_top)
-
-    # build directory
-    dist_build = dist_astyle + "/build"
-    os.mkdir(dist_build)
-    copy_mac_build_directories(dist_build)
-
-    # doc directory
-    dist_doc = dist_astyle + "/doc/"
-    os.mkdir(dist_doc)
-    copy_astyle_doc(dist_doc)
-
-    # src directory
-    dist_src = dist_astyle + "/src/"
-    os.mkdir(dist_src)
-    copy_astyle_src(dist_src)
-
-    # create tar.gz
-    tarname = "astyle_{0}_macosx.tar".format(__release)
-    call_7zip(dist_base, tarname)
-    gzname = tarname + ".gz"
-    call_7zip(dist_base, gzname)
-
-# -----------------------------------------------------------------------------
-
-def build_vms_distribution():
-    """Copy astyle files to the open vms directory.
-    """
-    print()
-    print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
-    print("*          Copying AStyle OpenVMS Distribution          *")
-    print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
-    print("Building release", __release)
-    dist_base = __base_dir + "/DistVMS"
-    dist_astyle = dist_base + "/astyle"
-    os.makedirs(dist_astyle)
-
-    # top directory
-    dist_top = dist_astyle + "/"
-    copy_astyle_top(dist_top)
-
-    # doc directory
-    dist_doc = dist_astyle + "/doc/"
-    os.mkdir(dist_doc)
-    copy_astyle_doc(dist_doc)
-
-    # src directory
-    dist_src = dist_astyle + "/src/"
-    os.mkdir(dist_src)
-    copy_astyle_src(dist_src)
-
-    # build/mac directory
-    astyle_build_vms = __astyle_dir + "/build/vms/"
-    dist_build_vms = dist_astyle + "/build/vms/"
-    os.makedirs(dist_build_vms)
-    for file_in in ("descrip.mms",
-                    "java.opt",
-                    "lib.opt",
-                    "vmsbuild.com"):
-        shutil.copy(astyle_build_vms + file_in, dist_build_vms)
-
-    # create zip
-    zipfile = "astyle_{0}_openvms.zip".format(__release)
-    call_7zip(dist_base, zipfile)
-
+        libastyle.system_exit("This is for Windows distribution only!")
+        
 # -----------------------------------------------------------------------------
 
 def build_windows_distribution():
@@ -167,18 +45,18 @@ def build_windows_distribution():
     """
     print()
     print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
-    print("*          Copying AStyle Windows Distribution          *")
+    print("*        Copying AStyle Windows XP Distribution         *")
     print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
     # the following variables may be modified
     vsdir = libastyle.VS_RELEASE
-    vscfg= libastyle.STATIC
+    vscfg= libastyle.STATIC_XP
 
     print("Compiling with", vsdir)
     print("Building release", __release)
     if not vsdir >= "vs2013":
         libastyle.system_exit("Must compile with vs2013 or greater in libastyle: " + vsdir)
-    dist_base = __base_dir + "/DistWindows"
-    dist_astyle = dist_base + "/AStyle"
+    dist_base = __base_dir + "/DistWindowsXP"
+    dist_astyle = dist_base + "/AStyleXP"
     os.makedirs(dist_astyle)
     libastyle.build_astyle_executable(vscfg)
 
@@ -189,9 +67,9 @@ def build_windows_distribution():
     astyle_build_directory = libastyle.get_astyle_build_directory(vscfg)
     if vscfg ==  libastyle.DEBUG:
         shutil.copy(astyle_build_directory + "/debug/AStyle.exe", dist_astyle_bin)
-    elif vscfg ==  libastyle.RELEASE:
+    elif vscfg == libastyle.RELEASE:
         shutil.copy(astyle_build_directory + "/bin/AStyle.exe", dist_astyle_bin)
-    elif vscfg ==  libastyle.STATIC:
+    elif vscfg == libastyle.STATIC or vscfg == libastyle.STATIC_XP:
         shutil.copy(astyle_build_directory + "/binstatic/AStyle.exe", dist_astyle_bin)
     else:
         libastyle.system_exit("Invalid compile configuration: " + vscfg)
@@ -216,7 +94,7 @@ def build_windows_distribution():
     copy_astyle_src(dist_src, True)
 
     # create zip
-    zipfile = "AStyle_{0}_windows.zip".format(__release)
+    zipfile = "AStyle_{0}_windows_xp.zip".format(__release)
     call_7zip(dist_base, zipfile)
 
 # -----------------------------------------------------------------------------
@@ -358,78 +236,8 @@ def copy_astyle_top(dist_top, to_dos=False):
 
 # -----------------------------------------------------------------------------
 
-def copy_linux_build_directories(dist_build):
-    """Copy the Linux build directories to the distribution directory.
-    """
-    print("copying build")
-    # permissions = read/write by the owner and read only by everyone else
-    mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-
-    # build/clang directory
-    print("    clang")
-    astyle_build_clang = __astyle_dir + "/build/clang/"
-    dist_build_clang = dist_build + "/clang/"
-    os.makedirs(dist_build_clang)
-    make_path_clang = astyle_build_clang + "Makefile"
-    shutil.copy(make_path_clang, dist_build_clang)
-    os.chmod(make_path_clang, mode)
-
-    # build/gcc directory
-    print("    gcc")
-    astyle_build_gcc = __astyle_dir + "/build/gcc/"
-    dist_build_gcc = dist_build + "/gcc/"
-    os.makedirs(dist_build_gcc)
-    make_path_gcc = astyle_build_gcc + "Makefile"
-    shutil.copy(make_path_gcc, dist_build_gcc)
-    os.chmod(make_path_gcc, mode)
-
-    # build/intel directory
-    print("    intel")
-    astyle_build_intel = __astyle_dir + "/build/intel/"
-    dist_build_intel = dist_build + "/intel/"
-    os.makedirs(dist_build_intel)
-    make_path_intel = astyle_build_intel + "Makefile"
-    shutil.copy(make_path_intel, dist_build_intel)
-    os.chmod(make_path_intel, mode)
-
-# -----------------------------------------------------------------------------
-
-def copy_mac_build_directories(dist_build):
-    """Copy the Mac build directories to the distribution directory.
-    """
-    print("copying build")
-    # permissions = read/write by the owner and read only by everyone else
-    mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-
-    # build/mac directory
-    print("    mac")
-    astyle_build_mac = __astyle_dir + "/build/mac/"
-    dist_build_mac = dist_build + "/mac/"
-    make_path_mac = astyle_build_mac + "/Makefile"
-    os.makedirs(dist_build_mac)
-    shutil.copy(make_path_mac, dist_build_mac)
-    os.chmod(make_path_mac, mode)
-
-    # build/xcode directory
-    print("    xcode")
-    astyle_build_xcode = __astyle_dir + "/build/xcode/"
-    dist_build_xcode = dist_build + "/xcode/"
-    shutil.copytree(astyle_build_xcode, dist_build_xcode)
-    # permissions = read/write by the owner and read only by everyone else
-    mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-    for file_in in ("/AStyle.xcodeproj/project.pbxproj",
-                    "/AStyleA.xcodeproj/project.pbxproj",
-                    "/AStyleDylib.xcodeproj/project.pbxproj",
-                    "/AStyleJava.xcodeproj/project.pbxproj"):
-        os.chmod(dist_build_xcode + file_in, mode)
-    for file_in in ("/install.sh",
-                    "/uninstall.sh"):
-        os.chmod(dist_build_xcode + file_in, mode)
-
-# -----------------------------------------------------------------------------
-
 def copy_windows_build_directories(dist_build):
-    """Copy the build/vs20xx directories to the distribution directory.
+    """Copy the build/vs20??-xp directories to the distribution directory.
     """
     print("copying build")
     buildfiles = __astyle_dir + "/build"
@@ -437,7 +245,7 @@ def copy_windows_build_directories(dist_build):
     build_dir_list = os.listdir(buildfiles)
     build_dir_list.sort()
     for i in range(len(build_dir_list)):
-        if build_dir_list[i][:4] == "vs20" and not build_dir_list[i].endswith("xp"):
+        if build_dir_list[i][:4] == "vs20" and build_dir_list[i].endswith("xp"):
 
             # copy solution files
             vsdir = '/' + build_dir_list[i] + '/'
@@ -470,7 +278,7 @@ def copy_windows_build_directories(dist_build):
 def remove_dist_directories():
     """Remove directories from a previous run.
     """
-    dirs = glob.glob(__base_dir + "/[Dd]ist*/")
+    dirs = glob.glob(__base_dir + "/DistWindowsXP/")
     dirs.sort()
     for directory in dirs:
         if "Wx" in directory or "wx" in directory:

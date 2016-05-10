@@ -17,10 +17,10 @@
 					<Add option="-g" />
 					<Add option="-Wextra" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
-					<Add directory="../../../gmock" />
-					<Add directory="../../../gmock/gtest" />
-					<Add directory="../../../gmock/include" />
-					<Add directory="../../../gmock/gtest/include" />
+					<Add directory="../../../googlemock" />
+					<Add directory="../../../googletest" />
+					<Add directory="../../../googlemock/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -35,18 +35,18 @@
 					<Add option="-Wextra" />
 					<Add option="-wd11074,11076" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
-					<Add directory="../../../gmock" />
-					<Add directory="../../../gmock/gtest" />
-					<Add directory="../../../gmock/include" />
-					<Add directory="../../../gmock/gtest/include" />
+					<Add directory="../../../googlemock" />
+					<Add directory="../../../googletest" />
+					<Add directory="../../../googlemock/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="../../../gmock/gtest/src/gtest-all.cc" />
-		<Unit filename="../../../gmock/src/gmock-all.cc" />
+		<Unit filename="../../../googletest/src/gtest-all.cc" />
+		<Unit filename="../../../googlemock/src/gmock-all.cc" />
 		<Extensions>
 			<code_completion />
 			<envvars />

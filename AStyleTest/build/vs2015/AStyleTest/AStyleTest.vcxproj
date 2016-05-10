@@ -27,6 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\srcx\TersePrinter.h" />
     <ClInclude Include="..\..\..\src\AStyleTest.h" />
   </ItemGroup>
   <ItemGroup>
@@ -58,7 +59,6 @@
     <ProjectGuid>{0DEFDCE1-664C-4170-8742-F9BF2E2284DD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>AStyleTest</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -158,7 +158,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srcx</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -174,7 +174,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;LEAK_DETECTOR</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\srcx;..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\srcx;..\..\..\..\AStyle\src;..\..\..\..\googletest\include;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -194,7 +194,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srcx</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -210,7 +210,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;LEAK_DETECTOR</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\srcx;..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\srcx;..\..\..\..\AStyle\src;..\..\..\..\googletest\include;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -231,7 +231,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srcx</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -250,7 +250,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srcx</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

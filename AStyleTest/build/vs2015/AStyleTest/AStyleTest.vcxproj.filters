@@ -80,6 +80,9 @@
     <ClInclude Include="..\..\..\src\AStyleTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\srcx\TersePrinter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\srcx\gtest-options.lst" />

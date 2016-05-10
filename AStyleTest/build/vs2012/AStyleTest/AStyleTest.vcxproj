@@ -115,7 +115,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srcx</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_VARIADIC_MAX=10</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -141,7 +141,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='LeakDetector|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;LEAK_DETECTOR;_VARIADIC_MAX=10</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -169,7 +169,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srcx</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_VARIADIC_MAX=10</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -198,7 +198,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;LEAK_DETECTOR;_VARIADIC_MAX=10</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -222,7 +222,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srcx</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_VARIADIC_MAX=10</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -253,7 +253,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\gmock\gtest\include;..\..\..\srcx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srcx</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_VARIADIC_MAX=10</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>

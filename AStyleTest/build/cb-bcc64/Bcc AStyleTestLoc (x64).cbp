@@ -21,7 +21,7 @@
 					<Add option="-w-8080" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-c" />
@@ -49,7 +49,7 @@
 					<Add option="-DNDEBUG" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock/gtest/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-c" />
