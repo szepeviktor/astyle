@@ -61,16 +61,16 @@ internal class NativeLibraryLinux : NativeLibrary
 
     const int RTLD_NOW = 2;
 
-    [DllImport("libdl.so")]
+    [DllImport("libdl")]
     private static extern IntPtr dlopen(string fileName, int flags);
 
-    [DllImport("libdl.so")]
+    [DllImport("libdl")]
     private static extern IntPtr dlsym(IntPtr handle, string symbol);
 
-    [DllImport("libdl.so")]
+    [DllImport("libdl")]
     private static extern int dlclose(IntPtr handle);
 
-    [DllImport("libdl.so")]
+    [DllImport("libdl")]
     private static extern IntPtr dlerror();
 }
 
@@ -78,6 +78,7 @@ internal class NativeLibraryLinux : NativeLibrary
 /// and call the Artistic Style formatter.
 public class AStyleInterface
 {   /// AStyleGetVersion function call.
+    /// NOTE: Wide strings are NOT returned here.
     delegate IntPtr AStyleGetVersion();
 
     /// AStyleError callback in AStyle.
@@ -113,14 +114,6 @@ public class AStyleInterface
 
         // must indicate the current directory for the Linux shared object
         string libraryName = "./" + GetLibraryName();
-
-        // to have different library names for x86 and x64
-        // must indicate the current directory for the Linux shared object
-        //if (IsWindows())
-        //    libraryName = IntPtr.Size == 8 ? "AStyle64-2.06.dll" : "AStyle32-2.06.dll";
-        //else
-        //    libraryName = IntPtr.Size == 8 ? "./libastyle64-2.06.so" : "./libastyle32-2.06.so";
-
         // load the library
         // loadLibrary has a reference count and will load the library only when needed
         if (!File.Exists(libraryName))
@@ -128,12 +121,8 @@ public class AStyleInterface
         }
         astyleHandle = astyle.LoadLibrary(libraryName);
         if (astyleHandle == IntPtr.Zero)
-        {   if (IsWindows())
-            {   Console.WriteLine("Cannot load the native library " + libraryName);
-                Error("You may be mixing 32 and 64 bit code!");
-            }
-            else
-                Error("Cannot load the native library " + libraryName);
+        {   Console.WriteLine("Cannot load the native library " + libraryName);
+            Error("You may be mixing 32 and 64 bit code!");
         }
 
         // get the procedure address for AStyleGetVersion
@@ -175,7 +164,8 @@ public class AStyleInterface
         // Memory space is allocated by AStyleMemAlloc, a callback function
         string textOut = String.Empty;
         try
-        {   IntPtr fpText = fpAStyleMainUtf16(textIn, options,
+        {   // NOTE: a Unicode string IS returned here.
+            IntPtr fpText = fpAStyleMainUtf16(textIn, options,
                                               AStyleError, AStyleMemAlloc);
             if (fpText != IntPtr.Zero)
             {   textOut = Marshal.PtrToStringUni(fpText);
@@ -189,31 +179,33 @@ public class AStyleInterface
     }
 
     /// Called by constructor to get the shared library name.
-    /// This will get any version of the library in the current directory.
+    /// This will get any version of the library in the executable's directory.
     /// Usually a specific version would be obtained, in which case a constant
     /// could be used for the library name.
     private string GetLibraryName()
-    {   // get the shared library extension for the platform
-        string fileFilter;
-        if (IsWindows())
-            fileFilter = "*.dll";
-        else
-            fileFilter = "*.so";
-        // get a library name in the current directory
+    {   // get a library name in the executable's directory (any platform)
+        // the following example will allow different library names for x86 and x64
+        //if (IsWindows())
+        //    libraryName = IntPtr.Size == 8 ? "AStyle64-2.06.dll" : "AStyle32-2.06.dll";
+        //else
+        //    libraryName = IntPtr.Size == 8 ? "libastyle64-2.06.so" : "libastyle32-2.06.so";
         string libraryName = null;
-        string currentDirectory = Directory.GetCurrentDirectory();
-        string[] files = Directory.GetFiles(currentDirectory, fileFilter);
+        string appDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+        string[] files = Directory.GetFiles(appDirectory, "*.*");
         foreach (string filePath in files)
         {   string fileName = Path.GetFileName(filePath).ToLower();
-            if (fileName.StartsWith("astyle")
-                    || fileName.StartsWith("libastyle"))
+            if ((fileName.EndsWith(".dll")
+                    || fileName.EndsWith(".so")
+                    || fileName.EndsWith(".dylib"))
+                    && (fileName.StartsWith("astyle")
+                        || fileName.StartsWith("libastyle")))
             {   libraryName = Path.GetFileName(filePath);
                 break;
             }
         }
         if (libraryName == null)
         {   Error("Cannot find native library in "
-                  + currentDirectory
+                  + appDirectory
                   + Path.DirectorySeparatorChar);
         }
         return libraryName;
@@ -223,7 +215,8 @@ public class AStyleInterface
     public string GetVersion()
     {   string version = String.Empty;
         try
-        {   IntPtr fpVersion = fpAStyleGetVersion();
+        {   // NOTE: a Unicode string is NOT returned here.
+            IntPtr fpVersion = fpAStyleGetVersion();
             if (fpVersion != IntPtr.Zero)
             {   version = Marshal.PtrToStringAnsi(fpVersion);
             }

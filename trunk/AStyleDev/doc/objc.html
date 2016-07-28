@@ -21,7 +21,7 @@
         &nbsp;</p>
     <p class="noindent">
         Artistic Style can be compiled as a shared library (DLL) or a static library and linked with an Objective&#8209;C
-        program. This is usually done on a Mac OS X computer. However,&nbsp; <a href="gnustep.html">Objective&#8209;C on Windows
+        program. This is usually done on a Mac OS computer. However,&nbsp; <a href="gnustep.html">Objective&#8209;C on Windows
             and Linux</a> contains information on compiling and running Objective&#8209;C programs using GNUstep. It has
         instructions for compiling the following example program on Windows or Linux.</p>
 
@@ -173,9 +173,9 @@
 
 <span class="hl slc">// allow for different calling conventions in Linux and Windows</span>
 <span class="hl ppc">#ifdef _WIN32</span>
-<span class="hl ppc">#define STDCALL __stdcall</span>
+<span class="hl ppc">    #define STDCALL __stdcall</span>
 <span class="hl ppc">#else</span>
-<span class="hl ppc">#define STDCALL</span>
+<span class="hl ppc">    #define STDCALL</span>
 <span class="hl ppc">#endif</span>
 
 <span class="hl slc">// functions to call AStyleMain</span>

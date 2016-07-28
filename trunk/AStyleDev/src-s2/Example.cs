@@ -12,9 +12,9 @@ public class Example
 {   /// Main function for this example.
     public static void Main(string[] args)
     {   // files to pass to AStyle
-        string[] fileName =  { "AStyleDev/test-data/ASBeautifier.cpp",
-                               "AStyleDev/test-data/ASFormatter.cpp",
-                               "AStyleDev/test-data/astyle.h"
+        string[] fileName =  { "ASBeautifier.cpp",
+                               "ASFormatter.cpp",
+                               "astyle.h"
                              };
 
         // options to pass to AStyle
@@ -33,7 +33,7 @@ public class Example
         // process the files
         for (int i = 0; i < fileName.Length; i++)
         {   // get the text to format
-            string filePath = GetProjectDirectory(fileName[i]);
+            string filePath = GetTestDirectoryPath() + fileName[i];
             string textIn = GetText(filePath);
 
             // call the Artistic Style formatting function
@@ -61,23 +61,18 @@ public class Example
         Environment.Exit(1);
     }
 
-    /// Prepend the project directory to the subpath.
+    /// Find the test directory path from the application program path.
     /// This may need to be changed for your directory structure.
-    private static string GetProjectDirectory(string subPath)
-    {   string homeDirectory = null;
-        if (Environment.OSVersion.Platform == PlatformID.Unix ||
-                Environment.OSVersion.Platform == PlatformID.MacOSX)
-        {   homeDirectory = Environment.GetEnvironmentVariable("HOME");
-            // HOME is not always recognized on OSX, this usually works
-            if (homeDirectory == null)
-                homeDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-        }
-        else
-            homeDirectory = Environment.GetEnvironmentVariable("USERPROFILE");
-        if (homeDirectory == null)
-            Error("Cannot find HOME directory!");
-        string projectPath = homeDirectory + "/Projects/" + subPath;
-        return projectPath;
+    private static string GetTestDirectoryPath()
+    {   string topDirectory = "astyledev";
+        string appDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+        if (String.IsNullOrEmpty(appDirectory))
+            Error("Cannot find application directory!");
+        int indexTop = appDirectory.ToLower().IndexOf(topDirectory);
+        if (indexTop == -1)
+            Error("Cannot find top level folder!");
+        string testPath = appDirectory.Substring(0, indexTop + topDirectory.Length) + "/test-data/";
+        return testPath;
     }
 
     ///  Get the text to be formatted.
