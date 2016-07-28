@@ -19,6 +19,21 @@ namespace {
 // AStyle version 2.06 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V206, QuoteEscapedSpace)
+{
+	// Recogninion of an escaped space within a quote.
+	// The ending bracket will be misplaced if the '\ ' isn't recognized.
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    Str.Concat (Dummy__Str, \" \\ \");\n"
+	    "}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V206, CSharpUsingStatement)
 {
 	// Recogninion of a C# "using" statement as a header.
@@ -140,10 +155,10 @@ TEST(BugFix_V205, StructObjectIdentification)
 
 TEST(BugFix_V205, CaseIndentAfterAsmBlock)
 {
-	// Fix the extra indent in a 'case' statement after an _asm block.
-	// The '_asm' opening bracket was not identified as a block opener
-	// and the variable 'isInAsmBlock" was never being cleared
-	// in ASBeautifier.
+// Fix the extra indent in a 'case' statement after an _asm block.
+// The '_asm' opening bracket was not identified as a block opener
+// and the variable 'isInAsmBlock" was never being cleared
+// in ASBeautifier.
 	char textIn[] =
 	    "\nvoid foo() {\n"
 	    "_asm {cld};\n"

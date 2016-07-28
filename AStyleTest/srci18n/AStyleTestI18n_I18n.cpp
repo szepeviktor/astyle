@@ -695,7 +695,7 @@ struct RussianF : public Test
 	}
 };
 
-// OSX fails on the string compares, which actually are OK.
+// MacOS fails on the string compares, which actually are OK.
 #ifdef __APPLE__
 	TEST_F(RussianF, DISABLED_Recursive1)
 #else
@@ -726,7 +726,7 @@ struct RussianF : public Test
 	}
 }
 
-// OSX fails on the string compares, which actually are OK.
+// MacOS fails on the string compares, which actually are OK.
 #ifdef __APPLE__
 	TEST_F(RussianF, DISABLED_Recursive2)
 #else
@@ -793,7 +793,7 @@ TEST_F(RussianF, Recursive3)
 	EXPECT_EQ(testFilePath, fileName[0]);
 }
 
-// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
 	TEST_F(RussianF, DISABLED_RecursiveExclude)
@@ -1076,7 +1076,7 @@ struct Codepage1252F : public Test
 	}
 };
 
-// OSX fails on the string compares, which actually are OK.
+// MacOS fails on the string compares, which actually are OK.
 #ifdef __APPLE__
 	TEST_F(Codepage1252F, DISABLED_RecursiveMultiLanguage)
 #else
@@ -1230,7 +1230,7 @@ TEST_F(GetNumberFormat, GetNumberFormat)
 	// LINUX French locale
 	bool frOk = setGlobalLocale("fr_FR.UTF-8");
 	ASSERT_TRUE(frOk) << "Cannot set French locale";
-	// Mac OSX currently does not set this, grouping = CHAR_MAX (127)
+	// MacOS currently does not set this, grouping = CHAR_MAX (127)
 #ifdef __APPLE__
 	result = "123456789";
 #else
@@ -1244,7 +1244,7 @@ TEST_F(GetNumberFormat, GetNumberFormat)
 	// LINUX German locale
 	bool deOk = setGlobalLocale("de_DE.UTF-8");
 	ASSERT_TRUE(deOk) << "Cannot set German locale";
-	// Mac OSX currently does not set this, grouping = CHAR_MAX (127)
+	// MacOS currently does not set this, grouping = CHAR_MAX (127)
 #ifdef __APPLE__
 	result = "123456789";
 #else
@@ -1363,7 +1363,7 @@ TEST(Other, CppImbue)
 // is imbue() supported by this compiler
 // NOTE: MinGW 4.5 fails this test
 // NOTE: Embarcadero 6.20 fails this test
-// NOTE: Mac OS X fails this test
+// NOTE: MacOS fails this test
 {
 	locale::global(locale("C"));
 	// test the formatting of "cout" for numbers

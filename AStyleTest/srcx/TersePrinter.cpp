@@ -19,6 +19,11 @@ int g_test_to_run = 0;
 // Called before each iteration of tests starts.
 void TersePrinter::OnTestIterationStart(const UnitTest& unit_test, int /*iteration*/)
 {
+	// Prints the filter if it's not *.
+	// This reminds the user that some tests may be skipped.
+	const char* const filter = GTEST_FLAG(filter).c_str();
+	if (strcmp("*", filter) != 0)
+		ColoredPrintf(COLOR_YELLOW, "Test filter = %s\n", filter);
 	ColoredPrintf(COLOR_GREEN, "%s", "Using TersePrinter.\n");
 	ColoredPrintf(COLOR_GREEN, "%s", "[==========] ");
 	printf("Running %s from %d test cases.\n",

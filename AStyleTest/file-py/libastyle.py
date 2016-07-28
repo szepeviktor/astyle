@@ -71,8 +71,7 @@ OPT3 = "-xwM80m1DHUEk2W3yxj"
 DEBUG   = "debug"
 RELEASE = "release"
 STATIC  = "static"
-# STATIC_XP is currently not a valid configuration
-STATIC_XP = "static xp"
+STATIC_XP = "static-xp"
 
 # Visual Studio release
 #VS_RELEASE = "vs2008"
@@ -162,7 +161,7 @@ def compile_windows_executable(slnpath, config):
     else:
         config_prop = "/property:Configuration=Release"
     platform_prop = "/property:Platform=Win32"
-    if VS_RELEASE >= "vs2013":
+    if VS_RELEASE > "vs2013":
         platform_prop = "/property:Platform=x86"
     msbuild = ([buildpath, config_prop, platform_prop, slnpath])
     buildfile = get_temp_directory() + "/build." + config + ".tmp"
@@ -365,7 +364,7 @@ def get_file_py_directory(endsep=False):
         pydir += '/'
     # verify it is executed from fixed disk and not a USB
     if os.name == "nt":
-        if pydir[0:2] != "C:":
+        if pydir[0:2] != "C:" and pydir[0:2] != "F:":
             system_exit("File executed from drive " + pydir[0:2])
     else:
         if pydir[0:6] != "/home/":

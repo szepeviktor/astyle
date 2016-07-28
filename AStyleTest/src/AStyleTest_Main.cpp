@@ -14,16 +14,8 @@
 // global variables and function declarations
 //----------------------------------------------------------------------------
 
-#ifdef ASTYLE_DYLIB
-	fpASMain  AStyleMain;	// procedure address for AStyleMain
-	void*     AStyleLib;	// pointer to the shared library
-#endif
 void systemPause();
 int errorHandler2Calls;
-
-// function declarations
-void loadLibrary();
-void freeLibrary();
 
 //----------------------------------------------------------------------------
 // main functions
@@ -56,16 +48,14 @@ int main(int argc, char** argv)
 		listeners.Append(new TersePrinter(useTerseOutput, useColor));
 	}
 	// run the tests
-	loadLibrary();
 	int retval = RUN_ALL_TESTS();
-	freeLibrary();
 	// Verify that all tests were run. This can occur if a source file
 	// is missing from the project. The UnitTest reflection API in
 	// example 9 will not work here because of user modifications.
 	// Change the following value to the number of tests (within 20).
 	TersePrinter::PrintTestTotals(2340, __FILE__, __LINE__);
 
-#ifdef __WIN32
+#ifdef _WIN32
 	printf("%c", '\n');
 #endif
 	if (noClose)			// command line option
@@ -118,48 +108,4 @@ char* STDCALL memoryAlloc(unsigned long memoryNeeded)
 	// UnitTest++ will catch an allocation error
 	char* buffer = new(nothrow) char [memoryNeeded];
 	return buffer;
-}
-
-//----------------------------------------------------------------------------
-// Windows dynamic load functions.
-// Define the preprocessor macro ASTYLE_DYLIB to activate.
-// Purpose is for faster linking.
-// Can only be used with Visual Studio for now.
-//----------------------------------------------------------------------------
-
-// WINDOWS load library function.
-// Does nothing if using a linked shared library.
-void loadLibrary()
-{
-#ifdef ASTYLE_DYLIB
-#ifdef NDEBUG
-	AStyleLib = LoadLibrary(".\\AStyle-2.06.dll");
-#else
-	AStyleLib = LoadLibrary(".\\AStyle-2.06d.dll");
-#endif
-	if (!AStyleLib)
-	{
-		cout << "Cannot load dll library for AStyle!" << endl;
-		systemPause();
-		exit(EXIT_FAILURE);
-	}
-	// get AStyleMain function
-	AStyleMain = reinterpret_cast<fpASMain>(
-	                 GetProcAddress(reinterpret_cast<HMODULE>(AStyleLib), "AStyleMain"));
-	if (!AStyleMain)
-	{
-		cout << "Cannot get dll address for AStyleMain!" << endl;
-		systemPause();
-		exit(EXIT_FAILURE);
-	}
-#endif
-}
-
-// WINDOWS free library function.
-// Does nothing if using a linked shared library.
-void freeLibrary()
-{
-#ifdef ASTYLE_DYLIB
-	FreeLibrary(reinterpret_cast<HMODULE>(AStyleLib));
-#endif
 }

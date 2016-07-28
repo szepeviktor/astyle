@@ -93,7 +93,7 @@ ProcessOptions3F::~ProcessOptions3F()
 		restoreStream();
 		systemPause("\nCaptured fd_ was not restored.");
 	}
-	remove(filename_.c_str());
+	removeTestFile(filename_);
 }
 
 string ProcessOptions3F::readEntireFile(FILE* file)
@@ -174,8 +174,8 @@ TEST_F(ProcessOptions3F, HelpOption)
 	vector<string> optionsIn;
 	optionsIn.push_back("--help");
 	redirectStream();
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// astyle will exit after display
+#if GTEST_HAS_DEATH_TEST
 	// test processOptions for help option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
@@ -204,8 +204,8 @@ TEST_F(ProcessOptions3F, HelpOption_Short1)
 	vector<string> optionsIn;
 	optionsIn.push_back("-h");
 	redirectStream();
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// astyle will exit after display
+#if GTEST_HAS_DEATH_TEST
 	// test processOptions for help option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
@@ -234,8 +234,8 @@ TEST_F(ProcessOptions3F, HelpOption_Short2)
 	vector<string> optionsIn;
 	optionsIn.push_back("-?");
 	redirectStream();
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// astyle will exit after display
+#if GTEST_HAS_DEATH_TEST
 	// test processOptions for help option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
@@ -264,8 +264,8 @@ TEST_F(ProcessOptions3F, VersionOption)
 	vector<string> optionsIn;
 	optionsIn.push_back("--version");
 	redirectStream();
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// astyle will exit after display
+#if GTEST_HAS_DEATH_TEST
 	// test processOptions for version option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
@@ -290,8 +290,8 @@ TEST_F(ProcessOptions3F, VersionOption_Short)
 	vector<string> optionsIn;
 	optionsIn.push_back("-V");
 	redirectStream();
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// astyle will exit after display
+#if GTEST_HAS_DEATH_TEST
 	// test processOptions for version option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
@@ -321,8 +321,8 @@ TEST_F(ProcessOptions3F, HtmlOption)
 	vector<string> optionsIn;
 	optionsIn.push_back("--html");
 	redirectStream();
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// astyle will exit after display
+#if GTEST_HAS_DEATH_TEST
 	// test processOptions for html option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
@@ -350,8 +350,8 @@ TEST_F(ProcessOptions3F, HtmlOption_Short)
 	vector<string> optionsIn;
 	optionsIn.push_back("-!");
 	redirectStream();
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// astyle will exit after display
+#if GTEST_HAS_DEATH_TEST
 	// test processOptions for html option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
@@ -380,8 +380,8 @@ TEST_F(ProcessOptions3F, HtmlOption_ValidFileName)
 	vector<string> optionsIn;
 	optionsIn.push_back("--html=astyle.html");
 	redirectStream();
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// astyle will exit after display
+#if GTEST_HAS_DEATH_TEST
 	// test processOptions for html option display
 	// should have a good return
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
@@ -418,8 +418,8 @@ TEST_F(ProcessOptions3F, HtmlOption_InvalidFileName)
 	vector<string> optionsIn;
 	optionsIn.push_back("--html=invalid-name.html");
 	redirectStream();
-	// cannot use death test with leak finder
-#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// astyle will exit after display
+#if GTEST_HAS_DEATH_TEST
 	// test processOptions for invalid file name
 	EXPECT_EXIT(g_console->processOptions(optionsIn),
 	            ExitedWithCode(EXIT_SUCCESS),

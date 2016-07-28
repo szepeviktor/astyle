@@ -18,7 +18,12 @@ import time
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-__release = "2.06"
+AS_RELEASE = "2.06"
+
+# extract all platforms for testing (Windows, Linux, Mac)
+EXTRACT_ALL = False
+#EXTRACT_ALL = True
+
 # inut from AStyle directory
 __astyle_dir = libastyle.get_astyle_directory()
 # output to Project directory
@@ -34,7 +39,11 @@ def main():
     os.chdir(libastyle.get_file_py_directory())
     remove_dist_directories()
     verify_localizer_signature()
-    if os.name == "nt":
+    if EXTRACT_ALL:
+        build_windows_distribution()
+        build_linux_distribution()
+        build_mac_distribution()
+    elif os.name == "nt":
         build_windows_distribution()
     else:
         build_linux_distribution()
@@ -74,7 +83,7 @@ def build_linux_distribution():
     copy_astyle_src(dist_src)
 
     # create tar.bz2
-    tarname = "astyle_{0}_linux.tar".format(__release)
+    tarname = "astyle_{0}_linux.tar".format(AS_RELEASE)
     call_7zip(dist_base, tarname)
     bz2name = tarname + ".gz"
     call_7zip(dist_base, bz2name)
@@ -88,7 +97,7 @@ def build_mac_distribution():
     print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
     print("*            Copying AStyle Mac Distribution            *")
     print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
-    print("Building release", __release)
+    print("Building release", AS_RELEASE)
     dist_base = __base_dir + "/DistMac"
     dist_astyle = dist_base + "/astyle"
     os.makedirs(dist_astyle)
@@ -113,7 +122,7 @@ def build_mac_distribution():
     copy_astyle_src(dist_src)
 
     # create tar.gz
-    tarname = "astyle_{0}_macosx.tar".format(__release)
+    tarname = "astyle_{0}_macos.tar".format(AS_RELEASE)
     call_7zip(dist_base, tarname)
     gzname = tarname + ".gz"
     call_7zip(dist_base, gzname)
@@ -127,7 +136,7 @@ def build_vms_distribution():
     print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
     print("*          Copying AStyle OpenVMS Distribution          *")
     print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
-    print("Building release", __release)
+    print("Building release", AS_RELEASE)
     dist_base = __base_dir + "/DistVMS"
     dist_astyle = dist_base + "/astyle"
     os.makedirs(dist_astyle)
@@ -157,7 +166,7 @@ def build_vms_distribution():
         shutil.copy(astyle_build_vms + file_in, dist_build_vms)
 
     # create zip
-    zipfile = "astyle_{0}_openvms.zip".format(__release)
+    zipfile = "astyle_{0}_openvms.zip".format(AS_RELEASE)
     call_7zip(dist_base, zipfile)
 
 # -----------------------------------------------------------------------------
@@ -170,11 +179,12 @@ def build_windows_distribution():
     print("*          Copying AStyle Windows Distribution          *")
     print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
     # the following variables may be modified
+    # do NOT use STATIC_XP, there is another script for that
     vsdir = libastyle.VS_RELEASE
-    vscfg= libastyle.STATIC
+    vscfg = libastyle.STATIC
 
     print("Compiling with", vsdir)
-    print("Building release", __release)
+    print("Building AStyle release", AS_RELEASE)
     if not vsdir >= "vs2013":
         libastyle.system_exit("Must compile with vs2013 or greater in libastyle: " + vsdir)
     dist_base = __base_dir + "/DistWindows"
@@ -188,7 +198,7 @@ def build_windows_distribution():
     os.mkdir(dist_astyle_bin)
     astyle_build_directory = libastyle.get_astyle_build_directory(vscfg)
     if vscfg ==  libastyle.DEBUG:
-        shutil.copy(astyle_build_directory + "/debug/AStyle.exe", dist_astyle_bin)
+        shutil.copy(astyle_build_directory + "/debug/AStyled.exe", dist_astyle_bin)
     elif vscfg ==  libastyle.RELEASE:
         shutil.copy(astyle_build_directory + "/bin/AStyle.exe", dist_astyle_bin)
     elif vscfg ==  libastyle.STATIC:
@@ -216,7 +226,7 @@ def build_windows_distribution():
     copy_astyle_src(dist_src, True)
 
     # create zip
-    zipfile = "AStyle_{0}_windows.zip".format(__release)
+    zipfile = "AStyle_{0}_windows.zip".format(AS_RELEASE)
     call_7zip(dist_base, zipfile)
 
 # -----------------------------------------------------------------------------
