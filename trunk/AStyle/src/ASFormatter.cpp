@@ -2275,7 +2275,7 @@ bool ASFormatter::getNextLine(bool emptyLineWasDeleted /*false*/)
 	isInCase = false;
 	isInAsmOneLine = false;
 	isHeaderInMultiStatementLine = false;
-	isInQuoteContinuation = isInVerbatimQuote | haveLineContinuationChar;
+	isInQuoteContinuation = isInVerbatimQuote || haveLineContinuationChar;
 	haveLineContinuationChar = false;
 	isImmediatelyPostEmptyLine = lineIsEmpty;
 	previousChar = ' ';
@@ -2803,6 +2803,8 @@ bool ASFormatter::isPointerOrReference() const
 	//check for rvalue reference
 	if (currentChar == '&' && nextChar == '&')
 	{
+		if (previousNonWSChar == '>')
+			return true;
 		string followingText = peekNextText(currentLine.substr(charNum + 2));
 		if (followingText.length() > 0 && followingText[0] == ')')
 			return true;

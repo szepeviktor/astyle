@@ -320,23 +320,23 @@
         <pre>astyle  --style=allman --recursive  /home/user/project/*.cpp  /home/user/project/*.h
 </pre>
     </div>
+    <p>
+        The < and > characters may be used to redirect the files into standard input (stdin) and out of standard output
+        (stdout) - don't forget them! With this option only one file at a time can be formatted. Wildcards are not 
+        recognized, there are no console messages, and a backup is not created. On Windows the output will always have
+        Windows line ends.</p>
     <div class="code">
         <p class="code">
-            Another option will format a single file and change the name:</p>
+            Example of redirection option to format a single file and change the name:</p>
         <pre>astyle --style=allman &lt; <em>OriginalSourceFile</em> &gt; <em>BeautifiedSourceFile</em>
 </pre>
     </div>
     <div class="code">
         <p class="code">
-            This option can be used to display the formatted file without updating:</p>
+            The redirection option may be used to display the formatted file without updating:</p>
         <pre>astyle --style=allman &lt; <em>OriginalSourceFile</em> | less
 </pre>
     </div>
-    <p>
-        The <span style="color: #0000a0">&lt;</span> and <span style="color: #0000a0">&gt;</span> characters are used
-        to redirect the files into standard input (cin) and out of standard output (cout) - don't forget them! With this
-        option only one file at a time can be formatted. Wildcards are not recognized, there are no console messages,
-        and a backup is not created. On Windows the output will always have Windows line ends.</p>
     <p>
         &nbsp;</p>
     <hr />
