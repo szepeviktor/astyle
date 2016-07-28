@@ -175,16 +175,16 @@
 <span class="hl ppc">#include &lt;fstream&gt;</span>
 <span class="hl ppc">#include &lt;iostream&gt;</span>
 <span class="hl ppc">#if defined(__GNUC__)</span>
-<span class="hl ppc">#include &lt;string.h&gt;</span>         <span class="hl slc">// need both string and string.h for GCC</span>
+<span class="hl ppc">    #include &lt;string.h&gt;</span>     <span class="hl slc">// need both string and string.h for GCC</span>
 <span class="hl ppc"></span><span class="hl ppc">#endif</span>
 
 <span class="hl kwa">using namespace</span> std<span class="hl opt">;</span>
 
 <span class="hl slc">// allow for different calling conventions in Linux and Windows</span>
 <span class="hl ppc">#ifdef _WIN32</span>
-<span class="hl ppc">#define STDCALL __stdcall</span>
+<span class="hl ppc">    #define STDCALL __stdcall</span>
 <span class="hl ppc">#else</span>
-<span class="hl ppc">#define STDCALL</span>
+<span class="hl ppc">    #define STDCALL</span>
 <span class="hl ppc">#endif</span>
 
 <span class="hl slc">// functions to call AStyleMain</span>

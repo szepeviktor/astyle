@@ -220,35 +220,35 @@
 <span class="hl slc">/// for C# files.</span>
 <span class="hl kwa">public class</span> Example
 <span class="hl opt">{</span>   <span class="hl slc">/// Main function for this example.</span>
-    <span class="hl kwa">public static</span> <span class="hl kwb">void</span> <span class="hl kwd">Main</span><span class="hl opt">(</span><span class="hl kwb">string</span><span class="hl opt">[]</span> args<span class="hl opt">)</span>
+    <span class="hl kwa">public static void</span> <span class="hl kwd">Main</span><span class="hl opt">(</span><span class="hl kwa">string</span><span class="hl opt">[]</span> args<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl slc">// files to pass to AStyle</span>
-        <span class="hl kwb">string</span><span class="hl opt">[]</span> fileName <span class="hl opt">=  {</span> <span class="hl str">&quot;AStyleDev/test-data/ASBeautifier.cpp&quot;</span><span class="hl opt">,</span>
-                               <span class="hl str">&quot;AStyleDev/test-data/ASFormatter.cpp&quot;</span><span class="hl opt">,</span>
-                               <span class="hl str">&quot;AStyleDev/test-data/astyle.h&quot;</span>
+        <span class="hl kwa">string</span><span class="hl opt">[]</span> fileName <span class="hl opt">=  {</span> <span class="hl str">&quot;ASBeautifier.cpp&quot;</span><span class="hl opt">,</span>
+                               <span class="hl str">&quot;ASFormatter.cpp&quot;</span><span class="hl opt">,</span>
+                               <span class="hl str">&quot;astyle.h&quot;</span>
                              <span class="hl opt">};</span>
 
         <span class="hl slc">// options to pass to AStyle</span>
         <span class="hl slc">// mode=cs is required for C# files</span>
-        <span class="hl kwb">string</span> options <span class="hl opt">=</span> <span class="hl str">&quot;-A2tOP&quot;</span><span class="hl opt">;</span>
+        <span class="hl kwa">string</span> options <span class="hl opt">=</span> <span class="hl str">&quot;-A2tOP&quot;</span><span class="hl opt">;</span>
 
         <span class="hl slc">// create an object</span>
         AStyleInterface AStyle <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">AStyleInterface</span><span class="hl opt">();</span>
 
         <span class="hl slc">// get Artistic Style version</span>
         <span class="hl slc">// does not need to terminate on an error</span>
-        <span class="hl kwb">string</span> version <span class="hl opt">=</span> AStyle<span class="hl opt">.</span><span class="hl kwd">GetVersion</span><span class="hl opt">();</span>
+        <span class="hl kwa">string</span> version <span class="hl opt">=</span> AStyle<span class="hl opt">.</span><span class="hl kwd">GetVersion</span><span class="hl opt">();</span>
         <span class="hl kwa">if</span> <span class="hl opt">(</span>version <span class="hl opt">!=</span> String<span class="hl opt">.</span>Empty<span class="hl opt">)</span>
             Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;Example C# - AStyle &quot;</span> <span class="hl opt">+</span> version<span class="hl opt">);</span>
 
         <span class="hl slc">// process the files</span>
-        <span class="hl kwa">for</span> <span class="hl opt">(</span><span class="hl kwb">int</span> i <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span> i <span class="hl opt">&lt;</span> fileName<span class="hl opt">.</span>Length<span class="hl opt">;</span> i<span class="hl opt">++)</span>
+        <span class="hl kwa">for</span> <span class="hl opt">(</span><span class="hl kwa">int</span> i <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span> i <span class="hl opt">&lt;</span> fileName<span class="hl opt">.</span>Length<span class="hl opt">;</span> i<span class="hl opt">++)</span>
         <span class="hl opt">{</span>   <span class="hl slc">// get the text to format</span>
-            <span class="hl kwb">string</span> filePath <span class="hl opt">=</span> <span class="hl kwd">GetProjectDirectory</span><span class="hl opt">(</span>fileName<span class="hl opt">[</span>i<span class="hl opt">]);</span>
-            <span class="hl kwb">string</span> textIn <span class="hl opt">=</span> <span class="hl kwd">GetText</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
+            <span class="hl kwa">string</span> filePath <span class="hl opt">=</span> <span class="hl kwd">GetTestDirectoryPath</span><span class="hl opt">() +</span> fileName<span class="hl opt">[</span>i<span class="hl opt">];</span>
+            <span class="hl kwa">string</span> textIn <span class="hl opt">=</span> <span class="hl kwd">GetText</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
 
             <span class="hl slc">// call the Artistic Style formatting function</span>
             <span class="hl slc">// does not need to terminate on an error</span>
-            <span class="hl kwb">string</span> textOut <span class="hl opt">=</span> AStyle<span class="hl opt">.</span><span class="hl kwd">FormatSource</span><span class="hl opt">(</span>textIn<span class="hl opt">,</span> options<span class="hl opt">);</span>
+            <span class="hl kwa">string</span> textOut <span class="hl opt">=</span> AStyle<span class="hl opt">.</span><span class="hl kwd">FormatSource</span><span class="hl opt">(</span>textIn<span class="hl opt">,</span> options<span class="hl opt">);</span>
             <span class="hl slc">// does not need to terminate on an error</span>
             <span class="hl slc">// an error message has been displayed by the error handler</span>
             <span class="hl kwa">if</span> <span class="hl opt">(</span>textOut <span class="hl opt">==</span> String<span class="hl opt">.</span>Empty<span class="hl opt">)</span>
@@ -265,45 +265,40 @@
     <span class="hl opt">}</span>
 
     <span class="hl slc">///  Error message function for this example.</span>
-    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl kwb">string</span> message<span class="hl opt">)</span>
+    <span class="hl kwa">private static void</span> <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl kwa">string</span> message<span class="hl opt">)</span>
     <span class="hl opt">{</span>   Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span>message<span class="hl opt">);</span>
         Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
         Environment<span class="hl opt">.</span><span class="hl kwd">Exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
     <span class="hl opt">}</span>
 
-    <span class="hl slc">/// Prepend the project directory to the subpath.</span>
+    <span class="hl slc">/// Find the test directory path from the application program path.</span>
     <span class="hl slc">/// This may need to be changed for your directory structure.</span>
-    <span class="hl kwa">private static</span> <span class="hl kwb">string</span> <span class="hl kwd">GetProjectDirectory</span><span class="hl opt">(</span><span class="hl kwb">string</span> subPath<span class="hl opt">)</span>
-    <span class="hl opt">{</span>   <span class="hl kwb">string</span> homeDirectory <span class="hl opt">=</span> <span class="hl kwa">null</span><span class="hl opt">;</span>
-        <span class="hl kwa">if</span> <span class="hl opt">(</span>Environment<span class="hl opt">.</span>OSVersion<span class="hl opt">.</span>Platform <span class="hl opt">==</span> PlatformID<span class="hl opt">.</span>Unix <span class="hl opt">||</span>
-                Environment<span class="hl opt">.</span>OSVersion<span class="hl opt">.</span>Platform <span class="hl opt">==</span> PlatformID<span class="hl opt">.</span>MacOSX<span class="hl opt">)</span>
-        <span class="hl opt">{</span>   homeDirectory <span class="hl opt">=</span> Environment<span class="hl opt">.</span><span class="hl kwd">GetEnvironmentVariable</span><span class="hl opt">(</span><span class="hl str">&quot;HOME&quot;</span><span class="hl opt">);</span>
-            <span class="hl slc">// HOME is not always recognized on OSX, this usually works</span>
-            <span class="hl kwa">if</span> <span class="hl opt">(</span>homeDirectory <span class="hl opt">==</span> <span class="hl kwa">null</span><span class="hl opt">)</span>
-                homeDirectory <span class="hl opt">=</span> Environment<span class="hl opt">.</span><span class="hl kwd">GetFolderPath</span><span class="hl opt">(</span>Environment<span class="hl opt">.</span>SpecialFolder<span class="hl opt">.</span>Personal<span class="hl opt">);</span>
-        <span class="hl opt">}</span>
-        <span class="hl kwa">else</span>
-            homeDirectory <span class="hl opt">=</span> Environment<span class="hl opt">.</span><span class="hl kwd">GetEnvironmentVariable</span><span class="hl opt">(</span><span class="hl str">&quot;USERPROFILE&quot;</span><span class="hl opt">);</span>
-        <span class="hl kwa">if</span> <span class="hl opt">(</span>homeDirectory <span class="hl opt">==</span> <span class="hl kwa">null</span><span class="hl opt">)</span>
-            <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find HOME directory!&quot;</span><span class="hl opt">);</span>
-        <span class="hl kwb">string</span> projectPath <span class="hl opt">=</span> homeDirectory <span class="hl opt">+</span> <span class="hl str">&quot;/Projects/&quot;</span> <span class="hl opt">+</span> subPath<span class="hl opt">;</span>
-        <span class="hl kwa">return</span> projectPath<span class="hl opt">;</span>
+    <span class="hl kwa">private static string</span> <span class="hl kwd">GetTestDirectoryPath</span><span class="hl opt">()</span>
+    <span class="hl opt">{</span>   <span class="hl kwa">string</span> topDirectory <span class="hl opt">=</span> <span class="hl str">&quot;astyledev&quot;</span><span class="hl opt">;</span>
+        <span class="hl kwa">string</span> appDirectory <span class="hl opt">=</span> System<span class="hl opt">.</span>AppDomain<span class="hl opt">.</span>CurrentDomain<span class="hl opt">.</span>BaseDirectory<span class="hl opt">;</span>
+        <span class="hl kwa">if</span> <span class="hl opt">(</span>String<span class="hl opt">.</span><span class="hl kwd">IsNullOrEmpty</span><span class="hl opt">(</span>appDirectory<span class="hl opt">))</span>
+            <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find application directory!&quot;</span><span class="hl opt">);</span>
+        <span class="hl kwa">int</span> indexTop <span class="hl opt">=</span> appDirectory<span class="hl opt">.</span><span class="hl kwd">ToLower</span><span class="hl opt">().</span><span class="hl kwd">IndexOf</span><span class="hl opt">(</span>topDirectory<span class="hl opt">);</span>
+        <span class="hl kwa">if</span> <span class="hl opt">(</span>indexTop <span class="hl opt">== -</span><span class="hl num">1</span><span class="hl opt">)</span>
+            <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find top level folder!&quot;</span><span class="hl opt">);</span>
+        <span class="hl kwa">string</span> testPath <span class="hl opt">=</span> appDirectory<span class="hl opt">.</span><span class="hl kwd">Substring</span><span class="hl opt">(</span><span class="hl num">0</span><span class="hl opt">,</span> indexTop <span class="hl opt">+</span> topDirectory<span class="hl opt">.</span>Length<span class="hl opt">) +</span> <span class="hl str">&quot;/test-data/&quot;</span><span class="hl opt">;</span>
+        <span class="hl kwa">return</span> testPath<span class="hl opt">;</span>
     <span class="hl opt">}</span>
 
     <span class="hl slc">///  Get the text to be formatted.</span>
     <span class="hl slc">///  Usually the text would be obtained from an edit control.</span>
-    <span class="hl kwa">private static</span> <span class="hl kwb">string</span> <span class="hl kwd">GetText</span><span class="hl opt">(</span><span class="hl kwb">string</span> filePath<span class="hl opt">)</span>
+    <span class="hl kwa">private static string</span> <span class="hl kwd">GetText</span><span class="hl opt">(</span><span class="hl kwa">string</span> filePath<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl slc">// create input buffers</span>
-        <span class="hl kwb">const int</span> readSize <span class="hl opt">=</span> <span class="hl num">131072</span><span class="hl opt">;</span>     <span class="hl slc">// 128 KB</span>
+        <span class="hl kwa">const int</span> readSize <span class="hl opt">=</span> <span class="hl num">131072</span><span class="hl opt">;</span>     <span class="hl slc">// 128 KB</span>
         StringBuilder bufferIn <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">StringBuilder</span><span class="hl opt">(</span>readSize<span class="hl opt">);</span>
-        <span class="hl kwb">char</span><span class="hl opt">[]</span> fileIn <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwb">char</span><span class="hl opt">[</span>readSize<span class="hl opt">];</span>
+        <span class="hl kwa">char</span><span class="hl opt">[]</span> fileIn <span class="hl opt">=</span> <span class="hl kwa">new char</span><span class="hl opt">[</span>readSize<span class="hl opt">];</span>
 
         <span class="hl slc">// read file data</span>
         <span class="hl kwa">try</span>
         <span class="hl opt">{</span>   FileStream file <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">FileStream</span><span class="hl opt">(</span>filePath<span class="hl opt">,</span> FileMode<span class="hl opt">.</span>Open<span class="hl opt">);</span>
             StreamReader streamIn <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">StreamReader</span><span class="hl opt">(</span>file<span class="hl opt">);</span>
             <span class="hl slc">// use ReadBlock to preserve the current line endings</span>
-            <span class="hl kwb">int</span> charsIn <span class="hl opt">=</span> streamIn<span class="hl opt">.</span><span class="hl kwd">ReadBlock</span><span class="hl opt">(</span>fileIn<span class="hl opt">,</span> <span class="hl num">0</span><span class="hl opt">,</span> readSize<span class="hl opt">);</span>
+            <span class="hl kwa">int</span> charsIn <span class="hl opt">=</span> streamIn<span class="hl opt">.</span><span class="hl kwd">ReadBlock</span><span class="hl opt">(</span>fileIn<span class="hl opt">,</span> <span class="hl num">0</span><span class="hl opt">,</span> readSize<span class="hl opt">);</span>
             <span class="hl kwa">while</span> <span class="hl opt">(</span>charsIn <span class="hl opt">!=</span> <span class="hl num">0</span><span class="hl opt">)</span>
             <span class="hl opt">{</span>   bufferIn<span class="hl opt">.</span><span class="hl kwd">Append</span><span class="hl opt">(</span>fileIn<span class="hl opt">,</span> <span class="hl num">0</span><span class="hl opt">,</span> charsIn<span class="hl opt">);</span>
                 charsIn <span class="hl opt">=</span> streamIn<span class="hl opt">.</span><span class="hl kwd">ReadBlock</span><span class="hl opt">(</span>fileIn<span class="hl opt">,</span> <span class="hl num">0</span><span class="hl opt">,</span> readSize<span class="hl opt">);</span>
@@ -328,16 +323,16 @@
 
     <span class="hl slc">///  Return the formatted text.</span>
     <span class="hl slc">///  Usually the text would be returned to an edit control.</span>
-    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">SetText</span><span class="hl opt">(</span><span class="hl kwb">string</span> textOut<span class="hl opt">,</span> <span class="hl kwb">string</span> filePath<span class="hl opt">)</span>
+    <span class="hl kwa">private static void</span> <span class="hl kwd">SetText</span><span class="hl opt">(</span><span class="hl kwa">string</span> textOut<span class="hl opt">,</span> <span class="hl kwa">string</span> filePath<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl slc">// create a backup file</span>
-        <span class="hl kwb">string</span> origfilePath <span class="hl opt">=</span> filePath <span class="hl opt">+</span> <span class="hl str">&quot;.orig&quot;</span><span class="hl opt">;</span>
+        <span class="hl kwa">string</span> origfilePath <span class="hl opt">=</span> filePath <span class="hl opt">+</span> <span class="hl str">&quot;.orig&quot;</span><span class="hl opt">;</span>
         File<span class="hl opt">.</span><span class="hl kwd">Delete</span><span class="hl opt">(</span>origfilePath<span class="hl opt">);</span>                  <span class="hl slc">// remove a pre-existing file</span>
         FileInfo outFile <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">FileInfo</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
         outFile<span class="hl opt">.</span><span class="hl kwd">MoveTo</span><span class="hl opt">(</span>origfilePath<span class="hl opt">);</span>
 
         <span class="hl slc">// write the output file - same name as input</span>
         <span class="hl kwa">try</span>
-        <span class="hl opt">{</span>   <span class="hl kwb">char</span><span class="hl opt">[]</span> bufferOut <span class="hl opt">=</span> textOut<span class="hl opt">.</span><span class="hl kwd">ToCharArray</span><span class="hl opt">();</span>
+        <span class="hl opt">{</span>   <span class="hl kwa">char</span><span class="hl opt">[]</span> bufferOut <span class="hl opt">=</span> textOut<span class="hl opt">.</span><span class="hl kwd">ToCharArray</span><span class="hl opt">();</span>
             FileStream file <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">FileStream</span><span class="hl opt">(</span>filePath<span class="hl opt">,</span> FileMode<span class="hl opt">.</span>Create<span class="hl opt">);</span>
             StreamWriter streamOut <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">StreamWriter</span><span class="hl opt">(</span>file<span class="hl opt">);</span>
             streamOut<span class="hl opt">.</span><span class="hl kwd">Write</span><span class="hl opt">(</span>bufferOut<span class="hl opt">,</span> <span class="hl num">0</span><span class="hl opt">,</span> bufferOut<span class="hl opt">.</span>Length<span class="hl opt">);</span>
@@ -359,7 +354,7 @@
         &nbsp;</p>
     <p>
         Beginning with version 2.04 of Artistic Style, UTF-16 Unicode can be used by calling the function AStyleMainUtf16.
-        With C# UTF-16 Unicode is used in both Windows and Linux.</p>
+        With C#, UTF-16 Unicode is used in both Windows and Linux.</p>
     <p>
         &nbsp;</p>
     <div class="hl">
@@ -375,15 +370,15 @@
 <span class="hl ppc">#if (WINDOWS)</span>
 <span class="hl slc">// Windows will NOT attach an extension to a filename containing dots (.).</span>
 <span class="hl ppc">#if (DEBUG)</span>
-    <span class="hl kwa">private</span> <span class="hl kwb">const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.06d.dll&quot;</span><span class="hl opt">;</span>
+    <span class="hl kwa">private const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.06d.dll&quot;</span><span class="hl opt">;</span>
 <span class="hl ppc">#else</span>
-    <span class="hl kwa">private</span> <span class="hl kwb">const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.06.dll&quot;</span><span class="hl opt">;</span>
+    <span class="hl kwa">private const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.06.dll&quot;</span><span class="hl opt">;</span>
 <span class="hl ppc">#endif</span>
 <span class="hl ppc">#else</span>
 <span class="hl ppc">#if (DEBUG)</span>
-    <span class="hl kwa">private</span> <span class="hl kwb">const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.06d&quot;</span><span class="hl opt">;</span>
+    <span class="hl kwa">private const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.06d&quot;</span><span class="hl opt">;</span>
 <span class="hl ppc">#else</span>
-    <span class="hl kwa">private</span> <span class="hl kwb">const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.06&quot;</span><span class="hl opt">;</span>
+    <span class="hl kwa">private const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle-2.06&quot;</span><span class="hl opt">;</span>
 <span class="hl ppc">#endif</span>
 <span class="hl ppc">#endif</span>
     <span class="hl slc">/// AStyleGetVersion DllImport.</span>
@@ -391,30 +386,30 @@
     <span class="hl slc">/// free the returned pointer resulting in a runtime crash.</span>
     <span class="hl slc">/// NOTE: CharSet.Unicode is NOT used here.</span>
     <span class="hl opt">[</span><span class="hl kwd">DllImport</span><span class="hl opt">(</span>dllName<span class="hl opt">)]</span>
-    <span class="hl kwa">private static</span> extern IntPtr <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
+    <span class="hl kwa">private static extern</span> IntPtr <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
 
     <span class="hl slc">/// AStyleMainUtf16 DllImport.</span>
     <span class="hl slc">/// Cannot use string as a return value because Mono runtime will attempt to</span>
     <span class="hl slc">/// free the returned pointer resulting in a runtime crash.</span>
     <span class="hl slc">/// NOTE: CharSet.Unicode and wide strings ARE used here.</span>
     <span class="hl opt">[</span><span class="hl kwd">DllImport</span><span class="hl opt">(</span>dllName<span class="hl opt">,</span> CharSet <span class="hl opt">=</span> CharSet<span class="hl opt">.</span>Unicode<span class="hl opt">)]</span>
-    <span class="hl kwa">private static</span> extern IntPtr <span class="hl kwd">AStyleMainUtf16</span><span class="hl opt">(</span>
-        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span>LPWStr<span class="hl opt">)]</span> <span class="hl kwb">string</span> textIn<span class="hl opt">,</span>
-        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span>LPWStr<span class="hl opt">)]</span> <span class="hl kwb">string</span> options<span class="hl opt">,</span>
+    <span class="hl kwa">private static extern</span> IntPtr <span class="hl kwd">AStyleMainUtf16</span><span class="hl opt">(</span>
+        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span>LPWStr<span class="hl opt">)]</span> <span class="hl kwa">string</span> textIn<span class="hl opt">,</span>
+        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span>LPWStr<span class="hl opt">)]</span> <span class="hl kwa">string</span> options<span class="hl opt">,</span>
         AStyleErrorDelgate AStyleError<span class="hl opt">,</span>
         AStyleMemAllocDelgate AStyleMemAlloc
     <span class="hl opt">);</span>
 
     <span class="hl slc">/// AStyleMainUtf16 callbacks.</span>
     <span class="hl slc">/// NOTE: Wide strings are NOT used here.</span>
-    <span class="hl kwa">private delegate</span> <span class="hl kwb">void</span> <span class="hl kwd">AStyleErrorDelgate</span><span class="hl opt">(</span>
-        <span class="hl kwb">int</span> errorNum<span class="hl opt">,</span>
-        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span>LPStr<span class="hl opt">)]</span> <span class="hl kwb">string</span> error
+    <span class="hl kwa">private delegate void</span> <span class="hl kwd">AStyleErrorDelgate</span><span class="hl opt">(</span>
+        <span class="hl kwa">int</span> errorNum<span class="hl opt">,</span>
+        <span class="hl opt">[</span><span class="hl kwd">MarshalAs</span><span class="hl opt">(</span>UnmanagedType<span class="hl opt">.</span>LPStr<span class="hl opt">)]</span> <span class="hl kwa">string</span> error
     <span class="hl opt">);</span>
-    <span class="hl kwa">private delegate</span> IntPtr <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl opt">(</span><span class="hl kwb">int</span> size<span class="hl opt">);</span>
+    <span class="hl kwa">private delegate</span> IntPtr <span class="hl kwd">AStyleMemAllocDelgate</span><span class="hl opt">(</span><span class="hl kwa">int</span> size<span class="hl opt">);</span>
 
     <span class="hl slc">/// Error handler to abort the program.</span>
-    <span class="hl kwa">private</span> <span class="hl kwb">void</span> <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl kwb">string</span> message<span class="hl opt">)</span>
+    <span class="hl kwa">private void</span> <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl kwa">string</span> message<span class="hl opt">)</span>
     <span class="hl opt">{</span>   Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span>message<span class="hl opt">);</span>
         Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
         Environment<span class="hl opt">.</span><span class="hl kwd">Exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
@@ -422,10 +417,10 @@
 
     <span class="hl slc">/// Call the AStyleMainUtf16 function in Artistic Style.</span>
     <span class="hl slc">/// An empty string is returned on error.</span>
-    <span class="hl kwa">public</span> <span class="hl kwb">string</span> <span class="hl kwd">FormatSource</span><span class="hl opt">(</span><span class="hl kwb">string</span> textIn<span class="hl opt">,</span> <span class="hl kwb">string</span> options<span class="hl opt">)</span>
+    <span class="hl kwa">public string</span> <span class="hl kwd">FormatSource</span><span class="hl opt">(</span><span class="hl kwa">string</span> textIn<span class="hl opt">,</span> <span class="hl kwa">string</span> options<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl slc">// Return the allocated string</span>
         <span class="hl slc">// Memory space is allocated by AStyleMemAlloc, a callback function</span>
-        <span class="hl kwb">string</span> sTextOut <span class="hl opt">=</span> String<span class="hl opt">.</span>Empty<span class="hl opt">;</span>
+        <span class="hl kwa">string</span> sTextOut <span class="hl opt">=</span> String<span class="hl opt">.</span>Empty<span class="hl opt">;</span>
         <span class="hl kwa">try</span>
         <span class="hl opt">{</span>   IntPtr pText <span class="hl opt">=</span> <span class="hl kwd">AStyleMainUtf16</span><span class="hl opt">(</span>textIn<span class="hl opt">,</span> options<span class="hl opt">,</span>
                                            AStyleError<span class="hl opt">,</span> AStyleMemAlloc<span class="hl opt">);</span>
@@ -449,8 +444,8 @@
     <span class="hl opt">}</span>
 
     <span class="hl slc">/// Get the Artistic Style version number.</span>
-    <span class="hl kwa">public</span> <span class="hl kwb">string</span> <span class="hl kwd">GetVersion</span><span class="hl opt">()</span>
-    <span class="hl opt">{</span>   <span class="hl kwb">string</span> sVersion <span class="hl opt">=</span> String<span class="hl opt">.</span>Empty<span class="hl opt">;</span>
+    <span class="hl kwa">public string</span> <span class="hl kwd">GetVersion</span><span class="hl opt">()</span>
+    <span class="hl opt">{</span>   <span class="hl kwa">string</span> sVersion <span class="hl opt">=</span> String<span class="hl opt">.</span>Empty<span class="hl opt">;</span>
         <span class="hl kwa">try</span>
         <span class="hl opt">{</span>   IntPtr pVersion <span class="hl opt">=</span> <span class="hl kwd">AStyleGetVersion</span><span class="hl opt">();</span>
             <span class="hl kwa">if</span> <span class="hl opt">(</span>pVersion <span class="hl opt">!=</span> IntPtr<span class="hl opt">.</span>Zero<span class="hl opt">)</span>
@@ -472,12 +467,12 @@
     <span class="hl opt">}</span>
 
     <span class="hl slc">/// AStyleMainUtf16 callback to allocate memory for the return string.</span>
-    <span class="hl kwa">private</span> IntPtr <span class="hl kwd">AStyleMemAlloc</span><span class="hl opt">(</span><span class="hl kwb">int</span> size<span class="hl opt">)</span>
+    <span class="hl kwa">private</span> IntPtr <span class="hl kwd">AStyleMemAlloc</span><span class="hl opt">(</span><span class="hl kwa">int</span> size<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl kwa">return</span> Marshal<span class="hl opt">.</span><span class="hl kwd">AllocHGlobal</span><span class="hl opt">(</span>size<span class="hl opt">);</span>
     <span class="hl opt">}</span>
 
     <span class="hl slc">/// AStyleMainUtf16 callback to display errors from Artistic Style.</span>
-    <span class="hl kwa">private</span> <span class="hl kwb">void</span> <span class="hl kwd">AStyleError</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">string</span> error<span class="hl opt">)</span>
+    <span class="hl kwa">private void</span> <span class="hl kwd">AStyleError</span><span class="hl opt">(</span><span class="hl kwa">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwa">string</span> error<span class="hl opt">)</span>
     <span class="hl opt">{</span>   Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;AStyle error &quot;</span> <span class="hl opt">+</span> errorNumber <span class="hl opt">+</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span> <span class="hl opt">+</span> error<span class="hl opt">);</span>
     <span class="hl opt">}</span>
 

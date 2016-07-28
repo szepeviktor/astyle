@@ -8,9 +8,9 @@
 
 // allow for different calling conventions in Linux and Windows
 #ifdef _WIN32
-#define STDCALL __stdcall
+    #define STDCALL __stdcall
 #else
-#define STDCALL
+    #define STDCALL
 #endif
 
 // functions to call AStyleMain

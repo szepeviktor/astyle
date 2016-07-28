@@ -9,16 +9,16 @@
 #include <fstream>
 #include <iostream>
 #if defined(__GNUC__)
-#include <string.h>         // need both string and string.h for GCC
+    #include <string.h>     // need both string and string.h for GCC
 #endif
 
 using namespace std;
 
 // allow for different calling conventions in Linux and Windows
 #ifdef _WIN32
-#define STDCALL __stdcall
+    #define STDCALL __stdcall
 #else
-#define STDCALL
+    #define STDCALL
 #endif
 
 // functions to call AStyleMain
