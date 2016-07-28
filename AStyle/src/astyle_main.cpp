@@ -479,6 +479,9 @@ void ASConsole::formatCinToCout()
 	// Windows pipe or redirection always outputs Windows line-ends.
 	// Linux pipe or redirection will output any line end.
 	LineEndFormat lineEndFormat = formatter.getLineEndFormat();
+#ifdef _WIN32
+	lineEndFormat = LINEEND_DEFAULT;
+#endif // _WIN32
 	initializeOutputEOL(lineEndFormat);
 	formatter.init(&streamIterator);
 
@@ -1346,7 +1349,8 @@ void ASConsole::getFilePaths(string& filePath)
 		hasWildcard = true;
 
 	// clear exclude hits vector
-	for (size_t ix = 0; ix < excludeHitsVector.size(); ix++)
+	size_t excludeHitsVectorSize = excludeHitsVector.size();
+	for (size_t ix = 0; ix < excludeHitsVectorSize; ix++)
 		excludeHitsVector[ix] = false;
 
 	// If the filename is not quoted on Linux, bash will replace the
@@ -2202,11 +2206,10 @@ void ASConsole::printVerboseHeader() const
 	if (isQuiet)
 		return;
 	// get the date
-	struct tm* ptr;
 	time_t lt;
 	char str[20];
 	lt = time(NULL);
-	ptr = localtime(&lt);
+	struct tm* ptr = localtime(&lt);
 	strftime(str, 20, "%x", ptr);
 	// print the header
 	// 60 is the length of the separator in printSeparatingLine()

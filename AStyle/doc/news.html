@@ -23,8 +23,8 @@
         A new option, &quot;pad-comma&quot;, will add a space following a comma. The option &quot;pad-oper&quot;
         has not been changed and will also add a space following a comma.</p>
     <p>
-        All spaces before a comma are now removed. Use the disable block comments if there are arrays with vertical alignment
-        where this is not wanted.</p>
+        All spaces before a comma are now removed. Use the &quot;disable formatting&quot; comment tags if there are arrays
+        with vertical alignment where this is not wanted.</p>
     <p>
         New Objective-C options "pad-return-type" and &quot;unpad-return-type&quot; will
         add or remove space padding after the Objective-C return type. It is described in the "Objective-C"
@@ -109,32 +109,33 @@
     <h4>Microsoft Clang Compiler</h4>
 
     <p>
-        The Microsoft Clang Compiler is available with Visual Studio 2015 Update 2. It is usually 
-        used for Android or iOS support but the CodeGen support can be used with Windows. It will require modification
-        of the Visual Studio 2015 project files.</p>
+        The Microsoft Clang Compiler is available starting with Visual Studio 2015 Update 2. It is usually used for Android
+        or iOS support but the CodeGen support can be used with Windows. It will require modification of the Visual Studio
+        2015 project files.</p>
     <p>
         The Clang compiler can be installed from the Visual Studio 2015 install program by selecting the &quot;Clang
-        with Microsoft CodeGen (March 2016)&quot; option. If Visual Studio 2015 Update 2 is already installed, Clang can
-        be installed by selecting File &gt; New &gt; Project &gt; Visual C++ &gt; Cross Platform, select &quot;Install
-        Clang with Microsoft CodeGen&quot;.</p>
+        with Microsoft CodeGen&quot; option. If Visual Studio 2015 Update 2 or 3 is already installed, Clang can be installed
+        by selecting File &gt; New &gt; Project &gt; Visual C++ &gt; Cross Platform, select &quot;Install Clang with Microsoft
+        CodeGen&quot;.</p>
     <p>
         To use Clang open a Visual Studio 2015 AStyle Solution. Make the following change to all configurations: </p>
     <ul>
-        <li>General &gt; Platform Toolset, select &quot;Clang 3.7 with Microsoft CodeGen&quot;.</li>
+        <li>General &gt; Platform Toolset, select &quot;Clang with Microsoft CodeGen&quot;.</li>
     </ul>
     <p>
         Make sure to hit &quot;Apply&quot; before editing other properties to let the project system load the corresponding
         toolset definition.</p>
     <p>
-        The Update 2 release does not provide any support for automatic migration of values between Visual Studio
-        2015 and Clang 3.7. The invalid properties must be fixed manually manually. These properties may change with subsequent
-        Visual Studio updates.</p>
+        The Update 2 and 3 releases do not provide any support for automatic migration of values between Visual Studio
+        2015 and Clang. The invalid properties must be fixed manually manually. These properties may change with 
+        subsequent Visual Studio updates.</p>
     <p>
-        The properties that need changing in Visual Studio 2015 Update 2 are:</p>
+        The properties that need changing in Visual Studio 2015 Update 2 and 3 are:</p>
     <ul>
         <li>C/C++ &gt; General &gt; Debug Information Format, select &quot;Full Debug Information (DWARF2)&quot; for Debug
             or &quot;None&quot; for Release.</li>
         <li>C/C++ &gt; General &gt; Warning Level, select &quot;Enable All Warnings&quot;.</li>
+        <li>C/C++ &gt; Optimization &gt; Optimization, select an appropriate valid value for each configuration.</li>
         <li>C/C++ &gt; Code Generation &gt; Enable C++ Exceptions, select &quot;Yes&quot; for Debug or &quot;No&quot; for
             Release.</li>
         <li>C/C++ &gt; Precompiled Headers &gt; Precompiled Header, select &quot;Not Using Precompiled Headers&quot;.</li>
@@ -194,6 +195,12 @@
         <li>Compile. The output should be executable on Windows XP. It will also execute on the later versions of Windows.
         </li>
     </ul>
+    <p>
+        In newer releases of Visual Studio 2015, the &quot;Universal CRT&quot; files have been moved. There is a 
+        notification at <a href="https://blogs.msdn.microsoft.com/vcblog/2015/03/03/introducing-the-universal-crt/">https://blogs.msdn.microsoft.com/vcblog/2015/03/03/introducing-the-universal-crt/</a>.
+        To compile using XP there may need to be additional include and library directories added. If the compile gets
+        errors add the appropriate directories to the project properties.</p>
+
 
     <h4>Acknowledgments</h4>
 

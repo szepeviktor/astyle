@@ -858,7 +858,7 @@ int ASBeautifier::getTabLength(void) const
 string ASBeautifier::beautify(const string& originalLine)
 {
 	string line;
-	bool isInQuoteContinuation = isInVerbatimQuote | haveLineContinuationChar;
+	bool isInQuoteContinuation = isInVerbatimQuote || haveLineContinuationChar;
 
 	currentHeader = NULL;
 	lastLineHeader = NULL;
@@ -2347,15 +2347,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 		if (isInBeautifySQL)
 			continue;
 
-		if (isWhiteSpace(ch))
-		{
-			if (ch == '\t')
-				tabIncrementIn += convertTabToSpaces(i, tabIncrementIn);
-			continue;
-		}
-
 		// handle special characters (i.e. backslash+character such as \n, \t, ...)
-
 		if (isInQuote && !isInVerbatimQuote)
 		{
 			if (isSpecialChar)
@@ -2379,6 +2371,14 @@ void ASBeautifier::parseCurrentLine(const string& line)
 		}
 		else if (isInDefine && ch == '\\')
 			continue;
+
+		// bypass whitespace here
+		if (isWhiteSpace(ch))
+		{
+			if (ch == '\t')
+				tabIncrementIn += convertTabToSpaces(i, tabIncrementIn);
+			continue;
+		}
 
 		// handle quotes (such as 'x' and "Hello Dolly")
 		if (!(isInComment || isInLineComment)
@@ -2826,10 +2826,8 @@ void ASBeautifier::parseCurrentLine(const string& line)
 
 				isInHeader = true;
 
-				vector<const string*>* lastTempStack;
-				if (tempStacks->empty())
-					lastTempStack = NULL;
-				else
+				vector<const string*>* lastTempStack = NULL;;
+				if (!tempStacks->empty())
 					lastTempStack = tempStacks->back();
 
 				// if a new block is opened, push a new stack into tempStacks to hold the

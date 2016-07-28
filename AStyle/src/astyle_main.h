@@ -69,7 +69,7 @@
 
 // for mingw BOM, UTF-16, and Unicode functions
 #if defined(__MINGW32__) && !defined(__MINGW64_VERSION_MAJOR)
-	#if (__MINGW32_MAJOR_VERSION > 3) ||
+	#if (__MINGW32_MAJOR_VERSION > 3) || \
 		((__MINGW32_MAJOR_VERSION == 3)&& (__MINGW32_MINOR_VERSION < 16))
 		#error - Use MinGW compiler version 4 or higher
 	#endif
@@ -195,7 +195,7 @@ public:
 class ASOptions
 {
 public:
-	ASOptions(ASFormatter& formatterArg) : formatter(formatterArg) {}
+	explicit ASOptions(ASFormatter& formatterArg) : formatter(formatterArg) {}
 	string getOptionErrors() const;
 	void importOptions(istream& in, vector<string>& optionsVector);
 	bool parseOptions(vector<string>& optionsVector, const string& errorInfo);
@@ -268,7 +268,7 @@ private:    // variables
 	vector<string> fileName;            // files to be processed including path
 
 public:     // variables
-	ASConsole(ASFormatter& formatterArg) : formatter(formatterArg)
+	explicit ASConsole(ASFormatter& formatterArg) : formatter(formatterArg)
 	{
 		// command line options
 		isRecursive = false;
