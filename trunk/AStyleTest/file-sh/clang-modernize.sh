@@ -31,6 +31,10 @@ echo -e "\nASResource.cpp"
 cp -f -v  ASResource.cpp  clang-asresource.cpp
 clang-modernize-3.7  -risk=risky  -summary  clang-asresource.cpp
 
+echo -e "\nastyle_main.cpp"
+cp -f -v  astyle_main.cpp  clang-astyle_main.cpp
+clang-modernize-3.7  -risk=risky  -summary  clang-astyle_main.cpp
+
 # NOTE: header extension must be .hpp to use c++
 echo -e "\nASLocalizer.h"
 cp -f -v  ASLocalizer.h  clang-aslocalizer.hpp
@@ -47,4 +51,5 @@ cp -f -v  astyle_main.h  clang-astyle_main.hpp
 clang-modernize-3.7  -risk=risky  -summary  clang-astyle_main.hpp
 
 echo
+echo "* * * * *  end of modernize  * * * * *"
 #~ read -sn1 -p "Press Enter to end . . ."

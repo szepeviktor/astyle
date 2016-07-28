@@ -372,6 +372,7 @@ TEST_F(AStyleMainUtf16F1, InvalidOption)
 // This uses mocks and fixtures.
 //----------------------------------------------------------------------------
 
+#ifndef __BORLANDC__        // can't use gmock
 struct ASLibrary_Mock8 : public ASLibrary
 {
 	MOCK_CONST_METHOD1(convertUtf16ToUtf8, char* (const utf16_t*));
@@ -381,6 +382,7 @@ struct ASLibrary_Mock16 : public ASLibrary
 {
 	MOCK_CONST_METHOD2(convertUtf8ToUtf16, utf16_t* (const char*, fpAlloc));
 };
+#endif // __BORLANDC__
 
 TEST_F(AStyleMainUtf16F1, NullConvertSource)
 {
@@ -395,7 +397,7 @@ TEST_F(AStyleMainUtf16F1, NullConvertSource)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_EQ(NULL, textOut);
-#endif
+#endif // __BORLANDC__
 }
 
 TEST_F(AStyleMainUtf16F1, NullConvertOptions)
@@ -417,7 +419,7 @@ TEST_F(AStyleMainUtf16F1, NullConvertOptions)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_EQ(NULL, textOut);
-#endif
+#endif // __BORLANDC__
 }
 
 TEST_F(AStyleMainUtf16F1, NullConvertFormattedText)
@@ -434,7 +436,7 @@ TEST_F(AStyleMainUtf16F1, NullConvertFormattedText)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_EQ(NULL, textOut);
-#endif
+#endif // __BORLANDC__
 }
 
 //----------------------------------------------------------------------------
@@ -511,7 +513,7 @@ struct AStyleMainUtf16F2 : public Test
 	}
 };
 
-// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
 	TEST_F(AStyleMainUtf16F2, DISABLED_FormatUtf16)
@@ -523,6 +525,7 @@ struct AStyleMainUtf16F2 : public Test
 //       The conversion function for BOTH ARE TESTED in the
 //       Utf8_16_Class test functions in AStyleTestI18n_Utf16.cpp.
 {
+#ifndef __BORLANDC__
 	// Test call AStyleMainUtf16() with utf-16 non-ascii characters.
 	ASLibrary library;
 	utf16_t* text16Out = library.formatUtf16(text16, options16, errorHandler, memoryAlloc);
@@ -535,6 +538,7 @@ struct AStyleMainUtf16F2 : public Test
 	EXPECT_STREQ(text8, text8Out);
 	delete [] text8Out;
 	delete [] text16Out;
+#endif // __BORLANDC__
 }
 
 //----------------------------------------------------------------------------

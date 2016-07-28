@@ -20,7 +20,7 @@ for v in  $src
 do
 	echo
 	echo $v
-	clang++  --analyze $opts "$srcdir/$v"
+	clang++-3.7  --analyze $opts "$srcdir/$v"
 done
 
 #~ echo

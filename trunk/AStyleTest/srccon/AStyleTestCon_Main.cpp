@@ -124,13 +124,14 @@ int main(int argc, char** argv)
 		TersePrinter::PrintTestTotals(97, __FILE__, __LINE__);
 	if (g_isI18nTest)
 		printI18nMessage();
-#ifdef __WIN32
+#ifdef _WIN32
 	printf("%c", '\n');
 #endif
 	// end of unit testing
 	removeTestDirectory(getTestDirectory());
 	if (noClose)			// command line option
 		systemPause();
+
 	return retval;
 }
 
@@ -332,10 +333,7 @@ void cleanTestDirectory(const string& directory)
 		if (S_ISREG(statbuf.st_mode))
 		{
 			string filePathName = directory + '/' + entry->d_name;
-			remove(filePathName.c_str());
-			if (errno)
-				ASTYLE_ABORT(string(strerror(errno))
-				             + "\nCannot remove file for clean: " + filePathName);
+			removeTestFile(filePathName);
 		}
 	}
 	closedir(dp);
@@ -526,9 +524,9 @@ void removeTestFile(const string& testFileName)
 
 void renameDefaultOptionsFile()
 // Rename a default options file so test functions will not use or overwrite it.
-// Returns false if the file doesn't exist.
 {
 	string oldPath = getDefaultOptionsFilePath();
+	standardizeFileSeparators(oldPath);
 	string newPath = oldPath + ".orig";
 	int result = rename(oldPath.c_str(), newPath.c_str());
 	if (result && errno != ENOENT)
@@ -543,6 +541,7 @@ void restoreDefaultOptionsFile()
 // Restore the original default options file.
 {
 	string newPath = getDefaultOptionsFilePath();
+	standardizeFileSeparators(newPath);
 	string oldPath = newPath + ".orig";
 	int result = rename(oldPath.c_str(), newPath.c_str());
 	if (result && errno != ENOENT)
@@ -607,6 +606,23 @@ void setTestDirectory()
 //	testDirectory += separator + "ut-testcon";
 //	g_testDirectory = new string(testDirectory);
 //}
+
+void standardizeFileSeparators(string& path)
+// make sure file separators are correct type (Windows or Linux)
+{
+#ifdef _WIN32
+	char fileSeparator = '\\';     // Windows file separator
+#else
+	char fileSeparator = '/';      // Linux file separator
+#endif	// _WIN32
+	for (size_t i = 0; i < path.length(); i++)
+	{
+		i = path.find_first_of("/\\", i);
+		if (i == string::npos)
+			break;
+		path[i] = fileSeparator;
+	}
+}
 
 void systemAbort(const string& message)
 {

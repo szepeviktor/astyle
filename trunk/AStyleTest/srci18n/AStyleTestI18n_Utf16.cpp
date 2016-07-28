@@ -241,7 +241,7 @@ struct Utf8_16_Class : public Test
 	}
 };
 
-// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
 	TEST_F(Utf8_16_Class, DISABLED_Utf8_To_Utf16_LE)
@@ -272,7 +272,7 @@ struct Utf8_16_Class : public Test
 	delete []utf16Out;
 }
 
-// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
 	TEST_F(Utf8_16_Class, DISABLED_Utf8_To_Utf16_BE)
@@ -306,7 +306,7 @@ struct Utf8_16_Class : public Test
 	delete []utf16Out;
 }
 
-// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
 	TEST_F(Utf8_16_Class, DISABLED_Utf16_LE_To_Utf8)
@@ -331,7 +331,7 @@ struct Utf8_16_Class : public Test
 	delete []utf8Out;
 }
 
-// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
 	TEST_F(Utf8_16_Class, DISABLED_Utf16_BE_To_Utf8)
@@ -432,7 +432,7 @@ struct ProcessUtf16F : public Test
 	}
 };
 
-// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
 	TEST_F(ProcessUtf16F, DISABLED_Utf16LE_Processing)
@@ -470,7 +470,7 @@ struct ProcessUtf16F : public Test
 	EXPECT_TRUE(encoding16LE == UTF_16LE);
 }
 
-// OSX iconv cannot do iconv_open for "UTF−16" or "UTF−8".
+// MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function Utf8ToUtf16().
 #ifdef __APPLE__
 	TEST_F(ProcessUtf16F, DISABLED_Utf16BE_Processing)

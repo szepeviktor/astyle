@@ -17,7 +17,8 @@ import time
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-__release = "2.06"
+AS_RELEASE = "2.06"
+
 # inut from AStyle directory
 __astyle_dir = libastyle.get_astyle_directory()
 # output to Project directory
@@ -37,7 +38,7 @@ def main():
         build_windows_distribution()
     else:
         libastyle.system_exit("This is for Windows distribution only!")
-        
+
 # -----------------------------------------------------------------------------
 
 def build_windows_distribution():
@@ -47,12 +48,12 @@ def build_windows_distribution():
     print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
     print("*        Copying AStyle Windows XP Distribution         *")
     print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
-    # the following variables may be modified
+    # the following variables may be modified except vscfg=libastyle.STATIC_XP
     vsdir = libastyle.VS_RELEASE
     vscfg= libastyle.STATIC_XP
 
     print("Compiling with", vsdir)
-    print("Building release", __release)
+    print("Building AStyle release", AS_RELEASE)
     if not vsdir >= "vs2013":
         libastyle.system_exit("Must compile with vs2013 or greater in libastyle: " + vsdir)
     dist_base = __base_dir + "/DistWindowsXP"
@@ -94,7 +95,7 @@ def build_windows_distribution():
     copy_astyle_src(dist_src, True)
 
     # create zip
-    zipfile = "AStyle_{0}_windows_xp.zip".format(__release)
+    zipfile = "AStyle_{0}_windows_xp.zip".format(AS_RELEASE)
     call_7zip(dist_base, zipfile)
 
 # -----------------------------------------------------------------------------

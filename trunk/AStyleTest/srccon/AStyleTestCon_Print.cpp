@@ -116,7 +116,7 @@ PrintF::~PrintF()
 		restoreStream();
 		systemPause("\nCaptured fd_ was not restored.");
 	}
-	remove(filename_.c_str());
+	removeTestFile(filename_);
 	deleteConsoleGlobalObject();
 }
 
@@ -317,7 +317,7 @@ TEST_F(PrintF, DefaultWildcard)
 	adjustTextOut(textOut);
 	// check entries in the fileNameVector
 	vector<string> fileName = g_console->getFileName();
-	EXPECT_EQ(fileNames.size(), fileName.size()) << "Print format was not checked.";
+	ASSERT_EQ(fileNames.size(), fileName.size()) << "Print format was not checked.";
 	// check the report content
 	EXPECT_EQ(text, textOut);
 }
@@ -543,7 +543,7 @@ TEST_F(PrintF, DefaultSingleFile)
 	adjustTextOut(textOut);
 	// check entries in the fileNameVector
 	vector<string> fileName = g_console->getFileName();
-	ASSERT_EQ((size_t) 1, fileName.size()) << "Print format was not checked.";
+	ASSERT_EQ(1U, fileName.size()) << "Print format was not checked.";
 	// check the report content
 	EXPECT_EQ(text, textOut);
 }
@@ -568,7 +568,7 @@ TEST_F(PrintF, FormattedSingleFile)
 	adjustTextOut(textOut);
 	// check entries in the fileNameVector
 	vector<string> fileName = g_console->getFileName();
-	ASSERT_EQ((size_t) 1, fileName.size()) << "Print format was not checked.";
+	ASSERT_EQ(1U, fileName.size()) << "Print format was not checked.";
 	// check the report content
 	EXPECT_EQ(text, textOut);
 }
@@ -599,7 +599,7 @@ TEST_F(PrintF, VerboseSingleFile_OptionsFile)
 	adjustTextOut(textOut);
 	// check entries in the fileNameVector
 	vector<string> fileName = g_console->getFileName();
-	ASSERT_EQ((size_t) 1, fileName.size()) << "Print format was not checked.";
+	ASSERT_EQ(1U, fileName.size()) << "Print format was not checked.";
 	// check the report content
 	EXPECT_EQ(text, textOut);
 }

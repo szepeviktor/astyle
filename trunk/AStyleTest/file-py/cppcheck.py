@@ -1,4 +1,4 @@
-#! /usr/bin/python
+﻿#! /usr/bin/python
 """ Generate the suppression file and run cppcheck.
     Input the AStyle source files and output the suppression file
     with the current line numbers.
@@ -26,6 +26,7 @@ import subprocess
 
 # global variables ------------------------------------------------------------
 
+__expected_version = "1.74"
 __src_dir = libastyle.get_astyle_directory() + "/src/"
 __py_dir = libastyle.get_astyletest_directory() + "/file-py/"
 __suppression_path = __py_dir + "cppcheck-suppress"
@@ -216,8 +217,6 @@ def process_beautifier(beautifier_list):
             beautifier_list.append("copyCtorPointerCopying:" + src_path + ":" + str(lines) + "\t// preCommandHeaders\n")
         if line.startswith("indentableHeaders = other.indentableHeaders"):
             beautifier_list.append("copyCtorPointerCopying:" + src_path + ":" + str(lines) + "\t// indentableHeaders\n")
-#        if "iter < container->end()" in line:
-#            beautifier_list.append("stlBoundaries:" + src_path + ":" + str(lines) + "\t\t\t// stlBoundaries\n")
         if line.startswith("char ch"):
             chars_processed += 1
             if chars_processed == 1 or chars_processed == 3:
@@ -255,17 +254,19 @@ def process_enhancer(enhancer_list):
 def process_file_suppressions(file_suppression_list):
     """ Generate suppressions for an entire file.
     """
+    file_suppression_list.append("// functionStatic is supressed for the entire project in the command line.\n")
+    file_suppression_list.append("//\n")
     file_suppression_list.append("// duplInheritedMember\n")
     file_suppression_list.append("// These are duplicate variable names in the header classes.\n")
     file_suppression_list.append("// The way the classes are used they are not a problem.\n")
     file_suppression_list.append("duplInheritedMember:" + __src_dir + "astyle.h\n")
+    file_suppression_list.append("//\n")
     file_suppression_list.append("// uninitMemberVar\n")
     file_suppression_list.append("// These are actually initialized in the astyle 'init' functions.\n")
     file_suppression_list.append("// They are verified by other Python scripts.\n")
     file_suppression_list.append("uninitMemberVar:" + __src_dir + "ASBeautifier.cpp\n")
     file_suppression_list.append("uninitMemberVar:" + __src_dir + "ASEnhancer.cpp\n")
     file_suppression_list.append("uninitMemberVar:" + __src_dir + "ASFormatter.cpp\n")
-    #file_suppression_list.append("uninitMemberVar:" + __src_dir + "astyle_main.cpp\n")      # from version 1.72
 
 # -----------------------------------------------------------------------------
 
@@ -307,6 +308,19 @@ def process_formatter(formatter_list):
         if (line.startswith("assert")
         and "computeChecksumOut" in line):
             formatter_list.append("assertWithSideEffect:" + src_path + ":" + str(lines) + "\t\t// assert\n")
+        # useInitializationList error - false positive
+        if line.startswith("formattingStyle = STYLE_NONE;"):
+            formatter_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// formattingStyle\n")
+        if line.startswith("bracketFormatMode = NONE_MODE;"):
+            formatter_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// bracketFormatMode\n")
+        if line.startswith("pointerAlignment = PTR_ALIGN_NONE;"):
+            formatter_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// pointerAlignment\n")
+        if line.startswith("referenceAlignment = REF_SAME_AS_PTR;"):
+            formatter_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// referenceAlignment\n")
+        if line.startswith("objCColonPadMode = COLON_PAD_NO_CHANGE;"):
+            formatter_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// objCColonPadMode\n")
+        if line.startswith("lineEnd = LINEEND_DEFAULT;"):
+            formatter_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// lineEnd\n")
         # unusedFunction warnings
         if "ASFormatter::getChecksumIn" in line:
             formatter_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t\t// getChecksumIn\n")
@@ -427,6 +441,9 @@ def verify_cppcheck_version(exepath):
     version = version.rstrip(b"\r\n")
     if platform.python_version_tuple()[0] >= '3':
         version = version.decode()
+    if version < __expected_version:
+        print("Cppcheck version", version,
+                "is less than expected version", __expected_version, "\n")
 
 # -----------------------------------------------------------------------------
 

@@ -64,7 +64,7 @@ int main(int argc, char** argv)
 	// Change the following value to the number of tests (within 20).
 	TersePrinter::PrintTestTotals(80, __FILE__, __LINE__);
 
-#ifdef __WIN32
+#ifdef _WIN32
 	printf("%c", '\n');
 #endif
 	if (noClose)			// command line option

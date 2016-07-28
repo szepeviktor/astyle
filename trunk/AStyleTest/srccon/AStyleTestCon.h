@@ -58,6 +58,7 @@ void removeTestFile(const string& testFileName);
 void renameDefaultOptionsFile();
 void restoreDefaultOptionsFile();
 void setTestDirectory();
+void standardizeFileSeparators(string& path);
 void systemAbort(const string& message);
 void systemPause();
 void systemPause(const string& message);
