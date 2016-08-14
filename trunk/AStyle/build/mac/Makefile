@@ -1,4 +1,4 @@
-# Make file for Clang compiler on Mac OS X
+# Make file for Clang compiler on macOS.
 
 # to test on Linux use "make  linux=1"
 

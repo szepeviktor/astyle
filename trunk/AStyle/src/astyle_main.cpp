@@ -478,9 +478,10 @@ void ASConsole::formatCinToCout()
 	ASStreamIterator<stringstream> streamIterator(&outStream);
 	// Windows pipe or redirection always outputs Windows line-ends.
 	// Linux pipe or redirection will output any line end.
-	LineEndFormat lineEndFormat = formatter.getLineEndFormat();
 #ifdef _WIN32
-	lineEndFormat = LINEEND_DEFAULT;
+	LineEndFormat lineEndFormat = LINEEND_DEFAULT;
+#else
+	LineEndFormat lineEndFormat = formatter.getLineEndFormat();
 #endif // _WIN32
 	initializeOutputEOL(lineEndFormat);
 	formatter.init(&streamIterator);
@@ -759,11 +760,11 @@ FileEncoding ASConsole::readFile(const string& fileName_, stringstream& in) cons
 		if (encoding == UTF_16LE || encoding == UTF_16BE)
 		{
 			// convert utf-16 to utf-8
-			size_t utf8Size = utf8_16.Utf8LengthFromUtf16(data, dataSize, isBigEndian);
+			size_t utf8Size = utf8_16.utf8LengthFromUtf16(data, dataSize, isBigEndian);
 			char* utf8Out = new(nothrow) char[utf8Size];
 			if (!utf8Out)
 				error("Cannot allocate memory for utf-8 conversion", fileName_.c_str());
-			size_t utf8Len = utf8_16.Utf16ToUtf8(data, dataSize, isBigEndian, firstBlock, utf8Out);
+			size_t utf8Len = utf8_16.utf16ToUtf8(data, dataSize, isBigEndian, firstBlock, utf8Out);
 			assert(utf8Len == utf8Size);
 			in << string(utf8Out, utf8Len);
 			delete [] utf8Out;
@@ -1281,9 +1282,9 @@ void ASConsole::launchDefaultBrowser(const char* filePathIn /*NULL*/) const
 	// find xdg-open (usually in /usr/bin)
 	// Mac uses open instead
 #ifdef __APPLE__
-	const char* FILE_OPEN = "open";
+	const char* fileOpen = "open";
 #else
-	const char* FILE_OPEN = "xdg-open";
+	const char* fileOpen = "xdg-open";
 #endif
 	string searchPath;
 	char* searchDir = strtok(paths, ":");
@@ -1293,22 +1294,22 @@ void ASConsole::launchDefaultBrowser(const char* filePathIn /*NULL*/) const
 		if (searchPath.length() > 0
 		        && searchPath[searchPath.length() - 1] != g_fileSeparator)
 			searchPath.append(string(1, g_fileSeparator));
-		searchPath.append(FILE_OPEN);
+		searchPath.append(fileOpen);
 		if (stat(searchPath.c_str(), &statbuf) == 0 && (statbuf.st_mode & S_IFREG))
 			break;
 		searchDir = strtok(NULL, ":");
 	}
 	delete[] paths;
 	if (searchDir == NULL)
-		error(_("Command is not installed"), FILE_OPEN);
+		error(_("Command is not installed"), fileOpen);
 
 	// browser open will be bypassed in test programs
 	printf(_("Opening HTML documentation %s\n"), htmlFilePath.c_str());
 	if (!bypassBrowserOpen)
 	{
-		execlp(FILE_OPEN, FILE_OPEN, htmlFilePath.c_str(), NULL);
+		execlp(fileOpen, fileOpen, htmlFilePath.c_str(), NULL);
 		// execlp will NOT return if successful
-		error(_("Command execute failure"), FILE_OPEN);
+		error(_("Command execute failure"), fileOpen);
 	}
 }
 
@@ -2394,9 +2395,9 @@ void ASConsole::writeFile(const string& fileName_, FileEncoding encoding, ostrin
 	{
 		// convert utf-8 to utf-16
 		bool isBigEndian = (encoding == UTF_16BE);
-		size_t utf16Size = utf8_16.Utf16LengthFromUtf8(out.str().c_str(), out.str().length());
+		size_t utf16Size = utf8_16.utf16LengthFromUtf8(out.str().c_str(), out.str().length());
 		char* utf16Out = new char[utf16Size];
-		size_t utf16Len = utf8_16.Utf8ToUtf16(const_cast<char*>(out.str().c_str()),
+		size_t utf16Len = utf8_16.utf8ToUtf16(const_cast<char*>(out.str().c_str()),
 		                                      out.str().length(), isBigEndian, utf16Out);
 		assert(utf16Len == utf16Size);
 		fout << string(utf16Out, utf16Len);
@@ -2429,12 +2430,12 @@ void ASConsole::writeFile(const string& fileName_, FileEncoding encoding, ostrin
 	}
 }
 
+#else	// ASTYLE_LIB
+
 //-----------------------------------------------------------------------------
 // ASLibrary class
 // used by shared object (DLL) calls
 //-----------------------------------------------------------------------------
-
-#else	// ASTYLE_LIB
 
 utf16_t* ASLibrary::formatUtf16(const utf16_t* pSourceIn,		// the source to be formatted
                                 const utf16_t* pOptions,		// AStyle options
@@ -2501,14 +2502,14 @@ utf16_t* ASLibrary::convertUtf8ToUtf16(const char* utf8In, fpAlloc fpMemoryAlloc
 	size_t dataSize = strlen(utf8In);
 	bool isBigEndian = utf8_16.getBigEndian();
 	// return size is in number of CHARs, not utf16_t
-	size_t utf16Size = (utf8_16.Utf16LengthFromUtf8(data, dataSize) + sizeof(utf16_t));
+	size_t utf16Size = (utf8_16.utf16LengthFromUtf8(data, dataSize) + sizeof(utf16_t));
 	char* utf16Out = fpMemoryAlloc((long)utf16Size);
 	if (utf16Out == NULL)
 		return NULL;
 #ifdef NDEBUG
-	utf8_16.Utf8ToUtf16(data, dataSize + 1, isBigEndian, utf16Out);
+	utf8_16.utf8ToUtf16(data, dataSize + 1, isBigEndian, utf16Out);
 #else
-	size_t utf16Len = utf8_16.Utf8ToUtf16(data, dataSize + 1, isBigEndian, utf16Out);
+	size_t utf16Len = utf8_16.utf8ToUtf16(data, dataSize + 1, isBigEndian, utf16Out);
 	assert(utf16Len == utf16Size);
 #endif
 	assert(utf16Size == (utf8_16.utf16len(reinterpret_cast<utf16_t*>(utf16Out)) + 1) * sizeof(utf16_t));
@@ -2528,14 +2529,14 @@ char* ASLibrary::convertUtf16ToUtf8(const utf16_t* utf16In) const
 	// size must be in chars
 	size_t dataSize = utf8_16.utf16len(utf16In) * sizeof(utf16_t);
 	bool isBigEndian = utf8_16.getBigEndian();
-	size_t utf8Size = utf8_16.Utf8LengthFromUtf16(data, dataSize, isBigEndian) + 1;
+	size_t utf8Size = utf8_16.utf8LengthFromUtf16(data, dataSize, isBigEndian) + 1;
 	char* utf8Out = new(nothrow) char[utf8Size];
 	if (utf8Out == NULL)
 		return NULL;
 #ifdef NDEBUG
-	utf8_16.Utf16ToUtf8(data, dataSize + 1, isBigEndian, true, utf8Out);
+	utf8_16.utf16ToUtf8(data, dataSize + 1, isBigEndian, true, utf8Out);
 #else
-	size_t utf8Len = utf8_16.Utf16ToUtf8(data, dataSize + 1, isBigEndian, true, utf8Out);
+	size_t utf8Len = utf8_16.utf16ToUtf8(data, dataSize + 1, isBigEndian, true, utf8Out);
 	assert(utf8Len == utf8Size);
 #endif
 	assert(utf8Size == strlen(utf8Out) + 1);
@@ -3325,7 +3326,7 @@ size_t Utf8_16::utf16len(const utf16* utf16In) const
 // Modified for Artistic Style by Jim Pattee.
 // Compute the length of an output utf-8 file given a utf-16 file.
 // Input inLen is the size in BYTES (not wchar_t).
-size_t Utf8_16::Utf8LengthFromUtf16(const char* utf16In, size_t inLen, bool isBigEndian) const
+size_t Utf8_16::utf8LengthFromUtf16(const char* utf16In, size_t inLen, bool isBigEndian) const
 {
 	size_t len = 0;
 	size_t wcharLen = inLen / 2;
@@ -3353,7 +3354,7 @@ size_t Utf8_16::Utf8LengthFromUtf16(const char* utf16In, size_t inLen, bool isBi
 // Copyright (C) 2002 Scott Kirkwood.
 // Modified for Artistic Style by Jim Pattee.
 // Convert a utf-8 file to utf-16.
-size_t Utf8_16::Utf8ToUtf16(char* utf8In, size_t inLen, bool isBigEndian, char* utf16Out) const
+size_t Utf8_16::utf8ToUtf16(char* utf8In, size_t inLen, bool isBigEndian, char* utf16Out) const
 {
 	int nCur = 0;
 	ubyte* pRead = reinterpret_cast<ubyte*>(utf8In);
@@ -3429,7 +3430,7 @@ size_t Utf8_16::Utf8ToUtf16(char* utf8In, size_t inLen, bool isBigEndian, char* 
 // Modified for Artistic Style by Jim Pattee.
 // Compute the length of an output utf-16 file given a utf-8 file.
 // Return value is the size in BYTES (not wchar_t).
-size_t Utf8_16::Utf16LengthFromUtf8(const char* utf8In, size_t len) const
+size_t Utf8_16::utf16LengthFromUtf8(const char* utf8In, size_t len) const
 {
 	size_t ulen = 0;
 	size_t charLen;
@@ -3458,7 +3459,7 @@ size_t Utf8_16::Utf16LengthFromUtf8(const char* utf8In, size_t len) const
 // Copyright (C) 2002 Scott Kirkwood.
 // Modified for Artistic Style by Jim Pattee.
 // Convert a utf-16 file to utf-8.
-size_t Utf8_16::Utf16ToUtf8(char* utf16In, size_t inLen, bool isBigEndian,
+size_t Utf8_16::utf16ToUtf8(char* utf16In, size_t inLen, bool isBigEndian,
                             bool firstBlock, char* utf8Out) const
 {
 	int nCur16 = 0;

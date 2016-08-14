@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Bcc AStyle All (x86)">
+		<Project filename="Bcc AStyle (x86).cbp" />
+		<Project filename="Bcc AStyle Dll (x86).cbp" />
+		<Project filename="Bcc AStyle Java (x86).cbp" />
+		<Project filename="Bcc AStyle Lib (x86).cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

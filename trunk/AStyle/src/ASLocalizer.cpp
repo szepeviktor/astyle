@@ -225,16 +225,14 @@ void ASLocalizer::setLanguageFromName(const char* langID)
 //      de_DE.iso88591@euro
 {
 	// the constants describing the format of lang_LANG locale string
-	static const size_t LEN_LANG = 2;
-
 	m_lcid = 0;
 	string langStr = langID;
-	m_langID = langStr.substr(0, LEN_LANG);
+	m_langID = langStr.substr(0, 2);
 
 	// need the sublang for chinese
-	if (m_langID == "zh" && langStr[LEN_LANG] == '_')
+	if (m_langID == "zh" && langStr[2] == '_')
 	{
-		string subLang = langStr.substr(LEN_LANG + 1, LEN_LANG);
+		string subLang = langStr.substr(3, 2);
 		if (subLang == "CN" || subLang == "SG")
 			m_subLangID = "CHS";
 		else

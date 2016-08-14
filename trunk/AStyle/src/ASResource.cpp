@@ -305,7 +305,7 @@ void ASResource::buildIndentableMacros(vector<const pair<const string, const str
 {
 	typedef pair<const string, const string> macro_pair;
 
-	// the pairs must be retained in memory
+	// the pairs must be retained in memory because of pair pointers
 	static const macro_pair macros[] =
 	{
 		// wxWidgets
