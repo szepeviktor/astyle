@@ -2,11 +2,19 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Gcc AStyleDev All">
 		<Project filename="Gcc AStyle.cbp" />
+		<Project filename="Gcc AStyle A.cbp" />
 		<Project filename="Gcc AStyle Java.cbp" />
 		<Project filename="Gcc AStyle So.cbp" />
-		<Project filename="Gcc Example A.cbp" />
-		<Project filename="Gcc Example O.cbp" />
-		<Project filename="Gcc Example So.cbp" />
-		<Project filename="Gcc Example ObjC So.cbp" />
+		<Project filename="Gcc ExampleA.cbp" />
+		<Project filename="Gcc ExampleO.cbp" />
+		<Project filename="Gcc ExampleSo.cbp">
+			<Depends filename="Gcc AStyle So.cbp" />
+		</Project>
+		<Project filename="Gcc ExampleA ObjC.cbp">
+			<Depends filename="Gcc AStyle A.cbp" />
+		</Project>
+		<Project filename="Gcc ExampleSo ObjC.cbp">
+			<Depends filename="Gcc AStyle So.cbp" />
+		</Project>
 	</Workspace>
 </CodeBlocks_workspace_file>

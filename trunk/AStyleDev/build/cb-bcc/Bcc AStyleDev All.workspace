@@ -5,12 +5,12 @@
 		<Project filename="Bcc AStyle Dll.cbp" />
 		<Project filename="Bcc AStyle Java.cbp" />
 		<Project filename="Bcc AStyle Lib.cbp" />
-		<Project filename="Bcc Example Dll.cbp">
+		<Project filename="Bcc ExampleDll.cbp">
 			<Depends filename="Bcc AStyle Dll.cbp" />
 		</Project>
-		<Project filename="Bcc Example Lib.cbp">
+		<Project filename="Bcc ExampleLib.cbp">
 			<Depends filename="Bcc AStyle Lib.cbp" />
 		</Project>
-		<Project filename="Bcc Example Obj.cbp" />
+		<Project filename="Bcc ExampleObj.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

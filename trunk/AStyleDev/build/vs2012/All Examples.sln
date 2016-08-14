@@ -1,25 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example Dll", "ExampleDll\Example Dll.vcxproj", "{443DD6FF-BB23-484D-B8FE-EAFD6981F918}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleDll", "ExampleDll\ExampleDll.vcxproj", "{443DD6FF-BB23-484D-B8FE-EAFD6981F918}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5598E016-DF23-45A6-855D-7C1149461FA0} = {5598E016-DF23-45A6-855D-7C1149461FA0}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example Lib", "ExampleLib\Example Lib.vcxproj", "{6B984AC8-7C49-4C3F-8DDE-69378F630BD4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleLib", "ExampleLib\ExampleLib.vcxproj", "{6B984AC8-7C49-4C3F-8DDE-69378F630BD4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6087F6A7-A474-4E80-BEB2-A757A0294287} = {6087F6A7-A474-4E80-BEB2-A757A0294287}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example Obj", "ExampleObj\Example Obj.vcxproj", "{47E30767-0488-40BC-954B-C0FB9C9C50C3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleObj", "ExampleObj\ExampleObj.vcxproj", "{47E30767-0488-40BC-954B-C0FB9C9C50C3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleDll", "AStyleDll\AStyleDll.vcxproj", "{5598E016-DF23-45A6-855D-7C1149461FA0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyle Dll", "AStyle Dll\AStyle Dll.vcxproj", "{5598E016-DF23-45A6-855D-7C1149461FA0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleLib", "AStyleLib\AStyleLib.vcxproj", "{6087F6A7-A474-4E80-BEB2-A757A0294287}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyle Lib", "AStyle Lib\AStyle Lib.vcxproj", "{6087F6A7-A474-4E80-BEB2-A757A0294287}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyle", "AStyle\AStyle.vcxproj", "{EB20762E-2B27-415C-9D86-751DBE3B45FD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleJava", "AStyleJava\AStyleJava.vcxproj", "{4CFDAD41-2CA5-4D74-8410-A6BD9C37620D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyle Java", "AStyle Java\AStyle Java.vcxproj", "{4CFDAD41-2CA5-4D74-8410-A6BD9C37620D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

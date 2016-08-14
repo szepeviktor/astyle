@@ -3,9 +3,9 @@
 	<Workspace title="Mac ExampleTest All">
 		<Project filename="Mac ExampleA.cbp" />
 		<Project filename="Mac ExampleDy.cbp" />
-		<Project filename="Mac ExampleObj.cbp" />
-		<Project filename="Mac ExampleOA.cbp" />
-		<Project filename="Mac ExampleODy.cbp" />
-		<Project filename="Mac ExampleOObj.cbp" />
+		<Project filename="Mac ExampleO.cbp" />
+		<Project filename="Mac ExampleA ObjC.cbp" />
+		<Project filename="Mac ExampleDy ObjC.cbp" />
+		<Project filename="Mac ExampleO ObjC.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

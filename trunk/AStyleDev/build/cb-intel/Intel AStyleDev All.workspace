@@ -2,10 +2,15 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Intel AStyleDev All">
 		<Project filename="Intel AStyle.cbp" />
+		<Project filename="Intel AStyle A.cbp" />
 		<Project filename="Intel AStyle Java.cbp" />
 		<Project filename="Intel AStyle So.cbp" />
-		<Project filename="Intel Example A.cbp" />
-		<Project filename="Intel Example O.cbp" />
-		<Project filename="Intel Example So.cbp" />
+		<Project filename="Intel ExampleA.cbp">
+			<Depends filename="Intel AStyle A.cbp" />
+		</Project>
+		<Project filename="Intel ExampleO.cbp" />
+		<Project filename="Intel ExampleSo.cbp">
+			<Depends filename="Intel AStyle So.cbp" />
+		</Project>
 	</Workspace>
 </CodeBlocks_workspace_file>
