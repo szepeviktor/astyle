@@ -36,6 +36,7 @@
 				<Option object_output="objCon/Release/" />
 				<Option type="1" />
 				<Option compiler="icc" />
+				<Option parameters="--gtest_print_time=0" />
 				<Compiler>
 					<Add option="-fno-rtti" />
 					<Add option="-Wall" />

@@ -32,6 +32,7 @@
 				<Option object_output="objI18n/Release/" />
 				<Option type="1" />
 				<Option compiler="clang" />
+				<Option parameters="--gtest_print_time=0" />
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-Wextra" />

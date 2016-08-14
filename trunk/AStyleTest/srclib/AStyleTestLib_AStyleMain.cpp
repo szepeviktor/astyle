@@ -65,7 +65,7 @@ void systemAbort(const string& message)
 
 #ifdef _WIN32
 
-utf16_t* Utf8ToWideChar(const char* utf8In)
+utf16_t* utf8ToWideChar(const char* utf8In)
 // WINDOWS convert 8 bit utf-8 string to wide char string (16 bit)
 // The calling program must delete the returned allocation.
 {
@@ -77,7 +77,7 @@ utf16_t* Utf8ToWideChar(const char* utf8In)
 	return reinterpret_cast<utf16_t*>(wcOut);
 }
 
-char* WideCharToUtf8(utf16_t* utf16In)
+char* wideCharToUtf8(utf16_t* utf16In)
 // WINDOWS convert wide char text (16 bit) to an 8 bit utf-8 string
 // The calling program must delete the returned allocation.
 {
@@ -92,19 +92,19 @@ char* WideCharToUtf8(utf16_t* utf16In)
 
 #else
 
-utf16_t* Utf8ToUtf16(char* utf8In)
+utf16_t* utf8ToUtf16(char* utf8In)
 // LINUX convert 8 bit utf-8 text to an 16 bit utf-16 text
 // The calling program must delete the returned allocation.
 {
 	size_t mbLen = strlen(utf8In);
 	iconv_t iconvh = iconv_open("UTF−16", "UTF−8");
 	if (iconvh == reinterpret_cast<iconv_t>(-1))
-		systemAbort("Bad iconv_open in Utf8ToUtf16()");
+		systemAbort("Bad iconv_open in utf8ToUtf16()");
 	// allocate memory for output
 	size_t wcLen = (mbLen * sizeof(utf16_t)) + sizeof(utf16_t);
 	char* wcOut = new(nothrow) char[wcLen];
 	if (wcOut == NULL)
-		systemAbort("Bad allocation in Utf8ToUtf16()");
+		systemAbort("Bad allocation in utf8ToUtf16()");
 	// convert to utf-8
 	char* wcConv = wcOut;
 	size_t wcLeft = wcLen;
@@ -112,7 +112,7 @@ utf16_t* Utf8ToUtf16(char* utf8In)
 	size_t mbLeft = mbLen;
 	int iconvval = iconv(iconvh, &mbConv, &mbLeft, &wcConv, &wcLeft);
 	if (iconvval == -1)
-		systemAbort("Bad iconv in Utf8ToUtf16()");
+		systemAbort("Bad iconv in utf8ToUtf16()");
 	*wcConv = '\0';
 	*(wcConv + 1) = '\0';
 	iconv_close(iconvh);
@@ -129,19 +129,19 @@ utf16_t* Utf8ToUtf16(char* utf8In)
 	return wc16Out;
 }
 
-char* Utf16ToUtf8(utf16_t* utf16In)
+char* utf16ToUtf8(utf16_t* utf16In)
 // LINUX convert 16 bit utf-16 text to an 8 bit utf-8 string
 // The calling program must delete the returned allocation.
 {
 	size_t wcLen = utf16len(utf16In) * sizeof(utf16_t);
 	iconv_t iconvh = iconv_open("UTF−8", "UTF−16");
 	if (iconvh == reinterpret_cast<iconv_t>(-1))
-		systemAbort("Bad iconv_open in Utf16ToUtf8()");
+		systemAbort("Bad iconv_open in utf16ToUtf8()");
 	// allocate memory for output
 	size_t mbLen = wcLen * sizeof(utf16_t);
 	char* mbOut = new(nothrow) char[mbLen];
 	if (mbOut == NULL)
-		systemAbort("Bad allocation in Utf16ToUtf8()");
+		systemAbort("Bad allocation in utf16ToUtf8()");
 	// convert to utf-8
 	char* mbConv = mbOut;
 	size_t mbLeft = mbLen;
@@ -149,7 +149,7 @@ char* Utf16ToUtf8(utf16_t* utf16In)
 	size_t wcLeft = wcLen;
 	int iconvval = iconv(iconvh, &wcConv, &wcLeft, &mbConv, &mbLeft);
 	if (iconvval == -1)
-		systemAbort("Bad iconv in Utf16ToUtf8()");
+		systemAbort("Bad iconv in utf16ToUtf8()");
 	*mbConv = '\0';
 	iconv_close(iconvh);
 	return mbOut;
@@ -372,7 +372,6 @@ TEST_F(AStyleMainUtf16F1, InvalidOption)
 // This uses mocks and fixtures.
 //----------------------------------------------------------------------------
 
-#ifndef __BORLANDC__        // can't use gmock
 struct ASLibrary_Mock8 : public ASLibrary
 {
 	MOCK_CONST_METHOD1(convertUtf16ToUtf8, char* (const utf16_t*));
@@ -382,12 +381,10 @@ struct ASLibrary_Mock16 : public ASLibrary
 {
 	MOCK_CONST_METHOD2(convertUtf8ToUtf16, utf16_t* (const char*, fpAlloc));
 };
-#endif // __BORLANDC__
 
 TEST_F(AStyleMainUtf16F1, NullConvertSource)
 {
 	// Test formatUtf16() error handling for source.
-#ifndef __BORLANDC__        // can't use gmock
 	ASLibrary_Mock8 library;
 	EXPECT_CALL(library, convertUtf16ToUtf8(_))
 	.WillOnce(Return(static_cast<char*>(NULL)));
@@ -397,13 +394,11 @@ TEST_F(AStyleMainUtf16F1, NullConvertSource)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_EQ(NULL, textOut);
-#endif // __BORLANDC__
 }
 
 TEST_F(AStyleMainUtf16F1, NullConvertOptions)
 {
 	// Test formatUtf16() error handling for options.
-#ifndef __BORLANDC__        // can't use gmock
 	ASLibrary_Mock8 library;
 	// don't use convertUtf16ToUtf8() here, it will be mocked
 	// deleted by the error procedure in formatUtf16()
@@ -419,13 +414,11 @@ TEST_F(AStyleMainUtf16F1, NullConvertOptions)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_EQ(NULL, textOut);
-#endif // __BORLANDC__
 }
 
 TEST_F(AStyleMainUtf16F1, NullConvertFormattedText)
 {
 	// Test formatUtf16() error handling for converting formatted text to utf-16.
-#ifndef __BORLANDC__        // can't use gmock
 	ASLibrary_Mock16 library;
 	// this method returns an error
 	EXPECT_CALL(library, convertUtf8ToUtf16(_, _))
@@ -436,7 +429,6 @@ TEST_F(AStyleMainUtf16F1, NullConvertFormattedText)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_EQ(NULL, textOut);
-#endif // __BORLANDC__
 }
 
 //----------------------------------------------------------------------------
@@ -493,14 +485,14 @@ struct AStyleMainUtf16F2 : public Test
 		strcpy(text8, textIn);
 		// compute 16 bit values using native functions
 #ifdef _WIN32
-		text16 = Utf8ToWideChar(textIn);
+		text16 = utf8ToWideChar(textIn);
 		text16Len = utf16len(text16);
-		options16 = Utf8ToWideChar(optionsIn);
+		options16 = utf8ToWideChar(optionsIn);
 		options16Len = utf16len(options16);
 #else
-		text16 = Utf8ToUtf16(textIn);
+		text16 = utf8ToUtf16(textIn);
 		text16Len = utf16len(text16);
-		options16 = Utf8ToUtf16(optionsIn);
+		options16 = utf8ToUtf16(optionsIn);
 		options16Len = utf16len(options16);
 #endif
 	}	// end c'tor
@@ -514,7 +506,7 @@ struct AStyleMainUtf16F2 : public Test
 };
 
 // MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
-// It aborts in the function Utf8ToUtf16().
+// It aborts in the function utf8ToUtf16().
 #ifdef __APPLE__
 	TEST_F(AStyleMainUtf16F2, DISABLED_FormatUtf16)
 #else
@@ -531,9 +523,9 @@ struct AStyleMainUtf16F2 : public Test
 	utf16_t* text16Out = library.formatUtf16(text16, options16, errorHandler, memoryAlloc);
 	// must convert utf16 to utf8 using native functions for gtest comparison
 #ifdef _WIN32
-	char* text8Out = WideCharToUtf8(text16Out);
+	char* text8Out = wideCharToUtf8(text16Out);
 #else
-	char* text8Out = Utf16ToUtf8(text16Out);
+	char* text8Out = utf16ToUtf8(text16Out);
 #endif
 	EXPECT_STREQ(text8, text8Out);
 	delete [] text8Out;

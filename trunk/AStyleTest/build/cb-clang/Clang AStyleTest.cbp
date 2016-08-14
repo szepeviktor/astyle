@@ -33,6 +33,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="clang" />
+				<Option parameters="--gtest_print_time=0" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-Wextra" />

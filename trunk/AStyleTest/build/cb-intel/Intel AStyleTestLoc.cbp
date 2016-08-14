@@ -11,7 +11,7 @@
 				<Option object_output="objLoc/Debug/" />
 				<Option type="1" />
 				<Option compiler="icc" />
-				<Option parameters="--terse_output" />
+				<Option parameters="--terse_output  --gtest_print_time=0" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-w2" />
@@ -33,6 +33,7 @@
 				<Option object_output="objLoc/Release/" />
 				<Option type="1" />
 				<Option compiler="icc" />
+				<Option parameters="--gtest_print_time=0" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-w2" />

@@ -35,9 +35,9 @@ def main():
     # the country LCID is added by the subprocess call
     command = exepath + ' ' + i18npath + ' ' + "\"--terse_output --no_close\"" + ' '
     # run tests
-    print("\nWAIT for a test to finish before running the next")
-    print("Select OK to continue ...")
-    print("\nNOTE: A bad return may work anyway. Check the individual displays.")
+    print("\nWAIT for a test to finish before running the next.")
+    print("NOTE A bad return may work anyway. Check the individual displays.")
+    print("Press OK to continue with the displayed language.\n")
     print("Running Greek Test")
     retval = subprocess.call(command + "/L0408")
     if retval:

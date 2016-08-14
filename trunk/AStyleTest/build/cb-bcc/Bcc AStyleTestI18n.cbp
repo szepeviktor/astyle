@@ -4,21 +4,17 @@
 	<Project>
 		<Option title="Bcc AStyleTestI18n" />
 		<Option pch_mode="2" />
-		<Option compiler="embarcadero_compiler_680" />
+		<Option compiler="embarcadero_compiler_x64_680" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/AStyleTestI18nd" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objI18n/Debug/" />
 				<Option type="1" />
-				<Option compiler="embarcadero_compiler_680" />
+				<Option compiler="embarcadero_compiler_x64_680" />
 				<Option parameters="--terse_output" />
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-tWC" />
-					<Add option="-v" />
-					<Add option="-w-8027" />
-					<Add option="-w-8074" />
-					<Add option="-w-8080" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />
@@ -29,27 +25,20 @@
 					<Add option="-c" />
 					<Add option="-Gn" />
 					<Add option="-x" />
-					<Add library="cw32mt" />
-					<Add library="import32" />
-					<Add library="gtestd" />
+					<Add library="cw64mt" />
+					<Add library="import64" />
+					<Add library="gmockd" />
 					<Add directory="bin" />
 				</Linker>
-				<ExtraCommands>
-					<Add after="cmd /c  del  bin\*.tds" />
-				</ExtraCommands>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/AStyleTestI18n" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objI18n/Release" />
 				<Option type="1" />
-				<Option compiler="embarcadero_compiler_680" />
+				<Option compiler="embarcadero_compiler_x64_680" />
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-tWC" />
-					<Add option="-v-" />
-					<Add option="-w-8027" />
-					<Add option="-w-8074" />
-					<Add option="-w-8080" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../srccon" />
@@ -61,14 +50,11 @@
 					<Add option="-c" />
 					<Add option="-Gn" />
 					<Add option="-x" />
-					<Add library="cw32mt" />
-					<Add library="import32" />
-					<Add library="gtest" />
+					<Add library="cw64mt" />
+					<Add library="import64" />
+					<Add library="gmock" />
 					<Add directory="bin" />
 				</Linker>
-				<ExtraCommands>
-					<Add after="cmd /c  del  bin\*.tds" />
-				</ExtraCommands>
 			</Target>
 		</Build>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />

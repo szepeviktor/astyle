@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "file-py", "file-py", "{084B9868-57C6-4FFC-8207-1E513CF9C2D5}"
 	ProjectSection(SolutionItems) = preProject
@@ -21,6 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "file-py", "file-py", "{084B
 		..\..\file-py\dist_copy.py = ..\..\file-py\dist_copy.py
 		..\..\file-py\dist_copy_xp.py = ..\..\file-py\dist_copy_xp.py
 		..\..\file-py\file_extract.py = ..\..\file-py\file_extract.py
+		..\..\file-py\format-project.py = ..\..\file-py\format-project.py
 		..\..\file-py\libastyle.py = ..\..\file-py\libastyle.py
 		..\..\file-py\libextract.py = ..\..\file-py\libextract.py
 		..\..\file-py\libtest.py = ..\..\file-py\libtest.py
@@ -31,6 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "file-py", "file-py", "{084B
 		..\..\file-py\modify_html.py = ..\..\file-py\modify_html.py
 		..\..\file-py\modify_java_release.py = ..\..\file-py\modify_java_release.py
 		..\..\file-py\modify_shared_version.py = ..\..\file-py\modify_shared_version.py
+		..\..\file-py\naming.py = ..\..\file-py\naming.py
 		..\..\file-py\pylintrc = ..\..\file-py\pylintrc
 		..\..\file-py\regression1_test.py = ..\..\file-py\regression1_test.py
 		..\..\file-py\regression2_test.py = ..\..\file-py\regression2_test.py

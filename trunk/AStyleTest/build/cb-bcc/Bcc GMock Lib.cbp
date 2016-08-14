@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Bcc GMock Lib" />
+		<Option pch_mode="2" />
+		<Option compiler="embarcadero_compiler_x64_680" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/gmockd" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="embarcadero_compiler_x64_680" />
+				<Compiler>
+					<Add option="-w" />
+					<Add directory="../../../googlemock" />
+					<Add directory="../../../googlemock/include" />
+					<Add directory="../../../googletest" />
+					<Add directory="../../../googletest/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-c" />
+					<Add option="-Gn" />
+					<Add option="-x" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="cmd /c echo RUN TLIBD.BAT TO LINK GMOCKD.LIB" />
+					<Add after='cmd /c call &quot;Bcc mlibd.bat&quot;' />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/gmock" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
+				<Option compiler="embarcadero_compiler_x64_680" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-O2" />
+					<Add option="-DNDEBUG" />
+					<Add directory="../../../googlemock" />
+					<Add directory="../../../googlemock/include" />
+					<Add directory="../../../googletest" />
+					<Add directory="../../../googletest/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-c" />
+					<Add option="-Gn" />
+					<Add option="-x" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="cmd /c echo RUN TLIB.BAT TO LINK GMOCK.LIB" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Unit filename="../../../googlemock/src/gmock-all.cc" />
+		<Unit filename="../../../googletest/src/gtest-all.cc" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

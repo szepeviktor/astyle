@@ -9,11 +9,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTestCon", "AStyleTest
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599} = {8563FBDA-FEDC-4233-B585-EBDA55E1C599}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMockLib", "GMockLib\GMockLib.vcxproj", "{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMock Lib", "GMock Lib\GMock Lib.vcxproj", "{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleConLib", "AStyleConLib\AStyleConLib.vcxproj", "{8563FBDA-FEDC-4233-B585-EBDA55E1C599}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C} = {C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleCon Lib", "AStyleCon Lib\AStyleCon Lib.vcxproj", "{8563FBDA-FEDC-4233-B585-EBDA55E1C599}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C85C5B2E-E8F7-42D7-963A-D6B43E77A502}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\srcx\gtest-options.lst = ..\..\srcx\gtest-options.lst
 	EndProjectSection
 EndProject
 Global

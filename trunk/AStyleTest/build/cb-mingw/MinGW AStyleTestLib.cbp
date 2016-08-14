@@ -74,7 +74,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-import" />
-					<Add library="gmock" />
+					<Add library="gmockd" />
 					<Add library="gcov" />
 					<Add directory="bin" />
 				</Linker>

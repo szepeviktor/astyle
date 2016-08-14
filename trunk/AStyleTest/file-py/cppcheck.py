@@ -4,17 +4,6 @@
     with the current line numbers.
 """
 
-# To use the cppcheck naming.py extension, activate the "--dump"
-# option in the following run_cppcheck() function. This creates
-# the .dump files in the src folder. Then run naming.py in cmd.exe
-# with the following options:
-# ------------------------------------
-# "c:\program files\python 3.5\python"
-# "c:\program files\cppcheck\addons\naming.py"
-# --var="^([a-z]|AS_|_[a-z]|_AS_)" --function="^([a-z]|AS[A-Z])"
-# "c:\users\jimp\projects\astyle\src\asbeautifier.cpp.dump"
-# ------------------------------------
-
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
 

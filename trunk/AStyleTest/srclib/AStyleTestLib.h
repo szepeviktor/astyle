@@ -10,12 +10,8 @@
 // headers
 //-------------------------------------------------------------------------
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#ifdef __BORLANDC__			// can't use gmock
-	#include "gtest/gtest.h"
-#else
-	#include "gmock/gmock.h"
-#endif
 // for gmock macros
 using namespace testing;
 

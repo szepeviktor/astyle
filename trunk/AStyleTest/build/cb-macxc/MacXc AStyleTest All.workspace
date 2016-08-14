@@ -2,17 +2,17 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="MacXc AStyleTest All">
 		<Project filename="MacXc AStyleTest.cbp">
-			<Depends filename="MacXc GMockA.cbp" />
+			<Depends filename="MacXc GMock A.cbp" />
 		</Project>
 		<Project filename="MacXc AStyleTestCon.cbp">
-			<Depends filename="MacXc GMockA.cbp" />
+			<Depends filename="MacXc GMock A.cbp" />
 		</Project>
 		<Project filename="MacXc AStyleTestI18n.cbp">
-			<Depends filename="MacXc GMockA.cbp" />
+			<Depends filename="MacXc GMock A.cbp" />
 		</Project>
 		<Project filename="MacXc AStyleTestLib.cbp">
-			<Depends filename="MacXc GMockA.cbp" />
+			<Depends filename="MacXc GMock A.cbp" />
 		</Project>
-		<Project filename="MacXc GMockA.cbp" />
+		<Project filename="MacXc GMock A.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
