@@ -180,10 +180,10 @@ public:
 	bool   getBigEndian() const;
 	int    swap16bit(int value) const;
 	size_t utf16len(const utf16* utf16In) const;
-	size_t Utf8LengthFromUtf16(const char* utf16In, size_t inLen, bool isBigEndian) const;
-	size_t Utf8ToUtf16(char* utf8In, size_t inLen, bool isBigEndian, char* utf16Out) const;
-	size_t Utf16LengthFromUtf8(const char* utf8In, size_t inLen) const;
-	size_t Utf16ToUtf8(char* utf16In, size_t inLen, bool isBigEndian,
+	size_t utf8LengthFromUtf16(const char* utf16In, size_t inLen, bool isBigEndian) const;
+	size_t utf8ToUtf16(char* utf8In, size_t inLen, bool isBigEndian, char* utf16Out) const;
+	size_t utf16LengthFromUtf8(const char* utf8In, size_t inLen) const;
+	size_t utf16ToUtf8(char* utf16In, size_t inLen, bool isBigEndian,
 	                   bool firstBlock, char* utf8Out) const;
 };
 

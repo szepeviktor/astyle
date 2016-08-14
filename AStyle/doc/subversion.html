@@ -78,6 +78,9 @@
         This project requires the Artistic Style project to compile.
         In addition, the test program requires Google Mock and Google Test described below.</p>
     <p>
+        The main test project, AStyleTest, can be run in Visual Studio using the graphical Visual Studio Test 
+        Explorer. The procedure is described below.</p>
+    <p>
         A sample checkout is:<br />
         <strong>svn&nbsp; checkout&nbsp; "https://svn.code.sf.net/p/astyle/code/trunk/AStyleTest"&nbsp; "$HOME/astyletest"
         </strong></p>
@@ -106,7 +109,7 @@
         <strong>svn&nbsp; checkout&nbsp; "https://svn.code.sf.net/p/astyle/code/trunk/AStyleWxTest"&nbsp; "$HOME/astylewxtest"
         </strong></p>
 
-    <h4>Gogle Mock andGoogle Test</h4>
+    <h4>Gogle Mock and Google Test</h4>
 
     <p>
         Google Mock and Google Test is the Google multi-platform framework for writing C++ unit tests.
@@ -122,6 +125,22 @@
         includes only googletest. The AStyle test programs have their own project files for compiling the test platform.
         There are also compile projects in the google modules if you want to use them. They create a static library file
         that is linked with the test program. The google downloads contain instructions for using the package.</p>
+
+    <h4>Visual Studio Test Explorer</h4>
+
+    <p>
+        The main test project, AStyleTest, can be run in Visual Studio 2013 or 2015 using Vusual Studio Test Explorer.
+        The &quot;Google Test Adapter&quot; extension must be installed from the &quot;Tools&quot; &gt; &quot;Extensions
+        and Updates&quot; menu. After restarting Visual Studio the test window is activated from the &quot;Test&quot;
+        &gt; &quot;Windows&quot; &gt; &quot;Test Explorer&quot; menu option. After compiling, the tests will appear in
+        the test window. They may then be run from the &quot;Test Explorer&quot; window or from the &quot;Test&quot; menu
+        options.</p>
+    <p>
+        Test Explorer may be used for other test projects by adding a proper .gta.runsettings file to the solution directory,
+        AStyleTest\build\vs2015 (or vs2013).</p>
+    <p>
+        The tests can also be run as a command line program by using the standard debug or run buttons on the menu or
+        toolbar.</p>
 
     <p>
         &nbsp;</p>

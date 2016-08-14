@@ -573,15 +573,15 @@ private:
 
 	// struct used by ParseFormattedLine function
 	// contains variables used to unindent the case blocks
-	struct switchVariables
+	struct SwitchVariables
 	{
 		int  switchBracketCount;
 		int  unindentDepth;
 		bool unindentCase;
 	};
 
-	switchVariables sw;                      // switch variables struct
-	vector<switchVariables> switchStack;     // stack vector of switch variables
+	SwitchVariables sw;                      // switch variables struct
+	vector<SwitchVariables> switchStack;     // stack vector of switch variables
 
 	// event table variables
 	bool nextLineIsEventIndent;             // begin event table indent is reached
