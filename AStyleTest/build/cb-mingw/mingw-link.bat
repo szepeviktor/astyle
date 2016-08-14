@@ -1,7 +1,7 @@
 @echo off
 REM Create a gmock link to the needed mingw dlls
 REM these are NOT needed if executed from CodeBlocks
-REM These ARE needed if not executed from CodeBlocks
+REM These ARE needed if NOT executed from CodeBlocks
 
 set progdir=C:\Programs\MinGW\bin
 

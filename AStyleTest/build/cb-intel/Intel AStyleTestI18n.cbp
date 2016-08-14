@@ -34,6 +34,7 @@
 				<Option object_output="objI18n/Release/" />
 				<Option type="1" />
 				<Option compiler="icc" />
+				<Option parameters="--gtest_print_time=0" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-w2" />

@@ -8,7 +8,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TersePrinter", "TersePrinte
 		{D336FE81-2B92-49AF-A040-D30C384C8FD2} = {D336FE81-2B92-49AF-A040-D30C384C8FD2}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMockLib", "GMockLib\GMockLib.vcxproj", "{D336FE81-2B92-49AF-A040-D30C384C8FD2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMock Lib", "GMock Lib\GMock Lib.vcxproj", "{D336FE81-2B92-49AF-A040-D30C384C8FD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

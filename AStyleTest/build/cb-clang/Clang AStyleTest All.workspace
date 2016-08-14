@@ -2,20 +2,20 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Clang (MinGW) AStyleTest">
 		<Project filename="Clang AStyleTest.cbp">
-			<Depends filename="Clang GMockA.cbp" />
+			<Depends filename="Clang GMock A.cbp" />
 		</Project>
 		<Project filename="Clang AStyleTestCon.cbp">
-			<Depends filename="Clang GMockA.cbp" />
+			<Depends filename="Clang GMock A.cbp" />
 		</Project>
 		<Project filename="Clang AStyleTestI18n.cbp">
-			<Depends filename="Clang GMockA.cbp" />
+			<Depends filename="Clang GMock A.cbp" />
 		</Project>
 		<Project filename="Clang AStyleTestLib.cbp">
-			<Depends filename="Clang GMockA.cbp" />
+			<Depends filename="Clang GMock A.cbp" />
 		</Project>
 		<Project filename="Clang AStyleTestLoc.cbp">
-			<Depends filename="Clang GMockA.cbp" />
+			<Depends filename="Clang GMock A.cbp" />
 		</Project>
-		<Project filename="Clang GMockA.cbp" />
+		<Project filename="Clang GMock A.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

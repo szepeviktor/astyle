@@ -794,7 +794,7 @@ TEST_F(RussianF, Recursive3)
 }
 
 // MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
-// It aborts in the function Utf8ToUtf16().
+// It aborts in the function utf8ToUtf16().
 #ifdef __APPLE__
 	TEST_F(RussianF, DISABLED_RecursiveExclude)
 #else

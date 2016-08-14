@@ -1,14 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTestLoc", "AStyleTestLoc\AStyleTestLoc.vcxproj", "{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D336FE81-2B92-49AF-A040-D30C384C8FD2} = {D336FE81-2B92-49AF-A040-D30C384C8FD2}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMockLib", "GMockLib\GMockLib.vcxproj", "{D336FE81-2B92-49AF-A040-D30C384C8FD2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMock Lib", "GMock Lib\GMock Lib.vcxproj", "{D336FE81-2B92-49AF-A040-D30C384C8FD2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8A927682-5C3B-4DD1-940C-2B2BF0E52AFD}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\srcx\gtest-options.lst = ..\..\srcx\gtest-options.lst
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

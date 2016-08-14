@@ -71,8 +71,8 @@
 				<Linker>
 					<Add option="-static-libstdc++" />
 					<Add option="-static-libgcc" />
-					<Add library="gcov" />
 					<Add library="gmockd" />
+					<Add library="gcov" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>

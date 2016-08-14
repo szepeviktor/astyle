@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="icc" />
-				<Option parameters="--terse_output" />
+				<Option parameters="--terse_output  --gtest_print_time=0" />
 				<Compiler>
 					<Add option="-fno-rtti" />
 					<Add option="-Wall" />
@@ -36,6 +36,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="icc" />
+				<Option parameters="--gtest_print_time=0" />
 				<Compiler>
 					<Add option="-fno-rtti" />
 					<Add option="-Wall" />

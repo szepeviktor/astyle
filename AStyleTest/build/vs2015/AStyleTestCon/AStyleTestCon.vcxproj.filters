@@ -23,13 +23,13 @@
     <ClCompile Include="..\..\..\srccon\AStyleTestCon_Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Print.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\srcx\TersePrinter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\srcx\LeakDetector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\srccon\AStyleTestCon_Print.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -40,8 +40,5 @@
     <ClInclude Include="..\..\..\srcx\TersePrinter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\srcx\gtest-options.lst" />
   </ItemGroup>
 </Project>

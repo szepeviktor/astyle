@@ -15,19 +15,19 @@ echo -n $YELLOW
 # Copy all files to the following directory
 cd $HOME
 # app.cpp is in CodeBlocks\src\src
-progdir=$HOME/Projects/AStyle/build/gcc/bin
-filein=app.cpp
-pipeout=app.pipe.cpp
-redirout=app.redir.cpp
+progdir=$HOME/Projects/AStyle/build/cb-gcc/bin
+filein=ASFormatter.cpp
+pipeout=ASFormatter.cpp.pipe
+redirout=ASFormatter.cpp.redir
 
 echo deleting output $pipeout
 rm  -f  "$pipeout"
 
 echo pipe test
-cat "$filein"  |  $progdir/astyle -eO  --suffix=none > "$pipeout" 
+cat "$filein"  |  $progdir/astyle  -A1txnSxWwM60pHk1O  --suffix=none > "$pipeout"
 
 echo redirection test
-$progdir/astyle -eO  --suffix=none  <  "$filein"  >  "$redirout" 
+$progdir/astyle  -A1txnSxWwM60pHk1O  --suffix=none  <  "$filein"  >  "$redirout"
 
 echo
 read -sn1 -p "Press Enter to end . . ."

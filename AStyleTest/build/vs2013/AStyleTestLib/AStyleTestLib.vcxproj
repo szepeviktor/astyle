@@ -289,9 +289,6 @@
     <ClInclude Include="..\..\..\srclib\AStyleTestLib.h" />
     <ClInclude Include="..\..\..\srcx\TersePrinter.h" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\srcx\gtest-options.lst" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

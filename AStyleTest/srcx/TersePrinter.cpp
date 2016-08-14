@@ -371,9 +371,6 @@ void TersePrinter::PrintTestTotals(int all_test_total_check, const char* file, i
 
 	if (GTEST_FLAG(shuffle))
 		ColoredPrintf(COLOR_YELLOW, "Randomized test order.\n");
-#ifdef __BORLANDC__
-	ColoredPrintf(COLOR_YELLOW, "%s", "No mock tests.\n");
-#endif
 #if !GTEST_HAS_DEATH_TEST || LEAK_DETECTOR || LEAK_FINDER
 	ColoredPrintf(COLOR_YELLOW, "%s", "No death tests.\n");
 #endif

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTest", "AStyleTest\AStyleTest.vcxproj", "{0DEFDCE1-664C-4170-8742-F9BF2E2284DD}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -9,9 +9,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTest", "AStyleTest\AS
 		{D336FE81-2B92-49AF-A040-D30C384C8FD2} = {D336FE81-2B92-49AF-A040-D30C384C8FD2}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleLib", "AStyleLib\AStyleLib.vcxproj", "{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyle Lib", "AStyle Lib\AStyle Lib.vcxproj", "{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMockLib", "GMockLib\GMockLib.vcxproj", "{D336FE81-2B92-49AF-A040-D30C384C8FD2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMock Lib", "GMock Lib\GMock Lib.vcxproj", "{D336FE81-2B92-49AF-A040-D30C384C8FD2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4F825CB2-E515-46AB-AB55-EE68F5A7C126}"
+	ProjectSection(SolutionItems) = preProject
+		AStyleTest.gta.runsettings = AStyleTest.gta.runsettings
+		..\..\srcx\gtest-options.lst = ..\..\srcx\gtest-options.lst
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,18 +29,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Debug|x64.ActiveCfg = Debug|x64
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Debug|x64.Build.0 = Debug|x64
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Debug|x86.ActiveCfg = Debug|Win32
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Debug|x86.Build.0 = Debug|Win32
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|x64.ActiveCfg = Debug|x64
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|x64.Build.0 = Debug|x64
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|x86.ActiveCfg = Debug|Win32
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|x86.Build.0 = Debug|Win32
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Release|x64.ActiveCfg = Release|x64
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Release|x64.Build.0 = Release|x64
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Release|x86.ActiveCfg = Release|Win32
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Release|x86.Build.0 = Release|Win32
 		{0DEFDCE1-664C-4170-8742-F9BF2E2284DD}.Debug|x64.ActiveCfg = Debug|x64
 		{0DEFDCE1-664C-4170-8742-F9BF2E2284DD}.Debug|x64.Build.0 = Debug|x64
 		{0DEFDCE1-664C-4170-8742-F9BF2E2284DD}.Debug|x86.ActiveCfg = Debug|Win32
@@ -47,6 +41,18 @@ Global
 		{0DEFDCE1-664C-4170-8742-F9BF2E2284DD}.Release|x64.Build.0 = Release|x64
 		{0DEFDCE1-664C-4170-8742-F9BF2E2284DD}.Release|x86.ActiveCfg = Release|Win32
 		{0DEFDCE1-664C-4170-8742-F9BF2E2284DD}.Release|x86.Build.0 = Release|Win32
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Debug|x64.ActiveCfg = Debug|x64
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Debug|x64.Build.0 = Debug|x64
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Debug|x86.ActiveCfg = Debug|Win32
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Debug|x86.Build.0 = Debug|Win32
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|x64.ActiveCfg = Debug|x64
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|x64.Build.0 = Debug|x64
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|x86.ActiveCfg = Debug|Win32
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|x86.Build.0 = Debug|Win32
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Release|x64.ActiveCfg = Release|x64
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Release|x64.Build.0 = Release|x64
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Release|x86.ActiveCfg = Release|Win32
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Release|x86.Build.0 = Release|Win32
 		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x64.ActiveCfg = Debug|x64
 		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x64.Build.0 = Debug|x64
 		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x86.ActiveCfg = Debug|Win32

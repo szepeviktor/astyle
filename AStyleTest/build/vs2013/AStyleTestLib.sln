@@ -3,14 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleLib", "AStyleLib\AStyleLib.vcxproj", "{4F4C256E-3664-4F87-9211-5303AACCE01D}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMockLib", "GMockLib\GMockLib.vcxproj", "{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTestLib", "AStyleTestLib\AStyleTestLib.vcxproj", "{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4F4C256E-3664-4F87-9211-5303AACCE01D} = {4F4C256E-3664-4F87-9211-5303AACCE01D}
 		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C} = {C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyle Lib", "AStyle Lib\AStyle Lib.vcxproj", "{4F4C256E-3664-4F87-9211-5303AACCE01D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMock Lib", "GMock Lib\GMock Lib.vcxproj", "{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6637C252-2A5F-4769-BE66-FD2974E6520E}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\srcx\gtest-options.lst = ..\..\srcx\gtest-options.lst
 	EndProjectSection
 EndProject
 Global

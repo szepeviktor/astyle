@@ -168,11 +168,11 @@ void cleanTestDirectory(const string& directoryMB)
 void cleanTestDirectory(const wstring& directory)
 // WINDOWS remove files and sub directories from the test directory
 {
-	WIN32_FIND_DATAW FindFileData;
+	WIN32_FIND_DATAW findFileData;
 	// Find the first file in the directory
 	// Find will get at least "." and "..".
 	wstring firstFile = directory + L"\\*";
-	HANDLE hFind = ::FindFirstFileW(firstFile.c_str(), &FindFileData);
+	HANDLE hFind = ::FindFirstFileW(firstFile.c_str(), &findFileData);
 	if (hFind == INVALID_HANDLE_VALUE)
 	{
 		displayLastError();
@@ -182,13 +182,13 @@ void cleanTestDirectory(const wstring& directory)
 	do
 	{
 		// skip these
-		if (wcscmp(FindFileData.cFileName, L".") == 0
-		        ||  wcscmp(FindFileData.cFileName, L"..") == 0)
+		if (wcscmp(findFileData.cFileName, L".") == 0
+		        ||  wcscmp(findFileData.cFileName, L"..") == 0)
 			continue;
 		// clean and remove sub directories
-		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+		if (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 		{
-			wstring subDirectoryPath = directory + L"\\" + FindFileData.cFileName;
+			wstring subDirectoryPath = directory + L"\\" + findFileData.cFileName;
 			cleanTestDirectory(subDirectoryPath);
 			BOOL isRemoved = ::RemoveDirectoryW(subDirectoryPath.c_str());
 			if (!isRemoved)
@@ -196,7 +196,7 @@ void cleanTestDirectory(const wstring& directory)
 			continue;
 		}
 		// remove the file
-		wstring filePathName = directory + L"\\" + FindFileData.cFileName;
+		wstring filePathName = directory + L"\\" + findFileData.cFileName;
 		BOOL isRemoved = ::DeleteFileW(filePathName.c_str());
 		if (!isRemoved)
 		{
@@ -204,7 +204,7 @@ void cleanTestDirectory(const wstring& directory)
 			systemAbort(L"Cannot remove file for clean: " + filePathName);
 		}
 	}
-	while (::FindNextFileW(hFind, &FindFileData) != 0);
+	while (::FindNextFileW(hFind, &findFileData) != 0);
 	// check for processing error
 	FindClose(hFind);
 	DWORD dwError = GetLastError();

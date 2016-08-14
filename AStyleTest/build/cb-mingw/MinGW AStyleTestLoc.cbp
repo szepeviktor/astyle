@@ -15,8 +15,8 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add option="-std=gnu++0x" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
 					<Add directory="../../../googletest/include" />
@@ -36,7 +36,7 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-std=c++11" />
+					<Add option="-std=gnu++0x" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
@@ -58,7 +58,7 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-std=c++11" />
+					<Add option="-std=gnu++0x" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
 					<Add directory="../../srcx" />
@@ -68,8 +68,8 @@
 				<Linker>
 					<Add option="-static-libstdc++" />
 					<Add option="-static-libgcc" />
-					<Add library="gcov" />
 					<Add library="gmockd" />
+					<Add library="gcov" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
