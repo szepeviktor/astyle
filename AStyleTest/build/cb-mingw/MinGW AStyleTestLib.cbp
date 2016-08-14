@@ -62,6 +62,8 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-pg" />
+					<Add option="-g" />
 					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
@@ -73,6 +75,7 @@
 					<Add directory="../../../googlemock/include" />
 				</Compiler>
 				<Linker>
+					<Add option="-pg -lgmon" />
 					<Add option="-Wl,--enable-auto-import" />
 					<Add library="gmockd" />
 					<Add library="gcov" />

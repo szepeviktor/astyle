@@ -166,8 +166,7 @@ void PrintF::adjustTextOut(string& textOut)
 			break;
 		textOut[i] = '/';
 	}
-#ifdef __BORLANDC__
-	// delete any decimals in the time (problem with Embarcadero)
+	// delete any decimals in the time
 	size_t decimal = textOut.rfind('.');
 	if (decimal != string::npos
 	        && textOut.length() > 30
@@ -178,6 +177,7 @@ void PrintF::adjustTextOut(string& textOut)
 		if (space != string::npos)
 			textOut.erase(decimal, space - decimal);
 	}
+#ifdef __BORLANDC__
 	// delete any bad data at the start of the text (problem with Embarcadero)
 	// this should be fixed in a future compiler release
 	// when the white "getinfo1.c" lines are not displayed remove the following

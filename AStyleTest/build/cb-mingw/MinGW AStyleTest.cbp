@@ -15,7 +15,6 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-pg" />
 					<Add option="-g" />
 					<Add option="-DASTYLE_LIB" />
 					<Add directory="../../src" />
@@ -24,7 +23,6 @@
 					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg -lgmon" />
 					<Add library="gmockd" />
 					<Add library="gcov" />
 					<Add directory="bin" />

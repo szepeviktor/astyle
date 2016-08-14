@@ -60,6 +60,8 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-pg" />
+					<Add option="-g" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
 					<Add option="-DASTYLECON_LIB" />
@@ -69,6 +71,7 @@
 					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
+					<Add option="-pg -lgmon" />
 					<Add option="-static-libstdc++" />
 					<Add option="-static-libgcc" />
 					<Add library="gmockd" />
