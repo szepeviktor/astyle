@@ -2,11 +2,21 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Clang AStyleDev All">
 		<Project filename="Clang AStyle.cbp" />
+		<Project filename="Clang AStyle A.cbp" />
 		<Project filename="Clang AStyle Java.cbp" />
 		<Project filename="Clang AStyle So.cbp" />
-		<Project filename="Clang Example A.cbp" />
-		<Project filename="Clang Example O.cbp" />
-		<Project filename="Clang Example So.cbp" />
-		<Project filename="Clang Example ObjC So.cbp" />
+		<Project filename="Clang ExampleA.cbp">
+			<Depends filename="Clang AStyle A.cbp" />
+		</Project>
+		<Project filename="Clang ExampleO.cbp" />
+		<Project filename="Clang ExampleSo.cbp">
+			<Depends filename="Clang AStyle So.cbp" />
+		</Project>
+		<Project filename="Clang ExampleA ObjC.cbp">
+			<Depends filename="Clang AStyle A.cbp" />
+		</Project>
+		<Project filename="Clang ExampleSo ObjC.cbp">
+			<Depends filename="Clang AStyle So.cbp" />
+		</Project>
 	</Workspace>
 </CodeBlocks_workspace_file>

@@ -5,12 +5,15 @@
 		<Project filename="MinGW AStyle Dll.cbp" />
 		<Project filename="MinGW AStyle Java.cbp" />
 		<Project filename="MinGW AStyle Lib.cbp" />
-		<Project filename="MinGW Example Dll.cbp">
+		<Project filename="MinGW ExampleDll.cbp">
 			<Depends filename="MinGW AStyle Dll.cbp" />
 		</Project>
-		<Project filename="MinGW Example Lib.cbp">
+		<Project filename="MinGW ExampleLib.cbp">
 			<Depends filename="MinGW AStyle Lib.cbp" />
 		</Project>
-		<Project filename="MinGW Example Obj.cbp" />
+		<Project filename="MinGW ExampleObj.cbp" />
+		<Project filename="MinGW ExampleObjCDll.cbp">
+			<Depends filename="MinGW AStyle Dll.cbp" />
+		</Project>
 	</Workspace>
 </CodeBlocks_workspace_file>

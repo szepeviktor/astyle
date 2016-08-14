@@ -5,12 +5,12 @@
 		<Project filename="DMars AStyle Dll.cbp" />
 		<Project filename="DMars AStyle Java.cbp" />
 		<Project filename="DMars AStyle Lib.cbp" />
-		<Project filename="DMars Example Dll.cbp">
+		<Project filename="DMars ExampleDll.cbp">
 			<Depends filename="DMars AStyle Dll.cbp" />
 		</Project>
-		<Project filename="DMars Example Lib.cbp">
+		<Project filename="DMars ExampleLib.cbp">
 			<Depends filename="DMars AStyle Lib.cbp" />
 		</Project>
-		<Project filename="DMars Example Obj.cbp" />
+		<Project filename="DMars ExampleObj.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

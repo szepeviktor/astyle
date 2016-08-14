@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<CodeBlocks_workspace_file>
-	<Workspace title="MinGW AStyleDev ObjC All">
-		<Project filename="MinGW AStyle ObjC Dll.cbp" />
-		<Project filename="MinGW Example ObjC Dll.cbp">
-			<Depends filename="MinGW AStyle ObjC Dll.cbp" />
-		</Project>
-	</Workspace>
-</CodeBlocks_workspace_file>

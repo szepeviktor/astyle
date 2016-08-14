@@ -2,8 +2,8 @@
 REM build the AStyle Release Dll Configuration using the AStyle project file
 REM copy the output to the AStyleDev\build\%1\bin or debug  folder
 REM always uses the release build of the Dll
-REM %1 should be the Visual Studio version number (release date before vs11) 
-REM %2 should be the Visual Studio configuration (Release or Debug) 
+REM %1 should be the Visual Studio version number (release date before vs11)
+REM %2 should be the Visual Studio configuration (Release or Debug)
 
 set astyle=..\..\AStyle\build\%1
 REM TEMPORARY? for vs11 preview? Uses vs2010 instead of vs11
@@ -27,7 +27,7 @@ set bindir=..\..\%bindir%
 )
 
 echo BUILDING ASTYLE DLL
-%windir%\microsoft.net\framework\%sdk%\msbuild  /nologo  /noconsolelogger  "/property:Configuration=Release"  "/property:Platform=Win32"  "%astyle%\AStyleDll.sln"
+%windir%\microsoft.net\framework\%sdk%\msbuild  /nologo  /noconsolelogger  "/property:Configuration=Release"  "/property:Platform=Win32"  "%astyle%\AStyle Dll.sln"
 if %ERRORLEVEL% NEQ 0  set errors=yes
 
 REM don't copy if compile errors

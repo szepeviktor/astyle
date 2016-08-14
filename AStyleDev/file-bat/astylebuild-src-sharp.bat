@@ -2,7 +2,7 @@
 REM build the AStyle Release Dll Configuration using the AStyle project file
 REM copy the output to the AStyleDev\test-s(x) folder
 
-REM %1 should be the Visual Studio version (release date before vs11) 
+REM %1 should be the Visual Studio version (release date before vs11)
 REM the %sdk% below can be obtained from the macro $(MSBuildRuntimeVersion)
 set astyle=..\..\AStyle\build\vs2005
 set bindir1=..\src-s
@@ -15,7 +15,7 @@ if %astyle:~-6% == vs11    set sdk=v4.0.30319
 set errors=no
 
 echo BUILDING ASTYLE DLL
-%windir%\microsoft.net\framework\%sdk%\msbuild  /nologo  "/property:Configuration=Release"  "%astyle%\AStyleDll.sln"
+%windir%\microsoft.net\framework\%sdk%\msbuild  /nologo  "/property:Configuration=Release"  "%astyle%\AStyle Dll.sln"
 if %ERRORLEVEL% NEQ 0  set errors=yes
 
 REM don't copy if compile errors

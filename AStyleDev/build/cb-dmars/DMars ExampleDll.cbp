@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="DMars ExampleDll" />
+		<Option pch_mode="0" />
+		<Option default_target="ExampleD" />
+		<Option compiler="dmc" />
+		<Build>
+			<Target title="ExampleD">
+				<Option output="bin/ExampleD.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objDll" />
+				<Option type="1" />
+				<Option compiler="dmc" />
+				<Option projectCompilerOptionsRelation="1" />
+				<Option projectLinkerOptionsRelation="1" />
+				<Option projectIncludeDirsRelation="1" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Option projectLibDirsRelation="1" />
+				<Compiler>
+					<Add option="-x" />
+					<Add option="-w-" />
+					<Add option="-DNDEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="/delexecutable" />
+					<Add library="AStyle-2.06" />
+					<Add directory="bin" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c  del *.map" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<VirtualTargets>
+			<Add alias="All" targets="ExampleD;" />
+		</VirtualTargets>
+		<Unit filename="../../src-c/Example.cpp" />
+		<Unit filename="DllMain.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
