@@ -36,7 +36,7 @@ bindir = bin
 objdir = obj
 ipath=$(prefix)/bin
 CBASEFLAGS = -Wall -Wextra -fno-rtti -fno-exceptions
-JAVAINCS   = -I$(JAVA_HOME)/include
+JAVAINCS   = -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
 CXX = clang++
 INSTALL=install -o $(USER) -g $(USER)
 

@@ -59,6 +59,7 @@ const string ASResource::AS_OVERRIDE = string("override");
 const string ASResource::AS_WHERE = string("where");
 const string ASResource::AS_LET = string("let");
 const string ASResource::AS_NEW = string("new");
+const string ASResource::AS_DELETE = string("delete");
 
 const string ASResource::AS_ASM = string("asm");
 const string ASResource::AS__ASM__ = string("__asm__");

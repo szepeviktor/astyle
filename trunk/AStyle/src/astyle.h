@@ -79,6 +79,7 @@ enum FormatStyle
 	STYLE_HORSTMANN,
 	STYLE_1TBS,
 	STYLE_GOOGLE,
+	STYLE_MOZILLA,
 	STYLE_PICO,
 	STYLE_LISP
 };
@@ -89,8 +90,7 @@ enum BracketMode
 	ATTACH_MODE,
 	BREAK_MODE,
 	LINUX_MODE,
-	STROUSTRUP_MODE,
-	RUN_IN_MODE
+	RUN_IN_MODE		// broken brackets
 };
 
 enum BracketType
@@ -219,7 +219,7 @@ public:
 	static const string AS_END;
 	static const string AS_SELECTOR;
 	static const string AS_EXTERN, AS_ENUM;
-	static const string AS_STATIC, AS_CONST, AS_SEALED, AS_OVERRIDE, AS_VOLATILE, AS_NEW;
+	static const string AS_STATIC, AS_CONST, AS_SEALED, AS_OVERRIDE, AS_VOLATILE, AS_NEW, AS_DELETE;
 	static const string AS_NOEXCEPT, AS_INTERRUPT, AS_AUTORELEASEPOOL;
 	static const string AS_WHERE, AS_LET, AS_SYNCHRONIZED;
 	static const string AS_OPERATOR, AS_TEMPLATE;
@@ -232,8 +232,8 @@ public:
 	static const string AS_DIV_ASSIGN, AS_MOD_ASSIGN, AS_XOR_ASSIGN, AS_OR_ASSIGN, AS_AND_ASSIGN;
 	static const string AS_GR_GR_ASSIGN, AS_LS_LS_ASSIGN, AS_GR_GR_GR_ASSIGN, AS_LS_LS_LS_ASSIGN;
 	static const string AS_GCC_MIN_ASSIGN, AS_GCC_MAX_ASSIGN;
-	static const string AS_EQUAL, AS_PLUS_PLUS, AS_MINUS_MINUS, AS_NOT_EQUAL, AS_GR_EQUAL, AS_GR_GR_GR, AS_GR_GR;
-	static const string AS_LS_EQUAL, AS_LS_LS_LS, AS_LS_LS;
+	static const string AS_EQUAL, AS_PLUS_PLUS, AS_MINUS_MINUS, AS_NOT_EQUAL, AS_GR_EQUAL;
+	static const string AS_LS_EQUAL, AS_LS_LS_LS, AS_LS_LS, AS_GR_GR_GR, AS_GR_GR;;
 	static const string AS_QUESTION_QUESTION, AS_LAMBDA;
 	static const string AS_ARROW, AS_AND, AS_OR;
 	static const string AS_SCOPE_RESOLUTION;
@@ -295,6 +295,7 @@ public:
 	virtual string beautify(const string& line);
 	void setCaseIndent(bool state);
 	void setClassIndent(bool state);
+	void setContinuationIndentation(int indent = 1);
 	void setCStyle();
 	void setDefaultTabLength();
 	void setEmptyLineFill(bool state);
@@ -503,6 +504,7 @@ private:  // variables
 	int  parenDepth;
 	int  indentLength;
 	int  tabLength;
+	int  continuationIndent;
 	int  blockTabCount;
 	int  maxInStatementIndent;
 	int  classInitializerIndents;
@@ -627,6 +629,8 @@ public:	// functions
 	void setMethodPrefixUnPaddingMode(bool state);
 	void setReturnTypePaddingMode(bool state);
 	void setReturnTypeUnPaddingMode(bool state);
+	void setParamTypePaddingMode(bool state);
+	void setParamTypeUnPaddingMode(bool state);
 	void setCloseTemplatesMode(bool state);
 	void setCommaPaddingMode(bool state);
 	void setDeleteEmptyLinesMode(bool state);
@@ -896,6 +900,7 @@ private:  // variables
 	bool isCharImmediatelyPostTemplate;
 	bool isCharImmediatelyPostReturn;
 	bool isCharImmediatelyPostThrow;
+	bool isCharImmediatelyPostNewDelete;
 	bool isCharImmediatelyPostOperator;
 	bool isCharImmediatelyPostPointerOrReference;
 	bool isInObjCMethodDefinition;
@@ -921,6 +926,8 @@ private:  // variables
 	bool shouldUnPadMethodPrefix;
 	bool shouldPadReturnType;
 	bool shouldUnPadReturnType;
+	bool shouldPadParamType;
+	bool shouldUnPadParamType;
 	bool shouldDeleteEmptyLines;
 	bool needHeaderOpeningBracket;
 	bool shouldBreakLineAtNextChar;
@@ -936,6 +943,7 @@ private:  // variables
 	bool isImmediatelyPostPreprocessor;
 	bool isImmediatelyPostReturn;
 	bool isImmediatelyPostThrow;
+	bool isImmediatelyPostNewDelete;
 	bool isImmediatelyPostOperator;
 	bool isImmediatelyPostTemplate;
 	bool isImmediatelyPostPointerOrReference;
