@@ -5,10 +5,11 @@
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
 
-import libastyle        # local directory
 import os
 import subprocess
 import time
+# local libraries
+import libastyle
 
 # global variables ------------------------------------------------------------
 # always uses the debug configuration
@@ -76,10 +77,10 @@ def build_testi18n_executable():
     outfile = open(buildfile, 'w')
     retvalgm = subprocess.call(gmbuild, stdout=outfile)
     if retvalgm:
-        libastyle.system_exit("Bad gmbuild return: " + str(retval))
+        libastyle.system_exit("Bad gmbuild return: " + str(retvalgm))
     retvalcb = subprocess.call(cbbuild, stdout=outfile)
     if retvalcb:
-        libastyle.system_exit("Bad cbbuild return: " + str(retval))
+        libastyle.system_exit("Bad cbbuild return: " + str(retvalcb))
     outfile.close()
     try:
         os.remove(buildfile)

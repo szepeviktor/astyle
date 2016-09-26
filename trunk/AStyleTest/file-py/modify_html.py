@@ -6,10 +6,11 @@
 from __future__ import print_function
 
 import glob
-import libastyle        # local directory
 import os
 import platform
 import sys
+# local libraries
+import libastyle
 
 # global variables ------------------------------------------------------------
 
@@ -26,7 +27,7 @@ __file_update = False           # should the files be updated?
 def main():
     """Main processing function."""
     libastyle.set_text_color("yellow")
-    print (libastyle.get_python_version())
+    print(libastyle.get_python_version())
     print("Modify Html files from", correct_path_separators(__html_folder))
     if not __file_update:
         print("Files NOT Updated")
@@ -38,7 +39,7 @@ def main():
     print()
 
     # update html files
-    file_list = srcfiles = glob.glob(__html_folder + "/*.html")
+    file_list = glob.glob(__html_folder + "/*.html")
     file_list.sort()
     for file_path in file_list:
         print(correct_path_separators(file_path))

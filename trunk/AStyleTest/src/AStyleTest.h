@@ -12,7 +12,7 @@
 // NOTE: astyle.h is NOT included to prevent recompiling all of the
 // test source files when changes are made to the astyle.h header.
 
-#include <gtest/gtest.h>
+#include "gtest/gtest.h"
 #include <stdlib.h>
 #include <iostream>		// for cout
 #include <string.h>		// need both string and string.h for GCC

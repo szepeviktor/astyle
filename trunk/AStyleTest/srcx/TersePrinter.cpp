@@ -5,7 +5,7 @@
 
 // TersePrinter class is derived from gtest sample9_unittest.cc.
 // It prints only failed test cases and set-up and tear-down information.
-// To activate run the test program with the command argument --terse_printer.
+// To activate terse printing run with the command argument --terse_output.
 
 #include "TersePrinter.h"
 
@@ -215,19 +215,44 @@ void TersePrinter::PrintFailedTestSummary(const string& summary_) const
 	// Print the lines with added color.
 	for (size_t j = 0; j < line.size(); j++)
 	{
-		if (line[j].compare(0, 9, "  Actual:") == 0
-		        || line[j].compare(0, 9, "Which is:") == 0
-		        || line[j].compare(0, 9, "Value of:") == 0)
+		size_t start = line[j].find_first_not_of(" \t");
+		size_t end = line[j].find(':');
+		// Diff indicator lines start with '+' or '-' and MAY contain a colon (:).
+		if (line[j].length() > 0
+		        && (line[j].compare(0, 1, "+") == 0 || line[j].compare(0, 1, "-") == 0))
 		{
-			// Header portion is not colored.
-			printf("%s", line[j].substr(0, 10).c_str());
-			ColoredPrintf(COLOR_CYAN, "%s", line[j].substr(10).c_str());
+			// Diff indicator is not colored.
+			printf("%s", line[j].substr(0, 1).c_str());
+			ColoredPrintf(COLOR_CYAN, "%s", line[j].substr(1).c_str());
 		}
-		else if (line[j].compare(0, 9, "Expected:") == 0)
+		else if (start == string::npos || end == string::npos)
+		{
+			ColoredPrintf(COLOR_CYAN, "%s", line[j].c_str());
+
+		}
+		// Values in the text must contain a colon (:).
+		else if (line[j].compare(start, 7, "Actual:") == 0
+		         || line[j].compare(start, 11, "Actual msg:") == 0
+		         || line[j].compare(start, 11, "Death test:") == 0
+		         || line[j].compare(start, 10, "Error msg:") == 0
+		         || line[j].compare(start, 16, "Expected arg #") == 0
+		         || line[j].compare(start, 14, "Function call:") == 0
+		         || line[j].compare(start,  7, "Result:") == 0
+		         || line[j].compare(start,  8, "Returns:") == 0
+		         || line[j].compare(start, 15, "To be equal to:") == 0
+		         || line[j].compare(start,  9, "Value of:") == 0
+		         || line[j].compare(start,  9, "Which is:") == 0
+		         || line[j].compare(start, 10, "With diff:") == 0)
 		{
 			// Header portion is not colored.
-			printf("%s", line[j].substr(0, 10).c_str());
-			size_t iPrint = 10;
+			printf("%s", line[j].substr(0, end + 1).c_str());
+			ColoredPrintf(COLOR_CYAN, "%s", line[j].substr(end + 1).c_str());
+		}
+		else if (line[j].compare(start, 9, "Expected:") == 0)
+		{
+			// Header portion is not colored.
+			printf("%s", line[j].substr(0, end + 1).c_str());
+			size_t iPrint = end + 1;
 			// Check for another header.
 			size_t iHeading = line[j].find(", actual:");
 			if (iHeading != string::npos)
@@ -241,35 +266,6 @@ void TersePrinter::PrintFailedTestSummary(const string& summary_) const
 				iPrint += 10;
 			}
 			ColoredPrintf(COLOR_CYAN, "%s", line[j].substr(iPrint).c_str());
-		}
-		else if (line[j].compare(0, 11, "Death test:") == 0
-		         || line[j].compare(0, 11, "    Result:") == 0
-		         || line[j].compare(0, 11, "  Expected:") == 0
-		         || line[j].compare(0, 11, "Actual msg:") == 0
-		         || line[j].compare(0, 11, " Error msg:") == 0)
-		{
-			// Header portion is not colored.
-			printf("%s", line[j].substr(0, 12).c_str());
-			ColoredPrintf(COLOR_CYAN, "%s", line[j].substr(12).c_str());
-		}
-		// mock call headers
-		else if (line[j].compare(0, 29, "Unexpected mock function call") == 0
-		         || line[j].compare(0, 31, "Google Mock tried the following") == 0
-		         || line[j].compare(0, 40, "Actual function call count doesn't match") == 0)
-		{
-			// Entire is not colored.
-			printf("%s", line[j].c_str());
-		}
-		// mock call errors
-		else if (line[j].compare(0, 18, "    Function call:") == 0
-		         || line[j].compare(0, 18, "          Returns:") == 0
-		         || line[j].compare(0, 16, "  Expected arg #") == 0		// compare only 16
-		         || line[j].compare(0, 18, "           Actual:") == 0
-		         || line[j].compare(0, 18, "         Expected:") == 0)
-		{
-			// Header portion is not colored.
-			printf("%s", line[j].substr(0, 18).c_str());
-			ColoredPrintf(COLOR_CYAN, "%s", line[j].substr(18).c_str());
 		}
 		else
 		{

@@ -101,7 +101,7 @@ def get_constructor_variables(class_variables, console_path):
             class_total += 1
             continue
         if (class_lines[0] == 0
-        or class_lines[0] >= lines):
+                or class_lines[0] >= lines):
             continue
         # find ending bracket
         if '}' in line:
@@ -150,7 +150,7 @@ def get_header_variables(header_variables, header_path):
             header_lines[0] = lines + 1
             continue
         if (header_lines[0] == 0
-        or header_lines[0] >= lines):
+                or header_lines[0] >= lines):
             continue
         # find ending bracket - should find following initializer instead
         if '}' in line:
@@ -165,12 +165,12 @@ def get_header_variables(header_variables, header_path):
             header_lines[1] = lines
             break
         if ("public:" in line
-        or "private:" in line
-        or "protected:" in line):
+                or "private:" in line
+                or "protected:" in line):
             continue
         # bypass functions
         if ('(' in line
-        or ')' in line):
+                or ')' in line):
             continue
         # bypass static variables
         if line[:6] == "static":

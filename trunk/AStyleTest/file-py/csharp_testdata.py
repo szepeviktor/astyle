@@ -7,9 +7,10 @@
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
 
-import libastyle        # local directory
-import libtest          # local directory
 import os
+# local libraries
+import libastyle
+import libtest
 
 # -----------------------------------------------------------------------------
 
@@ -39,7 +40,7 @@ def main():
         outfile.write(filepath + '\n')
         totfiles += 1
     outfile.close()
-    print ("saved " + sharpfile)
+    print("saved " + sharpfile)
     print("files extracted " + str(totfiles))
     formatted, unused, unused, unused = libtest.get_astyle_totals(testfile)
     if totfiles != formatted:

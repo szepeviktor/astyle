@@ -16,14 +16,15 @@
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
 
-import libastyle		# local directory
-import libextract		# local directory
-import libtest			# local directory
 import locale
 import os
 import shutil
 import subprocess
 import time
+# local libraries
+import libastyle
+import libextract
+import libtest
 
 # global variables ------------------------------------------------------------
 
@@ -130,7 +131,7 @@ def check_formatted_files(testfile, index):
     if index == 0:
         return []
     if (__brackets[index] != __brackets[index - 1]
-    and __brackets[index] != '_'):
+            and __brackets[index] != '_'):
         return []
     # get formatted files from the astyle report
     files = libtest.get_formatted_files(testfile)
@@ -197,8 +198,8 @@ def get_modified_options(index):
     modified_options = __options
     # run-in brackets must have indented switches
     if (index > 0
-    and __brackets[index] == '_'
-    and __brackets[index - 1] == 'r'):
+            and __brackets[index] == '_'
+            and __brackets[index - 1] == 'r'):
         if modified_options.find('S') == -1:
             modified_options = modified_options + "S"
     # GWorkspace uses multi-line macros and cannot remove brackets (xj)
@@ -291,7 +292,7 @@ def print_run_header():
         print("Using {0}".format(__astyleexe), end=" ")
     print(get_options_variable_name(), end=" ")
     if len(__options_x.strip()) > 0:
-        print(__options_x, end=" "),
+        print(__options_x, end=" ")
     print()
 
 # -----------------------------------------------------------------------------
@@ -350,7 +351,7 @@ def remove_test_directories(index):
             print()
             print(err)
             message = ("The directory '{0}' must be removed "
-                        "before continuing".format(testdir))
+                       "before continuing".format(testdir))
             libastyle.system_exit(message)
 
 # -----------------------------------------------------------------------------

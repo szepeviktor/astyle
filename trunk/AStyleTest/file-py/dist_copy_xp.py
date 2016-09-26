@@ -7,12 +7,13 @@
 from __future__ import print_function
 
 import glob
-import libastyle		# local directory
 import os
 import shutil
 import stat
 import subprocess
 import time
+# local libraries
+import libastyle
 
 # global variables ------------------------------------------------------------
 
@@ -50,7 +51,7 @@ def build_windows_distribution():
     print("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
     # the following variables may be modified except vscfg=libastyle.STATIC_XP
     vsdir = libastyle.VS_RELEASE
-    vscfg= libastyle.STATIC_XP
+    vscfg = libastyle.STATIC_XP
 
     print("Compiling with", vsdir)
     print("Building AStyle release", AS_RELEASE)
@@ -66,7 +67,7 @@ def build_windows_distribution():
     dist_astyle_bin = dist_astyle + "/bin/"
     os.mkdir(dist_astyle_bin)
     astyle_build_directory = libastyle.get_astyle_build_directory(vscfg)
-    if vscfg ==  libastyle.DEBUG:
+    if vscfg == libastyle.DEBUG:
         shutil.copy(astyle_build_directory + "/debug/AStyle.exe", dist_astyle_bin)
     elif vscfg == libastyle.RELEASE:
         shutil.copy(astyle_build_directory + "/bin/AStyle.exe", dist_astyle_bin)
@@ -164,10 +165,10 @@ def copy_astyle_doc(dist_doc, to_dos=False):
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
         if (filename == "astyle.html"
-        or filename == "install.html"
-        or filename == "news.html"
-        or filename == "notes.html"
-        or filename == "styles.css"):
+                or filename == "install.html"
+                or filename == "news.html"
+                or filename == "notes.html"
+                or filename == "styles.css"):
             shutil.copy(filepath, dist_doc)
             print("    " + filename)
         else:
@@ -175,7 +176,7 @@ def copy_astyle_doc(dist_doc, to_dos=False):
     convert_line_ends(dist_doc, to_dos)
     # verify copy - had a problem with bad filenames
     distfiles = (glob.glob(dist_doc + "/*.html")
-                    + glob.glob(dist_doc + "/*.css"))
+                 + glob.glob(dist_doc + "/*.css"))
     if len(distfiles) != len(docfiles) - deleted:
         libastyle.system_exit("Error copying doc: " + str(len(distfiles)))
     # change file permissions
@@ -197,7 +198,7 @@ def copy_astyle_src(dist_src, to_dos=False):
     convert_line_ends(dist_src, to_dos)
     # verify copy - had a problem with bad filenames
     distfiles = (glob.glob(dist_src + "/*.cpp")
-                    + glob.glob(dist_src + "/*.h"))
+                 + glob.glob(dist_src + "/*.h"))
     if len(distfiles) != len(srcfiles):
         libastyle.system_exit("Error copying src: " + str(len(distfiles)))
     # change file permissions
@@ -219,7 +220,7 @@ def copy_astyle_top(dist_top, to_dos=False):
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
         if (filename == "LICENSE.txt"
-        or filename == "README.txt"):
+                or filename == "README.txt"):
             shutil.copy(filepath, dist_top)
             print("    " + filename)
         else:
@@ -245,11 +246,11 @@ def copy_windows_build_directories(dist_build):
     # get a list of build/vs20xx directories
     build_dir_list = os.listdir(buildfiles)
     build_dir_list.sort()
-    for i in range(len(build_dir_list)):
-        if build_dir_list[i][:4] == "vs20" and build_dir_list[i].endswith("xp"):
+    for unused, build_dir in enumerate(build_dir_list):
+        if build_dir[:4] == "vs20":
 
             # copy solution files
-            vsdir = '/' + build_dir_list[i] + '/'
+            vsdir = '/' + build_dir + '/'
             dist_astyle_vs20xx = dist_build + vsdir
             os.mkdir(dist_astyle_vs20xx)
             slnfiles = glob.glob(buildfiles + vsdir + "*.sln")

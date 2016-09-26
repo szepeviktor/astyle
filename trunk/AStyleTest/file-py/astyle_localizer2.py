@@ -5,8 +5,9 @@
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
 
-import libastyle        # local directory
 import os
+# local libraries
+import libastyle
 
 # global variables ------------------------------------------------------------
 
@@ -73,7 +74,7 @@ def find_string_diffs(language_strings, test_functions, test_function_type=""):
         missing_functions = list(missing_functions)
         missing_functions.sort()
         print("{0} missing test functions in {1}".format(
-            str(len(missing_functions), test_function_type)))
+            str(len(missing_functions)), test_function_type))
         print(missing_functions)
 
     if len(missing_classes) > 0:
@@ -109,7 +110,7 @@ def get_language_strings(language_strings, localizer_path):
 
         # extract the derived class names
         if (line.startswith("class")
-        and "public Translation" in line):
+                and "public Translation" in line):
             start = line.find("class")
             if start == -1:
                 continue
@@ -145,8 +146,8 @@ def get_lcid_functions(lcid_functions, test_path):
 
        # extract the translation names
         if (line.startswith("TEST")
-        and "ASLocalizerLCID" in line
-        and not "Unrecognized" in line):
+                and "ASLocalizerLCID" in line
+                and not "Unrecognized" in line):
             start = line.find(',')
             if start == -1:
                 continue
@@ -184,8 +185,8 @@ def get_name_functions(name_functions, test_path):
 
        # extract the translation names
         if (line.startswith("TEST")
-        and "ASLocalizerName" in line
-        and not "Unrecognized" in line):
+                and "ASLocalizerName" in line
+                and not "Unrecognized" in line):
             start = line.find(',')
             if start == -1:
                 continue
@@ -223,7 +224,7 @@ def get_translate_functions(translate_functions, test_path):
 
        # extract the translation names
         if (line.startswith("TEST_F")
-        and "TranslationF" in line):
+                and "TranslationF" in line):
             start = line.find(',')
             if start == -1:
                 continue

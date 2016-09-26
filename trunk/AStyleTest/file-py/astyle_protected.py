@@ -87,7 +87,7 @@ def get_beautifier_variables(beautifier_variables, beautifier_path):
             continue
         # start here for 20 lines
         if (beautifier_lines[0] == 0
-        and line.startswith("activeBeautifierStack->back()->")):
+                and line.startswith("activeBeautifierStack->back()->")):
             beautifier_lines[0] = lines
         if beautifier_lines[0] == 0:
             continue

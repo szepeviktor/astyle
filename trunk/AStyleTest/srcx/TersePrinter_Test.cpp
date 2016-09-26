@@ -133,8 +133,7 @@ int main(int argc, char** argv)
 	}
 	// Do this after parsing the command line but before changing printer.
 	testing::InitGoogleTest(&argc, argv);
-	// If we are given the --terse_printer command line flag, suppresses the
-	// standard output and attaches own result printer.
+	// If we are using the terse_printer, attaches the modified result printer.
 	if (use_terse_printer)
 	{
 		UnitTest& unit_test = *UnitTest::GetInstance();

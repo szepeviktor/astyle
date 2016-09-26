@@ -2144,6 +2144,163 @@ TEST(IndentNamespaces, RunIn)
 }
 
 //-------------------------------------------------------------------------
+// AStyle Indent Continuation
+//-------------------------------------------------------------------------
+
+TEST(IndentContinuation, LongOption)
+{
+	// test indent continuation
+	char text[] =
+	    "\nvoid LongFoo(\n"
+	    "        arg1)\n"
+	    "{\n"
+	    "    bool isLongFoo =\n"
+	    "            foo1;\n"
+	    "    isLongBar(\n"
+	    "            bar2);\n"
+	    "}\n";
+	char options[] = "indent-continuation=2";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentContinuation, ShortOption)
+{
+	// test indent continuation short option
+	char text[] =
+	    "\nvoid LongFoo(\n"
+	    "        arg1)\n"
+	    "{\n"
+	    "    bool isLongFoo =\n"
+	    "            foo1;\n"
+	    "    isLongBar(\n"
+	    "            bar2);\n"
+	    "}\n";
+	char options[] = "-xt2";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentContinuation, AllIndentedItems)
+{
+	// test indent continuation for all affected items
+	char text[] =
+	    "\nvoid LongFoo(\n"
+	    "        arg1,\n"
+	    "        arg2);\n"
+	    "\n"
+	    "void LongFoo(\n"
+	    "        arg1,\n"
+	    "        arg2)\n"
+	    "{\n"
+	    "    bool isLongFoo =\n"
+	    "            foo1\n"
+	    "            || foo2;\n"
+	    "    isLongBar(\n"
+	    "            bar2,\n"
+	    "            bar3);\n"
+	    "}\n";
+	char options[] = "indent-continuation=2";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentContinuation, DefaultValue)
+{
+	// test indent continuation default of one
+	char text[] =
+	    "\nvoid LongFoo(\n"
+	    "    arg1)\n"
+	    "{\n"
+	    "    bool isLongFoo =\n"
+	    "        foo1;\n"
+	    "    isLongBar(\n"
+	    "        bar2);\n"
+	    "}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentContinuation, MinValue)
+{
+	// test indent continuation minimum
+	char text[] =
+	    "\nvoid LongFoo(\n"
+	    "arg1)\n"
+	    "{\n"
+	    "    bool isLongFoo =\n"
+	    "    foo1;\n"
+	    "    isLongBar(\n"
+	    "    bar2);\n"
+	    "}\n";
+	char options[] = "indent-continuation=0";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentContinuation, MaxValue)
+{
+	// test indent continuation maximum
+	char text[] =
+	    "\nvoid LongLongLongFoo(\n"
+	    "                arg1)\n"
+	    "{\n"
+	    "    bool isLongLongLongFoo =\n"
+	    "                    foo1;\n"
+	    "    isLongLongLongBar(\n"
+	    "                    bar2);\n"
+	    "}\n";
+	char options[] = "indent-continuation=4";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentContinuation, MinError)
+{
+	// test min continuation indent with an invalid value
+	// should call the error handler
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    bool isFoo =\n"
+	    "        bar1;\n"
+	    "}\n";
+	// use errorHandler2 to verify the error
+	char options[] = "indent-continuation=-1";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	delete[] textOut;
+}
+
+TEST(IndentContinuation, MaxError)
+{
+	// test max continuation indent with an invalid value
+	// should call the error handler
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    bool isFoo =\n"
+	    "        bar1;\n"
+	    "}\n";
+	// use errorHandler2 to verify the error
+	char options[] = "indent-continuation=5";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
 // AStyle Indent Labels
 //-------------------------------------------------------------------------
 

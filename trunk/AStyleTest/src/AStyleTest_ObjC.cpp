@@ -480,6 +480,41 @@ TEST_F(ObjCStyleF, Google)
 	delete [] textOut;
 }
 
+TEST_F(ObjCStyleF, Mozilla)
+{
+	// test mozilla style option
+	char text[] =
+		"\n@interface Foo : NSObject\n"
+		"{\n"
+		"    NSString* var1;\n"
+		"    NSString* var2;\n"
+		"}\n"
+		"@end\n"
+		"\n"
+		"@implementation Foo\n"
+		"\n"
+		"- (void) foo\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"- (void) foo : (int) icon\n"
+		"    ofSize : (int) size\n"
+		"{\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"}\n"
+		"\n"
+		"@end\n";
+	char options[] = "style=mozilla";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST_F(ObjCStyleF, Pico)
 {
 	// test pico style option

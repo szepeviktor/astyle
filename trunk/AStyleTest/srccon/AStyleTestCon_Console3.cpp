@@ -398,12 +398,12 @@ TEST_F(ProcessOptions3F, HtmlOption_ValidFileName)
 		output = textOut.find("\\AStyle\\doc\\astyle.html");
 #else
 		output = textOut.find("/usr/share/doc/astyle/html/");
-#endif	// _WIN32
+#endif
 	}
 	EXPECT_FALSE(output == string::npos) << "Unexpected termination message:\n" << textOut;
 #else
 	restoreStream();
-#endif	// GTEST_HAS_DEATH_TEST
+#endif
 	deleteConsoleGlobalObject();
 }
 

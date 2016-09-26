@@ -10,9 +10,6 @@
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
 
-import libastyle		# local directory
-import libextract		# local directory
-import libtest			# local directory
 import locale
 import glob
 import os
@@ -20,6 +17,10 @@ import shutil
 import stat
 import subprocess
 import time
+# local libraries
+import libastyle
+import libextract
+import libtest
 
 # global variables ------------------------------------------------------------
 
@@ -34,10 +35,10 @@ import time
 __project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
-__options    = libastyle.OPT0
+__options = libastyle.OPT0
 
 # options_x are for BOTH executables
-__options_x  = ""
+__options_x = ""
 # options_x2 are for ONLY exe2 to test new options
 __options_x2 = ""
 
@@ -198,7 +199,7 @@ def get_astyle_config():
     """
     config = libastyle.DEBUG
     if (__astyleexe1.lower() == "astyle"
-    or __astyleexe2.lower() == "astyle"):
+            or __astyleexe2.lower() == "astyle"):
         config = libastyle.RELEASE
     return config
 
@@ -264,7 +265,8 @@ def print_run_header():
     print("Regression-2 Test for {0}".format(__project))
     if os.name == "nt":
         print("Using ({0}) {1} {2}".format(libastyle.VS_RELEASE,
-                __astyleexe1, __astyleexe2), end=" ")
+                                           __astyleexe1,
+                                           __astyleexe2), end=" ")
     else:
         print("Using {0} {1}".format(__astyleexe1, __astyleexe2), end=" ")
     if __options == libastyle.OPT0:
@@ -327,7 +329,7 @@ def set_astyle_args(filepath, excludes, astyleexe):
     if len(__options_x.strip()) > 0:
         args.append(__options_x)
     if (astyleexe == __astyleexe2
-    and len(__options_x2.strip()) > 0):
+            and len(__options_x2.strip()) > 0):
         args.append(__options_x2)
     # set excludes
     for exclude in excludes:

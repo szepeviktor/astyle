@@ -10,12 +10,13 @@
 from __future__ import print_function
 
 import glob
-import libastyle		# local directory
 import os
 import shutil
 import subprocess
 import tempfile
 import time
+# local libraries
+import libastyle
 
 # global variables ------------------------------------------------------------
 
@@ -29,7 +30,7 @@ def extract_project(project, all_files_option):
        The main processing procedure called by other functions.
     """
     global __extract_all_files
-    if all_files_option == True:
+    if all_files_option:
         __extract_all_files = True
     if project == libastyle.CODEBLOCKS:
         extract_codeblocks()
@@ -70,8 +71,10 @@ def call_7zip(filepath, outdir, fileext):
         extract.extend(fileext)
         print("extracting " + str(fileext))
     # open a tempfile and access it with the 'os' methods
-    fd, filename = tempfile.mkstemp(prefix="extract.", suffix=".tmp",
-                                dir=libastyle.get_temp_directory(), text=True)
+    fd, filename = tempfile.mkstemp(prefix="extract.",
+                                    suffix=".tmp",
+                                    dir=libastyle.get_temp_directory(),
+                                    text=True)
 #	print(os.path.basename(filename))
     try:
         subprocess.check_call(extract, stdout=fd)
@@ -288,7 +291,7 @@ def rename_test_directory(source, destination):
         try:
             shutil.move(dir_in, destpath)
         except WindowsError as err:
-            libastyle.system_exit(err.value)
+            libastyle.system_exit(err)
 
 # -----------------------------------------------------------------------------
 

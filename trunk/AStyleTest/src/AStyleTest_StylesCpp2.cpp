@@ -302,6 +302,41 @@ TEST(StyleLinuxCpp, ForceTabIndent)
 	delete [] textOut;
 }
 
+TEST(StyleLinuxCpp, Struct)
+{
+	// test linux style with a struct
+	// structs should be attached
+	char text[] =
+	    "\nstruct FooStruct {\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char options[] = "style=linux";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleLinuxCpp, Enum)
+{
+	// test linux style with an enum
+	// enums should be attached
+	char text[] =
+	    "\nenum Encoding {\n"
+	    "    ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE\n"
+	    "};\n";
+	char options[] = "style=linux";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(StyleLinuxCpp, MinConditionalIndent1)
 {
 	// Linux should use a default setting of MINCOND_ONEHALF
@@ -890,6 +925,112 @@ TEST(StyleHorstmannCpp, ForceTabIndent)
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(StyleHorstmannCpp, ClassIndentClasses)
+{
+	// test horstmann style with a class with indented classes
+	char text[] =
+	    "\nclass FooClass\n"
+	    "{   private:\n"
+	    "        bool var1;\n"
+	    "        void func1();\n"
+	    "    protected:\n"
+	    "        bool var2;\n"
+	    "        void func2();\n"
+	    "};\n";
+	char options[] = "style=horstmann, indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleHorstmannCpp, ClassIndentModifiers)
+{
+	// test horstmann style with a class with indented modifiers
+	char text[] =
+	    "\nclass FooClass\n"
+	    "{ private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "  protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char options[] = "style=horstmann, indent-modifiers";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleHorstmannCpp, Struct)
+{
+	// test horstmann style with a struct,
+	char text[] =
+	    "\nstruct FooStruct\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char options[] = "style=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleHorstmannCpp, StructIndentClasses)
+{
+	// test horstmann style with a struct and indented classes
+	char text[] =
+	    "\nstruct FooStruct\n"
+	    "{   private:\n"
+	    "        bool var1;\n"
+	    "        void func1();\n"
+	    "    protected:\n"
+	    "        bool var2;\n"
+	    "        void func2();\n"
+	    "};\n";
+	char options[] = "style=horstmann, indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleHorstmannCpp, StructIndentModifiers)
+{
+	// test horstmann style with a struct and indented modifiers
+	char text[] =
+	    "\nstruct FooStruct\n"
+	    "{ private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "  protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char options[] = "style=horstmann, indent-modifiers";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleHorstmannCpp, Enum)
+{
+	// test horstmann style with an enum
+	char text[] =
+	    "\nenum Encoding\n"
+	    "{   ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE\n"
+	    "};\n";
+	char options[] = "style=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, MinConditionalIndent1)
@@ -1569,6 +1710,40 @@ TEST(Style1TBSCpp, ForceTabIndent)
 	delete [] textOut;
 }
 
+TEST(Style1TBSCpp, Struct)
+{
+	// test 1tbs style with a struct
+	char text[] =
+	    "\nstruct FooStruct {\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char options[] = "style=1tbs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Style1TBSCpp, Enum)
+{
+	// test 1tbs style with an enum
+	char text[] =
+	    "\nenum Encoding {\n"
+	    "    ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE\n"
+	    "};\n";
+	char options[] = "style=1tbs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+
 TEST(Style1TBSCpp, MinConditionalIndent1)
 {
 	// 1tbs should use a default setting of MINCOND_TWO
@@ -2211,6 +2386,354 @@ TEST(StyleGoogleCpp, IndentClasses)
 	delete [] textOut;
 }
 
+TEST(StyleGoogleCpp, Struct)
+{
+	// test google style with a struct,
+	// structs should be attached
+	char text[] =
+	    "\nstruct FooStruct {\n"
+	    "  private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "  protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char options[] = "style=google";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleGoogleCpp, Enum)
+{
+	// test google style with an enum,
+	// enums should be attached
+	char text[] =
+	    "\nenum Encoding {\n"
+	    "    ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE\n"
+	    "};\n";
+	char options[] = "style=google";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//----------------------------------------------------------------------------
+// AStyle C++ Mozilla Style
+// Additional tests are in the attach brackets tests
+//----------------------------------------------------------------------------
+
+struct StyleMozillaCppF : public Test
+{
+	string textStr;
+	const char* textIn;
+
+	StyleMozillaCppF()
+	{
+		textStr =
+		    "\nnamespace FooName\n"
+		    "{\n"
+		    "\n"
+		    "class FooClass{\n"
+		    "private:\n"
+		    "    bool var1;\n"
+		    "    void func1();\n"
+		    "protected:\n"
+		    "    bool var2;\n"
+		    "    void func2();\n"
+		    "};\n"
+		    "\n"
+		    "void FooClass::Foo(bool isFoo) {\n"
+		    "    if (isFoo)\n"
+		    "    {\n"
+		    "        bar();\n"
+		    "    }\n"
+		    "    else\n"
+		    "        anotherBar();\n"
+		    "}\n"
+		    "\n"
+		    "}   // end FooName\n";
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(StyleMozillaCppF, LongOption)
+{
+	// test mozilla style option
+	char text[] =
+	    "\nnamespace FooName {\n"
+	    "\n"
+	    "class FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n"
+	    "\n"
+	    "void FooClass::Foo(bool isFoo)\n"
+	    "{\n"
+	    "    if (isFoo) {\n"
+	    "        bar();\n"
+	    "    } else\n"
+	    "        anotherBar();\n"
+	    "}\n"
+	    "\n"
+	    "}   // end FooName\n";
+	char options[] = "style=mozilla";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST_F(StyleMozillaCppF, Short)
+{
+	// test mozilla style short option
+	char text[] =
+	    "\nnamespace FooName {\n"
+	    "\n"
+	    "class FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n"
+	    "\n"
+	    "void FooClass::Foo(bool isFoo)\n"
+	    "{\n"
+	    "    if (isFoo) {\n"
+	    "        bar();\n"
+	    "    } else\n"
+	    "        anotherBar();\n"
+	    "}\n"
+	    "\n"
+	    "}   // end FooName\n";
+	char options[] = "-A16";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleMozillaCpp, SpaceIndent)
+{
+	// test mozilla style option with space indent
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char text[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "      bool var1;\n"
+	    "      void func1();\n"
+	    "protected:\n"
+	    "      bool var2;\n"
+	    "      void func2();\n"
+	    "};\n";
+	char options[] = "style=mozilla, indent=spaces=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleMozillaCpp, Tab)
+{
+	// test mozilla style option with tab indent
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char text[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "	bool var1;\n"
+	    "	void func1();\n"
+	    "protected:\n"
+	    "	bool var2;\n"
+	    "	void func2();\n"
+	    "};\n";
+	char options[] = "style=mozilla, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleMozillaCpp, TabIndent)
+{
+	// test mozilla style option with tab indent
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char text[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "	bool var1;\n"
+	    "	void func1();\n"
+	    "protected:\n"
+	    "	bool var2;\n"
+	    "	void func2();\n"
+	    "};\n";
+	char options[] = "style=mozilla, indent=tab=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleMozillaCpp, ForceTab)
+{
+	// test mozilla style option with force tab
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char text[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "	bool var1;\n"
+	    "	void func1();\n"
+	    "protected:\n"
+	    "	bool var2;\n"
+	    "	void func2();\n"
+	    "};\n";
+	char options[] = "style=mozilla, indent=force-tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleMozillaCpp, ForceTabIndent)
+{
+	// test mozilla style option with force tab
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char text[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "	bool var1;\n"
+	    "	void func1();\n"
+	    "protected:\n"
+	    "	bool var2;\n"
+	    "	void func2();\n"
+	    "};\n";
+	char options[] = "style=mozilla, indent=force-tab=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleMozillaCpp, IndentClasses)
+{
+	// test mozilla style with indent classes
+	// classes should NOT be indented
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char text[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "    private:\n"
+	    "        bool var1;\n"
+	    "        void func1();\n"
+	    "    protected:\n"
+	    "        bool var2;\n"
+	    "        void func2();\n"
+	    "};\n";
+	char options[] = "style=mozilla, indent-classes";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleMozillaCpp, Struct)
+{
+	// test mozilla style with a struct,
+	// structs should be broken
+	char text[] =
+	    "\nstruct FooStruct\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char options[] = "style=mozilla";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleMozillaCpp, Enum)
+{
+	// test mozilla style with an enum,
+	// enums should be broken
+	char text[] =
+	    "\nenum Encoding\n"
+	    "{\n"
+	    "    ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE\n"
+	    "};\n";
+	char options[] = "style=mozilla";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle C++ Pico Style
 //----------------------------------------------------------------------------
@@ -2442,6 +2965,106 @@ TEST(StylePicoCpp, ForceTabIndent)
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(StylePicoCpp, ClassIndentClasses)
+{
+	// test pico style with a class with indented classes
+	char text[] =
+	    "\nclass FooClass\n"
+	    "{   private:\n"
+	    "        bool var1;\n"
+	    "        void func1();\n"
+	    "    protected:\n"
+	    "        bool var2;\n"
+	    "        void func2(); };\n";
+	char options[] = "style=pico, indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StylePicoCpp, ClassIndentModifiers)
+{
+	// test pico style with a class with indented modifiers
+	char text[] =
+	    "\nclass FooClass\n"
+	    "{ private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "  protected:\n"
+	    "    bool var2;\n"
+	    "    void func2(); };\n";
+	char options[] = "style=pico, indent-modifiers";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StylePicoCpp, Struct)
+{
+	// test pico style with a struct,
+	char text[] =
+	    "\nstruct FooStruct\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2(); };\n";
+	char options[] = "style=pico";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StylePicoCpp, StructIndentClasses)
+{
+	// test pico style with a struct and indented classes
+	char text[] =
+	    "\nstruct FooStruct\n"
+	    "{   private:\n"
+	    "        bool var1;\n"
+	    "        void func1();\n"
+	    "    protected:\n"
+	    "        bool var2;\n"
+	    "        void func2(); };\n";
+	char options[] = "style=pico, indent-classes";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StylePicoCpp, StructIndentModifiers)
+{
+	// test pico style with a struct and indented modifiers
+	char text[] =
+	    "\nstruct FooStruct\n"
+	    "{ private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "  protected:\n"
+	    "    bool var2;\n"
+	    "    void func2(); };\n";
+	char options[] = "style=pico, indent-modifiers";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StylePicoCpp, Enum)
+{
+	// test pico style with an enum
+	char text[] =
+	    "\nenum Encoding\n"
+	    "{   ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE };\n";
+	char options[] = "style=pico";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, MinConditionalIndent1)
@@ -3350,6 +3973,37 @@ TEST(StyleLispCpp, ForceTabIndent)
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(StyleLispCpp, Struct)
+{
+	// test lisp style with a struct
+	char text[] =
+	    "\nstruct FooStruct {\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2(); };\n";
+	char options[] = "style=lisp";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleLispCpp, Enum)
+{
+	// test lisp style with an enum
+	char text[] =
+	    "\nenum Encoding {\n"
+	    "    ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE };\n";
+	char options[] = "style=lisp";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, MinConditionalIndent1)

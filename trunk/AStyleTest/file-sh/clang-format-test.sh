@@ -15,7 +15,7 @@ echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 cd $HOME
 
 # copy clang format file and rename
-cp -f -v  Projects/AStyle/cfg/clang-webkit.cfg  _clang-format
+cp -f -v  Projects/AStyle/cfg/clang-webkit.ini  _clang-format
 
 echo test10.m
 clang-format-3.7  $style   test10.m  > clang-test10.m

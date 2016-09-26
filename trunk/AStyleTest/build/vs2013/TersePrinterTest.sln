@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.30110.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TersePrinter", "TersePrinter\TersePrinter.vcxproj", "{225C3659-AC1F-4241-B5F0-72A5231B2748}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TersePrinterTest", "TersePrinterTest\TersePrinterTest.vcxproj", "{225C3659-AC1F-4241-B5F0-72A5231B2748}"
 	ProjectSection(ProjectDependencies) = postProject
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C} = {C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}
+		{C76A76D8-C315-49C0-9E7A-162A0697CC47} = {C76A76D8-C315-49C0-9E7A-162A0697CC47}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GTest Lib", "GTest Lib\GTest Lib.vcxproj", "{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMock Lib", "GMock Lib\GMock Lib.vcxproj", "{C76A76D8-C315-49C0-9E7A-162A0697CC47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,14 +26,14 @@ Global
 		{225C3659-AC1F-4241-B5F0-72A5231B2748}.Release|Win32.Build.0 = Release|Win32
 		{225C3659-AC1F-4241-B5F0-72A5231B2748}.Release|x64.ActiveCfg = Release|x64
 		{225C3659-AC1F-4241-B5F0-72A5231B2748}.Release|x64.Build.0 = Release|x64
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Debug|Win32.Build.0 = Debug|Win32
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Debug|x64.ActiveCfg = Debug|x64
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Debug|x64.Build.0 = Debug|x64
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Release|Win32.ActiveCfg = Release|Win32
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Release|Win32.Build.0 = Release|Win32
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Release|x64.ActiveCfg = Release|x64
-		{C9032BCE-2092-41DE-8A7C-7E1D5FF5025C}.Release|x64.Build.0 = Release|x64
+		{C76A76D8-C315-49C0-9E7A-162A0697CC47}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C76A76D8-C315-49C0-9E7A-162A0697CC47}.Debug|Win32.Build.0 = Debug|Win32
+		{C76A76D8-C315-49C0-9E7A-162A0697CC47}.Debug|x64.ActiveCfg = Debug|x64
+		{C76A76D8-C315-49C0-9E7A-162A0697CC47}.Debug|x64.Build.0 = Debug|x64
+		{C76A76D8-C315-49C0-9E7A-162A0697CC47}.Release|Win32.ActiveCfg = Release|Win32
+		{C76A76D8-C315-49C0-9E7A-162A0697CC47}.Release|Win32.Build.0 = Release|Win32
+		{C76A76D8-C315-49C0-9E7A-162A0697CC47}.Release|x64.ActiveCfg = Release|x64
+		{C76A76D8-C315-49C0-9E7A-162A0697CC47}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

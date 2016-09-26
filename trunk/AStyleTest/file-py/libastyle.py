@@ -97,13 +97,13 @@ def build_astyle_executable(config):
     elif config == STATIC and os.name == "nt":
         print("Building AStyle Static")
     elif config == STATIC_XP and os.name == "nt":
-        print("Building AStyle Static-XP")
+        print("Building AStyle Static XP")
     else:
         system_exit("Bad arg in build_astyle_executable(): " + config)
     slnpath = get_astyle_build_directory(config)
     if os.name == "nt":
         if config == STATIC_XP:
-            slnpath = slnpath + "/AStyle-XP.sln"
+            slnpath = slnpath + "/AStyle XP.sln"
         else:
             slnpath = slnpath + "/AStyle.sln"
         compile_windows_executable(slnpath, config)
@@ -148,9 +148,9 @@ def compile_windows_executable(slnpath, config):
         buildpath = "C:/Program Files (x86)/MSBuild/14.0/Bin/MSBuild.exe"
     else:
         buildpath = (os.getenv("WINDIR")
-                    + "/Microsoft.NET/Framework/"
-                    + sdk
-                    + "/MSBuild.exe")
+                     + "/Microsoft.NET/Framework/"
+                     + sdk
+                     + "/MSBuild.exe")
     if not os.path.isfile(buildpath):
         message = "Cannot find build path: " + buildpath
         system_exit(message)
@@ -569,7 +569,7 @@ def remove_build_file(buildfile):
         print()
         print(err)
         message = ("The file '{0}' must be removed "
-                    "before continuing").format(buildfile)
+                   "before continuing").format(buildfile)
         system_exit(message)
 
 # -----------------------------------------------------------------------------
@@ -592,26 +592,26 @@ def set_text_color(color):
     """
     if is_executed_from_console():
         if os.name == "nt":
-            color_values = { "blue"    : "color 09",
-                             "cyan"    : "color 0B",
-                             "green"   : "color 0A",
-                             "magenta" : "color 0D",
-                             "red"     : "color 0C",
-                             "white"   : "color 0F",
-                             "yellow"  : "color 0E", }
+            color_values = {"blue"    : "color 09",
+                            "cyan"    : "color 0B",
+                            "green"   : "color 0A",
+                            "magenta" : "color 0D",
+                            "red"     : "color 0C",
+                            "white"   : "color 0F",
+                            "yellow"  : "color 0E"}
 
             system_code = color_values.get(color, "invalid")
             if system_code == "invalid":
                 system_exit("Invalid color param " + color)
             os.system(system_code)
         else:
-            color_values = { "blue"    : "echo -n '[1;34m'",
-                             "cyan"    : "echo -n '[1;36m'",
-                             "green"   : "echo -n '[1;32m'",
-                             "magenta" : "echo -n '[1;35m'",
-                             "red"     : "echo -n '[1;31m'",
-                             "white"   : "echo -n '[1;37m'",
-                             "yellow"  : "echo -n '[1;33m'", }
+            color_values = {"blue"    : "echo -n '[1;34m'",
+                            "cyan"    : "echo -n '[1;36m'",
+                            "green"   : "echo -n '[1;32m'",
+                            "magenta" : "echo -n '[1;35m'",
+                            "red"     : "echo -n '[1;31m'",
+                            "white"   : "echo -n '[1;37m'",
+                            "yellow"  : "echo -n '[1;33m'"}
 
             system_code = color_values.get(color, "invalid")
             if system_code == "invalid":

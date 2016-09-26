@@ -8,10 +8,11 @@
 from __future__ import print_function
 
 import codecs
-import libastyle		# local directory
 import os
 import platform
 import subprocess
+# local libraries
+import libastyle
 
 # global variables ------------------------------------------------------------
 
@@ -286,16 +287,16 @@ def process_formatter(formatter_list):
             formatter_list.append("reademptycontainer:" + src_path + ":" + str(lines) + "\t\t// operators->empty\n")
         # assertWithSideEffect
         if (line.startswith("assert")
-        and "adjustChecksumIn" in line):			# 2 lines
+                and "adjustChecksumIn" in line):			# 2 lines
             formatter_list.append("assertWithSideEffect:" + src_path + ":" + str(lines) + "\t\t// assert\n")
         if (line.startswith("assert")
-        and "adjustChecksumOut" in line):
+                and "adjustChecksumOut" in line):
             formatter_list.append("assertWithSideEffect:" + src_path + ":" + str(lines) + "\t\t// assert\n")
         if (line.startswith("assert")
-        and "computeChecksumIn" in line):			# 2 lines
+                and "computeChecksumIn" in line):			# 2 lines
             formatter_list.append("assertWithSideEffect:" + src_path + ":" + str(lines) + "\t\t// assert\n")
         if (line.startswith("assert")
-        and "computeChecksumOut" in line):
+                and "computeChecksumOut" in line):
             formatter_list.append("assertWithSideEffect:" + src_path + ":" + str(lines) + "\t\t// assert\n")
         # useInitializationList error - false positive
         if line.startswith("formattingStyle = STYLE_NONE;"):
@@ -432,7 +433,7 @@ def verify_cppcheck_version(exepath):
         version = version.decode()
     if version < __expected_version:
         print("Cppcheck version", version,
-                "is less than expected version", __expected_version, "\n")
+              "is less than expected version", __expected_version, "\n")
 
 # -----------------------------------------------------------------------------
 

@@ -1,11 +1,9 @@
 #/usr/bin/python
-#
-# cppcheck addon for naming conventions
-#
-# Example usage (variable name must start with lowercase, function name must start with uppercase):
-# $ cppcheck --dump path-to-src/
-# $ python addons/naming.py --var='[a-z].*' --function='[A-Z].*' path-to-src/*.dump
-#
+""" cppcheck addon for naming conventions
+    Example usage (variable name must start with lowercase, function name must start with uppercase):
+    $ cppcheck --dump path-to-src/
+    $ python addons/naming.py --var='[a-z].*' --function='[A-Z].*' path-to-src/*.dump
+"""
 
 import os
 import re
@@ -41,7 +39,7 @@ def main():
 
 # -----------------------------------------------------------------------------
 
-def createClassList(scopes):
+def create_class_list(scopes):
     """ Create a list of class names to eliminate constructor and destructor
         function name checks.
     """
@@ -95,11 +93,14 @@ def process_cppcheck_dump_file(file):
             for var in cfg.variables:
                 res = re.match(RE_VARNAME, var.nameToken.str)
                 if not res:
-                    reportError(var.typeStartToken, 'style', 'Variable '
-                            + var.nameToken.str + ' violates naming convention')
+                    report_error(var.typeStartToken,
+                                 'style',
+                                 'Variable '
+                                 + var.nameToken.str
+                                 + ' violates naming convention')
         # processes scope configuration type="Function"
         if RE_FUNCTIONNAME:
-            classes = createClassList(cfg.scopes)
+            classes = create_class_list(cfg.scopes)
             for scope in cfg.scopes:
                 if scope.type == 'Function':
                     # delete constructors and destructors from function check
@@ -107,8 +108,10 @@ def process_cppcheck_dump_file(file):
                         continue
                     res = re.match(RE_FUNCTIONNAME, scope.className)
                     if not res:
-                        reportError(scope.classStart, 'style', 'Function '
-                                + scope.className + ' violates naming convention')
+                        report_error(scope.classStart, 'style',
+                                     'Function '
+                                     + scope.className
+                                     + ' violates naming convention')
         # process scope configuration type="Class", type="Struct", and type="Enum"
         if RE_CLASSNAME:
             for scope in cfg.scopes:
@@ -116,12 +119,16 @@ def process_cppcheck_dump_file(file):
                         or scope.type == 'Enum'):
                     res = re.match(RE_CLASSNAME, scope.className)
                     if not res:
-                        reportError(scope.classStart, 'style', scope.type + ' '
-                                + scope.className + ' violates naming convention')
+                        report_error(scope.classStart, 'style',
+                                     scope.type + ' '
+                                     + scope.className
+                                     + ' violates naming convention')
 
 # -----------------------------------------------------------------------------
 
-def reportError(token, severity, msg):
+def report_error(token, severity, msg):
+    """ Write an error message.
+    """
     sys.stderr.write(
         '[' + token.file + ':' + str(token.linenr) + '] (' + severity + ') naming.py: ' + msg + '\n')
 
@@ -145,4 +152,3 @@ if __name__ == "__main__":
     main()
     # this does NOT raise a SystemExit exception like sys.exit()
     os._exit(0)
-
