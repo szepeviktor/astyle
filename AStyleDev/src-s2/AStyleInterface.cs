@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 interface NativeLibrary
 {   void FreeLibrary(IntPtr handle);
-    IntPtr GetProcAddress(IntPtr dllHandle, string name);
+    IntPtr GetProcAddress(IntPtr handle, string procName);
     IntPtr LoadLibrary(string fileName);
 }
 
@@ -16,8 +16,8 @@ internal class NativeLibraryWindows : NativeLibrary
     {   FreeLibrary(handle);
     }
 
-    IntPtr NativeLibrary.GetProcAddress(IntPtr dllHandle, string name)
-    {   return GetProcAddress(dllHandle, name);
+    IntPtr NativeLibrary.GetProcAddress(IntPtr handle, string procName)
+    {   return GetProcAddress(handle, procName);
     }
 
     IntPtr NativeLibrary.LoadLibrary(string fileName)
@@ -31,7 +31,7 @@ internal class NativeLibraryWindows : NativeLibrary
     private static extern int FreeLibrary(IntPtr handle);
 
     [DllImport("kernel32.dll")]
-    private static extern IntPtr GetProcAddress(IntPtr handle, string procedureName);
+    private static extern IntPtr GetProcAddress(IntPtr handle, string procName);
 }
 
 
@@ -41,9 +41,9 @@ internal class NativeLibraryLinux : NativeLibrary
     {   dlclose(handle);
     }
 
-    public IntPtr GetProcAddress(IntPtr dllHandle, string name)
+    public IntPtr GetProcAddress(IntPtr handle, string procName)
     {   dlerror();      // clear previous errors if any
-        var res = dlsym(dllHandle, name);
+        var res = dlsym(handle, procName);
         var errPtr = dlerror();
         if (errPtr != IntPtr.Zero)
             Console.WriteLine("dlsym: " + Marshal.PtrToStringAnsi(errPtr));
@@ -204,7 +204,7 @@ public class AStyleInterface
             }
         }
         if (libraryName == null)
-        {   Error("Cannot find native library in "
+        {   Error("Cannot find astyle native library in "
                   + appDirectory
                   + Path.DirectorySeparatorChar);
         }

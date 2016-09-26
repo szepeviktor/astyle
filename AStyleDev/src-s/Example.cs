@@ -71,7 +71,8 @@ public class Example
         int indexTop = appDirectory.ToLower().IndexOf(topDirectory);
         if (indexTop == -1)
             Error("Cannot find top level folder!");
-        string testPath = appDirectory.Substring(0, indexTop + topDirectory.Length) + "/test-data/";
+        string testPath = appDirectory.Substring(
+                              0, indexTop + topDirectory.Length) + "/test-data/";
         return testPath;
     }
 

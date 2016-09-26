@@ -379,7 +379,16 @@
         <span class="hl kwa">return</span> version<span class="hl opt">;</span>
     <span class="hl opt">}</span>
 
-    <span class="hl slc">// functions to load Artistic Style -------------------------------------------------</span>
+    <span class="hl com">/**</span>
+<span class="hl com">    * Error message function for this example.</span>
+<span class="hl com">    */</span>
+    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span>String message<span class="hl opt">)</span>
+    <span class="hl opt">{</span>   System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span>message<span class="hl opt">);</span>
+        System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
+        System<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
+    <span class="hl opt">}</span>
+
+    <span class="hl slc">// methods to load Artistic Style -----------------------------------------</span>
 
     <span class="hl com">/**</span>
 <span class="hl com">    * Static constructor to load the native Artistic Style library.</span>
@@ -430,21 +439,14 @@
             <span class="hl opt">}</span>
         <span class="hl opt">}</span>
         <span class="hl kwa">if</span> <span class="hl opt">(</span>libraryName <span class="hl opt">==</span> null<span class="hl opt">)</span>
-        <span class="hl opt">{</span>   <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find native library in &quot;</span>
+        <span class="hl opt">{</span>   <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find astyle native library in &quot;</span>
                   <span class="hl opt">+</span> astyleDirectory
                   <span class="hl opt">+</span> System<span class="hl opt">.</span><span class="hl kwd">getProperty</span><span class="hl opt">(</span><span class="hl str">&quot;file.separator&quot;</span><span class="hl opt">));</span>
         <span class="hl opt">}</span>
         <span class="hl kwa">return</span> libraryName<span class="hl opt">;</span>
     <span class="hl opt">}</span>
 
-    <span class="hl com">/*</span>
-<span class="hl com">    * Error message function for this example.</span>
-<span class="hl com">    */</span>
-    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span>String message<span class="hl opt">)</span>
-    <span class="hl opt">{</span>   System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span>message<span class="hl opt">);</span>
-        System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
-        System<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
-    <span class="hl opt">}</span>
+    <span class="hl slc">// methods to call Artistic Style -----------------------------------------</span>
 
     <span class="hl com">/**</span>
 <span class="hl com">    * Calls the Java AStyleMain function in Artistic Style.</span>

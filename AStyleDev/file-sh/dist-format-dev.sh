@@ -8,7 +8,7 @@ bindir=$HOME/bin
 projdir=$HOME/Projects
 
 # override standard options with --style=horstmann  --indent=spaces
-options=--options="$projdir/AStyleTest/file-sh/astyle-options.cfg  -A9s"
+options=--options="$projdir/AStyleTest/file-sh/astyle-options.ini  -A9s"
 
 echo Formatting AStyleDev
 echo override standard options with --style=horstmann  --indent=spaces
