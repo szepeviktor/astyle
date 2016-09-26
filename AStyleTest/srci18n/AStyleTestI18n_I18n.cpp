@@ -1272,19 +1272,21 @@ TEST(Other, LanguageStrings)
 #ifdef _WIN32
 	const char* language[] =
 	{
+		"belgian",
+		"bulgarian",
 		"chinese",
 		"chinese-simplified",
 		"chinese-traditional",
 		"czech",
 		"danish",
 		"dutch",
-		"belgian",
 		"english",
 		"english-aus",          // don't use australian
 		"english-can",          // don't use canadian
 		"english-nz",
 		"english-uk",
 		"english-us",			// don't use anything else
+		"estonian",
 		"finnish",
 		"french",
 		"french-belgian",
@@ -1294,6 +1296,7 @@ TEST(Other, LanguageStrings)
 		"german-austrian",
 		"german-swiss",          // don't use swiss
 		"greek",
+		"hindi",
 		"hungarian",
 		"icelandic",
 		"italian",
@@ -1306,6 +1309,7 @@ TEST(Other, LanguageStrings)
 		"polish",
 		"portuguese",
 		"portuguese-brazilian",
+		"romanian",
 		"russian",
 		"slovak",
 		"spanish",
@@ -1313,6 +1317,7 @@ TEST(Other, LanguageStrings)
 		"spanish-modern",
 		"swedish",
 		"turkish",
+		"ukrainian",
 	};
 	// WINDOWS test language strings
 	size_t langSize = sizeof(language) / sizeof(language[0]);

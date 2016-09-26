@@ -6,10 +6,11 @@
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
 
-import libastyle		# local directory
 import os
 import re				# regular expressions
 import subprocess
+# local libraries
+import libastyle
 
 # -----------------------------------------------------------------------------
 
@@ -100,12 +101,12 @@ def get_astyle_totals(filename):
         # use regular expressions to search the lines
         # find total line (with following commas)
         if (re.search("formatted", line) != None
-        and re.search("unchanged", line) != None):
+                and re.search("unchanged", line) != None):
             totline = line.split()
              # get the thousands separator from the total number of lines
             sep = get_thousands_sep(totline[-2])
             # cannot extract if the separator is a space (French)
-            if sep == None:
+            if sep is None:
                 print("Cannot extract totals from file")
                 return (0, 0, 0, 0)
             #extract the totals
@@ -147,7 +148,7 @@ def  get_formatted_files(filename):
             continue
         # total line (with a following comma)
         if (re.search("Formatted", line) != None
-        and re.search("Unchanged", line) != None):
+                and re.search("Unchanged", line) != None):
             continue
         # formatted file line (start of line with a following space)
         if re.match("Formatted ", line) != None:

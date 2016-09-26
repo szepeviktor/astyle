@@ -20,7 +20,7 @@ echo "*                        updating package list                        *"
 echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 promptYESNO  "Do you want to update the package list" "n"
 if [ ! $YESNO ] || [ $YESNO = "y" ]; then
-	sudo  apt-get  update
+	sudo  apt  update
 	result=$?; echo ; echo RESULT=$result
 	if [ $result -ne 0 ] && [ $result -ne 100 ]; then  read -sn1 -p "Error updating package list! "; echo; fi
 	unset result
@@ -31,7 +31,7 @@ echo
 echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 echo "*                       installing objective c                        *"
 echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-sudo apt-get install gobjc
+sudo apt install gobjc
 result=$? ; echo ; echo RESULT=$result
 if [ ! $result ] || [ $result -ne 0 ]; then read -sn1 -p "Error installing packages! "; echo; fi
 unset result
@@ -40,7 +40,7 @@ echo
 echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 echo "*                         installing gnustep                          *"
 echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-sudo apt-get install gnustep-core-devel
+sudo apt install gnustep-core-devel
 result=$? ; echo ; echo RESULT=$result
 if [ ! $result ] || [ $result -ne 0 ]; then read -sn1 -p "Error installing packages! "; echo; fi
 unset result

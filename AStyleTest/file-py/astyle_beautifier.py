@@ -70,6 +70,8 @@ def convert_class_functions(line):
         line = ''
     elif "setSpaceIndentation" in line:
         line = "indentLength"
+    elif "setContinuationIndentation" in line:
+        line = "continuationIndent"
     elif "setMinConditionalIndentOption" in line:
         line = "minConditionalOption"
     elif "setMaxInStatementIndentLength" in line:
@@ -183,7 +185,7 @@ def get_constructor_variables(class_variables, beautifier_path):
             class_lines[0] = lines + 1
             continue
         if (class_lines[0] == 0
-        or class_lines[0] >= lines):
+                or class_lines[0] >= lines):
             continue
         # find ending bracket
         if '}' in line:
@@ -241,7 +243,7 @@ def get_copy_variables(copy_variables, beautifier_path):
             copy_brackets += 1
             continue
         if (copy_lines[0] == 0
-        or copy_lines[0] >= lines):
+                or copy_lines[0] >= lines):
             continue
         # count brackets
         if '{' in line:
@@ -289,19 +291,19 @@ def get_header_variables(header_variables, header_path):
             header_lines[0] = lines + 1
             continue
         if (header_lines[0] == 0
-        or header_lines[0] >= lines):
+                or header_lines[0] >= lines):
             continue
         # find ending bracket
         if '}' in line:
             header_lines[1] = lines
             break
         if (line.startswith("public:")
-        or line.startswith("private:")
-        or line.startswith("protected:")):
+                or line.startswith("private:")
+                or line.startswith("protected:")):
             continue
         # bypass functions
         if ('(' in line
-        or ')' in line):
+                or ')' in line):
             continue
         # get the variable name
         semi_colon = line.find(';')
@@ -343,7 +345,7 @@ def get_initializer_variables(class_variables, beautifier_path):
             class_lines_init[0] = lines_init + 1
             continue
         if (class_lines_init[0] == 0
-        or class_lines_init[0] >= lines_init):
+                or class_lines_init[0] >= lines_init):
             continue
         # find ending bracket
         if '}' in line:

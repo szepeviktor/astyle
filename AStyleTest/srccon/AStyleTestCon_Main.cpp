@@ -139,24 +139,6 @@ int main(int argc, char** argv)
 // support functions
 //----------------------------------------------------------------------------
 
-//char** buildArgv(const vector<string>& argIn)
-//// build an array of pointers to be used as argv variable in function calls
-//// the calling program must delete[] argv
-//// argc will equal (argIn.size() + 1)
-//{
-//	// build argv array of pointers for input
-//	int argc = argIn.size() + 1;
-//
-//	char** argv = new char* [sizeof(char*) * argc];
-//	argv[0] = (char*)"AStyleTestCon.exe";	// first value is the program name
-//	if (argIn.size() > 0)
-//		for (int i = 1; i < argc; i++)		// next are the options
-//			argv[i] = const_cast<char*>(argIn[i-1].c_str());
-////	for (int i = 0; i < argc; i++)
-////		cout << argv[i] << endl;
-//	return argv;
-//}
-
 #ifdef _WIN32
 void cleanTestDirectory(const string& directoryMB)
 // WINDOWS remove files and sub directories from the test directory
@@ -583,30 +565,6 @@ void setTestDirectory()
 		ASTYLE_ABORT("Primary directory does not exist: " + primaryDirectory);
 }
 
-//void setTestDirectoryX(char *argv)
-//// set the global variable *g_testDirectory
-//{
-//	assert(g_testDirectory == NULL);
-//	string testDirectory = argv;
-//
-//	// remove "build" directories
-//#ifdef _WIN32
-//	string buildDirectory = "\\build\\";
-//	string separator = "\\";
-//#else
-//	string buildDirectory = "/build/";
-//	string separator = "/";
-//#endif
-//	size_t i = testDirectory.rfind(buildDirectory);
-//	if (i == string::npos)
-//		ASTYLE_ABORT("Cannot extract test directory from: " + testDirectory);
-//	testDirectory = testDirectory.substr(0, i);
-//
-//	// create global *_projectDirectory
-//	testDirectory += separator + "ut-testcon";
-//	g_testDirectory = new string(testDirectory);
-//}
-
 void standardizeFileSeparators(string& path)
 // make sure file separators are correct type (Windows or Linux)
 {
@@ -614,7 +572,7 @@ void standardizeFileSeparators(string& path)
 	char fileSeparator = '\\';     // Windows file separator
 #else
 	char fileSeparator = '/';      // Linux file separator
-#endif	// _WIN32
+#endif
 	for (size_t i = 0; i < path.length(); i++)
 	{
 		i = path.find_first_of("/\\", i);

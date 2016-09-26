@@ -7,7 +7,7 @@ RED="[1;31m"
 bindir=$HOME/bin
 projdir=$HOME/Projects
 
-options=--options=$projdir/AStyleTest/file-sh/astyle-options.cfg
+options=--options=$projdir/AStyleTest/file-sh/astyle-options.ini
 
 echo Formatting AStyleTest
 echo $options

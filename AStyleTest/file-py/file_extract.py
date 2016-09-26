@@ -6,9 +6,10 @@
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
 
-import libastyle		# local directory
-import libextract		# local directory
 import time
+#local libraries
+import libastyle
+import libextract
 
 # global variables ------------------------------------------------------------
 

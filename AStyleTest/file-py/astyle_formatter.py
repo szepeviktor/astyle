@@ -61,17 +61,17 @@ def convert_class_functions(line):
                 'maxSemi', 'maxSemiPending',
                 'maxWhiteSpace', 'maxWhiteSpacePending']
     if ("->" in line
-    or "buildLanguageVectors" in line
-    or "fixOptionVariableConflicts" in line
-    or "ASBeautifier::init" in line
-    or "getCaseIndent" in line
-    or "getEmptyLineFill" in line
-    or "getForceTabIndentation" in line
-    or "getIndentLength" in line
-    or "getIndentString" in line
-    or "getNamespaceIndent" in line
-    or "getPreprocDefineIndent" in line
-    or "getTabLength" in line):
+            or "buildLanguageVectors" in line
+            or "fixOptionVariableConflicts" in line
+            or "ASBeautifier::init" in line
+            or "getCaseIndent" in line
+            or "getEmptyLineFill" in line
+            or "getForceTabIndentation" in line
+            or "getIndentLength" in line
+            or "getIndentString" in line
+            or "getNamespaceIndent" in line
+            or "getPreprocDefineIndent" in line
+            or "getTabLength" in line):
         return []
     return ["unidentified function: " + line]
 
@@ -125,7 +125,7 @@ def get_constructor_variables(class_variables, formatter_path):
             class_lines[0] = lines + 1
             continue
         if (class_lines[0] == 0
-        or class_lines[0] >= lines):
+                or class_lines[0] >= lines):
             continue
         # find ending bracket
         if '}' in line:
@@ -167,7 +167,7 @@ def get_header_variables(header_variables, header_path):
             header_lines[0] = lines + 1
             continue
         if (header_lines[0] == 0
-        or header_lines[0] >= lines):
+                or header_lines[0] >= lines):
             continue
         # find ending bracket - should find following comment instead
         if '}' in line:
@@ -178,12 +178,12 @@ def get_header_variables(header_variables, header_path):
             header_lines[1] = lines
             break
         if ("public:" in line
-        or "private:" in line
-        or "protected:" in line):
+                or "private:" in line
+                or "protected:" in line):
             continue
         # bypass functions
         if ('(' in line
-        or ')' in line):
+                or ')' in line):
             continue
         # get the variable name
         semi_colon = line.find(';')
@@ -225,7 +225,7 @@ def get_initializer_variables(class_variables, formatter_path):
             class_lines_init[0] = lines_init + 1
             continue
         if (class_lines_init[0] == 0
-        or class_lines_init[0] >= lines_init):
+                or class_lines_init[0] >= lines_init):
             continue
         # find ending bracket
         if '}' in line:

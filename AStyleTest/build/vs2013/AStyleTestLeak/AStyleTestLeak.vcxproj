@@ -62,7 +62,6 @@
     <Link>
       <AdditionalDependencies>vld.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>;$(ProgramFiles)\Visual Leak Detector\lib\Win32</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
@@ -87,7 +86,6 @@
     <Link>
       <AdditionalDependencies>vld.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>;$(ProgramFiles)\Visual Leak Detector\lib\Win64</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>

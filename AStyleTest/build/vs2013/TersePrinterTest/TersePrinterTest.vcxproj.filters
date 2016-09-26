@@ -17,6 +17,9 @@
     <ClCompile Include="..\..\..\srcx\TersePrinter_Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\srcx\TersePrinter_TestMock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\srcx\TersePrinter.h">

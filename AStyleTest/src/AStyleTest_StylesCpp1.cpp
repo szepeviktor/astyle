@@ -941,6 +941,43 @@ TEST(StyleAllmanCpp, ForceTabIndent)
 	delete [] textOut;
 }
 
+TEST(StyleAllmanCpp, Struct)
+{
+	// test allman style with a struct
+	// structs should be broken
+	char text[] =
+	    "\nstruct FooStruct\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char options[] = "style=allman";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleAllmanCpp, Enum)
+{
+	// test allman style with an enum
+	// enums should be broken
+	char text[] =
+	    "\nenum Encoding\n"
+	    "{\n"
+	    "    ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE\n"
+	    "};\n";
+	char options[] = "style=allman";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(StyleAllmanCpp, MinConditionalIndent1)
 {
 	// allman should use a default setting of MINCOND_TWO
@@ -1560,6 +1597,41 @@ TEST(StyleJavaCpp, ForceTabIndent)
 	delete [] textOut;
 }
 
+TEST(StyleJavaCpp, Struct)
+{
+	// test java style with a struct
+	// structs should be attached
+	char text[] =
+	    "\nstruct FooStruct {\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char options[] = "style=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleJavaCpp, Enum)
+{
+	// test java style with an enum
+	// enums should be attached
+	char text[] =
+	    "\nenum Encoding {\n"
+	    "    ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE\n"
+	    "};\n";
+	char options[] = "style=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(StyleJavaCpp, MinConditionalIndent1)
 {
 	// java should use a default setting of MINCOND_TWO
@@ -2171,6 +2243,41 @@ TEST(StyleKRCpp, ForceTabIndent)
 	delete [] textOut;
 }
 
+TEST(StyleKRCpp, Struct)
+{
+	// test k&r style with a struct
+	// structs should be attached
+	char text[] =
+	    "\nstruct FooStruct {\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char options[] = "style=kr";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleKRCpp, Enum)
+{
+	// test k&r style with an enum
+	// enums should be attached
+	char text[] =
+	    "\nenum Encoding {\n"
+	    "    ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE\n"
+	    "};\n";
+	char options[] = "style=kr";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(StyleKRCpp, MinConditionalIndent1)
 {
 	// k&r should use a default setting of MINCOND_TWO
@@ -2756,6 +2863,41 @@ TEST(StyleStroustrupCpp, ForceTabIndent)
 	delete [] textOut;
 }
 
+TEST(StyleStroustrupCpp, Struct)
+{
+	// test stroustrup style with a struct
+	// structs should be attached
+	char text[] =
+	    "\nstruct FooStruct {\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char options[] = "style=stroustrup";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleStroustrupCpp, Enum)
+{
+	// test stroustrup style with an enum
+	// enums should be attached
+	char text[] =
+	    "\nenum Encoding {\n"
+	    "    ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE\n"
+	    "};\n";
+	char options[] = "style=stroustrup";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(StyleStroustrupCpp, MinConditionalIndent1)
 {
 	// stroustrup should use a default setting of MINCOND_TWO
@@ -3326,6 +3468,43 @@ TEST(StyleWhitesmithCpp, ForceTabIndent)
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(StyleWhitesmithCpp, Struct)
+{
+	// test whitesmith style with a struct
+	// structs should be broken
+	char text[] =
+	    "\nstruct FooStruct\n"
+	    "    {\n"
+	    "    private:\n"
+	    "        bool var1;\n"
+	    "        void func1();\n"
+	    "    protected:\n"
+	    "        bool var2;\n"
+	    "        void func2();\n"
+	    "    };\n";
+	char options[] = "style=whitesmith";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleWhitesmithCpp, Enum)
+{
+	// test whitesmith style with an enum
+	// enums should be broken
+	char text[] =
+	    "\nenum Encoding\n"
+	    "    {\n"
+	    "    ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE\n"
+	    "    };\n";
+	char options[] = "style=whitesmith";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 TEST(StyleWhitesmithCpp, MinConditionalIndent1)
@@ -4052,6 +4231,43 @@ TEST(StyleVTKCpp, ForceTabIndent)
 	delete[] textOut;
 }
 
+TEST(StyleVTKCpp, Struct)
+{
+	// test vtk style with a struct
+	// structs should be broken
+	char text[] =
+	    "\nstruct FooStruct\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char options[] = "style=vtk";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleVTKCpp, Enum)
+{
+	// test vtk style with an enum
+	// enums should be broken
+	char text[] =
+	    "\nenum Encoding\n"
+	    "{\n"
+	    "    ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE\n"
+	    "};\n";
+	char options[] = "style=vtk";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(StyleVTKCpp, MinConditionalIndent1)
 {
 	// vtk should use a default setting of MINCOND_TWO
@@ -4758,6 +4974,41 @@ TEST(StyleBannerCpp, ForceTabIndent)
 	delete [] textOut;
 }
 
+TEST(StyleBannerCpp, Struct)
+{
+	// test banner style with a struct
+	// structs should be attached
+	char text[] =
+	    "\nstruct FooStruct {\n"
+	    "    private:\n"
+	    "        bool var1;\n"
+	    "        void func1();\n"
+	    "    protected:\n"
+	    "        bool var2;\n"
+	    "        void func2();\n"
+	    "    };\n";
+	char options[] = "style=banner";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleBannerCpp, Enum)
+{
+	// test banner style with an enum
+	// enums should be attached
+	char text[] =
+	    "\nenum Encoding {\n"
+	    "    ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE\n"
+	    "    };\n";
+	char options[] = "style=banner";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(StyleBannerCpp, MinConditionalIndent1)
 {
 	// banner should use a default setting of MINCOND_TWO
@@ -5394,6 +5645,81 @@ TEST(StyleGnuCpp, ForceTabIndent)
 	delete [] textOut;
 }
 
+TEST(StyleGnuCpp, Struct1)
+{
+	// test gnu style with a struct
+	// structs should be broken
+	char text[] =
+	    "\nstruct FooStruct\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char options[] = "style=gnu";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleGnuCpp, Struct2)
+{
+	// test gnu style with structs and unions
+	// the opening bracket should NOT be indented
+	char text[] =
+	    "\nstruct b_type\n"
+	    "{\n"
+	    "    int i;\n"
+	    "    int j;\n"
+	    "};\n"
+	    "\n"
+	    "union b_type\n"
+	    "{\n"
+	    "    int i;\n"
+	    "    int j;\n"
+	    "};\n"
+	    "\n"
+	    "// struct with inheritance and method\n"
+	    "struct b_fooStruct : public bar\n"
+	    "{\n"
+	    "    Foobar(bool isBar)\n"
+	    "    {\n"
+	    "        if (isBar)\n"
+	    "            {\n"
+	    "                Foo();\n"
+	    "            }\n"
+	    "        else\n"
+	    "            bar();\n"
+	    "        index = i;\n"
+	    "    }\n"
+	    "    long index;\n"
+	    "};\n";
+	char options[] = "style=gnu, indent=spaces=4";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleGnuCpp, Enum)
+{
+	// test gnu style with an enum
+	// enums should be broken
+	char text[] =
+	    "\nenum Encoding\n"
+	    "{\n"
+	    "    ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE\n"
+	    "};\n";
+	char options[] = "style=gnu";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(StyleGnuCpp, MinConditionalIndent1)
 {
 	// gnu should use a default setting of MINCOND_TWO
@@ -5747,44 +6073,6 @@ TEST(StyleGnuCpp, NestedNamespaceClass_IndentNamespaceClass)
 	    "    }\n"
 	    "}\n";
 	char options[] = "style=gnu, indent-namespaces, indent-classes, indent=spaces=4";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(StyleGnuCpp, Struct)
-{
-	// test gnu style with structs and unions
-	// the opening bracket should NOT be indented
-	char text[] =
-	    "\nstruct b_type\n"
-	    "{\n"
-	    "    int i;\n"
-	    "    int j;\n"
-	    "};\n"
-	    "\n"
-	    "union b_type\n"
-	    "{\n"
-	    "    int i;\n"
-	    "    int j;\n"
-	    "};\n"
-	    "\n"
-	    "// struct with inheritance and method\n"
-	    "struct b_fooStruct : public bar\n"
-	    "{\n"
-	    "    Foobar(bool isBar)\n"
-	    "    {\n"
-	    "        if (isBar)\n"
-	    "            {\n"
-	    "                Foo();\n"
-	    "            }\n"
-	    "        else\n"
-	    "            bar();\n"
-	    "        index = i;\n"
-	    "    }\n"
-	    "    long index;\n"
-	    "};\n";
-	char options[] = "style=gnu, indent=spaces=4";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;

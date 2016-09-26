@@ -1,8 +1,7 @@
 @echo off
 
-set astyle=%PROGRAMFILES%\AStyle\AStyle
-:: set astyle=..\..\AStyle\build\vs2013\x64\debug\AStyled
-:: set astyle=..\..\AStyle\build\vs2013\bin\AStyle
+::set astyle=%PROGRAMFILES%\AStyle\AStyle
+set astyle=..\..\AStyle\build\vs2015\debug\AStyled
 
 :: call  libCompile.bat  %astyle%
 

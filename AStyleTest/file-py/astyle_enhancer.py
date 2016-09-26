@@ -109,7 +109,7 @@ def get_constructor_variables(class_variables, enhancer_path):
             class_lines[0] = lines + 1
             continue
         if (class_lines[0] == 0
-        or class_lines[0] >= lines):
+                or class_lines[0] >= lines):
             continue
         # find ending bracket
         if '}' in line:
@@ -157,7 +157,7 @@ def get_header_variables(header_variables, header_path):
             header_brackets += 1
             continue
         if (header_lines[0] == 0
-        or header_lines[0] >= lines):
+                or header_lines[0] >= lines):
             continue
         # count brackets
         if '{' in line:
@@ -172,12 +172,12 @@ def get_header_variables(header_variables, header_path):
             header_lines[1] = lines
             break
         if ("public:" in line
-        or "private:" in line
-        or "protected:" in line):
+                or "private:" in line
+                or "protected:" in line):
             continue
         # bypass functions
         if ('(' in line
-        or ')' in line):
+                or ')' in line):
             continue
         # bypass static variables
         if line.startswith("static "):
@@ -225,12 +225,11 @@ def get_initializer_variables(class_variables, enhancer_path):
         if "void ASEnhancer::init(" in line:
             find_init_bracket = True
             continue
-        if (find_init_bracket == True
-        and "{" in line):
+        if find_init_bracket and "{" in line:
             class_lines_init[0] = lines_init + 1
             find_init_bracket = False
         if (class_lines_init[0] == 0
-        or class_lines_init[0] >= lines_init):
+                or class_lines_init[0] >= lines_init):
             continue
         # find ending bracket
         if '}' in line:

@@ -5,10 +5,11 @@
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
 
-import libastyle        # local directory
 import os
 import subprocess
 import time
+# local libraries
+import libastyle
 
 # global variables ------------------------------------------------------------
 # change the following for the correct VS version

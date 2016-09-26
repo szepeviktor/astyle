@@ -2,19 +2,19 @@
 """ Format a project using AStyle.
     Run from an option in the "Tools" menu of a development environment.
     For Visual Studio:
-        Title:       Format Project (AStyle)
-        Command:     %PROGRAMFILES%\Python 3.5\python.exe
-        Arguments:   "format-project.py"  "$(ProjectFileName)"
-        Init Dir:    %USERPROFILE%\Projects\AStyleTest\file-py
+        Title:       Format Project
+        Command:     %PROGRAMFILES%/Python 3.5/python.exe
+        Arguments:   "format_project.py"  "$(ProjectFileName)"
+        Init Dir:    %USERPROFILE%/Projects/AStyleTest/file-py
     For CodeBlocks (Windows):
-        Name:        Format Project (AStyle)
-        Executable:  %PROGRAMFILES%\Python 3.5\python.exe
-        Parameters:  "format-project.py"  "$(ProjectFileName)"
-        Work Dir:    %USERPROFILE%\Projects\AStyleTest\file-py
+        Name:        Format Project
+        Executable:  %PROGRAMFILES%/Python 3.5/python.exe
+        Parameters:  "format_project.py"  "$(ProjectFileName)"
+        Work Dir:    %USERPROFILE%/Projects/AStyleTest/file-py
     For CodeBlocks (Linux):
-        Name:        Format Project (AStyle)
+        Name:        Format Project
         Executable:  python3
-        Parameters:  "format-project.py"  "$(ProjectFileName)"
+        Parameters:  "format_project.py"  "$(ProjectFileName)"
         Work Dir:    $(HOME)/Projects/AStyleTest/file-py
 """
 
@@ -32,15 +32,12 @@ import sys
 def main():
     """ Main processing function.
     """
-   # verify argv[1]
     if len(sys.argv) < 2 or sys.argv[1] == '':
         print("Missing project file name in arg1")
         print("Is script run from CodeBlocks or Visual Studio?")
         print()
         os._exit(1)
-
     print("Hello '" + sys.argv[1] + "'")
-
     # get the project name
     split = []
     proj_name = ""
@@ -67,31 +64,30 @@ def main():
         print("Invalid file extension in '" + sys.argv[1] + "'")
         print()
         os._exit(1)
-
     process_project(proj_name, proj_name2)
 
 # -----------------------------------------------------------------------------
 
 def call_astyle_executable(subdir):
     """ Call the astyle executable to format the project.
-        Uses the file astyle-options.cfg for formatting options.
+        Uses the file astyle-options.ini for formatting options.
     """
     if os.name == "nt":
         exepath = "C:/Program Files/AStyle/AStyle.exe"
         projdir = os.getenv("USERPROFILE") + "/Projects/"
-        options = "--options=" + projdir + "/AStyleTest/file-py/astyle-options.cfg"
+        options = "--options=" + projdir + "/AStyleTest/file-py/astyle-options.ini"
     else:
         exepath = os.getenv("HOME") + "/bin/astyle"
         projdir = os.getenv("HOME") + "/Projects/"
-        options = "--options=" + projdir + "/AStyleTest/file-py/astyle-options.cfg"
+        options = "--options=" + projdir + "/AStyleTest/file-py/astyle-options.ini"
 
     # build the astyle_call list
     # add --formatted (Q) to the options
     # override "AStyleDev" options with --style=horstmann (A9) --indent=spaces (s)
     if "AStyleDev" in subdir:
-         astyle_call = [exepath, options, "-Q", "-A9s", projdir + subdir]
+        astyle_call = [exepath, options, "-Q", "-A9s", projdir + subdir]
     else:
-         astyle_call = [exepath, options, "-Q", projdir + subdir]
+        astyle_call = [exepath, options, "-Q", projdir + subdir]
 
     try:
         retval = subprocess.call(astyle_call)
@@ -99,12 +95,12 @@ def call_astyle_executable(subdir):
         print("Cannot find '" + exepath + "'")
         os._exit(1)
     if retval:
-        print("Bad astyle return: " + str(retval))
+        print("\nBad astyle return: " + str(retval))
         os._exit(1)
 
 # -----------------------------------------------------------------------------
 
-def format_AStyle():
+def format_astyle():
     """ Format the AStyle source files.
     """
     print("Formatting AStyle")
@@ -116,7 +112,7 @@ def format_AStyle():
 
 # -----------------------------------------------------------------------------
 
-def format_AStyleTest():
+def format_astyle_test():
     """ Format the AStyleTest source files.
     """
     print("Formatting AStyleTest")
@@ -128,7 +124,7 @@ def format_AStyleTest():
 
 # -----------------------------------------------------------------------------
 
-def format_AStyleTestCon():
+def format_astyle_test_con():
     """ Format the AStyleTestCon source files.
     """
     print("Formatting AStyleTestCon")
@@ -140,7 +136,7 @@ def format_AStyleTestCon():
 
 # -----------------------------------------------------------------------------
 
-def format_AStyleTestI18n():
+def format_astyle_test_i18n():
     """ Format the AStyleTestI18n source files.
     """
     print("Formatting AStyleTestI18n")
@@ -153,7 +149,7 @@ def format_AStyleTestI18n():
 
 # -----------------------------------------------------------------------------
 
-def format_AStyleTestLib():
+def format_astyle_test_lib():
     """ Format the AStyleTestLib source files.
     """
     print("Formatting AStyleTestLib")
@@ -165,7 +161,7 @@ def format_AStyleTestLib():
 
 # -----------------------------------------------------------------------------
 
-def format_AStyleTestLoc():
+def format_astyle_test_loc():
     """ Format the AStyleTestLoc source files.
     """
     print("Formatting AStyleTestLoc")
@@ -175,7 +171,7 @@ def format_AStyleTestLoc():
 
 # -----------------------------------------------------------------------------
 
-def format_AStyleWx():
+def format_astylewx():
     """ Format the AStyleWx source files.
     """
     print("Formatting AStyleWx")
@@ -187,7 +183,7 @@ def format_AStyleWx():
 
 # -----------------------------------------------------------------------------
 
-def format_AStyleWxTest():
+def format_astylewx_test():
     """ Format the AStyleWxTest source files.
        Also format the AStyleWx files since they
        are included in the project.
@@ -206,7 +202,7 @@ def format_AStyleWxTest():
 
 # -----------------------------------------------------------------------------
 
-def format_ExampleCpp():
+def format_example_cpp():
     """ Format the Cpp Example source files.
     """
     # the options override is done in call_astyle_executable
@@ -218,7 +214,7 @@ def format_ExampleCpp():
 
 # -----------------------------------------------------------------------------
 
-def format_ExampleObjC():
+def format_example_objc():
     """ Format the Objective-C Example source files.
     """
     # the options override is done in call_astyle_executable
@@ -230,7 +226,7 @@ def format_ExampleObjC():
 
 # -----------------------------------------------------------------------------
 
-def format_ExampleSharp():
+def format_example_sharp():
     """ Format the C# Example source files.
     """
     # the options override is done in call_astyle_executable
@@ -244,60 +240,65 @@ def format_ExampleSharp():
 
 # -----------------------------------------------------------------------------
 
+def format_terseprinter_test():
+    """ Format the TersePrinterTest source files.
+    """
+    print("Formatting TersePrinter")
+    print()
+    call_astyle_executable("AStyleTest/srcx/*.cpp")
+    print()
+    call_astyle_executable("AStyleTest/srcx/*.h")
+    print()
+    call_astyle_executable("AStyleWxTest/srcx/*.cpp")
+    print()
+    call_astyle_executable("AStyleWxTest/srcx/*.h")
+    print()
+
+# -----------------------------------------------------------------------------
+
 def process_project(proj_name, proj_name2):
     """ Use the project name to determine the source files
        to be processed, and call the required format procedure.
     """
     # AStyle
-    if proj_name == "AStyle":
-        format_AStyle()
-        return
-
+    if proj_name == "AStyle" or proj_name == "AStyleCon":
+        format_astyle()
     # AStyleDev Examples
-    if (proj_name == "ExampleDll" or proj_name == "ExampleSo"
-    or proj_name == "ExampleLib" or proj_name == "ExampleA"
-    or proj_name == "ExampleObj" or proj_name == "ExampleO"):
+    elif (proj_name == "ExampleDll" or proj_name == "ExampleSo"
+          or proj_name == "ExampleLib" or proj_name == "ExampleA"
+          or proj_name == "ExampleObj" or proj_name == "ExampleO"):
         if proj_name2 == "ObjC":
-            format_ExampleObjC()
+            format_example_objc()
         else:
-            format_ExampleCpp()
-        return
-    if (proj_name == "ExampleCs"
-    or proj_name == "Example2Cs"):
-        format_ExampleSharp()
-        return
-
+            format_example_cpp()
+    elif (proj_name == "ExampleCs"
+          or proj_name == "Example2Cs"):
+        format_example_sharp()
     # AStyleTest
-    if proj_name == "AStyleTest":
-        format_AStyleTest()
-        return
-    if proj_name == "AStyleTestCon":
-        format_AStyleTestCon()
-        return
-    if proj_name == "AStyleTestI18n":
-        format_AStyleTestI18n()
-        return
-    if proj_name == "AStyleTestLib":
-        format_AStyleTestLib()
-        return
-    if proj_name == "AStyleTestLoc":
-        format_AStyleTestLoc()
-        return
-
+    elif proj_name == "AStyleTest":
+        format_astyle_test()
+    elif proj_name == "AStyleTestCon":
+        format_astyle_test_con()
+    elif proj_name == "AStyleTestI18n":
+        format_astyle_test_i18n()
+    elif proj_name == "AStyleTestLib":
+        format_astyle_test_lib()
+    elif proj_name == "AStyleTestLoc":
+        format_astyle_test_loc()
     # AStyleWx
-    if (proj_name == "AStyleWx"
-    or proj_name == "AStyleWxDll" or proj_name == "AStyleWxSo"):
-        format_AStyleWx()
-        return
-
+    elif (proj_name == "AStyleWx"
+          or proj_name == "AStyleWxDll" or proj_name == "AStyleWxSo"):
+        format_astylewx()
     # AStyleWxTest
-    if proj_name == "AStyleWxTest":
-        format_AStyleWxTest()
-        return
-
+    elif proj_name == "AStyleWxTest":
+        format_astylewx_test()
+    # TersePrinter
+    elif proj_name == "TersePrinterTest" or proj_name == "TersePrinter":
+        format_terseprinter_test()
     # project was not found
-    print("Cannot format project '" + proj_name + "'")
-    os._exit(1)
+    else:
+        print("Cannot format project '" + proj_name + "'")
+        os._exit(1)
 
 # -----------------------------------------------------------------------------
 

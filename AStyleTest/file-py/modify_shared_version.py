@@ -5,11 +5,12 @@
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
 
-import libastyle        # local directory
 import os
 import platform
 import re
 import sys
+# local libraries
+import libastyle
 
 # global variables ------------------------------------------------------------
 
@@ -23,7 +24,7 @@ __file_update = False           # should the files be updated?
 def main():
     """Main processing function."""
     libastyle.set_text_color("yellow")
-    print (libastyle.get_python_version())
+    print(libastyle.get_python_version())
     print("Modify Shared Version from", __old_release, "to", __new_release)
     if not __file_update:
         print("\nFILES NOT UPDATED")
@@ -74,9 +75,9 @@ def get_requested_files(directory_path, file_extension_list, changeable_files_li
         for filename in filenames:
             unused, ext = os.path.splitext(filename)
             # check for the requested files
-            for i in range(len(file_extension_list)):
-                if (ext == file_extension_list[i]
-                or (ext == '' and filename == file_extension_list[i])):
+            for unused, file_extension in enumerate(file_extension_list):
+                if (ext == file_extension
+                        or (ext == '' and filename == file_extension)):
                     filepath = os.path.join(dirpath, filename)
                     filepath = filepath.replace('\\', '/')
                     changeable_files_list.append(filepath)
@@ -122,28 +123,28 @@ def update_project_files(project_directory_list, project_extension_list):
     """
     # get project files in the directory list
     project_total = 0
-    project_directory = "AStyle"
-    for i in range(len(project_directory_list)):
+    project_directory_name = "AStyle"
+    for unused, project_directory in enumerate(project_directory_list):
         project_files_list = []
-        get_requested_files(project_directory_list[i], project_extension_list, project_files_list)
+        get_requested_files(project_directory, project_extension_list, project_files_list)
         # update the files with shared object references
-        for j in range(len(project_files_list)):
+        for unused, project_file in enumerate(project_files_list):
             updated_file = []
-            file_changed = modify_input_file(project_files_list[j], updated_file)
+            file_changed = modify_input_file(project_file, updated_file)
             if file_changed:
-                filepath = get_printble_filepath(project_files_list[j])
+                filepath = get_printble_filepath(project_file)
                 end = filepath.find('/')
                 main_directory = filepath[:end]
-                if main_directory != project_directory:
-                    print(project_directory, "Project Files", project_total)
+                if main_directory != project_directory_name:
+                    print(project_directory_name, "Project Files", project_total)
                     print()
-                    project_directory = main_directory
+                    project_directory_name = main_directory
                     project_total = 0
                 print(filepath)
                 project_total += 1
                 if __file_update:
-                    write_output_file(updated_file, project_files_list[j])
-    print(project_directory, "Project Files", project_total)
+                    write_output_file(updated_file, project_file)
+    print(project_directory_name, "Project Files", project_total)
     print()
 
 # -----------------------------------------------------------------------------
@@ -154,24 +155,24 @@ def update_source_files(source_directory_list, source_extension_list, source_exc
     """
     # get source files in the directory list
     source_total = 0
-    for i in range(len(source_directory_list)):
+    for unused, source_directory in enumerate(source_directory_list):
         source_files_list = []
-        get_requested_files(source_directory_list[i], source_extension_list, source_files_list)
+        get_requested_files(source_directory, source_extension_list, source_files_list)
         # remove excludes
-        for j in range(len(source_excludes)):
-            source_excludes[j] = source_excludes[j].replace('\\', '/')
-            if source_excludes[j] in source_files_list:
-                source_files_list.remove(source_excludes[j])
+        for unused, source_exclude in enumerate(source_excludes):
+            source_exclude = source_exclude.replace('\\', '/')
+            if source_exclude in source_files_list:
+                source_files_list.remove(source_exclude)
         # update the files with shared object references
-        for k in range(len(source_files_list)):
+        for unused, source_file in enumerate(source_files_list):
             updated_file = []
-            file_changed = modify_input_file(source_files_list[k], updated_file)
+            file_changed = modify_input_file(source_file, updated_file)
             if file_changed:
-                filepath = get_printble_filepath(source_files_list[k])
+                filepath = get_printble_filepath(source_file)
                 print(filepath)
                 source_total += 1
                 if __file_update:
-                    write_output_file(updated_file, source_files_list[k])
+                    write_output_file(updated_file, source_file)
     print("Source Files", source_total)
     print()
 

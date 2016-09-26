@@ -7,10 +7,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\gmock\src\gmock-all.cc">
+    <ClCompile Include="..\..\..\..\googlemock\src\gmock-all.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\gmock\gtest\src\gtest-all.cc">
+    <ClCompile Include="..\..\..\..\googletest\src\gtest-all.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

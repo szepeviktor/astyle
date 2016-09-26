@@ -5,16 +5,16 @@
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
 
-import libastyle        # local directory
 import os
 import platform
-import re
 import sys
+# local libraries
+import libastyle
 
 # global variables ------------------------------------------------------------
 
 __old_release = "jdk1.7.0_55"
-__new_release = "jdk1.7.0_55"
+__new_release = "jdk1.7.0_60"
 
 __file_update = False           # should the files be updated?
 
@@ -23,10 +23,10 @@ __file_update = False           # should the files be updated?
 def main():
     """Main processing function."""
     libastyle.set_text_color("yellow")
-    print (libastyle.get_python_version())
+    print(libastyle.get_python_version())
     print("Modify Java JDK Version from", __old_release, "to", __new_release)
     if not __file_update:
-        print("Files NOT Updated")
+        print("\nFiles NOT Updated")
     # must use this version for newline option on the file open
     if platform.python_implementation() == "CPython" and sys.version_info[0] >= 3:
         pass
@@ -53,9 +53,9 @@ def get_requested_files(directory_path, file_extension_list, changeable_files_li
         for filename in filenames:
             unused, ext = os.path.splitext(filename)
             # check for the requested files
-            for i in range(len(file_extension_list)):
-                if (ext == file_extension_list[i]
-                or (ext == '' and filename == file_extension_list[i])):
+            for unused, file_extension in enumerate(file_extension_list):
+                if (ext == file_extension
+                        or (ext == '' and filename == file_extension)):
                     filepath = os.path.join(dirpath, filename)
                     filepath = filepath.replace('\\', '/')
                     changeable_files_list.append(filepath)
@@ -99,28 +99,28 @@ def update_project_files(project_directory_list, project_extension_list):
     """
     # get project files in the directory list
     project_total = 0
-    project_directory = "AStyle"
-    for i in range(len(project_directory_list)):
+    project_directory_name = "AStyle"
+    for unused, project_directory in enumerate(project_directory_list):
         project_files_list = []
-        get_requested_files(project_directory_list[i], project_extension_list, project_files_list)
+        get_requested_files(project_directory, project_extension_list, project_files_list)
         # update the files with shared object references
-        for j in range(len(project_files_list)):
+        for unused, project_file in enumerate(project_files_list):
             updated_file = []
-            file_changed = modify_input_file(project_files_list[j], updated_file)
+            file_changed = modify_input_file(project_file, updated_file)
             if file_changed:
-                filepath = get_printble_filepath(project_files_list[j])
+                filepath = get_printble_filepath(project_file)
                 end = filepath.find('/')
                 main_directory = filepath[:end]
-                if main_directory != project_directory:
-                    print(project_directory, "Project Files", project_total)
+                if main_directory != project_directory_name:
+                    print(project_directory_name, "Project Files", project_total)
                     print()
-                    project_directory = main_directory
+                    project_directory_name = main_directory
                     project_total = 0
                 print(filepath)
                 project_total += 1
                 if __file_update:
-                    write_output_file(updated_file, project_files_list[j])
-    print(project_directory, "Project Files", project_total)
+                    write_output_file(updated_file, project_file)
+    print(project_directory_name, "Project Files", project_total)
     print()
 
 # -----------------------------------------------------------------------------

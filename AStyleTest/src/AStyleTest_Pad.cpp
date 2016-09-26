@@ -1899,6 +1899,8 @@ TEST(PadOperator, Sans2)
 	    "    x->*y = z;\n"
 	    "\n"
 	    "    x = ~y;\n"
+	    "    x = (int) -1;\n"
+	    "    x = (char*) -1;\n"
 	    "\n"
 	    "    return +1;\n"
 	    "    return (+1);\n"
@@ -3505,6 +3507,48 @@ TEST(PadHeader, ThrowUnpad)
 	delete [] textOut;
 }
 
+TEST(PadHeader, NewDelete)
+{
+	// A 'new' or 'delete' statement may or may not be a paren header.
+	char textIn[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    char* data = new(nothrow) char[blockSize];\n"
+	    "    delete(container);\n"
+	    "}";
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    char* data = new (nothrow) char[blockSize];\n"
+	    "    delete (container);\n"
+	    "}";
+	char options[] = "pad-header";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(PadHeader, NewDeleteUnpad)
+{
+	// A 'new' pr 'delete' statement should be padded even with unpad parens.
+	char textIn[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    char* data = new(nothrow) char[blockSize];\n"
+	    "    delete(container);\n"
+	    "}";
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    char* data = new (nothrow) char[blockSize];\n"
+	    "    delete (container);\n"
+	    "}";
+	char options[] = "pad-header, unpad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Unpad Paren
 //-------------------------------------------------------------------------
@@ -3807,6 +3851,27 @@ TEST(UnpadParen, Throw)
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
+}
+
+TEST(UnpadParen, NewDelete)
+{
+	// Unpad a 'new' or 'delete' followed by parens.
+	char textIn[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    char* data = new (nothrow) char[blockSize];\n"
+	    "    delete (container);\n"
+	    "}";
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    char* data = new(nothrow) char[blockSize];\n"
+	    "    delete(container);\n"
+	    "}";
+	char options[] = "unpad-paren";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------

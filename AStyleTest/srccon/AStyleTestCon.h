@@ -42,7 +42,6 @@ extern ostream* _err;
 //-------------------------------------------------------------------------
 
 // functions in AStyleTestCon_Main.cpp
-// char** buildArgv(const vector<string>& argIn);
 void cleanTestDirectory(const string& directory);
 wstring convertToWideChar(const string& mbStr);
 void createConsoleGlobalObject(ASFormatter& formatter);
