@@ -20,9 +20,11 @@
     <h3>Artistic Style 2.06&nbsp; (Pending)</h3>
 
     <ul>
-        <li>Add new Objective&#8209;C options "pad-return-type" (-xq) and "unpad-return-type" (-xr).</li>
+        <li>Add new bracket style option "style=mozilla".</li>
+        <li>Add new option indent-continuation.</li>
         <li>Add new option pad-comma (#100).</li>
         <li>Add removing spaces before a comma (#100).</li>
+        <li>Add new Objective&#8209;C options "pad-return-type" (-xq) and "unpad-return-type" (-xr).</li>
         <li>Add formatting of C++14 single-quote digit separators (#337).</li>
         <li>Add translations for Bulgarian, Estonian, Greek, Hungarian, Norwegian, and Romanian.</li>
         <li>Remove lineend option from formatCinToCout function, only Windows lineends are allowed.</li>
@@ -34,6 +36,8 @@
         <li>Fix attaching &quot;if&quot; statements to a #else preprocessor directive (#356).</li>
         <li>Fix not clearing global variables for a new file (#364).</li>
         <li>Fix not recognizing an rvalue reference in a template (#404).</li>
+        <li>Fix padding -1 following a cast operator.</li>
+        <li>Fix not padding header for &quot;new&quot; or &quot;delete&quot; followed by parens.</li>
         <li>Fix C# to recognize &quot;using&quot; as a header.</li>
         <li>Fix C# to always recognize &quot;forever&quot; as a header.</li>
         <li>Fix end of line comments for &quot;pad-method-prefix&quot; and &quot;unpad-method-prefix&quot;.</li>
@@ -41,6 +45,7 @@
         <li>Refactoring:
             <ul>
                 <li>Consolidate scattered ASFormatter conditional statements into a padParenObjC method.</li>
+                <li>Remove BracketMode STROUSTRUP_MODE and change it to LINUX_MODE.</li>
                 <li>Remove ASBase methods from being inlined as class definitions.</li>
                 <li>Replace C char arrays in astyle_main.cpp with C++ strings.</li>
                 <li>Return language translation as a mutable variable.</li>

@@ -20,6 +20,14 @@
     <h3>Artistic Style 2.06&nbsp; (Pending)</h3>
 
     <p>
+        A new bracket style option, &quot;style=mozilla&quot;, has been added. It uses linux brackets with
+        opening brackets broken from classes, structs, enums, and function definitions. Brackets are attached to everything
+        else including namespaces, arrays, and statements within a function.</p>
+    <p>
+        A new option, &quot;indent-continuation&quot;, will add extra indents to continuation lines following a ine that
+        ends with an opening paren '(' or an assignment '='. This includes function definitions and declarations. 
+        There is more information in the &quot;Indentation Options&quot; section of the decumentation.</p>
+    <p>
         A new option, &quot;pad-comma&quot;, will add a space following a comma. The option &quot;pad-oper&quot;
         has not been changed and will also add a space following a comma.</p>
     <p>
@@ -52,36 +60,15 @@
     <p>
         There is a new C# example in the Developer Information that loads the AStyle shared library using explicit linking.
         This allows the shared library name to be changed so that a program compiled with &quot;Any CPU&quot; can load
-        either a 32-bit or 64-bit shared library.</p>
+        either a 32-bit or 64-bit shared library at run-time. It runs on both Windows and Linux.</p>
+    <p>
+        Visual Studio Code, the text editor from Microsoft, has a steep learning curve and takes time to learn. But once
+        it is set up, it can compile, run and debug programs in several programming languages. It can be used for small
+        programs in C++, Java, C#, and Python. It now has an Artistic Style extension. The extension runs from the VS
+        Code menu and is controlled by entries in the User Settings file. There are links to the websites on the Artistic
+        Style Links page. </p>
     <p>
         &nbsp;</p>
-
-    <h4>Visual Studio 2015 UTF-8 Files</h4>
-
-    <p>
-        In order to be used on both Linux and Windows, the ASLocalizer.cpp UTF-8 file in Artistic Style does not 
-        contain a Byte Order Mark (BOM).&nbsp; With Visual Studio 2015 there has been a change in how UTF-8 files 
-        without a BOM are processed. The new procedure is described 
-        <a href="https://blogs.msdn.microsoft.com/vcblog/2016/02/22/new-options-for-managing-character-sets-in-the-microsoft-cc-compiler/"
-            target="_blank" title="open new window">here</a>. 
-        It affects only the language translations in the &quot;.exe&quot; file. The shared libraries and static libraries
-        are not affected. It is necessary only if you are unsin a translation other than English.</p>
-
-    <p>
-        In addition to the &quot;auto detect...&quot; option in Tools &gt; Options... &gt; Text Editor &gt; General, an
-        additional compiler option is required. The option &quot;/source&#8209;charset:utf&#8209;8&quot; must be added
-        to the project properties at C++ &gt; Command Line, Additional Options. Since the non&#8209;unicode files in Artistic
-        Style are ASCII, the option can be applied to the entire project instead of just one file. This option has been
-        added in the files distributed with Artistic Style. There is also a new &quot;/validate&#8209;charset&quot; option,
-        which gets turned on automatically with the above option. This switch enables the validation of the UTF-8 input
-        files.</p>
-    <p>
-        This compiler option was not available until Update 2 of Visual Studio. If you are using an earlier version of
-        2015, a BOM should be added to the file using File &gt; &quot;Advanced Save Options...&quot;. Change the encoding
-        to &quot;Unicode (UTF-8 with signature) - Codepage 65001&quot;. </p>
-    <p>
-        In the above &quot;Visual C++ Team Blog&quot; Microsoft mentions that in a future major release of the compiler,
-        they would like to change default handling of BOM-less files to assume UTF-8.</p>
 
     <h4>New Software License</h4>
 
@@ -95,6 +82,33 @@
         If there are problems with the license change send an email to Artistic Style and its use will be approved on
         a individual basis.</p>
 
+    <h4>Visual Studio 2015 UTF-8 Files</h4>
+
+    <p>
+        In order to be used on both Linux and Windows, the ASLocalizer.cpp UTF-8 file in Artistic Style does not 
+        contain a Byte Order Mark (BOM).&nbsp; With Visual Studio 2015 there has been a change in how UTF-8 files 
+        without a BOM are processed. The new procedure is described 
+        <a href="https://blogs.msdn.microsoft.com/vcblog/2016/02/22/new-options-for-managing-character-sets-in-the-microsoft-cc-compiler/"
+            target="_blank" title="open new window">here</a>. It affects only the language translations in the &quot;.exe&quot;
+        file. The shared libraries and static libraries are not affected. It is necessary only if you are unsing a translation
+        other than English.</p>
+
+    <p>
+        In addition to the &quot;auto detect&quot; option in Tools &gt; Options... &gt; Text Editor &gt; General, an
+        additional compiler option is required. The option &quot;/source&#8209;charset:utf&#8209;8&quot; must be added
+        to the project properties at C++ &gt; Command Line, Additional Options. Since the non&#8209;unicode files in Artistic
+        Style are ASCII, the option can be applied to the entire project instead of just one file. This option has been
+        added in the files distributed with Artistic Style. There is also a new &quot;/validate&#8209;charset&quot; option,
+        which gets turned on automatically with the above option. This switch enables the validation of the UTF-8 input
+        files.</p>
+    <p>
+        This compiler option was not available until Update 2 of Visual Studio. If you are using an earlier version of
+        2015, a BOM should be added to the file using File &gt; &quot;Advanced Save Options&quot;. Change the encoding
+        to &quot;Unicode (UTF-8 with signature) - Codepage 65001&quot;. </p>
+    <p>
+        In the above &quot;Visual C++ Team Blog&quot; Microsoft mentions that in a future major release of the compiler,
+        they would like to change default handling of BOM-less files to assume UTF-8.</p>
+
     <h4>Assignment Operator Alignment</h4>
 
     <p>
@@ -105,54 +119,6 @@
     <p>
         These options and extensions can be used with Artistic Style. If you choose to do this, the space padding will
         be maintained and the alignment will be preserved.</p>
-
-    <h4>Microsoft Clang Compiler</h4>
-
-    <p>
-        The Microsoft Clang Compiler is available starting with Visual Studio 2015 Update 2. It is usually used for Android
-        or iOS support but the CodeGen support can be used with Windows. It will require modification of the Visual Studio
-        2015 project files.</p>
-    <p>
-        The Clang compiler can be installed from the Visual Studio 2015 install program by selecting the &quot;Clang
-        with Microsoft CodeGen&quot; option. If Visual Studio 2015 Update 2 or 3 is already installed, Clang can be installed
-        by selecting File &gt; New &gt; Project &gt; Visual C++ &gt; Cross Platform, select &quot;Install Clang with Microsoft
-        CodeGen&quot;.</p>
-    <p>
-        To use Clang open a Visual Studio 2015 AStyle Solution. Make the following change to all configurations: </p>
-    <ul>
-        <li>General &gt; Platform Toolset, select &quot;Clang with Microsoft CodeGen&quot;.</li>
-    </ul>
-    <p>
-        Make sure to hit &quot;Apply&quot; before editing other properties to let the project system load the corresponding
-        toolset definition.</p>
-    <p>
-        The Update 2 and 3 releases do not provide any support for automatic migration of values between Visual Studio
-        2015 and Clang. The invalid properties must be fixed manually manually. These properties may change with 
-        subsequent Visual Studio updates.</p>
-    <p>
-        The properties that need changing in Visual Studio 2015 Update 2 and 3 are:</p>
-    <ul>
-        <li>C/C++ &gt; General &gt; Debug Information Format, select &quot;Full Debug Information (DWARF2)&quot; for Debug
-            or &quot;None&quot; for Release.</li>
-        <li>C/C++ &gt; General &gt; Warning Level, select &quot;Enable All Warnings&quot;.</li>
-        <li>C/C++ &gt; Optimization &gt; Optimization, select an appropriate valid value for each configuration.</li>
-        <li>C/C++ &gt; Code Generation &gt; Enable C++ Exceptions, select &quot;Yes&quot; for Debug or &quot;No&quot; for
-            Release.</li>
-        <li>C/C++ &gt; Precompiled Headers &gt; Precompiled Header, select &quot;Not Using Precompiled Headers&quot;.</li>
-    </ul>
-    <p>
-        The following is needed if you are building an executable instead of a static or dynamic library. 
-        The properties must be Clang-compatible options which start with &quot;-&quot;&nbsp; instead of &quot;/&quot;.
-        The new opton &quot;/source-charset:utf-8&quot; can NOT be used with Clang. If necessary, remove it from C/C++
-        &gt; Command Line &gt; Additional Options.</p>
-    <ul>
-        <li>C/C++ &gt; Preprocessor &gt; Preprocessor Definitions, add &quot;&nbsp;__STDC__=0&quot;. 
-        </li>
-        <li>C/C++ &gt; Command Line &gt; Additional Options, enter &quot;-Wno-macro-redefined&quot;.
-        </li>
-    </ul>
-    <p>
-        The project should now compile and run.</p>
 
     <h4>Artistic Style Wx</h4>
 

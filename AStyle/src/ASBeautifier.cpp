@@ -50,6 +50,7 @@ ASBeautifier::ASBeautifier()
 	isModeManuallySet = false;
 	shouldForceTabIndentation = false;
 	setSpaceIndentation(4);
+	setContinuationIndentation(1);
 	setMinConditionalIndentOption(MINCOND_TWO);
 	setMaxInStatementIndentLength(40);
 	classInitializerIndents = 1;
@@ -238,6 +239,7 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	parenDepth = other.parenDepth;
 	indentLength = other.indentLength;
 	tabLength = other.tabLength;
+	continuationIndent = other.continuationIndent;
 	blockTabCount = other.blockTabCount;
 	maxInStatementIndent = other.maxInStatementIndent;
 	classInitializerIndents = other.classInitializerIndents;
@@ -504,6 +506,16 @@ void ASBeautifier::setSpaceIndentation(int length)
 {
 	indentString = string(length, ' ');
 	indentLength = length;
+}
+
+/**
+* indent continuation lines using a number of indents.
+*
+* @param   indent     number of indents per line.
+*/
+void ASBeautifier::setContinuationIndentation(int indent)
+{
+	continuationIndent = indent;
 }
 
 /**
@@ -1255,13 +1267,13 @@ void ASBeautifier::registerInStatementIndent(const string& line, int i, int spac
 	int remainingCharNum = line.length() - i;
 	int nextNonWSChar = getNextProgramCharDistance(line, i);
 
-	// if indent is around the last char in the line, indent instead one indent from the previous indent
+	// if indent is around the last char in the line, indent with the continuation indent
 	if (nextNonWSChar == remainingCharNum)
 	{
 		int previousIndent = spaceTabCount_;
 		if (!inStatementIndentStack->empty())
 			previousIndent = inStatementIndentStack->back();
-		int currIndent = /*2*/ indentLength + previousIndent;
+		int currIndent = continuationIndent * indentLength + previousIndent;
 		if (currIndent > maxInStatementIndent
 		        && line[i] != '{')
 			currIndent = indentLength * 2 + spaceTabCount_;

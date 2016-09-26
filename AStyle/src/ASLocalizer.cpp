@@ -339,7 +339,7 @@ string Translation::convertToMultiByte(const wstring& wideStr) const
 		return "";
 	}
 	// convert the characters
-	char* mbStr = new(nothrow) char[mbLen + 1];
+	char* mbStr = new (nothrow) char[mbLen + 1];
 	if (mbStr == NULL)
 	{
 		if (!msgDisplayed)
@@ -352,7 +352,7 @@ string Translation::convertToMultiByte(const wstring& wideStr) const
 	wcstombs(mbStr, wideStr.c_str(), mbLen + 1);
 	// return the string
 	string mbTranslation = mbStr;
-	delete [] mbStr;
+	delete[] mbStr;
 	return mbTranslation;
 }
 

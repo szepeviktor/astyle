@@ -53,7 +53,7 @@ ifdef linux
     dylib = so
     dynamiclib = -shared
     CXX = g++
-    JAVAINCS   = -I$(JAVA_HOME)/include
+    JAVAINCS   = -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
 endif
 
 ##################################################

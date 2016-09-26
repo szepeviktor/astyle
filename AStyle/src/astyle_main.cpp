@@ -743,7 +743,7 @@ FileEncoding ASConsole::readFile(const string& fileName_, stringstream& in) cons
 	ifstream fin(fileName_.c_str(), ios::binary);
 	if (!fin)
 		error("Cannot open input file", fileName_.c_str());
-	char* data = new(nothrow) char[blockSize];
+	char* data = new (nothrow) char[blockSize];
 	if (!data)
 		error("Cannot allocate memory for input file", fileName_.c_str());
 	fin.read(data, blockSize);
@@ -761,13 +761,13 @@ FileEncoding ASConsole::readFile(const string& fileName_, stringstream& in) cons
 		{
 			// convert utf-16 to utf-8
 			size_t utf8Size = utf8_16.utf8LengthFromUtf16(data, dataSize, isBigEndian);
-			char* utf8Out = new(nothrow) char[utf8Size];
+			char* utf8Out = new (nothrow) char[utf8Size];
 			if (!utf8Out)
 				error("Cannot allocate memory for utf-8 conversion", fileName_.c_str());
 			size_t utf8Len = utf8_16.utf16ToUtf8(data, dataSize, isBigEndian, firstBlock, utf8Out);
 			assert(utf8Len == utf8Size);
 			in << string(utf8Out, utf8Len);
-			delete [] utf8Out;
+			delete[] utf8Out;
 		}
 		else
 			in << string(data, dataSize);
@@ -778,7 +778,7 @@ FileEncoding ASConsole::readFile(const string& fileName_, stringstream& in) cons
 		firstBlock = false;
 	}
 	fin.close();
-	delete [] data;
+	delete[] data;
 	return encoding;
 }
 
@@ -983,20 +983,20 @@ string ASConsole::getNumberFormat(int num, size_t lcid) const
 	if (lcid == 0)
 		lcid = LOCALE_USER_DEFAULT;
 	int outSize = ::GetNumberFormat(lcid, 0, number.c_str(), NULL, NULL, 0);
-	char* outBuf = new(nothrow) char[outSize];
+	char* outBuf = new (nothrow) char[outSize];
 	if (outBuf == NULL)
 		return number;
 	::GetNumberFormat(lcid, 0, number.c_str(), NULL, outBuf, outSize);
 	string formattedNum(outBuf);
-	delete [] outBuf;
+	delete[] outBuf;
 	// remove the decimal
 	int decSize = ::GetLocaleInfo(lcid, LOCALE_SDECIMAL, NULL, 0);
-	char* decBuf = new(nothrow) char[decSize];
+	char* decBuf = new (nothrow) char[decSize];
 	if (decBuf == NULL)
 		return number;
 	::GetLocaleInfo(lcid, LOCALE_SDECIMAL, decBuf, decSize);
 	size_t i = formattedNum.rfind(decBuf);
-	delete [] decBuf;
+	delete[] decBuf;
 	if (i != string::npos)
 		formattedNum.erase(i);
 	if (!formattedNum.length())
@@ -1582,7 +1582,7 @@ void ASConsole::printHelp() const
 	cout << endl;
 	cout << "    --style=vtk  OR  -A15\n";
 	cout << "    VTK style formatting/indenting.\n";
-	cout << "    Broken, indented brackets, except for opening brackets.\n";
+	cout << "    Broken, indented brackets except for opening brackets.\n";
 	cout << endl;
 	cout << "    --style=banner  OR  -A6\n";
 	cout << "    Banner style formatting/indenting.\n";
@@ -1607,6 +1607,11 @@ void ASConsole::printHelp() const
 	cout << "    --style=google  OR  -A14\n";
 	cout << "    Google style formatting/indenting.\n";
 	cout << "    Attached brackets, indented class modifiers.\n";
+	cout << endl;
+	cout << "    --style=mozilla  OR  -A16\n";
+	cout << "    Mozilla style formatting/indenting.\n";
+	cout << "    Linux brackets, with broken brackets for structs and enums,\n";
+	cout << "    and attached brackets for namespaces.\n";
 	cout << endl;
 	cout << "    --style=pico  OR  -A11\n";
 	cout << "    Pico style formatting/indenting.\n";
@@ -1677,6 +1682,11 @@ void ASConsole::printHelp() const
 	cout << endl;
 	cout << "    --indent-namespaces  OR  -N\n";
 	cout << "    Indent the contents of namespace blocks.\n";
+	cout << endl;
+	cout << "    --indent-continuation=#  OR  -xt#\n";
+	cout << "    Indent continuation lines an additional # indents.\n";
+	cout << "    The valid values are 0 thru 4 indents.\n";
+	cout << "    The default value is 1 indent.\n";
 	cout << endl;
 	cout << "    --indent-labels  OR  -L\n";
 	cout << "    Indent labels so that they appear one indent less than\n";
@@ -1841,6 +1851,12 @@ void ASConsole::printHelp() const
 	cout << "    Insert space padding after the Objective-C return type.\n";
 	cout << endl;
 	cout << "    --unpad-return-type  OR  -xr\n";
+	cout << "    Remove all space padding after the Objective-C return type.\n";
+	cout << endl;
+	cout << "    --pad-param-type  OR  -xS\n";
+	cout << "    Insert space padding after the Objective-C return type.\n";
+	cout << endl;
+	cout << "    --unpad-param-type  OR  -xs\n";
 	cout << "    Remove all space padding after the Objective-C return type.\n";
 	cout << endl;
 	cout << "    --align-method-colon  OR  -xM\n";
@@ -2401,7 +2417,7 @@ void ASConsole::writeFile(const string& fileName_, FileEncoding encoding, ostrin
 		                                      out.str().length(), isBigEndian, utf16Out);
 		assert(utf16Len == utf16Size);
 		fout << string(utf16Out, utf16Len);
-		delete [] utf16Out;
+		delete[] utf16Out;
 	}
 	else
 		fout << out.str();
@@ -2451,7 +2467,7 @@ utf16_t* ASLibrary::formatUtf16(const utf16_t* pSourceIn,		// the source to be f
 	const char* utf8Options = convertUtf16ToUtf8(pOptions);
 	if (utf8Options == NULL)
 	{
-		delete [] utf8In;
+		delete[] utf8In;
 		fpErrorHandler(122, "Cannot convert options utf-16 to utf-8.");
 		return NULL;
 	}
@@ -2462,8 +2478,8 @@ utf16_t* ASLibrary::formatUtf16(const utf16_t* pSourceIn,		// the source to be f
 	                           fpErrorHandler,
 	                           ASLibrary::tempMemoryAllocation);
 	// finished with these
-	delete [] utf8In;
-	delete [] utf8Options;
+	delete[] utf8In;
+	delete[] utf8Options;
 	utf8In = NULL;
 	utf8Options = NULL;
 	// AStyle error has already been sent
@@ -2471,7 +2487,7 @@ utf16_t* ASLibrary::formatUtf16(const utf16_t* pSourceIn,		// the source to be f
 		return NULL;
 	// convert text to wide char and return it
 	utf16_t* utf16Out = convertUtf8ToUtf16(utf8Out, fpMemoryAlloc);
-	delete [] utf8Out;
+	delete[] utf8Out;
 	utf8Out = NULL;
 	if (utf16Out == NULL)
 	{
@@ -2485,7 +2501,7 @@ utf16_t* ASLibrary::formatUtf16(const utf16_t* pSourceIn,		// the source to be f
 // The data will be converted before being returned to the calling program.
 char* STDCALL ASLibrary::tempMemoryAllocation(unsigned long memoryNeeded)
 {
-	char* buffer = new(nothrow) char[memoryNeeded];
+	char* buffer = new (nothrow) char[memoryNeeded];
 	return buffer;
 }
 
@@ -2530,7 +2546,7 @@ char* ASLibrary::convertUtf16ToUtf8(const utf16_t* utf16In) const
 	size_t dataSize = utf8_16.utf16len(utf16In) * sizeof(utf16_t);
 	bool isBigEndian = utf8_16.getBigEndian();
 	size_t utf8Size = utf8_16.utf8LengthFromUtf16(data, dataSize, isBigEndian) + 1;
-	char* utf8Out = new(nothrow) char[utf8Size];
+	char* utf8Out = new (nothrow) char[utf8Size];
 	if (utf8Out == NULL)
 		return NULL;
 #ifdef NDEBUG
@@ -2650,6 +2666,10 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	{
 		formatter.setFormattingStyle(STYLE_GOOGLE);
 	}
+	else if (isOption(arg, "style=mozilla"))
+	{
+		formatter.setFormattingStyle(STYLE_MOZILLA);
+	}
 	else if ( isOption(arg, "style=pico") )
 	{
 		formatter.setFormattingStyle(STYLE_PICO);
@@ -2692,6 +2712,8 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 			formatter.setFormattingStyle(STYLE_GOOGLE);
 		else if (style == 15)
 			formatter.setFormattingStyle(STYLE_VTK);
+		else if (style == 16)
+			formatter.setFormattingStyle(STYLE_MOZILLA);
 		else
 			isOptionError(arg, errorInfo);
 	}
@@ -2778,6 +2800,19 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	else if ( isOption(arg, "indent=spaces") )
 	{
 		formatter.setSpaceIndentation(4);
+	}
+	else if (isParamOption(arg, "xt", "indent-continuation="))
+	{
+		int contIndent = 1;
+		string contIndentParam = getParam(arg, "xt", "indent-continuation=");
+		if (contIndentParam.length() > 0)
+			contIndent = atoi(contIndentParam.c_str());
+		if (contIndent < 0)
+			isOptionError(arg, errorInfo);
+		else if (contIndent > 4)
+			isOptionError(arg, errorInfo);
+		else
+			formatter.setContinuationIndentation(contIndent);
 	}
 	else if ( isParamOption(arg, "m", "min-conditional-indent=") )
 	{
@@ -3053,6 +3088,14 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	else if (isOption(arg, "xr", "unpad-return-type"))
 	{
 		formatter.setReturnTypeUnPaddingMode(true);
+	}
+	else if (isOption(arg, "XS", "pad-param-type"))
+	{
+		formatter.setParamTypePaddingMode(true);
+	}
+	else if (isOption(arg, "xs", "unpad-param-type"))
+	{
+		formatter.setParamTypeUnPaddingMode(true);
 	}
 	else if (isOption(arg, "xM", "align-method-colon"))
 	{
@@ -3607,7 +3650,7 @@ jstring STDCALL Java_AStyleInterface_AStyleMain(JNIEnv* env,
 
 	// release memory
 	jstring textOutJava = env->NewStringUTF(textOut);
-	delete [] textOut;
+	delete[] textOut;
 	env->ReleaseStringUTFChars(textInJava, textIn);
 	env->ReleaseStringUTFChars(optionsJava, options);
 
@@ -3625,7 +3668,7 @@ void STDCALL javaErrorHandler(int errorNumber, const char* errorMessage)
 char* STDCALL javaMemoryAlloc(unsigned long memoryNeeded)
 {
 	// error condition is checked after return from AStyleMain
-	char* buffer = new(nothrow) char[memoryNeeded];
+	char* buffer = new (nothrow) char[memoryNeeded];
 	return buffer;
 }
 

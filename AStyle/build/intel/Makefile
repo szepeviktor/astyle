@@ -47,7 +47,7 @@ objdir = obj
 ipath=$(prefix)/bin
 
 CBASEFLAGS = -w3 -Wall -fno-rtti -fno-exceptions
-JAVAINCS   = -I$(JAVA_HOME)/include
+JAVAINCS   = -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
 CXX = icpc
 INSTALL=install -o $(USER) -g $(USER)
 

@@ -75,6 +75,8 @@ ASFormatter::ASFormatter()
 	shouldUnPadMethodPrefix = false;
 	shouldPadReturnType = false;
 	shouldUnPadReturnType = false;
+	shouldPadParamType = false;
+	shouldUnPadParamType = false;
 
 	// initialize ASFormatter member vectors
 	formatterFileType = 9;		// reset to an invalid type
@@ -250,11 +252,13 @@ void ASFormatter::init(ASSourceIterator* si)
 	isImmediatelyPostPreprocessor = false;
 	isImmediatelyPostReturn = false;
 	isImmediatelyPostThrow = false;
+	isImmediatelyPostNewDelete = false;
 	isImmediatelyPostOperator = false;
 	isImmediatelyPostTemplate = false;
 	isImmediatelyPostPointerOrReference = false;
 	isCharImmediatelyPostReturn = false;
 	isCharImmediatelyPostThrow = false;
+	isCharImmediatelyPostNewDelete = false;
 	isCharImmediatelyPostOperator = false;
 	isCharImmediatelyPostComment = false;
 	isPreviousCharPostComment = false;
@@ -336,7 +340,7 @@ void ASFormatter::fixOptionVariableConflicts()
 	}
 	else if (formattingStyle == STYLE_STROUSTRUP)
 	{
-		setBracketFormatMode(STROUSTRUP_MODE);
+		setBracketFormatMode(LINUX_MODE);
 	}
 	else if (formattingStyle == STYLE_WHITESMITH)
 	{
@@ -387,6 +391,10 @@ void ASFormatter::fixOptionVariableConflicts()
 		setBracketFormatMode(ATTACH_MODE);
 		setModifierIndent(true);
 		setClassIndent(false);
+	}
+	else if (formattingStyle == STYLE_MOZILLA)
+	{
+		setBracketFormatMode(LINUX_MODE);
 	}
 	else if (formattingStyle == STYLE_PICO)
 	{
@@ -472,6 +480,7 @@ string ASFormatter::nextLine()
 			isCharImmediatelyPostTemplate = false;
 			isCharImmediatelyPostReturn = false;
 			isCharImmediatelyPostThrow = false;
+			isCharImmediatelyPostNewDelete = false;
 			isCharImmediatelyPostOperator = false;
 			isCharImmediatelyPostPointerOrReference = false;
 			isCharImmediatelyPostOpenBlock = false;
@@ -691,6 +700,12 @@ string ASFormatter::nextLine()
 		{
 			isImmediatelyPostThrow = false;
 			isCharImmediatelyPostThrow = true;
+		}
+
+		if (isImmediatelyPostNewDelete)
+		{
+			isImmediatelyPostNewDelete = false;
+			isCharImmediatelyPostNewDelete = true;
 		}
 
 		if (isImmediatelyPostOperator)
@@ -1269,8 +1284,8 @@ string ASFormatter::nextLine()
 			         && isOkToBreakBlock(bracketTypeStack->back())
 			         && shouldBreakOneLineStatements
 			         && !foundQuestionMark          // not in a ?: sequence
-			         && !foundPreDefinitionHeader   // not in a definition block (e.g. class foo : public bar
-			         && previousCommandChar != ')'  // not immediately after closing paren of a method header, e.g. ASFormatter::ASFormatter(...) : ASBeautifier(...)
+			         && !foundPreDefinitionHeader   // not in a definition block
+			         && previousCommandChar != ')'  // not after closing paren of a method header
 			         && !foundPreCommandHeader      // not after a 'noexcept'
 			         && !squareBracketCount         // not in objC method call
 			         && !isInObjCMethodDefinition   // not objC '-' or '+' method
@@ -1307,8 +1322,12 @@ string ASFormatter::nextLine()
 
 		if (isPotentialHeader && !isInTemplate)
 		{
-			if (findKeyword(currentLine, charNum, AS_NEW))
+			if (findKeyword(currentLine, charNum, AS_NEW)
+			        || findKeyword(currentLine, charNum, AS_DELETE))
+			{
 				isInPotentialCalculation = false;
+				isImmediatelyPostNewDelete = true;
+			}
 
 			if (findKeyword(currentLine, charNum, AS_RETURN))
 			{
@@ -1554,7 +1573,9 @@ string ASFormatter::nextLine()
 			if (currentChar == '(')
 			{
 				if (shouldPadHeader
-				        && (isCharImmediatelyPostReturn || isCharImmediatelyPostThrow))
+				        && (isCharImmediatelyPostReturn
+				            || isCharImmediatelyPostThrow
+				            || isCharImmediatelyPostNewDelete))
 					appendSpacePad();
 			}
 
@@ -1921,6 +1942,18 @@ void ASFormatter::setReturnTypePaddingMode(bool state)
 void ASFormatter::setReturnTypeUnPaddingMode(bool state)
 {
 	shouldUnPadReturnType = state;
+}
+
+// set objective-c method parameter type padding mode.
+void ASFormatter::setParamTypePaddingMode(bool state)
+{
+	shouldPadParamType = state;
+}
+
+// set objective-c method parameter type unpadding mode.
+void ASFormatter::setParamTypeUnPaddingMode(bool state)
+{
+	shouldUnPadParamType = state;
 }
 
 /**
@@ -3522,6 +3555,8 @@ void ASFormatter::padOperators(const string* newOperator)
 	        && !isBeforeAnyComment()
 	        && !(newOperator == &AS_PLUS && isUnaryOperator())
 	        && !(newOperator == &AS_MINUS && isUnaryOperator())
+	        && !(previousNonWSChar == ')' && newOperator == &AS_MINUS
+	             && peekNextChar() != 1)	// don't pad -1 following a c-style cast
 	        && !(currentLine.compare(charNum + 1, 1, AS_SEMICOLON) == 0)
 	        && !(currentLine.compare(charNum + 1, 2, AS_SCOPE_RESOLUTION) == 0)
 	        && !(peekNextChar() == ',')
@@ -3983,9 +4018,12 @@ void ASFormatter::padParens(void)
 						prevWordH = ASBeautifier::findHeader(prevWord, 0, headers);
 					if (prevWordH != NULL)
 						prevIsParenHeader = true;
-					else if (prevWord == "return")  // don't unpad
+					else if (prevWord == AS_RETURN)  // don't unpad
 						prevIsParenHeader = true;
-					else if (isCStyle() && prevWord == "throw" && shouldPadHeader) // don't unpad
+					else if ((prevWord == AS_NEW || prevWord == AS_DELETE)
+					         && shouldPadHeader)  // don't unpad
+						prevIsParenHeader = true;
+					else if (isCStyle() && prevWord == AS_THROW && shouldPadHeader) // don't unpad
 						prevIsParenHeader = true;
 					else if (prevWord == "and" || prevWord == "or")  // don't unpad
 						prevIsParenHeader = true;
@@ -4283,8 +4321,7 @@ void ASFormatter::formatOpeningBracket(BracketType bracketType)
 		        && formattedLine[0] == '{'
 		        && isOkToBreakBlock(bracketType)
 		        && (bracketFormatMode == BREAK_MODE
-		            || bracketFormatMode == LINUX_MODE
-		            || bracketFormatMode == STROUSTRUP_MODE))
+		            || bracketFormatMode == LINUX_MODE))
 		{
 			shouldBreakLineAtNextChar = true;
 		}
@@ -4466,14 +4503,20 @@ void ASFormatter::formatArrayBrackets(BracketType bracketType, bool isOpeningArr
 		if (isOpeningArrayBracket)
 		{
 			if (bracketFormatMode == ATTACH_MODE
-			        || bracketFormatMode == LINUX_MODE
-			        || bracketFormatMode == STROUSTRUP_MODE)
+			        || bracketFormatMode == LINUX_MODE)
 			{
+				// break an enum if mozilla
+				if (isBracketType(bracketType, ENUM_TYPE)
+				        && formattingStyle == STYLE_MOZILLA)
+				{
+					isInLineBreak = true;
+					appendCurrentChar();                // don't attach
+				}
 				// don't attach to a preprocessor directive or '\' line
-				if ((isImmediatelyPostPreprocessor
-				        || (formattedLine.length() > 0
-				            && formattedLine[formattedLine.length() - 1] == '\\'))
-				        && currentLineBeginsWithBracket)
+				else if ((isImmediatelyPostPreprocessor
+				          || (formattedLine.length() > 0
+				              && formattedLine[formattedLine.length() - 1] == '\\'))
+				         && currentLineBeginsWithBracket)
 				{
 					isInLineBreak = true;
 					appendCurrentChar();                // don't attach
@@ -5051,14 +5094,26 @@ bool ASFormatter::isCurrentBracketBroken() const
 	{
 		breakBracket = true;
 	}
-	else if (bracketFormatMode == LINUX_MODE || bracketFormatMode == STROUSTRUP_MODE)
+	else if (bracketFormatMode == LINUX_MODE)
 	{
-		// break a namespace, class, or interface if Linux
-		if (isBracketType((*bracketTypeStack)[stackEnd], NAMESPACE_TYPE)
-		        || isBracketType((*bracketTypeStack)[stackEnd], CLASS_TYPE)
-		        || isBracketType((*bracketTypeStack)[stackEnd], INTERFACE_TYPE))
+		// break a namespace if NOT stroustrup or mozilla
+		if (isBracketType((*bracketTypeStack)[stackEnd], NAMESPACE_TYPE))
 		{
-			if (bracketFormatMode == LINUX_MODE)
+			if (formattingStyle != STYLE_STROUSTRUP
+			        && formattingStyle != STYLE_MOZILLA)
+				breakBracket = true;
+		}
+		// break a class or interface if NOT stroustrup
+		else if (isBracketType((*bracketTypeStack)[stackEnd], CLASS_TYPE)
+		         || isBracketType((*bracketTypeStack)[stackEnd], INTERFACE_TYPE))
+		{
+			if (formattingStyle != STYLE_STROUSTRUP)
+				breakBracket = true;
+		}
+		// break a struct if mozilla - an enum is processed as an array bracket
+		else if (isBracketType((*bracketTypeStack)[stackEnd], STRUCT_TYPE))
+		{
+			if (formattingStyle == STYLE_MOZILLA)
 				breakBracket = true;
 		}
 		// break the first bracket if a function
@@ -5608,7 +5663,7 @@ void ASFormatter::isLineBreakBeforeClosingHeader()
 				isAppendPostBlockEmptyLineRequested = false;
 		}
 	}
-	// bracketFormatMode == ATTACH_MODE, LINUX_MODE, STROUSTRUP_MODE
+	// bracketFormatMode == ATTACH_MODE, LINUX_MODE
 	else
 	{
 		if (shouldBreakClosingHeaderBrackets
