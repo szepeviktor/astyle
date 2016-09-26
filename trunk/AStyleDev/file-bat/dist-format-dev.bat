@@ -3,7 +3,7 @@
 
 set progdir=C:\Program Files\AStyle
 REM override standard options with --style=horstmann  --indent=spaces
-set options=--options=..\..\AStyleTest\file-bat\astyle-options.cfg  -A9s
+set options=--options=..\..\AStyleTest\file-bat\astyle-options.ini  -A9s
 
 echo Formatting AStyleDev
 echo override standard options with --style=horstmann  --indent=spaces

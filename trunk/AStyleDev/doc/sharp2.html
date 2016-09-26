@@ -400,7 +400,7 @@
 
 <span class="hl kwa">interface</span> NativeLibrary
 <span class="hl opt">{</span>   <span class="hl kwa">void</span> <span class="hl kwd">FreeLibrary</span><span class="hl opt">(</span>IntPtr handle<span class="hl opt">);</span>
-    IntPtr <span class="hl kwd">GetProcAddress</span><span class="hl opt">(</span>IntPtr dllHandle<span class="hl opt">,</span> <span class="hl kwa">string</span> name<span class="hl opt">);</span>
+    IntPtr <span class="hl kwd">GetProcAddress</span><span class="hl opt">(</span>IntPtr handle<span class="hl opt">,</span> <span class="hl kwa">string</span> procName<span class="hl opt">);</span>
     IntPtr <span class="hl kwd">LoadLibrary</span><span class="hl opt">(</span><span class="hl kwa">string</span> fileName<span class="hl opt">);</span>
 <span class="hl opt">}</span>
 
@@ -410,8 +410,8 @@
     <span class="hl opt">{</span>   <span class="hl kwd">FreeLibrary</span><span class="hl opt">(</span>handle<span class="hl opt">);</span>
     <span class="hl opt">}</span>
 
-    IntPtr NativeLibrary<span class="hl opt">.</span><span class="hl kwd">GetProcAddress</span><span class="hl opt">(</span>IntPtr dllHandle<span class="hl opt">,</span> <span class="hl kwa">string</span> name<span class="hl opt">)</span>
-    <span class="hl opt">{</span>   <span class="hl kwa">return</span> <span class="hl kwd">GetProcAddress</span><span class="hl opt">(</span>dllHandle<span class="hl opt">,</span> name<span class="hl opt">);</span>
+    IntPtr NativeLibrary<span class="hl opt">.</span><span class="hl kwd">GetProcAddress</span><span class="hl opt">(</span>IntPtr handle<span class="hl opt">,</span> <span class="hl kwa">string</span> procName<span class="hl opt">)</span>
+    <span class="hl opt">{</span>   <span class="hl kwa">return</span> <span class="hl kwd">GetProcAddress</span><span class="hl opt">(</span>handle<span class="hl opt">,</span> procName<span class="hl opt">);</span>
     <span class="hl opt">}</span>
 
     IntPtr NativeLibrary<span class="hl opt">.</span><span class="hl kwd">LoadLibrary</span><span class="hl opt">(</span><span class="hl kwa">string</span> fileName<span class="hl opt">)</span>
@@ -425,7 +425,7 @@
     <span class="hl kwa">private static extern int</span> <span class="hl kwd">FreeLibrary</span><span class="hl opt">(</span>IntPtr handle<span class="hl opt">);</span>
 
     <span class="hl opt">[</span><span class="hl kwd">DllImport</span><span class="hl opt">(</span><span class="hl str">&quot;kernel32.dll&quot;</span><span class="hl opt">)]</span>
-    <span class="hl kwa">private static extern</span> IntPtr <span class="hl kwd">GetProcAddress</span><span class="hl opt">(</span>IntPtr handle<span class="hl opt">,</span> <span class="hl kwa">string</span> procedureName<span class="hl opt">);</span>
+    <span class="hl kwa">private static extern</span> IntPtr <span class="hl kwd">GetProcAddress</span><span class="hl opt">(</span>IntPtr handle<span class="hl opt">,</span> <span class="hl kwa">string</span> procName<span class="hl opt">);</span>
 <span class="hl opt">}</span>
 
 
@@ -435,9 +435,9 @@
     <span class="hl opt">{</span>   <span class="hl kwd">dlclose</span><span class="hl opt">(</span>handle<span class="hl opt">);</span>
     <span class="hl opt">}</span>
 
-    <span class="hl kwa">public</span> IntPtr <span class="hl kwd">GetProcAddress</span><span class="hl opt">(</span>IntPtr dllHandle<span class="hl opt">,</span> <span class="hl kwa">string</span> name<span class="hl opt">)</span>
+    <span class="hl kwa">public</span> IntPtr <span class="hl kwd">GetProcAddress</span><span class="hl opt">(</span>IntPtr handle<span class="hl opt">,</span> <span class="hl kwa">string</span> procName<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl kwd">dlerror</span><span class="hl opt">();</span>      <span class="hl slc">// clear previous errors if any</span>
-        <span class="hl kwa">var</span> res <span class="hl opt">=</span> <span class="hl kwd">dlsym</span><span class="hl opt">(</span>dllHandle<span class="hl opt">,</span> name<span class="hl opt">);</span>
+        <span class="hl kwa">var</span> res <span class="hl opt">=</span> <span class="hl kwd">dlsym</span><span class="hl opt">(</span>handle<span class="hl opt">,</span> procName<span class="hl opt">);</span>
         <span class="hl kwa">var</span> errPtr <span class="hl opt">=</span> <span class="hl kwd">dlerror</span><span class="hl opt">();</span>
         <span class="hl kwa">if</span> <span class="hl opt">(</span>errPtr <span class="hl opt">!=</span> IntPtr<span class="hl opt">.</span>Zero<span class="hl opt">)</span>
             Console<span class="hl opt">.</span><span class="hl kwd">WriteLine</span><span class="hl opt">(</span><span class="hl str">&quot;dlsym: &quot;</span> <span class="hl opt">+</span> Marshal<span class="hl opt">.</span><span class="hl kwd">PtrToStringAnsi</span><span class="hl opt">(</span>errPtr<span class="hl opt">));</span>
@@ -598,7 +598,7 @@
             <span class="hl opt">}</span>
         <span class="hl opt">}</span>
         <span class="hl kwa">if</span> <span class="hl opt">(</span>libraryName <span class="hl opt">==</span> <span class="hl kwa">null</span><span class="hl opt">)</span>
-        <span class="hl opt">{</span>   <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find native library in &quot;</span>
+        <span class="hl opt">{</span>   <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find astyle native library in &quot;</span>
                   <span class="hl opt">+</span> appDirectory
                   <span class="hl opt">+</span> Path<span class="hl opt">.</span>DirectorySeparatorChar<span class="hl opt">);</span>
         <span class="hl opt">}</span>

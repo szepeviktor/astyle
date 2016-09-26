@@ -97,8 +97,8 @@ if errorlevel 2 pause
 REM copy only the required programs
 xcopy ..\src-p\ExampleByte.py  %distpython%\src-p\  /q
 if errorlevel 2 pause
-:: xcopy ..\src-p\ExampleExe.py  %distpython%\src-p\  /q
-:: if errorlevel 2 pause
+xcopy ..\src-p\ExampleExe.py  %distpython%\src-p\  /q
+if errorlevel 2 pause
 xcopy ..\src-p\ExampleUnicode.py  %distpython%\src-p\  /q
 if errorlevel 2 pause
 REM copy the files

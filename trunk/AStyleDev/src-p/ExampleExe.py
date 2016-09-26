@@ -22,7 +22,7 @@ def main():
     files = ["ASBeautifier.cpp", "ASFormatter.cpp", "astyle.h"]
     options = "-A2tOP"
 
-    #initialization
+    # initialization
     print("ExampleExe",
           platform.python_implementation(),
           platform.python_version(),

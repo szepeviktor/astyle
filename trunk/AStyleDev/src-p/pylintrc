@@ -7,12 +7,9 @@ persistent=no
 
 [MESSAGES CONTROL]
 # Disable the message, report, category or checker with the given id(s)
-# disable=  warning W0401: Wildcard import (ctypes)
-#           warning W0614: Unused import from wildcard import (ctypes)
-#           warning R0801: Similar lines in 2 files
-disable=W0401,W0614,R0801
+disable=wildcard-import,unused-wildcard-import
 
-[FORMAT]
-# Maximum number of characters on a single line.
-# max-line-length=  80 to 100
-max-line-length=100
+[REPORTS]
+# Tells whether to display a full report or only the messages
+# reports= yes to no
+reports=no

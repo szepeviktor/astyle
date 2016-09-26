@@ -31,7 +31,7 @@ def main():
     # options are byte code for AStyle input
     option_bytes = b"-A2tOP"
 
-    #initialization
+    # initialization
     print("ExampleByte",
           platform.python_implementation(),
           platform.python_version(),
@@ -46,7 +46,7 @@ def main():
         bytes_in = get_source_code_bytes(file_path)
         formatted_bytes = format_source_bytes(libc, bytes_in, option_bytes)
         # if an error occurs, the return is a type(None) object
-        if type(formatted_bytes) is type(None):
+        if formatted_bytes is None:
             error("Error in formatting " + file_path)
         save_source_code_bytes(formatted_bytes, file_path)
         # allocated memory is deleted here, not in the allocation function
@@ -97,21 +97,23 @@ def get_library_name():
         Usually a specific version would be obtained, in which case a constant
         could be used for the library name.
     """
-    if platform.system() == "Windows":
+    # "cli" may be an IronPython bug???
+    if platform.system() == "Windows" or platform.system() == "cli":
         libext = ".dll"
     elif platform.system() == "Linux":
         libext = ".so"
     elif platform.system() == "Darwin":
         libext = ".dylib"
     else:
-        error("Cannot indetify platform: " + platform.system())
-    for file_name in os.listdir():
+        error("Cannot indentify platform: " + platform.system())
+    # IronPython needs the '.'
+    for file_name in os.listdir('.'):
         if (os.path.isfile(file_name)
-        and file_name.lower().endswith(libext)
-        and (file_name.lower().startswith("astyle")
-             or  file_name.lower().startswith("libastyle"))):
+                and file_name.lower().endswith(libext)
+                and (file_name.lower().startswith("astyle")
+                     or file_name.lower().startswith("libastyle"))):
             return file_name
-    error("Cannot find native library in " + os.getcwd() + os.path.sep)
+    error("Cannot find astyle native library in " + os.getcwd() + os.path.sep)
 
 # -----------------------------------------------------------------------------
 
@@ -137,9 +139,10 @@ def get_source_code_bytes(file_path):
     """
     # read the file as a byte string by declaring it as binary
     # version 3 will read unicode if not declared as binary
+    # IronPython must be explicitely converted to bytes???
     try:
         file_in = open(file_path, 'rb')
-        bytes_in = file_in.read()
+        bytes_in = bytes(file_in.read())
     except IOError as err:
         # "No such file or directory: <file>"
         print(err)
@@ -206,27 +209,31 @@ def load_windows_dll():
     """
     dll_name = get_library_name()
     dll = os.getcwd() + os.path.sep + dll_name
-    try:
-        libc = windll.LoadLibrary(dll)
-    # exception for CPython
-    except WindowsError as err:
-        # print(err)
-        print("Cannot load library " + dll)
-        if err.winerror == 126:     #  "The specified module could not be found"
-            error("Cannot find " + dll)
-        elif err.winerror == 193:   #  "%1 is not a valid Win32 application"
-            error("You may be mixing 32 and 64 bit code")
-        else:
-            error(err.strerror)
-    # exception for IronPython
-    except OSError as err:
-        print("Cannot load library", dll)
-        error("If the library is available you may be mixing 32 and 64 bit code")
-    # exception for IronPython
-    # this sometimes occurs with IronPython during debug
-    # rerunning will probably fix
-    except TypeError as err:
-        error("TypeError - rerunning will probably fix")
+    if __is_iron_python__:
+        try:
+            libc = windll.LoadLibrary(dll)
+        # exception for IronPython
+        except OSError as err:
+            print("Cannot load library", dll)
+            error("Library is not available or you may be mixing 32 and 64 bit code")
+        # exception for IronPython
+        # this sometimes occurs with IronPython during debug
+        # rerunning will probably fix
+        except TypeError as err:
+            error("TypeError - rerunning will probably fix")
+    else:
+        try:
+            libc = windll.LoadLibrary(dll)
+        # exception for CPython
+        except WindowsError as err:
+            # print(err)
+            if err.winerror == 126:     #  "The specified module could not be found"
+                error("Cannot load library " + dll)
+            elif err.winerror == 193:   #  "%1 is not a valid Win32 application"
+                print("Cannot load library " + dll)
+                error("You may be mixing 32 and 64 bit code")
+            else:
+                error(err.strerror)
     return libc
 
 # -----------------------------------------------------------------------------
@@ -259,6 +266,7 @@ def save_source_code_bytes(bytes_out, file_path):
 # -----------------------------------------------------------------------------
 
 # AStyle Error Handler Callback
+
 def error_handler(num, err):
     """ AStyle callback error handler.
         The return error string (err) is always byte type.
@@ -269,8 +277,6 @@ def error_handler(num, err):
         err = err.decode()
     error(err)
 
-# -----------------------------------------------------------------------------
-
 # global to create the error handler callback function
 if os.name == "nt":
     ERROR_HANDLER_CALLBACK = WINFUNCTYPE(None, c_int, c_char_p)
@@ -278,40 +284,37 @@ else:
     ERROR_HANDLER_CALLBACK = CFUNCTYPE(None, c_int, c_char_p)
 ERROR_HANDLER = ERROR_HANDLER_CALLBACK(error_handler)
 
-# global allocation variable --------------------------------------------------
-
-# global memory allocation returned to artistic style
-# must be global for CPython
-# IronPython doesn't need global, but it doesn't hurt
-__allocated__ = c_char_p
-
 # -----------------------------------------------------------------------------
 
 # AStyle Memory Allocation Callback
+
+# global memory allocation returned to artistic style
+# must be global for CPython, not a function attribute
+# did not try a class attribute but it may not work for CPython
+# IronPython doesn't need global, but it doesn't hurt
+ALLOCATED = c_char_p
+
 def memory_allocation(size):
     """ AStyle callback memory allocation.
         The size to allocate is always byte type.
         The allocated memory MUST BE FREED by the calling function.
     """
-    # ctypes are different for CPython and IronPython
-    global __allocated__
+    global ALLOCATED
     # ctypes for IronPython do NOT seem to be mutable
     # using ctype variables in IronPython results in a
     # "System.AccessViolationException: Attempted to read or write protected memory"
     # IronPython must use create_string_buffer()
     if __is_iron_python__:
-        __allocated__ = create_string_buffer(size)
-        return __allocated__
+        ALLOCATED = create_string_buffer(size)
+        return ALLOCATED
     # ctypes for CPython ARE mutable and can be used for input
     # using create_string_buffer() in CPython results in a
     # "TypeError: string or integer address expected instead of c_char_Array"
     # CPython must use c_char_Array object
     else:
-        arr_type = c_char * size      # create a c_char array
-        __allocated__ = arr_type()      # create an array object
-        return addressof(__allocated__)
-
-# -----------------------------------------------------------------------------
+        arr_type = c_char * size    # create a c_char array
+        ALLOCATED = arr_type()      # create an array object
+        return addressof(ALLOCATED)
 
 # global to create the memory allocation callback function
 if os.name == "nt":

@@ -47,7 +47,16 @@ class AStyleInterface
         return version;
     }
 
-    // functions to load Artistic Style -------------------------------------------------
+    /**
+    * Error message function for this example.
+    */
+    private static void error(String message)
+    {   System.out.println(message);
+        System.out.println("The program has terminated!");
+        System.exit(1);
+    }
+
+    // methods to load Artistic Style -----------------------------------------
 
     /**
     * Static constructor to load the native Artistic Style library.
@@ -98,21 +107,14 @@ class AStyleInterface
             }
         }
         if (libraryName == null)
-        {   error("Cannot find native library in "
+        {   error("Cannot find astyle native library in "
                   + astyleDirectory
                   + System.getProperty("file.separator"));
         }
         return libraryName;
     }
 
-    /*
-    * Error message function for this example.
-    */
-    private static void error(String message)
-    {   System.out.println(message);
-        System.out.println("The program has terminated!");
-        System.exit(1);
-    }
+    // methods to call Artistic Style -----------------------------------------
 
     /**
     * Calls the Java AStyleMain function in Artistic Style.
