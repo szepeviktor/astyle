@@ -24,9 +24,9 @@
         opening brackets broken from classes, structs, enums, and function definitions. Brackets are attached to everything
         else including namespaces, arrays, and statements within a function.</p>
     <p>
-        A new option, &quot;indent-continuation&quot;, will add extra indents to continuation lines following a ine that
+        A new option, &quot;indent-continuation&quot;, will add extra indents to continuation lines following a line that
         ends with an opening paren '(' or an assignment '='. This includes function definitions and declarations. 
-        There is more information in the &quot;Indentation Options&quot; section of the decumentation.</p>
+        There is more information in the &quot;Indentation Options&quot; section of the documentation.</p>
     <p>
         A new option, &quot;pad-comma&quot;, will add a space following a comma. The option &quot;pad-oper&quot;
         has not been changed and will also add a space following a comma.</p>
@@ -34,14 +34,18 @@
         All spaces before a comma are now removed. Use the &quot;disable formatting&quot; comment tags if there are arrays
         with vertical alignment where this is not wanted.</p>
     <p>
-        New Objective-C options "pad-return-type" and &quot;unpad-return-type&quot; will
-        add or remove space padding after the Objective-C return type. It is described in the "Objective-C"
-        section of the documentation.</p>
+        New Objective-C options "pad-return-type" and &quot;unpad-return-type&quot; will add or remove space padding after
+        the Objective-C return type in a method definition. They are described in the "Objective-C" section of the 
+        documentation.</p>
+    <p>
+        New Objective-C options "pad-param-type" and &quot;unpad-param-type&quot; will add or remove space padding after
+        the Objective-C paramater type in a method definition. They are described in the "Objective-C" section of the
+        documentation.</p>
     <p>
         The Objective-C align-method-colon has been changed for method declarations and definitions.
         For multi-line arguments when the first keyword is shorter than the others the colons are aligned on the
         longest line instead of the first line. The alignment includes room for the indentation. This aligns all colons
-        after the first line for a better appaerance. Arguments that do not have a short keyword in the first line will
+        after the first line for a better appearance. Arguments that do not have a short keyword in the first line will
         remain the same. This style conforms to the Google Objective-C Style Guide.</p>
     <p>
         The Objective-C align-method-colon option is now applied to Objective-C method calls in
@@ -73,14 +77,14 @@
     <h4>New Software License</h4>
 
     <p>
-        The Artisic Style software license has changed. It is now under the MIT license. This is a permissive license
+        The Artistic Style software license has changed. It is now under the MIT license. This is a permissive license
         which can be used in proprietory software and does NOT require modified Artistic Style source code be made available.
-        It is compatable with the GNU General Public License (GPL) and most other software licenses. The change was made
+        It is compatible with the GNU General Public License (GPL) and most other software licenses. The change was made
         to remove restrictions on using the software and to make it available for any project that wants to 
         use it.</p>
     <p>
         If there are problems with the license change send an email to Artistic Style and its use will be approved on
-        a individual basis.</p>
+        an individual basis.</p>
 
     <h4>Visual Studio 2015 UTF-8 Files</h4>
 
@@ -90,7 +94,7 @@
         without a BOM are processed. The new procedure is described 
         <a href="https://blogs.msdn.microsoft.com/vcblog/2016/02/22/new-options-for-managing-character-sets-in-the-microsoft-cc-compiler/"
             target="_blank" title="open new window">here</a>. It affects only the language translations in the &quot;.exe&quot;
-        file. The shared libraries and static libraries are not affected. It is necessary only if you are unsing a translation
+        file. The shared libraries and static libraries are not affected. It is necessary only if you are using a translation
         other than English.</p>
 
     <p>
@@ -146,8 +150,8 @@
         If you are using XP, Artistic Style should be compiled on the XP machine. Compiling on XP with any 
         compiler should produce an XP executable.</p>
     <p>
-        To compile on a non-XP machine for use on XP, using a compiler other than Visaul Studio should always
-        produce an XP executable. Using Vusual Studio 2010 or earlier should always produce an XP executable. If 
+        To compile on a non-XP machine for use on XP, using a compiler other than Visual Studio should always
+        produce an XP executable. Using Visual Studio 2010 or earlier should always produce an XP executable. If 
         you are using Visual Studio 2012, 2013, or 2015 on a non-XP machine, do the following for the Artistic Style
         configuration you want to use:</p>
     <ul>

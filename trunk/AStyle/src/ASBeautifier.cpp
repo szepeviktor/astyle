@@ -706,7 +706,7 @@ int ASBeautifier::getFileType() const
  *
  * @return   value of indentLength option.
  */
-int ASBeautifier::getIndentLength(void) const
+int ASBeautifier::getIndentLength() const
 {
 	return indentLength;
 }
@@ -716,7 +716,7 @@ int ASBeautifier::getIndentLength(void) const
  *
  * @return   the char used for indentation.
  */
-string ASBeautifier::getIndentString(void) const
+string ASBeautifier::getIndentString() const
 {
 	return indentString;
 }
@@ -734,7 +734,7 @@ bool ASBeautifier::getModeManuallySet() const
  *
  * @return   state of force tab indentation.
  */
-bool ASBeautifier::getForceTabIndentation(void) const
+bool ASBeautifier::getForceTabIndentation() const
 {
 	return shouldForceTabIndentation;
 }
@@ -744,7 +744,7 @@ bool ASBeautifier::getForceTabIndentation(void) const
 *
 * @return   state of shouldAlignMethodColon option.
 */
-bool ASBeautifier::getAlignMethodColon(void) const
+bool ASBeautifier::getAlignMethodColon() const
 {
 	return shouldAlignMethodColon;
 }
@@ -754,7 +754,7 @@ bool ASBeautifier::getAlignMethodColon(void) const
  *
  * @return   state of blockIndent option.
  */
-bool ASBeautifier::getBlockIndent(void) const
+bool ASBeautifier::getBlockIndent() const
 {
 	return blockIndent;
 }
@@ -764,7 +764,7 @@ bool ASBeautifier::getBlockIndent(void) const
  *
  * @return   state of bracketIndent option.
  */
-bool ASBeautifier::getBracketIndent(void) const
+bool ASBeautifier::getBracketIndent() const
 {
 	return bracketIndent;
 }
@@ -775,7 +775,7 @@ bool ASBeautifier::getBracketIndent(void) const
 *
 * @return   state of namespaceIndent option.
 */
-bool ASBeautifier::getNamespaceIndent(void) const
+bool ASBeautifier::getNamespaceIndent() const
 {
 	return namespaceIndent;
 }
@@ -786,7 +786,7 @@ bool ASBeautifier::getNamespaceIndent(void) const
  *
  * @return   state of classIndent option.
  */
-bool ASBeautifier::getClassIndent(void) const
+bool ASBeautifier::getClassIndent() const
 {
 	return classIndent;
 }
@@ -797,7 +797,7 @@ bool ASBeautifier::getClassIndent(void) const
  *
  * @return   state of modifierIndent option.
  */
-bool ASBeautifier::getModifierIndent(void) const
+bool ASBeautifier::getModifierIndent() const
 {
 	return modifierIndent;
 }
@@ -808,7 +808,7 @@ bool ASBeautifier::getModifierIndent(void) const
  *
  * @return   state of switchIndent option.
  */
-bool ASBeautifier::getSwitchIndent(void) const
+bool ASBeautifier::getSwitchIndent() const
 {
 	return switchIndent;
 }
@@ -819,7 +819,7 @@ bool ASBeautifier::getSwitchIndent(void) const
  *
  * @return   state of caseIndent option.
  */
-bool ASBeautifier::getCaseIndent(void) const
+bool ASBeautifier::getCaseIndent() const
 {
 	return caseIndent;
 }
@@ -832,7 +832,7 @@ bool ASBeautifier::getCaseIndent(void) const
  *
  * @return   state of emptyLineFill option.
  */
-bool ASBeautifier::getEmptyLineFill(void) const
+bool ASBeautifier::getEmptyLineFill() const
 {
 	return emptyLineFill;
 }
@@ -844,7 +844,7 @@ bool ASBeautifier::getEmptyLineFill(void) const
  *
  * @return   state of shouldIndentPreprocDefine option.
  */
-bool ASBeautifier::getPreprocDefineIndent(void) const
+bool ASBeautifier::getPreprocDefineIndent() const
 {
 	return shouldIndentPreprocDefine;
 }
@@ -854,7 +854,7 @@ bool ASBeautifier::getPreprocDefineIndent(void) const
  *
  * @return   length of tab indent option.
  */
-int ASBeautifier::getTabLength(void) const
+int ASBeautifier::getTabLength() const
 {
 	return tabLength;
 }
@@ -999,12 +999,10 @@ string ASBeautifier::beautify(const string& originalLine)
 			indentedLine = preLineWS(prevFinalLineIndentCount, prevFinalLineSpaceIndentCount) + line;
 			return getIndentedLineReturn(indentedLine, originalLine);
 		}
-		else
-		{
-			indentedLine = preLineWS(preprocBlockIndent, 0) + line;
-			return getIndentedLineReturn(indentedLine, originalLine);
-		}
+		indentedLine = preLineWS(preprocBlockIndent, 0) + line;
+		return getIndentedLineReturn(indentedLine, originalLine);
 	}
+
 	if (!isInComment
 	        && !isInQuoteContinuation
 	        && line.length() > 0
@@ -1054,9 +1052,9 @@ string ASBeautifier::beautify(const string& originalLine)
 					                         preprocIndentStack->back().second) + line;
 					return getIndentedLineReturn(indentedLine, originalLine);
 				}
-				else if (preproc == "else" || preproc == "elif")
+				if (preproc == "else" || preproc == "elif")
 				{
-					if (preprocIndentStack->size() > 0)	// if no entry don't indent
+					if (!preprocIndentStack->empty())	// if no entry don't indent
 					{
 						indentedLine = preLineWS(preprocIndentStack->back().first,
 						                         preprocIndentStack->back().second) + line;
@@ -1065,7 +1063,7 @@ string ASBeautifier::beautify(const string& originalLine)
 				}
 				else if (preproc == "endif")
 				{
-					if (preprocIndentStack->size() > 0)	// if no entry don't indent
+					if (!preprocIndentStack->empty())	// if no entry don't indent
 					{
 						indentedLine = preLineWS(preprocIndentStack->back().first,
 						                         preprocIndentStack->back().second) + line;
@@ -1261,7 +1259,7 @@ string ASBeautifier::preLineWS(int lineIndentCount, int lineSpaceIndentCount) co
 /**
  * register an in-statement indent.
  */
-void ASBeautifier::registerInStatementIndent(const string& line, int i, int spaceTabCount_,
+void ASBeautifier::registerInStatementIndent(const string& line, int i, int spaceIndentCount_,
                                              int tabIncrementIn, int minIndent, bool updateParenStack)
 {
 	int remainingCharNum = line.length() - i;
@@ -1270,13 +1268,13 @@ void ASBeautifier::registerInStatementIndent(const string& line, int i, int spac
 	// if indent is around the last char in the line, indent with the continuation indent
 	if (nextNonWSChar == remainingCharNum)
 	{
-		int previousIndent = spaceTabCount_;
+		int previousIndent = spaceIndentCount_;
 		if (!inStatementIndentStack->empty())
 			previousIndent = inStatementIndentStack->back();
 		int currIndent = continuationIndent * indentLength + previousIndent;
 		if (currIndent > maxInStatementIndent
 		        && line[i] != '{')
-			currIndent = indentLength * 2 + spaceTabCount_;
+			currIndent = indentLength * 2 + spaceIndentCount_;
 		inStatementIndentStack->push_back(currIndent);
 		if (updateParenStack)
 			parenIndentStack->push_back(previousIndent);
@@ -1284,7 +1282,7 @@ void ASBeautifier::registerInStatementIndent(const string& line, int i, int spac
 	}
 
 	if (updateParenStack)
-		parenIndentStack->push_back(i + spaceTabCount_ - horstmannIndentInStatement);
+		parenIndentStack->push_back(i + spaceIndentCount_ - horstmannIndentInStatement);
 
 	int tabIncrement = tabIncrementIn;
 
@@ -1295,19 +1293,19 @@ void ASBeautifier::registerInStatementIndent(const string& line, int i, int spac
 			tabIncrement += convertTabToSpaces(j, tabIncrement);
 	}
 
-	int inStatementIndent = i + nextNonWSChar + spaceTabCount_ + tabIncrement;
+	int inStatementIndent = i + nextNonWSChar + spaceIndentCount_ + tabIncrement;
 
 	// check for run-in statement
 	if (i > 0 && line[0] == '{')
 		inStatementIndent -= indentLength;
 
 	if (inStatementIndent < minIndent)
-		inStatementIndent = minIndent + spaceTabCount_;
+		inStatementIndent = minIndent + spaceIndentCount_;
 
 	// this is not done for an in-statement array
 	if (inStatementIndent > maxInStatementIndent
 	        && !(prevNonLegalCh == '=' && currentNonLegalCh == '{'))
-		inStatementIndent = indentLength * 2 + spaceTabCount_;
+		inStatementIndent = indentLength * 2 + spaceIndentCount_;
 
 	if (!inStatementIndentStack->empty()
 	        && inStatementIndent < inStatementIndentStack->back())

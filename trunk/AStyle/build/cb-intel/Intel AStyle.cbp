@@ -20,10 +20,6 @@
 					<Add option="-w3" />
 					<Add option="-Wextra" />
 				</Compiler>
-				<Linker>
-					<Add option="-static-intel" />
-					<Add option="-wd10237" />
-				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/astyle" prefix_auto="1" extension_auto="1" />
@@ -43,8 +39,6 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-static-intel" />
-					<Add option="-wd10237" />
 				</Linker>
 			</Target>
 		</Build>

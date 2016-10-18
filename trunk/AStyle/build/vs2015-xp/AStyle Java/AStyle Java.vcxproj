@@ -130,7 +130,6 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
-      <Optimization>Full</Optimization>
       <PreprocessorDefinitions>_DEBUG;ASTYLE_JNI;_USING_V110_SDK71_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(JAVA_HOME)\include;$(JAVA_HOME)\include\win32;$(UniversalCRTSdkDir)Include\10.0.10240.0\ucrt</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
@@ -148,7 +147,6 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
-      <Optimization>Full</Optimization>
       <PreprocessorDefinitions>_DEBUG;ASTYLE_JNI;_USING_V110_SDK71_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(JAVA_HOME)\include;$(JAVA_HOME)\include\win32;$(UniversalCRTSdkDir)Include\10.0.10240.0\ucrt</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>

@@ -27,7 +27,7 @@
 //-----------------------------------------------------------------------------
 
 #ifdef __GNUC__
-	#include <string.h>             // need both string and string.h for GCC
+	#include <cstring>              // need both string and cstring for GCC
 #endif
 
 #ifdef _MSC_VER
@@ -233,7 +233,7 @@ public:
 	static const string AS_GR_GR_ASSIGN, AS_LS_LS_ASSIGN, AS_GR_GR_GR_ASSIGN, AS_LS_LS_LS_ASSIGN;
 	static const string AS_GCC_MIN_ASSIGN, AS_GCC_MAX_ASSIGN;
 	static const string AS_EQUAL, AS_PLUS_PLUS, AS_MINUS_MINUS, AS_NOT_EQUAL, AS_GR_EQUAL;
-	static const string AS_LS_EQUAL, AS_LS_LS_LS, AS_LS_LS, AS_GR_GR_GR, AS_GR_GR;;
+	static const string AS_LS_EQUAL, AS_LS_LS_LS, AS_LS_LS, AS_GR_GR_GR, AS_GR_GR;
 	static const string AS_QUESTION_QUESTION, AS_LAMBDA;
 	static const string AS_ARROW, AS_AND, AS_OR;
 	static const string AS_SCOPE_RESOLUTION;
@@ -292,7 +292,7 @@ public:
 	ASBeautifier();
 	virtual ~ASBeautifier();
 	virtual void init(ASSourceIterator* iter);
-	virtual string beautify(const string& line);
+	virtual string beautify(const string& originalLine);
 	void setCaseIndent(bool state);
 	void setClassIndent(bool state);
 	void setContinuationIndentation(int indent = 1);
@@ -317,22 +317,22 @@ public:
 	void setPreprocConditionalIndent(bool state);
 	int  getBeautifierFileType() const;
 	int  getFileType() const;
-	int  getIndentLength(void) const;
-	int  getTabLength(void) const;
-	string getIndentString(void) const;
+	int  getIndentLength() const;
+	int  getTabLength() const;
+	string getIndentString() const;
 	string getNextWord(const string& line, size_t currPos) const;
-	bool getAlignMethodColon(void) const;
-	bool getBracketIndent(void) const;
-	bool getBlockIndent(void) const;
-	bool getCaseIndent(void) const;
-	bool getClassIndent(void) const;
-	bool getEmptyLineFill(void) const;
-	bool getForceTabIndentation(void) const;
-	bool getModeManuallySet(void) const;
-	bool getModifierIndent(void) const;
-	bool getNamespaceIndent(void) const;
-	bool getPreprocDefineIndent(void) const;
-	bool getSwitchIndent(void) const;
+	bool getAlignMethodColon() const;
+	bool getBracketIndent() const;
+	bool getBlockIndent() const;
+	bool getCaseIndent() const;
+	bool getClassIndent() const;
+	bool getEmptyLineFill() const;
+	bool getForceTabIndentation() const;
+	bool getModeManuallySet() const;
+	bool getModifierIndent() const;
+	bool getNamespaceIndent() const;
+	bool getPreprocDefineIndent() const;
+	bool getSwitchIndent() const;
 
 protected:
 	void deleteBeautifierVectors();
@@ -366,7 +366,7 @@ protected:
 	bool isInIndentablePreproc;
 
 private:  // functions
-	ASBeautifier(const ASBeautifier& copy);     // inline functions
+	ASBeautifier(const ASBeautifier& other);     // inline functions
 	ASBeautifier& operator=(ASBeautifier&);     // not to be implemented
 
 	void adjustParsedLineIndentation(size_t iPrelim, bool isInExtraHeaderIndent);
@@ -374,7 +374,7 @@ private:  // functions
 	void parseCurrentLine(const string& line);
 	void popLastInStatementIndent();
 	void processPreprocessor(const string& preproc, const string& line);
-	void registerInStatementIndent(const string& line, int i, int spaceIndentCount,
+	void registerInStatementIndent(const string& line, int i, int spaceIndentCount_,
 	                               int tabIncrementIn, int minIndent, bool updateParenStack);
 	void registerInStatementIndentColon(const string& line, int i, int tabIncrementIn);
 	void initVectors();
@@ -605,7 +605,7 @@ class ASFormatter : public ASBeautifier
 public:	// functions
 	ASFormatter();
 	virtual ~ASFormatter();
-	virtual void init(ASSourceIterator* iter);
+	virtual void init(ASSourceIterator* si);
 	virtual bool hasMoreLines() const;
 	virtual string nextLine();
 	LineEndFormat getLineEndFormat() const;
@@ -638,11 +638,11 @@ public:	// functions
 	void setLineEndFormat(LineEndFormat fmt);
 	void setMaxCodeLength(int max);
 	void setObjCColonPaddingMode(ObjCColonPad mode);
-	void setOperatorPaddingMode(bool mode);
-	void setParensOutsidePaddingMode(bool mode);
-	void setParensFirstPaddingMode(bool mode);
-	void setParensInsidePaddingMode(bool mode);
-	void setParensHeaderPaddingMode(bool mode);
+	void setOperatorPaddingMode(bool state);
+	void setParensOutsidePaddingMode(bool state);
+	void setParensFirstPaddingMode(bool state);
+	void setParensInsidePaddingMode(bool state);
+	void setParensHeaderPaddingMode(bool state);
 	void setParensUnPaddingMode(bool state);
 	void setPointerAlignment(PointerAlign alignment);
 	void setPreprocBlockIndent(bool state);
@@ -692,7 +692,7 @@ private:  // functions
 	bool isSharpStyleWithParen(const string* header) const;
 	bool isStructAccessModified(string& firstLine, size_t index) const;
 	bool isIndentablePreprocessorBlock(string& firstLine, size_t index);
-	bool isNDefPreprocStatement(string& firstLine, string& preproc) const;
+	bool isNDefPreprocStatement(string& nextLine_, string& preproc) const;
 	bool isUnaryOperator() const;
 	bool isUniformInitializerBracket() const;
 	bool isImmediatelyPostCast() const;
@@ -744,9 +744,11 @@ private:  // functions
 	void initContainer(vector<BracketType>*& container, vector<BracketType>* value);
 	void initNewLine();
 	void padObjCMethodColon();
+	void padObjCMethodPrefix();
+	void padObjCParamType();
+	void padObjCReturnType();
 	void padOperators(const string* newOperator);
 	void padParens();
-	void padParenObjC(void);
 	void processPreprocessor();
 	void resetEndOfStatement();
 	void setAttachClosingBracketMode(bool state);

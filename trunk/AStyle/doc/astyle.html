@@ -1933,8 +1933,7 @@ else
     <p id="_pad-method-prefix">
         <code class="title">--pad-method-prefix / -xQ</code><br />
         Insert space padding <strong>after</strong> the '-' or '+' Objective&#8209;C method prefix. This will add 
-        exactly one space. Any additional spaces will be deleted. This option takes precedence over the pad paren 
-        outside options.</p>
+        exactly one space. Any additional spaces will be deleted.</p>
     <div class="code">
         <pre>-(void)foo1;
 -    (void)foo2;</pre>
@@ -1949,22 +1948,21 @@ else
         <code class="title">--unpad-method-prefix / -xR</code><br />
         Remove all space padding <strong>after</strong> the &#39;-&#39; or &#39;+&#39; Objective&#8209;C method prefix.&nbsp;
         This option will be ignored if used with pad&#8209;method&#8209;prefix. This option  takes precedence over the
-        pad paren outside options.</p>
+        pad paren outside option.</p>
     <div class="code">
-        <pre>- (void)foo1;
--     (void)foo2;</pre>
+        <pre>- (void) foo1;
+-     (void) foo2;</pre>
         <p class="code">
             becomes:</p>
-        <pre>-(void)foo1;
--(void)foo2;</pre>
+        <pre>-(void) foo1;
+-(void) foo2;</pre>
     </div>
     <p>
         &nbsp;</p>
     <p id="_pad-return-type">
         <code class="title">--pad-return-type / -xq</code><br />
         Insert space padding <strong>after</strong> the Objective&#8209;C return type. This will add exactly one
-        space. Any additional spaces will be deleted. This option takes precedence over the pad paren outside 
-        options. </p>
+        space. Any additional spaces will be deleted. </p>
     <div class="code">
         <pre>-(void)foo1;
 -(void)   foo2;</pre>
@@ -1979,7 +1977,7 @@ else
         <code class="title">--unpad-return-type / -xr</code><br />
         Remove all space padding <strong>after</strong> the Objective&#8209;C return type. This option
         will be ignored if used with pad&#8209;return&#8209;type. This option  takes precedence over the pad paren 
-        outside options. </p>
+        outside option. </p>
     <div class="code">
         <pre>-(void) foo1;
 -(void)    foo2;</pre>
@@ -1992,31 +1990,36 @@ else
         &nbsp;</p>
     <p id="_pad-param-type">
         <code class="title">--pad-param-type / -xS</code><br />
-        Insert space padding <strong>after</strong> the Objective&#8209;C return type. This will add exactly one
-        space. Any additional spaces will be deleted. This option takes precedence over the pad paren outside 
-        options. </p>
+        Insert space padding around the Objective&#8209;C parameter type. This will add exactly one space. Any additional
+        spaces will be deleted. This has precedence over the pad method colon option and will always cause space padding
+        after the method colon.</p>
     <div class="code">
         <pre>-(void)foo1:(bool)barArg1;
 -(void)foo2:    (bool)   barArg2;</pre>
         <p class="code">
             becomes:</p>
         <pre>-(void)foo1: (bool) barArg1;
--(void)foo2: (bool) barArg2;
+-(void)foo2: (bool) barArg2;</pre>
     </div>
     <p>
         &nbsp;</p>
     <p id="_unpad-param-type">
         <code class="title">--unpad-param-type / -xs</code><br />
-        Remove all space padding <strong>after</strong> the Objective&#8209;C return type. This option
-        will be ignored if used with pad&#8209;return&#8209;type. This option  takes precedence over the pad paren 
-        outside options. </p>
+        Remove all space padding around the Objective&#8209;C parameter type. This option  takes precedence over the pad
+        paren outside option. The pad method colon option has precedence over the <strong>opening</strong> paren. The
+        closing paren will abways be unpadded.</p>
     <div class="code">
         <pre>-(void)foo1: (bool)    barArg1;
 -(void)foo2:     (bool)    barArg2;</pre>
         <p class="code">
-            becomes:</p>
+            becomes (with an unpadded method colon):</p>
         <pre>-(void)foo1:(bool)barArg1;
 -(void)foo2:(bool)barArg2;</pre>
+        <p class="code">
+            becomes (with a padded method colon 
+            after):</p>
+        <pre>-(void)foo1: (bool)barArg1;
+-(void)foo2: (bool)barArg2;</pre>
     </div>
     <p>
         &nbsp;</p>
@@ -2042,7 +2045,8 @@ else
             --pad-method-colon=before / -xP3
         </code><br />
         Add or remove space padding before or after the colons in an Objective&#8209;C method call. These options will
-        pad exactly one space. Any additional spaces will be deleted.</p>
+        pad exactly one space. Any additional spaces will be deleted. The space padding after the method colon can be
+        overridden by pad-param-type.</p>
     <div class="code">
         <p class="code">
             with pad-method-colon=none:</p>

@@ -182,7 +182,7 @@ public:
 	size_t utf16len(const utf16* utf16In) const;
 	size_t utf8LengthFromUtf16(const char* utf16In, size_t inLen, bool isBigEndian) const;
 	size_t utf8ToUtf16(char* utf8In, size_t inLen, bool isBigEndian, char* utf16Out) const;
-	size_t utf16LengthFromUtf8(const char* utf8In, size_t inLen) const;
+	size_t utf16LengthFromUtf8(const char* utf8In, size_t len) const;
 	size_t utf16ToUtf8(char* utf16In, size_t inLen, bool isBigEndian,
 	                   bool firstBlock, char* utf8Out) const;
 };
@@ -330,12 +330,12 @@ public:     // functions
 	void setIsRecursive(bool state);
 	void setIsVerbose(bool state);
 	void setNoBackup(bool state);
-	void setOptionsFileName(string name);
-	void setOrigSuffix(string suffix);
+	void setOptionsFileName(const string& name);
+	void setOrigSuffix(const string& suffix);
 	void setPreserveDate(bool state);
 	void standardizePath(string& path, bool removeBeginningSeparator = false) const;
 	bool stringEndsWith(const string& str, const string& suffix) const;
-	void updateExcludeVector(string suffixParam);
+	void updateExcludeVector(const string& suffixParam);
 	vector<string> getExcludeVector() const;
 	vector<bool>   getExcludeHitsVector() const;
 	vector<string> getFileNameVector() const;
@@ -353,7 +353,7 @@ private:	// functions
 	string getParam(const string& arg, const char* op);
 	void initializeOutputEOL(LineEndFormat lineEndFormat);
 	bool isOption(const string& arg, const char* op);
-	bool isOption(const string& arg, const char* op1, const char* op2);
+	bool isOption(const string& arg, const char* a, const char* b);
 	bool isParamOption(const string& arg, const char* option);
 	bool isPathExclued(const string& subPath);
 	void launchDefaultBrowser(const char* filePathIn = NULL) const;
@@ -367,7 +367,7 @@ private:	// functions
 	void renameFile(const char* oldFileName, const char* newFileName, const char* errMsg) const;
 	void setOutputEOL(LineEndFormat lineEndFormat, const string& currentEOL);
 	void sleep(int seconds) const;
-	int  waitForRemove(const char* oldFileName) const;
+	int  waitForRemove(const char* newFileName) const;
 	int  wildcmp(const char* wild, const char* data) const;
 	void writeFile(const string& fileName_, FileEncoding encoding, ostringstream& out) const;
 #ifdef _WIN32

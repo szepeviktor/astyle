@@ -1584,23 +1584,24 @@ string ASFormatter::nextLine()
 			else
 				appendCurrentChar();
 
-			if (currentChar == '('
-			        && isImmediatelyPostObjCMethodPrefix
-			        && (shouldPadMethodPrefix || shouldUnPadMethodPrefix))
-				padParenObjC();
-			if (currentChar == ')'
-			        && isInObjCReturnType
-			        && (shouldPadReturnType || shouldUnPadReturnType))
-				padParenObjC();
-
-			if (currentChar == '(' && isImmediatelyPostObjCMethodPrefix)
+			if (isInObjCMethodDefinition)
 			{
-				isImmediatelyPostObjCMethodPrefix = false;
-				isInObjCReturnType = true;
+				if (currentChar == '(' && isImmediatelyPostObjCMethodPrefix)
+				{
+					if (shouldPadMethodPrefix || shouldUnPadMethodPrefix)
+						padObjCMethodPrefix();
+					isImmediatelyPostObjCMethodPrefix = false;
+					isInObjCReturnType = true;
+				}
+				else if (currentChar == ')' && isInObjCReturnType)
+				{
+					if (shouldPadReturnType || shouldUnPadReturnType)
+						padObjCReturnType();
+					isInObjCReturnType = false;
+				}
+				else if (shouldPadParamType || shouldUnPadParamType)
+					padObjCParamType();
 			}
-			else if (currentChar == ')' && isInObjCReturnType)
-				isInObjCReturnType = false;
-
 			continue;
 		}
 
@@ -3104,7 +3105,7 @@ bool ASFormatter::isUnaryOperator() const
 bool ASFormatter::isInSwitchStatement() const
 {
 	assert(isInLineComment || isInComment);
-	if (preBracketHeaderStack->size() > 0)
+	if (!preBracketHeaderStack->empty())
 		for (size_t i = 1; i < preBracketHeaderStack->size(); i++)
 			if (preBracketHeaderStack->at(i) == &AS_SWITCH)
 				return true;
@@ -3405,7 +3406,7 @@ string ASFormatter::peekNextText(const string& firstLine, bool endOnEmptyLine /*
  * the spaces are added or deleted to formattedLine
  * spacePadNum contains the adjustment
  */
-void ASFormatter::adjustComments(void)
+void ASFormatter::adjustComments()
 {
 	assert(spacePadNum != 0);
 	assert(currentLine.compare(charNum, 2, "//") == 0
@@ -3452,7 +3453,7 @@ void ASFormatter::adjustComments(void)
  * currentChar contains the bracket, it will be appended to formattedLine
  * formattedLineCommentNum is the comment location on formattedLine
  */
-void ASFormatter::appendCharInsideComments(void)
+void ASFormatter::appendCharInsideComments()
 {
 	if (formattedLineCommentNum == string::npos)    // does the comment start on the previous line?
 	{
@@ -3484,7 +3485,6 @@ void ASFormatter::appendCharInsideComments(void)
 		breakLine();
 	else if (isCharImmediatelyPostLineComment)
 		shouldBreakLineAtNextChar = true;
-	return;
 }
 
 /**
@@ -3566,7 +3566,6 @@ void ASFormatter::padOperators(const string* newOperator)
 		appendSpaceAfter();
 
 	previousOperator = newOperator;
-	return;
 }
 
 /**
@@ -3578,7 +3577,7 @@ void ASFormatter::padOperators(const string* newOperator)
  * NOTE: Do NOT use appendCurrentChar() in this method. The line should not be
  *       broken once the calculation starts.
  */
-void ASFormatter::formatPointerOrReference(void)
+void ASFormatter::formatPointerOrReference()
 {
 	assert(currentChar == '*' || currentChar == '&' || currentChar == '^');
 	assert(!isJavaStyle());
@@ -3925,7 +3924,7 @@ void ASFormatter::formatPointerOrReferenceToName()
  *       are processed as a cast (e.g. void foo(void*, void*))
  *       is processed here.
  */
-void ASFormatter::formatPointerOrReferenceCast(void)
+void ASFormatter::formatPointerOrReferenceCast()
 {
 	assert(currentChar == '*' || currentChar == '&' || currentChar == '^');
 	assert(!isJavaStyle());
@@ -3979,7 +3978,7 @@ void ASFormatter::formatPointerOrReferenceCast(void)
  * the parens and necessary padding will be appended to formattedLine
  * the calling function should have a continue statement after calling this method
  */
-void ASFormatter::padParens(void)
+void ASFormatter::padParens()
 {
 	assert(currentChar == '(' || currentChar == ')');
 	assert(shouldPadParensOutside || shouldPadParensInside || shouldUnPadParens || shouldPadFirstParen);
@@ -4176,7 +4175,6 @@ void ASFormatter::padParens(void)
 			        && peekedCharOutside != ']')
 				appendSpaceAfter();
 	}
-	return;
 }
 
 /**
@@ -4184,56 +4182,150 @@ void ASFormatter::padParens(void)
 * these options have precedence over the padParens methods
 * the padParens method has already been called, this method adjusts
 */
-void ASFormatter::padParenObjC(void)
+void ASFormatter::padObjCMethodPrefix()
 {
-	// the paren was previously been written to formattedLine
-	assert(formattedLine[0] == '+' || formattedLine[0] == '-');
-	assert(formattedLine.find('(') != string::npos
-	       || formattedLine.find(')') != string::npos);
-	assert(isImmediatelyPostObjCMethodPrefix || isInObjCReturnType);
-	assert(shouldPadMethodPrefix || shouldUnPadMethodPrefix
-	       || shouldPadReturnType || shouldUnPadReturnType);
+	assert(currentChar == '(' && isImmediatelyPostObjCMethodPrefix);
+	assert(shouldPadMethodPrefix || shouldUnPadMethodPrefix);
 
-	if (isImmediatelyPostObjCMethodPrefix)
+	size_t prefix = formattedLine.find_first_of("+-");
+	if (prefix == string::npos)
+		return;
+	size_t paren = formattedLine.find_first_of('(');
+	if (paren == string::npos)
+		return;
+	int spaces = paren - prefix - 1;
+
+	if (shouldPadMethodPrefix)
 	{
-		size_t prefix = formattedLine.find_first_of("+-");
-		if (prefix == string::npos)
+		if (spaces == 0)
+		{
+			formattedLine.insert(prefix + 1, 1, ' ');
+			spacePadNum += 1;
+		}
+		else if (spaces > 1)
+		{
+			formattedLine.erase(prefix + 1, spaces - 1);
+			spacePadNum -= spaces - 1;
+		}
+	}
+	// this option will be ignored if used with pad-method-prefix
+	else if (shouldUnPadMethodPrefix)
+	{
+		if (spaces > 0)
+		{
+			formattedLine.erase(prefix + 1, spaces);
+			spacePadNum -= spaces;
+		}
+	}
+}
+
+/**
+* add or remove space padding to objective-c parens
+* these options have precedence over the padParens methods
+* the padParens method has already been called, this method adjusts
+*/
+void ASFormatter::padObjCReturnType()
+{
+	assert(currentChar == ')' && isInObjCReturnType);
+	assert(shouldPadReturnType || shouldUnPadReturnType);
+
+	size_t nextText = currentLine.find_first_not_of(" \t", charNum + 1);
+	if (nextText == string::npos)
+		return;
+	int spaces = nextText - charNum - 1;
+
+	if (shouldPadReturnType)
+	{
+		if (spaces == 0)
+		{
+			// this will already be padded if pad-paren is used
+			if (formattedLine[formattedLine.length() - 1] != ' ')
+			{
+				formattedLine.append(" ");
+				spacePadNum += 1;
+			}
+		}
+		else if (spaces > 1)
+		{
+			// do not use goForward here
+			currentLine.erase(charNum + 1, spaces - 1);
+			spacePadNum -= spaces - 1;
+		}
+	}
+	// this option will be ignored if used with pad-return-type
+	else if (shouldUnPadReturnType)
+	{
+		// this will already be padded if pad-paren is used
+		if (formattedLine[formattedLine.length() - 1] == ' ')
+		{
+			spacePadNum -= formattedLine.length() - 1 - nextText;
+			int lastText = formattedLine.find_last_not_of(" \t");
+			formattedLine.resize(lastText + 1);
+		}
+		if (spaces > 0)
+		{
+			// do not use goForward here
+			currentLine.erase(charNum + 1, spaces);
+			spacePadNum -= spaces;
+		}
+	}
+}
+
+/**
+* add or remove space padding to objective-c parens
+* these options have precedence over the padParens methods
+* the padParens method has already been called, this method adjusts
+*/
+void ASFormatter::padObjCParamType()
+{
+	assert((currentChar == '(' || currentChar == ')') && isInObjCMethodDefinition);
+	assert(!isImmediatelyPostObjCMethodPrefix && !isInObjCReturnType);
+	assert(shouldPadParamType || shouldUnPadParamType);
+
+	if (currentChar == '(')
+	{
+		// open paren has already been attached to formattedLine by padParen
+		assert(formattedLine[formattedLine.length() - 1] == '(');
+		size_t prevText = formattedLine.find_last_not_of(" \t", formattedLine.length() - 2);
+		if (prevText == string::npos)
 			return;
-		size_t paren = formattedLine.find_first_of("(");
-		if (paren == string::npos)
-			return;
-		int spaces = paren - prefix - 1;
-		if (shouldPadMethodPrefix)
+		int spaces = (formattedLine.length() - 2) - prevText;
+
+		if (shouldPadParamType
+		        || objCColonPadMode == COLON_PAD_ALL
+		        || objCColonPadMode == COLON_PAD_AFTER)
 		{
 			if (spaces == 0)
 			{
-				formattedLine.insert(prefix + 1, 1, ' ');
+				formattedLine.insert(formattedLine.length() - 1, 1, ' ');
 				spacePadNum += 1;
 			}
-			else if (spaces > 1)
+			if (spaces > 1)
 			{
-				formattedLine.erase(prefix + 1, spaces - 1);
+				formattedLine.erase(prevText + 1, spaces - 1);
 				spacePadNum -= spaces - 1;
 			}
 		}
-		// this option will be ignored if used with pad-method-prefix
-		else if (shouldUnPadMethodPrefix)
+		// this option will be ignored if used with pad-param-type
+		else if (shouldUnPadParamType
+		         || objCColonPadMode == COLON_PAD_NONE
+		         || objCColonPadMode == COLON_PAD_BEFORE)
 		{
 			if (spaces > 0)
 			{
-				formattedLine.erase(prefix + 1, spaces);
+				formattedLine.erase(prevText + 1, spaces);
 				spacePadNum -= spaces;
 			}
 		}
 	}
-
-	if (isInObjCReturnType)
+	else if (currentChar == ')')
 	{
 		size_t nextText = currentLine.find_first_not_of(" \t", charNum + 1);
 		if (nextText == string::npos)
 			return;
 		int spaces = nextText - charNum - 1;
-		if (shouldPadReturnType)
+
+		if (shouldPadParamType)
 		{
 			if (spaces == 0)
 			{
@@ -4251,13 +4343,13 @@ void ASFormatter::padParenObjC(void)
 				spacePadNum -= spaces - 1;
 			}
 		}
-		// this option will be ignored if used with pad-return-type
-		else if (shouldUnPadReturnType)
+		// this option will be ignored if used with pad-param-type
+		else if (shouldUnPadParamType)
 		{
 			// this will already be padded if pad-paren is used
 			if (formattedLine[formattedLine.length() - 1] == ' ')
 			{
-				spacePadNum -= formattedLine.length() - 1 - nextText;
+				spacePadNum -= 1;
 				int lastText = formattedLine.find_last_not_of(" \t");
 				formattedLine.resize(lastText + 1);
 			}
@@ -6182,7 +6274,7 @@ bool ASFormatter::isNDefPreprocStatement(string& nextLine_, string& preproc) con
 	// check for '!defined'
 	if (preproc == "if")
 	{
-		size_t i = nextLine_.find("!");
+		size_t i = nextLine_.find('!');
 		if (i == string::npos)
 			return false;
 		i = nextLine_.find_first_not_of(" \t", ++i);
@@ -6272,7 +6364,6 @@ void ASFormatter::trimContinuationLine()
 		if (i >= len)
 			charNum = 0;
 	}
-	return;
 }
 
 /**
@@ -6297,14 +6388,14 @@ bool ASFormatter::isImmediatelyPostCast() const
 	assert(previousNonWSChar == ')' && currentChar == '*');
 	// find preceding closing paren on currentLine or readyFormattedLine
 	string line;		// currentLine or readyFormattedLine
-	size_t paren = currentLine.rfind(")", charNum);
+	size_t paren = currentLine.rfind(')', charNum);
 	if (paren != string::npos)
 		line = currentLine;
 	// if not on currentLine it must be on the previous line
 	else
 	{
 		line = readyFormattedLine;
-		paren = line.rfind(")");
+		paren = line.rfind(')');
 		if (paren == string::npos)
 			return false;
 	}
@@ -7267,7 +7358,7 @@ void ASFormatter::stripCommentPrefix()
 		return;
 	}
 	// comment body including the closer
-	else if (formattedLine[firstChar] == '*')
+	if (formattedLine[firstChar] == '*')
 	{
 		if (formattedLine.compare(firstChar, 2, "*/") == 0)
 		{
