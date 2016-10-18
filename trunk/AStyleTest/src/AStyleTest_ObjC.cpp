@@ -484,31 +484,31 @@ TEST_F(ObjCStyleF, Mozilla)
 {
 	// test mozilla style option
 	char text[] =
-		"\n@interface Foo : NSObject\n"
-		"{\n"
-		"    NSString* var1;\n"
-		"    NSString* var2;\n"
-		"}\n"
-		"@end\n"
-		"\n"
-		"@implementation Foo\n"
-		"\n"
-		"- (void) foo\n"
-		"{\n"
-		"    if (isFoo) {\n"
-		"        bar();\n"
-		"    }\n"
-		"}\n"
-		"\n"
-		"- (void) foo : (int) icon\n"
-		"    ofSize : (int) size\n"
-		"{\n"
-		"    if (isFoo) {\n"
-		"        bar();\n"
-		"    }\n"
-		"}\n"
-		"\n"
-		"@end\n";
+	    "\n@interface Foo : NSObject\n"
+	    "{\n"
+	    "    NSString* var1;\n"
+	    "    NSString* var2;\n"
+	    "}\n"
+	    "@end\n"
+	    "\n"
+	    "@implementation Foo\n"
+	    "\n"
+	    "- (void) foo\n"
+	    "{\n"
+	    "    if (isFoo) {\n"
+	    "        bar();\n"
+	    "    }\n"
+	    "}\n"
+	    "\n"
+	    "- (void) foo : (int) icon\n"
+	    "    ofSize : (int) size\n"
+	    "{\n"
+	    "    if (isFoo) {\n"
+	    "        bar();\n"
+	    "    }\n"
+	    "}\n"
+	    "\n"
+	    "@end\n";
 	char options[] = "style=mozilla";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -802,6 +802,7 @@ TEST(ObjCUnPadMethodPrefix, Comments)
 TEST(ObjCUnPadMethodPrefix, PadParenOutComments)
 {
 	// Test unpad method prefix with pad-paren-out.
+	// Unpad method prefix has precedence over pad-paren-out.
 	// The comment alignment should be maintained.
 	char textIn[] =
 	    "\n"
@@ -942,7 +943,7 @@ TEST(ObjCPadReturnType, Comments)
 
 TEST(ObjCPadReturnType, PadParenOutComments)
 {
-	// Test pad return type with pad-paren-out.
+	// Test pad return type with comments and pad-paren-out.
 	// The comment alignment should be maintained.
 	char textIn[] =
 	    "\n"
@@ -1041,6 +1042,7 @@ TEST(ObjCUnPadReturnType, Comments)
 TEST(ObjCUnPadReturnType, PadParenOutComments)
 {
 	// Test unpad return type with pad-paren-out.
+	// Unpad return type has precedence over pad-paren-out.
 	// The comment alignment should be maintained.
 	char textIn[] =
 	    "\n"
@@ -1057,6 +1059,443 @@ TEST(ObjCUnPadReturnType, PadParenOutComments)
 	    "- (void)Foo3       // comment\n"
 	    "{ }";
 	char options[] = "unpad-return-type, pad-paren-out";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Objective-C Pad Parameter Type
+//-------------------------------------------------------------------------
+
+TEST(ObjCPadParamType, LongOption)
+{
+	// Test pad param type long option.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;\n"
+	    "-(void)foo2:    (bool)    barArg2;\n"
+	    "\n"
+	    "-(void)foo3:(bool)    barArg3\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-(void)foo1: (bool) barArg1;\n"
+	    "-(void)foo2: (bool) barArg2;\n"
+	    "\n"
+	    "-(void)foo3: (bool) barArg3\n"
+	    "{ }";
+	char options[] = "pad-param-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadParamType, ShortOption)
+{
+	// Test pad param type short option.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;\n"
+	    "-(void)foo2:    (bool)    barArg2;\n"
+	    "\n"
+	    "-(void)foo3:(bool)    barArg3\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-(void)foo1: (bool) barArg1;\n"
+	    "-(void)foo2: (bool) barArg2;\n"
+	    "\n"
+	    "-(void)foo3: (bool) barArg3\n"
+	    "{ }";
+	char options[] = "-xS";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadParamType, UnPadParamType)
+{
+	// Test objective-c with pad-param-type and unpad-param-type.
+	// The result should be pad-param-type.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;\n"
+	    "-(void)foo2:    (bool)    barArg2;\n"
+	    "\n"
+	    "-(void)foo3:(bool)    barArg3\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-(void)foo1: (bool) barArg1;\n"
+	    "-(void)foo2: (bool) barArg2;\n"
+	    "\n"
+	    "-(void)foo3: (bool) barArg3\n"
+	    "{ }";
+	char options[] = "pad-param-type, unpad-param-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadParamType, SansPadUnPad)
+{
+	// Test objective-c with no param type option.
+	// The result should be no change.
+	char text[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;\n"
+	    "-(void)foo2:    (bool)    barArg2;\n"
+	    "\n"
+	    "-(void)foo3:(bool)    barArg3\n"
+	    "{ }";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadParamType, Comments)
+{
+	// Test pad param type with comments.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;       // comment\n"
+	    "-(void)foo2:  (bool)   barArg2;  /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)  barArg3      // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-(void)foo1: (bool) barArg1;     // comment\n"
+	    "-(void)foo2: (bool) barArg2;     /* comment */\n"
+	    "\n"
+	    "-(void)foo3: (bool) barArg3      // comment\n"
+	    "{ }";
+	char options[] = "pad-param-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadParamType, PadParenOut_Comments)
+{
+	// Test pad param type with comments and pad-paren-out.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;       // comment\n"
+	    "-(void)foo2:  (bool)   barArg2;  /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)  barArg3      // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "- (void) foo1: (bool) barArg1;   // comment\n"
+	    "- (void) foo2: (bool) barArg2;   /* comment */\n"
+	    "\n"
+	    "- (void) foo3: (bool) barArg3    // comment\n"
+	    "{ }";
+	char options[] = "pad-param-type, pad-paren-out";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadParamType, PadMethodColonNone_Comments)
+{
+	// Test pad-param-type with comments and pad-method-colon=none.
+	// This will cause a padded method colon after.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;       // comment\n"
+	    "-(void)foo2:  (bool)   barArg2;  /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)  barArg3      // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-(void)foo1: (bool) barArg1;     // comment\n"
+	    "-(void)foo2: (bool) barArg2;     /* comment */\n"
+	    "\n"
+	    "-(void)foo3: (bool) barArg3      // comment\n"
+	    "{ }";
+	char options[] = "pad-param-type, pad-method-colon=none";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadParamType, PadMethodColonAfter_Comments)
+{
+	// Test pad-param-type with comments and pad-method-colon=after.
+	// This will cause a padded method colon after.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;       // comment\n"
+	    "-(void)foo2:  (bool)   barArg2;  /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)  barArg3      // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-(void)foo1: (bool) barArg1;     // comment\n"
+	    "-(void)foo2: (bool) barArg2;     /* comment */\n"
+	    "\n"
+	    "-(void)foo3: (bool) barArg3      // comment\n"
+	    "{ }";
+	char options[] = "pad-param-type, pad-method-colon=after";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadParamType, PadMethodColonBefore_Comments)
+{
+	// Test pad-param-type with comments and pad-method-colon=before.
+	// This will cause a padded method colon after.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;       // comment\n"
+	    "-(void)foo2:  (bool)   barArg2;  /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)  barArg3      // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-(void)foo1 : (bool) barArg1;    // comment\n"
+	    "-(void)foo2 : (bool) barArg2;    /* comment */\n"
+	    "\n"
+	    "-(void)foo3 : (bool) barArg3     // comment\n"
+	    "{ }";
+	char options[] = "pad-param-type, pad-method-colon=before";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadParamType, PadMethodColonAll_Comments)
+{
+	// Test pad-param-type with comments and pad-method-colon=all.
+	// This will cause a padded method colon after.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;       // comment\n"
+	    "-(void)foo2:  (bool)   barArg2;  /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)  barArg3      // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-(void)foo1 : (bool) barArg1;    // comment\n"
+	    "-(void)foo2 : (bool) barArg2;    /* comment */\n"
+	    "\n"
+	    "-(void)foo3 : (bool) barArg3     // comment\n"
+	    "{ }";
+	char options[] = "pad-param-type, pad-method-colon=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Objective-C UnPad Parameter Type
+//-------------------------------------------------------------------------
+
+TEST(ObjCUnPadParamType, LongOption)
+{
+	// Test pad param type long option.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;\n"
+	    "-(void)foo2:    (bool)    barArg2;\n"
+	    "\n"
+	    "-(void)foo3:(bool)    barArg3\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;\n"
+	    "-(void)foo2:(bool)barArg2;\n"
+	    "\n"
+	    "-(void)foo3:(bool)barArg3\n"
+	    "{ }";
+	char options[] = "unpad-param-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCUnPadParamType, ShortOption)
+{
+	// Test pad param type short option.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;\n"
+	    "-(void)foo2:    (bool)    barArg2;\n"
+	    "\n"
+	    "-(void)foo3:(bool)    barArg3\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;\n"
+	    "-(void)foo2:(bool)barArg2;\n"
+	    "\n"
+	    "-(void)foo3:(bool)barArg3\n"
+	    "{ }";
+	char options[] = "-xs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCUnPadParamType, Comments)
+{
+	// Test unpad param type with comments.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;       // comment\n"
+	    "-(void)foo2:  (bool)   barArg2;  /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)  barArg3      // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;       // comment\n"
+	    "-(void)foo2:(bool)barArg2;       /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)barArg3        // comment\n"
+	    "{ }";
+	char options[] = "unpad-param-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCUnPadParamType, PadParenOut_Comments)
+{
+	// Test unpad param type with comments and pad-paren-out.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;       // comment\n"
+	    "-(void)foo2:  (bool)   barArg2;  /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)  barArg3      // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "- (void) foo1:(bool)barArg1;     // comment\n"
+	    "- (void) foo2:(bool)barArg2;     /* comment */\n"
+	    "\n"
+	    "- (void) foo3:(bool)barArg3      // comment\n"
+	    "{ }";
+	char options[] = "unpad-param-type, pad-paren-out";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCUnPadParamType, PadMethodColonNone_Comments)
+{
+	// Test unpad-param-type with comments and pad-method-colon=none.
+	// This will cause an unpadded method colon.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;       // comment\n"
+	    "-(void)foo2:  (bool)   barArg2;  /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)  barArg3      // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;       // comment\n"
+	    "-(void)foo2:(bool)barArg2;       /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)barArg3        // comment\n"
+	    "{ }";
+	char options[] = "unpad-param-type, pad-method-colon=none";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCUnPadParamType, PadMethodColonAfter_Comments)
+{
+	// Test unpad-param-type with comments and pad-method-colon=after.
+	// This will cause a padded method colon.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;       // comment\n"
+	    "-(void)foo2:  (bool)   barArg2;  /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)  barArg3      // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-(void)foo1: (bool)barArg1;      // comment\n"
+	    "-(void)foo2: (bool)barArg2;      /* comment */\n"
+	    "\n"
+	    "-(void)foo3: (bool)barArg3       // comment\n"
+	    "{ }";
+	char options[] = "unpad-param-type, pad-method-colon=after";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCUnPadParamType, PadMethodColonBefore_Comments)
+{
+	// Test unpad-param-type with comments and pad-method-colon=before.
+	// This will cause an unpadded method colon.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;       // comment\n"
+	    "-(void)foo2:  (bool)   barArg2;  /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)  barArg3      // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-(void)foo1 :(bool)barArg1;      // comment\n"
+	    "-(void)foo2 :(bool)barArg2;      /* comment */\n"
+	    "\n"
+	    "-(void)foo3 :(bool)barArg3       // comment\n"
+	    "{ }";
+	char options[] = "unpad-param-type, pad-method-colon=before";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCUnPadParamType, PadMethodColonAll_Comments)
+{
+	// Test unpad-param-type with comments and pad-method-colon=all.
+	// This will cause a padded method colon.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;       // comment\n"
+	    "-(void)foo2:  (bool)   barArg2;  /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)  barArg3      // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-(void)foo1 : (bool)barArg1;     // comment\n"
+	    "-(void)foo2 : (bool)barArg2;     /* comment */\n"
+	    "\n"
+	    "-(void)foo3 : (bool)barArg3      // comment\n"
+	    "{ }";
+	char options[] = "unpad-param-type, pad-method-colon=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
