@@ -146,7 +146,8 @@ void setText(const NSString* textOut, NSString* filePath)
     if (![fm moveItemAtPath: filePath toPath: origfilePath error: NULL])
         NSLog(@"Cannot create backup for %@", filePath);
     // write the text
-    [textOut writeToFile: filePath atomically: YES
+    [textOut writeToFile: filePath
+     atomically: YES
      encoding: NSASCIIStringEncoding
      error: NULL];
 }

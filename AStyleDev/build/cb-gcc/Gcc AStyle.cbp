@@ -11,7 +11,7 @@
 				<Option object_output="obj" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-atOPR  /home/jimp/Projects/AStyleDev/TestData/CodeBlocks/src/*.cpp  /home/jimp/Projects/AStyleDev/TestData/CodeBlocks/src/*.h" />
+				<Option parameters='-A1tOPR  &quot;/home/jimp/Projects/AStyleDev/test-data/*.cpp&quot;  &apos;&quot;/home/jimp/Projects/AStyleDev/test-data/*.h&quot;&apos;' />
 				<Option projectCompilerOptionsRelation="1" />
 				<Option projectLinkerOptionsRelation="1" />
 				<Option projectIncludeDirsRelation="1" />
@@ -30,7 +30,6 @@
 				</Linker>
 				<ExtraCommands>
 					<Add after="cp  bin/astyle  ../../src-p" />
-					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug">
@@ -38,7 +37,7 @@
 				<Option object_output="objd" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='-atOP  &quot;&apos;/home/jimp/Projects/AStyleDev/test-c/*.cpp&apos;&quot;  -rv' />
+				<Option parameters='-A1tOPR  &apos;&quot;/home/jimp/Projects/AStyleDev/test-data/*.cpp&quot;&apos;  &apos;&quot;/home/jimp/Projects/AStyleDev/test-data/*.h&quot;&apos;' />
 				<Option projectCompilerOptionsRelation="1" />
 				<Option projectLinkerOptionsRelation="1" />
 				<Option projectIncludeDirsRelation="1" />
@@ -53,9 +52,6 @@
 				</Compiler>
 			</Target>
 		</Build>
-		<VirtualTargets>
-			<Add alias="All" targets="Release;" />
-		</VirtualTargets>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />

@@ -311,7 +311,8 @@ NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span c
     <span class="hl kwa">if</span> <span class="hl opt">(![</span>fm moveItemAtPath<span class="hl opt">:</span> filePath toPath<span class="hl opt">:</span> origfilePath error<span class="hl opt">:</span> NULL<span class="hl opt">])</span>
         <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;Cannot create backup for %&#64;&quot;</span><span class="hl opt">,</span> filePath<span class="hl opt">);</span>
     <span class="hl slc">// write the text</span>
-    <span class="hl opt">[</span>textOut writeToFile<span class="hl opt">:</span> filePath atomically<span class="hl opt">:</span> YES
+    <span class="hl opt">[</span>textOut writeToFile<span class="hl opt">:</span> filePath 
+     atomically<span class="hl opt">:</span> YES
      encoding<span class="hl opt">:</span> NSASCIIStringEncoding
      error<span class="hl opt">:</span> NULL<span class="hl opt">];</span>
 <span class="hl opt">}</span>

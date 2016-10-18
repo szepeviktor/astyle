@@ -30,7 +30,6 @@
 				</Linker>
 				<ExtraCommands>
 					<Add after="cp  bin/libastyle-2.06jd.so  ../../src-j/" />
-					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
@@ -54,19 +53,15 @@
 					<Add directory="/usr/lib/jvm/default-java/include/linux" />
 				</Compiler>
 				<Linker>
-					<Add option="-s" />
 					<Add option="-static-intel" />
 					<Add option="-wd10237" />
+					<Add option="-s" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="cp  bin/libastyle-2.06j.so  ../../src-j/" />
-					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 		</Build>
-		<VirtualTargets>
-			<Add alias="All" targets="Release;" />
-		</VirtualTargets>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />

@@ -32,7 +32,6 @@
 					<Add after="cp  bin/libastyle-2.06d.so  ../../src-p/" />
 					<Add after="cp  bin/libastyle-2.06d.so  ../../src-s/" />
 					<Add after="cp  bin/libastyle-2.06d.so  ../../src-s2/" />
-					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
@@ -64,13 +63,9 @@
 					<Add after="cp  bin/libastyle-2.06.so  ../../src-p/" />
 					<Add after="cp  bin/libastyle-2.06.so  ../../src-s/" />
 					<Add after="cp  bin/libastyle-2.06.so  ../../src-s2/" />
-					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 		</Build>
-		<VirtualTargets>
-			<Add alias="All" targets="Release;" />
-		</VirtualTargets>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />

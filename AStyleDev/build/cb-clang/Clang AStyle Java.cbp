@@ -36,7 +36,6 @@
 				</Compiler>
 				<ExtraCommands>
 					<Add after="cp  bin/libastyle-2.06jd.so  ../../src-j/" />
-					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
@@ -73,13 +72,9 @@
 				</Linker>
 				<ExtraCommands>
 					<Add after="cp  bin/libastyle-2.06j.so  ../../src-j/" />
-					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 		</Build>
-		<VirtualTargets>
-			<Add alias="All" targets="Release;" />
-		</VirtualTargets>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />

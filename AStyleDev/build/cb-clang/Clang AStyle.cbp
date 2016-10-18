@@ -38,7 +38,6 @@
 				</Compiler>
 				<ExtraCommands>
 					<Add after="cp  bin/astyled  ../../src-p/" />
-					<Mode after="always" />
 				</ExtraCommands>
 				<MakeCommands>
 					<Build command="" />
@@ -80,13 +79,9 @@
 				</Linker>
 				<ExtraCommands>
 					<Add after="cp  bin/astyle  ../../src-p/" />
-					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 		</Build>
-		<VirtualTargets>
-			<Add alias="All" targets="Release;" />
-		</VirtualTargets>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
