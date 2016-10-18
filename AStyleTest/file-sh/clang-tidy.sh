@@ -1,25 +1,43 @@
 #!/bin/bash
 # run clang tidy on the astyle source
 
-# NOTE: use option -fix-errors to get the suggested fix
-# NOTE: use "clang-tidy-3.7 -checks=* -list-checks  ASBeautifier.cpp --"
-#       to list list all available checks
-# NOTE: fix -google-readability-casting
+# use "clang-tidy-3.9 -checks=* -list-checks" to list list all available checks
 
 srcdir=$HOME/Projects/AStyle/src
+progdir=clang-tidy-3.9
+# options  -fix or -fix-errors,  -header-filter=.*
+options="-fix-errors  -header-filter=.*"
 
+# modernize-* are temporary.  Remove for c++11 update.
+# google-readability-casting replaces c-style casts with c++ casts
+# cert-err34-c warns of using atoi errors - astyle checks the input length to avoid
 checks=-checks=*,\
+-cert-err34-c,\
+-cppcoreguidelines-pro-bounds-array-to-pointer-decay,\
+-cppcoreguidelines-pro-bounds-pointer-arithmetic,\
+-cppcoreguidelines-pro-type-member-init,\
+-cppcoreguidelines-pro-type-reinterpret-cast,\
 -google-build-using-namespace,\
+-google-default-arguments,\
 -google-readability-braces-around-statements,\
 -google-readability-function,\
 -google-readability-namespace-comments,\
 -google-readability-todo,\
+-google-runtime-int,\
+-google-runtime-references,\
 -llvm-header-guard,\
 -llvm-namespace-comment,\
+-misc-misplaced-widening-cast,\
 -readability-braces-around-statements,\
+-readability-implicit-bool-cast,\
 -readability-named-parameter,\
--clang-analyzer-security.insecureAPI.strcpy,\
--google-readability-casting
+-readability-simplify-boolean-expr,\
+-google-readability-casting,\
+-modernize-use-auto,\
+-modernize-loop-convert,\
+-modernize-use-default,\
+-modernize-use-nullptr
+
 
 echo
 echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
@@ -27,25 +45,18 @@ echo "*                       clang tidy                        *"
 echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 
 cd $srcdir
+if [ -f  "clang-*" ]; then
+	rm "clang-*"
+fi
 
-echo -e "\nASBeautifier.cpp"
-clang-tidy-3.7  $checks  ASBeautifier.cpp    --  > clang-asbeautifier.txt
+for filename in *.cpp
+do
+	echo
+	echo  -e  $filename
+	$progdir  $checks  $options  $filename    --  > xclang-$filename.txt
+done
 
-echo -e "\nASEnhancer.cpp"
-clang-tidy-3.7  $checks  ASEnhancer.cpp  --  > clang-asenhancer.txt
-
-echo -e "\nASFormatter.cpp"
-clang-tidy-3.7  $checks  ASFormatter.cpp  --  > clang-asformatter.txt
-
-echo -e "\nASLocalizer.cpp"
-clang-tidy-3.7  $checks  ASLocalizer.cpp  --  > clang-aslocalizer.txt
-
-echo -e "\nASResource.cpp"
-clang-tidy-3.7  $checks  ASResource.cpp  --  > clang-asresource.txt
-
-echo -e "\nastyle_main.cpp"
-clang-tidy-3.7  $checks  astyle_main.cpp  --  > clang-astyle_main.txt
 
 echo
 echo "* * * * * *  end of tidy  * * * * * *"
-#~ read -sn1 -p "Press Enter to end . . ."
+read -sn1 -p "Press Enter to end . . ."

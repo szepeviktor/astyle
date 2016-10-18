@@ -15,7 +15,6 @@
 #include "gtest/gtest.h"
 #include <stdlib.h>
 #include <iostream>		// for cout
-#include <string.h>		// need both string and string.h for GCC
 #include <string>
 
 using namespace std;

@@ -245,6 +245,7 @@ def process_file_suppressions(file_suppression_list):
     """ Generate suppressions for an entire file.
     """
     file_suppression_list.append("// functionStatic is supressed for the entire project in the command line.\n")
+    file_suppression_list.append("// purgedConfiguration is supressed for the entire project in the command line.\n")
     file_suppression_list.append("//\n")
     file_suppression_list.append("// duplInheritedMember\n")
     file_suppression_list.append("// These are duplicate variable names in the header classes.\n")
@@ -407,6 +408,7 @@ def run_cppcheck():
     cppcheck.append("--inconclusive")
     cppcheck.append("--verbose")
     cppcheck.append("--suppress=functionStatic")
+    cppcheck.append("--suppress=purgedConfiguration")
     cppcheck.append("--suppressions-list=" + __suppression_path)
     cppcheck.append(__src_dir)
     # shell=True keeps the console window open, but will not display if run from an editor
