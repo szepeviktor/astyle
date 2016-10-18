@@ -3,8 +3,8 @@
 // This code is licensed under the MIT License.
 // License.txt describes the conditions under which this software may be distributed.
 //
-// File encoding for this file is UTF-8 WITHOUT a byte order mark(BOM).
-//  русский    中文（简体）    日本語    한국의
+// File encoding for this file is UTF-8 WITHOUT a byte order mark (BOM).
+//    русский     中文（简体）    日本語     한국의
 //
 // Windows:
 // Add the required "Language" to the system.
@@ -13,7 +13,7 @@
 // Change both the "Format" and the "Current Language..." settings.
 // A restart is required if the codepage has changed.
 //		Windows problems:
-//		Hindi    -no available locale, language pack removed
+//		Hindi    - no available locale, language pack removed
 //		Japanese - language pack install error
 //		Ukranian - displays a ? instead of i
 //
@@ -58,8 +58,8 @@
 
 #include <cstdio>
 #include <iostream>
-#include <locale.h>		// needed by some compilers
-#include <stdlib.h>
+#include <clocale>		// needed by some compilers
+#include <cstdlib>
 #include <typeinfo>
 
 #ifdef _MSC_VER

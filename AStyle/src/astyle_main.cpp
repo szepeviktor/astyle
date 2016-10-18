@@ -36,10 +36,10 @@
 #include "astyle_main.h"
 
 #include <algorithm>
+#include <cerrno>
+#include <clocale>		// needed by some compilers
 #include <cstdlib>
-#include <errno.h>
 #include <fstream>
-#include <locale.h>		// needed by some compilers
 #include <sstream>
 
 // includes for recursive getFileNames() function
@@ -806,10 +806,10 @@ void ASConsole::setIsVerbose(bool state)
 void ASConsole::setNoBackup(bool state)
 { noBackup = state; }
 
-void ASConsole::setOptionsFileName(string name)
+void ASConsole::setOptionsFileName(const string& name)
 { optionsFileName = name; }
 
-void ASConsole::setOrigSuffix(string suffix)
+void ASConsole::setOrigSuffix(const string& suffix)
 { origSuffix = suffix; }
 
 void ASConsole::setPreserveDate(bool state)
@@ -1165,8 +1165,6 @@ void ASConsole::getFileNames(const string& directory, const string& wildcard)
 	{
 		getFileNames(subDirectory[i], wildcard);
 	}
-
-	return;
 }
 
 /**
@@ -2254,7 +2252,7 @@ void ASConsole::printVerboseStats(clock_t startTime) const
 
 	// show processing time
 	clock_t stopTime = clock();
-	float secs = (stopTime - startTime) / float (CLOCKS_PER_SEC);
+	double secs = (stopTime - startTime) / double (CLOCKS_PER_SEC);
 	if (secs < 60)
 	{
 		if (secs < 2.0)
@@ -2304,7 +2302,7 @@ bool ASConsole::stringEndsWith(const string& str, const string& suffix) const
 	return true;
 }
 
-void ASConsole::updateExcludeVector(string suffixParam)
+void ASConsole::updateExcludeVector(const string& suffixParam)
 {
 	excludeVector.push_back(suffixParam);
 	standardizePath(excludeVector.back(), true);
@@ -3089,7 +3087,7 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	{
 		formatter.setReturnTypeUnPaddingMode(true);
 	}
-	else if (isOption(arg, "XS", "pad-param-type"))
+	else if (isOption(arg, "xS", "pad-param-type"))
 	{
 		formatter.setParamTypePaddingMode(true);
 	}
