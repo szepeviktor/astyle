@@ -61,9 +61,6 @@
 				</Linker>
 			</Target>
 		</Build>
-		<VirtualTargets>
-			<Add alias="All" targets="Release;" />
-		</VirtualTargets>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />

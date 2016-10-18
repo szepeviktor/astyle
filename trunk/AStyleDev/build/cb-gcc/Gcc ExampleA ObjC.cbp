@@ -23,7 +23,7 @@
 				<Linker>
 					<Add library="gnustep-base" />
 					<Add library="objc" />
-					<Add library="astyle" />
+					<Add library="astyled" />
 					<Add directory="/usr/lib/GNUstep" />
 					<Add directory="bin" />
 				</Linker>
@@ -52,9 +52,6 @@
 				</Linker>
 			</Target>
 		</Build>
-		<VirtualTargets>
-			<Add alias="All" targets="Release;" />
-		</VirtualTargets>
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
