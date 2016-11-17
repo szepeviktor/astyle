@@ -185,7 +185,7 @@ void ASFormatter::init(ASSourceIterator* si)
 	nextLineSpacePadNum = 0;
 	objCColonAlign = 0;
 	templateDepth = 0;
-	squareBracketCount = 0;
+	blockParenCount = 0;
 	horstmannIndentChars = 0;
 	tabIncrementIn = 0;
 	previousBracketType = NULL_TYPE;
@@ -838,7 +838,11 @@ string ASFormatter::nextLine()
 			foundQuestionMark = false;
 			parenStack->back()++;
 			if (currentChar == '[')
-				++squareBracketCount;
+			{
+				++blockParenCount;
+				if (getAlignMethodColon() && blockParenCount == 1 && isCStyle())
+					objCColonAlign = findObjCColonAlignment();
+			}
 		}
 		else if (currentChar == ')' || currentChar == ']' || (isInTemplate && currentChar == '>'))
 		{
@@ -871,9 +875,12 @@ string ASFormatter::nextLine()
 			}
 			if (currentChar == ']')
 			{
-				--squareBracketCount;
-				if (squareBracketCount < 0)
-					squareBracketCount = 0;
+				--blockParenCount;
+				if (blockParenCount <= 0)
+				{
+					blockParenCount = 0;
+					objCColonAlign = 0;
+				}
 			}
 			if (currentChar == ')')
 			{
@@ -936,7 +943,7 @@ string ASFormatter::nextLine()
 					endOfAsmReached = true;
 				isInAsmOneLine = isInQuote = false;
 				shouldKeepLineUnbroken = false;
-				squareBracketCount = 0;
+				blockParenCount = 0;
 
 				if (bracketTypeStack->size() > 1)
 				{
@@ -1044,7 +1051,7 @@ string ASFormatter::nextLine()
 		// look for headers
 		bool isPotentialHeader = isCharPotentialHeader(currentLine, charNum);
 
-		if (isPotentialHeader && !isInTemplate && !squareBracketCount)
+		if (isPotentialHeader && !isInTemplate && !blockParenCount)
 		{
 			isNonParenHeader = false;
 			foundClosingHeader = false;
@@ -1243,7 +1250,7 @@ string ASFormatter::nextLine()
 		{
 			if (currentChar == ';')
 			{
-				squareBracketCount = 0;
+				blockParenCount = 0;
 
 				if (((shouldBreakOneLineStatements
 				        || isBracketType(bracketTypeStack->back(), SINGLE_LINE_TYPE))
@@ -1287,7 +1294,7 @@ string ASFormatter::nextLine()
 			         && !foundPreDefinitionHeader   // not in a definition block
 			         && previousCommandChar != ')'  // not after closing paren of a method header
 			         && !foundPreCommandHeader      // not after a 'noexcept'
-			         && !squareBracketCount         // not in objC method call
+			         && !blockParenCount         // not in objC method call
 			         && !isInObjCMethodDefinition   // not objC '-' or '+' method
 			         && !isInObjCInterface          // not objC @interface
 			         && !isInObjCSelector           // not objC @selector
@@ -1302,7 +1309,7 @@ string ASFormatter::nextLine()
 
 			if (isCStyle()
 			        && shouldPadMethodColon
-			        && (squareBracketCount > 0 || isInObjCMethodDefinition || isInObjCSelector)
+			        && (blockParenCount > 0 || isInObjCMethodDefinition || isInObjCSelector)
 			        && !foundQuestionMark)			// not in a ?: sequence
 				padObjCMethodColon();
 
@@ -1452,7 +1459,7 @@ string ASFormatter::nextLine()
 			continue;
 		}
 		else if ((currentChar == '-' || currentChar == '+')
-		         && charNum == 0
+		         && (int) currentLine.find_first_not_of(" \t") == charNum
 		         && peekNextChar() == '('
 		         && isBracketType(bracketTypeStack->back(), NULL_TYPE)
 		         && !isInPotentialCalculation)
@@ -2887,7 +2894,7 @@ bool ASFormatter::isPointerOrReference() const
 		}
 
 		if (isBracketType(bracketTypeStack->back(), COMMAND_TYPE)
-		        || squareBracketCount > 0)
+		        || blockParenCount > 0)
 			return false;
 		return true;
 	}
@@ -3507,13 +3514,14 @@ void ASFormatter::padOperators(const string* newOperator)
 	                  && newOperator != &AS_ARROW
 	                  && !(newOperator == &AS_COLON && !foundQuestionMark			// objC methods
 	                       && (isInObjCMethodDefinition || isInObjCInterface
-	                           || isInObjCSelector || squareBracketCount))
+	                           || isInObjCSelector || blockParenCount))
 	                  && !(newOperator == &AS_MINUS && isInExponent())
 	                  && !((newOperator == &AS_PLUS || newOperator == &AS_MINUS)	// check for unary plus or minus
 	                       && (previousNonWSChar == '('
 	                           || previousNonWSChar == '['
 	                           || previousNonWSChar == '='
-	                           || previousNonWSChar == ','))
+	                           || previousNonWSChar == ','
+	                           || previousNonWSChar == ':'))
 	                  && !(newOperator == &AS_PLUS && isInExponent())
 	                  && !isCharImmediatelyPostOperator
 //?                   // commented out in release 2.05.1 - doesn't seem to do anything???
@@ -3555,8 +3563,6 @@ void ASFormatter::padOperators(const string* newOperator)
 	        && !isBeforeAnyComment()
 	        && !(newOperator == &AS_PLUS && isUnaryOperator())
 	        && !(newOperator == &AS_MINUS && isUnaryOperator())
-	        && !(previousNonWSChar == ')' && newOperator == &AS_MINUS
-	             && peekNextChar() != 1)	// don't pad -1 following a c-style cast
 	        && !(currentLine.compare(charNum + 1, 1, AS_SEMICOLON) == 0)
 	        && !(currentLine.compare(charNum + 1, 2, AS_SCOPE_RESOLUTION) == 0)
 	        && !(peekNextChar() == ',')
@@ -4285,7 +4291,6 @@ void ASFormatter::padObjCParamType()
 	if (currentChar == '(')
 	{
 		// open paren has already been attached to formattedLine by padParen
-		assert(formattedLine[formattedLine.length() - 1] == '(');
 		size_t prevText = formattedLine.find_last_not_of(" \t", formattedLine.length() - 2);
 		if (prevText == string::npos)
 			return;
@@ -7152,18 +7157,20 @@ void ASFormatter::resetEndOfStatement()
 		questionMarkStack->pop_back();
 }
 
-// Find the colon alignment for an Objective-C method definition.
+// Find the colon alignment for Objective-C method definitions and method calls.
 int ASFormatter::findObjCColonAlignment() const
 {
-	assert(currentChar == '+' || currentChar == '-');
+	assert(currentChar == '+' || currentChar == '-' || currentChar == '[');
 	assert(getAlignMethodColon());
 
 	bool isFirstLine = true;
 	bool haveFirstColon = false;
+	bool foundMethodColon = false;
 	bool needReset = false;
 	bool isInComment_ = false;
 	bool isInQuote_ = false;
 	char quoteChar_ = ' ';
+	int  sqBracketCount = 0;
 	int  colonAdjust = 0;
 	int  colonAlign = 0;
 	string nextLine_ = currentLine;
@@ -7219,16 +7226,28 @@ int ASFormatter::findObjCColonAlignment() const
 				continue;
 			}
 			// process the current char
-			if (nextLine_[i] == '{' || nextLine_[i] == ';')
-				goto EndOfWhileLoop;
-			if (isFirstLine)	// colon align does not include the first line
+			if ((nextLine_[i] == '{' && (currentChar == '-' || currentChar == '+'))
+			        || nextLine_[i] == ';')
+				goto EndOfWhileLoop;       // end of method definition
+			if (nextLine_[i] == ']')
+			{
+				--sqBracketCount;
+				if (!sqBracketCount)
+					goto EndOfWhileLoop;   // end of method call
+			}
+			if (nextLine_[i] == '[')
+				++sqBracketCount;
+			if (isFirstLine)	 // colon align does not include the first line
 				continue;
-			if (haveFirstColon)
+			if (sqBracketCount > 1)
+				continue;
+			if (haveFirstColon)  // multiple colons per line
 				continue;
 			// compute colon adjustment
 			if (nextLine_[i] == ':')
 			{
 				haveFirstColon = true;
+				foundMethodColon = true;
 				if (shouldPadMethodColon)
 				{
 					int spacesStart;
@@ -7250,6 +7269,8 @@ int ASFormatter::findObjCColonAlignment() const
 		isFirstLine = false;
 	}	// end of while loop
 EndOfWhileLoop:
+	if (!foundMethodColon)
+		colonAlign = -1;
 	if (needReset)
 		sourceIterator->peekReset();
 	return colonAlign;
