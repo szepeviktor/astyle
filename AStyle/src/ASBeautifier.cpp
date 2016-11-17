@@ -190,7 +190,10 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	isInClassInitializer = other.isInClassInitializer;
 	isInClass = other.isInClass;
 	isInObjCMethodDefinition = other.isInObjCMethodDefinition;
+	isInObjCMethodCall = other.isInObjCMethodCall;
+	isInObjCMethodCallFirst = other.isInObjCMethodCallFirst;
 	isImmediatelyPostObjCMethodDefinition = other.isImmediatelyPostObjCMethodDefinition;
+	isImmediatelyPostObjCMethodCall = other.isImmediatelyPostObjCMethodCall;
 	isInIndentablePreprocBlock = other.isInIndentablePreprocBlock;
 	isInObjCInterface = other.isInObjCInterface;
 	isInEnum = other.isInEnum;
@@ -229,8 +232,9 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	shouldIndentPreprocConditional = other.shouldIndentPreprocConditional;
 	indentCount = other.indentCount;
 	spaceIndentCount = other.spaceIndentCount;
-	spaceIndentObjCMethodDefinition = other.spaceIndentObjCMethodDefinition;
-	colonIndentObjCMethodDefinition = other.colonIndentObjCMethodDefinition;
+	spaceIndentObjCMethodAlignment = other.spaceIndentObjCMethodAlignment;
+	bracketPosObjCMethodAlignment = other.bracketPosObjCMethodAlignment;
+	colonIndentObjCMethodAlignment = other.colonIndentObjCMethodAlignment;
 	lineOpeningBlocksNum = other.lineOpeningBlocksNum;
 	lineClosingBlocksNum = other.lineClosingBlocksNum;
 	fileType = other.fileType;
@@ -244,7 +248,7 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	maxInStatementIndent = other.maxInStatementIndent;
 	classInitializerIndents = other.classInitializerIndents;
 	templateDepth = other.templateDepth;
-	squareBracketCount = other.squareBracketCount;
+	blockParenCount = other.blockParenCount;
 	prevFinalLineSpaceIndentCount = other.prevFinalLineSpaceIndentCount;
 	prevFinalLineIndentCount = other.prevFinalLineIndentCount;
 	defineIndentCount = other.defineIndentCount;
@@ -338,7 +342,10 @@ void ASBeautifier::init(ASSourceIterator* iter)
 	isInClassInitializer = false;
 	isInClass = false;
 	isInObjCMethodDefinition = false;
+	isInObjCMethodCall = false;
+	isInObjCMethodCallFirst = false;
 	isImmediatelyPostObjCMethodDefinition = false;
+	isImmediatelyPostObjCMethodCall = false;
 	isInIndentablePreprocBlock = false;
 	isInObjCInterface = false;
 	isInEnum = false;
@@ -350,12 +357,13 @@ void ASBeautifier::init(ASSourceIterator* iter)
 
 	indentCount = 0;
 	spaceIndentCount = 0;
-	spaceIndentObjCMethodDefinition = 0;
-	colonIndentObjCMethodDefinition = 0;
+	spaceIndentObjCMethodAlignment = 0;
+	bracketPosObjCMethodAlignment = 0;
+	colonIndentObjCMethodAlignment = 0;
 	lineOpeningBlocksNum = 0;
 	lineClosingBlocksNum = 0;
 	templateDepth = 0;
-	squareBracketCount = 0;
+	blockParenCount = 0;
 	parenDepth = 0;
 	blockTabCount = 0;
 	prevFinalLineSpaceIndentCount = 0;
@@ -893,6 +901,12 @@ string ASBeautifier::beautify(const string& originalLine)
 	lineClosingBlocksNum = 0;
 	if (isImmediatelyPostObjCMethodDefinition)
 		clearObjCMethodDefinitionAlignment();
+	if (isImmediatelyPostObjCMethodCall)
+	{
+		isImmediatelyPostObjCMethodCall = false;
+		isInObjCMethodCall = false;
+		objCColonAlignSubsequent = 0;
+	}
 
 	// handle and remove white spaces around the line:
 	// If not in comment, first find out size of white space before line,
@@ -1143,36 +1157,11 @@ string ASBeautifier::beautify(const string& originalLine)
 	// handle special cases of indentation
 	adjustParsedLineIndentation(iPrelim, isInExtraHeaderIndent);
 
-	// Objective-C continuation line
 	if (isInObjCMethodDefinition)
-	{
-		// register indent for Objective-C continuation line
-		if (line.length() > 0
-		        && (line[0] == '-' || line[0] == '+'))
-		{
-			if (shouldAlignMethodColon)
-			{
-				colonIndentObjCMethodDefinition = line.find(':');
-				int objCColonAlignSubsequentIndent = objCColonAlignSubsequent + indentLength;
-				if (objCColonAlignSubsequentIndent > colonIndentObjCMethodDefinition)
-					colonIndentObjCMethodDefinition = objCColonAlignSubsequentIndent;
-			}
-			else if (inStatementIndentStack->empty()
-			         || inStatementIndentStack->back() == 0)
-			{
-				inStatementIndentStack->push_back(indentLength);
-				isInStatement = true;
-			}
-		}
-		// set indent for last definition line
-		else if (!lineBeginsWithOpenBracket)
-		{
-			if (shouldAlignMethodColon)
-				spaceIndentCount = computeObjCColonAlignment(line, colonIndentObjCMethodDefinition);
-			else if (inStatementIndentStack->empty())
-				spaceIndentCount = spaceIndentObjCMethodDefinition;
-		}
-	}
+		adjustObjCMethodDefinitionIndentation(line);
+
+	if (isInObjCMethodCall)
+		adjustObjCMethodCallIndentation(line);
 
 	if (isInDefine)
 	{
@@ -1328,7 +1317,7 @@ void ASBeautifier::registerInStatementIndentColon(const string& line, int i, int
 
 	// register indent at first word after the colon
 	size_t firstChar = line.find_first_not_of(" \t");
-	if (firstChar == (size_t)i)		// firstChar is ':'
+	if (firstChar == (size_t) i)		// firstChar is ':'
 	{
 		size_t firstWord = line.find_first_not_of(" \t", firstChar + 1);
 		if (firstChar != string::npos)
@@ -2060,7 +2049,7 @@ void ASBeautifier::computePreliminaryIndentation()
 	isInClassHeaderTab = false;
 
 	if (isInObjCMethodDefinition && !inStatementIndentStack->empty())
-		spaceIndentObjCMethodDefinition = inStatementIndentStack->back();
+		spaceIndentObjCMethodAlignment = inStatementIndentStack->back();
 
 	if (!inStatementIndentStack->empty())
 		spaceIndentCount = inStatementIndentStack->back();
@@ -2305,6 +2294,95 @@ string ASBeautifier::extractPreprocessorStatement(const string& line) const
 	return preproc;
 }
 
+void ASBeautifier::adjustObjCMethodDefinitionIndentation(const string& line_)
+{
+	// register indent for Objective-C continuation line
+	if (line_.length() > 0
+	        && (line_[0] == '-' || line_[0] == '+'))
+	{
+		if (shouldAlignMethodColon && objCColonAlignSubsequent != -1)
+		{
+			string convertedLine = getIndentedSpaceEquivalent(line_);
+			colonIndentObjCMethodAlignment = convertedLine.find(':');
+			int objCColonAlignSubsequentIndent = objCColonAlignSubsequent + indentLength;
+			if (objCColonAlignSubsequentIndent > colonIndentObjCMethodAlignment)
+				colonIndentObjCMethodAlignment = objCColonAlignSubsequentIndent;
+		}
+		else if (inStatementIndentStack->empty()
+		         || inStatementIndentStack->back() == 0)
+		{
+			inStatementIndentStack->push_back(indentLength);
+			isInStatement = true;
+		}
+	}
+	// set indent for last definition line
+	else if (!lineBeginsWithOpenBracket)
+	{
+		if (shouldAlignMethodColon)
+			spaceIndentCount = computeObjCColonAlignment(line_, colonIndentObjCMethodAlignment);
+		else if (inStatementIndentStack->empty())
+			spaceIndentCount = spaceIndentObjCMethodAlignment;
+	}
+}
+
+void ASBeautifier::adjustObjCMethodCallIndentation(const string& line_)
+{
+	static int keywordIndentObjCMethodAlignment = 0;
+	if (shouldAlignMethodColon && objCColonAlignSubsequent != -1)
+	{
+		if (isInObjCMethodCallFirst)
+		{
+			isInObjCMethodCallFirst = false;
+			string convertedLine = getIndentedSpaceEquivalent(line_);
+			bracketPosObjCMethodAlignment = convertedLine.find('[');
+			keywordIndentObjCMethodAlignment =
+			    getObjCFollowingKeyword(convertedLine, bracketPosObjCMethodAlignment);
+			colonIndentObjCMethodAlignment = convertedLine.find(':');
+			if (colonIndentObjCMethodAlignment >= 0)
+			{
+				int objCColonAlignSubsequentIndent = objCColonAlignSubsequent + indentLength;
+				if (objCColonAlignSubsequentIndent > colonIndentObjCMethodAlignment)
+					colonIndentObjCMethodAlignment = objCColonAlignSubsequentIndent;
+				if (lineBeginsWithOpenBracket)
+					colonIndentObjCMethodAlignment -= indentLength;
+			}
+		}
+		else
+		{
+			if (line_.find(':') != string::npos)
+			{
+				if (colonIndentObjCMethodAlignment < 0)
+					spaceIndentCount += computeObjCColonAlignment(line_, objCColonAlignSubsequent);
+				else if (objCColonAlignSubsequent > colonIndentObjCMethodAlignment)
+					spaceIndentCount = computeObjCColonAlignment(line_, objCColonAlignSubsequent);
+				else
+					spaceIndentCount = computeObjCColonAlignment(line_, colonIndentObjCMethodAlignment);
+			}
+			else
+			{
+				if (spaceIndentCount < colonIndentObjCMethodAlignment)
+					spaceIndentCount += keywordIndentObjCMethodAlignment;
+			}
+		}
+	}
+	else    // align keywords instead of colons
+	{
+		if (isInObjCMethodCallFirst)
+		{
+			isInObjCMethodCallFirst = false;
+			string convertedLine = getIndentedSpaceEquivalent(line_);
+			bracketPosObjCMethodAlignment = convertedLine.find('[');
+			keywordIndentObjCMethodAlignment =
+			    getObjCFollowingKeyword(convertedLine, bracketPosObjCMethodAlignment);
+		}
+		else
+		{
+			if (spaceIndentCount < keywordIndentObjCMethodAlignment + bracketPosObjCMethodAlignment)
+				spaceIndentCount += keywordIndentObjCMethodAlignment;
+		}
+	}
+}
+
 /**
  * Clear the variables used to align the Objective-C method definitions.
  */
@@ -2312,9 +2390,8 @@ void ASBeautifier::clearObjCMethodDefinitionAlignment()
 {
 	assert(isImmediatelyPostObjCMethodDefinition);
 	spaceIndentCount = 0;
-	spaceIndentObjCMethodDefinition = 0;
-	colonIndentObjCMethodDefinition = 0;
-	objCColonAlignSubsequent = 0;
+	spaceIndentObjCMethodAlignment = 0;
+	colonIndentObjCMethodAlignment = 0;
 	isInObjCMethodDefinition = false;
 	isImmediatelyPostObjCMethodDefinition = false;
 	if (!inStatementIndentStack->empty())
@@ -2327,12 +2404,68 @@ void ASBeautifier::clearObjCMethodDefinitionAlignment()
  * If it cannot be aligned indentLength is returned and a new colon
  * position is calculated.
  */
-int ASBeautifier::computeObjCColonAlignment(string& line, int colonAlignPosition) const
+int ASBeautifier::computeObjCColonAlignment(const string& line, int colonAlignPosition) const
 {
 	int colonPosition = line.find(':');
 	if (colonPosition < 0 || colonPosition > colonAlignPosition)
 		return indentLength;
 	return (colonAlignPosition - colonPosition);
+}
+
+/*
+ * Compute postition of the keyword following the method call object.
+ */
+int ASBeautifier::getObjCFollowingKeyword(const string& line, int bracketPos) const
+{
+	assert(line[bracketPos] == '[');
+	size_t firstText = line.find_first_not_of(" \t", bracketPos + 1);
+	if (firstText == string::npos) return -(indentCount * indentLength - 1);
+	size_t searchBeg = firstText;
+	size_t objectEnd = 0;	// end of object text
+	if (line[searchBeg] == '[')
+	{
+		objectEnd = line.find(']', searchBeg + 1);
+		if (objectEnd == string::npos) return 0;
+	}
+	else
+	{
+		if (line[searchBeg] == '(')
+		{
+			searchBeg = line.find(')', searchBeg + 1);
+			if (searchBeg == string::npos) return 0;
+		}
+		// bypass the object name
+		objectEnd = line.find_first_of(" \t", searchBeg + 1);
+		if (objectEnd == string::npos) return 0;
+		--objectEnd;
+	}
+	size_t keyPos = line.find_first_not_of(" \t", objectEnd + 1);
+	if (keyPos == string::npos) return 0;
+	return keyPos - firstText;
+}
+
+/**
+ * Get a line using the current space indent with all tabs replaced by spaces.
+ * The indentCount is NOT included
+ * Needed to compute an accurate alignment.
+ */
+string ASBeautifier::getIndentedSpaceEquivalent(const string& line_) const
+{
+	string spaceIndent;
+	spaceIndent.append(spaceIndentCount, ' ');
+	string convertedLine = spaceIndent + line_;
+	for (size_t i = spaceIndent.length(); i < convertedLine.length(); i++)
+	{
+		size_t tabCount_ = 0;
+		if (convertedLine[i] == '\t')
+		{
+			size_t numSpaces = indentLength - ((tabCount_ + i) % indentLength);
+			convertedLine.replace(i, 1, numSpaces, ' ');
+			++tabCount_;
+			i += indentLength - 1;
+		}
+	}
+	return convertedLine;
 }
 
 /**
@@ -2623,7 +2756,14 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				}
 				parenDepth++;
 				if (ch == '[')
-					++squareBracketCount;
+				{
+					++blockParenCount;
+					if (blockParenCount == 1 && isCStyle())
+					{
+						isInObjCMethodCall = true;
+						isInObjCMethodCallFirst = true;
+					}
+				}
 
 				inStatementIndentStackSizeStack->push_back(inStatementIndentStack->size());
 
@@ -2635,9 +2775,13 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			else if (ch == ')' || ch == ']')
 			{
 				if (ch == ']')
-					--squareBracketCount;
-				if (squareBracketCount < 0)
-					squareBracketCount = 0;
+					--blockParenCount;
+				if (blockParenCount <= 0)
+				{
+					blockParenCount = 0;
+					if (isInObjCMethodCall)
+						isImmediatelyPostObjCMethodCall = true;
+				}
 				foundPreCommandHeader = false;
 				parenDepth--;
 				if (parenDepth == 0)
@@ -2693,7 +2837,12 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			                              || isLegalNameChar(prevNonSpaceCh))));
 
 			if (isInObjCMethodDefinition)
+			{
+				objCColonAlignSubsequent = 0;
 				isImmediatelyPostObjCMethodDefinition = true;
+				if (lineBeginsWithOpenBracket)		// for horstmann brackets
+					clearObjCMethodDefinitionAlignment();
+			}
 
 			if (!isBlockOpener && !isInStatement && !isInClassInitializer && !isInEnum)
 			{
@@ -2814,7 +2963,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 		//check if a header has been reached
 		bool isPotentialHeader = isCharPotentialHeader(line, i);
 
-		if (isPotentialHeader && !squareBracketCount)
+		if (isPotentialHeader && !blockParenCount)
 		{
 			const string* newHeader = findHeader(line, i, headers);
 
@@ -3234,8 +3383,12 @@ void ASBeautifier::parseCurrentLine(const string& line)
 
 			if (parenDepth == 0 && ch == ';')
 				isInStatement = false;
+
 			if (isInObjCMethodDefinition)
+			{
+				objCColonAlignSubsequent = 0;
 				isImmediatelyPostObjCMethodDefinition = true;
+			}
 
 			previousLastLineHeader = NULL;
 			isInClassHeader = false;		// for 'friend' class
@@ -3244,7 +3397,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			isInObjCInterface = false;
 			foundPreCommandHeader = false;
 			foundPreCommandMacro = false;
-			squareBracketCount = 0;
+			blockParenCount = 0;
 
 			continue;
 		}
@@ -3316,7 +3469,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			// "new" operator is a pointer, not a calculation
 			if (findKeyword(line, i, AS_NEW))
 			{
-				if (isInStatement && !inStatementIndentStack->empty() && prevNonSpaceCh == '=' )
+				if (isInStatement && !inStatementIndentStack->empty() && prevNonSpaceCh == '=')
 					inStatementIndentStack->back() = 0;
 			}
 
@@ -3350,7 +3503,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 
 		// Handle Objective-C statements
 
-		if (ch == '@'
+		if (ch == '@' && !isWhiteSpace(line[i + 1])
 		        && isCharPotentialHeader(line, i + 1))
 		{
 			string curWord = getCurrentWord(line, i + 1);

@@ -22,13 +22,13 @@
 #include <string>
 #include <vector>
 
-//-----------------------------------------------------------------------------
-// declarations
-//-----------------------------------------------------------------------------
-
 #ifdef __GNUC__
 	#include <cstring>              // need both string and cstring for GCC
 #endif
+
+//-----------------------------------------------------------------------------
+// declarations
+//-----------------------------------------------------------------------------
 
 #ifdef _MSC_VER
 	#pragma warning(disable: 4267)  // conversion from size_t to int
@@ -369,6 +369,8 @@ private:  // functions
 	ASBeautifier(const ASBeautifier& other);     // inline functions
 	ASBeautifier& operator=(ASBeautifier&);     // not to be implemented
 
+	void adjustObjCMethodDefinitionIndentation(const string& line_);
+	void adjustObjCMethodCallIndentation(const string& line_);
 	void adjustParsedLineIndentation(size_t iPrelim, bool isInExtraHeaderIndent);
 	void computePreliminaryIndentation();
 	void parseCurrentLine(const string& line);
@@ -384,16 +386,18 @@ private:  // functions
 	void deleteBeautifierContainer(vector<ASBeautifier*>*& container);
 	void deleteTempStacksContainer(vector<vector<const string*>*>*& container);
 	int  adjustIndentCountForBreakElseIfComments() const;
-	int  computeObjCColonAlignment(string& line, int colonAlignPosition) const;
+	int  computeObjCColonAlignment(const string& line, int colonAlignPosition) const;
 	int  convertTabToSpaces(int i, int tabIncrementIn) const;
 	int  getInStatementIndentAssign(const string& line, size_t currPos) const;
 	int  getInStatementIndentComma(const string& line, size_t currPos) const;
+	int  getObjCFollowingKeyword(const string& line, int BracketPos) const;
 	bool isIndentedPreprocessor(const string& line, size_t currPos) const;
 	bool isLineEndComment(const string& line, int startPos) const;
 	bool isPreprocessorConditionalCplusplus(const string& line) const;
 	bool isInPreprocessorUnterminatedComment(const string& line);
 	bool statementEndsWithComma(const string& line, int index) const;
 	string& getIndentedLineReturn(string& newLine, const string& originalLine) const;
+	string getIndentedSpaceEquivalent(const string& line_) const;
 	string preLineWS(int lineIndentCount, int lineSpaceIndentCount) const;
 	template<typename T> void deleteContainer(T& container);
 	template<typename T> void initContainer(T& container, T value);
@@ -455,7 +459,10 @@ private:  // variables
 	bool isInClassInitializer;		// is in a class after the ':' initializer
 	bool isInClass;					// is in a class after the opening bracket
 	bool isInObjCMethodDefinition;
+	bool isInObjCMethodCall;
+	bool isInObjCMethodCallFirst;
 	bool isImmediatelyPostObjCMethodDefinition;
+	bool isImmediatelyPostObjCMethodCall;
 	bool isInIndentablePreprocBlock;
 	bool isInObjCInterface;
 	bool isInEnum;
@@ -494,8 +501,9 @@ private:  // variables
 	bool shouldIndentPreprocConditional;
 	int  indentCount;
 	int  spaceIndentCount;
-	int  spaceIndentObjCMethodDefinition;
-	int  colonIndentObjCMethodDefinition;
+	int  spaceIndentObjCMethodAlignment;
+	int  bracketPosObjCMethodAlignment;
+	int  colonIndentObjCMethodAlignment;
 	int  lineOpeningBlocksNum;
 	int  lineClosingBlocksNum;
 	int  fileType;
@@ -509,7 +517,7 @@ private:  // variables
 	int  maxInStatementIndent;
 	int  classInitializerIndents;
 	int  templateDepth;
-	int  squareBracketCount;
+	int  blockParenCount;
 	int  prevFinalLineSpaceIndentCount;
 	int  prevFinalLineIndentCount;
 	int  defineIndentCount;
@@ -803,7 +811,7 @@ private:  // variables
 	int  spacePadNum;
 	int  tabIncrementIn;
 	int  templateDepth;
-	int  squareBracketCount;
+	int  blockParenCount;
 	size_t checksumIn;
 	size_t checksumOut;
 	size_t currentLineFirstBracketNum;	// first bracket location on currentLine

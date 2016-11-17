@@ -200,7 +200,8 @@
 
     <p>
         Artistic Style can process directories recursively. Wildcards (such as "*.cpp" or "*.c??") are processed internally.
-        If a shell is used it should pass the wildcards to Artistic Style instead of resolving them first. For Linux use
+        If a shell is used, it should pass the wildcards to Artistic Style instead of resolving them first. For Linux
+        use
         double quotes around paths whose file name contains wildcards. For Windows use double quotes around paths whose
         file name contains spaces. The <a href="#_recursive">recursive</a> option in the
         <a href="#_Other_Options">Other Options</a> section contains information on recursive processing.</p>
@@ -220,7 +221,7 @@
     <p>
         Artistic Style has been internationalized to process files and directories in any language.</p>
     <p>
-        It has also been translated into several languages. The translation to use is determined from the User Locale
+        It has also been translated into several languages. The translation to use is determined by the User Locale
         for Windows and the LANG environment variable for other systems. The translation will be done automatically from
         these settings. If no translation is available it will default to English. There is an ascii option to use English
         instead of the system language.</p>
@@ -289,7 +290,7 @@
     <p>
         One is to run it with no options at all. This will use the <a href="#_default_bracket_style">default bracket
             style</a>, 4 spaces per indent, and no formatting changes.  This will break the brackets for one
-        line blocks and will break one line statements. To change this use the option
+        line blocks and will break one line statements. To change this, use the option
         <a href="#_keep-one-line-blocks">keep-one-line-blocks</a> and/or
         <a href="#_keep-one-line-statements">keep-one-line-statements</a> described in the
         <a href="#_Formatting_Options">Formatting Options</a> section</p>
@@ -462,7 +463,7 @@ indent-switches     <span class="comment"># cannot do this on the command line</
     <div class="code">
         <p class="code">
             The following prevents the operator padding from changing:</p>
-        <pre>size_t foo = (unsigned int) -1;  // *NOPAD*</pre>
+        <pre>size_t foo = (unsigned int) -1;  <span class="comment">// *NOPAD*</span></pre>
     </div>
     <p>
         &nbsp;</p>
@@ -484,7 +485,7 @@ indent-switches     <span class="comment"># cannot do this on the command line</
     <p>
         Other bracket styles are variations of these. Some will use variations on the placement of class, namespace, 
         or other brackets. (Stroustrup, Google, One True Brace, Lisp). Others will indent the brackets (Whitesmith, VTK,
-        Banner, Gnu). Still others will use run-in brackets where the following statement is on the same line as the bracket
+        Banner, GNU). Still others will use run-in brackets where the following statement is on the same line as the bracket
         (Horstmann, Pico).</p>
     <p>
         There are technical arguments for selecting one style over another. But the usual reason comes down to 
@@ -507,7 +508,7 @@ indent-switches     <span class="comment"># cannot do this on the command line</
         Bracket Style options define the bracket style to use. All options default to 4 spaces per indent, indented with
         spaces. By default, none of the styles indent namespaces. Other indentations are indicated in the individual style
         description. All options will break the brackets for one line blocks and will break one line statements. To change
-        this use the option <a href="#_keep-one-line-blocks">keep-one-line-blocks</a> and/or <a href="#_keep-one-line-statements">
+        this, use the option <a href="#_keep-one-line-blocks">keep-one-line-blocks</a> and/or <a href="#_keep-one-line-statements">
             keep-one-line-statements</a> described in the <a href="#_Formatting_Options">Formatting Options</a>
         section.</p>
     <p>
@@ -554,7 +555,7 @@ indent-switches     <span class="comment"># cannot do this on the command line</
     <p id="_style=kr">
         <code class="title">--style=kr / --style=k&amp;r / --style=k/r / -A3</code><br />
         Kernighan &amp; Ritchie style uses linux brackets. Opening brackets are broken from namespaces, classes, and function
-        definitions. Brackets are attached to everything else including arrays, structs, enums, and statements within
+        definitions. Brackets are attached to everything else, including arrays, structs, enums, and statements within
         a function.</p>
     <p>
         Using the k&amp;r option may cause problems because of the &amp;. This can be resolved by enclosing the k&amp;r
@@ -576,15 +577,17 @@ indent-switches     <span class="comment"># cannot do this on the command line</
     <p id="_style=stroustrup">
         <code class="title">--style=stroustrup / -A4</code><br />
         Stroustrup style uses linux brackets. Opening brackets are broken from function definitions only.
-        Brackets are attached to everything else including namespaces, classes, arrays, structs, enums, and statements
-        within a function. This style frequently is used with an indent of 5 spaces.</p>
+        Brackets are attached to everything else, including namespaces, classes, arrays, structs, enums, and 
+        statements within a function. This style frequently is used with headers broken from closing brackets 
+        (break-closing-brackets) and an indent of 5 spaces.</p>
     <div class="code">
         <pre>int Foo(bool isBar)
 <span class="brace">{</span>
     if (isBar) <span class="brace">{</span>
         bar();
         return 1;
-    <span class="brace">}</span> else
+    <span class="brace">}</span>
+    else
         return 0;
 <span class="brace">}</span>
 </pre>
@@ -649,8 +652,8 @@ indent-switches     <span class="comment"># cannot do this on the command line</
     <p id="_style=gnu">
         <code class="title">--style=gnu / -A7</code><br />
         GNU style uses broken brackets and indented blocks. Extra indentation is added to blocks <strong>within a 
-            function</strong> only. Other brackets and blocks are broken but NOT indented. This style frequently is used
-        with an indent of 2 spaces.</p>
+            function</strong> only. Other brackets and blocks are broken, but NOT indented. This style frequently is 
+        used with an indent of 2 spaces.</p>
     <div class="code">
         <pre>int Foo(bool isBar)
 <span class="brace">{</span>
@@ -669,10 +672,10 @@ indent-switches     <span class="comment"># cannot do this on the command line</
     <p id="_style=linux">
         <code class="title">--style=linux / --style=knf / -A8</code><br />
         Linux style uses linux brackets. Opening brackets are broken from namespace, class, and function definitions.
-        Brackets are attached to everything else including arrays, structs, enums, and statements within a function. <strong>
-            Minimum conditional indent</strong> is one-half indent. If you want a different minimum conditional
-        indent use the K&amp;R style instead. This style works best with a large indent. It frequently is used with an
-        indent of 8 spaces.</p>
+        Brackets are attached to everything else, including arrays, structs, enums, and statements within a function.
+        <strong>Minimum conditional indent</strong> is one-half indent. If you want a different minimum conditional
+        indent, use the K&amp;R style instead. This style works best with a large indent. It frequently is used with 
+        an indent of 8 spaces.</p>
     <p>
         Also known as Kernel Normal Form (KNF) style, this is the style used in the Linux 
         BSD kernel.</p>
@@ -712,7 +715,7 @@ indent-switches     <span class="comment"># cannot do this on the command line</
         brackets are broken from namespaces, classes, and function definitions. Brackets are attached to everything else
         including arrays, structs, enums, and statements within a function. </p>
     <p>
-        In the following example brackets have been added to the "<code>return 0;</code>" statement. The option
+        In the following example, brackets have been added to the "<code>return 0;</code>" statement. The option
         &#8209;&#8209;add&#8209;one&#8209;line&#8209;brackets can also be used with this style.</p>
     <div class="code">
         <pre>int Foo(bool isBar)
@@ -731,7 +734,7 @@ indent-switches     <span class="comment"># cannot do this on the command line</
     <p id="_style=google">
         <code class="title">--style=google / -A14</code><br />
         Google style uses attached brackets and indented class access modifiers.&nbsp;See the indent-modifiers
-        option for an example of the indented modifiers format. This is not actually a unique bracket style but 
+        option for an example of the indented modifiers format. This is not actually a unique bracket style, but 
         is Java style with a non-bracket variation. This style frequently is used with an indent of 2 spaces.</p>
     <div class="code">
         <pre>int Foo(bool isBar) <span class="brace">{</span>
@@ -748,8 +751,8 @@ indent-switches     <span class="comment"># cannot do this on the command line</
     <p id="_style=mozilla">
         <code class="title">--style=mozilla / -A16</code><br />
         Mozilla style uses linux brackets. Opening brackets are broken from classes, structs, enums, and function 
-        definitions. Brackets are attached to everything else including namespaces, arrays, and statements within a 
-        function. This style frequently is used with an indent of 2 spaces.</p>
+        definitions. Brackets are attached to everything else, including namespaces, arrays, and statements within
+        a function. This style frequently is used with an indent of 2 spaces.</p>
     <div class="code">
         <pre>int Foo(bool isBar)
 <span class="brace">{</span>
@@ -1142,7 +1145,7 @@ class Foo
     <p id="_indent-continuation">
         <code class="title">--indent-continuation=<span class="option">#</span> / -xt<span class="option">#</span></code><br />
         Set the continuation indent for a line that ends with an opening paren '<code>(</code>' or an assignment 
-        '<code>=</code>'. This iincludes function definitions and declarations. The value for <span class="option">#</span>
+        '<code>=</code>'. This includes function definitions and declarations. The value for <span class="option">#</span>
         indicates a <strong>number of indents</strong>. The valid values are the integer
         values from <strong>0 thru 4</strong>: The default value is <strong>1</strong>, one indent.</p>
     <div class="code">
@@ -1461,7 +1464,7 @@ isBar = false;
     <p id="_pad-paren">
         <code class="title">--pad-paren / -P </code>
         <br />
-        Insert space padding around parenthesis on both the <strong>outside</strong> and the <strong>inside</strong>.
+        Insert space padding around parens on both the <strong>outside</strong> and the <strong>inside</strong>.
         Any end of line comments will remain in the original column, if possible.</p>
     <div class="code">
         <pre>if (isFoo((a+2), b))
@@ -1478,7 +1481,7 @@ isBar = false;
     <p id="_pad-paren-out">
         <code class="title">--pad-paren-out / -d </code>
         <br />
-        Insert space padding around parenthesis on the <strong>outside</strong> only. Parentheses that are empty will
+        Insert space padding around parens on the <strong>outside</strong> only. Parens that are empty will
         not be padded. Any end of line comments will remain in the original column, if possible. This can be used with
         unpad-paren below to remove unwanted spaces.</p>
     <div class="code">
@@ -1496,8 +1499,8 @@ isBar = false;
     <p id="_pad-first-paren-out">
         <code class="title">--pad-first-paren-out / -xd </code>
         <br />
-        Insert space padding around the <strong>first</strong> parenthesis in a series on the <strong>outside</strong>
-        only. Parentheses that are empty will not be padded. Any end of line comments will remain in the original column,
+        Insert space padding around the <strong>first</strong> paren in a series on the <strong>outside</strong>
+        only. Parens that are empty will not be padded. Any end of line comments will remain in the original column,
         if possible. This can be used with unpad-paren below to remove unwanted spaces. If used with pad&#8209;paren or
         pad&#8209;paren&#8209;out, this option will be ignored. If used with pad&#8209;paren&#8209;in, the result will
         be the same as pad&#8209;paren.</p>
@@ -1516,7 +1519,7 @@ isBar = false;
     <p id="_pad-paren-in">
         <code class="title">--pad-paren-in / -D </code>
         <br />
-        Insert space padding around parenthesis on the <strong>inside</strong> only. Any end of line comments will remain
+        Insert space padding around paren on the <strong>inside</strong> only. Any end of line comments will remain
         in the original column, if possible. This can be used with unpad-paren below to remove unwanted spaces.</p>
     <div class="code">
         <pre>if (isFoo((a+2), b))
@@ -1550,10 +1553,11 @@ isBar = false;
     <p id="_unpad-paren">
         <code class="title">--unpad-paren / -U </code>
         <br />
-        Remove extra space padding around parenthesis on the inside and outside. Any end of line comments will remain
-        in the original column, if possible. This option can be used in combination with the paren padding options <code>pad&#8209;paren</code>,
-        <code>pad&#8209;paren&#8209;out</code>, <code>pad&#8209;paren&#8209;in</code>, and <code>pad&#8209;header</code>
-        above. Only padding that has not been requested by other options will be removed.</p>
+        Remove extra space padding around parens on the inside and outside. Any end of line comments will remain
+        in the original column, if possible. This option can be used in combination with the paren padding options 
+        <code>pad&#8209;paren</code>, <code>pad&#8209;paren&#8209;out</code>, <code>pad&#8209;paren&#8209;in</code>, 
+        and <code>pad&#8209;header</code> above. Only padding that has not been requested by other options will be 
+        removed.</p>
     <p>
         For example, if a source has parens padded on both the inside and outside, and you want inside only. You need
         to use <code>unpad-paren</code> to remove the outside padding, and <code>pad&#8209;paren&#8209;in</code> to 
@@ -1748,7 +1752,7 @@ else
         Add brackets to unbracketed one line conditional statements (e.g. '<code>if</code>', '<code>for</code>',
         '<code>while</code>'...). The statement must be on a single line. The brackets will be added according to
         the currently requested predefined style or bracket type. If no style or bracket type is requested the brackets
-        will be attached. If --add-one-line-brackets is also used the result will be one line brackets.</p>
+        will be attached. If --add-one-line-brackets is also used, the result will be one line brackets.</p>
     <div class="code">
         <pre>if (isFoo)
     isFoo = false;
@@ -1855,7 +1859,7 @@ else
         <code class="title">--remove-comment-prefix / -xp</code><br />
         Remove the preceding '*' in a multi-line comment that begins a line. A trailing '*', if present, is also removed.
         Text that is less than one indent is indented to one indent. Text greater than one indent is not changed. Multi-line
-        comments that begin a line but without the preceding '*' are indented to one indent for consistency. This can
+        comments that begin a line, but without the preceding '*', are indented to one indent for consistency. This can
         slightly modify the indentation of commented out blocks of code. Lines containing all '*' are left unchanged.
         Extra spacing is removed from the comment close '*/'.</p>
     <div class="code">
@@ -1886,7 +1890,7 @@ else
         break point within the max code length, the line will be broken at the first available break point after the max
         code length.</p>
     <p>
-        By default logical conditionals will be placed first on the new line. The option break&#8209;after&#8209;logical
+        By default logical conditionals will be placed first in the new line. The option break&#8209;after&#8209;logical
         will cause the logical conditionals to be placed last on the previous line. This option has no effect without
         max&#8209;code&#8209;length.</p>
     <div class="code">
@@ -1913,8 +1917,8 @@ else
         <code class="title">--mode=java</code><br />
         Indent a C type, C#, or Java file. C type files are C, C++, C++/CLI, and Objective-C. The option is usually
         set from the file extension for each file. You can override the setting with this entry. It will be used for all
-        files regardless of the file extension. It allows the formatter to identify language specific syntax such as C++
-        classes, templates, and keywords.</p>
+        files, regardless of the file extension. It allows the formatter to identify language specific syntax such as
+        C++ classes, templates, and keywords.</p>
     <p>
         &nbsp;</p>
     <hr />
@@ -1928,7 +1932,7 @@ else
         Objective-C method prefix and return type unless overridden by the following options.</p>
     <p>
         Because of the longer indents sometimes needed for Objective&#8209;C, the option "max-instatement-indent" may
-        need to be increased. If you are not getting the paren and square bracket alignment you want try increasing this
+        need to be increased. If you are not getting the paren and block paren alignment you want try increasing this
         value. The option is described in the "Indentation Options" section.</p>
     <p id="_pad-method-prefix">
         <code class="title">--pad-method-prefix / -xQ</code><br />
@@ -2007,7 +2011,7 @@ else
         <code class="title">--unpad-param-type / -xs</code><br />
         Remove all space padding around the Objective&#8209;C parameter type. This option  takes precedence over the pad
         paren outside option. The pad method colon option has precedence over the <strong>opening</strong> paren. The
-        closing paren will abways be unpadded.</p>
+        closing paren will always be unpadded.</p>
     <div class="code">
         <pre>-(void)foo1: (bool)    barArg1;
 -(void)foo2:     (bool)    barArg2;</pre>
@@ -2025,16 +2029,40 @@ else
         &nbsp;</p>
     <p id="_align-method-colon">
         <code class="title">--align-method-colon / -xM</code><br />
-        Align the colons in Objective&#8209;C method declarations.</p>
+        Align the colons in Objective&#8209;C method declarations 
+        and method calls. If this option is not declared, method definitions will be indented uniifirmly, and method calls
+        will align with the first 
+        keyword.</p>
     <div class="code">
-        <pre>-(void)deleteKey : (id)key
-    atIndex : (int)index
-    ofNode : (Node*)node;</pre>
+        <pre>-(void)longKeyword: (ID)theArg1
+         keyword: (int)theArg2
+       error: (NSError*)theError
+<span class="brace">{</span>
+    [myObj longKeyword: arg1
+     keyword: arg2
+     error: arg3];
+<span class="brace">}</span></pre>
         <p class="code">
-            becomes:</p>
-        <pre>-(void)deleteKey : (id)key
-         atIndex : (int)index
-          ofNode : (Node*)node;</pre>
+            becomes (with no option declared):</p>
+        <pre>-(void)longKeyword: (ID)theArg1
+    keyword: (int)theArg2
+    error: (NSError*)theError
+<span class="brace">{</span>
+    [myObj longKeyword: arg1
+           keyword: arg2
+           error: arg3];
+<span class="brace">}</span></pre>
+        <p class="code">
+            becomes (with 
+            align-method-colon):</p>
+        <pre>-(void)longKeyword: (ID)theArg1
+           keyword: (int)theArg2
+             error: (NSError*)theError
+<span class="brace">{</span>
+    [myObj longKeyword: arg1
+               keyword: arg2
+                 error: arg3];
+<span class="brace">}</span></pre>
     </div>
     <p>
         &nbsp;</p>
@@ -2092,7 +2120,7 @@ else
         Perform a trial run with no changes made to the files. The report will be output as usual.</p>
     <p id="_exclude">
         <code class="title">--exclude=<span class="option">####</span></code><br />
-        Specify a file or sub directory #### to be excluded from processing.</p>
+        Specify a file or subdirectory #### to be excluded from processing.</p>
     <p>
         Excludes are matched from the end of the file path. An exclude option of "templates" will exclude ALL directories
         named "templates". An exclude option of "cpp/templates" will exclude ALL "cpp/templates" directories. You may
@@ -2124,7 +2152,7 @@ else
         in Windows95.</p>
     <p id="_preserve-date">
         <code class="title">--preserve-date / -Z</code><br />
-        Preserve the original file's date and time modified. The time modified will be changed a few micro seconds to
+        Preserve the original file's date and time modified. The time modified will be changed a few microseconds to
         force the changed files to compile. This option is not effective if redirection is used to rename the input 
         file.</p>
     <p id="_verbose">
@@ -2144,7 +2172,7 @@ else
         </code><br />
         Force use of the specified line end style. Valid options are windows (CRLF), linux (LF), and macold (CR). MacOld
         style is the format for Mac&nbsp;OS&nbsp;9 and earlier. OS&nbsp;X uses the Linux style. If one of these options
-        is not used the line ends will be determined automatically from the input file.</p>
+        is not used, the line ends will be determined automatically from the input file.</p>
     <p>
         When <strong>redirection</strong> is used on Windows the output will always have Windows line ends. This option
         will be ignored.</p>
@@ -2184,9 +2212,9 @@ else
         for Linux or %PROGRAMFILES%\AStyle\doc for Windows). If installed to a different path use html=###.</p>
     <p id="_html=">
         <code class="title">--html=<span class="option">####</span></code><br />
-        Open a HTML help file in the default browser using the file path #### and quit. A HTML file other than "astyle.help"
+        Open an HTML help file in the default browser using the file path #### and quit. An HTML file other than "astyle.help"
         may be specified. The path may include a directory path and a file name, or a file name only (e.g. html=install.html).
-        If only a file name is used it is assumed to be in the standard install path (/usr/share/doc/astyle/html
+        If only a file name is used, it is assumed to be in the standard install path (/usr/share/doc/astyle/html
         for Linux or %PROGRAMFILES%\AStyle\doc for Windows). In both cases the file name must include the html extension.
         File paths containing spaces must be enclosed in quotes.</p>
     <p>

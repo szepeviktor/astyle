@@ -136,6 +136,8 @@
       <AdditionalOptions>/source-charset:utf-8</AdditionalOptions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <AdditionalIncludeDirectories>$(UniversalCRTSdkDir)Include\10.0.10240.0\ucrt</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,6 +153,8 @@
       <AdditionalOptions>/source-charset:utf-8</AdditionalOptions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <AdditionalIncludeDirectories>$(UniversalCRTSdkDir)Include\10.0.10240.0\ucrt</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -171,6 +175,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>/source-charset:utf-8</AdditionalOptions>
       <AdditionalIncludeDirectories>$(UniversalCRTSdkDir)Include\10.0.10240.0\ucrt</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -195,6 +200,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>/source-charset:utf-8</AdditionalOptions>
       <AdditionalIncludeDirectories>$(UniversalCRTSdkDir)Include\10.0.10240.0\ucrt</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -218,6 +224,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>/source-charset:utf-8</AdditionalOptions>
       <AdditionalIncludeDirectories>$(UniversalCRTSdkDir)Include\10.0.10240.0\ucrt</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -242,6 +249,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>/source-charset:utf-8</AdditionalOptions>
       <AdditionalIncludeDirectories>$(UniversalCRTSdkDir)Include\10.0.10240.0\ucrt</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

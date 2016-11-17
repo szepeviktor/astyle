@@ -22,7 +22,7 @@
     <p>
         A new bracket style option, &quot;style=mozilla&quot;, has been added. It uses linux brackets with
         opening brackets broken from classes, structs, enums, and function definitions. Brackets are attached to everything
-        else including namespaces, arrays, and statements within a function.</p>
+        else, including namespaces, arrays, and statements within a function.</p>
     <p>
         A new option, &quot;indent-continuation&quot;, will add extra indents to continuation lines following a line that
         ends with an opening paren '(' or an assignment '='. This includes function definitions and declarations. 
@@ -39,19 +39,21 @@
         documentation.</p>
     <p>
         New Objective-C options "pad-param-type" and &quot;unpad-param-type&quot; will add or remove space padding after
-        the Objective-C paramater type in a method definition. They are described in the "Objective-C" section of the
+        the Objective-C parameter type in a method definition. They are described in the "Objective-C" section of the
         documentation.</p>
     <p>
-        The Objective-C align-method-colon has been changed for method declarations and definitions.
+        The Objective-C &quot;align-method-colon&quot; option is now applied to Objective-C method calls in
+        addition to method declarations and definitions. The method call colons will be aligned, if possible. If this 
+        option is not declared, the method calls will align on the first keyword. See the astyle documentation for an 
+        example.</p>
+    <p>
+        The Objective-C &quot;align-method-colon&quot; has been changed for long keywords.
         For multi-line arguments when the first keyword is shorter than the others the colons are aligned on the
         longest line instead of the first line. The alignment includes room for the indentation. This aligns all colons
         after the first line for a better appearance. Arguments that do not have a short keyword in the first line will
-        remain the same. This style conforms to the Google Objective-C Style Guide.</p>
+        remain the same. This style conforms to the Google Objective-C style.</p>
     <p>
-        The Objective-C align-method-colon option is now applied to Objective-C method calls in
-        addition to method declarations and definitions.</p>
-    <p>
-        Processing for C++14 single-quote digit separators has been added.</p>
+        Processing for C++14 single-quote digit separators has been added.een added.</p>
     <p>
         Translations have been added for Bulgarian, Estonian, Greek, Hungarian, Norwegian, and Romanian. The translations
         were done with an automated translation program, Google Translate, so they may not be the best translation possible.
@@ -62,7 +64,7 @@
         The C# example in the Developer Information has been updated. Objects for the AStyle callback functions are no
         longer required. These have been removed and the delegates used instead.</p>
     <p>
-        There is a new C# example in the Developer Information that loads the AStyle shared library using explicit linking.
+        There is a new C# example in the Developer Information, that loads the AStyle shared library using explicit linking.
         This allows the shared library name to be changed so that a program compiled with &quot;Any CPU&quot; can load
         either a 32-bit or 64-bit shared library at run-time. It runs on both Windows and Linux.</p>
     <p>
@@ -78,7 +80,7 @@
 
     <p>
         The Artistic Style software license has changed. It is now under the MIT license. This is a permissive license
-        which can be used in proprietory software and does NOT require modified Artistic Style source code be made available.
+        which can be used in proprietary software and does NOT require modified Artistic Style source code be made available.
         It is compatible with the GNU General Public License (GPL) and most other software licenses. The change was made
         to remove restrictions on using the software and to make it available for any project that wants to 
         use it.</p>
@@ -111,7 +113,7 @@
         to &quot;Unicode (UTF-8 with signature) - Codepage 65001&quot;. </p>
     <p>
         In the above &quot;Visual C++ Team Blog&quot; Microsoft mentions that in a future major release of the compiler,
-        they would like to change default handling of BOM-less files to assume UTF-8.</p>
+        they would like to change the default handling of BOM-less files to assume UTF-8.</p>
 
     <h4>Assignment Operator Alignment</h4>
 
@@ -245,7 +247,7 @@
         some cases this may cause compile errors in a user program until the references have been changed.</p>
     <p>
         The "Indent Style" topic on Wikipedia states that the "ANSI" style refers to K&amp;R style brackets
-        and not Allman style as used by Artistic Style. The option "style=ansi" is therefore being depreciated and will
+        and not Allman style as used by Artistic Style. The option "style=ansi" is therefore being deprecated and will
         be removed in a future release. Use one of the other long options instead (style=allman, style=bsd, or 
         style=break).</p>
     <p>
@@ -268,10 +270,10 @@
         A new <a href="http://www.visualstudio.com/news/vs2013-community-vs" target="_blank" title="open new window">Visual
             Studio Community Edition</a> has been released. It is free, combines all of the Express editions into a single
         development environment, and allows the addition of Visual Studio extensions. There is an
-        <a href="https://visualstudiogallery.msdn.microsoft.com/2f3f04cd-2866-4e47-a671-d1cc9cc3fb02" target="_blank" title="open new window">
-            AStyle Extension</a> available for installation. It has a graphic interface, adds menu entries, and can be
-        used from within Visual Studio. To install it search the &quot;Extensions and Updates&quot;, &quot;Online&quot;
-        entry for &quot;astyle&quot;.</p>
+        <a href="https://visualstudiogallery.msdn.microsoft.com/2f3f04cd-2866-4e47-a671-d1cc9cc3fb02" target="_blank"
+            title="open new window">AStyle Extension</a> available for installation. It has a graphic interface, adds
+        menu entries, and can be used from within Visual Studio. To install it search the &quot;Extensions and Updates&quot;,
+        &quot;Online&quot; entry for &quot;astyle&quot;.</p>
     <p>
         Thanks to Peter A. Bigot, HyungKi Jeong, David Faure, and Carl Moore for their contributions.</p>
 
@@ -288,7 +290,7 @@
         languages.</p>
     <p>
         Because of the longer continuation indents sometimes needed for Objective&#8209;C, the option "max-instatement-indent"
-        may need to be increased. If you are not getting the paren and square bracket alignment you want, try increasing
+        may need to be increased. If you are not getting the paren and block paren alignment you want, try increasing
         this value. The default minimum is 40 and the maximum is 120.</p>
     <p>
         A new bracket style option, "style=google", has been added. It uses attached brackets and indents the class access
@@ -349,8 +351,8 @@
         program. Since it is another "C" language the only thing needed is to link the program with a library build of
         Artistic Style. The example was developed on Windows and Linux using the GNUstep project. Since the example is
         a console program the problems with the GNUstep GUI have been avoided. It has not been tested on a Mac, but should
-        be close to working. The "Developer Information" section also has new page for "Objective&#8209;C on Windows and
-        Linux" which has information on compiling and running the example on those systems.</p>
+        be close to working. The "Developer Information" section also has a new page for "Objective&#8209;C on Windows
+        and Linux" which has information on compiling and running the example on those systems.</p>
     <p>
         The executable included in the Windows distribution was compiled with Visual Studio 2010 (platform toolset v100).
         Higher releases contain dependencies on Windows API functions that exist only on Windows Vista, Windows 7, and
@@ -399,7 +401,7 @@
     <p>
         The byte order mark (BOM) has been removed from ASLocalizer.cpp for all platforms. The encoding of the file is
         UTF-8. Many Windows editors can now recognize UTF-8 encoding without the BOM. Visual Studio has an option that
-        needs to be set. With others. such as CodeBlocks, identification is automatic. On Linux, UTF-8 is the default
+        needs to be set. With others, such as CodeBlocks, identification is automatic. On Linux, UTF-8 is the default
         encoding.</p>
     <p>
         Translations have been added for Dutch, Finnish, Italian, Japanese, Korean, Polish, Portuguese, Russian, Swedish,
@@ -417,7 +419,7 @@
     <p>
         Visual Studio automatically creates an import library and an export file when you link a program that contains
         exports. It will do this for even a static library if it contains a __declspec(dllexport) definition. The Artistic
-        Style library (ASTYLE_LIB) build contains such exports which causes an import library and export file to be created
+        Style library (ASTYLE_LIB) build contains such exports, which causes an import library and export file to be created
         when they may not be needed. A new preprocessor definition, ASTYLE_NO_VCX (no Visual Studio exports) can be declared
         to eliminate the files from the output. Use this only for static libraries or when the AStyle source is included
         in the compile. Do NOT use this when compiled as a shared (dynamic) library. It is effective only for Visual Studio
