@@ -157,6 +157,8 @@
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srcx</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -174,6 +176,8 @@
       <AdditionalIncludeDirectories>..\..\..\srcx;..\..\..\..\AStyle\src;..\..\..\..\googletest\include;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -194,6 +198,8 @@
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srcx</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -211,6 +217,8 @@
       <AdditionalIncludeDirectories>..\..\..\srcx;..\..\..\..\AStyle\src;..\..\..\..\googletest\include;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -231,6 +239,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srcx</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -249,6 +258,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srcx</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

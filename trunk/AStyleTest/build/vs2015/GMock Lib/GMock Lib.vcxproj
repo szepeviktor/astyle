@@ -91,6 +91,8 @@
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\..\googlemock;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\..\googletest</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -106,6 +108,8 @@
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\..\googlemock;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\..\googletest</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -121,6 +125,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\..\googlemock;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\..\googletest</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -138,6 +143,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\..\googlemock;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;..\..\..\..\googletest</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

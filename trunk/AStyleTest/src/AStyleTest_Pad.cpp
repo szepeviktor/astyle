@@ -1899,8 +1899,6 @@ TEST(PadOperator, Sans2)
 	    "    x->*y = z;\n"
 	    "\n"
 	    "    x = ~y;\n"
-	    "    x = (int) -1;\n"
-	    "    x = (char*) -1;\n"
 	    "\n"
 	    "    return +1;\n"
 	    "    return (+1);\n"

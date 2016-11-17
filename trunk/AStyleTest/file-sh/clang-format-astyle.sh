@@ -16,7 +16,7 @@ echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 cd $srcdir
 
 # copy clang format file and rename
-cp -f -v  $HOME/Projects/AStyle/cfg/clang-webkit.ini  _clang-format
+cp -f -v  $HOME/Projects/AStyle/file/clang-webkit.yaml  _clang-format
 
 echo -e "ASBeautifier.cpp"
 clang-format-3.7  $style  ASBeautifier.cpp  > clang-asbeautifier.cpp
