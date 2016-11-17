@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="MinGW ExampleObjCDll" />
+		<Option title="MinGW ExampleDll ObjC" />
 		<Option pch_mode="0" />
 		<Option default_target="ExampleOD" />
 		<Option compiler="gnu_gcc_gnustep_compiler" />
