@@ -40,17 +40,17 @@ OPT0 = ""
 # OPT1
 # align-pointer=type (k1), add-brackets (j), break-blocks=all (F),
 #     min-conditional-indent=0 (m0), pad-oper (p), pad-oparen (P)
-#     obj-c (xMxQxRxP1)
-OPT1 = "-CSKNLwxwxWYM50m0FpPHUEk1yejOocxMxQxRxP1"
+#     obj-c (xMxQxqxSxP1)
+OPT1 = "-CSKNLwxwxWYM50m0FpPHUEk1yejOocxMxQxqxSxP1"
 
 # OPT2
 # align-pointer=name (k3), align-reference=type (W1),
 #     add-one-line-brackets (J), break-blocks (f),
 #     min-conditional-indent=3 (m3), pad-paren-out(d)
 #     pad-oper (p), delete-empty-lines (xe)
-#     obj-c (xqxrxP2)
+#     obj-c (xMxRxrxsxP0)
 # WITHOUT: keep-one-line-blocks (O), keep-one-line-statements (o),
-OPT2 = "-xGSKNLwxWM60m3fpdHUxeEk3W1yeJcxqxrxP2"
+OPT2 = "-xGSKNLwxWM60m3fpdHUxeEk3W1yeJcxMxRxrxsxP0"
 
 # OPT3
 # align-pointer=middle (k2), align-reference=name (W3),

@@ -119,6 +119,7 @@
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -142,6 +143,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -168,6 +170,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -196,6 +199,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -218,6 +222,7 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLib.lib;gmock.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -248,6 +253,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLib.lib;gmock.lib;%(AdditionalDependencies)</AdditionalDependencies>

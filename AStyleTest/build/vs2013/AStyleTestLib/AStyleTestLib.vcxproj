@@ -120,6 +120,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
       <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -149,6 +150,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -174,6 +176,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLib.lib;gmock.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -206,6 +209,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLib.lib;gmock.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -233,6 +237,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
       <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;vld.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -262,6 +267,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;vld.lib;%(AdditionalDependencies)</AdditionalDependencies>
