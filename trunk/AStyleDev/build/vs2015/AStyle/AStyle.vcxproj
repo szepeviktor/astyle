@@ -149,6 +149,8 @@
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -167,6 +169,8 @@
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -190,6 +194,7 @@
       <OmitFramePointers>true</OmitFramePointers>
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -218,6 +223,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -245,6 +251,7 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -273,6 +280,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

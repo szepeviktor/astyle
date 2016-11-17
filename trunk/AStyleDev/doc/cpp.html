@@ -70,7 +70,7 @@
         may be set apart by new-lines, commas, tabs or spaces. The long options do not need the "--" prefix. Comments
         may be used but they must be terminated by a new-line "\n" character.</p>
     <p>
-        If the file is not a C/C++ file the file mode option "mode=java" or "mode=cs" must be included. Otherwise the
+        If the file is not a C/C++ file, the file mode option "mode=java" or "mode=cs" must be included. Otherwise the
         default mode of C/C++ is used.</p>
     <p>
         <i>fpError</i><br />
@@ -94,11 +94,9 @@
         program can handle the exception at this point rather than in the memory allocation function. See the following
         example program for the procedure.</p>
     <p>
-        A "new" without "(nothrow)" can be used if you want but do not abort the program in the memory allocation function.
+        A "new" without "(nothrow)" can be used if you want, but do not abort the program in the memory allocation function.
         An error message may be printed but return a NULL pointer to AStyle and handle the error when AStyle returns from
         formatting the text.</p>
-    <p>
-        The calling program is responsible for freeing the allocated mem</p>
     <p>
         The calling program is responsible for freeing the allocated memory when it is no longer needed.</p>
 
@@ -107,7 +105,7 @@
     <p>
         If the function succeeds, the return value is a pointer to the formatted source code.</p>
     <p>
-        If the function fails, the return value is NULL. Before the NULL is returned an error message will be sent to
+        If the function fails, the return value is NULL. Before the NULL is returned, an error message will be sent to
         the error handling function.</p>
     <p>
         This function typically fails for one of the following reasons:</p>
@@ -156,7 +154,7 @@
     <h3>Example</h3>
 
     <p>
-        The following example formats source files by calling the Artistic Style formatter. It is a console application
+        The following example formats source files by calling the Artistic Style formatter. It is a console application,
         but the procedure for a GUI is the same. The example can be copied and pasted into a source file. Or it can be
         downloaded with test data from the "Developer Information" page. The source code for Artistic Style must be added
         as a shared library (DLL), a static library, or included with the example source.</p>

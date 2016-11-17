@@ -98,9 +98,9 @@
         <i>options</i><br />
         A <strong>wide-string</strong> pointer to the formatting options. They should be in the same format as in the
         default options file. The options may be set apart by new-lines, commas, tabs or spaces. The long options do not
-        need the "--" prefix. Comments may be used but they must be terminated by a new-line "\n" character.</p>
+        need the "--" prefix. Comments may be used, but they must be terminated by a new-line "\n" character.</p>
     <p>
-        If the file is not a C/C++ file the file mode option "mode=java" or "mode=cs" must be included. Otherwise the
+        If the file is not a C/C++ file, the file mode option "mode=java" or "mode=cs" must be included. Otherwise the
         default mode of C/C++ is used.</p>
     <p>
         <i>AStyleError</i><br />
@@ -184,7 +184,7 @@
         AStyleMemAlloc is the memory allocation method. The program must allocate
         memory for the output source file. This function will be called when the memory is needed. The parameter is the
         amount of memory that should be allocated
-        in number of char's.</p>
+        in a number of char's.</p>
     <p>
         Memory should be allocated using Marshal.AllocHGlobal. With this method, if there is an allocation exception,
         a NULL pointer will be sent to AStyleMainUtf16. Artistic Style will generate an error message and return an empty
@@ -224,7 +224,7 @@
     <h3>Example</h3>
 
     <p>
-        The following example formats source files by calling the Artistic Style formatter. It is a console application
+        The following example formats source files by calling the Artistic Style formatter. It is a console application,
         but the procedure for a GUI is the same. The two classes can be copied and pasted into source files. Or they can
         be downloaded with test data from the "Developer Information" page. </p>
     <p>

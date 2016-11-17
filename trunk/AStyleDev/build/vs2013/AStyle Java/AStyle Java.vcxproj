@@ -106,12 +106,13 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(JAVA_HOME)\include;$(JAVA_HOME)\include\win32</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;ASTYLE_JNI</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <PrecompiledHeader />
       <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalOptions>/EXPORT:AStyleMain=_AStyleMain@16
@@ -134,12 +135,13 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(JAVA_HOME)\include;$(JAVA_HOME)\include\win32</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;ASTYLE_JNI</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <PrecompiledHeader />
       <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -163,6 +165,7 @@
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <PrecompiledHeader />
       <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -191,6 +194,7 @@
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <PrecompiledHeader />
       <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>

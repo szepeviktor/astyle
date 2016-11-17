@@ -146,6 +146,8 @@
       <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -168,6 +170,8 @@ cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-s2\</Com
       <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -192,6 +196,7 @@ cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-s2\</Com
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <ExceptionHandling>false</ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -224,6 +229,7 @@ cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-s2\</Com
       <OmitFramePointers>true</OmitFramePointers>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <ExceptionHandling>false</ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -255,6 +261,7 @@ cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-s2\</Com
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <ExceptionHandling>false</ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -284,6 +291,7 @@ cmd /c  copy /y  $(TargetDir)$(TargetFileName)  $(SolutionDir)..\..\src-s2\</Com
       <OmitFramePointers>true</OmitFramePointers>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <ExceptionHandling>false</ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

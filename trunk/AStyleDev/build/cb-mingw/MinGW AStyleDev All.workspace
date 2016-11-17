@@ -12,7 +12,7 @@
 			<Depends filename="MinGW AStyle Lib.cbp" />
 		</Project>
 		<Project filename="MinGW ExampleObj.cbp" />
-		<Project filename="MinGW ExampleObjCDll.cbp">
+		<Project filename="MinGW ExampleDll ObjC.cbp">
 			<Depends filename="MinGW AStyle Dll.cbp" />
 		</Project>
 	</Workspace>

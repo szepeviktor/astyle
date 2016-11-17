@@ -91,13 +91,14 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>ASTYLE_NO_EXPORT;_DEBUG</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -127,6 +128,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -157,6 +159,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -191,6 +194,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLib.lib;%(AdditionalDependencies)</AdditionalDependencies>

@@ -39,10 +39,10 @@ int main()
 #endif
     {   // options to pass to AStyle
         const NSArray* fileNames = [NSArray arrayWithObjects:
-                                    @"AStyleDev/test-data/ASBeautifier.cpp",
-                                    @"AStyleDev/test-data/ASFormatter.cpp",
-                                    @"AStyleDev/test-data/astyle.h",
-                                    nil];
+                                            @"AStyleDev/test-data/ASBeautifier.cpp",
+                                            @"AStyleDev/test-data/ASFormatter.cpp",
+                                            @"AStyleDev/test-data/astyle.h",
+                                            nil];
         const NSString* options = @"-A2tOP";
 
         // get Artistic Style version
@@ -117,10 +117,11 @@ NSString* getProjectDirectory(const NSString* subPath)
 #endif
     if (!homeDirectoryChar)
         error(@"Cannot find HOME directory");
-    NSString* homeDirectory = [NSString stringWithCString: homeDirectoryChar
-                               encoding: [NSString defaultCStringEncoding]];
+    NSString* homeDirectory =
+        [NSString stringWithCString: homeDirectoryChar
+                           encoding: [NSString defaultCStringEncoding]];
     NSString* projectPath = [NSString stringWithFormat: @"%@/%@/%@",
-                             homeDirectory, @"Projects", subPath];
+                                      homeDirectory, @"Projects", subPath];
     return projectPath;
 }
 
@@ -128,8 +129,8 @@ NSString* getProjectDirectory(const NSString* subPath)
 // Usually the text would be obtained from an edit control.
 NSString* getText(NSString* filePath)
 {   NSString* textIn = [NSString stringWithContentsOfFile: filePath
-                        encoding: NSASCIIStringEncoding
-                        error: NULL];
+                                                 encoding: NSASCIIStringEncoding
+                                                    error: NULL];
     if (!textIn)
         error([NSString stringWithFormat: @"Cannot open input file %@", filePath]);
     return textIn;
@@ -142,12 +143,15 @@ void setText(const NSString* textOut, NSString* filePath)
     NSFileManager* fm = [NSFileManager defaultManager];
     NSString* origfilePath =  [NSString stringWithFormat: @"%@%@", filePath, @".orig"];
     if ([fm fileExistsAtPath: origfilePath])
-        [fm removeItemAtPath: origfilePath error: NULL];
-    if (![fm moveItemAtPath: filePath toPath: origfilePath error: NULL])
+        [fm removeItemAtPath: origfilePath
+                       error: NULL];
+    if (![fm moveItemAtPath: filePath
+                     toPath: origfilePath
+                      error: NULL])
         NSLog(@"Cannot create backup for %@", filePath);
     // write the text
     [textOut writeToFile: filePath
-     atomically: YES
-     encoding: NSASCIIStringEncoding
-     error: NULL];
+              atomically: YES
+                encoding: NSASCIIStringEncoding
+                   error: NULL];
 }

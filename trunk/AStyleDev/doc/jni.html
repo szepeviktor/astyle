@@ -79,7 +79,7 @@
         The options may be set apart by new-lines, commas, tabs or spaces. The long options do not need the "--" prefix.
         Comments may be used but they must be terminated by a new-line "\n" character.</p>
     <p>
-        If the file is not a C/C++ file the file mode option "mode=java" or "mode=cs" must be included. Otherwise the
+        If the file is not a C/C++ file, the file mode option "mode=java" or "mode=cs" must be included. Otherwise the
         default mode of C/C++ is used.</p>
 
     <h4>Return Value</h4>
@@ -88,7 +88,7 @@
         If the function succeeds, the return value is a Java String containing the formatted source code.</p>
     <p>
         If the function fails, the return value is an empty Java String. The returned String should be checked for a length
-        of zero to determine if an error occurred. Before the source is returned an error message will be sent to the
+        of zero to determine if an error occurred. Before the source is returned, an error message will be sent to the
         ErrorHandler method.</p>
     <p>
         The function will NOT fail for an invalid option in the formatting options. In this case an error message is 
@@ -173,7 +173,7 @@
 
     <p>
         The following example formats source files by calling the JNI functions in the Artistic Style shared library.
-        It is a console application but the procedure for a GUI is the same. The two classes can be copied and pasted
+        It is a console application, but the procedure for a GUI is the same. The two classes can be copied and pasted
         into source files. Or they can be downloaded with test data from the "Developer Information" page. The Artistic
         Style source code must be compiled as a shared library (DLL) using the option ASTYLE_JNI. The shared library must
         be copied to the directory that contains the Java class files (it is loaded from the current directory). The directory
