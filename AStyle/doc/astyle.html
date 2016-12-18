@@ -128,6 +128,7 @@
     <p class="contents2">
         <a class="contents" href="#_break-closing-brackets">break&#8209;closing&#8209;brackets</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_break-elseifs">break&#8209;elseifs</a>&nbsp;&nbsp;&nbsp;
+        <a class="contents" href="#_break-one-line-headers">break&#8209;one&#8209;line&#8209;headers</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_add-brackets">add&#8209;brackets</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_add-one-line-brackets">add&#8209;one&#8209;line&#8209;brackets</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_remove-brackets">remove&#8209;brackets</a>&nbsp;&nbsp;&nbsp;
@@ -921,7 +922,8 @@ indent-switches     <span class="comment"># cannot do this on the command line</
 
     <p id="_attach_namespaces">
         <code class="title">--attach-namespaces / -xn</code><br />
-        Attach brackets to a namespace statement. This is done regardless of the bracket style being used.</p>
+        Attach brackets to a namespace statement. This is done regardless of the bracket style being used. 
+        It will also attach brackets to CORBA IDL module statements.</p>
     <div class="code">
         <p class="code">
             the bracket is always attached to a namespace statement:</p>
@@ -1115,7 +1117,8 @@ case 2:
         &nbsp;</p>
     <p id="_indent-namespaces">
         <code class="title">--indent-namespaces / -N</code><br />
-        Add extra indentation to namespace blocks. This option has no effect on Java files.</p>
+        Add extra indentation to namespace blocks. This option has no effect on Java files. It 
+        will also indent CORBA IDL module statements.</p>
     <div class="code">
         <pre>namespace foospace
 <span class="brace">{</span>
@@ -1746,6 +1749,38 @@ else
     </div>
     <p>
         &nbsp;</p>
+    <p id="_break-one-line-headers">
+        <code class="title">--break-one-line-headers / -xb </code>
+        <br />
+    </p>
+    <p>
+        Break one line headers (e.g. 'if', 'while',&nbsp;'else',&nbsp;...) from a statement residing on the same line.
+        This options has precedence over <code>keep&#8209;one&#8209;line&#8209;blocks</code>. One line blocks will be
+        broken and the brackets formatted according to the requested bracket style. A multi-statement line will NOT be
+        broken if <code>keep&#8209;one&#8209;line&#8209;statements</code> is requested. </p>
+    <div class="code">
+        <pre>void Foo(bool isFoo)
+<span class="brace">{</span>
+    if (isFoo1) bar1();
+
+    if (isFoo2) <span class="brace">{</span> bar2(); <span class="brace">}</span>
+<span class="brace">}</span>
+</pre>
+        <p class="code">
+            becomes:</p>
+        <pre>void Foo(bool isFoo)
+<span class="brace">{</span>
+    if (isFoo1)
+        bar1();
+
+    if (isFoo2) <span class="brace">{</span>
+        bar2();
+    <span class="brace">}</span>
+<span class="brace">}</span>
+</pre>
+    </div>
+    <p>
+        &nbsp;</p>
     <p id="_add-brackets">
         <code class="title">--add-brackets / -j </code>
         <br />
@@ -1845,13 +1880,13 @@ else
         &nbsp;</p>
     <p id="_close-templates">
         <code class="title">--close-templates / -xy</code><br />
-        Closes whitespace in the angle brackets of template definitions. Closing the ending angle brackets is now allowed
-        by the C++11 standard. Be sure your compiler supports this before making the changes.</p>
+        Closes whitespace between the ending angle brackets of template definitions. Closing the ending angle brackets
+        is now allowed by the C++11 standard. Be sure your compiler supports this before making the changes.</p>
     <div class="code">
-        <pre>Stack&lt; int,List&lt; int &gt; &gt; stack1;</pre>
+        <pre>Stack&lt; int, List&lt; int &gt; &gt; stack1;</pre>
         <p class="code">
             becomes:</p>
-        <pre>Stack&lt;int,List&lt;int&gt;&gt; stack1;</pre>
+        <pre>Stack&lt; int, List&lt; int &gt;&gt; stack1;</pre>
     </div>
     <p>
         &nbsp;</p>

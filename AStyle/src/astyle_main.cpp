@@ -751,7 +751,7 @@ FileEncoding ASConsole::readFile(const string& fileName_, stringstream& in) cons
 		error("Cannot read input file", fileName_.c_str());
 	size_t dataSize = static_cast<size_t>(fin.gcount());
 	FileEncoding encoding = detectEncoding(data, dataSize);
-	if (encoding ==  UTF_32BE || encoding ==  UTF_32LE)
+	if (encoding == UTF_32BE || encoding == UTF_32LE)
 		error(_("Cannot process UTF-32 encoding"), fileName_.c_str());
 	bool firstBlock = true;
 	bool isBigEndian = (encoding == UTF_16BE);
@@ -1010,7 +1010,7 @@ string ASConsole::getNumberFormat(int num, size_t lcid) const
 void ASConsole::launchDefaultBrowser(const char* filePathIn /*NULL*/) const
 {
 	struct stat statbuf;
-	const char* envPaths[] = {  "PROGRAMFILES(X86)", "PROGRAMFILES" };
+	const char* envPaths[] = { "PROGRAMFILES(X86)", "PROGRAMFILES" };
 	size_t pathsLen = sizeof(envPaths) / sizeof(envPaths[0]);
 	string htmlDefaultPath;
 	for (size_t i = 0; i < pathsLen; i++)
@@ -1790,6 +1790,10 @@ void ASConsole::printHelp() const
 	cout << "    --break-elseifs  OR  -e\n";
 	cout << "    Break 'else if()' statements into two different lines.\n";
 	cout << endl;
+	cout << "    --break-one-line-headers  OR  -xb\n";
+	cout << "    Break one line headers (e.g. 'if', 'while', 'else', ...) from a\n";
+	cout << "    statement residing on the same line.\n";
+	cout << endl;
 	cout << "    --add-brackets  OR  -j\n";
 	cout << "    Add brackets to unbracketed one line conditional statements.\n";
 	cout << endl;
@@ -2151,7 +2155,7 @@ void ASConsole::standardizePath(string& path, bool removeBeginningSeparator /*fa
 	// If we are on a VMS system, translate VMS style filenames to unix
 	// style.
 	fab = cc$rms_fab;
-	fab.fab$l_fna = (char*) - 1;
+	fab.fab$l_fna = (char*) -1;        // *NOPAD*
 	fab.fab$b_fns = 0;
 	fab.fab$l_naml = &naml;
 	naml = cc$rms_naml;
@@ -2882,7 +2886,7 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	}
 	else if ( isOption(arg, "o", "keep-one-line-statements") )
 	{
-		formatter.setSingleStatementsMode(false);
+		formatter.setBreakOneLineStatementsMode(false);
 	}
 	else if ( isOption(arg, "P", "pad-paren") )
 	{
@@ -2945,6 +2949,10 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	else if ( isOption(arg, "e", "break-elseifs") )
 	{
 		formatter.setBreakElseIfsMode(true);
+	}
+	else if ( isOption(arg, "xb", "break-one-line-headers") )
+	{
+		formatter.setBreakOneLineHeadersMode(true);
 	}
 	else if ( isOption(arg, "j", "add-brackets") )
 	{

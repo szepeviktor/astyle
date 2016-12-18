@@ -2062,6 +2062,7 @@ void ASBeautifier::computePreliminaryIndentation()
 		{
 			// do NOT indent opening block for these headers
 			if (!((*headerStack)[i] == &AS_NAMESPACE
+			        || (*headerStack)[i] == &AS_MODULE
 			        || (*headerStack)[i] == &AS_CLASS
 			        || (*headerStack)[i] == &AS_STRUCT
 			        || (*headerStack)[i] == &AS_UNION
@@ -2075,7 +2076,8 @@ void ASBeautifier::computePreliminaryIndentation()
 			++indentCount;
 
 		if (!isJavaStyle() && !namespaceIndent && i > 0
-		        && (*headerStack)[i - 1] == &AS_NAMESPACE
+		        && ((*headerStack)[i - 1] == &AS_NAMESPACE
+		            || (*headerStack)[i - 1] == &AS_MODULE)
 		        && (*headerStack)[i] == &AS_OPEN_BRACKET)
 			--indentCount;
 
@@ -2235,6 +2237,7 @@ void ASBeautifier::adjustParsedLineIndentation(size_t iPrelim, bool isInExtraHea
 			for (size_t i = 0; i < headerStack->size(); i++)
 			{
 				if (((*headerStack)[i] == &AS_NAMESPACE
+				        || (*headerStack)[i] == &AS_MODULE
 				        || (*headerStack)[i] == &AS_CLASS
 				        || (*headerStack)[i] == &AS_STRUCT)
 				        && i + 1 < headerStack->size()
@@ -2419,28 +2422,33 @@ int ASBeautifier::getObjCFollowingKeyword(const string& line, int bracketPos) co
 {
 	assert(line[bracketPos] == '[');
 	size_t firstText = line.find_first_not_of(" \t", bracketPos + 1);
-	if (firstText == string::npos) return -(indentCount * indentLength - 1);
+	if (firstText == string::npos)
+		return -(indentCount * indentLength - 1);
 	size_t searchBeg = firstText;
 	size_t objectEnd = 0;	// end of object text
 	if (line[searchBeg] == '[')
 	{
 		objectEnd = line.find(']', searchBeg + 1);
-		if (objectEnd == string::npos) return 0;
+		if (objectEnd == string::npos)
+			return 0;
 	}
 	else
 	{
 		if (line[searchBeg] == '(')
 		{
 			searchBeg = line.find(')', searchBeg + 1);
-			if (searchBeg == string::npos) return 0;
+			if (searchBeg == string::npos)
+				return 0;
 		}
 		// bypass the object name
 		objectEnd = line.find_first_of(" \t", searchBeg + 1);
-		if (objectEnd == string::npos) return 0;
+		if (objectEnd == string::npos)
+			return 0;
 		--objectEnd;
 	}
 	size_t keyPos = line.find_first_not_of(" \t", objectEnd + 1);
-	if (keyPos == string::npos) return 0;
+	if (keyPos == string::npos)
+		return 0;
 	return keyPos - firstText;
 }
 
@@ -2849,6 +2857,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				if (headerStack->empty())
 					isBlockOpener = true;
 				else if (headerStack->back() == &AS_NAMESPACE
+				         || headerStack->back() == &AS_MODULE
 				         || headerStack->back() == &AS_CLASS
 				         || headerStack->back() == &AS_INTERFACE
 				         || headerStack->back() == &AS_STRUCT
@@ -2909,7 +2918,8 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			}
 
 			if (bracketIndent && !namespaceIndent && !headerStack->empty()
-			        && (*headerStack).back() == &AS_NAMESPACE)
+			        && ((*headerStack).back() == &AS_NAMESPACE
+			            || (*headerStack).back() == &AS_MODULE))
 			{
 				shouldIndentBrackettedLine = false;
 				--indentCount;
@@ -3348,7 +3358,8 @@ void ASBeautifier::parseCurrentLine(const string& line)
 
 					// do not indent namespace bracket unless namespaces are indented
 					if (!namespaceIndent && !headerStack->empty()
-					        && (*headerStack).back() == &AS_NAMESPACE
+					        && ((*headerStack).back() == &AS_NAMESPACE
+					            || (*headerStack).back() == &AS_MODULE)
 					        && i == 0)		// must be the first bracket on the line
 						shouldIndentBrackettedLine = false;
 
@@ -3393,7 +3404,9 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			previousLastLineHeader = NULL;
 			isInClassHeader = false;		// for 'friend' class
 			isInEnum = false;
+			isInEnumTypeID = false;
 			isInQuestion = false;
+			isInTemplate = false;
 			isInObjCInterface = false;
 			foundPreCommandHeader = false;
 			foundPreCommandMacro = false;
@@ -3409,6 +3422,13 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			if (!isInTemplate && !(isCStyle() && parenDepth > 0))
 			{
 				const string* newHeader = findHeader(line, i, preBlockStatements);
+				// handle CORBA IDL module
+				if (newHeader == &AS_MODULE)
+				{
+					char nextChar = peekNextChar(line, i + newHeader->length() - 1);
+					if (prevNonSpaceCh == ')' || !isalpha(nextChar))
+						newHeader = NULL;
+				}
 				if (newHeader != NULL
 				        && !(isCStyle() && newHeader == &AS_CLASS && isInEnum))	// is not 'enum class'
 				{
@@ -3430,7 +3450,8 @@ void ASBeautifier::parseCurrentLine(const string& line)
 						{
 							isInClassHeader = true;
 						}
-						else if ((*headerStack).back() == &AS_NAMESPACE)
+						else if ((*headerStack).back() == &AS_NAMESPACE
+						         || (*headerStack).back() == &AS_MODULE)
 						{
 							// remove inStatementIndent from namespace
 							if (!inStatementIndentStack->empty())
@@ -3487,7 +3508,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 					if (peekNextChar(line, i) == '_')		// check for __asm
 						index = 5;
 
-					char peekedChar = ASBase::peekNextChar(line, i + index);
+					char peekedChar = peekNextChar(line, i + index);
 					if (peekedChar == '{' || peekedChar == ' ')
 						isInAsmBlock = true;
 					else
@@ -3514,9 +3535,15 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				i += name.length() - 1;
 				continue;
 			}
-			else if (curWord == AS_PUBLIC
-			         || curWord == AS_PRIVATE
-			         || curWord == AS_PROTECTED)
+			else if (isInObjCInterface)
+			{
+				--indentCount;
+				isInObjCInterface = false;
+			}
+
+			if (curWord == AS_PUBLIC
+			        || curWord == AS_PRIVATE
+			        || curWord == AS_PROTECTED)
 			{
 				--indentCount;
 				if (modifierIndent)
@@ -3529,9 +3556,6 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			{
 				popLastInStatementIndent();
 				spaceIndentCount = 0;
-				if (isInObjCInterface)
-					--indentCount;
-				isInObjCInterface = false;
 				isInObjCMethodDefinition = false;
 				string name = '@' + curWord;
 				i += name.length() - 1;
@@ -3630,7 +3654,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 					{
 						isInLet = false;
 					}
-					else
+					else if (!lineBeginsWithComma)
 					{
 						if (i == 0 && spaceIndentCount == 0)
 							spaceIndentCount += indentLength;

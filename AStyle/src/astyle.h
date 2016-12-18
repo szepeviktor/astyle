@@ -93,21 +93,24 @@ enum BracketMode
 	RUN_IN_MODE		// broken brackets
 };
 
+// maximun value for int is 16,384 (total value of 32,767)
 enum BracketType
 {
-	NULL_TYPE = 0,
-	NAMESPACE_TYPE = 1,			// also a DEFINITION_TYPE
-	CLASS_TYPE = 2,				// also a DEFINITION_TYPE
-	STRUCT_TYPE = 4,			// also a DEFINITION_TYPE
-	INTERFACE_TYPE = 8,			// also a DEFINITION_TYPE
-	DEFINITION_TYPE = 16,
-	COMMAND_TYPE = 32,
-	ARRAY_NIS_TYPE = 64,		// also an ARRAY_TYPE
-	ENUM_TYPE = 128,			// also an ARRAY_TYPE
-	INIT_TYPE = 256,			// also an ARRAY_TYPE
-	ARRAY_TYPE = 512,
-	EXTERN_TYPE = 1024,			// extern "C", not a command type extern
-	SINGLE_LINE_TYPE = 2048
+	NULL_TYPE        = 0,
+	NAMESPACE_TYPE   = 1,		// also a DEFINITION_TYPE
+	CLASS_TYPE       = 2,		// also a DEFINITION_TYPE
+	STRUCT_TYPE      = 4,		// also a DEFINITION_TYPE
+	INTERFACE_TYPE   = 8,		// also a DEFINITION_TYPE
+	DEFINITION_TYPE  = 16,
+	COMMAND_TYPE     = 32,
+	ARRAY_NIS_TYPE   = 64,		// also an ARRAY_TYPE
+	ENUM_TYPE        = 128,		// also an ARRAY_TYPE
+	INIT_TYPE        = 256,		// also an ARRAY_TYPE
+	ARRAY_TYPE       = 512,
+	EXTERN_TYPE      = 1024,	// extern "C", not a command type extern
+	EMPTY_BLOCK_TYPE = 2048,	// also a SINGLE_LINE_TYPE
+	BREAK_BLOCK_TYPE = 4096,	// also a SINGLE_LINE_TYPE
+	SINGLE_LINE_TYPE = 8192
 };
 
 enum MinConditional
@@ -138,10 +141,10 @@ enum PointerAlign
 
 enum ReferenceAlign
 {
-	REF_ALIGN_NONE = PTR_ALIGN_NONE,
-	REF_ALIGN_TYPE = PTR_ALIGN_TYPE,
+	REF_ALIGN_NONE   = PTR_ALIGN_NONE,
+	REF_ALIGN_TYPE   = PTR_ALIGN_TYPE,
 	REF_ALIGN_MIDDLE = PTR_ALIGN_MIDDLE,
-	REF_ALIGN_NAME = PTR_ALIGN_NAME,
+	REF_ALIGN_NAME   = PTR_ALIGN_NAME,
 	REF_SAME_AS_PTR
 };
 
@@ -216,6 +219,7 @@ public:
 	static const string _AS_TRY, _AS_FINALLY, _AS_EXCEPT;
 	static const string AS_PUBLIC, AS_PROTECTED, AS_PRIVATE;
 	static const string AS_CLASS, AS_STRUCT, AS_UNION, AS_INTERFACE, AS_NAMESPACE;
+	static const string AS_MODULE;
 	static const string AS_END;
 	static const string AS_SELECTOR;
 	static const string AS_EXTERN, AS_ENUM;
@@ -549,7 +553,7 @@ private:  // functions
 	int     indentLine(string&  line, int indent) const;
 	bool    isBeginDeclareSectionSQL(string&  line, size_t index) const;
 	bool    isEndDeclareSectionSQL(string&  line, size_t index) const;
-	bool    isOneLineBlockReached(string& line, int startChar) const;
+	bool    isOneLineBlockReached(const string& line, int startChar) const;
 	void    parseCurrentLine(string& line, bool isInPreprocessor, bool isInSQL);
 	size_t  processSwitchBlock(string&  line, size_t index);
 	int     unindentLine(string&  line, int unindent) const;
@@ -633,6 +637,8 @@ public:	// functions
 	void setBreakClosingHeaderBlocksMode(bool state);
 	void setBreakElseIfsMode(bool state);
 	void setBreakOneLineBlocksMode(bool state);
+	void setBreakOneLineHeadersMode(bool state);
+	void setBreakOneLineStatementsMode(bool state);
 	void setMethodPrefixPaddingMode(bool state);
 	void setMethodPrefixUnPaddingMode(bool state);
 	void setReturnTypePaddingMode(bool state);
@@ -655,7 +661,6 @@ public:	// functions
 	void setPointerAlignment(PointerAlign alignment);
 	void setPreprocBlockIndent(bool state);
 	void setReferenceAlignment(ReferenceAlign alignment);
-	void setSingleStatementsMode(bool state);
 	void setStripCommentPrefix(bool state);
 	void setTabSpaceConversionMode(bool state);
 	size_t getChecksumIn() const;
@@ -691,6 +696,7 @@ private:  // functions
 	bool isExecSQL(string& line, size_t index) const;
 	bool isEmptyLine(const string& line) const;
 	bool isExternC() const;
+	bool isMultiStatementLine() const;
 	bool isNextWordSharpNonParenHeader(int startChar) const;
 	bool isNonInStatementArrayBracket() const;
 	bool isOkToSplitFormattedLine();
@@ -713,7 +719,7 @@ private:  // functions
 	int  findObjCColonAlignment() const;
 	int  getCurrentLineCommentAdjustment();
 	int  getNextLineCommentAdjustment();
-	int  isOneLineBlockReached(string& line, int startChar) const;
+	int  isOneLineBlockReached(const string& line, int startChar) const;
 	void adjustComments();
 	void appendChar(char ch, bool canBreakLine);
 	void appendCharInsideComments();
@@ -840,6 +846,7 @@ private:  // variables
 	ObjCColonPad objCColonPadMode;
 	LineEndFormat lineEnd;
 	bool isVirgin;
+	bool isInVirginLine;
 	bool shouldPadCommas;
 	bool shouldPadOperators;
 	bool shouldPadParensOutside;
@@ -919,11 +926,11 @@ private:  // variables
 	bool isInObjCSelector;
 	bool breakCurrentOneLineBlock;
 	bool shouldRemoveNextClosingBracket;
-	bool isInHorstmannRunIn;
+	bool isInBracketRunIn;
 	bool currentLineBeginsWithBracket;
 	bool attachClosingBracketMode;
 	bool shouldBreakOneLineBlocks;
-	bool shouldReparseCurrentChar;
+	bool shouldBreakOneLineHeaders;
 	bool shouldBreakOneLineStatements;
 	bool shouldBreakClosingHeaderBrackets;
 	bool shouldBreakElseIfs;
@@ -933,6 +940,7 @@ private:  // variables
 	bool shouldRemoveBrackets;
 	bool shouldPadMethodColon;
 	bool shouldPadMethodPrefix;
+	bool shouldReparseCurrentChar;
 	bool shouldUnPadMethodPrefix;
 	bool shouldPadReturnType;
 	bool shouldUnPadReturnType;

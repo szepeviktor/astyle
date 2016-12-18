@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Bcc AStyle (x86)" />
+		<Option title="Bcc AStyle" />
 		<Option pch_mode="2" />
 		<Option compiler="embarcadero_compiler_x86_680" />
 		<Build>
