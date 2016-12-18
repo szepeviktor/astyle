@@ -69,7 +69,7 @@ TEST_F(StyleJavaF, Allman)
 	char options[] = "style=allman, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleJavaF, Java)
@@ -90,7 +90,7 @@ TEST_F(StyleJavaF, Java)
 	char options[] = "style=java, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleJavaF, KR)
@@ -113,7 +113,7 @@ TEST_F(StyleJavaF, KR)
 	char options[] = "style=kr, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleJavaF, Stroustrup)
@@ -135,7 +135,7 @@ TEST_F(StyleJavaF, Stroustrup)
 	char options[] = "style=stroustrup, indent=spaces=5, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleJavaF, Whitesmith)
@@ -160,7 +160,7 @@ TEST_F(StyleJavaF, Whitesmith)
 	char options[] = "style=whitesmith, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleJavaF, Banner)
@@ -182,7 +182,7 @@ TEST_F(StyleJavaF, Banner)
 	char options[] = "style=banner, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleJavaF, Gnu)
@@ -207,7 +207,7 @@ TEST_F(StyleJavaF, Gnu)
 	char options[] = "style=gnu, indent=spaces=2, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleJavaF, Linux)
@@ -230,7 +230,7 @@ TEST_F(StyleJavaF, Linux)
 	char options[] = "style=linux, indent=spaces=8, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleJavaF, Horstmann)
@@ -252,7 +252,7 @@ TEST_F(StyleJavaF, Horstmann)
 	char options[] = "style=horstmann, indent=spaces=3, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleJavaF, 1TBS)
@@ -276,7 +276,7 @@ TEST_F(StyleJavaF, 1TBS)
 	char options[] = "style=1tbs, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleJavaF, Pico)
@@ -295,7 +295,7 @@ TEST_F(StyleJavaF, Pico)
 	char options[] = "style=pico, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleJavaF, Lisp)
@@ -314,7 +314,7 @@ TEST_F(StyleJavaF, Lisp)
 	char options[] = "style=lisp, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleJava, Whitesmith_Interface)
@@ -329,7 +329,7 @@ TEST(StyleJava, Whitesmith_Interface)
 	char options[] = "style=whitesmith, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleJava, Whitesmith_NestedClass)
@@ -359,7 +359,7 @@ TEST(StyleJava, Whitesmith_NestedClass)
 	char options[] = "style=whitesmith, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleJava, Whitesmith_StaticConstructor)
@@ -386,7 +386,7 @@ TEST(StyleJava, Whitesmith_StaticConstructor)
 	char options[] = "style=whitesmith, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleJava, Whitesmith_Throws)
@@ -410,7 +410,7 @@ TEST(StyleJava, Whitesmith_Throws)
 	char options[] = "style=whitesmith, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleJava, Banner_Interface)
@@ -424,7 +424,7 @@ TEST(StyleJava, Banner_Interface)
 	char options[] = "style=banner, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleJava, Banner_NestedClass)
@@ -449,7 +449,7 @@ TEST(StyleJava, Banner_NestedClass)
 	char options[] = "style=banner, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleJava, Banner_StaticConstructor)
@@ -473,7 +473,7 @@ TEST(StyleJava, Banner_StaticConstructor)
 	char options[] = "style=banner, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleJava, Banner_Throws)
@@ -494,7 +494,7 @@ TEST(StyleJava, Banner_Throws)
 	char options[] = "style=banner, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleJava, Gnu_Interface)
@@ -510,7 +510,7 @@ TEST(StyleJava, Gnu_Interface)
 	char options[] = "style=gnu, indent=spaces=4, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleJava, Gnu_NestedClass)
@@ -540,7 +540,7 @@ TEST(StyleJava, Gnu_NestedClass)
 	char options[] = "style=gnu, indent=spaces=4, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleJava, Gnu_StaticConstructor)
@@ -567,7 +567,7 @@ TEST(StyleJava, Gnu_StaticConstructor)
 	char options[] = "style=gnu, indent=spaces=4, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleJava, Gnu_Throws)
@@ -591,7 +591,7 @@ TEST(StyleJava, Gnu_Throws)
 	char options[] = "style=gnu, indent=spaces=4, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //----------------------------------------------------------------------------
@@ -658,7 +658,7 @@ TEST_F(StyleSharpF, Allman)
 	char options[] = "style=allman, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleSharpF, Java)
@@ -683,7 +683,7 @@ TEST_F(StyleSharpF, Java)
 	char options[] = "style=java, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleSharpF, KR)
@@ -711,7 +711,7 @@ TEST_F(StyleSharpF, KR)
 	char options[] = "style=kr, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleSharpF, Stroustrup)
@@ -737,7 +737,7 @@ TEST_F(StyleSharpF, Stroustrup)
 	char options[] = "style=stroustrup, indent=spaces=5, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleSharpF, Whitesmith)
@@ -767,7 +767,7 @@ TEST_F(StyleSharpF, Whitesmith)
 	char options[] = "style=whitesmith, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleSharpF, Banner)
@@ -793,7 +793,7 @@ TEST_F(StyleSharpF, Banner)
 	char options[] = "style=banner, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleSharpF, Gnu)
@@ -823,7 +823,7 @@ TEST_F(StyleSharpF, Gnu)
 	char options[] = "style=gnu, indent=spaces=2, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleSharpF, Linux)
@@ -851,7 +851,7 @@ TEST_F(StyleSharpF, Linux)
 	char options[] = "style=linux, indent=spaces=8, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleSharpF, Horstmann)
@@ -878,7 +878,7 @@ TEST_F(StyleSharpF, Horstmann)
 	char options[] = "style=horstmann, indent=spaces=3, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleSharpF, 1TBS)
@@ -907,7 +907,7 @@ TEST_F(StyleSharpF, 1TBS)
 	char options[] = "style=1tbs, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleSharpF, Pico)
@@ -931,7 +931,7 @@ TEST_F(StyleSharpF, Pico)
 	char options[] = "style=pico, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleSharpF, Lisp)
@@ -954,7 +954,7 @@ TEST_F(StyleSharpF, Lisp)
 	char options[] = "style=lisp, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Whitesmith_Where)
@@ -975,7 +975,7 @@ TEST(StyleSharp, Whitesmith_Where)
 	char options[] = "style=whitesmith, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Whitesmith_WhereClass)
@@ -1000,7 +1000,7 @@ TEST(StyleSharp, Whitesmith_WhereClass)
 	char options[] = "style=whitesmith, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Whitesmith_NestedClass)
@@ -1030,7 +1030,7 @@ TEST(StyleSharp, Whitesmith_NestedClass)
 	char options[] = "style=whitesmith, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Whitesmith_NestedNamespace)
@@ -1061,7 +1061,7 @@ TEST(StyleSharp, Whitesmith_NestedNamespace)
 	char options[] = "style=whitesmith, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Whitesmith_NestedNamespace_IndentNamespaces)
@@ -1092,7 +1092,7 @@ TEST(StyleSharp, Whitesmith_NestedNamespace_IndentNamespaces)
 	char options[] = "style=whitesmith, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Whitesmith_NonInStatementArray1)
@@ -1118,7 +1118,7 @@ TEST(StyleSharp, Whitesmith_NonInStatementArray1)
 	char options[] = "style=whitesmith, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Whitesmith_NonInStatementArray2)
@@ -1137,7 +1137,7 @@ TEST(StyleSharp, Whitesmith_NonInStatementArray2)
 	char options[] = "style=whitesmith, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Banner_Where)
@@ -1155,7 +1155,7 @@ TEST(StyleSharp, Banner_Where)
 	char options[] = "style=banner, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Banner_WhereClass)
@@ -1177,7 +1177,7 @@ TEST(StyleSharp, Banner_WhereClass)
 	char options[] = "style=banner, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Banner_NestedClass)
@@ -1202,7 +1202,7 @@ TEST(StyleSharp, Banner_NestedClass)
 	char options[] = "style=banner, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Banner_NestedNamespace)
@@ -1227,7 +1227,7 @@ TEST(StyleSharp, Banner_NestedNamespace)
 	char options[] = "style=banner, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Banner_NestedNamespace_IndentNamespaces)
@@ -1252,7 +1252,7 @@ TEST(StyleSharp, Banner_NestedNamespace_IndentNamespaces)
 	char options[] = "style=banner, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Banner_NonInStatementArray1)
@@ -1276,7 +1276,7 @@ TEST(StyleSharp, Banner_NonInStatementArray1)
 	char options[] = "style=banner, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Banner_NonInStatementArray2)
@@ -1293,7 +1293,7 @@ TEST(StyleSharp, Banner_NonInStatementArray2)
 	char options[] = "style=banner, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Gnu_Where)
@@ -1314,7 +1314,7 @@ TEST(StyleSharp, Gnu_Where)
 	char options[] = "style=gnu, indent=spaces=4, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Gnu_WhereClass)
@@ -1339,7 +1339,7 @@ TEST(StyleSharp, Gnu_WhereClass)
 	char options[] = "style=gnu, indent=spaces=4, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Gnu_NestedClass)
@@ -1369,7 +1369,7 @@ TEST(StyleSharp, Gnu_NestedClass)
 	char options[] = "style=gnu, indent=spaces=4, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Gnu_NestedNamespace)
@@ -1400,7 +1400,7 @@ TEST(StyleSharp, Gnu_NestedNamespace)
 	char options[] = "style=gnu, indent=spaces=4, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleSharp, Gnu_NestedNamespace_IndentNamespace)
@@ -1431,7 +1431,7 @@ TEST(StyleSharp, Gnu_NestedNamespace_IndentNamespace)
 	char options[] = "style=gnu, indent-namespaces, indent=spaces=4, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //----------------------------------------------------------------------------

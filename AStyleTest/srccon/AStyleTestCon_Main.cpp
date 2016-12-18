@@ -352,7 +352,7 @@ wstring convertToWideChar(const string& mbStr)
 	mbstowcs(wcStr, mbStr.c_str(), wcLen + 1);
 	// return the string
 	wstring returnStr = wcStr;
-	delete [] wcStr;
+	delete[] wcStr;
 	return returnStr;
 }
 

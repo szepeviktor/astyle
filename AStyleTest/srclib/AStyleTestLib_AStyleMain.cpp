@@ -197,8 +197,8 @@ struct AStyleMainF1 : public Test
 
 	~AStyleMainF1()
 	{
-		delete [] text8;
-		delete [] options8;
+		delete[] text8;
+		delete[] options8;
 	}
 };
 
@@ -256,7 +256,7 @@ TEST_F(AStyleMainF1, InvalidOption)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //----------------------------------------------------------------------------
@@ -297,9 +297,9 @@ struct AStyleMainUtf16F1 : public Test
 
 	~AStyleMainUtf16F1()
 	{
-		delete [] text16;
-		delete [] options16;
-		delete [] text8;
+		delete[] text16;
+		delete[] options16;
+		delete[] text8;
 	}
 };
 
@@ -362,9 +362,9 @@ TEST_F(AStyleMainUtf16F1, InvalidOption)
 	// convert text16Out to utf-8
 	char* text8Out = library.convertUtf16ToUtf8(text16Out);
 	EXPECT_STREQ(text, text8Out);
-	delete [] options16_;
-	delete [] text16Out;
-	delete [] text8Out;
+	delete[] options16_;
+	delete[] text16Out;
+	delete[] text8Out;
 }
 
 //----------------------------------------------------------------------------
@@ -499,9 +499,9 @@ struct AStyleMainUtf16F2 : public Test
 
 	~AStyleMainUtf16F2()
 	{
-		delete [] text16;
-		delete [] options16;
-		delete [] text8;
+		delete[] text16;
+		delete[] options16;
+		delete[] text8;
 	}
 };
 
@@ -528,8 +528,8 @@ struct AStyleMainUtf16F2 : public Test
 	char* text8Out = utf16ToUtf8(text16Out);
 #endif
 	EXPECT_STREQ(text8, text8Out);
-	delete [] text8Out;
-	delete [] text16Out;
+	delete[] text8Out;
+	delete[] text16Out;
 #endif // __BORLANDC__
 }
 

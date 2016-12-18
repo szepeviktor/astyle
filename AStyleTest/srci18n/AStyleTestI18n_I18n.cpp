@@ -66,7 +66,7 @@ string convertToMultiByte(const wstring& wideStr)
 	wcstombs(mbStr, wideStr.c_str(), mbLen + 1);
 	// return the string
 	string returnStr = mbStr;
-	delete [] mbStr;
+	delete[] mbStr;
 	return returnStr;
 }
 
@@ -1005,7 +1005,7 @@ struct Codepage1252F : public Test
 		              value,
 		              sizeof(value) / sizeof(char));
 		int codepage = atoi(value);
-		delete [] value;
+		delete[] value;
 		if (codepage != 1252)
 		{
 			g_testedCodepage1252 = false;

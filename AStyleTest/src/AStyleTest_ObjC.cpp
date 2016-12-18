@@ -61,7 +61,7 @@ TEST_F(ObjCStyleF, Default)
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(textIn, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(ObjCStyleF, Allman)
@@ -98,7 +98,7 @@ TEST_F(ObjCStyleF, Allman)
 	char options[] = "style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(ObjCStyleF, Java)
@@ -130,7 +130,7 @@ TEST_F(ObjCStyleF, Java)
 	char options[] = "style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(ObjCStyleF, KR)
@@ -165,7 +165,7 @@ TEST_F(ObjCStyleF, KR)
 	char options[] = "style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(ObjCStyleF, Stroustrup)
@@ -200,7 +200,7 @@ TEST_F(ObjCStyleF, Stroustrup)
 	char options[] = "style=stroustrup, indent=spaces=5";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(ObjCStyleF, Whitesmith)
@@ -237,7 +237,7 @@ TEST_F(ObjCStyleF, Whitesmith)
 	char options[] = "style=whitesmith";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(ObjCStyleF, VTK)
@@ -306,7 +306,7 @@ TEST_F(ObjCStyleF, Banner)
 	char options[] = "style=banner";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(ObjCStyleF, Gnu)
@@ -343,7 +343,7 @@ TEST_F(ObjCStyleF, Gnu)
 	char options[] = "style=gnu, indent=spaces=2";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(ObjCStyleF, Linux)
@@ -378,7 +378,7 @@ TEST_F(ObjCStyleF, Linux)
 	char options[] = "style=linux, indent=spaces=8";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(ObjCStyleF, Horstmann)
@@ -410,7 +410,7 @@ TEST_F(ObjCStyleF, Horstmann)
 	char options[] = "style=horstmann, indent=spaces=3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(ObjCStyleF, 1TBS)
@@ -445,7 +445,7 @@ TEST_F(ObjCStyleF, 1TBS)
 	char options[] = "style=1tbs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(ObjCStyleF, Google)
@@ -477,7 +477,7 @@ TEST_F(ObjCStyleF, Google)
 	char options[] = "style=google";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(ObjCStyleF, Mozilla)
@@ -539,7 +539,7 @@ TEST_F(ObjCStyleF, Pico)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(ObjCStyleF, Lisp)
@@ -566,7 +566,7 @@ TEST_F(ObjCStyleF, Lisp)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -595,7 +595,7 @@ TEST(ObjCPadMethodPrefix, LongOption)
 	char options[] = "pad-method-prefix";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodPrefix, ShortOption)
@@ -620,7 +620,7 @@ TEST(ObjCPadMethodPrefix, ShortOption)
 	char options[] = "-xQ";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodPrefix, UnPadMethodPrefix)
@@ -646,7 +646,7 @@ TEST(ObjCPadMethodPrefix, UnPadMethodPrefix)
 	char options[] = "pad-method-prefix, unpad-method-prefix";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodPrefix, SansPadUnPad)
@@ -664,7 +664,7 @@ TEST(ObjCPadMethodPrefix, SansPadUnPad)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodPrefix, Comments)
@@ -745,7 +745,7 @@ TEST(ObjCUnPadMethodPrefix, LongOption)
 	char options[] = "unpad-method-prefix";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCUnPadMethodPrefix, ShortOption)
@@ -770,7 +770,7 @@ TEST(ObjCUnPadMethodPrefix, ShortOption)
 	char options[] = "-xR";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCUnPadMethodPrefix, Comments)
@@ -1569,7 +1569,7 @@ TEST(ObjCPadMethodColon, NoOption)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, LongOptionNone)
@@ -1590,7 +1590,7 @@ TEST(ObjCPadMethodColon, LongOptionNone)
 	char options[] = "pad-method-colon=none";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, LongOptionAll)
@@ -1611,7 +1611,7 @@ TEST(ObjCPadMethodColon, LongOptionAll)
 	char options[] = "pad-method-colon=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, LongOptionAfter)
@@ -1632,7 +1632,7 @@ TEST(ObjCPadMethodColon, LongOptionAfter)
 	char options[] = "pad-method-colon=after";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, LongOptionBefore)
@@ -1653,7 +1653,7 @@ TEST(ObjCPadMethodColon, LongOptionBefore)
 	char options[] = "pad-method-colon=before";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, ShortOptionNone)
@@ -1674,7 +1674,7 @@ TEST(ObjCPadMethodColon, ShortOptionNone)
 	char options[] = "-xP0";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, ShortOptionAll)
@@ -1695,7 +1695,7 @@ TEST(ObjCPadMethodColon, ShortOptionAll)
 	char options[] = "-xP1";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, ShortOptionAfter)
@@ -1716,7 +1716,7 @@ TEST(ObjCPadMethodColon, ShortOptionAfter)
 	char options[] = "-xP2";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, ShortOptionBefore)
@@ -1737,7 +1737,7 @@ TEST(ObjCPadMethodColon, ShortOptionBefore)
 	char options[] = "-xP3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, MultipleSpacesNone)
@@ -1753,7 +1753,7 @@ TEST(ObjCPadMethodColon, MultipleSpacesNone)
 	char options[] = "pad-method-colon=none";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, MultipleSpacesAll)
@@ -1769,7 +1769,7 @@ TEST(ObjCPadMethodColon, MultipleSpacesAll)
 	char options[] = "pad-method-colon=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, LimitsNone)
@@ -1800,7 +1800,7 @@ TEST(ObjCPadMethodColon, LimitsNone)
 	char options[] = "pad-method-colon=none";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, LimitsAll)
@@ -1831,7 +1831,7 @@ TEST(ObjCPadMethodColon, LimitsAll)
 	char options[] = "pad-method-colon=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, SingleCharFollowsNone)
@@ -1858,7 +1858,7 @@ TEST(ObjCPadMethodColon, SingleCharFollowsNone)
 	char options[] = "pad-method-colon=none";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, SingleCharFollowsAll)
@@ -1885,7 +1885,7 @@ TEST(ObjCPadMethodColon, SingleCharFollowsAll)
 	char options[] = "pad-method-colon=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, EndOfLineFollowsNone)
@@ -1907,7 +1907,7 @@ TEST(ObjCPadMethodColon, EndOfLineFollowsNone)
 	char options[] = "pad-method-colon=none";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, EndOfLineFollowsAll)
@@ -1929,7 +1929,7 @@ TEST(ObjCPadMethodColon, EndOfLineFollowsAll)
 	char options[] = "pad-method-colon=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, NoneComment)
@@ -2033,7 +2033,7 @@ TEST(ObjCPadMethodColon, Selector)
 	char options[] = "pad-method-colon=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, ParenFollowsNone)
@@ -2053,7 +2053,7 @@ TEST(ObjCPadMethodColon, ParenFollowsNone)
 	char options[] = "pad-method-colon=none";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, ParenFollowsAll)
@@ -2073,7 +2073,7 @@ TEST(ObjCPadMethodColon, ParenFollowsAll)
 	char options[] = "pad-method-colon=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, ParenFollowsAfter)
@@ -2093,7 +2093,7 @@ TEST(ObjCPadMethodColon, ParenFollowsAfter)
 	char options[] = "pad-method-colon=after";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, ParenFollowsBefore)
@@ -2113,7 +2113,7 @@ TEST(ObjCPadMethodColon, ParenFollowsBefore)
 	char options[] = "pad-method-colon=before";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, QuestionColon1)
@@ -2133,7 +2133,7 @@ TEST(ObjCPadMethodColon, QuestionColon1)
 	char options[] = "pad-method-colon=none";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, QuestionColon2)
@@ -2154,7 +2154,7 @@ TEST(ObjCPadMethodColon, QuestionColon2)
 	char options[] = "pad-method-colon=none";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, QuestionColon3)
@@ -2175,7 +2175,7 @@ TEST(ObjCPadMethodColon, QuestionColon3)
 	char options[] = "pad-method-colon=none";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, ScopeResolution)
@@ -2193,7 +2193,7 @@ TEST(ObjCPadMethodColon, ScopeResolution)
 	char options[] = "pad-method-colon=all";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCPadMethodColon, CSharpFile)
@@ -2215,7 +2215,7 @@ TEST(ObjCPadMethodColon, CSharpFile)
 	char options[] = "pad-method-colon=all, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -2495,7 +2495,7 @@ TEST(ObjCAlignMethodColonDef, LineContainsTabs)
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -2572,7 +2572,7 @@ TEST(ObjCAlignMethodColonCall, NoColonOnLine1)
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCAlignMethodColonCall, NoKeywordOnLine1)
@@ -2595,7 +2595,7 @@ TEST(ObjCAlignMethodColonCall, NoKeywordOnLine1)
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCAlignMethodColonCall, MethodAssignment1)
@@ -2610,7 +2610,7 @@ TEST(ObjCAlignMethodColonCall, MethodAssignment1)
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCAlignMethodColonCall, MethodAssignment2)
@@ -2627,7 +2627,7 @@ TEST(ObjCAlignMethodColonCall, MethodAssignment2)
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCAlignMethodColonCall, MethodAssignment3)
@@ -2643,7 +2643,7 @@ TEST(ObjCAlignMethodColonCall, MethodAssignment3)
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCAlignMethodColonCall, ColonAtEnd1)
@@ -2659,7 +2659,7 @@ TEST(ObjCAlignMethodColonCall, ColonAtEnd1)
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCAlignMethodColonCall, ColonAtEnd2)
@@ -2674,7 +2674,7 @@ TEST(ObjCAlignMethodColonCall, ColonAtEnd2)
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCAlignMethodColonCall, ColonAtEnd3)
@@ -2690,7 +2690,7 @@ TEST(ObjCAlignMethodColonCall, ColonAtEnd3)
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCAlignMethodColonCall, HorstmannBrackets1)
@@ -2706,7 +2706,7 @@ TEST(ObjCAlignMethodColonCall, HorstmannBrackets1)
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCAlignMethodColonCall, HorstmannBrackets2)
@@ -2726,7 +2726,7 @@ TEST(ObjCAlignMethodColonCall, HorstmannBrackets2)
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCAlignMethodColonCall, AttachedBrackets)
@@ -2746,7 +2746,7 @@ TEST(ObjCAlignMethodColonCall, AttachedBrackets)
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCAlignMethodColonCall, HorstmannBracketsTabs1)
@@ -2762,7 +2762,7 @@ TEST(ObjCAlignMethodColonCall, HorstmannBracketsTabs1)
 	char options[] = "align-method-colon, indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCAlignMethodColonCall, HorstmannBracketsTabs2)
@@ -2778,7 +2778,7 @@ TEST(ObjCAlignMethodColonCall, HorstmannBracketsTabs2)
 	char options[] = "align-method-colon, indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCAlignMethodColonCall, InStatementValue)
@@ -2797,7 +2797,7 @@ TEST(ObjCAlignMethodColonCall, InStatementValue)
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -2856,7 +2856,7 @@ TEST(ObjCSansAlignMethodColonCall, NoColonOnLine1)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCSansAlignMethodColonCall, NoKeywordOnLine1)
@@ -2879,7 +2879,7 @@ TEST(ObjCSansAlignMethodColonCall, NoKeywordOnLine1)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCSansAlignMethodColonCall, MethodAssignment)
@@ -2894,7 +2894,7 @@ TEST(ObjCSansAlignMethodColonCall, MethodAssignment)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCSansAlignMethodColonCall, ColonAtEnd1)
@@ -2910,7 +2910,7 @@ TEST(ObjCSansAlignMethodColonCall, ColonAtEnd1)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCSansAlignMethodColonCall, ColonAtEnd2)
@@ -2925,7 +2925,7 @@ TEST(ObjCSansAlignMethodColonCall, ColonAtEnd2)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCSansAlignMethodColonCall, ColonAtEnd3)
@@ -2941,7 +2941,7 @@ TEST(ObjCSansAlignMethodColonCall, ColonAtEnd3)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCSansAlignMethodColonCall, HorstmannBrackets)
@@ -2957,7 +2957,7 @@ TEST(ObjCSansAlignMethodColonCall, HorstmannBrackets)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCSansAlignMethodColonCall, HorstmannBracketsTabs1)
@@ -2973,7 +2973,7 @@ TEST(ObjCSansAlignMethodColonCall, HorstmannBracketsTabs1)
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCSansAlignMethodColonCall, HorstmannBracketsTabs2)
@@ -2989,7 +2989,7 @@ TEST(ObjCSansAlignMethodColonCall, HorstmannBracketsTabs2)
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCSansAlignMethodColonCall, InStatementValue)
@@ -3008,7 +3008,7 @@ TEST(ObjCSansAlignMethodColonCall, InStatementValue)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -3070,7 +3070,7 @@ TEST(ObjCOther, 1TBSAddBrackets)
 	char options[] = "style=1tbs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, GoogleWithAccessModifiers)
@@ -3089,7 +3089,7 @@ TEST(ObjCOther, GoogleWithAccessModifiers)
 	char options[] = "style=google";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, GoogleWithMultilineInterface)
@@ -3105,7 +3105,7 @@ TEST(ObjCOther, GoogleWithMultilineInterface)
 	char options[] = "style=google";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, HeaderData)
@@ -3139,7 +3139,7 @@ TEST(ObjCOther, HeaderData)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, SpacesBeforeDefinition)
@@ -3161,7 +3161,7 @@ TEST(ObjCOther, SpacesBeforeDefinition)
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, InterfaceContinuation1)
@@ -3179,7 +3179,7 @@ TEST(ObjCOther, InterfaceContinuation1)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, InterfaceContinuation2)
@@ -3199,7 +3199,7 @@ TEST(ObjCOther, InterfaceContinuation2)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, InterfaceContinuation3)
@@ -3221,7 +3221,7 @@ TEST(ObjCOther, InterfaceContinuation3)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, InterfaceNoBrackets)
@@ -3236,7 +3236,7 @@ TEST(ObjCOther, InterfaceNoBrackets)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, MethodCallIndent)
@@ -3252,7 +3252,7 @@ TEST(ObjCOther, MethodCallIndent)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, NSExceptionMacros)
@@ -3277,7 +3277,7 @@ TEST(ObjCOther, NSExceptionMacros)
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, OtherColonIndent)
@@ -3298,7 +3298,7 @@ TEST(ObjCOther, OtherColonIndent)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, MethodCallHeader)
@@ -3317,7 +3317,7 @@ TEST(ObjCOther, MethodCallHeader)
 	char options[] = "break-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, AutoreleasepoolBreak)
@@ -3401,7 +3401,7 @@ TEST(ObjCOther, IndentClasses)
 	char options[] = "indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, IndentModifiers)
@@ -3420,7 +3420,7 @@ TEST(ObjCOther, IndentModifiers)
 	char options[] = "indent-modifiers";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, InStatementIndent1)
@@ -3438,7 +3438,7 @@ TEST(ObjCOther, InStatementIndent1)
 	char options[] = "max-instatement-indent=60";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, InStatementIndent2)
@@ -3461,7 +3461,7 @@ TEST(ObjCOther, InStatementIndent2)
 	char options[] = "max-instatement-indent=60";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, AlignPointer)
@@ -3483,7 +3483,7 @@ TEST(ObjCOther, AlignPointer)
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, PadInterfaceColon1)
@@ -3508,7 +3508,7 @@ TEST(ObjCOther, PadInterfaceColon1)
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, PadInterfaceColon2)
@@ -3533,7 +3533,7 @@ TEST(ObjCOther, PadInterfaceColon2)
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, PadOperator1)
@@ -3552,7 +3552,7 @@ TEST(ObjCOther, PadOperator1)
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, PadOperator2)
@@ -3568,7 +3568,7 @@ TEST(ObjCOther, PadOperator2)
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, PadOperator3)
@@ -3583,7 +3583,7 @@ TEST(ObjCOther, PadOperator3)
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, PadOperator4)
@@ -3605,7 +3605,7 @@ TEST(ObjCOther, PadOperator4)
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, PadOperator5)
@@ -3627,7 +3627,7 @@ TEST(ObjCOther, PadOperator5)
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ObjCOther, PadOperator6)
@@ -3643,7 +3643,7 @@ TEST(ObjCOther, PadOperator6)
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //----------------------------------------------------------------------------
