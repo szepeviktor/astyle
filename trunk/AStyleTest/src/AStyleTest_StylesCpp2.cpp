@@ -89,7 +89,7 @@ TEST_F(StyleLinuxCppF, LongOption1)
 	char options[] = "style=linux, indent=spaces=8";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleLinuxCppF, LongOption2)
@@ -121,7 +121,7 @@ TEST_F(StyleLinuxCppF, LongOption2)
 	char options[] = "style=knf, indent=spaces=8";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleLinuxCppF, ShortOption)
@@ -153,7 +153,7 @@ TEST_F(StyleLinuxCppF, ShortOption)
 	char options[] = "-A8, indent=spaces=8";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, SpaceIndent)
@@ -182,7 +182,7 @@ TEST(StyleLinuxCpp, SpaceIndent)
 	char options[] = "style=linux, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, Tab)
@@ -212,7 +212,7 @@ TEST(StyleLinuxCpp, Tab)
 	char options[] = "style=linux, indent=tab=8";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, TabIndent)
@@ -241,7 +241,7 @@ TEST(StyleLinuxCpp, TabIndent)
 	char options[] = "style=linux, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, ForceTab)
@@ -270,7 +270,7 @@ TEST(StyleLinuxCpp, ForceTab)
 	char options[] = "style=linux, indent=force-tab=8";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, ForceTabIndent)
@@ -299,7 +299,7 @@ TEST(StyleLinuxCpp, ForceTabIndent)
 	char options[] = "style=linux, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, Struct)
@@ -363,7 +363,7 @@ TEST(StyleLinuxCpp, MinConditionalIndent1)
 	char options[] = "style=linux, indent=spaces=8";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, MinConditionalIndent2)
@@ -393,7 +393,7 @@ TEST(StyleLinuxCpp, MinConditionalIndent2)
 	char options[] = "style=linux, min-conditional-indent=2, indent=spaces=8";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, NestedClass)
@@ -424,7 +424,7 @@ TEST(StyleLinuxCpp, NestedClass)
 	char options[] = "style=linux, indent=spaces=4";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, NestedClass_IndentClass)
@@ -455,7 +455,7 @@ TEST(StyleLinuxCpp, NestedClass_IndentClass)
 	char options[] = "style=linux, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, NestedNamespace)
@@ -481,7 +481,7 @@ TEST(StyleLinuxCpp, NestedNamespace)
 	char options[] = "style=linux, indent=spaces=4";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, NestedNamespace_IndentNamespace)
@@ -507,7 +507,7 @@ TEST(StyleLinuxCpp, NestedNamespace_IndentNamespace)
 	char options[] = "style=linux, indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, NestedNamespaceClass)
@@ -545,7 +545,7 @@ TEST(StyleLinuxCpp, NestedNamespaceClass)
 	char options[] = "style=linux, indent=spaces=4";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, NestedNamespaceClass_IndentNamespace)
@@ -583,7 +583,7 @@ TEST(StyleLinuxCpp, NestedNamespaceClass_IndentNamespace)
 	char options[] = "style=linux, indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, NestedNamespaceClass_IndentNamespaceClass)
@@ -621,7 +621,7 @@ TEST(StyleLinuxCpp, NestedNamespaceClass_IndentNamespaceClass)
 	char options[] = "style=linux, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, Pico)
@@ -649,7 +649,7 @@ TEST(StyleLinuxCpp, Pico)
 	char options[] = "style=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLinuxCpp, PicoOneLine)
@@ -673,7 +673,7 @@ TEST(StyleLinuxCpp, PicoOneLine)
 	char options[] = "style=linux";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //----------------------------------------------------------------------------
@@ -746,7 +746,7 @@ TEST_F(StyleHorstmannCppF, LongOption)
 	char options[] = "style=horstmann, indent=spaces=3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleHorstmannCppF, ShortOption)
@@ -778,7 +778,7 @@ TEST_F(StyleHorstmannCppF, ShortOption)
 	char options[] = "-A9, indent=spaces=3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, SpaceIndent)
@@ -807,7 +807,7 @@ TEST(StyleHorstmannCpp, SpaceIndent)
 	char options[] = "style=horstmann, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, Tab)
@@ -837,7 +837,7 @@ TEST(StyleHorstmannCpp, Tab)
 	char options[] = "style=horstmann, indent=tab=3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, TabIndent)
@@ -866,7 +866,7 @@ TEST(StyleHorstmannCpp, TabIndent)
 	char options[] = "style=horstmann, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, ForceTab)
@@ -895,7 +895,7 @@ TEST(StyleHorstmannCpp, ForceTab)
 	char options[] = "style=horstmann, indent=force-tab=3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, ForceTabIndent)
@@ -924,7 +924,7 @@ TEST(StyleHorstmannCpp, ForceTabIndent)
 	char options[] = "style=horstmann, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, ClassIndentClasses)
@@ -1059,7 +1059,7 @@ TEST(StyleHorstmannCpp, MinConditionalIndent1)
 	char options[] = "style=horstmann, indent=spaces=3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, MinConditionalIndent2)
@@ -1088,7 +1088,7 @@ TEST(StyleHorstmannCpp, MinConditionalIndent2)
 	char options[] = "style=horstmann, min-conditional-indent=0, indent=spaces=3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, IndentedSwitchBlock)
@@ -1112,7 +1112,7 @@ TEST(StyleHorstmannCpp, IndentedSwitchBlock)
 	char options[] = "style=horstmann, indent=spaces=3";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, NestedClass)
@@ -1143,7 +1143,7 @@ TEST(StyleHorstmannCpp, NestedClass)
 	char options[] = "style=horstmann, indent=spaces=4";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, NestedClass_IndentClass)
@@ -1171,7 +1171,7 @@ TEST(StyleHorstmannCpp, NestedClass_IndentClass)
 	char options[] = "style=horstmann, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, NestedNamespace)
@@ -1197,7 +1197,7 @@ TEST(StyleHorstmannCpp, NestedNamespace)
 	char options[] = "style=horstmann, indent=spaces=4";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, NestedNamespace_IndentNamespace)
@@ -1222,7 +1222,7 @@ TEST(StyleHorstmannCpp, NestedNamespace_IndentNamespace)
 	char options[] = "style=horstmann, indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, NestedNamespaceClass)
@@ -1260,7 +1260,7 @@ TEST(StyleHorstmannCpp, NestedNamespaceClass)
 	char options[] = "style=horstmann, indent=spaces=4";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, NestedNamespaceClass_IndentNamespace)
@@ -1298,7 +1298,7 @@ TEST(StyleHorstmannCpp, NestedNamespaceClass_IndentNamespace)
 	char options[] = "style=horstmann, indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, NestedNamespaceClass_IndentNamespaceClass)
@@ -1333,7 +1333,7 @@ TEST(StyleHorstmannCpp, NestedNamespaceClass_IndentNamespaceClass)
 	char options[] = "style=horstmann, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, Pico)
@@ -1361,7 +1361,7 @@ TEST(StyleHorstmannCpp, Pico)
 	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleHorstmannCpp, PicoOneLine)
@@ -1385,7 +1385,7 @@ TEST(StyleHorstmannCpp, PicoOneLine)
 	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //----------------------------------------------------------------------------
@@ -1459,7 +1459,7 @@ TEST_F(Style1TBSCppF, LongOption)
 	char options[] = "style=1tbs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(Style1TBSCppF, Alt)
@@ -1492,7 +1492,7 @@ TEST_F(Style1TBSCppF, Alt)
 	char options[] = "style=otbs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(Style1TBSCppF, Short)
@@ -1525,7 +1525,7 @@ TEST_F(Style1TBSCppF, Short)
 	char options[] = "-A10";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(Style1TBSCppF, AddOneLineBrackets)
@@ -1557,7 +1557,7 @@ TEST_F(Style1TBSCppF, AddOneLineBrackets)
 	char options[] = "style=1tbs, add-one-line-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, SpaceIndent)
@@ -1587,7 +1587,7 @@ TEST(Style1TBSCpp, SpaceIndent)
 	char options[] = "style=1tbs, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, Tab)
@@ -1617,7 +1617,7 @@ TEST(Style1TBSCpp, Tab)
 	char options[] = "style=1tbs, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, TabIndent)
@@ -1647,7 +1647,7 @@ TEST(Style1TBSCpp, TabIndent)
 	char options[] = "style=1tbs, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, ForceTab)
@@ -1677,7 +1677,7 @@ TEST(Style1TBSCpp, ForceTab)
 	char options[] = "style=1tbs, indent=force-tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, ForceTabIndent)
@@ -1707,7 +1707,7 @@ TEST(Style1TBSCpp, ForceTabIndent)
 	char options[] = "style=1tbs, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, Struct)
@@ -1771,7 +1771,7 @@ TEST(Style1TBSCpp, MinConditionalIndent1)
 	char options[] = "style=1tbs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, MinConditionalIndent2)
@@ -1801,7 +1801,7 @@ TEST(Style1TBSCpp, MinConditionalIndent2)
 	char options[] = "style=1tbs, min-conditional-indent=0";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, AddOneLineBrackets)
@@ -1830,7 +1830,7 @@ TEST(Style1TBSCpp, AddOneLineBrackets)
 	char options[] = "style=1tbs, add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, NestedClass)
@@ -1862,7 +1862,7 @@ TEST(Style1TBSCpp, NestedClass)
 	char options[] = "style=1tbs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, NestedClass_IndentClass)
@@ -1894,7 +1894,7 @@ TEST(Style1TBSCpp, NestedClass_IndentClass)
 	char options[] = "style=1tbs, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, NestedNamespace)
@@ -1921,7 +1921,7 @@ TEST(Style1TBSCpp, NestedNamespace)
 	char options[] = "style=1tbs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, NestedNamespace_IndentNamespace)
@@ -1948,7 +1948,7 @@ TEST(Style1TBSCpp, NestedNamespace_IndentNamespace)
 	char options[] = "style=1tbs, indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, NestedNamespaceClass)
@@ -1987,7 +1987,7 @@ TEST(Style1TBSCpp, NestedNamespaceClass)
 	char options[] = "style=1tbs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, NestedNamespaceClass_IndentNamespace)
@@ -2026,7 +2026,7 @@ TEST(Style1TBSCpp, NestedNamespaceClass_IndentNamespace)
 	char options[] = "style=1tbs, indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, NestedNamespaceClass_IndentNamespaceClass)
@@ -2065,7 +2065,7 @@ TEST(Style1TBSCpp, NestedNamespaceClass_IndentNamespaceClass)
 	char options[] = "style=1tbs, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, Pico)
@@ -2091,7 +2091,7 @@ TEST(Style1TBSCpp, Pico)
 	char options[] = "style=1tbs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Style1TBSCpp, PicoOneLine)
@@ -2115,7 +2115,7 @@ TEST(Style1TBSCpp, PicoOneLine)
 	char options[] = "style=1tbs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //----------------------------------------------------------------------------
@@ -2185,7 +2185,7 @@ TEST_F(StyleGoogleCppF, LongOption)
 	char options[] = "style=google";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleGoogleCppF, Short)
@@ -2214,7 +2214,7 @@ TEST_F(StyleGoogleCppF, Short)
 	char options[] = "-A14";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleGoogleCpp, SpaceIndent)
@@ -2242,7 +2242,7 @@ TEST(StyleGoogleCpp, SpaceIndent)
 	char options[] = "style=google, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleGoogleCpp, Tab)
@@ -2270,7 +2270,7 @@ TEST(StyleGoogleCpp, Tab)
 	char options[] = "style=google, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleGoogleCpp, TabIndent)
@@ -2298,7 +2298,7 @@ TEST(StyleGoogleCpp, TabIndent)
 	char options[] = "style=google, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleGoogleCpp, ForceTab)
@@ -2326,7 +2326,7 @@ TEST(StyleGoogleCpp, ForceTab)
 	char options[] = "style=google, indent=force-tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleGoogleCpp, ForceTabIndent)
@@ -2354,7 +2354,7 @@ TEST(StyleGoogleCpp, ForceTabIndent)
 	char options[] = "style=google, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleGoogleCpp, IndentClasses)
@@ -2383,7 +2383,7 @@ TEST(StyleGoogleCpp, IndentClasses)
 	char options[] = "style=google, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleGoogleCpp, Struct)
@@ -2800,7 +2800,7 @@ TEST_F(StylePicoCppF, LongOption)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StylePicoCppF, ShortOption)
@@ -2829,7 +2829,7 @@ TEST_F(StylePicoCppF, ShortOption)
 	char options[] = "-A11";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, SpaceIndent)
@@ -2856,7 +2856,7 @@ TEST(StylePicoCpp, SpaceIndent)
 	char options[] = "style=pico, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, Tab)
@@ -2883,7 +2883,7 @@ TEST(StylePicoCpp, Tab)
 	char options[] = "style=pico, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, TabIndent)
@@ -2910,7 +2910,7 @@ TEST(StylePicoCpp, TabIndent)
 	char options[] = "style=pico, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, ForceTab)
@@ -2937,7 +2937,7 @@ TEST(StylePicoCpp, ForceTab)
 	char options[] = "style=pico, indent=force-tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, ForceTabIndent)
@@ -2964,7 +2964,7 @@ TEST(StylePicoCpp, ForceTabIndent)
 	char options[] = "style=pico, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, ClassIndentClasses)
@@ -3091,7 +3091,7 @@ TEST(StylePicoCpp, MinConditionalIndent1)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, MinConditionalIndent2)
@@ -3118,7 +3118,7 @@ TEST(StylePicoCpp, MinConditionalIndent2)
 	char options[] = "style=pico, min-conditional-indent=0";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, SwitchBlock1)
@@ -3139,7 +3139,7 @@ TEST(StylePicoCpp, SwitchBlock1)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, SwitchBlock2)
@@ -3156,7 +3156,7 @@ TEST(StylePicoCpp, SwitchBlock2)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, SwitchBlock3)
@@ -3176,7 +3176,7 @@ TEST(StylePicoCpp, SwitchBlock3)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, SwitchBlock_OneLine)
@@ -3199,7 +3199,7 @@ TEST(StylePicoCpp, SwitchBlock_OneLine)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, KeepOneLineBlocks1)
@@ -3212,7 +3212,7 @@ TEST(StylePicoCpp, KeepOneLineBlocks1)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, KeepOneLineBlocks2)
@@ -3224,7 +3224,7 @@ TEST(StylePicoCpp, KeepOneLineBlocks2)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, KeepOneLineStatements)
@@ -3238,7 +3238,7 @@ TEST(StylePicoCpp, KeepOneLineStatements)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, AddBrackets1)
@@ -3255,7 +3255,7 @@ TEST(StylePicoCpp, AddBrackets1)
 	char options[] = "style=pico, add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, AddBrackets2)
@@ -3278,7 +3278,7 @@ TEST(StylePicoCpp, AddBrackets2)
 	char options[] = "style=pico, add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, AddOneLineBrackets)
@@ -3295,7 +3295,7 @@ TEST(StylePicoCpp, AddOneLineBrackets)
 	char options[] = "style=pico, add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, BreakNamespaceClass)
@@ -3315,7 +3315,7 @@ TEST(StylePicoCpp, BreakNamespaceClass)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, NestedClass)
@@ -3341,7 +3341,7 @@ TEST(StylePicoCpp, NestedClass)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, NestedClass_IndentClass)
@@ -3364,7 +3364,7 @@ TEST(StylePicoCpp, NestedClass_IndentClass)
 	char options[] = "style=pico, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, NestedNamespace)
@@ -3385,7 +3385,7 @@ TEST(StylePicoCpp, NestedNamespace)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, NestedNamespace_IndentNamespace)
@@ -3405,7 +3405,7 @@ TEST(StylePicoCpp, NestedNamespace_IndentNamespace)
 	char options[] = "style=pico, indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, NestedNamespaceClass)
@@ -3435,7 +3435,7 @@ TEST(StylePicoCpp, NestedNamespaceClass)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, NestedNamespaceClass_IndentNamespace)
@@ -3465,7 +3465,7 @@ TEST(StylePicoCpp, NestedNamespaceClass_IndentNamespace)
 	char options[] = "style=pico, indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, NestedNamespaceClass_IndentNamespaceClass)
@@ -3492,7 +3492,7 @@ TEST(StylePicoCpp, NestedNamespaceClass_IndentNamespaceClass)
 	char options[] = "style=pico, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, KeepOneLineNamespace)
@@ -3503,7 +3503,7 @@ TEST(StylePicoCpp, KeepOneLineNamespace)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, AttachedClosingNamespace1)
@@ -3521,7 +3521,7 @@ TEST(StylePicoCpp, AttachedClosingNamespace1)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, AttachedClosingNamespace2)
@@ -3533,7 +3533,7 @@ TEST(StylePicoCpp, AttachedClosingNamespace2)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, AfterPreprocessor1)
@@ -3546,7 +3546,7 @@ TEST(StylePicoCpp, AfterPreprocessor1)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, AfterPreprocessor2)
@@ -3561,7 +3561,7 @@ TEST(StylePicoCpp, AfterPreprocessor2)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, UserData)
@@ -3590,7 +3590,7 @@ TEST(StylePicoCpp, UserData)
 	char options[] = "style=pico, indent=spaces=2";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, SansPreprocessor)
@@ -3606,7 +3606,7 @@ TEST(StylePicoCpp, SansPreprocessor)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, SansPreprocessorBreak)
@@ -3622,7 +3622,7 @@ TEST(StylePicoCpp, SansPreprocessorBreak)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, SansLineComment1)
@@ -3637,7 +3637,7 @@ TEST(StylePicoCpp, SansLineComment1)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, SansLineComment2)
@@ -3651,7 +3651,7 @@ TEST(StylePicoCpp, SansLineComment2)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, SansComment1)
@@ -3666,7 +3666,7 @@ TEST(StylePicoCpp, SansComment1)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, SansComment2)
@@ -3680,7 +3680,7 @@ TEST(StylePicoCpp, SansComment2)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, SansEmptyLine)
@@ -3695,7 +3695,7 @@ TEST(StylePicoCpp, SansEmptyLine)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, RetainIndentation)
@@ -3715,7 +3715,7 @@ TEST(StylePicoCpp, RetainIndentation)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StylePicoCpp, IndentArray1)
@@ -3736,7 +3736,7 @@ TEST(StylePicoCpp, IndentArray1)
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //----------------------------------------------------------------------------
@@ -3803,7 +3803,7 @@ TEST_F(StyleLispCppF, LispOption)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleLispCppF, PythonOption)
@@ -3830,7 +3830,7 @@ TEST_F(StyleLispCppF, PythonOption)
 	char options[] = "style=python";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST_F(StyleLispCppF, ShortOption)
@@ -3857,7 +3857,7 @@ TEST_F(StyleLispCppF, ShortOption)
 	char options[] = "-A12";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, SpaceIndent)
@@ -3884,7 +3884,7 @@ TEST(StyleLispCpp, SpaceIndent)
 	char options[] = "style=lisp, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, Tab)
@@ -3911,7 +3911,7 @@ TEST(StyleLispCpp, Tab)
 	char options[] = "style=lisp, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, TabIndent)
@@ -3938,7 +3938,7 @@ TEST(StyleLispCpp, TabIndent)
 	char options[] = "style=lisp, indent=tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, ForceTab)
@@ -3965,7 +3965,7 @@ TEST(StyleLispCpp, ForceTab)
 	char options[] = "style=lisp, indent=force-tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, ForceTabIndent)
@@ -3992,7 +3992,7 @@ TEST(StyleLispCpp, ForceTabIndent)
 	char options[] = "style=lisp, indent=force-tab=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, Struct)
@@ -4050,7 +4050,7 @@ TEST(StyleLispCpp, MinConditionalIndent1)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, MinConditionalIndent2)
@@ -4077,7 +4077,7 @@ TEST(StyleLispCpp, MinConditionalIndent2)
 	char options[] = "style=lisp, min-conditional-indent=0";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, SwitchBlock1)
@@ -4098,7 +4098,7 @@ TEST(StyleLispCpp, SwitchBlock1)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, SwitchBlock2)
@@ -4115,7 +4115,7 @@ TEST(StyleLispCpp, SwitchBlock2)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, SwitchBlock3)
@@ -4135,7 +4135,7 @@ TEST(StyleLispCpp, SwitchBlock3)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, SwitchBlock_OneLine)
@@ -4175,7 +4175,7 @@ TEST(StyleLispCpp, SwitchBlock_OneLine)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, SwitchBlock_KeepOneLine)
@@ -4197,7 +4197,7 @@ TEST(StyleLispCpp, SwitchBlock_KeepOneLine)
 	char options[] = "style=lisp, keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, KeepOneLineBlocks1)
@@ -4215,7 +4215,7 @@ TEST(StyleLispCpp, KeepOneLineBlocks1)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, KeepOneLineBlocks2)
@@ -4230,7 +4230,7 @@ TEST(StyleLispCpp, KeepOneLineBlocks2)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, KeepOneLineStatements)
@@ -4244,7 +4244,7 @@ TEST(StyleLispCpp, KeepOneLineStatements)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, AddBrackets1)
@@ -4261,7 +4261,7 @@ TEST(StyleLispCpp, AddBrackets1)
 	char options[] = "style=lisp, add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, AddBrackets2)
@@ -4282,7 +4282,7 @@ TEST(StyleLispCpp, AddBrackets2)
 	char options[] = "style=lisp, add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, AddOneLineBrackets)
@@ -4300,7 +4300,7 @@ TEST(StyleLispCpp, AddOneLineBrackets)
 	char options[] = "style=lisp, add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, AttachNamespaceClass)
@@ -4319,7 +4319,7 @@ TEST(StyleLispCpp, AttachNamespaceClass)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, NestedClass)
@@ -4342,7 +4342,7 @@ TEST(StyleLispCpp, NestedClass)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, NestedClass_IndentClass)
@@ -4365,7 +4365,7 @@ TEST(StyleLispCpp, NestedClass_IndentClass)
 	char options[] = "style=lisp, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, NestedNamespace)
@@ -4383,7 +4383,7 @@ TEST(StyleLispCpp, NestedNamespace)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, NestedNamespace_IndentNamespace)
@@ -4401,7 +4401,7 @@ TEST(StyleLispCpp, NestedNamespace_IndentNamespace)
 	char options[] = "style=lisp, indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, NestedNamespaceClass)
@@ -4425,7 +4425,7 @@ TEST(StyleLispCpp, NestedNamespaceClass)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, NestedNamespaceClass_IndentNamespace)
@@ -4449,7 +4449,7 @@ TEST(StyleLispCpp, NestedNamespaceClass_IndentNamespace)
 	char options[] = "style=lisp, indent-namespaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, NestedNamespaceClass_IndentNamespaceClass)
@@ -4473,7 +4473,7 @@ TEST(StyleLispCpp, NestedNamespaceClass_IndentNamespaceClass)
 	char options[] = "style=lisp, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, KeepOneLineNamespace)
@@ -4487,7 +4487,7 @@ TEST(StyleLispCpp, KeepOneLineNamespace)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, AttachedClosingNamespace1)
@@ -4503,7 +4503,7 @@ TEST(StyleLispCpp, AttachedClosingNamespace1)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, AttachedClosingNamespace2)
@@ -4516,7 +4516,7 @@ TEST(StyleLispCpp, AttachedClosingNamespace2)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, AfterPreprocessor1)
@@ -4534,7 +4534,7 @@ TEST(StyleLispCpp, AfterPreprocessor1)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, AfterPreprocessor2)
@@ -4549,7 +4549,7 @@ TEST(StyleLispCpp, AfterPreprocessor2)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, UserData)
@@ -4578,7 +4578,7 @@ TEST(StyleLispCpp, UserData)
 	char options[] = "style=lisp, indent=spaces=2";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, SansPreprocessor)
@@ -4594,7 +4594,7 @@ TEST(StyleLispCpp, SansPreprocessor)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, SansPreprocessorBreak)
@@ -4609,7 +4609,7 @@ TEST(StyleLispCpp, SansPreprocessorBreak)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, SansLineComment1)
@@ -4624,7 +4624,7 @@ TEST(StyleLispCpp, SansLineComment1)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, SansLineComment2)
@@ -4638,7 +4638,7 @@ TEST(StyleLispCpp, SansLineComment2)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, SansComment1)
@@ -4653,7 +4653,7 @@ TEST(StyleLispCpp, SansComment1)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, SansComment2)
@@ -4667,7 +4667,7 @@ TEST(StyleLispCpp, SansComment2)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, SansEmptyLine)
@@ -4682,7 +4682,7 @@ TEST(StyleLispCpp, SansEmptyLine)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(StyleLispCpp, IndentArray1)
@@ -4703,7 +4703,7 @@ TEST(StyleLispCpp, IndentArray1)
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //----------------------------------------------------------------------------

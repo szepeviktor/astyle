@@ -45,7 +45,7 @@ TEST(BreakClosingBrackets, LongOption)
 	char options[] = "break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakClosingBrackets, ShortOption)
@@ -73,7 +73,7 @@ TEST(BreakClosingBrackets, ShortOption)
 	char options[] = "-y";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakClosingBrackets, Break)
@@ -104,7 +104,7 @@ TEST(BreakClosingBrackets, Break)
 	char options[] = "style=allman, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakClosingBrackets, Attach)
@@ -132,7 +132,7 @@ TEST(BreakClosingBrackets, Attach)
 	char options[] = "style=java, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakClosingBrackets, Linux)
@@ -161,7 +161,7 @@ TEST(BreakClosingBrackets, Linux)
 	char options[] = "style=kr, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakClosingBrackets, Stroustrup)
@@ -190,7 +190,7 @@ TEST(BreakClosingBrackets, Stroustrup)
 	char options[] = "style=stroustrup, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakClosingBrackets, KeepBlocks)
@@ -219,7 +219,7 @@ TEST(BreakClosingBrackets, KeepBlocks)
 	char options[] = "style=java, break-closing-brackets, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakClosingBrackets, ElseSans)
@@ -248,7 +248,7 @@ TEST(BreakClosingBrackets, ElseSans)
 	char options[] = "style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakClosingBrackets, Catch)
@@ -274,7 +274,7 @@ TEST(BreakClosingBrackets, Catch)
 	char options[] = "style=java, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakClosingBrackets, CatchSans)
@@ -301,7 +301,7 @@ TEST(BreakClosingBrackets, CatchSans)
 	char options[] = "style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakClosingBrackets, While)
@@ -323,7 +323,7 @@ TEST(BreakClosingBrackets, While)
 	char options[] = "style=java, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakClosingBrackets, WhileSans)
@@ -346,7 +346,7 @@ TEST(BreakClosingBrackets, WhileSans)
 	char options[] = "style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -419,7 +419,7 @@ TEST(BreakElseIfs, LongOption)
 	char options[] = "break-elseifs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, ShortOption)
@@ -488,7 +488,7 @@ TEST(BreakElseIfs, ShortOption)
 	char options[] = "-e";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, Sans1)
@@ -566,7 +566,7 @@ TEST(BreakElseIfs, Sans1)
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, Sans2)
@@ -594,7 +594,7 @@ TEST(BreakElseIfs, Sans2)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, KeepOneLineBlocks)
@@ -610,7 +610,7 @@ TEST(BreakElseIfs, KeepOneLineBlocks)
 	char options[] = "break-elseifs, keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, KeepOneLineStatements)
@@ -626,7 +626,7 @@ TEST(BreakElseIfs, KeepOneLineStatements)
 	char options[] = "break-elseifs, keep-one-line-statements";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, Comments1)
@@ -670,7 +670,7 @@ TEST(BreakElseIfs, Comments1)
 	char options[] = "break-elseifs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, Comments2)
@@ -714,7 +714,7 @@ TEST(BreakElseIfs, Comments2)
 	char options[] = "break-elseifs, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, Comments3)
@@ -735,7 +735,7 @@ TEST(BreakElseIfs, Comments3)
 	char options[] = "break-elseifs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, Comments4)
@@ -783,7 +783,7 @@ TEST(BreakElseIfs, Comments4)
 	char options[] = "break-elseifs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, Comments5)
@@ -841,7 +841,7 @@ TEST(BreakElseIfs, Comments5)
 	char options[] = "break-elseifs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, CommentsInPreprocessor)
@@ -887,7 +887,7 @@ TEST(BreakElseIfs, CommentsInPreprocessor)
 	char options[] = "break-elseifs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, AddBrackets)
@@ -929,7 +929,7 @@ TEST(BreakElseIfs, AddBrackets)
 	char options[] = "break-elseifs, add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, EndOfFileComments1)
@@ -945,7 +945,7 @@ TEST(BreakElseIfs, EndOfFileComments1)
 	char options[] = "break-elseifs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, EndOfFileComments2)
@@ -961,7 +961,7 @@ TEST(BreakElseIfs, EndOfFileComments2)
 	char options[] = "break-elseifs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, WithSwitch)
@@ -982,7 +982,7 @@ TEST(BreakElseIfs, WithSwitch)
 	char options[] = "break-elseifs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakElseIfs, WithMaxCodeLength)
@@ -1006,7 +1006,7 @@ TEST(BreakElseIfs, WithMaxCodeLength)
 	char options[] = "break-elseifs, max-code-length=50";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -1032,7 +1032,7 @@ TEST(BreakOneLineHeaders, LongOption)
 	char options[] = "break-one-line-headers";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, ShortOption)
@@ -1054,7 +1054,7 @@ TEST(BreakOneLineHeaders, ShortOption)
 	char options[] = "-xb";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, MultipleParens)
@@ -1098,7 +1098,7 @@ TEST(BreakOneLineHeaders, MultipleParens)
 	char options[] = "break-one-line-headers";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, Else)
@@ -1123,7 +1123,7 @@ TEST(BreakOneLineHeaders, Else)
 	char options[] = "break-one-line-headers";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, ElseIf)
@@ -1148,7 +1148,7 @@ TEST(BreakOneLineHeaders, ElseIf)
 	char options[] = "break-one-line-headers";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, ElseIfBreak)
@@ -1175,7 +1175,7 @@ TEST(BreakOneLineHeaders, ElseIfBreak)
 	char options[] = "break-one-line-headers, break-elseifs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, Catch)
@@ -1198,7 +1198,7 @@ TEST(BreakOneLineHeaders, Catch)
 	char options[] = "break-one-line-headers";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, BreakBlocks)
@@ -1237,7 +1237,7 @@ TEST(BreakOneLineHeaders, BreakBlocks)
 	char options[] = "break-one-line-headers, break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, BreakBlocksAll)
@@ -1277,7 +1277,7 @@ TEST(BreakOneLineHeaders, BreakBlocksAll)
 	char options[] = "break-one-line-headers, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLStatements1)
@@ -1302,7 +1302,7 @@ TEST(BreakOneLineHeaders, KeepOLStatements1)
 	char options[] = "break-one-line-headers, keep-one-line-statements";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLStatements2)
@@ -1329,7 +1329,7 @@ TEST(BreakOneLineHeaders, KeepOLStatements2)
 	char options[] = "break-one-line-headers, keep-one-line-statements, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLStatements3)
@@ -1344,7 +1344,7 @@ TEST(BreakOneLineHeaders, KeepOLStatements3)
 	char options[] = "break-one-line-headers, keep-one-line-statements";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLStatements4)
@@ -1359,7 +1359,7 @@ TEST(BreakOneLineHeaders, KeepOLStatements4)
 	char options[] = "break-one-line-headers, keep-one-line-statements";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLStatements5)
@@ -1374,7 +1374,7 @@ TEST(BreakOneLineHeaders, KeepOLStatements5)
 	char options[] = "break-one-line-headers, keep-one-line-statements";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLStatementsBreakBlocks)
@@ -1407,7 +1407,7 @@ TEST(BreakOneLineHeaders, KeepOLStatementsBreakBlocks)
 	char options[] = "break-one-line-headers, keep-one-line-statements, break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLBlocksSansBreak)
@@ -1426,7 +1426,7 @@ TEST(BreakOneLineHeaders, KeepOLBlocksSansBreak)
 	char options[] = "break-one-line-headers, keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLBlocks1)
@@ -1449,7 +1449,7 @@ TEST(BreakOneLineHeaders, KeepOLBlocks1)
 	char options[] = "break-one-line-headers, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLBlocks2)
@@ -1478,7 +1478,7 @@ TEST(BreakOneLineHeaders, KeepOLBlocks2)
 	char options[] = "-A1, break-one-line-headers, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLBlocks3)
@@ -1503,7 +1503,7 @@ TEST(BreakOneLineHeaders, KeepOLBlocks3)
 	char options[] = "-A2, break-one-line-headers, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLBlocksBreakBlocks)
@@ -1545,7 +1545,7 @@ TEST(BreakOneLineHeaders, KeepOLBlocksBreakBlocks)
 	char options[] = "-A5, break-one-line-headers, keep-one-line-blocks, break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLBlocksBreakBlocksAll)
@@ -1584,7 +1584,7 @@ TEST(BreakOneLineHeaders, KeepOLBlocksBreakBlocksAll)
 	char options[] = "-A9, break-one-line-headers, keep-one-line-blocks, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLBlocksNonParenHeader)
@@ -1615,7 +1615,7 @@ TEST(BreakOneLineHeaders, KeepOLBlocksNonParenHeader)
 	char options[] = "-A11, break-one-line-headers, keep-one-line-blocks, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLBlocksElseIf)
@@ -1640,7 +1640,7 @@ TEST(BreakOneLineHeaders, KeepOLBlocksElseIf)
 	char options[] = "-A12, break-one-line-headers, keep-one-line-blocks, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, AddBracketsKeepOneLine1)
@@ -1663,7 +1663,7 @@ TEST(BreakOneLineHeaders, AddBracketsKeepOneLine1)
 	char options[] = "break-one-line-headers, add-brackets, -Oo";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, AddBracketsKeepOneLine2)
@@ -1688,7 +1688,7 @@ TEST(BreakOneLineHeaders, AddBracketsKeepOneLine2)
 	char options[] = "break-one-line-headers, add-brackets, -Oo";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, NoFollowingStatement)
@@ -1705,7 +1705,7 @@ TEST(BreakOneLineHeaders, NoFollowingStatement)
 	char options[] = "break-one-line-headers";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, EmptyBracketsFollow)
@@ -1722,7 +1722,7 @@ TEST(BreakOneLineHeaders, EmptyBracketsFollow)
 	char options[] = "break-one-line-headers";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, JavaSynchronizedMethod)
@@ -1735,7 +1735,7 @@ TEST(BreakOneLineHeaders, JavaSynchronizedMethod)
 	char options[] = "break-one-line-headers";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLBlocksAndStmts1)
@@ -1762,7 +1762,7 @@ TEST(BreakOneLineHeaders, KeepOLBlocksAndStmts1)
 	char options[] = "break-one-line-headers, -Oo";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, KeepOLBlocksAndStmts2)
@@ -1788,7 +1788,7 @@ TEST(BreakOneLineHeaders, KeepOLBlocksAndStmts2)
 	char options[] = "break-one-line-headers, -Oo";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, EmptyBlockKeepOLBlocks)
@@ -1813,7 +1813,7 @@ TEST(BreakOneLineHeaders, EmptyBlockKeepOLBlocks)
 	char options[] = "break-one-line-headers, keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, EmptyBlock)
@@ -1838,7 +1838,7 @@ TEST(BreakOneLineHeaders, EmptyBlock)
 	char options[] = "break-one-line-headers";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, BlockStatementKeepOneLine)
@@ -1863,7 +1863,7 @@ TEST(BreakOneLineHeaders, BlockStatementKeepOneLine)
 	char options[] = "break-one-line-headers, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, BlockStatementAddBracketsKeepOneLine)
@@ -1888,7 +1888,7 @@ TEST(BreakOneLineHeaders, BlockStatementAddBracketsKeepOneLine)
 	char options[] = "break-one-line-headers, add-brackets, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, PicoStyleAddBrackets)
@@ -1911,7 +1911,7 @@ TEST(BreakOneLineHeaders, PicoStyleAddBrackets)
 	char options[] = "add-brackets, style=pico, add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, Misc1)
@@ -1933,7 +1933,7 @@ TEST(BreakOneLineHeaders, Misc1)
 	char options[] = "break-one-line-headers";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(BreakOneLineHeaders, Misc2)
@@ -1961,7 +1961,7 @@ TEST(BreakOneLineHeaders, Misc2)
 	char options[] = "break-one-line-headers";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -1987,7 +1987,7 @@ TEST(AddBrackets, LongOption)
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, ShortOption)
@@ -2009,7 +2009,7 @@ TEST(AddBrackets, ShortOption)
 	char options[] = "-j";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, All)
@@ -2066,7 +2066,7 @@ TEST(AddBrackets, All)
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, ElseIf)
@@ -2093,7 +2093,7 @@ TEST(AddBrackets, ElseIf)
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, SemiFollows)
@@ -2120,7 +2120,7 @@ TEST(AddBrackets, SemiFollows)
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, Sharp)
@@ -2151,7 +2151,7 @@ TEST(AddBrackets, Sharp)
 	char options[] = "add-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, KeepOneLiners)
@@ -2209,7 +2209,7 @@ TEST(AddBrackets, KeepOneLiners)
 	char options[] = "add-brackets, keep-one-line-blocks, keep-one-line-statements";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, SingleLine)
@@ -2259,7 +2259,7 @@ TEST(AddBrackets, SingleLine)
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, SingleLineKeepOneLiners)
@@ -2295,7 +2295,7 @@ TEST(AddBrackets, SingleLineKeepOneLiners)
 	char options[] = "add-brackets, keep-one-line-blocks, keep-one-line-statements";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, Break)
@@ -2324,7 +2324,7 @@ TEST(AddBrackets, Break)
 	char options[] = "add-brackets, style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, Attach)
@@ -2350,7 +2350,7 @@ TEST(AddBrackets, Attach)
 	char options[] = "add-brackets, style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, RunIn)
@@ -2376,7 +2376,7 @@ TEST(AddBrackets, RunIn)
 	char options[] = "add-brackets, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, ExtraSpaces)
@@ -2397,7 +2397,7 @@ TEST(AddBrackets, ExtraSpaces)
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, ElseParen)
@@ -2422,7 +2422,7 @@ TEST(AddBrackets, ElseParen)
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, ElseBlock)
@@ -2449,7 +2449,7 @@ TEST(AddBrackets, ElseBlock)
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, Quote)
@@ -2478,7 +2478,7 @@ TEST(AddBrackets, Quote)
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, QuoteSans)
@@ -2495,7 +2495,7 @@ TEST(AddBrackets, QuoteSans)
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, Comment)
@@ -2531,7 +2531,7 @@ TEST(AddBrackets, Comment)
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, AfterCommentKeepOLBlocks)
@@ -2559,7 +2559,7 @@ TEST(AddBrackets, AfterCommentKeepOLBlocks)
 	char options[] = "add-brackets, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, Sans)
@@ -2575,7 +2575,7 @@ TEST(AddBrackets, Sans)
 	char options[] = "add-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, ConvertTabs)
@@ -2600,7 +2600,7 @@ TEST(AddBrackets, ConvertTabs)
 	char options[] = "add-brackets, convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, KeepOneLineBlocks)
@@ -2615,7 +2615,7 @@ TEST(AddBrackets, KeepOneLineBlocks)
 	char options[] = "add-brackets, keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, KeepOneLineBlocksSans1)
@@ -2640,7 +2640,7 @@ TEST(AddBrackets, KeepOneLineBlocksSans1)
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, KeepOneLineBlocksSans2)
@@ -2667,7 +2667,7 @@ TEST(AddBrackets, KeepOneLineBlocksSans2)
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, KeepOneLineStatements)
@@ -2686,7 +2686,7 @@ TEST(AddBrackets, KeepOneLineStatements)
 	char options[] = "add-brackets, keep-one-line-statements";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddBrackets, KeepOneLineStatementsSans)
@@ -2724,7 +2724,7 @@ TEST(AddBrackets, KeepOneLineStatementsSans)
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -2750,7 +2750,7 @@ TEST(AddOneLineBrackets, LongOption)
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, ShortOption)
@@ -2771,7 +2771,7 @@ TEST(AddOneLineBrackets, ShortOption)
 	char options[] = "-J";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, All)
@@ -2822,7 +2822,7 @@ TEST(AddOneLineBrackets, All)
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, ElseIf)
@@ -2847,7 +2847,7 @@ TEST(AddOneLineBrackets, ElseIf)
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, SemiFollows)
@@ -2874,7 +2874,7 @@ TEST(AddOneLineBrackets, SemiFollows)
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, Sharp)
@@ -2902,7 +2902,7 @@ TEST(AddOneLineBrackets, Sharp)
 	char options[] = "add-one-line-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, SingleLine)
@@ -2940,7 +2940,7 @@ TEST(AddOneLineBrackets, SingleLine)
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, SingleLineKeepOneLiners)
@@ -2976,7 +2976,7 @@ TEST(AddOneLineBrackets, SingleLineKeepOneLiners)
 	char options[] = "add-one-line-brackets, keep-one-line-statements";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, Break)
@@ -3001,7 +3001,7 @@ TEST(AddOneLineBrackets, Break)
 	char options[] = "add-one-line-brackets, style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, Attach)
@@ -3026,7 +3026,7 @@ TEST(AddOneLineBrackets, Attach)
 	char options[] = "add-one-line-brackets, style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, RunIn)
@@ -3050,7 +3050,7 @@ TEST(AddOneLineBrackets, RunIn)
 	char options[] = "add-one-line-brackets, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, ExtraSpaces)
@@ -3069,7 +3069,7 @@ TEST(AddOneLineBrackets, ExtraSpaces)
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, ElseParen)
@@ -3090,7 +3090,7 @@ TEST(AddOneLineBrackets, ElseParen)
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, Quote)
@@ -3113,7 +3113,7 @@ TEST(AddOneLineBrackets, Quote)
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, QuoteSans)
@@ -3130,7 +3130,7 @@ TEST(AddOneLineBrackets, QuoteSans)
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, Comment)
@@ -3164,7 +3164,7 @@ TEST(AddOneLineBrackets, Comment)
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AddOneLineBrackets, Sans)
@@ -3180,7 +3180,7 @@ TEST(AddOneLineBrackets, Sans)
 	char options[] = "add-one-line-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -3212,7 +3212,7 @@ TEST(RemoveBrackets, LongOption)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, ShortOption)
@@ -3240,7 +3240,7 @@ TEST(RemoveBrackets, ShortOption)
 	char options[] = "-xj";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, WithEmptyLine1)
@@ -3272,7 +3272,7 @@ TEST(RemoveBrackets, WithEmptyLine1)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, WithEmptyLine2)
@@ -3304,7 +3304,7 @@ TEST(RemoveBrackets, WithEmptyLine2)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, WithEmptyLine3)
@@ -3340,7 +3340,7 @@ TEST(RemoveBrackets, WithEmptyLine3)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, Sans)
@@ -3362,7 +3362,7 @@ TEST(RemoveBrackets, Sans)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, OneLineBlock1)
@@ -3386,7 +3386,7 @@ TEST(RemoveBrackets, OneLineBlock1)
 	char options[] = "remove-brackets, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, OneLineBlockSans1)
@@ -3411,7 +3411,7 @@ TEST(RemoveBrackets, OneLineBlockSans1)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, OneLineBlockSans2)
@@ -3428,7 +3428,7 @@ TEST(RemoveBrackets, OneLineBlockSans2)
 	char options[] = "remove-brackets, keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, OneLineBlockSans3)
@@ -3458,7 +3458,7 @@ TEST(RemoveBrackets, OneLineBlockSans3)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, BreakBlocks1)
@@ -3492,7 +3492,7 @@ TEST(RemoveBrackets, BreakBlocks1)
 	char options[] = "remove-brackets, break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, BreakBlocks2)
@@ -3527,7 +3527,7 @@ TEST(RemoveBrackets, BreakBlocks2)
 	char options[] = "remove-brackets, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, Comment1)
@@ -3548,7 +3548,7 @@ TEST(RemoveBrackets, Comment1)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, Comment2)
@@ -3569,7 +3569,7 @@ TEST(RemoveBrackets, Comment2)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, Comment3)
@@ -3593,7 +3593,7 @@ TEST(RemoveBrackets, Comment3)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, Comment4)
@@ -3615,7 +3615,7 @@ TEST(RemoveBrackets, Comment4)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, CommentSans1)
@@ -3638,7 +3638,7 @@ TEST(RemoveBrackets, CommentSans1)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, CommentSans2)
@@ -3658,7 +3658,7 @@ TEST(RemoveBrackets, CommentSans2)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, FollowingHeaderSans)
@@ -3692,7 +3692,7 @@ TEST(RemoveBrackets, FollowingHeaderSans)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, AddBracketsSans)
@@ -3712,7 +3712,7 @@ TEST(RemoveBrackets, AddBracketsSans)
 	char options[] = "remove-brackets, add-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, AddOneLineBracketsSans)
@@ -3732,7 +3732,7 @@ TEST(RemoveBrackets, AddOneLineBracketsSans)
 	char options[] = "remove-brackets, add-one-line-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, OtherHeaders)
@@ -3767,7 +3767,7 @@ TEST(RemoveBrackets, OtherHeaders)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, SharpOtherHeaders)
@@ -3790,7 +3790,7 @@ TEST(RemoveBrackets, SharpOtherHeaders)
 	char options[] = "remove-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, OTBSSans)
@@ -3808,7 +3808,7 @@ TEST(RemoveBrackets, OTBSSans)
 	char options[] = "remove-brackets, style=otbs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, BreakClosingBrackets)
@@ -3835,7 +3835,7 @@ TEST(RemoveBrackets, BreakClosingBrackets)
 	char options[] = "remove-brackets, break-closing-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, UnbrokenElse)
@@ -3862,7 +3862,7 @@ TEST(RemoveBrackets, UnbrokenElse)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, Preprocessor)
@@ -3876,7 +3876,7 @@ TEST(RemoveBrackets, Preprocessor)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, BracketInQuote)
@@ -3897,7 +3897,7 @@ TEST(RemoveBrackets, BracketInQuote)
 	char options[] = "remove-brackets, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, BracketInComment1)
@@ -3913,7 +3913,7 @@ TEST(RemoveBrackets, BracketInComment1)
 	char options[] = "remove-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, BracketInComment2)
@@ -3929,7 +3929,7 @@ TEST(RemoveBrackets, BracketInComment2)
 	char options[] = "remove-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveBrackets, HorstmannBracketWithComment)
@@ -3946,7 +3946,7 @@ TEST(RemoveBrackets, HorstmannBracketWithComment)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -3964,7 +3964,7 @@ TEST(KeepOneLineBlocks, LongOption)
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, ShortOption)
@@ -3978,7 +3978,7 @@ TEST(KeepOneLineBlocks, ShortOption)
 	char options[] = "-O";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, StartOfLine)
@@ -3994,7 +3994,7 @@ TEST(KeepOneLineBlocks, StartOfLine)
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, NoneBrackets)
@@ -4010,7 +4010,7 @@ TEST(KeepOneLineBlocks, NoneBrackets)
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, BreakBrackets)
@@ -4026,7 +4026,7 @@ TEST(KeepOneLineBlocks, BreakBrackets)
 	char options[] = "keep-one-line-blocks, style=allman";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, AttachBrackets)
@@ -4041,7 +4041,7 @@ TEST(KeepOneLineBlocks, AttachBrackets)
 	char options[] = "keep-one-line-blocks, style=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, LinuxBrackets)
@@ -4057,7 +4057,7 @@ TEST(KeepOneLineBlocks, LinuxBrackets)
 	char options[] = "keep-one-line-blocks, style=kr";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, RunInBrackets)
@@ -4072,7 +4072,7 @@ TEST(KeepOneLineBlocks, RunInBrackets)
 	char options[] = "keep-one-line-blocks, style=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, BreakElseIf)
@@ -4095,7 +4095,7 @@ TEST(KeepOneLineBlocks, BreakElseIf)
 	char options[] = "keep-one-line-blocks, break-elseifs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, KeepOOLStatementsBreakElseIf)
@@ -4112,7 +4112,7 @@ TEST(KeepOneLineBlocks, KeepOOLStatementsBreakElseIf)
 	char options[] = "keep-one-line-blocks, keep-one-line-statements, break-elseifs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, BreakBlocks1)
@@ -4128,7 +4128,7 @@ TEST(KeepOneLineBlocks, BreakBlocks1)
 	char options[] = "keep-one-line-blocks, break-blocks=all";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, BreakBlocks2)
@@ -4144,7 +4144,7 @@ TEST(KeepOneLineBlocks, BreakBlocks2)
 	char options[] = "keep-one-line-blocks, break-blocks=all";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, BreakBlocks3)
@@ -4170,7 +4170,7 @@ TEST(KeepOneLineBlocks, BreakBlocks3)
 	char options[] = "keep-one-line-blocks, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, MultipleBrackets)
@@ -4186,7 +4186,7 @@ TEST(KeepOneLineBlocks, MultipleBrackets)
 	char options[] = "keep-one-line-blocks, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, Sans1)
@@ -4208,7 +4208,7 @@ TEST(KeepOneLineBlocks, Sans1)
 	char options[] = "style=allman, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, Sans2)
@@ -4231,7 +4231,7 @@ TEST(KeepOneLineBlocks, Sans2)
 	char options[] = "style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, SansMultipleBrackets)
@@ -4263,7 +4263,7 @@ TEST(KeepOneLineBlocks, SansMultipleBrackets)
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, NoneRunIn)
@@ -4279,7 +4279,7 @@ TEST(KeepOneLineBlocks, NoneRunIn)
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, RunInRunIn)
@@ -4295,7 +4295,7 @@ TEST(KeepOneLineBlocks, RunInRunIn)
 	char options[] = "keep-one-line-blocks, style=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, NoneClosingHeader)
@@ -4311,7 +4311,7 @@ TEST(KeepOneLineBlocks, NoneClosingHeader)
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, BreakClosingHeader)
@@ -4328,7 +4328,7 @@ TEST(KeepOneLineBlocks, BreakClosingHeader)
 	char options[] = "keep-one-line-blocks, style=allman";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, AttachClosingHeader)
@@ -4344,7 +4344,7 @@ TEST(KeepOneLineBlocks, AttachClosingHeader)
 	char options[] = "keep-one-line-blocks, style=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, LinuxClosingHeader)
@@ -4361,7 +4361,7 @@ TEST(KeepOneLineBlocks, LinuxClosingHeader)
 	char options[] = "keep-one-line-blocks, style=kr";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, IndentSwitchBlock)
@@ -4386,7 +4386,7 @@ TEST(KeepOneLineBlocks, IndentSwitchBlock)
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, IndentSwitchBlockIndentSwitches)
@@ -4411,7 +4411,7 @@ TEST(KeepOneLineBlocks, IndentSwitchBlockIndentSwitches)
 	char options[] = "keep-one-line-blocks, indent-switches";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, IndentAfterHeader)
@@ -4428,7 +4428,7 @@ TEST(KeepOneLineBlocks, IndentAfterHeader)
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, IndentAfterHeaderSansBrackets)
@@ -4448,7 +4448,7 @@ TEST(KeepOneLineBlocks, IndentAfterHeaderSansBrackets)
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, IndentSansHeader)
@@ -4463,7 +4463,7 @@ TEST(KeepOneLineBlocks, IndentSansHeader)
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, IndentWithConstMethod)
@@ -4479,7 +4479,7 @@ TEST(KeepOneLineBlocks, IndentWithConstMethod)
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, WithAccessModifier)
@@ -4491,7 +4491,7 @@ TEST(KeepOneLineBlocks, WithAccessModifier)
 	char options[] = "keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineBlocks, WithAccessModifierSans)
@@ -4511,7 +4511,7 @@ TEST(KeepOneLineBlocks, WithAccessModifierSans)
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -4532,7 +4532,7 @@ TEST(KeepOneLineStatements, LongOption)
 	char options[] = "keep-one-line-statements";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineStatements, ShortOption)
@@ -4549,7 +4549,7 @@ TEST(KeepOneLineStatements, ShortOption)
 	char options[] = "-o";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineStatements, WithHeader)
@@ -4564,7 +4564,7 @@ TEST(KeepOneLineStatements, WithHeader)
 	char options[] = "keep-one-line-statements";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineStatements, SansWithHeader1)
@@ -4588,7 +4588,7 @@ TEST(KeepOneLineStatements, SansWithHeader1)
 	char options[] = "";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineStatements, SansWithHeader2)
@@ -4614,7 +4614,7 @@ TEST(KeepOneLineStatements, SansWithHeader2)
 	char options[] = "break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineStatements, BreakBlocks1)
@@ -4630,7 +4630,7 @@ TEST(KeepOneLineStatements, BreakBlocks1)
 	char options[] = "keep-one-line-statements, break-blocks=all";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineStatements, BreakBlocks2)
@@ -4655,7 +4655,7 @@ TEST(KeepOneLineStatements, BreakBlocks2)
 	char options[] = "keep-one-line-statements, break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineStatements, BreakBlocks3)
@@ -4673,7 +4673,7 @@ TEST(KeepOneLineStatements, BreakBlocks3)
 	char options[] = "keep-one-line-statements, break-blocks, keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineStatements, BreakBlocksMaxCodeLength1)
@@ -4698,7 +4698,7 @@ TEST(KeepOneLineStatements, BreakBlocksMaxCodeLength1)
 	char options[] = "keep-one-line-statements, break-blocks=all, max-code-length=60";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineStatements, BreakBlocksMaxCodeLength2)
@@ -4714,7 +4714,7 @@ TEST(KeepOneLineStatements, BreakBlocksMaxCodeLength2)
 	char options[] = "keep-one-line-statements, break-blocks=all";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineStatements, ElseAtEndOfLine1)
@@ -4742,7 +4742,7 @@ TEST(KeepOneLineStatements, ElseAtEndOfLine1)
 	char options[] = "keep-one-line-statements";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(KeepOneLineStatements, ElseAtEndOfLine2)
@@ -4770,7 +4770,7 @@ TEST(KeepOneLineStatements, ElseAtEndOfLine2)
 	char options[] = "keep-one-line-statements, add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 
@@ -4848,7 +4848,7 @@ TEST(ConvertTabs, LongOption)
 	char options[] = "convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ConvertTabs, ShortOption)
@@ -4889,7 +4889,7 @@ TEST(ConvertTabs, ShortOption)
 	char options[] = "-c";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ConvertTabs, CommentsPreprocessorQuotes)
@@ -4955,7 +4955,7 @@ TEST(ConvertTabs, CommentsPreprocessorQuotes)
 	char options[] = "convert-tabs, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ConvertTabs, Comments1)
@@ -4978,7 +4978,7 @@ TEST(ConvertTabs, Comments1)
 	char options[] = "convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ConvertTabs, Comments2)
@@ -5003,7 +5003,7 @@ TEST(ConvertTabs, Comments2)
 	char options[] = "convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ConvertTabs, Comments3)
@@ -5025,7 +5025,7 @@ TEST(ConvertTabs, Comments3)
 	char options[] = "convert-tabs, --indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ConvertTabs, Misc1)
@@ -5047,7 +5047,7 @@ TEST(ConvertTabs, Misc1)
 	char options[] = "convert-tabs, unpad-paren, pad-paren-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ConvertTabs, Misc2)
@@ -5083,7 +5083,7 @@ TEST(ConvertTabs, ForceTabX1)
 	char options[] = "indent=force-tab-x, convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ConvertTabs, ForceTabX2)
@@ -5108,7 +5108,7 @@ TEST(ConvertTabs, ForceTabX2)
 	char options[] = "indent=force-tab-x, convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(ConvertTabs, PreprocessorIndent)
@@ -5128,7 +5128,7 @@ TEST(ConvertTabs, PreprocessorIndent)
 	char options[] = "indent-preproc-define, convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -5151,7 +5151,7 @@ TEST(CloseTemplates, LongOption)
 	char options[] = "close-templates";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(CloseTemplates, ShortOption)
@@ -5170,7 +5170,7 @@ TEST(CloseTemplates, ShortOption)
 	char options[] = "-xy";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(CloseTemplates, Sans)
@@ -5184,7 +5184,7 @@ TEST(CloseTemplates, Sans)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(CloseTemplates, Padded)
@@ -5205,7 +5205,7 @@ TEST(CloseTemplates, Padded)
 	char options[] = "close-templates";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
@@ -5226,7 +5226,7 @@ TEST(RemoveCommentPrefix, LongOption)
 	char options[] = "remove-comment-prefix";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveCommentPrefix, ShortOption)
@@ -5243,7 +5243,7 @@ TEST(RemoveCommentPrefix, ShortOption)
 	char options[] = "-xp";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveCommentPrefix, SansMultiLine)
@@ -5259,7 +5259,7 @@ TEST(RemoveCommentPrefix, SansMultiLine)
 	char options[] = "remove-comment-prefix";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveCommentPrefix, Format1)
@@ -5294,7 +5294,7 @@ TEST(RemoveCommentPrefix, Format1)
 	char options[] = "remove-comment-prefix";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveCommentPrefix, Format2)
@@ -5318,7 +5318,7 @@ TEST(RemoveCommentPrefix, Format2)
 	char options[] = "remove-comment-prefix";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveCommentPrefix, Format3)
@@ -5342,7 +5342,7 @@ TEST(RemoveCommentPrefix, Format3)
 	char options[] = "remove-comment-prefix";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveCommentPrefix, Format4)
@@ -5367,7 +5367,7 @@ TEST(RemoveCommentPrefix, Format4)
 	char options[] = "remove-comment-prefix";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveCommentPrefix, Format5)
@@ -5389,7 +5389,7 @@ TEST(RemoveCommentPrefix, Format5)
 	char options[] = "remove-comment-prefix";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveCommentPrefix, Format6)
@@ -5415,7 +5415,7 @@ TEST(RemoveCommentPrefix, Format6)
 	char options[] = "remove-comment-prefix";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveCommentPrefix, Format7)
@@ -5439,7 +5439,7 @@ TEST(RemoveCommentPrefix, Format7)
 	char options[] = "remove-comment-prefix, indent=spaces=6";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(RemoveCommentPrefix, CommentedCode1)
@@ -5469,7 +5469,7 @@ TEST(RemoveCommentPrefix, CommentedCode1)
 	char options[] = "remove-comment-prefix";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //----------------------------------------------------------------------------

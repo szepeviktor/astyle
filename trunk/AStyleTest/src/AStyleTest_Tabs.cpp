@@ -35,7 +35,7 @@ TEST(Tabs, DefaultNone)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, Default)
@@ -54,7 +54,7 @@ TEST(Tabs, Default)
 	char options[] = "indent=spaces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, DefaultShort)
@@ -73,7 +73,7 @@ TEST(Tabs, DefaultShort)
 	char options[] = "-s";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, Spaces_8)
@@ -92,7 +92,7 @@ TEST(Tabs, Spaces_8)
 	char options[] = "indent=spaces=8";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, Spaces_Short8)
@@ -111,7 +111,7 @@ TEST(Tabs, Spaces_Short8)
 	char options[] = "s8";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, Spaces_Invalid1)
@@ -127,7 +127,7 @@ TEST(Tabs, Spaces_Invalid1)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_TRUE(textOut != NULL);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, Spaces_Invalid2)
@@ -143,7 +143,7 @@ TEST(Tabs, Spaces_Invalid2)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_TRUE(textOut != NULL);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, Spaces_Invalid3)
@@ -159,7 +159,7 @@ TEST(Tabs, Spaces_Invalid3)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_TRUE(textOut != NULL);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, Spaces_CSharpLambda)
@@ -203,7 +203,7 @@ TEST(Tabs, Spaces_CSharpLambda)
 	char options[] = "indent=spaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, Tab_Default)
@@ -224,7 +224,7 @@ TEST(Tabs, Tab_Default)
 	char options[] = "indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, Tab_DefaultShort)
@@ -245,7 +245,7 @@ TEST(Tabs, Tab_DefaultShort)
 	char options[] = "t";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, Tab_8)
@@ -266,7 +266,7 @@ TEST(Tabs, Tab_8)
 	char options[] = "indent=tab=8";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, Tab_Short8)
@@ -287,7 +287,7 @@ TEST(Tabs, Tab_Short8)
 	char options[] = "t8";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, Tab_Invalid1)
@@ -303,7 +303,7 @@ TEST(Tabs, Tab_Invalid1)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_TRUE(textOut != NULL);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, Tab_Invalid2)
@@ -319,7 +319,7 @@ TEST(Tabs, Tab_Invalid2)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_TRUE(textOut != NULL);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, Tab_Invalid3)
@@ -335,7 +335,7 @@ TEST(Tabs, Tab_Invalid3)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_TRUE(textOut != NULL);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, Tab_CSharpLambda)
@@ -379,7 +379,7 @@ TEST(Tabs, Tab_CSharpLambda)
 	char options[] = "indent=tab, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTab_Default)
@@ -400,7 +400,7 @@ TEST(Tabs, ForceTab_Default)
 	char options[] = "indent=force-tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTab_DefaultShort)
@@ -421,7 +421,7 @@ TEST(Tabs, ForceTab_DefaultShort)
 	char options[] = "-T";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTab_8)
@@ -442,7 +442,7 @@ TEST(Tabs, ForceTab_8)
 	char options[] = "indent=force-tab=8";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTab_Short8)
@@ -463,7 +463,7 @@ TEST(Tabs, ForceTab_Short8)
 	char options[] = "T8";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTab_Invalid1)
@@ -479,7 +479,7 @@ TEST(Tabs, ForceTab_Invalid1)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_TRUE(textOut != NULL);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTab_Invalid2)
@@ -495,7 +495,7 @@ TEST(Tabs, ForceTab_Invalid2)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_TRUE(textOut != NULL);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTab_Invalid3)
@@ -511,7 +511,7 @@ TEST(Tabs, ForceTab_Invalid3)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_TRUE(textOut != NULL);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTab_CSharpLambda)
@@ -555,7 +555,7 @@ TEST(Tabs, ForceTab_CSharpLambda)
 	char options[] = "indent=force-tab, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTabX_Default)
@@ -577,7 +577,7 @@ TEST(Tabs, ForceTabX_Default)
 	char options[] = "indent=force-tab-x";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTabX_DefaultShort)
@@ -599,7 +599,7 @@ TEST(Tabs, ForceTabX_DefaultShort)
 	char options[] = "-xT";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTabX_6)
@@ -620,7 +620,7 @@ TEST(Tabs, ForceTabX_6)
 	char options[] = "indent=force-tab-x=6, indent=force-tab=3";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTabX_Short6)
@@ -641,7 +641,7 @@ TEST(Tabs, ForceTabX_Short6)
 	char options[] = "xT6, T3";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTabX_Indent1)
@@ -663,7 +663,7 @@ TEST(Tabs, ForceTabX_Indent1)
 	char options[] = "indent=force-tab-x=4, indent=force-tab=8";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTabX_Indent2)
@@ -686,7 +686,7 @@ TEST(Tabs, ForceTabX_Indent2)
 	char options[] = ", indent=force-tab=8, indent=force-tab-x=4";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTabX_Indent3)
@@ -707,7 +707,7 @@ TEST(Tabs, ForceTabX_Indent3)
 	char options[] = "indent=force-tab-x=6, indent=force-tab=4";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTabX_Indent4)
@@ -728,7 +728,7 @@ TEST(Tabs, ForceTabX_Indent4)
 	char options[] = "indent=force-tab-x=4, indent=force-tab=6";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTabX_Horstmann1)
@@ -746,7 +746,7 @@ TEST(Tabs, ForceTabX_Horstmann1)
 	char options[] = "indent=force-tab-x, style=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTabX_Horstmann2)
@@ -765,7 +765,7 @@ TEST(Tabs, ForceTabX_Horstmann2)
 	char options[] = "indent-switches, indent=force-tab-x, style=horstmann";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTabX_Horstmann3)
@@ -785,7 +785,7 @@ TEST(Tabs, ForceTabX_Horstmann3)
 	char options[] = "style=horstmann, indent=force-tab-x=4, indent=force-tab=8";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(Tabs, ForceTabX_Horstmann4)
@@ -804,7 +804,7 @@ TEST(Tabs, ForceTabX_Horstmann4)
 	char options[] = "style=horstmann, indent=force-tab-x=6, indent=force-tab=4";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-----------------------------------------------------------------------------
@@ -830,7 +830,7 @@ TEST(AttachExternC, LongOption)
 	char options[] = "attach-extern-c";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachExternC, ShortOption)
@@ -852,7 +852,7 @@ TEST(AttachExternC, ShortOption)
 	char options[] = "-xk";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachExternC, BreakBrackets)
@@ -875,7 +875,7 @@ TEST(AttachExternC, BreakBrackets)
 	char options[] = "attach-extern-c, style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachExternC, AttachBrackets)
@@ -898,7 +898,7 @@ TEST(AttachExternC, AttachBrackets)
 	char options[] = "attach-extern-c, style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachExternC, LinuxBrackets)
@@ -922,7 +922,7 @@ TEST(AttachExternC, LinuxBrackets)
 	char options[] = "attach-extern-c, style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachExternC, StroustrupBrackets)
@@ -946,7 +946,7 @@ TEST(AttachExternC, StroustrupBrackets)
 	char options[] = "attach-extern-c, style=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachExternC, RunInBrackets)
@@ -969,7 +969,7 @@ TEST(AttachExternC, RunInBrackets)
 	char options[] = "attach-extern-c, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachExternC, CPlusPlus)
@@ -995,7 +995,7 @@ TEST(AttachExternC, CPlusPlus)
 	char options[] = "attach-extern-c";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-----------------------------------------------------------------------------
@@ -1017,7 +1017,7 @@ TEST(AttachNamespaces, LongOption)
 	char options[] = "attach-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachNamespaces, ShortOption)
@@ -1035,7 +1035,7 @@ TEST(AttachNamespaces, ShortOption)
 	char options[] = "-xn";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachNamespaces, BreakBrackets)
@@ -1053,7 +1053,7 @@ TEST(AttachNamespaces, BreakBrackets)
 	char options[] = "attach-namespaces, style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachNamespaces, AttachBrackets)
@@ -1071,7 +1071,7 @@ TEST(AttachNamespaces, AttachBrackets)
 	char options[] = "attach-namespaces, style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachNamespaces, LinuxBrackets)
@@ -1089,7 +1089,7 @@ TEST(AttachNamespaces, LinuxBrackets)
 	char options[] = "attach-namespaces, style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachNamespaces, StroustrupBrackets)
@@ -1107,7 +1107,7 @@ TEST(AttachNamespaces, StroustrupBrackets)
 	char options[] = "attach-namespaces, style=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachNamespaces, RunInBrackets)
@@ -1125,7 +1125,7 @@ TEST(AttachNamespaces, RunInBrackets)
 	char options[] = "attach-namespaces, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachNamespaces, NestedNamespace)
@@ -1151,7 +1151,7 @@ TEST(AttachNamespaces, NestedNamespace)
 	char options[] = "attach-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachNamespaces, SharpNamespace)
@@ -1167,7 +1167,7 @@ TEST(AttachNamespaces, SharpNamespace)
 	char options[] = "attach-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-----------------------------------------------------------------------------
@@ -1187,7 +1187,7 @@ TEST(AttachClasses, LongOption)
 	char options[] = "attach-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachClasses, ShortOption)
@@ -1203,7 +1203,7 @@ TEST(AttachClasses, ShortOption)
 	char options[] = "-xc";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachClasses, BreakBrackets)
@@ -1219,7 +1219,7 @@ TEST(AttachClasses, BreakBrackets)
 	char options[] = "attach-classes, style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachClasses, AttachBrackets)
@@ -1235,7 +1235,7 @@ TEST(AttachClasses, AttachBrackets)
 	char options[] = "attach-classes, style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachClasses, LinuxBrackets)
@@ -1251,7 +1251,7 @@ TEST(AttachClasses, LinuxBrackets)
 	char options[] = "attach-classes, style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachClasses, StroustrupBrackets)
@@ -1267,7 +1267,7 @@ TEST(AttachClasses, StroustrupBrackets)
 	char options[] = "attach-classes, style=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachClasses, RunInBrackets)
@@ -1283,7 +1283,7 @@ TEST(AttachClasses, RunInBrackets)
 	char options[] = "attach-classes, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachClasses, NestedClasses)
@@ -1309,7 +1309,7 @@ TEST(AttachClasses, NestedClasses)
 	char options[] = "attach-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachClasses, AttachNamespaces)
@@ -1330,7 +1330,7 @@ TEST(AttachClasses, AttachNamespaces)
 	char options[] = "attach-classes, attach-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachClasses, JavaClass)
@@ -1346,7 +1346,7 @@ TEST(AttachClasses, JavaClass)
 	char options[] = "attach-classes, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachClasses, SharpClass)
@@ -1362,7 +1362,7 @@ TEST(AttachClasses, SharpClass)
 	char options[] = "attach-classes, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachClasses, SharpInterface)
@@ -1378,7 +1378,7 @@ TEST(AttachClasses, SharpInterface)
 	char options[] = "attach-classes, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //-----------------------------------------------------------------------------
@@ -1420,7 +1420,7 @@ TEST(AttachInlines, LongOption)
 	char options[] = "attach-inlines";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachInlines, ShortOption)
@@ -1458,7 +1458,7 @@ TEST(AttachInlines, ShortOption)
 	char options[] = "-xl";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachInlines, BreakBrackets)
@@ -1496,7 +1496,7 @@ TEST(AttachInlines, BreakBrackets)
 	char options[] = "attach-inlines, style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachInlines, AttachBrackets)
@@ -1533,7 +1533,7 @@ TEST(AttachInlines, AttachBrackets)
 	char options[] = "attach-inlines, style=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachInlines, LinuxBrackets)
@@ -1571,7 +1571,7 @@ TEST(AttachInlines, LinuxBrackets)
 	char options[] = "attach-inlines, style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachInlines, StroustrupBrackets)
@@ -1608,7 +1608,7 @@ TEST(AttachInlines, StroustrupBrackets)
 	char options[] = "attach-inlines, style=stroustrup";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachInlines, RunInBrackets)
@@ -1646,7 +1646,7 @@ TEST(AttachInlines, RunInBrackets)
 	char options[] = "attach-inlines, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachInlines, StructInClass)
@@ -1679,7 +1679,7 @@ TEST(AttachInlines, StructInClass)
 	char options[] = "attach-inlines";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachInlines, JavaClass)
@@ -1705,7 +1705,7 @@ TEST(AttachInlines, JavaClass)
 	char options[] = "attach-inlines, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 TEST(AttachInlines, SharpClass)
@@ -1731,7 +1731,7 @@ TEST(AttachInlines, SharpClass)
 	char options[] = "attach-inlines, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
+	delete[] textOut;
 }
 
 //----------------------------------------------------------------------------

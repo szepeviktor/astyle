@@ -66,7 +66,7 @@ string wideCharToUtf8Str(wchar_t* wcIn)
 	char* mbOut = new char[mbLen];
 	WideCharToMultiByte(CP_UTF8, 0, wcIn, -1, mbOut, mbLen, NULL, 0);
 	string mbStr(mbOut);
-	delete []mbOut;
+	delete[]mbOut;
 	return mbStr;
 }
 #else
@@ -110,7 +110,7 @@ string wideCharToUtf8Str(wchar_t* wcIn)
 	*mbConv = '\0';
 	iconv_close(iconvh);
 	string mbStr(mbOut);
-	delete []mbOut;
+	delete[]mbOut;
 	return mbStr;
 }
 
@@ -166,7 +166,7 @@ string utf16LEToUtf8Str(utf16_t* wcIn)
 	*mbConv = '\0';
 	iconv_close(iconvh);
 	string mbStr(mbOut);
-	delete []mbOut;
+	delete[]mbOut;
 	return mbStr;
 }
 
@@ -237,7 +237,7 @@ struct Utf8_16_Class : public Test
 
 	~Utf8_16_Class()
 	{
-		delete []text16Bit;
+		delete[]text16Bit;
 	}
 };
 
@@ -269,7 +269,7 @@ struct Utf8_16_Class : public Test
 	string text8OutStr = utf16LEToUtf8Str(reinterpret_cast<utf16_t*>(utf16Out));
 #endif
 	EXPECT_STREQ(text8Bit, text8OutStr.c_str());
-	delete []utf16Out;
+	delete[]utf16Out;
 }
 
 // MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
@@ -303,7 +303,7 @@ struct Utf8_16_Class : public Test
 	string text8OutStr = utf16LEToUtf8Str(reinterpret_cast<utf16_t*>(utf16Out));
 #endif
 	EXPECT_STREQ(text8Bit, text8OutStr.c_str());
-	delete []utf16Out;
+	delete[]utf16Out;
 }
 
 // MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
@@ -328,7 +328,7 @@ struct Utf8_16_Class : public Test
 	EXPECT_EQ(text8Len + 1, utf8ConvertedSize);
 	// test Astyle utf16ToUtf8() function text conversion
 	EXPECT_STREQ(utf8Out, text8Bit);
-	delete []utf8Out;
+	delete[]utf8Out;
 }
 
 // MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
@@ -354,7 +354,7 @@ struct Utf8_16_Class : public Test
 	EXPECT_EQ(text8Len + 1, utf8ConvertedSize);
 	// test Astyle utf16ToUtf8() function text conversion
 	EXPECT_TRUE(strncmp(utf8Out, text8Bit, text8Len) == 0);
-	delete []utf8Out;
+	delete[]utf8Out;
 }
 
 //----------------------------------------------------------------------------
@@ -427,7 +427,7 @@ struct ProcessUtf16F : public Test
 
 	~ProcessUtf16F()
 	{
-		delete []text16Bit;
+		delete[]text16Bit;
 		deleteConsoleGlobalObject();
 	}
 };
