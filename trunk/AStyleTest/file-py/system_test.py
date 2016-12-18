@@ -1,6 +1,8 @@
 #! /usr/bin/python
 """ Run the AStyle system test.
-    Tests every possible combination of bracket changes.
+    Tests bracket changes and that changes are
+    completed in one pass.
+    The application should be compiled after the test.
     Change the global variables to the desired values.
     -------------------------------------------------------
     Runs each bracket type twice to verify there are no changes.
@@ -41,7 +43,7 @@ __project = libastyle.CODEBLOCKS
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a bracket style or any other option
 #__options = "-tapO"
-__options = libastyle.OPT0
+__options = libastyle.OPT3
 __options_x = ""
 
 # executable for test
@@ -343,16 +345,17 @@ def remove_test_directories(index):
     # remove subdirectory
     end = testdir.find(os.sep)
     testdir = testdir[:end]
-    # remove top directory
+    # remove top directory - this is a problem with Windows only
     if os.path.exists(testdir):
-        try:
-            shutil.rmtree(testdir)
-        except WindowsError as err:
-            print()
-            print(err)
-            message = ("The directory '{0}' must be removed "
-                       "before continuing".format(testdir))
-            libastyle.system_exit(message)
+        imax = 5
+        for i in range(0, imax):
+            shutil.rmtree(testdir, True)
+            if not os.path.isdir(testdir):
+                break
+            if i == imax - 1:
+                print()
+                libastyle.system_exit("Directory not removed: " + testdir)
+            time.sleep(2)
 
 # -----------------------------------------------------------------------------
 
@@ -405,6 +408,7 @@ def rename_output_file(filepaths):
 def set_astyle_args(filepath, excludes, index):
     """Set args for calling artistic style.
     """
+    global __options_x
     # set astyle executable
     args = [libastyle.get_astyleexe_path(get_astyle_config())]
     # set filepaths
@@ -415,9 +419,11 @@ def set_astyle_args(filepath, excludes, index):
     modified_options = get_modified_options(index)
     if len(modified_options) > 0:
         args.append(modified_options)
-    if len(__options_x.strip()) > 0:
-        if __options_x[0] != '-':
-            libastyle.system_exit("options_x must begin with a '-'")
+    # options_x
+    if len(__options_x) > 0:
+        __options_x = __options_x.strip()
+    if len(__options_x) > 0 and __options_x[0] != '-':
+        __options_x = '-' + __options_x
         args.append(__options_x)
     bracket_option = get_bracket_option(index)
     if bracket_option != '':

@@ -420,26 +420,15 @@ TEST(BracketsNoneCpp, Misc1)
 TEST(BracketsNoneCpp, Misc2)
 {
 	// test default brackets option with the following unusual format
-	char textIn[] =
+	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
 	    "    if (bar1()) {/* dummy */}\n"
 	    "\n"
 	    "    if (bar1()) {;/* dummy */}\n"
 	    "}\n";
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (bar1()) {\n"
-	    "        /* dummy */\n"
-	    "    }\n"
-	    "\n"
-	    "    if (bar1()) {\n"
-	    "        ;/* dummy */\n"
-	    "    }\n"
-	    "}\n";
 	char options[] = "";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -1538,28 +1527,15 @@ TEST(BracketsBreakCpp, Misc1)
 TEST(BracketsBreakCpp, Misc2)
 {
 	// test break brackets option with the following unusual format
-	char textIn[] =
+	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
 	    "    if (bar1()) {/* dummy */}\n"
 	    "\n"
 	    "    if (bar1()) {;/* dummy */}\n"
 	    "}\n";
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (bar1())\n"
-	    "    {\n"
-	    "        /* dummy */\n"
-	    "    }\n"
-	    "\n"
-	    "    if (bar1())\n"
-	    "    {\n"
-	    "        ;/* dummy */\n"
-	    "    }\n"
-	    "}\n";
 	char options[] = "style=allman";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -2317,7 +2293,7 @@ TEST_F(BracketsAttachCppF, BreakClosing)
 TEST(BracketsAttachCpp, EmptyBrackets)
 {
 	// test attach brackets option
-	char textIn[] =
+	char text[] =
 	    "\nclass FooClass {\n"
 	    "public:\n"
 	    "    FooClass() : ed(ed) {}\n"
@@ -2332,23 +2308,8 @@ TEST(BracketsAttachCpp, EmptyBrackets)
 	    "}\n"
 	    "FooClass() : ed(ed)\n"
 	    "{}\n";
-	char text[] =
-	    "\nclass FooClass {\n"
-	    "public:\n"
-	    "    FooClass() : ed(ed) {}\n"
-	    "    FooClass() : ed(ed) {\n"
-	    "    }\n"
-	    "    FooClass() : ed(ed) {\n"
-	    "    }\n"
-	    "};\n"
-	    "\n"
-	    "FooClass() : ed(ed) {}\n"
-	    "FooClass() : ed(ed) {\n"
-	    "}\n"
-	    "FooClass() : ed(ed) {\n"
-	    "}\n";
 	char options[] = "style=java";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -2356,7 +2317,7 @@ TEST(BracketsAttachCpp, EmptyBrackets)
 TEST(BracketsAttachCpp, EmptyBracketsWithComments)
 {
 	// test attach brackets option with ending comments
-	char textIn[] =
+	char text[] =
 	    "\nclass FooClass {\n"
 	    "public:\n"
 	    "    FooClass() : ed(ed) {} // comment\n"
@@ -2371,23 +2332,8 @@ TEST(BracketsAttachCpp, EmptyBracketsWithComments)
 	    "}\n"
 	    "FooClass() : ed(ed) // comment\n"
 	    "{}\n";
-	char text[] =
-	    "\nclass FooClass {\n"
-	    "public:\n"
-	    "    FooClass() : ed(ed) {} // comment\n"
-	    "    FooClass() : ed(ed) { // comment\n"
-	    "    }\n"
-	    "    FooClass() : ed(ed) { // comment\n"
-	    "    }\n"
-	    "};\n"
-	    "\n"
-	    "FooClass() : ed(ed) {} // comment\n"
-	    "FooClass() : ed(ed) { // comment\n"
-	    "}\n"
-	    "FooClass() : ed(ed) { // comment\n"
-	    "}\n";
 	char options[] = "style=java";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -2617,25 +2563,14 @@ TEST(BracketsAttachCpp, Misc1)
 TEST(BracketsAttachCpp, Misc2)
 {
 	// test attach brackets option with the following unusual format
-	char textIn[] =
-	    "\nvoid foo()\n"
-	    "{\n"
+	char text[] =
+	    "\nvoid foo() {\n"
 	    "    if (bar1()) {/* dummy */}\n"
 	    "\n"
 	    "    if (bar1()) {;/* dummy */}\n"
 	    "}\n";
-	char text[] =
-	    "\nvoid foo() {\n"
-	    "    if (bar1()) {\n"
-	    "        /* dummy */\n"
-	    "    }\n"
-	    "\n"
-	    "    if (bar1()) {\n"
-	    "        ;/* dummy */\n"
-	    "    }\n"
-	    "}\n";
 	char options[] = "style=java";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -3875,26 +3810,15 @@ TEST(BracketsLinuxCpp, Misc1)
 TEST(BracketsLinuxCpp, Misc2)
 {
 	// test linux brackets option with the following unusual format
-	char textIn[] =
+	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
 	    "    if (bar1()) {/* dummy */}\n"
 	    "\n"
 	    "    if (bar1()) {;/* dummy */}\n"
 	    "}\n";
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (bar1()) {\n"
-	    "        /* dummy */\n"
-	    "    }\n"
-	    "\n"
-	    "    if (bar1()) {\n"
-	    "        ;/* dummy */\n"
-	    "    }\n"
-	    "}\n";
 	char options[] = "style=kr";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -5260,26 +5184,15 @@ TEST(BracketsStroustrupCpp, Misc1)
 TEST(BracketsStroustrupCpp, Misc2)
 {
 	// test stroustrup brackets option with the following unusual format
-	char textIn[] =
+	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
 	    "    if (bar1()) {/* dummy */}\n"
 	    "\n"
 	    "    if (bar1()) {;/* dummy */}\n"
 	    "}\n";
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (bar1()) {\n"
-	    "        /* dummy */\n"
-	    "    }\n"
-	    "\n"
-	    "    if (bar1()) {\n"
-	    "        ;/* dummy */\n"
-	    "    }\n"
-	    "}\n";
 	char options[] = "style=stroustrup";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }

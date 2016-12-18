@@ -19,6 +19,100 @@ namespace {
 // AStyle version 2.06 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V206, CommaFirstInArguments)
+{
+	// Test commas first in argument list.
+	char text[] =
+	    "\n"
+	    "static void setDBInfo(const std::string& dbname\n"
+	    "                      , const std::string& username = \"\"\n"
+	    "                      , const std::string host = \"localhost\"\n"
+	    "                      , const unsigned int port = 3306);";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V206, TemplateClearVariable)
+{
+	// Variable isInTemplate should be cleared at end of a statement.
+	// Second '=' continuation will NOT be indented if it is not reset.
+	char text[] =
+	    "\n"
+	    "const double sound_speed\n"
+	    "    = EulerEquations<dim>::template compute_sound_speed (W[q]);\n"
+	    "const double velocity\n"
+	    "    = EulerEquations<dim>::template compute_velocity_magnitude (W[q]);\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V206, AttachBracketInsideCommentAbort)
+{
+	// When formatting attached brackets to the first line the program aborts.
+	// This text CANNOT START WITH A BLANK LINE.
+	char text[] =
+	    "// comment\n"
+	    "{\n"
+	    "    int x = 10;\n"
+	    "}";
+	char options[] = "style=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V206, BlockFormatAtStartOfFileAttached)
+{
+	// Format a block without a method name at the start of file.
+	// Should not insert a beginning blank line.
+	// This text CANNOT START WITH A BLANK LINE.
+	char text[] =
+	    "{\n"
+	    "    int x = 10;\n"
+	    "}";
+	char options[] = "style=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V206, BlockFormatAtStartOfFileBroken)
+{
+	// Format a block without a method name at the start of file.
+	// Should not insert a beginning blank line.
+	// This text CANNOT START WITH A BLANK LINE.
+	char text[] =
+	    "{\n"
+	    "    int x = 10;\n"
+	    "}";
+	char options[] = "style=allman";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V206, BlockFormatAtStartOfFileRunIn)
+{
+	// Format a block without a method name at the start of file.
+	// Should not insert a beginning blank line.
+	// This text CANNOT START WITH A BLANK LINE.
+	char textIn[] =
+	    "{\n"
+	    "    int x = 10;\n"
+	    "}";
+	char text[] =
+	    "{   int x = 10;\n"
+	    "}";
+	char options[] = "style=horstmann";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V206, QuoteEscapedSpace)
 {
 	// Recogninion of an escaped space within a quote.

@@ -2584,6 +2584,24 @@ TEST(Enum, Class1)
 TEST(Enum, Class2)
 {
 	// test indent of enum in a class
+	// enum has a colon (:) and no brackets
+	char text[] =
+	    "\n"
+	    "class TestClass : public ParentClass {\n"
+	    "protected:\n"
+	    "    enum Registers : uint16_t;\n"
+	    "public:\n"
+	    "    void testFunction();\n"
+	    "}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(Enum, Class3)
+{
+	// test indent of enum in a class
 	// with in-statement indent
 	char text[] =
 	    "\nclass fooClass\n"
@@ -2810,7 +2828,7 @@ TEST(Enum, LeadingComma2)
 	delete[] textOut;
 }
 
-TEST(BugFix_V206, EnumReturnType)
+TEST(Enum, EnumReturnType)
 {
 	// an enum return type is NOT an enumeration
 	// the pointer dereference should not change

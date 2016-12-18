@@ -651,7 +651,7 @@ TEST_F(BracketsAttachJavaF, BreakClosing)
 TEST(BracketsAttachJava, EmptyBrackets)
 {
 	// test attach brackets option
-	char textIn[] =
+	char text[] =
 	    "\npublic class FooClass {\n"
 	    "    public FooClass() {}\n"
 	    "    public FooClass() {\n"
@@ -659,16 +659,8 @@ TEST(BracketsAttachJava, EmptyBrackets)
 	    "    public FooClass()\n"
 	    "    {}\n"
 	    "}\n";
-	char text[] =
-	    "\npublic class FooClass {\n"
-	    "    public FooClass() {}\n"
-	    "    public FooClass() {\n"
-	    "    }\n"
-	    "    public FooClass() {\n"
-	    "    }\n"
-	    "}\n";
 	char options[] = "style=java, mode=java";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -676,7 +668,7 @@ TEST(BracketsAttachJava, EmptyBrackets)
 TEST(BracketsAttachJava, EmptyBracketsWithComments)
 {
 	// test attach brackets option with ending comments
-	char textIn[] =
+	char text[] =
 	    "\npublic class FooClass { // comment\n"
 	    "    public FooClass() {} // comment\n"
 	    "    public FooClass() { // comment\n"
@@ -684,16 +676,8 @@ TEST(BracketsAttachJava, EmptyBracketsWithComments)
 	    "    public FooClass() // comment\n"
 	    "    {}\n"
 	    "}\n";
-	char text[] =
-	    "\npublic class FooClass { // comment\n"
-	    "    public FooClass() {} // comment\n"
-	    "    public FooClass() { // comment\n"
-	    "    }\n"
-	    "    public FooClass() { // comment\n"
-	    "    }\n"
-	    "}\n";
 	char options[] = "style=java, mode=java";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -1838,8 +1822,10 @@ TEST(BracketsArrayJava, None_BracketInParens)
 	// Array brackets should not pad the '( {"unchecked"})'.
 	char text[] =
 	    "\npublic void Foo()\n"
-	    "{   try\n"
-	    "    {   @SuppressWarnings({\"unchecked\"})\n"
+	    "{\n"
+	    "    try\n"
+	    "    {\n"
+	    "        @SuppressWarnings({\"unchecked\"})\n"
 	    "        t(transferable);\n"
 	    "    }\n"
 	    "}";

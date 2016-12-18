@@ -2143,6 +2143,109 @@ TEST(IndentNamespaces, RunIn)
 	delete [] textOut;
 }
 
+TEST(IndentNamespaces, CorbaIDLModule)
+{
+	// CORBA IDL module acts the same as namespaces
+	// test for CORBA IDL module
+	char text[] =
+	    "\n"
+	    "module OS {\n"
+	    "    module services {\n"
+	    "        interface Server {\n"
+	    "            readonly attribute string serverName;\n"
+	    "            boolean init(in string sName);\n"
+	    "        };\n"
+	    "        interface Printable {\n"
+	    "            boolean print(in string header);\n"
+	    "        };\n"
+	    "    };\n"
+	    "};";
+	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentNamespaces, CorbaIDLModuleSans)
+{
+	// CORBA IDL module acts the same as namespaces
+	// test for CORBA IDL module without indnet
+	char text[] =
+	    "\n"
+	    "module OS {\n"
+	    "module services {\n"
+	    "interface Server {\n"
+	    "    readonly attribute string serverName;\n"
+	    "    boolean init(in string sName);\n"
+	    "};\n"
+	    "interface Printable {\n"
+	    "    boolean print(in string header);\n"
+	    "};\n"
+	    "};\n"
+	    "};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentNamespaces, CorbaIDLModuleRunIn)
+{
+	// CORBA IDL module acts the same as namespaces
+	// run-in brackets should NOT run-in to modules
+	char text[] =
+	    "\nmodule FooName1\n"
+	    "{\n"
+	    "    bool foo;\n"
+	    "}\n"
+	    "\n"
+	    "\nmodule FooName2\n"
+	    "{\n"
+	    "    // comment1\n"
+	    "}\n"
+	    "\n"
+	    "\nmodule FooName3\n"
+	    "{\n"
+	    "    /* comment2 */\n"
+	    "}\n";
+	char options[] = "indent-namespaces, style=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentNamespaces, CorbaIDLModuleCppMethod)
+{
+	// CORBA IDL module acts the same as namespaces
+	// should not recognize C++ module name
+	char text[] =
+	    "\n"
+	    "void module()\n"
+	    "{\n"
+	    "    int bar = 1;\n"
+	    "}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(IndentNamespaces, CorbaIDLModuleObjCMethod)
+{
+	// CORBA IDL module acts the same as namespaces
+	// should not recognize ObjC module name
+	char text[] =
+	    "\n"
+	    "-(void)module\n"
+	    "{\n"
+	    "    int bar = 1;\n"
+	    "}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Indent Continuation
 //-------------------------------------------------------------------------

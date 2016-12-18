@@ -2006,6 +2006,29 @@ TEST(MaxCodeLength, PadParen6)
 	delete [] textOut;
 }
 
+TEST(MaxCodeLength, Exponential)
+{
+	// Test max code length with an exponential.
+	// Should break an exponential.
+	char textIn[] =
+	    "\n"
+	    "int main()\n"
+	    "{\n"
+	    "    double myownverylongvariablenamejusttobreak = 1e-5; //and some random comment behind it\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "int main()\n"
+	    "{\n"
+	    "    double myownverylongvariablenamejusttobreak =\n"
+	    "        1e-5; //and some random comment behind it\n"
+	    "}";
+	char options[] = "max-code-length=80";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(MaxCodeLength, PadParen7)
 {
 	// Test max code length with pad-paren.
@@ -2125,9 +2148,8 @@ TEST(MaxCodeLength, AttachBracket5)
 	    "{\n"
 	    "}\n"
 	    "\n"
-	    "void B_driver::CorrectCygwinPath(wxString& path) {\n"
-	    "    /* dummy */\n"
-	    "}";
+	    "void B_driver::CorrectCygwinPath(wxString&\n"
+	    "                                 path) {/* dummy */}";
 	char options[] = "max-code-length=50";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);

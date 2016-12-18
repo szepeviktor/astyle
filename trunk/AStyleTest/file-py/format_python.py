@@ -1,4 +1,4 @@
-﻿#! /usr/bin/python
+#! /usr/bin/python
 """ Format a python file using pylint.
     Run from an option in the "Tools" menu of a development environment.
     For Visual Studio:

@@ -183,7 +183,7 @@ def get_header_variables(header_variables, header_path):
         if line.startswith("static "):
             continue
         # bypass vectors and strings
-        if "switchVariables" in line:
+        if "SwitchVariables" in line:
             continue
         # get the variable name
         semi_colon = line.find(';')

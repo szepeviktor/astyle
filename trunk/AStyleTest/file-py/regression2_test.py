@@ -1,4 +1,4 @@
-﻿#! /usr/bin/python
+#! /usr/bin/python
 """ Run the AStyle regression test.
     Tests the output of a new program against an older one.
     Change the global variables to the desired values.
@@ -46,7 +46,7 @@ __options_x2 = ""
 #__options = "-tapOHUk3"
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle26f"
+__astyleexe1 = "astyle26n"
 __astyleexe2 = "astyled"
 
 # select one of the following to format files in the OLD directory
@@ -323,7 +323,7 @@ def set_astyle_args(filepath, excludes, astyleexe):
     for file_in in filepath:
         args.append(file_in)
     # set options
-    args.append("-vRQn")
+    args.append("-vRQ")
     if len(__options.strip()) > 0:
         args.append(__options)
     if len(__options_x.strip()) > 0:

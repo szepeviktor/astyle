@@ -399,7 +399,11 @@ string TersePrinter::ReplaceSummaryString(const string& summary_) const
 				summary.replace(si, 2, 1, '\t');
 				++si;
 			}
-			// check for continuationline \\\ 
+			else if (summary[si + 1] == '"')
+			{
+				summary.replace(si, 2, 1, '"');
+				++si;
+			}
 			else if (summary[si + 1] == '\\')
 			{
 				summary.replace(si, 2, 1, '\\');

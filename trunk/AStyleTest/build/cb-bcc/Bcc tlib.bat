@@ -20,4 +20,4 @@ echo Linking gmock.lib
 %binpath%\tlib64.exe /C /P64 bin\gmock.lib /a "obj\Release\googlemock\src\gmock-all.obj" "obj\Release\googletest\src\gtest-all.obj"
 
 echo.
-pause
+::pause

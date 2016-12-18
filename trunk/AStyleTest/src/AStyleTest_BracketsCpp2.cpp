@@ -608,13 +608,9 @@ TEST(BracketsRunInCpp, Misc2)
 	    "}\n";
 	char text[] =
 	    "\nvoid foo()\n"
-	    "{   if (bar1())\n"
-	    "    {   /* dummy */\n"
-	    "    }\n"
+	    "{   if (bar1()) {/* dummy */}\n"
 	    "\n"
-	    "    if (bar1())\n"
-	    "    {   ;/* dummy */\n"
-	    "    }\n"
+	    "    if (bar1()) {;/* dummy */}\n"
 	    "}\n";
 	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
