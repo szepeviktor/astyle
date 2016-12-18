@@ -1,4 +1,4 @@
-﻿#! /usr/bin/python
+#! /usr/bin/python
 """ Create the Windows XP distribution files for Artistic Style.
     Windows distribution only. No Linux.
 """

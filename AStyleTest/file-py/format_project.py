@@ -1,4 +1,4 @@
-﻿#! /usr/bin/python
+#! /usr/bin/python
 """ Format a project using AStyle.
     Run from an option in the "Tools" menu of a development environment.
     For Visual Studio:
@@ -70,16 +70,16 @@ def main():
 
 def call_astyle_executable(subdir):
     """ Call the astyle executable to format the project.
-        Uses the file astyle-options.ini for formatting options.
+        Uses the file astyle.ini for formatting options.
     """
     if os.name == "nt":
         exepath = "C:/Program Files/AStyle/AStyle.exe"
         projdir = os.getenv("USERPROFILE") + "/Projects/"
-        options = "--options=" + projdir + "/AStyleTest/file-py/astyle-options.ini"
+        options = "--options=" + projdir + "/AStyle/file/astyle.ini"
     else:
         exepath = os.getenv("HOME") + "/bin/astyle"
         projdir = os.getenv("HOME") + "/Projects/"
-        options = "--options=" + projdir + "/AStyleTest/file-py/astyle-options.ini"
+        options = "--options=" + projdir + "/AStyle/file/astyle.ini"
 
     # build the astyle_call list
     # add --formatted (Q) to the options

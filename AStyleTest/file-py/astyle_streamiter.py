@@ -138,8 +138,8 @@ def get_header_variables(header_variables, header_path):
     """Read the header file and save the ASStreamIterator variables."""
 
     header_lines = [0, 0]		# line numbers for header
-    header_total = 0				# total variables for header
-    lines = 0						# current input line number
+    header_total = 0			# total variables for header
+    lines = 0					# current input line number
     file_in = open(header_path, 'r')
 
     for line_in in file_in:
@@ -179,6 +179,8 @@ def get_header_variables(header_variables, header_path):
         if "buffer" in line:
             continue
         if "prevBuffer" in line:
+            continue
+        if "outputEOL" in line:
             continue
         # get the variable name
         semi_colon = line.find(';')

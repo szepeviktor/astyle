@@ -594,7 +594,7 @@ TEST(BreakElseIfs, Sans2)
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
+	delete [] textOut;
 }
 
 TEST(BreakElseIfs, KeepOneLineBlocks)
@@ -1010,768 +1010,955 @@ TEST(BreakElseIfs, WithMaxCodeLength)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Keep One Line Statements
+// AStyle Break One Line Headers
 //-------------------------------------------------------------------------
 
-TEST(KeepOneLineStatements, LongOption)
+TEST(BreakOneLineHeaders, LongOption)
 {
-	// test keep one line statements
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (isFoo)\n"
-	    "    {\n"
-	    "        isFoo=false; isBar=true;\n"
-	    "    }\n"
-	    "}\n";
-	char options[] = "keep-one-line-statements";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineStatements, ShortOption)
-{
-	// // test keep one line statements short option
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (isFoo)\n"
-	    "    {\n"
-	    "        isFoo=false; isBar=true;\n"
-	    "    }\n"
-	    "}\n";
-	char options[] = "-o";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineStatements, WithHeader)
-{
-	// test keep one line statements with a header in one of the statements
-	char text[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    SendEvent(0, m_editItem, &te); if (!te.IsAllowed()) return;\n"
-	    "    CalculatePositions();\n"
-	    "}";
-	char options[] = "keep-one-line-statements";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineStatements, SansWithHeader1)
-{
-	// test without keep-one-line statements
-	// one-line statements with a header in one of the statements
-	// should break the statements
+	// test break one line headers long option
 	char textIn[] =
-	    "\nvoid Foo()\n"
+	    "\n"
+	    "void Foo()\n"
 	    "{\n"
-	    "    SendEvent(0, m_editItem, &te); if (!te.IsAllowed()) return;\n"
-	    "    CalculatePositions();\n"
+	    "    if (isFoo) bar = 1;\n"
 	    "}";
 	char text[] =
-	    "\nvoid Foo()\n"
+	    "\n"
+	    "void Foo()\n"
 	    "{\n"
-	    "    SendEvent(0, m_editItem, &te);\n"
-	    "    if (!te.IsAllowed()) return;\n"
-	    "    CalculatePositions();\n"
+	    "    if (isFoo)\n"
+	    "        bar = 1;\n"
 	    "}";
-	char options[] = "";
+	char options[] = "break-one-line-headers";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineStatements, SansWithHeader2)
+TEST(BreakOneLineHeaders, ShortOption)
 {
-	// test without keep-one-line statements but with break blocks
-	// one-line statements with a header in one of the statements
-	// should break the statements and the header block
+	// test break one line headers short option
 	char textIn[] =
-	    "\nvoid Foo()\n"
+	    "\n"
+	    "void Foo()\n"
 	    "{\n"
-	    "    SendEvent(0, m_editItem, &te); if (!te.IsAllowed()) return;\n"
-	    "    CalculatePositions();\n"
+	    "    if (isFoo) bar = 1;\n"
 	    "}";
 	char text[] =
-	    "\nvoid Foo()\n"
+	    "\n"
+	    "void Foo()\n"
 	    "{\n"
-	    "    SendEvent(0, m_editItem, &te);\n"
-	    "\n"
-	    "    if (!te.IsAllowed()) return;\n"
-	    "\n"
-	    "    CalculatePositions();\n"
+	    "    if (isFoo)\n"
+	    "        bar = 1;\n"
 	    "}";
-	char options[] = "break-blocks=all";
+	char options[] = "-xb";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineStatements, BreakBlocks1)
+TEST(BreakOneLineHeaders, MultipleParens)
 {
-	// test with break-blocks=all and a header as the SECOND statement
-	// should not change the lines
-	char text[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    SendEvent(0, m_editItem, &te); if (!te.IsAllowed()) return;\n"
-	    "    CalculatePositions();\n"
-	    "}";
-	char options[] = "keep-one-line-statements, break-blocks=all";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineStatements, BreakBlocks2)
-{
-	// Test with break-blocks=all and a header as the FIRST statement.
-	// Should keep the one-line statements and break the block.
-	// Adding keep-one-line-blocks would not break the block.
-	// See the following test.
+	// test break one line headers with multiple parens
 	char textIn[] =
-	    "\nvoid Foo()\n"
+	    "\n"
+	    "void Foo()\n"
 	    "{\n"
-	    "    if (!te.IsAllowed()) return; SendEvent(0, m_editItem, &te);\n"
-	    "    CalculatePositions();\n"
+	    "    if ((isFoo1) && isFoo2) bar = 1;\n"
+	    "}\n"
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo1 && (isFoo2)) bar = 1;\n"
+	    "}\n"
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if ((isFoo1) && (isFoo2)) bar = 1;\n"
 	    "}";
 	char text[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    if (!te.IsAllowed()) return; SendEvent(0, m_editItem, &te);\n"
 	    "\n"
-	    "    CalculatePositions();\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if ((isFoo1) && isFoo2)\n"
+	    "        bar = 1;\n"
+	    "}\n"
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo1 && (isFoo2))\n"
+	    "        bar = 1;\n"
+	    "}\n"
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if ((isFoo1) && (isFoo2))\n"
+	    "        bar = 1;\n"
 	    "}";
-	char options[] = "keep-one-line-statements, break-blocks";
+	char options[] = "break-one-line-headers";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineStatements, BreakBlocks3)
+TEST(BreakOneLineHeaders, Else)
 {
-	// Test with break-blocks and keep-one-line-statements.
-	// Should not break the Block.
-	// Without keep-one-line-statements it will break the block.
-	// See the previous test.
-	char text[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    if ( getter ) mv.Get = _T ( \"Get\" ) + method;\n"
-	    "    else mv.Get = wxEmptyString;\n"
-	    "}";
-	char options[] = "keep-one-line-statements, break-blocks, keep-one-line-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineStatements, BreakBlocksMaxCodeLength1)
-{
-	// test with break-blocks=all and max code length
-	// should break the IF statement and break the block
+	// test break one line headers with else
 	char textIn[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    SendEvent(0, m_editItem, &te); if (!te.IsAllowed()) return;\n"
-	    "    CalculatePositions();\n"
-	    "}";
-	char text[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    SendEvent(0, m_editItem, &te);\n"
 	    "\n"
-	    "    if (!te.IsAllowed()) return;\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo1) bar = 1;\n"
+	    "    else bar = x;\n"
+	    "}";
+	char text[] =
 	    "\n"
-	    "    CalculatePositions();\n"
-	    "}";
-	char options[] = "keep-one-line-statements, break-blocks=all, max-code-length=60";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineStatements, BreakBlocksMaxCodeLength2)
-{
-	// test with break-blocks=all and without max code length
-	// should NOT break the one line statement
-	char text[] =
-	    "\nvoid Foo()\n"
+	    "void Foo()\n"
 	    "{\n"
-	    "    SendEvent(0, m_editItem, &te); if (!te.IsAllowed()) return;\n"
-	    "    CalculatePositions();\n"
-	    "}";
-	char options[] = "keep-one-line-statements, break-blocks=all";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-//-------------------------------------------------------------------------
-// AStyle Keep One Line Blocks
-//-------------------------------------------------------------------------
-
-TEST(KeepOneLineBlocks, LongOption)
-{
-	// test keep one line blocks
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (!j) { j=1; i=i-10; }\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, ShortOption)
-{
-	// test keep one line blocks short option
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (!j) { j=1; i=i-10; }\n"
-	    "}\n";
-	char options[] = "-O";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, StartOfLine)
-{
-	// line beginning with one-line blocks do NOT get a extra indent
-	char text[] =
-	    "\nclass Foo\n"
-	    "{\n"
-	    "public:\n"
-	    "    int getFoo() const\n"
-	    "    { return isFoo; }\n"
-	    "};\n";
-	char options[] = "keep-one-line-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, NoneBrackets)
-{
-	// test keep one line blocks
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (comment&&code) { ++codecomments_lines; }\n"
-	    "    else if (comment) { ++comment_lines; }\n"
-	    "    else if (code) { ++code_lines; }\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, BreakBrackets)
-{
-	// test keep one line blocks
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (comment&&code) { ++codecomments_lines; }\n"
-	    "    else if (comment) { ++comment_lines; }\n"
-	    "    else if (code) { ++code_lines; }\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks, style=allman";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, AttachBrackets)
-{
-	// test keep one line blocks
-	char text[] =
-	    "\nvoid foo() {\n"
-	    "    if (comment&&code) { ++codecomments_lines; }\n"
-	    "    else if (comment) { ++comment_lines; }\n"
-	    "    else if (code) { ++code_lines; }\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks, style=java";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, LinuxBrackets)
-{
-	// test keep one line blocks
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (comment&&code) { ++codecomments_lines; }\n"
-	    "    else if (comment) { ++comment_lines; }\n"
-	    "    else if (code) { ++code_lines; }\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks, style=kr";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, RunInBrackets)
-{
-	// test keep one line blocks
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{   if (comment&&code) { ++codecomments_lines; }\n"
-	    "    else if (comment) { ++comment_lines; }\n"
-	    "    else if (code) { ++code_lines; }\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks, style=horstmann";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, BreakElseIf)
-{
-	// test keep one line blocks and break elseifs
-	char textIn[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (!j) { j=1; if (i) i=i-10; }\n"
-	    "    if (!j) { j=1; if (i) i=i-10; else i=i-20; }\n"
-	    "    if (!j) { j=1; if (i) i=i-10; else if (j) j=j-10; }\n"
-	    "}\n";
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (!j) { j=1; if (i) i=i-10; }\n"
-	    "    if (!j) { j=1; if (i) i=i-10; else i=i-20; }\n"
-	    "    if (!j) { j=1; if (i) i=i-10; else if (j) j=j-10; }\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks, break-elseifs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, KeepOneLineStatementsAndBreakElseIf)
-{
-	// test keep one line blocks and keep one line statements
-	//     with if statement and break elseifs
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (!j) { j=1; if (i) i=i-10; }\n"
-	    "    if (!j) { j=1; if (i) i=i-10; else i=i-20; }\n"
-	    "    if (!j) { j=1; if (i) i=i-10; else if (j) j=j-10; }\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks, keep-one-line-statements, break-elseifs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, BreakBlocks1)
-{
-	// test keep one line blocks and break blocks
-	// should NOT break the block
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    { SendEvent(0, m_editItem, &te); if (!te.IsAllowed()) return; }\n"
-	    "    CalculatePositions();\n"
-	    "}";
-	char options[] = "keep-one-line-blocks, break-blocks=all";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, BreakBlocks2)
-{
-	// test keep one line blocks and break blocks
-	// should NOT break the block
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    { if (!te.IsAllowed()) return; SendEvent(0, m_editItem, &te); }\n"
-	    "    CalculatePositions();\n"
-	    "}";
-	char options[] = "keep-one-line-blocks, break-blocks=all";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, BreakBlocks3)
-{
-	// test keep one line blocks and break blocks
-	// should NOT break the one-line block
-	// should break the other IF block
-	char textIn[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (isFoo)\n"
-	    "    { if (!te.IsAllowed()) return; SendEvent(0, m_editItem, &te); }\n"
-	    "    CalculatePositions();\n"
-	    "}";
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (isFoo)\n"
-	    "    { if (!te.IsAllowed()) return; SendEvent(0, m_editItem, &te); }\n"
-	    "\n"
-	    "    CalculatePositions();\n"
-	    "}";
-	char options[] = "keep-one-line-blocks, break-blocks=all";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, MultipleBrackets)
-{
-	// test keep one line blocks with multiple brackets
-	char text[] =
-	    "\npublic class FooClass\n"
-	    "{\n"
-	    "    public string FooName { get { return Foo; } set { Foo = value; } }\n"
-	    "\n"
-	    "    public event EventHandler Cancelled { add { } remove { } }\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks, mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, Sans1)
-{
-	// test without keep one line blocks
-	// should not break {} when break brackets
-	char text[] =
-	    "\nclass JipeConsole\n"
-	    "{\n"
-	    "    public JipeConsole(Jipe parent)\n"
-	    "    {\n"
-	    "        jipeConsole.addKeyListener(new KeyListener()\n"
-	    "        {\n"
-	    "            public void keyReleased(KeyEvent e) {}\n"
-	    "            public void keyTyped(KeyEvent e) {}\n"
-	    "        });\n"
-	    "    }\n"
-	    "}\n";
-	char options[] = "style=allman, mode=java";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, Sans2)
-{
-	// test without keep one line blocks
-	// test attach bracket inside comment on single line block
-	char textIn[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    if (isFoo())     // comment\n"
-	    "        { return false; }\n"
-	    "}\n";
-	char text[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    if (isFoo()) {   // comment\n"
-	    "        return false;\n"
-	    "    }\n"
-	    "}\n";
-	char options[] = "style=kr";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, SansMultipleBrackets)
-{
-	// test without keep one line blocks with multiple brackets
-	char textIn[] =
-	    "\npublic class FooClass\n"
-	    "{\n"
-	    "    public string FooName { get { return Foo; } set { Foo = value; } }\n"
-	    "\n"
-	    "    public event EventHandler Cancelled { add { } remove { } }\n"
-	    "}\n";
-	char text[] =
-	    "\npublic class FooClass\n"
-	    "{\n"
-	    "    public string FooName {\n"
-	    "        get {\n"
-	    "            return Foo;\n"
-	    "        }\n"
-	    "        set {\n"
-	    "            Foo = value;\n"
-	    "        }\n"
-	    "    }\n"
-	    "\n"
-	    "    public event EventHandler Cancelled {\n"
-	    "        add { } remove { }\n"
-	    "    }\n"
-	    "}\n";
-	char options[] = "mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, NoneRunIn)
-{
-	// test none brackets with keep one line blocks and run-in
-	// should not indent the run-in
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{   if (isFoo)\n"
-	    "    {/*ok*/;}\n"
-	    "    else {bar();}\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, RunInRunIn)
-{
-	// test run-in brackets with keep one line blocks and run-in
-	// should not indent the run-in
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{   if (isFoo)\n"
-	    "    {/*ok*/;}\n"
-	    "    else {bar();}\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks, style=horstmann";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, NoneClosingHeader)
-{
-	// test keep one line blocks followed by a closing header
-	// should not attach header to the one line statement
-	char text[] =
-	    "\nvoid foo() {\n"
-	    "    if (isFoo)\n"
-	    "    {/*ok*/;}\n"
-	    "    else {bar();}\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, BreakClosingHeader)
-{
-	// test keep one line blocks followed by a closing header
-	// should not attach header to the one line statement
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (isFoo)\n"
-	    "    {/*ok*/;}\n"
-	    "    else {bar();}\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks, style=allman";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, AttachClosingHeader)
-{
-	// test keep one line blocks followed by a closing header
-	// should not attach header to the one line statement
-	char text[] =
-	    "\nvoid foo() {\n"
-	    "    if (isFoo)\n"
-	    "    {/*ok*/;}\n"
-	    "    else {bar();}\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks, style=java";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, LinuxClosingHeader)
-{
-	// test keep one line blocks followed by a closing header
-	// should not attach header to the one line statement
-	char text[] =
-	    "\nvoid foo()\n"
-	    "{\n"
-	    "    if (isFoo)\n"
-	    "    {/*ok*/;}\n"
-	    "    else {bar();}\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks, style=kr";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, IndentSwitchBlock)
-{
-	// test one-line blocks with switch blocks
-	char text[] =
-	    "\nvoid Foo(int fooBar)\n"
-	    "{\n"
-	    "    switch (fooBar)\n"
-	    "    {\n"
-	    "    case 1:\n"
-	    "        fooBar = 1;\n"
-	    "        break;\n"
-	    "    case 2:\n"
-	    "    { fooBar = 2; }\n"
-	    "    break;\n"
-	    "    default:\n"
-	    "    { break; }\n"
-	    "    }\n"
-	    "    int bar = true;\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, IndentSwitchBlock_IndentSwitches)
-{
-	// test one-line blocks with indented switch blocks
-	char text[] =
-	    "\nvoid Foo(int fooBar)\n"
-	    "{\n"
-	    "    switch (fooBar)\n"
-	    "    {\n"
-	    "        case 1:\n"
-	    "            fooBar = 1;\n"
-	    "            break;\n"
-	    "        case 2:\n"
-	    "        { fooBar = 2; }\n"
-	    "        break;\n"
-	    "        default:\n"
-	    "        { break; }\n"
-	    "    }\n"
-	    "    int bar = true;\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks, indent-switches";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, IndentAfterHeader)
-{
-	// test one line blocks indentation following a header
-	char text[] =
-	    "\nvoid foo(bool isFoo)\n"
-	    "{\n"
-	    "    if (isFoo)\n"
-	    "    { bar(); }\n"
+	    "    if (isFoo1)\n"
+	    "        bar = 1;\n"
 	    "    else\n"
-	    "    { anotherBar(); }\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	    "        bar = x;\n"
+	    "}";
+	char options[] = "break-one-line-headers";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
 
-TEST(KeepOneLineBlocks, IndentAfterHeaderSansBrackets)
+TEST(BreakOneLineHeaders, ElseIf)
 {
-	// Test one line blocks indentation following a header
-	// when the header does not contain brackets.
-	char text[] =
-	    "\nvoid Foo(bool isFoo)\n"
-	    "{\n"
-	    "    if (isBar1)\n"
-	    "        if (isBar2)\n"
-	    "        { return true; }\n"
-	    "\n"
-	    "    if (isBar1)\n"
-	    "        if (isBar2) { return true; }\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, IndentSansHeader)
-{
-	// test one line blocks indentation without a header
-	char text[] =
-	    "\nvoid foo(bool isFoo)\n"
-	    "{\n"
-	    "    bar()\n"
-	    "    { anotherBar(); }\n"
-	    "}\n";
-	char options[] = "keep-one-line-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, IndentWithConstMethod)
-{
-	// Test one line blocks indentation following a header
-	// when the header does not contain brackets.
-	char text[] =
-	    "\nclass FooClass\n"
-	    "{\n"
-	    "    virtual bool foo() const\n"
-	    "    { return false; }\n"
-	    "};\n";
-	char options[] = "keep-one-line-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, WithAccessModifier)
-{
-	// A one line block with an access modifier should not break after the modifier.
-	char text[] =
-	    "\ntemplate<typename T>\n"
-	    "struct RunHelper<T> { public: int Run(TestCases<T>&) { return 0; } };";
-	char options[] = "keep-one-line-blocks";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete [] textOut;
-}
-
-TEST(KeepOneLineBlocks, WithAccessModifierSans)
-{
-	// A one line block with an access modifier should break if keep is NOT used.
+	// test break one line headers with else-if
 	char textIn[] =
-	    "\ntemplate<typename T>\n"
-	    "struct RunHelper<T> { public: int Run(TestCases<T>&) { return 0; } };";
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo1) bar = 1;\n"
+	    "    else if (isFoo2)bar = x;\n"
+	    "}";
 	char text[] =
-	    "\ntemplate<typename T>\n"
-	    "struct RunHelper<T> {\n"
-	    "public:\n"
-	    "    int Run(TestCases<T>&) {\n"
-	    "        return 0;\n"
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo1)\n"
+	    "        bar = 1;\n"
+	    "    else if (isFoo2)\n"
+	    "        bar = x;\n"
+	    "}";
+	char options[] = "break-one-line-headers";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, ElseIfBreak)
+{
+	// test break one line headers with break-elseifs
+	// should NOT prevent the break
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo1) bar = 1;\n"
+	    "    else if (isFoo2)bar = x;\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo1)\n"
+	    "        bar = 1;\n"
+	    "    else\n"
+	    "        if (isFoo2)\n"
+	    "            bar = x;\n"
+	    "}";
+	char options[] = "break-one-line-headers, break-elseifs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, Catch)
+{
+	// test break one line headers with catch
+	// should break AFTER the parens
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    try\n"
+	    "    {\n"
+	    "        app.go();\n"
 	    "    }\n"
-	    "};";
-	char options[] = "";
+	    "    catch( Exception& e )\n"
+	    "    {\n"
+	    "        std::cerr << \"exception: \" << e.getDescription();\n"
+	    "    }\n"
+	    "}";
+	char options[] = "break-one-line-headers";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, BreakBlocks)
+{
+	// test break one line headers with break blocks
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo1) bar = 1;\n"
+	    "    else bar = x;\n"
+	    "    bar1();\n"
+	    "    if (isFoo2) bar = 2;\n"
+	    "    bar2();\n"
+	    "    if (isFoo3) bar = 3;\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo1)\n"
+	    "        bar = 1;\n"
+	    "    else\n"
+	    "        bar = x;\n"
+	    "\n"
+	    "    bar1();\n"
+	    "\n"
+	    "    if (isFoo2)\n"
+	    "        bar = 2;\n"
+	    "\n"
+	    "    bar2();\n"
+	    "\n"
+	    "    if (isFoo3)\n"
+	    "        bar = 3;\n"
+	    "}";
+	char options[] = "break-one-line-headers, break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, BreakBlocksAll)
+{
+	// test break one line headers with break blocks all
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo1) bar = 1;\n"
+	    "    else bar = x;\n"
+	    "    bar1();\n"
+	    "    if (isFoo2) bar = 2;\n"
+	    "    bar2();\n"
+	    "    if (isFoo3) bar = 3;\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo1)\n"
+	    "        bar = 1;\n"
+	    "\n"
+	    "    else\n"
+	    "        bar = x;\n"
+	    "\n"
+	    "    bar1();\n"
+	    "\n"
+	    "    if (isFoo2)\n"
+	    "        bar = 2;\n"
+	    "\n"
+	    "    bar2();\n"
+	    "\n"
+	    "    if (isFoo3)\n"
+	    "        bar = 3;\n"
+	    "}";
+	char options[] = "break-one-line-headers, break-blocks=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLStatements1)
+{
+	// a single one line header should break with keep OL statements
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo1) bar = 1;\n"
+	    "    else if (isFoo2)bar = x;\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo1)\n"
+	    "        bar = 1;\n"
+	    "    else if (isFoo2)\n"
+	    "        bar = x;\n"
+	    "}";
+	char options[] = "break-one-line-headers, keep-one-line-statements";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLStatements2)
+{
+	// a one line header with "else" should break with keep OL statements
+	// break all blocks added to test
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) { bar1(); } else if (isFoo2) { bar2(); }\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) {\n"
+	    "        bar1();\n"
+	    "\n"
+	    "    } else if (isFoo2) {\n"
+	    "        bar2();\n"
+	    "    }\n"
+	    "}";
+	char options[] = "break-one-line-headers, keep-one-line-statements, break-blocks=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLStatements3)
+{
+	// a one line header should NOT break this with keep OL statements
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isBar1) anotherBar1(); else anotherBar2();\n"
+	    "}";
+	char options[] = "break-one-line-headers, keep-one-line-statements";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLStatements4)
+{
+	// a one line header should NOT break this with keep OL statements
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isBar1) anotherBar1(); bar2();\n"
+	    "}";
+	char options[] = "break-one-line-headers, keep-one-line-statements";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLStatements5)
+{
+	// a one line header should NOT break this with keep OL statements
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar2(); if (isBar1) anotherBar1();\n"
+	    "}";
+	char options[] = "break-one-line-headers, keep-one-line-statements";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLStatementsBreakBlocks)
+{
+	// test break one line headers with keep one line statements and break blocks
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar0();\n"
+	    "    if (isFoo1) bar = 1; else bar = x;\n"
+	    "    if (isFoo2) bar = 2; bar2();\n"
+	    "    if (isFoo3) bar = 3; bar3();\n"
+	    "    bar4();\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar0();\n"
+	    "\n"
+	    "    if (isFoo1) bar = 1; else bar = x;\n"
+	    "\n"
+	    "    if (isFoo2) bar = 2; bar2();\n"
+	    "\n"
+	    "    if (isFoo3) bar = 3; bar3();\n"
+	    "\n"
+	    "    bar4();\n"
+	    "}";
+	char options[] = "break-one-line-headers, keep-one-line-statements, break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLBlocksSansBreak)
+{
+	// broken one line header followed by one line block
+	// should NOT break the block
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo1)\n"
+	    "    { bar1(); }\n"
+	    "    else if (isFoo2)\n"
+	    "    { bar2(); }\n"
+	    "}";
+	char options[] = "break-one-line-headers, keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLBlocks1)
+{
+	// break one line headers ignores keep one line blocks
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) { bar1(); }\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) {\n"
+	    "        bar1();\n"
+	    "    }\n"
+	    "}";
+	char options[] = "break-one-line-headers, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLBlocks2)
+{
+	// break one line headers ignores keep one line blocks
+	// -A1 is style=allman
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) { bar1(); } else { bar2(); }\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo)\n"
+	    "    {\n"
+	    "        bar1();\n"
+	    "    }\n"
+	    "    else\n"
+	    "    {\n"
+	    "        bar2();\n"
+	    "    }\n"
+	    "}";
+	char options[] = "-A1, break-one-line-headers, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLBlocks3)
+{
+	// break one line headers ignores keep one line blocks
+	// -A2 is style=java
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) { bar1(); } else if (isFoo2) { bar2(); }\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo() {\n"
+	    "    if (isFoo) {\n"
+	    "        bar1();\n"
+	    "    } else if (isFoo2) {\n"
+	    "        bar2();\n"
+	    "    }\n"
+	    "}";
+	char options[] = "-A2, break-one-line-headers, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLBlocksBreakBlocks)
+{
+	// break one line headers ignores keep one line blocks
+	// -A5 is style=whitesmith
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) { bar1(); } else { bar2(); }\n"
+	    "    baz1();\n"
+	    "    if (isFoo) { bar1(); } else { bar2(); }\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "    {\n"
+	    "    if (isFoo)\n"
+	    "        {\n"
+	    "        bar1();\n"
+	    "        }\n"
+	    "    else\n"
+	    "        {\n"
+	    "        bar2();\n"
+	    "        }\n"
+	    "\n"
+	    "    baz1();\n"
+	    "\n"
+	    "    if (isFoo)\n"
+	    "        {\n"
+	    "        bar1();\n"
+	    "        }\n"
+	    "    else\n"
+	    "        {\n"
+	    "        bar2();\n"
+	    "        }\n"
+	    "    }";
+	char options[] = "-A5, break-one-line-headers, keep-one-line-blocks, break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLBlocksBreakBlocksAll)
+{
+	// break one line headers ignores keep one line blocks
+	// -A9 is style=horstmann
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) { bar1(); } else { bar2(); }\n"
+	    "    baz1();\n"
+	    "    if (isFoo) { bar1(); } else { bar2(); }\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{   if (isFoo)\n"
+	    "    {   bar1();\n"
+	    "    }\n"
+	    "\n"
+	    "    else\n"
+	    "    {   bar2();\n"
+	    "    }\n"
+	    "\n"
+	    "    baz1();\n"
+	    "\n"
+	    "    if (isFoo)\n"
+	    "    {   bar1();\n"
+	    "    }\n"
+	    "\n"
+	    "    else\n"
+	    "    {   bar2();\n"
+	    "    }\n"
+	    "}";
+	char options[] = "-A9, break-one-line-headers, keep-one-line-blocks, break-blocks=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLBlocksNonParenHeader)
+{
+	// with keep OL blocks and non-paren headers
+	// should break headers and one line blocks
+	// -A11 is style=pico
+	char textIn[] =
+	    "\n"
+	    "public virtual int ZOrder\n"
+	    "{\n"
+	    "    get { return 0; }\n"
+	    "    set { lastBuildResults = value; }\n"
+	    "    add { TextChanged += value; }\n"
+	    "    remove { TextChanged -= value; }\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "public virtual int ZOrder\n"
+	    "{   get\n"
+	    "    {   return 0; }\n"
+	    "    set\n"
+	    "    {   lastBuildResults = value; }\n"
+	    "    add\n"
+	    "    {   TextChanged += value; }\n"
+	    "    remove\n"
+	    "    {   TextChanged -= value; } }";
+	char options[] = "-A11, break-one-line-headers, keep-one-line-blocks, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLBlocksElseIf)
+{
+	// keep OL blocks with an if else statement
+	// should break one line blocks
+	// -A12 is style=lisp
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) { bar1(); } else if (isFoo2) { bar2(); }\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo() {\n"
+	    "    if (isFoo) {\n"
+	    "        bar1(); }\n"
+	    "\n"
+	    "    else if (isFoo2) {\n"
+	    "        bar2(); } }";
+	char options[] = "-A12, break-one-line-headers, keep-one-line-blocks, break-blocks=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, AddBracketsKeepOneLine1)
+{
+	// -Oo, keep-one-line-blocks, keep-one-line-statements
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) bar();\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) {\n"
+	    "        bar();\n"
+	    "    }\n"
+	    "}";
+	char options[] = "break-one-line-headers, add-brackets, -Oo";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, AddBracketsKeepOneLine2)
+{
+	// -Oo, keep-one-line-blocks, keep-one-line-statements
+	char textIn[] =
+	    "\n"
+	    "void Foo() \n"
+	    "{\n"
+	    "    if (isFoo) bar1(); else bar2();\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) {\n"
+	    "        bar1();\n"
+	    "    } else {\n"
+	    "        bar2();\n"
+	    "    }\n"
+	    "}";
+	char options[] = "break-one-line-headers, add-brackets, -Oo";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, NoFollowingStatement)
+{
+	// should NOT break an ending semicolon
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (newPos currPos) /*use current mark*/;\n"
+	    "    if (newPos currPos);\n"
+	    "    for (int i = 0; i < end; i++);\n"
+	    "}";
+	char options[] = "break-one-line-headers";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, EmptyBracketsFollow)
+{
+	// empty brackets should NOT be changed
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    while (foo() < bar) {}\n"
+	    "    for (int i = 0; i < end; i++)\n"
+	    "    {}\n"
+	    "}";
+	char options[] = "break-one-line-headers";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, JavaSynchronizedMethod)
+{
+	// java synchronized method should NOT be broken
+	char text[] =
+	    "\n"
+	    "public synchronized ZipFile getZipFile() throws IOException\n"
+	    "{ }";
+	char options[] = "break-one-line-headers";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLBlocksAndStmts1)
+{
+	// this should break with both keep one lines
+	// -Oo, keep-one-line-blocks, keep-one-line-statements
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) { bar1(); }\n"
+	    "    if (isFoo) bar1();\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) {\n"
+	    "        bar1();\n"
+	    "    }\n"
+	    "    if (isFoo)\n"
+	    "        bar1();\n"
+	    "}";
+	char options[] = "break-one-line-headers, -Oo";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, KeepOLBlocksAndStmts2)
+{
+	// this should break with both keep one lines
+	// -Oo, keep-one-line-blocks, keep-one-line-statements
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) { bar1(); } else { bar2(); }\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo) {\n"
+	    "        bar1();\n"
+	    "    } else {\n"
+	    "        bar2();\n"
+	    "    }\n"
+	    "}";
+	char options[] = "break-one-line-headers, -Oo";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, EmptyBlockKeepOLBlocks)
+{
+	// empty block or ';' should not break with keep OL blocks
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    while (isFoo1) {}\n"
+	    "\n"
+	    "    while (isFoo2) {;}\n"
+	    "\n"
+	    "    if (fileExists(filenameStr)) {;/*OK Use exe path*/}\n"
+	    "\n"
+	    "    if (itemData) {;} //variable unused\n"
+	    "\n"
+	    "    if (fileExists(filenameStr)) {/*OK Use exe path*/;}\n"
+	    "\n"
+	    "    if (itemData) ; //variable unused\n"
+	    "}";
+	char options[] = "break-one-line-headers, keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, EmptyBlock)
+{
+	// empty block or ';' should not break withOUT keep OL blocks
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    while (isFoo1) {}\n"
+	    "\n"
+	    "    while (isFoo2) {;}\n"
+	    "\n"
+	    "    if (fileExists(filenameStr)) {;/*OK Use exe path*/}\n"
+	    "\n"
+	    "    if (itemData) {;} //variable unused\n"
+	    "\n"
+	    "    if (fileExists(filenameStr)) {/*OK Use exe path*/;}\n"
+	    "\n"
+	    "    if (itemData) ; //variable unused\n"
+	    "}";
+	char options[] = "break-one-line-headers";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, BlockStatementKeepOneLine)
+{
+	// statement enclosed in brackets with keep one line blocks
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if(!closed){if(true){bar();}}\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if(!closed) {\n"
+	    "        if(true) {\n"
+	    "            bar();\n"
+	    "        }\n"
+	    "    }\n"
+	    "}";
+	char options[] = "break-one-line-headers, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, BlockStatementAddBracketsKeepOneLine)
+{
+	// statement enclosed in brackets with add brackets and keep one line blocks
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if(!closed){if(true)bar();}\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if(!closed) {\n"
+	    "        if(true) {\n"
+	    "            bar();\n"
+	    "        }\n"
+	    "    }\n"
+	    "}";
+	char options[] = "break-one-line-headers, add-brackets, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, PicoStyleAddBrackets)
+{
+	// test add brackets for pico brackets
+	char textIn[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (isFoo())\n"
+	    "        return false;\n"
+	    "    else\n"
+	    "        return true;\n"
+	    "}\n";
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{   if (isFoo())\n"
+	    "    {   return false; }\n"
+	    "    else\n"
+	    "    {   return true; } }\n";
+	char options[] = "add-brackets, style=pico, add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, Misc1)
+{
+	// the else-if statement should NOT break
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo1) {\n"
+	    "        bar1();\n"
+	    "#if DEBUG\n"
+	    "        bar1d();\n"
+	    "#endif\n"
+	    "    } else if (isFoo2) {\n"
+	    "        bar2();\n"
+	    "    }\n"
+	    "}";
+	char options[] = "break-one-line-headers";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakOneLineHeaders, Misc2)
+{
+	// should break the ending bracket after ('=') without a semicolon
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (CUR_CHAR != _SC('=')) { RETURN_TOKEN('=') }\n"
+	    "    else { NEXT(); RETURN_TOKEN(TK_EQ); }\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (CUR_CHAR != _SC('=')) {\n"
+	    "        RETURN_TOKEN('=')\n"
+	    "    }\n"
+	    "    else {\n"
+	    "        NEXT();\n"
+	    "        RETURN_TOKEN(TK_EQ);\n"
+	    "    }\n"
+	    "}";
+	char options[] = "break-one-line-headers";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
@@ -2238,6 +2425,33 @@ TEST(AddBrackets, ElseParen)
 	delete [] textOut;
 }
 
+TEST(AddBrackets, ElseBlock)
+{
+	// else statement should be recognized as a command-type bracket
+	char textIn[] =
+	    "\n"
+	    "{\n"
+	    "    if (x == 10)\n"
+	    "        printf(\"x = %d\\n\", x);\n"
+	    "    else\n"
+	    "        printf(\"Nothing\");\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "{\n"
+	    "    if (x == 10) {\n"
+	    "        printf(\"x = %d\\n\", x);\n"
+	    "    }\n"
+	    "    else {\n"
+	    "        printf(\"Nothing\");\n"
+	    "    }\n"
+	    "}";
+	char options[] = "add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AddBrackets, Quote)
 {
 	// must bypass quote with semi-colons and escaped quote marks
@@ -2320,6 +2534,34 @@ TEST(AddBrackets, Comment)
 	delete [] textOut;
 }
 
+TEST(AddBrackets, AfterCommentKeepOLBlocks)
+{
+	// add brackets after a comment with keep one line blocks
+	// the brackets should be broken
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    for (it = 0; it != end(); ++it)\n"
+	    "        // comment\n"
+	    "        insert(*it);\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    for (it = 0; it != end(); ++it)\n"
+	    "        // comment\n"
+	    "    {\n"
+	    "        insert(*it);\n"
+	    "    }\n"
+	    "}";
+	char options[] = "add-brackets, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 TEST(AddBrackets, Sans)
 {
 	// brackets should be added to specified headers only
@@ -2332,6 +2574,155 @@ TEST(AddBrackets, Sans)
 	    "}\n";
 	char options[] = "add-brackets, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBrackets, ConvertTabs)
+{
+	// add brackets with convert tabs
+	// the tabs should be converted
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (!isDoc)   //\t\"/*\" + ?\n"
+	    "        isDoc = CurrentChar();    //\t\"/**\" but not \"/**/\"\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (!isDoc) { //    \"/*\" + ?\n"
+	    "        isDoc = CurrentChar();    //    \"/**\" but not \"/**/\"\n"
+	    "    }\n"
+	    "}";
+	char options[] = "add-brackets, convert-tabs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBrackets, KeepOneLineBlocks)
+{
+	// should NOT add brackets to one line blocks
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    { if(true) bar(); }\n"
+	    "}";
+	char options[] = "add-brackets, keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBrackets, KeepOneLineBlocksSans1)
+{
+	// should add brackets if one line blocks are NOT retained
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    { if(true) bar(); }\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    {\n"
+	    "        if(true) {\n"
+	    "            bar();\n"
+	    "        }\n"
+	    "    }\n"
+	    "}";
+	char options[] = "add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBrackets, KeepOneLineBlocksSans2)
+{
+	// should add brackets if one line blocks are NOT retained
+	// with more than one statement
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "	if (isFoo)\n"
+	    "	{ *length = 0; return; }    // comment\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo)\n"
+	    "    {\n"
+	    "        *length = 0;    // comment\n"
+	    "        return;\n"
+	    "    }\n"
+	    "}";
+	char options[] = "add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBrackets, KeepOneLineStatements)
+{
+	// should NOT add brackets to one line statements
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    switch (nr)\n"
+	    "    {\n"
+	    "    case '\\0': break;\n"
+	    "    default: nr=current_size+nr; if (nr>9) nr=9; if (nr< -9) nr=-9; break;\n"
+	    "    }\n"
+	    "}";
+	char options[] = "add-brackets, keep-one-line-statements";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(AddBrackets, KeepOneLineStatementsSans)
+{
+	// should add brackets if one line statements are NOT retained
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    switch (nr)\n"
+	    "    {\n"
+	    "    case '\\0': break;\n"
+	    "    default: nr=current_size+nr; if (nr>9) nr=9; if (nr< -9) nr=-9; break;\n"
+	    "    }\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    switch (nr)\n"
+	    "    {\n"
+	    "    case '\\0':\n"
+	    "        break;\n"
+	    "    default:\n"
+	    "        nr=current_size+nr;\n"
+	    "        if (nr>9) {\n"
+	    "            nr=9;\n"
+	    "        }\n"
+	    "        if (nr< -9) {\n"
+	    "            nr=-9;\n"
+	    "        }\n"
+	    "        break;\n"
+	    "    }\n"
+	    "}";
+	char options[] = "add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -2949,7 +3340,7 @@ TEST(RemoveBrackets, WithEmptyLine3)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
+	delete [] textOut;
 }
 
 TEST(RemoveBrackets, Sans)
@@ -3157,7 +3548,7 @@ TEST(RemoveBrackets, Comment1)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
+	delete [] textOut;
 }
 
 TEST(RemoveBrackets, Comment2)
@@ -3178,7 +3569,7 @@ TEST(RemoveBrackets, Comment2)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
+	delete [] textOut;
 }
 
 TEST(RemoveBrackets, Comment3)
@@ -3202,7 +3593,7 @@ TEST(RemoveBrackets, Comment3)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
+	delete [] textOut;
 }
 
 TEST(RemoveBrackets, Comment4)
@@ -3224,7 +3615,7 @@ TEST(RemoveBrackets, Comment4)
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
+	delete [] textOut;
 }
 
 TEST(RemoveBrackets, CommentSans1)
@@ -3557,6 +3948,831 @@ TEST(RemoveBrackets, HorstmannBracketWithComment)
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
+
+//-------------------------------------------------------------------------
+// AStyle Keep One Line Blocks
+//-------------------------------------------------------------------------
+
+TEST(KeepOneLineBlocks, LongOption)
+{
+	// test keep one line blocks
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (!j) { j=1; i=i-10; }\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, ShortOption)
+{
+	// test keep one line blocks short option
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (!j) { j=1; i=i-10; }\n"
+	    "}\n";
+	char options[] = "-O";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, StartOfLine)
+{
+	// line beginning with one-line blocks do NOT get a extra indent
+	char text[] =
+	    "\nclass Foo\n"
+	    "{\n"
+	    "public:\n"
+	    "    int getFoo() const\n"
+	    "    { return isFoo; }\n"
+	    "};\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, NoneBrackets)
+{
+	// test keep one line blocks
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (comment&&code) { ++codecomments_lines; }\n"
+	    "    else if (comment) { ++comment_lines; }\n"
+	    "    else if (code) { ++code_lines; }\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, BreakBrackets)
+{
+	// test keep one line blocks
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (comment&&code) { ++codecomments_lines; }\n"
+	    "    else if (comment) { ++comment_lines; }\n"
+	    "    else if (code) { ++code_lines; }\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks, style=allman";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, AttachBrackets)
+{
+	// test keep one line blocks
+	char text[] =
+	    "\nvoid foo() {\n"
+	    "    if (comment&&code) { ++codecomments_lines; }\n"
+	    "    else if (comment) { ++comment_lines; }\n"
+	    "    else if (code) { ++code_lines; }\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks, style=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, LinuxBrackets)
+{
+	// test keep one line blocks
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (comment&&code) { ++codecomments_lines; }\n"
+	    "    else if (comment) { ++comment_lines; }\n"
+	    "    else if (code) { ++code_lines; }\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks, style=kr";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, RunInBrackets)
+{
+	// test keep one line blocks
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{   if (comment&&code) { ++codecomments_lines; }\n"
+	    "    else if (comment) { ++comment_lines; }\n"
+	    "    else if (code) { ++code_lines; }\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks, style=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, BreakElseIf)
+{
+	// test keep one line blocks and break elseifs
+	char textIn[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (!j) { j=1; if (i) i=i-10; }\n"
+	    "    if (!j) { j=1; if (i) i=i-10; else i=i-20; }\n"
+	    "    if (!j) { j=1; if (i) i=i-10; else if (j) j=j-10; }\n"
+	    "}\n";
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (!j) { j=1; if (i) i=i-10; }\n"
+	    "    if (!j) { j=1; if (i) i=i-10; else i=i-20; }\n"
+	    "    if (!j) { j=1; if (i) i=i-10; else if (j) j=j-10; }\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks, break-elseifs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, KeepOOLStatementsBreakElseIf)
+{
+	// test keep one line blocks and keep one line statements
+	//     with if statement and break elseifs
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (!j) { j=1; if (i) i=i-10; }\n"
+	    "    if (!j) { j=1; if (i) i=i-10; else i=i-20; }\n"
+	    "    if (!j) { j=1; if (i) i=i-10; else if (j) j=j-10; }\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks, keep-one-line-statements, break-elseifs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, BreakBlocks1)
+{
+	// test keep one line blocks and break blocks
+	// should NOT break the block
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    { SendEvent(0, m_editItem, &te); if (!te.IsAllowed()) return; }\n"
+	    "    CalculatePositions();\n"
+	    "}";
+	char options[] = "keep-one-line-blocks, break-blocks=all";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, BreakBlocks2)
+{
+	// test keep one line blocks and break blocks
+	// should NOT break the block
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    { if (!te.IsAllowed()) return; SendEvent(0, m_editItem, &te); }\n"
+	    "    CalculatePositions();\n"
+	    "}";
+	char options[] = "keep-one-line-blocks, break-blocks=all";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, BreakBlocks3)
+{
+	// test keep one line blocks and break blocks
+	// should NOT break the one-line block
+	// should break the other IF block
+	char textIn[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (isFoo)\n"
+	    "    { if (!te.IsAllowed()) return; SendEvent(0, m_editItem, &te); }\n"
+	    "    CalculatePositions();\n"
+	    "}";
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (isFoo)\n"
+	    "    { if (!te.IsAllowed()) return; SendEvent(0, m_editItem, &te); }\n"
+	    "\n"
+	    "    CalculatePositions();\n"
+	    "}";
+	char options[] = "keep-one-line-blocks, break-blocks=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, MultipleBrackets)
+{
+	// test keep one line blocks with multiple brackets
+	char text[] =
+	    "\npublic class FooClass\n"
+	    "{\n"
+	    "    public string FooName { get { return Foo; } set { Foo = value; } }\n"
+	    "\n"
+	    "    public event EventHandler Cancelled { add { } remove { } }\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, Sans1)
+{
+	// test without keep one line blocks
+	// should not break {} when break brackets
+	char text[] =
+	    "\nclass JipeConsole\n"
+	    "{\n"
+	    "    public JipeConsole(Jipe parent)\n"
+	    "    {\n"
+	    "        jipeConsole.addKeyListener(new KeyListener()\n"
+	    "        {\n"
+	    "            public void keyReleased(KeyEvent e) {}\n"
+	    "            public void keyTyped(KeyEvent e) {}\n"
+	    "        });\n"
+	    "    }\n"
+	    "}\n";
+	char options[] = "style=allman, mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, Sans2)
+{
+	// test without keep one line blocks
+	// test attach bracket inside comment on single line block
+	char textIn[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (isFoo())     // comment\n"
+	    "        { return false; }\n"
+	    "}\n";
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (isFoo()) {   // comment\n"
+	    "        return false;\n"
+	    "    }\n"
+	    "}\n";
+	char options[] = "style=kr";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, SansMultipleBrackets)
+{
+	// test without keep one line blocks with multiple brackets
+	char textIn[] =
+	    "\npublic class FooClass\n"
+	    "{\n"
+	    "    public string FooName { get { return Foo; } set { Foo = value; } }\n"
+	    "\n"
+	    "    public event EventHandler Cancelled { add { } remove { } }\n"
+	    "}\n";
+	char text[] =
+	    "\npublic class FooClass\n"
+	    "{\n"
+	    "    public string FooName {\n"
+	    "        get {\n"
+	    "            return Foo;\n"
+	    "        }\n"
+	    "        set {\n"
+	    "            Foo = value;\n"
+	    "        }\n"
+	    "    }\n"
+	    "\n"
+	    "    public event EventHandler Cancelled {\n"
+	    "        add { } remove { }\n"
+	    "    }\n"
+	    "}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, NoneRunIn)
+{
+	// test none brackets with keep one line blocks and run-in
+	// should not indent the run-in
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{   if (isFoo)\n"
+	    "    {/*ok*/;}\n"
+	    "    else {bar();}\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, RunInRunIn)
+{
+	// test run-in brackets with keep one line blocks and run-in
+	// should not indent the run-in
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{   if (isFoo)\n"
+	    "    {/*ok*/;}\n"
+	    "    else {bar();}\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks, style=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, NoneClosingHeader)
+{
+	// test keep one line blocks followed by a closing header
+	// should not attach header to the one line statement
+	char text[] =
+	    "\nvoid foo() {\n"
+	    "    if (isFoo)\n"
+	    "    {/*ok*/;}\n"
+	    "    else {bar();}\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, BreakClosingHeader)
+{
+	// test keep one line blocks followed by a closing header
+	// should not attach header to the one line statement
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (isFoo)\n"
+	    "    {/*ok*/;}\n"
+	    "    else {bar();}\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks, style=allman";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, AttachClosingHeader)
+{
+	// test keep one line blocks followed by a closing header
+	// should not attach header to the one line statement
+	char text[] =
+	    "\nvoid foo() {\n"
+	    "    if (isFoo)\n"
+	    "    {/*ok*/;}\n"
+	    "    else {bar();}\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks, style=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, LinuxClosingHeader)
+{
+	// test keep one line blocks followed by a closing header
+	// should not attach header to the one line statement
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (isFoo)\n"
+	    "    {/*ok*/;}\n"
+	    "    else {bar();}\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks, style=kr";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, IndentSwitchBlock)
+{
+	// test one-line blocks with switch blocks
+	char text[] =
+	    "\nvoid Foo(int fooBar)\n"
+	    "{\n"
+	    "    switch (fooBar)\n"
+	    "    {\n"
+	    "    case 1:\n"
+	    "        fooBar = 1;\n"
+	    "        break;\n"
+	    "    case 2:\n"
+	    "    { fooBar = 2; }\n"
+	    "    break;\n"
+	    "    default:\n"
+	    "    { break; }\n"
+	    "    }\n"
+	    "    int bar = true;\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, IndentSwitchBlockIndentSwitches)
+{
+	// test one-line blocks with indented switch blocks
+	char text[] =
+	    "\nvoid Foo(int fooBar)\n"
+	    "{\n"
+	    "    switch (fooBar)\n"
+	    "    {\n"
+	    "        case 1:\n"
+	    "            fooBar = 1;\n"
+	    "            break;\n"
+	    "        case 2:\n"
+	    "        { fooBar = 2; }\n"
+	    "        break;\n"
+	    "        default:\n"
+	    "        { break; }\n"
+	    "    }\n"
+	    "    int bar = true;\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks, indent-switches";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, IndentAfterHeader)
+{
+	// test one line blocks indentation following a header
+	char text[] =
+	    "\nvoid foo(bool isFoo)\n"
+	    "{\n"
+	    "    if (isFoo)\n"
+	    "    { bar(); }\n"
+	    "    else\n"
+	    "    { anotherBar(); }\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, IndentAfterHeaderSansBrackets)
+{
+	// Test one line blocks indentation following a header
+	// when the header does not contain brackets.
+	char text[] =
+	    "\nvoid Foo(bool isFoo)\n"
+	    "{\n"
+	    "    if (isBar1)\n"
+	    "        if (isBar2)\n"
+	    "        { return true; }\n"
+	    "\n"
+	    "    if (isBar1)\n"
+	    "        if (isBar2) { return true; }\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, IndentSansHeader)
+{
+	// test one line blocks indentation without a header
+	char text[] =
+	    "\nvoid foo(bool isFoo)\n"
+	    "{\n"
+	    "    bar()\n"
+	    "    { anotherBar(); }\n"
+	    "}\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, IndentWithConstMethod)
+{
+	// Test one line blocks indentation following a header
+	// when the header does not contain brackets.
+	char text[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "    virtual bool foo() const\n"
+	    "    { return false; }\n"
+	    "};\n";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, WithAccessModifier)
+{
+	// A one line block with an access modifier should not break after the modifier.
+	char text[] =
+	    "\ntemplate<typename T>\n"
+	    "struct RunHelper<T> { public: int Run(TestCases<T>&) { return 0; } };";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineBlocks, WithAccessModifierSans)
+{
+	// A one line block with an access modifier should break if keep is NOT used.
+	char textIn[] =
+	    "\ntemplate<typename T>\n"
+	    "struct RunHelper<T> { public: int Run(TestCases<T>&) { return 0; } };";
+	char text[] =
+	    "\ntemplate<typename T>\n"
+	    "struct RunHelper<T> {\n"
+	    "public:\n"
+	    "    int Run(TestCases<T>&) {\n"
+	    "        return 0;\n"
+	    "    }\n"
+	    "};";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Keep One Line Statements
+//-------------------------------------------------------------------------
+
+TEST(KeepOneLineStatements, LongOption)
+{
+	// test keep one line statements
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (isFoo)\n"
+	    "    {\n"
+	    "        isFoo=false; isBar=true;\n"
+	    "    }\n"
+	    "}\n";
+	char options[] = "keep-one-line-statements";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineStatements, ShortOption)
+{
+	// // test keep one line statements short option
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    if (isFoo)\n"
+	    "    {\n"
+	    "        isFoo=false; isBar=true;\n"
+	    "    }\n"
+	    "}\n";
+	char options[] = "-o";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineStatements, WithHeader)
+{
+	// test keep one line statements with a header in one of the statements
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    SendEvent(0, m_editItem, &te); if (!te.IsAllowed()) return;\n"
+	    "    CalculatePositions();\n"
+	    "}";
+	char options[] = "keep-one-line-statements";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineStatements, SansWithHeader1)
+{
+	// test without keep-one-line statements
+	// one-line statements with a header in one of the statements
+	// should break the statements
+	char textIn[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    SendEvent(0, m_editItem, &te); if (!te.IsAllowed()) return;\n"
+	    "    CalculatePositions();\n"
+	    "}";
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    SendEvent(0, m_editItem, &te);\n"
+	    "    if (!te.IsAllowed()) return;\n"
+	    "    CalculatePositions();\n"
+	    "}";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineStatements, SansWithHeader2)
+{
+	// test without keep-one-line statements but with break blocks
+	// one-line statements with a header in one of the statements
+	// should break the statements and the header block
+	char textIn[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    SendEvent(0, m_editItem, &te); if (!te.IsAllowed()) return;\n"
+	    "    CalculatePositions();\n"
+	    "}";
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    SendEvent(0, m_editItem, &te);\n"
+	    "\n"
+	    "    if (!te.IsAllowed()) return;\n"
+	    "\n"
+	    "    CalculatePositions();\n"
+	    "}";
+	char options[] = "break-blocks=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineStatements, BreakBlocks1)
+{
+	// test with break-blocks=all and a header as the SECOND statement
+	// should not change the lines
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    SendEvent(0, m_editItem, &te); if (!te.IsAllowed()) return;\n"
+	    "    CalculatePositions();\n"
+	    "}";
+	char options[] = "keep-one-line-statements, break-blocks=all";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineStatements, BreakBlocks2)
+{
+	// Test with break-blocks=all and a header as the FIRST statement.
+	// Should keep the one-line statements and break the block.
+	// Adding keep-one-line-blocks would not break the block.
+	// See the following test.
+	char textIn[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (!te.IsAllowed()) return; SendEvent(0, m_editItem, &te);\n"
+	    "    CalculatePositions();\n"
+	    "}";
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (!te.IsAllowed()) return; SendEvent(0, m_editItem, &te);\n"
+	    "\n"
+	    "    CalculatePositions();\n"
+	    "}";
+	char options[] = "keep-one-line-statements, break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineStatements, BreakBlocks3)
+{
+	// Test with break-blocks and keep-one-line-statements.
+	// Should not break the Block.
+	// Without keep-one-line-statements it will break the block.
+	// See the previous test.
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if ( getter ) mv.Get = _T ( \"Get\" ) + method;\n"
+	    "    else mv.Get = wxEmptyString;\n"
+	    "}";
+	char options[] = "keep-one-line-statements, break-blocks, keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineStatements, BreakBlocksMaxCodeLength1)
+{
+	// test with break-blocks=all and max code length
+	// should break the IF statement and break the block
+	char textIn[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    SendEvent(0, m_editItem, &te); if (!te.IsAllowed()) return;\n"
+	    "    CalculatePositions();\n"
+	    "}";
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    SendEvent(0, m_editItem, &te);\n"
+	    "\n"
+	    "    if (!te.IsAllowed()) return;\n"
+	    "\n"
+	    "    CalculatePositions();\n"
+	    "}";
+	char options[] = "keep-one-line-statements, break-blocks=all, max-code-length=60";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineStatements, BreakBlocksMaxCodeLength2)
+{
+	// test with break-blocks=all and without max code length
+	// should NOT break the one line statement
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    SendEvent(0, m_editItem, &te); if (!te.IsAllowed()) return;\n"
+	    "    CalculatePositions();\n"
+	    "}";
+	char options[] = "keep-one-line-statements, break-blocks=all";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineStatements, ElseAtEndOfLine1)
+{
+	// test special case of an an "else" statement at the end of line
+	// should NOT put everything on one line
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if ( Family == wxDECORATIVE ) FamilyStr = _T(\"wxDECORATIVE\"); else\n"
+	    "    if ( Family == wxROMAN      ) FamilyStr = _T(\"wxROMAN\");      else\n"
+	    "    if ( Family == wxSCRIPT     ) FamilyStr = _T(\"wxSCRIPT\");     else\n"
+	    "    if ( Family == wxTELETYPE   ) FamilyStr = _T(\"wxTELETYPE\");\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if ( Family == wxDECORATIVE ) FamilyStr = _T(\"wxDECORATIVE\");\n"
+	    "    else if ( Family == wxROMAN      ) FamilyStr = _T(\"wxROMAN\");\n"
+	    "    else if ( Family == wxSCRIPT     ) FamilyStr = _T(\"wxSCRIPT\");\n"
+	    "    else if ( Family == wxTELETYPE   ) FamilyStr = _T(\"wxTELETYPE\");\n"
+	    "}";
+	char options[] = "keep-one-line-statements";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(KeepOneLineStatements, ElseAtEndOfLine2)
+{
+	// test special case of an an "else" statement at the end of line with added brackets
+	// should NOT put everything on one line
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if ( Family == wxDECORATIVE ) FamilyStr = _T(\"wxDECORATIVE\"); else\n"
+	    "    if ( Family == wxROMAN      ) FamilyStr = _T(\"wxROMAN\");      else\n"
+	    "    if ( Family == wxSCRIPT     ) FamilyStr = _T(\"wxSCRIPT\");     else\n"
+	    "    if ( Family == wxTELETYPE   ) FamilyStr = _T(\"wxTELETYPE\");\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if ( Family == wxDECORATIVE ) { FamilyStr = _T(\"wxDECORATIVE\"); }\n"
+	    "    else if ( Family == wxROMAN      ) { FamilyStr = _T(\"wxROMAN\"); }\n"
+	    "    else if ( Family == wxSCRIPT     ) { FamilyStr = _T(\"wxSCRIPT\"); }\n"
+	    "    else if ( Family == wxTELETYPE   ) { FamilyStr = _T(\"wxTELETYPE\"); }\n"
+	    "}";
+	char options[] = "keep-one-line-statements, add-one-line-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
 
 //-------------------------------------------------------------------------
 // AStyle Convert Tabs
@@ -3977,12 +5193,14 @@ TEST(CloseTemplates, Padded)
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
-	    "    vector< string< int > > vec;\n"
+	    "    vector1< string< int > > vec;\n"
+	    "    vector2< string< int >    > vec;\n"
 	    "}";
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
-	    "    vector<string<int>> vec;\n"
+	    "    vector1< string< int >> vec;\n"
+	    "    vector2< string< int >> vec;\n"
 	    "}";
 	char options[] = "close-templates";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);

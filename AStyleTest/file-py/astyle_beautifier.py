@@ -229,6 +229,9 @@ def get_copy_variables(copy_variables, beautifier_path):
     lines = 0					# current input line number
     file_in = open(beautifier_path, 'r')
 
+    # add global variable not copied
+    copy_variables.append("g_preprocessorCppExternCBracket")
+
     for line_in in file_in:
         lines += 1
         line = line_in.strip()
@@ -277,6 +280,9 @@ def get_header_variables(header_variables, header_path):
     header_total = 0			# total variables for header
     lines = 0					# current input line number
     file_in = open(header_path, 'r')
+
+    # add global variable initialized in the class
+    header_variables.append("g_preprocessorCppExternCBracket")
 
     for line_in in file_in:
         lines += 1

@@ -760,7 +760,7 @@ TEST_F(BracketsAttachSharpF, BreakClosing)
 TEST(BracketsAttachSharp, EmptyBrackets)
 {
 	// test attach brackets option
-	char textIn[] =
+	char text[] =
 	    "\npublic class FooClass {\n"
 	    "    public FooClass() {}\n"
 	    "    public FooClass() {\n"
@@ -768,16 +768,8 @@ TEST(BracketsAttachSharp, EmptyBrackets)
 	    "    public FooClass()\n"
 	    "    {}\n"
 	    "}\n";
-	char text[] =
-	    "\npublic class FooClass {\n"
-	    "    public FooClass() {}\n"
-	    "    public FooClass() {\n"
-	    "    }\n"
-	    "    public FooClass() {\n"
-	    "    }\n"
-	    "}\n";
 	char options[] = "style=java, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -785,7 +777,7 @@ TEST(BracketsAttachSharp, EmptyBrackets)
 TEST(BracketsAttachSharp, EmptyBracketsWithComments)
 {
 	// test attach brackets option with ending comments
-	char textIn[] =
+	char text[] =
 	    "\npublic class FooClass { // comment\n"
 	    "    public FooClass() {} // comment\n"
 	    "    public FooClass() { // comment\n"
@@ -793,16 +785,8 @@ TEST(BracketsAttachSharp, EmptyBracketsWithComments)
 	    "    public FooClass() // comment\n"
 	    "    {}\n"
 	    "}\n";
-	char text[] =
-	    "\npublic class FooClass { // comment\n"
-	    "    public FooClass() {} // comment\n"
-	    "    public FooClass() { // comment\n"
-	    "    }\n"
-	    "    public FooClass() { // comment\n"
-	    "    }\n"
-	    "}\n";
 	char options[] = "style=java, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete [] textOut;
 }

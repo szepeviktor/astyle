@@ -2,7 +2,7 @@
 @echo off
 
 set progdir=C:\Program Files\AStyle
-set options=--options=..\..\AStyleTest\file-py\astyle-options.ini
+set options=--options=..\..\AStyle\file\astyle.ini
 
 echo Formatting AStyleTest\srcx
 echo %options%

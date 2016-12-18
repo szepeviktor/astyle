@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Bcc GTest Lib" />
+		<Option pch_mode="2" />
+		<Option compiler="embarcadero_compiler_x64_680" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/gtestd.lib" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="embarcadero_compiler_x64_680" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-w" />
+					<Add directory="../../../googletest" />
+					<Add directory="../../../googletest/include" />
+				</Compiler>
+				<Linker>
+					<Add library='&quot;obj/Release/googletest/src/gtest-all.obj&quot;' />
+				</Linker>
+				<ExtraCommands>
+					<Add before="cmd /c echo RUN TLIBD.BAT TO LINK GTESTD.LIB" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/gtest.lib" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
+				<Option compiler="embarcadero_compiler_x64_680" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-w" />
+					<Add directory="../../../googletest" />
+					<Add directory="../../../googletest/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="cmd /c  echo RUN TLIB.BAT TO LINK GTEST.LIB" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<VirtualTargets>
+			<Add alias="Coversge" targets="Debug;" />
+		</VirtualTargets>
+		<Unit filename="../../../googletest/src/gtest-all.cc" />
+		<Unit filename="../../../googletest/src/gtest-internal-inl.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

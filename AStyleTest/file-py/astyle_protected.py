@@ -134,13 +134,16 @@ def get_header_variables(header_variables, header_path):
             break
         if line.startswith("//"):
             continue
+        # remove ending comment
+        ending_comment = line.find("//")
+        if ending_comment != -1:
+            line = line[:ending_comment].strip()
         # bypass the variable type
         last_space = line.rfind(' ')
         if last_space == -1:
             continue
         # get the variable name
         variable_name = line[last_space:-1].strip()
-        # print variable_name
         header_variables.append(variable_name)
         header_total += 1
 

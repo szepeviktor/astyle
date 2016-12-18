@@ -191,6 +191,10 @@ def get_header_variables(header_variables, header_path):
             continue
         if "fileName" in line:
             continue
+        if "outputEOL" in line:
+            continue
+        if "prevEOL" in line:
+            continue
         if "optionsFileName" in line:
             continue
         if "targetDirectory" in line:

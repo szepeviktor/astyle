@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Bcc AStyleTestCon" />
+		<Option pch_mode="2" />
+		<Option compiler="embarcadero_compiler_x86_bcc32c" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/AStyleTestCond" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objCon/Debug/" />
+				<Option type="1" />
+				<Option compiler="embarcadero_compiler_x86_bcc32c" />
+				<Option parameters="--terse_output" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-tWC" />
+					<Add option="-DASTYLECON_LIB" />
+					<Add directory="../../srccon" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyle/src" />
+					<Add directory="../../../googletest/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-c" />
+					<Add option="-Gn" />
+					<Add option="-x" />
+					<Add library="cw32mt" />
+					<Add library="import32" />
+					<Add library="gmockd" />
+					<Add directory="bin" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/AStyleTestCon" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objCon/Release/" />
+				<Option type="1" />
+				<Option compiler="embarcadero_compiler_x86_bcc32c" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-tWC" />
+					<Add option="-DASTYLECON_LIB" />
+					<Add option="-DNDEBUG" />
+					<Add directory="../../srccon" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyle/src" />
+					<Add directory="../../../googletest/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-c" />
+					<Add option="-Gn" />
+					<Add option="-x" />
+					<Add library="cw32mt" />
+					<Add library="import32" />
+					<Add library="gmock" />
+					<Add directory="bin" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
+		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
+		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
+		<Unit filename="../../../AStyle/src/ASLocalizer.cpp" />
+		<Unit filename="../../../AStyle/src/ASLocalizer.h" />
+		<Unit filename="../../../AStyle/src/ASResource.cpp" />
+		<Unit filename="../../../AStyle/src/astyle.h" />
+		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
+		<Unit filename="../../../AStyle/src/astyle_main.h" />
+		<Unit filename="../../srccon/AStyleTestCon.h" />
+		<Unit filename="../../srccon/AStyleTestCon_Console1.cpp" />
+		<Unit filename="../../srccon/AStyleTestCon_Console2.cpp" />
+		<Unit filename="../../srccon/AStyleTestCon_Console3.cpp" />
+		<Unit filename="../../srccon/AStyleTestCon_Main.cpp" />
+		<Unit filename="../../srccon/AStyleTestCon_Print.cpp" />
+		<Unit filename="../../srcx/TersePrinter.cpp" />
+		<Unit filename="../../srcx/TersePrinter.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

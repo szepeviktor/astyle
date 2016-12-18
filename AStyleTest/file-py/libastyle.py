@@ -1,4 +1,4 @@
-﻿#! /usr/bin/python
+#! /usr/bin/python
 """ Library files for AStyle test modules.
     All directories and filepaths should be in this module.
     Executed as stand-alone it will run a series of tests.
@@ -41,7 +41,7 @@ OPT0 = ""
 # align-pointer=type (k1), add-brackets (j), break-blocks=all (F),
 #     min-conditional-indent=0 (m0), pad-oper (p), pad-oparen (P)
 #     obj-c (xMxQxqxSxP1)
-OPT1 = "-CSKNLwxwxWYM50m0FpPHUEk1yejOocxMxQxqxSxP1"
+OPT1 = "-CSKNLwxwxWYM50m0FpPHUEk1yexbjOocxMxQxqxSxP1"
 
 # OPT2
 # align-pointer=name (k3), align-reference=type (W1),
@@ -61,7 +61,7 @@ OPT2 = "-xGSKNLwxWM60m3fpdHUxeEk3W1yeJcxMxRxrxsxP0"
 #     indent-labels (L), indent-preproc-define (w),
 #     add-brackets (j,J), break-blocks (f,F),
 #     pad-oper (p), delete-empty-lines (xe)
-OPT3 = "-xwM80m1DHUEk2W3yxj"
+OPT3 = "-xwM80m1DyHUEk2W3xbxjxyxp"
 
 # TEST SEPARATELY
 # max-code-length (xC), break-after-logical (xL)

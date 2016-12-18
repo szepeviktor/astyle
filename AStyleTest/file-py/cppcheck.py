@@ -1,4 +1,4 @@
-﻿#! /usr/bin/python
+#! /usr/bin/python
 """ Generate the suppression file and run cppcheck.
     Input the AStyle source files and output the suppression file
     with the current line numbers.

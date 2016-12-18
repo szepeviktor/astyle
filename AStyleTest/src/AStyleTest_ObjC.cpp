@@ -1182,6 +1182,7 @@ TEST(ObjCPadParamType, Comments)
 TEST(ObjCPadParamType, PadParenOut_Comments)
 {
 	// Test pad param type with comments and pad-paren-out.
+	// This will cause a padded method colon after.
 	// The comment alignment should be maintained.
 	char textIn[] =
 	    "\n"
@@ -1198,6 +1199,56 @@ TEST(ObjCPadParamType, PadParenOut_Comments)
 	    "- (void) foo3: (bool) barArg3    // comment\n"
 	    "{ }";
 	char options[] = "pad-param-type, pad-paren-out";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadParamType, PadParenIn_Comments)
+{
+	// Test pad-param-type with comments and pad-paren-in.
+	// This will cause a padded method colon after.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;       // comment\n"
+	    "-(void)foo2:  (bool)   barArg2;  /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)  barArg3      // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-( void )foo1: ( bool ) barArg1; // comment\n"
+	    "-( void )foo2: ( bool ) barArg2; /* comment */\n"
+	    "\n"
+	    "-( void )foo3: ( bool ) barArg3  // comment\n"
+	    "{ }";
+	char options[] = "pad-param-type, pad-paren-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadParamType, PadParen_Comments)
+{
+	// Test pad-param-type with comments and pad-paren.
+	// This will cause a padded method colon after.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(bool)barArg1;         // comment\n"
+	    "-(void)foo2:  (bool)   barArg2;    /* comment */\n"
+	    "\n"
+	    "-(void)foo3:(bool)  barArg3        // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "- ( void ) foo1: ( bool ) barArg1; // comment\n"
+	    "- ( void ) foo2: ( bool ) barArg2; /* comment */\n"
+	    "\n"
+	    "- ( void ) foo3: ( bool ) barArg3  // comment\n"
+	    "{ }";
+	char options[] = "pad-param-type, pad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2734,15 +2785,15 @@ TEST(ObjCAlignMethodColonCall, InStatementValue)
 {
 	// Align with parens in a value computation.
 	char text[] =
-		"\n"
-		"-(void) Foo\n"
-		"{\n"
-		"    NSDateComponents* components =\n"
-		"        [calendar components:(NSYearCalendarUnit |\n"
-		"                              NSMonthCalendarUnit |\n"
-		"                              NSDayCalendarUnit)\n"
-		"                    fromDate:today];\n"
-		"}";
+	    "\n"
+	    "-(void) Foo\n"
+	    "{\n"
+	    "    NSDateComponents* components =\n"
+	    "        [calendar components:(NSYearCalendarUnit |\n"
+	    "                              NSMonthCalendarUnit |\n"
+	    "                              NSDayCalendarUnit)\n"
+	    "                    fromDate:today];\n"
+	    "}";
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -2945,15 +2996,15 @@ TEST(ObjCSansAlignMethodColonCall, InStatementValue)
 {
 	// Align with parens in a value computation.
 	char text[] =
-		"\n"
-		"-(void) Foo\n"
-		"{\n"
-		"    NSDateComponents* components =\n"
-		"        [calendar components:(NSYearCalendarUnit |\n"
-		"                              NSMonthCalendarUnit |\n"
-		"                              NSDayCalendarUnit)\n"
-		"                  fromDate:today];\n"
-		"}";
+	    "\n"
+	    "-(void) Foo\n"
+	    "{\n"
+	    "    NSDateComponents* components =\n"
+	    "        [calendar components:(NSYearCalendarUnit |\n"
+	    "                              NSMonthCalendarUnit |\n"
+	    "                              NSDayCalendarUnit)\n"
+	    "                  fromDate:today];\n"
+	    "}";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -3166,6 +3217,21 @@ TEST(ObjCOther, InterfaceContinuation3)
 	    "    : NSObject\n"
 	    "{\n"
 	    "}\n"
+	    "@end\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(ObjCOther, InterfaceNoBrackets)
+{
+	// test interface with no brackets
+	char text[] =
+	    "\n"
+	    "@interface SettingsTableViewController () <iTunesFilesSelectionDelegate>\n"
+	    "@property (weak, nonatomic) IBOutlet UITableViewCell *dailyLimitCell;\n"
+	    "@property (weak, nonatomic) IBOutlet UITableViewCell *sendFeedbackCell;\n"
 	    "@end\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);

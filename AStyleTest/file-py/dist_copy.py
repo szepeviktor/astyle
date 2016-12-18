@@ -1,4 +1,4 @@
-﻿#! /usr/bin/python
+#! /usr/bin/python
 """ Create the distribution files for Artistic Style.
     Windows distribution is created on Windows.
     Linux distribution is created on Linux.

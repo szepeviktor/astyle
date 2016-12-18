@@ -902,6 +902,221 @@ TEST(BreakBlocks, Sans4)
 	delete [] textOut;
 }
 
+TEST(BreakBlocks, DoWhile1)
+{
+	// Don't break blocks for while in do-while.
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    do\n"
+	    "    {\n"
+	    "    }\n"
+	    "    while(0); //do\n"
+	    "}\n";
+	char options[] = "break-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakBlocks, DoWhile2)
+{
+	// Don't break blocks for while in do-while.
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar1();\n"
+	    "    do\n"
+	    "    {\n"
+	    "    }\n"
+	    "    while(0); //do\n"
+	    "    bar2();\n"
+	    "}\n";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar1();\n"
+	    "\n"
+	    "    do\n"
+	    "    {\n"
+	    "    }\n"
+	    "    while(0); //do\n"
+	    "\n"
+	    "    bar2();\n"
+	    "}\n";
+	char options[] = "break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakBlocks, While1)
+{
+	// Break blocks in while.
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    while(0)\n"
+	    "    { }\n"
+	    "}\n";
+	char options[] = "break-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakBlocks, While2)
+{
+	// Break blocks in while.
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar1();\n"
+	    "    while(0)\n"
+	    "    { }\n"
+	    "    bar2();\n"
+	    "}\n";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar1();\n"
+	    "\n"
+	    "    while(0)\n"
+	    "    { }\n"
+	    "\n"
+	    "    bar2();\n"
+	    "}\n";
+	char options[] = "break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakBlocks, For_BreakBlocksInOLStatement)
+{
+	// Break blocks the following "for" statement.
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar1();\n"
+	    "    for ( i = 1; i < words; i++ ) { wordlist[i] = '\\0'; }\n"
+	    "    bar2();\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar1();\n"
+	    "\n"
+	    "    for ( i = 1; i < words; i++ ) { wordlist[i] = '\\0'; }\n"
+	    "\n"
+	    "    bar2();\n"
+	    "}";
+	char options[] = "break-blocks, keep-one-line-blocks, keep-one-line-statements";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakBlocks, InMultiStatementLine1)
+{
+	// Break blocks in this multi-statement line.
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if ( Family == wxDECORATIVE ) FamilyStr = _T(\"wxDECORATIVE\"); else\n"
+	    "    if ( Family == wxROMAN      ) FamilyStr = _T(\"wxROMAN\");      else\n"
+	    "    if ( Family == wxSCRIPT     ) FamilyStr = _T(\"wxSCRIPT\");     else\n"
+	    "    if ( Family == wxTELETYPE   ) FamilyStr = _T(\"wxTELETYPE\");\n"
+	    "    bar2();\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if ( Family == wxDECORATIVE ) FamilyStr = _T(\"wxDECORATIVE\");\n"
+	    "    else if ( Family == wxROMAN      ) FamilyStr = _T(\"wxROMAN\");\n"
+	    "    else if ( Family == wxSCRIPT     ) FamilyStr = _T(\"wxSCRIPT\");\n"
+	    "    else if ( Family == wxTELETYPE   ) FamilyStr = _T(\"wxTELETYPE\");\n"
+	    "\n"
+	    "    bar2();\n"
+	    "}";
+	char options[] = "break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakBlocks, InMultiStatementLine2)
+{
+	// Break blocks, break closing, and add OL brackets in this multi-statement line.
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if ( Family == wxDECORATIVE ) FamilyStr = _T(\"wxDECORATIVE\"); else\n"
+	    "    if ( Family == wxROMAN      ) FamilyStr = _T(\"wxROMAN\");      else\n"
+	    "    if ( Family == wxSCRIPT     ) FamilyStr = _T(\"wxSCRIPT\");     else\n"
+	    "    if ( Family == wxTELETYPE   ) FamilyStr = _T(\"wxTELETYPE\");\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if ( Family == wxDECORATIVE ) { FamilyStr = _T(\"wxDECORATIVE\"); }\n"
+	    "    else if ( Family == wxROMAN      ) { FamilyStr = _T(\"wxROMAN\"); }\n"
+	    "    else if ( Family == wxSCRIPT     ) { FamilyStr = _T(\"wxSCRIPT\"); }\n"
+	    "    else if ( Family == wxTELETYPE   ) { FamilyStr = _T(\"wxTELETYPE\"); }\n"
+	    "}";
+	char options[] = "break-blocks, break-closing-brackets, add-one-line-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(BreakBlocks, InMultiStatementLine3)
+{
+	// Test break blocks with the following conditions.
+	char textIn[] =
+	    "\n"
+	    "bool Foo()\n"
+	    "{\n"
+	    "    switch (CUR_CHAR) {\n"
+	    "        case _SC('*') : { NEXT(); if (CUR_CHAR == _SC('/')) { done = true; NEXT(); }} continue;\n"
+	    "        case _SC('\\n') : _currentline++; NEXT(); continue;\n"
+	    "        case SQUIRREL_EOB: Error(\"missing \\\"*/\\\" in comment\");\n"
+	    "        default: NEXT();\n"
+	    "    }\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "bool Foo()\n"
+	    "{\n"
+	    "    switch (CUR_CHAR) {\n"
+	    "        case _SC('*') : { NEXT(); if (CUR_CHAR == _SC('/')) { done = true; NEXT(); }} continue;\n"
+	    "\n"
+	    "        case _SC('\\n') : _currentline++; NEXT(); continue;\n"
+	    "\n"
+	    "        case SQUIRREL_EOB: Error(\"missing \\\"*/\\\" in comment\");\n"
+	    "\n"
+	    "        default: NEXT();\n"
+	    "    }\n"
+	    "}";
+	char options[] =
+	    "break-blocks, keep-one-line-blocks, keep-one-line-statements, indent-switches";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Break All Blocks
 //-------------------------------------------------------------------------
@@ -1505,6 +1720,8 @@ TEST(PadOperator, LongOption)
 	    "    a=b;\n"
 	    "    a<b;\n"
 	    "    a>b;\n"
+	    "    x=1e+5;\n"    // should not pad the exponential
+	    "    x=1e-5;\n"    // should not pad the exponential
 	    "    x=a^b;\n"
 	    "    a|b;\n"
 	    "    x=a&b;\n"     // without the equal sign it is a reference
@@ -1553,6 +1770,8 @@ TEST(PadOperator, LongOption)
 	    "    a = b;\n"
 	    "    a < b;\n"
 	    "    a > b;\n"
+	    "    x = 1e+5;\n"    // should not pad the exponential
+	    "    x = 1e-5;\n"    // should not pad the exponential
 	    "    x = a ^ b;\n"
 	    "    a | b;\n"
 	    "    x = a & b;\n"   // without the equal sign it is a reference
@@ -2408,6 +2627,22 @@ TEST(PadOperator, Array2)
 	    "}\n";
 	char options[] = "pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(PadOperator, Array3)
+{
+	// test pad-oper in an array
+	// the + and - should not be padded
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    float name[2][2] = {{-555, 666}, {+555, 666}};\n"
+	    "}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }

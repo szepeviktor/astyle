@@ -3208,7 +3208,7 @@ TEST(StylePicoCpp, KeepOneLineBlocks1)
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{   if (isBar)\n"
-	    "    { x = 1; y = 2; } }\n";
+	    "    {   x = 1; y = 2; } }\n";
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -3251,7 +3251,7 @@ TEST(StylePicoCpp, AddBrackets1)
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{   if (isFoo)\n"
-	    "    { isFoo1=false; } }\n";
+	    "    {   isFoo1=false; } }\n";
 	char options[] = "style=pico, add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -3273,7 +3273,7 @@ TEST(StylePicoCpp, AddBrackets2)
 	    "\nbool foo()\n"
 	    "{   // comment\n"
 	    "    if (isFoo)\n"
-	    "    { return; }    // true;\n"
+	    "    {   return; }    // true;\n"
 	    "}\n";
 	char options[] = "style=pico, add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -3291,7 +3291,7 @@ TEST(StylePicoCpp, AddOneLineBrackets)
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{   if (isFoo)\n"
-	    "    { isFoo1=false; } }\n";
+	    "    {   isFoo1=false; } }\n";
 	char options[] = "style=pico, add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -3694,6 +3694,26 @@ TEST(StylePicoCpp, SansEmptyLine)
 	    "}\n";
 	char options[] = "style=pico";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete [] textOut;
+}
+
+TEST(StylePicoCpp, RetainIndentation)
+{
+	// indentation should be maintained on each formatting run
+	// the one line statement was a problem
+	char textIn[] =
+	    "\n"
+	    "bool Foo()\n"
+	    "{if (isFoo)\n"
+	    "{return true; }}";
+	char text[] =
+	    "\n"
+	    "bool Foo()\n"
+	    "{   if (isFoo)\n"
+	    "    {   return true; } }";
+	char options[] = "style=pico";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete [] textOut;
 }
@@ -4200,15 +4220,13 @@ TEST(StyleLispCpp, KeepOneLineBlocks1)
 
 TEST(StyleLispCpp, KeepOneLineBlocks2)
 {
-	// don't keep the following one line block
+	// keep the following one line block
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{   if (ifFoo) {;/*OK Use exe path*/ } }\n";
 	char text[] =
 	    "\nvoid foo() {\n"
-	    "    if (ifFoo) {\n"
-	    "        ;/*OK Use exe path*/\n"
-	    "    } }\n";
+	    "    if (ifFoo) {;/*OK Use exe path*/ } }\n";
 	char options[] = "style=lisp";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
