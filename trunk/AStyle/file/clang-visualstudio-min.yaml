@@ -1,0 +1,10 @@
+---
+Language:        Cpp
+# BasedOnStyle:  http://code.visualstudio.com/docs/languages/cpp#_code-formatting
+UseTab:      4 # (editor current setting)
+IndentWidth: 4 # (editor current setting)
+BreakBeforeBraces: Allman
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: false
+ColumnLimit: 0
+...

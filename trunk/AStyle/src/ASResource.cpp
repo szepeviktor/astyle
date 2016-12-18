@@ -33,6 +33,7 @@ const string ASResource::AS_STRUCT = string("struct");
 const string ASResource::AS_UNION = string("union");
 const string ASResource::AS_INTERFACE = string("interface");
 const string ASResource::AS_NAMESPACE = string("namespace");
+const string ASResource::AS_MODULE = string("module");	// CORBA IDL module definition
 const string ASResource::AS_END = string("end");
 const string ASResource::AS_SELECTOR = string("selector");
 const string ASResource::AS_EXTERN = string("extern");
@@ -475,6 +476,8 @@ void ASResource::buildPreBlockStatements(vector<const string*>* preBlockStatemen
 		preBlockStatements->push_back(&AS_STRUCT);
 		preBlockStatements->push_back(&AS_UNION);
 		preBlockStatements->push_back(&AS_NAMESPACE);
+		preBlockStatements->push_back(&AS_MODULE);     // for CORBA IDL
+		preBlockStatements->push_back(&AS_INTERFACE);  // for CORBA IDL
 	}
 	if (fileType == JAVA_TYPE)
 	{
@@ -542,6 +545,8 @@ void ASResource::buildPreDefinitionHeaders(vector<const string*>* preDefinitionH
 		preDefinitionHeaders->push_back(&AS_STRUCT);
 		preDefinitionHeaders->push_back(&AS_UNION);
 		preDefinitionHeaders->push_back(&AS_NAMESPACE);
+		preDefinitionHeaders->push_back(&AS_MODULE);     // for CORBA IDL
+		preDefinitionHeaders->push_back(&AS_INTERFACE);  // for CORBA IDL
 	}
 	if (fileType == JAVA_TYPE)
 	{
@@ -601,8 +606,10 @@ string ASBase::getCurrentWord(const string& line, size_t index) const
 // check if a specific character can be used in a legal variable/method/class name
 bool ASBase::isLegalNameChar(char ch) const
 {
-	if (isWhiteSpace(ch)) return false;
-	if ((unsigned) ch > 127) return false;
+	if (isWhiteSpace(ch))
+		return false;
+	if ((unsigned) ch > 127)
+		return false;
 	return (isalnum((unsigned char) ch)
 	        || ch == '.' || ch == '_'
 	        || (isJavaStyle() && ch == '$')
@@ -614,7 +621,8 @@ bool ASBase::isCharPotentialHeader(const string& line, size_t i) const
 {
 	assert(!isWhiteSpace(line[i]));
 	char prevCh = ' ';
-	if (i > 0) prevCh = line[i - 1];
+	if (i > 0)
+		prevCh = line[i - 1];
 	if (!isLegalNameChar(prevCh) && isLegalNameChar(line[i]))
 		return true;
 	return false;
@@ -624,7 +632,8 @@ bool ASBase::isCharPotentialHeader(const string& line, size_t i) const
 bool ASBase::isCharPotentialOperator(char ch) const
 {
 	assert(!isWhiteSpace(ch));
-	if ((unsigned) ch > 127) return false;
+	if ((unsigned) ch > 127)
+		return false;
 	return (ispunct((unsigned char) ch)
 	        && ch != '{' && ch != '}'
 	        && ch != '(' && ch != ')'

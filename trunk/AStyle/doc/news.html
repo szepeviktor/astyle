@@ -24,15 +24,25 @@
         opening brackets broken from classes, structs, enums, and function definitions. Brackets are attached to everything
         else, including namespaces, arrays, and statements within a function.</p>
     <p>
-        A new option, &quot;indent-continuation&quot;, will add extra indents to continuation lines following a line that
-        ends with an opening paren '(' or an assignment '='. This includes function definitions and declarations. 
-        There is more information in the &quot;Indentation Options&quot; section of the documentation.</p>
+        A new option, &quot;break-one-line-headers&quot; will break a header (if, while, else, etc...) from a following
+        statement on the same line. This option does NOT have precedence over &quot;keep-one-line-statements&quot; if
+        the header is in a multi-statement line. There is more information in the &quot;Formatting Options&quot; section
+        of the documentation.
+    </p>
     <p>
         A new option, &quot;pad-comma&quot;, will add a space following a comma. The option &quot;pad-oper&quot;
         has not been changed and will also add a space following a comma.</p>
     <p>
+        A new option, &quot;indent-continuation&quot;, will add extra indents to continuation lines following a line that
+        ends with an opening paren '(' or an assignment '='. This includes function definitions and declarations. 
+        There is more information in the &quot;Indentation Options&quot; section of the documentation.</p>
+    <p>
         All spaces before a comma are now removed. Use the &quot;disable formatting&quot; comment tags if there are arrays
         with vertical alignment where this is not wanted.</p>
+    <p>
+        A correction has been made to the Pico style indentation of one line blocks. And there is a fix to always compute
+        the indentation of a one line block. If you use Pico style with an indentation greater than 2, you may have a
+        lot of changes made to the code.</p>
     <p>
         New Objective-C options "pad-return-type" and &quot;unpad-return-type&quot; will add or remove space padding after
         the Objective-C return type in a method definition. They are described in the "Objective-C" section of the 
@@ -43,8 +53,8 @@
         documentation.</p>
     <p>
         The Objective-C &quot;align-method-colon&quot; option is now applied to Objective-C method calls in
-        addition to method declarations and definitions. The method call colons will be aligned, if possible. If this 
-        option is not declared, the method calls will align on the first keyword. See the astyle documentation for an 
+        addition to method declarations and definitions. The method call colons will be aligned, if possible. If this
+        option is not declared, the method calls will align on the first keyword. See the astyle documentation for an
         example.</p>
     <p>
         The Objective-C &quot;align-method-colon&quot; has been changed for long keywords.
@@ -53,7 +63,7 @@
         after the first line for a better appearance. Arguments that do not have a short keyword in the first line will
         remain the same. This style conforms to the Google Objective-C style.</p>
     <p>
-        Processing for C++14 single-quote digit separators has been added.een added.</p>
+        Processing for C++14 single-quote digit separators has been added.</p>
     <p>
         Translations have been added for Bulgarian, Estonian, Greek, Hungarian, Norwegian, and Romanian. The translations
         were done with an automated translation program, Google Translate, so they may not be the best translation possible.
@@ -65,16 +75,17 @@
         longer required. These have been removed and the delegates used instead.</p>
     <p>
         There is a new C# example in the Developer Information, that loads the AStyle shared library using explicit linking.
-        This allows the shared library name to be changed so that a program compiled with &quot;Any CPU&quot; can load
+        This allows the shared library name to be dynamically changed so that a program compiled with &quot;Any CPU&quot;
+        can load
         either a 32-bit or 64-bit shared library at run-time. It runs on both Windows and Linux.</p>
     <p>
-        Visual Studio Code, the text editor from Microsoft, has a steep learning curve and takes time to learn. But once
-        it is set up, it can compile, run and debug programs in several programming languages. It can be used for small
-        programs in C++, Java, C#, and Python. It now has an Artistic Style extension. The extension runs from the VS
-        Code menu and is controlled by entries in the User Settings file. There are links to the websites on the Artistic
-        Style Links page. </p>
+        Visual Studio Code, the text editor from Microsoft, has an Artistic Style extension. The extension runs from the
+        Visual Studio Code menu and is controlled by entries in the User Settings file. It can be installed from Visual
+        Studio Code. There are links to the websites on the Artistic Style Links page. </p>
     <p>
-        &nbsp;</p>
+        Thanks to David Faure for his contribution.</p>
+    <p>
+        The following are aditional topics.</p>
 
     <h4>New Software License</h4>
 
@@ -88,7 +99,7 @@
         If there are problems with the license change send an email to Artistic Style and its use will be approved on
         an individual basis.</p>
 
-    <h4>Visual Studio 2015 UTF-8 Files</h4>
+    <h4>Visual Studio 2015 and 2017 UTF-8 Files</h4>
 
     <p>
         In order to be used on both Linux and Windows, the ASLocalizer.cpp UTF-8 file in Artistic Style does not 
@@ -102,7 +113,7 @@
     <p>
         In addition to the &quot;auto detect&quot; option in Tools &gt; Options... &gt; Text Editor &gt; General, an
         additional compiler option is required. The option &quot;/source&#8209;charset:utf&#8209;8&quot; must be added
-        to the project properties at C++ &gt; Command Line, Additional Options. Since the non&#8209;unicode files in Artistic
+        to the project properties at C++ &gt; Command Line &gt; Additional Options. Since the non&#8209;unicode files in Artistic
         Style are ASCII, the option can be applied to the entire project instead of just one file. This option has been
         added in the files distributed with Artistic Style. There is also a new &quot;/validate&#8209;charset&quot; option,
         which gets turned on automatically with the above option. This switch enables the validation of the UTF-8 input
@@ -172,12 +183,6 @@
         notification at <a href="https://blogs.msdn.microsoft.com/vcblog/2015/03/03/introducing-the-universal-crt/">https://blogs.msdn.microsoft.com/vcblog/2015/03/03/introducing-the-universal-crt/</a>.
         To compile using XP there may need to be additional include and library directories added. If the compile gets
         errors add the appropriate directories to the project properties.</p>
-
-
-    <h4>Acknowledgments</h4>
-
-    <p>
-        Thanks to David Faure for their contributions.</p>
 
     <h3>Artistic Style 2.05&nbsp; (November 2014)</h3>
 
