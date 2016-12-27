@@ -223,7 +223,7 @@
     <pre> sudo make prefix=$HOME uninstall
 </pre>
     <p>
-        NOTE: The uninstall option will NOT remove the .astylerc files from the users home directories. The files must
+        NOTE: The uninstall option will NOT remove the .astylerc files from the users' home directories. The files must
         be removed individually for each user.</p>
 
     <h3 id="_Mac_OS_Version">Mac OS Version</h3>
@@ -251,11 +251,11 @@
     <p>
         Only the astyle executable is installed. The library project installs are sent to UninstalledProjects in
         the Build directory. The following instructions are for the astyle executable and documentation files. The default
-        install directory is /usr/bin for the executable and /usr/share/doc/astyle
-        for the documentation. You must have the appropriate permissions to use install.
-        If sudo is not used for the install an error will occur during the build.</p>
+        install directory is /usr/bin for the executable and /usr/share/doc/astyle for the documentation. You must have
+        the appropriate permissions to use install. If sudo is not used for the install, an error will occur during the
+        build.</p>
     <p>
-        To install the astyle executable to the default directory:</p>
+        To install the astyle executable in the default directory:</p>
     <pre>cd astyle/build/xcode
 sudo xcodebuild install -project AStyle.xcodeproj
 </pre>
@@ -274,7 +274,7 @@ sudo xcodebuild install -project AStyle.xcodeproj
     <pre>sudo bash uninstall.sh
 </pre>
     <p>
-        NOTE: The uninstall option will NOT remove the .astylerc files from the users home directories. The files must
+        NOTE: The uninstall option will NOT remove the .astylerc files from the users' home directories. The files must
         be removed individually for each user.</p>
 
     <h4 id="_Makefile">Makefile</h4>
@@ -326,7 +326,7 @@ sudo xcodebuild install -project AStyle.xcodeproj
             This is needed if the executable is to be run on a system without Visual Studio installed. The builds for this
             configuration are placed in a separate &quot;binstatic&quot; directory. </li>
         <li><strong>AStyleDll </strong>builds the Artistic Style program as a Dynamic Link Library (AStyle.dll). This will
-            also build an exports library and a static library for linking the dll. </li>
+            also build an export library and a static library for linking the dll. </li>
         <li><strong>AStyleJava </strong>builds the Artistic Style program as a Dynamic Link Library (AStylej.dll) that can
             be called from a Java program. The Java Development (JDK) is required for the project to compile. The Project
             Properties must have an include path to the JDK include and include/win32 directories. This is set in &quot;Project
@@ -342,7 +342,7 @@ sudo xcodebuild install -project AStyle.xcodeproj
     <p>
         To use other compilers a project file must be built using a development environment.</p>
     <ul>
-        <li>Create a project using the compiler's development environment.</li>
+        <li>Create a project using the compiler development environment.</li>
         <li>Add to the project all the .cpp and .h files in the "src" directory.</li>
         <li>The Compiler Options section discusses the compiler options to use.</li>
         <li>Compile.</li>

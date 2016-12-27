@@ -17,7 +17,7 @@
     <p>
         &nbsp;</p>
 
-    <h3>Artistic Style 2.06&nbsp; (Pending)</h3>
+    <h3>Artistic Style 2.06&nbsp; (December 2016)</h3>
 
     <p>
         A new bracket style option, &quot;style=mozilla&quot;, has been added. It uses linux brackets with
@@ -25,8 +25,7 @@
         else, including namespaces, arrays, and statements within a function.</p>
     <p>
         A new option, &quot;break-one-line-headers&quot; will break a header (if, while, else, etc...) from a following
-        statement on the same line. This option does NOT have precedence over &quot;keep-one-line-statements&quot; if
-        the header is in a multi-statement line. There is more information in the &quot;Formatting Options&quot; section
+        statement on the same line. There is more information in the &quot;Formatting Options&quot; section
         of the documentation.
     </p>
     <p>
@@ -71,7 +70,7 @@
         a translation, send the source as a bug report and it will be included in the next release. To add a language,
         see &quot;Internationalization&quot; in the &quot;General Information&quot; section of the documentation.</p>
     <p>
-        The C# example in the Developer Information has been updated. Objects for the AStyle callback functions are no
+        The C# example, in the Developer Information has been updated. Objects for the AStyle callback functions are no
         longer required. These have been removed and the delegates used instead.</p>
     <p>
         There is a new C# example in the Developer Information, that loads the AStyle shared library using explicit linking.
@@ -85,7 +84,7 @@
     <p>
         Thanks to David Faure for his contribution.</p>
     <p>
-        The following are aditional topics.</p>
+        The following are additional topics.</p>
 
     <h4>New Software License</h4>
 
@@ -95,9 +94,6 @@
         It is compatible with the GNU General Public License (GPL) and most other software licenses. The change was made
         to remove restrictions on using the software and to make it available for any project that wants to 
         use it.</p>
-    <p>
-        If there are problems with the license change send an email to Artistic Style and its use will be approved on
-        an individual basis.</p>
 
     <h4>Visual Studio 2015 and 2017 UTF-8 Files</h4>
 
@@ -113,7 +109,8 @@
     <p>
         In addition to the &quot;auto detect&quot; option in Tools &gt; Options... &gt; Text Editor &gt; General, an
         additional compiler option is required. The option &quot;/source&#8209;charset:utf&#8209;8&quot; must be added
-        to the project properties at C++ &gt; Command Line &gt; Additional Options. Since the non&#8209;unicode files in Artistic
+        to the project properties at C++ &gt; Command Line &gt; Additional Options. Since the non&#8209;unicode files
+        in Artistic
         Style are ASCII, the option can be applied to the entire project instead of just one file. This option has been
         added in the files distributed with Artistic Style. There is also a new &quot;/validate&#8209;charset&quot; option,
         which gets turned on automatically with the above option. This switch enables the validation of the UTF-8 input
@@ -137,11 +134,20 @@
         These options and extensions can be used with Artistic Style. If you choose to do this, the space padding will
         be maintained and the alignment will be preserved.</p>
 
+    <h4>Coding Styles</h4>
+
+    <p>Coding style, or programming style, is a set of rules or guidelines used when writing the source code. It is 
+        often claimed that following a particular programming style will help in reading and understanding source code 
+        conforming to the style, and help to avoid introducing errors.</p>
+    <p>This Artistic Style distribution has a new &quot;file&quot; folder containing AStyle options files for various coding 
+        styles. Using the option files will give approximately the indicated coding style. The files can be used as 
+        they are, or modified as desired.</p>
+
     <h4>Artistic Style Wx</h4>
 
     <p>
         There is a new GUI test program AStyleWx that uses wxWidgets. This replaces the old AStyleWin program. AStyleWx
-        is multi-platform. It has more features simply because they are easier to implement with wxWidgets.</p>
+        is multi-platform and has more features simply because they are easier to implement with wxWidgets.</p>
     <p>
         It has download files and a website in a new sub-project directory of Artistic Style. The downloads contain 
         source code, documentation, and scripts. The Windows download contains an executable. The needed Artistic Style
@@ -156,12 +162,9 @@
     <p>
         The executable in the Windows distribution package is now compiled with a Visual Studio version that will no 
         longer work on Windows XP. Beginning with Visual Studio 2012, auto-vectorization tries to make loops run
-        faster by automatically vectorizing the code. Auto-vectorization is on by default, there are no compiler
-        switches, #pragmas, or hints. But it uses SSE instructions not available in Windows XP. Microsoft ended 
+        faster by automatically vectorizing the code. Auto-vectorization is on by default, and there are no compiler
+        switches, #pragmas, or hints to disable it. It uses SSE instructions not available in Windows XP. Microsoft ended
         support and updates for XP on April 8, 2014, and the usage share percentage continues to decrease.</p>
-    <p>
-        If you are using XP, Artistic Style should be compiled on the XP machine. Compiling on XP with any 
-        compiler should produce an XP executable.</p>
     <p>
         To compile on a non-XP machine for use on XP, using a compiler other than Visual Studio should always
         produce an XP executable. Using Visual Studio 2010 or earlier should always produce an XP executable. If 
@@ -180,7 +183,7 @@
     </ul>
     <p>
         In newer releases of Visual Studio 2015, the &quot;Universal CRT&quot; files have been moved. There is a 
-        notification at <a href="https://blogs.msdn.microsoft.com/vcblog/2015/03/03/introducing-the-universal-crt/">https://blogs.msdn.microsoft.com/vcblog/2015/03/03/introducing-the-universal-crt/</a>.
+        notification <a href="https://blogs.msdn.microsoft.com/vcblog/2015/03/03/introducing-the-universal-crt/">here</a>.
         To compile using XP there may need to be additional include and library directories added. If the compile gets
         errors add the appropriate directories to the project properties.</p>
 
