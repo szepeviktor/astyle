@@ -38,7 +38,7 @@ import libtest
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN
 # TESTPROJECT
-__project = libastyle.CODEBLOCKS
+__project = libastyle.JEDIT
 
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a bracket style or any other option

@@ -1154,6 +1154,93 @@ TEST(BracketsRunInCpp, CommentsRunIn3)
 	delete[] textOut;
 }
 
+TEST(BracketsRunInCpp, CommentsRunInNamespace1)
+{
+	// Comments following run-in namespace should be BROKEN.
+	// Will not format correctly if left as run-in.
+	char textIn[] =
+	    "\n"
+	    "namespace CodeActions\n"
+	    "{/* TODO: Enable.\n"
+	    "	[TestFixture]\n"
+	    "	public class TestBase\n"
+	    "	{\n"
+	    "		[Test]\n"
+	    "		public void TestSimple()\n"
+	    "		{\n"
+	    "			Test<ConvertDoWhileToWhileLoopAction>(@\"\n"
+	    "		}\n"
+	    "	}*/\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "namespace CodeActions\n"
+	    "{\n"
+	    "    /* TODO: Enable.\n"
+	    "    [TestFixture]\n"
+	    "    public class TestBase\n"
+	    "    {\n"
+	    "    	[Test]\n"
+	    "    	public void TestSimple()\n"
+	    "    	{\n"
+	    "    		Test<ConvertDoWhileToWhileLoopAction>(@\"\n"
+	    "    	}\n"
+	    "    }*/\n"
+	    "}";
+	char options[] = "indent-namespaces";
+	char* textOut1 = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut1);
+	// do it again to check for changes
+	char* textOut2 = AStyleMain(textOut1, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut2);
+	delete[] textOut1;
+	delete[] textOut2;
+}
+
+TEST(BracketsRunInCpp, CommentsRunInNamespace2)
+{
+	// Comments following run-in namespace should be BROKEN.
+	// Will not format correctly if left as run-in.
+	// This namespace is indented.
+	char textIn[] =
+	    "\n"
+	    "namespace CodeActions\n"
+	    "{/* TODO: Enable.\n"
+	    "	[TestFixture]\n"
+	    "	public class TestBase\n"
+	    "	{\n"
+	    "		[Test]\n"
+	    "		public void TestSimple()\n"
+	    "		{\n"
+	    "			Test<ConvertDoWhileToWhileLoopAction>(@\"\n"
+	    "		}\n"
+	    "	}*/\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "namespace CodeActions\n"
+	    "{\n"
+	    "/* TODO: Enable.\n"
+	    "[TestFixture]\n"
+	    "public class TestBase\n"
+	    "{\n"
+	    "	[Test]\n"
+	    "	public void TestSimple()\n"
+	    "	{\n"
+	    "		Test<ConvertDoWhileToWhileLoopAction>(@\"\n"
+	    "	}\n"
+	    "}*/\n"
+	    "}";
+	char options[] = "";
+	char* textOut1 = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut1);
+	// do it again to check for changes
+	char* textOut2 = AStyleMain(textOut1, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut2);
+	delete[] textOut1;
+	delete[] textOut2;
+}
+
 TEST(BracketsRunInCpp, MultipleCommentsBreak)
 {
 	// multiple comments with broken brackets should be run-in

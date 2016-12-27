@@ -349,6 +349,36 @@ TEST(BreakClosingBrackets, WhileSans)
 	delete[] textOut;
 }
 
+TEST(BreakClosingBrackets, CSharp)
+{
+	// test break closing brackets with a preceeding one line block
+	char textIn[] =
+	    "\n"
+	    "bool CtrlSpace()\n"
+	    "{\n"
+	    "    if (new[] { \"Setter\", \"EventSetter\" }) {\n"
+	    "        Show(completion);\n"
+	    "    } else if (Name.EndsWith(\"Trigger\")) {\n"
+	    "        Show(completion);\n"
+	    "    }\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "bool CtrlSpace()\n"
+	    "{\n"
+	    "    if (new[] { \"Setter\", \"EventSetter\" }) {\n"
+	    "        Show(completion);\n"
+	    "    }\n"
+	    "    else if (Name.EndsWith(\"Trigger\")) {\n"
+	    "        Show(completion);\n"
+	    "    }\n"
+	    "}";
+	char options[] = "break-closing-brackets, keep-one-line-statements, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Break Else If
 //-------------------------------------------------------------------------

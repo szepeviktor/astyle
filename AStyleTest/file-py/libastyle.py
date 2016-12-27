@@ -228,7 +228,12 @@ def get_astyle_directory(endsep=False):
     """
     if endsep != True and endsep != False:
         system_exit("Bad arg in get_astyle_directory(): " + endsep)
-    astyledir = get_project_directory() + "/AStyle"
+    if os.name == "nt":
+        astyledir = get_project_directory() + "/AStyle"
+    else:
+        astyledir = get_project_directory() + "/AStyle"
+        if not os.path.isdir(astyledir):
+            astyledir = get_project_directory() + "/astyle"
     if not os.path.isdir(astyledir):
         message = "Cannot find astyle directory: " + astyledir
         system_exit(message)
@@ -296,7 +301,12 @@ def get_astyletest_directory(endsep=False):
     """
     if endsep != True and endsep != False:
         system_exit("Bad arg in get_astyletest_directory(): " + endsep)
-    astyletestdir = get_project_directory() + "/AStyleTest"
+    if os.name == "nt":
+        astyletestdir = get_project_directory() + "/AStyleTest"
+    else:
+        astyletestdir = get_project_directory() + "/AStyleTest"
+        if not os.path.isdir(astyletestdir):
+            astyletestdir = get_project_directory() + "/astyletest"
     if not os.path.isdir(astyletestdir):
         message = "Cannot find astyletest directory: " + astyletestdir
         system_exit(message)
@@ -367,13 +377,8 @@ def get_file_py_directory(endsep=False):
         if pydir[0:2] != "C:" and pydir[0:2] != "F:":
             system_exit("File executed from drive " + pydir[0:2])
     else:
-        if pydir[0:6] != "/home/":
-            sep = pydir[0:].find("/Projects/")
-            if sep == -1:
-                sep = len(pydir)
-            else:
-                sep += 1
-            system_exit("File executed from drive " + pydir[0:sep])
+       if pydir[0:6] != "/home/":
+            system_exit("File executed from " + pydir)
     return  pydir
 
 # -----------------------------------------------------------------------------
@@ -405,20 +410,24 @@ def get_home_directory(endsep=False):
 
 def get_project_directory(endsep=False):
     """Get the Project directory for the os environment.
-       Extract the Project directory from path[0]
+       Extract the Project directory from sys.path[0]
        endsep = True will add an ending separator.
     """
     # get project directory
     pydir = get_file_py_directory()
-    projdir = pydir
-    tail = pydir
-    while len(tail) > 0:
-        head, tail = os.path.split(projdir)
-        if tail == 'Projects':
-            break
-        projdir = head
-    if len(tail) == 0:
-        system_exit("Cannot find project directory " + pydir[0:])
+
+    #~ projdir = pydir
+    #~ tail = pydir
+    #~ while len(tail) > 0:
+        #~ head, tail = os.path.split(projdir)
+        #~ if tail == 'Projects':
+            #~ break
+        #~ projdir = head
+    #~ if len(tail) == 0:
+        #~ system_exit("Cannot find project directory " + pydir[0:])
+
+    projdir = os.path.realpath(pydir + "../../../")
+    #~ print("project directory = " + projdir)
     if endsep:
         projdir += '/'
     return  projdir
@@ -455,7 +464,6 @@ def get_project_excludes(project):
         excludes.append("--exclude=lua")
     elif project == SHARPDEVELOP:
         excludes.append("--exclude=Debugger.Tests")    # xml data
-        excludes.append("--exclude=QueryMethod.cs")
     return excludes
 
 # -----------------------------------------------------------------------------
@@ -665,6 +673,7 @@ def test_all_functions():
 # make the module executable
 # run tests if executed as stand-alone
 if __name__ == "__main__":
+    set_text_color("yellow")
     print(get_python_version())
     print("Testing Library Functions")
     test_all_functions()

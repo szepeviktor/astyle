@@ -42,7 +42,7 @@ size_t utf16len(const utf16_t* utf16In)
 int swap16Bit(int value)
 // Swap the two low order bytes of a 16 bit integer value.
 {
-	return ( ((value & 0xff) << 8) | ((value & 0xff00) >> 8) );
+	return (((value & 0xff) << 8) | ((value & 0xff00) >> 8));
 }
 
 void convertEndian(char* textIn, size_t textLen)
@@ -102,7 +102,7 @@ utf16_t* utf8ToUtf16(char* utf8In)
 		systemAbort("Bad iconv_open in utf8ToUtf16()");
 	// allocate memory for output
 	size_t wcLen = (mbLen * sizeof(utf16_t)) + sizeof(utf16_t);
-	char* wcOut = new(nothrow) char[wcLen];
+	char* wcOut = new (nothrow) char[wcLen];
 	if (wcOut == NULL)
 		systemAbort("Bad allocation in utf8ToUtf16()");
 	// convert to utf-8
@@ -139,7 +139,7 @@ char* utf16ToUtf8(utf16_t* utf16In)
 		systemAbort("Bad iconv_open in utf16ToUtf8()");
 	// allocate memory for output
 	size_t mbLen = wcLen * sizeof(utf16_t);
-	char* mbOut = new(nothrow) char[mbLen];
+	char* mbOut = new (nothrow) char[mbLen];
 	if (mbOut == NULL)
 		systemAbort("Bad allocation in utf16ToUtf8()");
 	// convert to utf-8

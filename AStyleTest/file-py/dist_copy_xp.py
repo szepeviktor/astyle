@@ -90,6 +90,11 @@ def build_windows_distribution():
     os.mkdir(dist_doc)
     copy_astyle_doc(dist_doc, True)
 
+    # file directory
+    dist_file = dist_astyle + "/file/"
+    os.mkdir(dist_file)
+    copy_astyle_file(dist_file, True)
+
     # src directory
     dist_src = dist_astyle + "/src/"
     os.mkdir(dist_src)
@@ -187,6 +192,35 @@ def copy_astyle_doc(dist_doc, to_dos=False):
 
 # -----------------------------------------------------------------------------
 
+def copy_astyle_file(dist_file, to_dos=False):
+    """Copy astyle src directory to a distribution directory.
+    """
+    print("copying file")
+    deleted = 0
+    filefiles = glob.glob(__astyle_dir + "/file/*")
+    filefiles.sort()
+    for filepath in filefiles:
+        sep = filepath.rfind(os.sep)
+        filename = filepath[sep + 1:]
+        unused, ext = os.path.splitext(filename)
+        if ext != ".yaml":
+            shutil.copy(filepath, dist_file)
+            print("    " + filename)
+        else:
+            deleted += 1
+    convert_line_ends(dist_file, to_dos)
+    # verify copy - had a problem with bad filenames
+    distfiles = glob.glob(dist_file + "/*")
+    if len(distfiles) != len(filefiles) - deleted:
+        libastyle.system_exit("Error copying file: " + str(len(distfiles)))
+    # change file permissions
+    for filefile in distfiles:
+        # read/write by the owner and read only by everyone else (-rw-r--r--)
+        mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+        os.chmod(filefile, mode)
+
+# -----------------------------------------------------------------------------
+
 def copy_astyle_src(dist_src, to_dos=False):
     """Copy astyle src directory to a distribution directory.
     """
@@ -247,7 +281,9 @@ def copy_windows_build_directories(dist_build):
     build_dir_list = os.listdir(buildfiles)
     build_dir_list.sort()
     for unused, build_dir in enumerate(build_dir_list):
-        if build_dir[:4] == "vs20":
+        if (build_dir.startswith("vs20")
+            and not build_dir.endswith("-clang")):
+            print("    " + build_dir)
 
             # copy solution files
             vsdir = '/' + build_dir + '/'
@@ -259,21 +295,26 @@ def copy_windows_build_directories(dist_build):
 
             # build project directories
             for projdir in ("/AStyle/",
-                            "/AStyleDll/",
-                            "/AStyleJava/",
-                            "/AStyleLib/"):
+                            "/AStyle Dll/",
+                            "/AStyle Java/",
+                            "/AStyle Lib/"):
                 dist_astyle_proj = dist_astyle_vs20xx[:-1] + projdir
                 os.mkdir(dist_astyle_proj)
 
                 # copy project files
                 projfiles = glob.glob(buildfiles + vsdir[:-1] + projdir + "*.*proj")
+                files_copied = 0
                 for proj in projfiles:
+                    files_copied += 1
                     shutil.copy(proj, dist_astyle_proj)
                 if vsdir[1:-1] >= "vs2010":
                     filtfiles = glob.glob(buildfiles + vsdir[:-1] + projdir + "*.*.filters")
                     for filter_in in filtfiles:
+                        files_copied += 1
                         shutil.copy(filter_in, dist_astyle_proj)
-            print("    " + vsdir[1:-1])
+                # verify number of files copied
+                if files_copied != 2 and files_copied != 1:
+                    libastyle.system_exit("Error in number of build files copied: " + str(files_copied))
 
 # -----------------------------------------------------------------------------
 
@@ -283,7 +324,7 @@ def remove_dist_directories():
     dirs = glob.glob(__base_dir + "/DistWindowsXP/")
     dirs.sort()
     for directory in dirs:
-        if "Wx" in directory or "wx" in directory:
+        if "wx" in directory.lower():
             continue
         directory = directory.replace('\\', '/')
         print("remove " + directory)

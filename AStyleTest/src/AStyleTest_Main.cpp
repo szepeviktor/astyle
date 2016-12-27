@@ -30,9 +30,9 @@ int main(int argc, char** argv)
 	bool noClose = false;
 	for (int i = 1; i < argc; i++)
 	{
-		if (strcmp(argv[i], "--terse_output") == 0 )
+		if (strcmp(argv[i], "--terse_output") == 0)
 			useTerseOutput = true;
-		else if (strcmp(argv[i], "--no_close") == 0 )
+		else if (strcmp(argv[i], "--no_close") == 0)
 			noClose = true;
 		else if (strcmp(argv[i], "--gtest_color=no") == 0)
 			useColor = false;
@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 	// is missing from the project. The UnitTest reflection API in
 	// example 9 will not work here because of user modifications.
 	// Change the following value to the number of tests (within 20).
-	TersePrinter::PrintTestTotals(2500, __FILE__, __LINE__);
+	TersePrinter::PrintTestTotals(2520, __FILE__, __LINE__);
 
 #ifdef _WIN32
 	printf("%c", '\n');
@@ -106,6 +106,6 @@ char* STDCALL memoryAlloc(unsigned long memoryNeeded)
 {
 	// error condition is checked after return from AStyleMain
 	// UnitTest++ will catch an allocation error
-	char* buffer = new (nothrow) char [memoryNeeded];
+	char* buffer = new (nothrow) char[memoryNeeded];
 	return buffer;
 }

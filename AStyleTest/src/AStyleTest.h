@@ -57,7 +57,7 @@ extern fpASMain AStyleMain;		// defined in AStyleTest_Main
 #else
 // For linked shared library.
 extern "C" char* STDCALL AStyleMain(const char*, const char*, fpError, fpAlloc);
-extern "C" const char* STDCALL AStyleGetVersion (void);
+extern "C" const char* STDCALL AStyleGetVersion(void);
 #endif
 
 //-----------------------------------------------------------------------------

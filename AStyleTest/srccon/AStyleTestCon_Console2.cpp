@@ -495,8 +495,8 @@ TEST(LanguageVectors, MultipleObjects)
 // Additional tests are done by the "GetFileTypeF" and
 // "LanguageVectorsF" tests.
 {
-// TODO fix this?
-// some compilers don't like the ASStreamIterator template
+	// TODO fix this?
+	// some compilers don't like the ASStreamIterator template
 #if !defined(__clang__) && !defined(__INTEL_COMPILER) && !defined(__APPLE__)
 	ASFormatter formatter1;
 	// Aborted here in Debug for static objects:
@@ -751,7 +751,7 @@ TEST_F(RecursiveF, HiddenFiles)
 	string dirOut1w = getTestDirectory() + "/readonlywin";
 	g_console->standardizePath(dirOut1w);
 	createTestDirectory(dirOut1w);
-	SetFileAttributes(dirOut1w.c_str(), FILE_ATTRIBUTE_READONLY	);
+	SetFileAttributes(dirOut1w.c_str(), FILE_ATTRIBUTE_READONLY);
 	string fileOut1w = getTestDirectory() + "/readonlywin/readonly1win.cpp";
 	g_console->standardizePath(fileOut1w);
 	createTestFile(fileOut1w, textIn);

@@ -1059,7 +1059,7 @@ struct TranslationF : public Test
 				// conversion should be OK since specifiers are ascii
 				string asciiSpecifier = asciiSpecifiers[j];
 				string translationSpecifier = language.convertToMultiByte(translationSpecifiers[j]);
-				ASSERT_EQ(asciiSpecifier, translationSpecifier)	<< "print specifiers value \"" << asciiPrt << "\"";
+				ASSERT_EQ(asciiSpecifier, translationSpecifier) << "print specifiers value \"" << asciiPrt << "\"";
 			}
 		}
 	}
