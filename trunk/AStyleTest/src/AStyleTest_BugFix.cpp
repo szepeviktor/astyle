@@ -19,6 +19,42 @@ namespace {
 // AStyle version 2.06 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V206, StripBrokenBrackets)
+{
+	// The bracket broken fron should not have an ending space.
+	char textIn[] =
+	    "\n"
+	    "[Test()]\n"
+	    "public void Test2142 ()\n"
+	    "{\n"
+	    "    CodeCompletionBugTests.CombinedProviderTest (\n"
+	    "        @\"enum Name {\n"
+	    "	$p$\n"
+	    "}\n"
+	    "\", provider => {\n"
+	    "        Assert.AreEqual ( 0, provider.Count );\n"
+	    "    });\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "[Test()]\n"
+	    "public void Test2142 ()\n"
+	    "{\n"
+	    "    CodeCompletionBugTests.CombinedProviderTest (\n"
+	    "        @\"enum Name {\n"
+	    "	$p$\n"
+	    "}\n"
+	    "\", provider =>\n"
+	    "    {\n"
+	    "        Assert.AreEqual ( 0, provider.Count );\n"
+	    "    });\n"
+	    "}";
+	char options[] = "style=allman, mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V206, CommaFirstInArguments)
 {
 	// Test commas first in argument list.
@@ -249,10 +285,10 @@ TEST(BugFix_V205, StructObjectIdentification)
 
 TEST(BugFix_V205, CaseIndentAfterAsmBlock)
 {
-// Fix the extra indent in a 'case' statement after an _asm block.
-// The '_asm' opening bracket was not identified as a block opener
-// and the variable 'isInAsmBlock" was never being cleared
-// in ASBeautifier.
+	// Fix the extra indent in a 'case' statement after an _asm block.
+	// The '_asm' opening bracket was not identified as a block opener
+	// and the variable 'isInAsmBlock" was never being cleared
+	// in ASBeautifier.
 	char textIn[] =
 	    "\nvoid foo() {\n"
 	    "_asm {cld};\n"

@@ -89,11 +89,11 @@ int main(int argc, char** argv)
 	bool noClose = false;
 	for (int i = 1; i < argc; i++)
 	{
-		if (strcmp(argv[i], "--terse_output") == 0 )
+		if (strcmp(argv[i], "--terse_output") == 0)
 			useTerseOutput = true;
-		else if (strcmp(argv[i], "--no_close") == 0 )
+		else if (strcmp(argv[i], "--no_close") == 0)
 			noClose = true;
-		else if (strcmp(argv[i], "--gtest_color=no") == 0 )
+		else if (strcmp(argv[i], "--gtest_color=no") == 0)
 			useColor = false;
 	}
 	// do this after parsing the command line but before changing printer
@@ -165,7 +165,7 @@ void cleanTestDirectory(const wstring& directory)
 	{
 		// skip these
 		if (wcscmp(findFileData.cFileName, L".") == 0
-		        ||  wcscmp(findFileData.cFileName, L"..") == 0)
+		        || wcscmp(findFileData.cFileName, L"..") == 0)
 			continue;
 		// clean and remove sub directories
 		if (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
@@ -261,7 +261,7 @@ void sleep(int seconds)
 // WINDOWS sleep
 {
 	clock_t endwait;
-	endwait = clock_t (clock () + seconds * CLOCKS_PER_SEC);
+	endwait = clock_t(clock() + seconds * CLOCKS_PER_SEC);
 	while (clock() < endwait) {}
 }
 
@@ -346,7 +346,7 @@ wstring convertToWideChar(const string& mbStr)
 	if (wcLen == string::npos)
 		ASTYLE_ABORT("Bad char in multi-byte string");
 	// convert the characters
-	wchar_t* wcStr = new(nothrow) wchar_t[wcLen + 1];
+	wchar_t* wcStr = new (nothrow) wchar_t[wcLen + 1];
 	if (wcStr == NULL)
 		ASTYLE_ABORT("Bad memory alloc for wide character string");
 	mbstowcs(wcStr, mbStr.c_str(), wcLen + 1);

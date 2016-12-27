@@ -30,11 +30,11 @@ int main(int argc, char** argv)
 	bool noClose = false;
 	for (int i = 1; i < argc; i++)
 	{
-		if (strcmp(argv[i], "--terse_output") == 0 )
+		if (strcmp(argv[i], "--terse_output") == 0)
 			useTerseOutput = true;
-		else if (strcmp(argv[i], "--no_close") == 0 )
+		else if (strcmp(argv[i], "--no_close") == 0)
 			noClose = true;
-		else if (strcmp(argv[i], "--gtest_color=no") == 0 )
+		else if (strcmp(argv[i], "--gtest_color=no") == 0)
 			useColor = false;
 	}
 	// do this after parsing the command line but before changing printer
@@ -106,6 +106,6 @@ char* STDCALL memoryAlloc(unsigned long memoryNeeded)
 {
 	// error condition is checked after return from AStyleMain
 	// UnitTest++ will catch an allocation error
-	char* buffer = new(nothrow) char [memoryNeeded];
+	char* buffer = new (nothrow) char[memoryNeeded];
 	return buffer;
 }

@@ -19,10 +19,9 @@ def main():
     """Main processing function.
     """
     if os.name != "nt":
-        libastyle.system_exit("This script is for Windows only!")
-
+        libastyle.system_exit("\nThis script is for Windows only!")
     if platform.python_implementation() == "IronPython":
-        libastyle.system_exit("IronPython is not currently supported")
+        libastyle.system_exit("\nIronPython is not currently supported")
 
     libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())

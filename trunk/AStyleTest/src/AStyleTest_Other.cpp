@@ -2452,7 +2452,7 @@ TEST(Quote, CSharp_Empty)
 	delete[] textOut;
 }
 
-TEST(Quote, CSharp_Misc)
+TEST(Quote, CSharp_Misc1)
 {
 	// test C# strange looking quotes with """
 	// whitespace should not change
@@ -2465,6 +2465,40 @@ TEST(Quote, CSharp_Misc)
 	    "    EXPECT_TRUEToken(@\"\"\"\\U00000041\"\"\", \"\\U00000041\");\n"
 	    "    EXPECT_TRUEToken(@\"\"\"\\U00010041\"\"\", \"\\U00010041\");\n"
 	    "}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Quote, CSharp_Misc2)
+{
+	// test C# strange looking quotes from SharpDevelop strings test
+	// whitespace should not change
+	char text[] =
+	    "\n"
+	    "void Strings(string s = \"\")\n"
+	    "{\n"
+	    "    s = @\"\"\"\n"
+	    "can't escape a verbatim string \\\";\n"
+	    "    s = @\"\" \"not in verbatim anymore\n"
+	    "        ;\n"
+	    "    s = \"\";\n"
+	    "    s = \"\\\\\";\n"
+	    "    s = \"\\\\\\\\\\\\\\\"\";\n"
+	    "    s = \" // syntax error, but on the next line we start with the previous state\n"
+	    "        ;\n"
+	    "    s = \"'c\\'\";\n"
+	    "    string concat = \"line 1\" +\n"
+	    "                    \"line 2\" +\n"
+	    "                    \"line 3\";\n"
+	    "\n"
+	    "    var c = '\\\\';\n"
+	    "    c = '\\'';\n"
+	    "    c = ' // syntax error, but on the next line we start with the previous state\n"
+	    "        ;\n"
+	    "    c = ';';\n"
+	    "}";
 	char options[] = "mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);

@@ -60,7 +60,7 @@ string convertToMultiByte(const wstring& wideStr)
 	if (mbLen == string::npos)
 		systemAbort("Bad char in wide character string");
 	// convert the characters
-	char* mbStr = new(nothrow) char[mbLen + 1];
+	char* mbStr = new (nothrow) char[mbLen + 1];
 	if (mbStr == NULL)
 		systemAbort("Bad memory alloc for multi-byte string");
 	wcstombs(mbStr, wideStr.c_str(), mbLen + 1);
@@ -270,7 +270,7 @@ TEST_F(JapaneseF, Recursive3)
 	// fileExt   = L"/\u30db\u30de";
 	string fileNameJ = convertToMultiByte(L"/ツテヌネ");
 	string fileExtJ  = convertToMultiByte(L".ホマ");
-	string testFilePath = getTestDirectory() + subdir1  + fileNameJ + fileExtJ;
+	string testFilePath = getTestDirectory() + subdir1 + fileNameJ + fileExtJ;
 	g_console->standardizePath(testFilePath);
 	createTestFile(testFilePath, textOut);
 	// run the test
@@ -516,7 +516,7 @@ TEST_F(GreekF, Recursive3)
 	// write the single-byte filename and extension
 	string fileNameR = convertToMultiByte(L"/ΠΖΣΧ");
 	string fileExtR  = convertToMultiByte(L".μςφ");
-	string testFilePath = getTestDirectory() + subdir1  + fileNameR + fileExtR;
+	string testFilePath = getTestDirectory() + subdir1 + fileNameR + fileExtR;
 	g_console->standardizePath(testFilePath);
 	createTestFile(testFilePath, textOut);
 	// run the test
@@ -779,7 +779,7 @@ TEST_F(RussianF, Recursive3)
 	// write the single-byte filename and extension
 	string fileNameR = convertToMultiByte(L"/ЧШЪЫ");
 	string fileExtR  = convertToMultiByte(L".ЭЮЯ");
-	string testFilePath = getTestDirectory() + subdir1  + fileNameR + fileExtR;
+	string testFilePath = getTestDirectory() + subdir1 + fileNameR + fileExtR;
 	g_console->standardizePath(testFilePath);
 	createTestFile(testFilePath, textOut);
 	// run the test
@@ -919,8 +919,8 @@ struct MultiLanguageF : public Test
 		// create fileNames vector
 		string testdir =  getTestDirectory();
 		fileNames.push_back(testdir + "/recursive1.cpp");
-		fileNames.push_back(testdir + subdir1  + "/recursive2.cpp");
-		fileNames.push_back(testdir + subdir1  + "/recursive3.cpp");
+		fileNames.push_back(testdir + subdir1 + "/recursive2.cpp");
+		fileNames.push_back(testdir + subdir1 + "/recursive3.cpp");
 		// write the Japanese test files
 		for (size_t i = 0; i < fileNames.size(); i++)
 		{
@@ -934,9 +934,9 @@ struct MultiLanguageF : public Test
 		g_console->standardizePath(russianPath);
 		createTestDirectory(russianPath);
 		// files are created for Linux only
-		fileNames.push_back(russianPath  + "/recursive4.cpp");
+		fileNames.push_back(russianPath + "/recursive4.cpp");
 		createTestFile(fileNames.back(), textOut);
-		fileNames.push_back(russianPath  + "/recursive5.cpp");
+		fileNames.push_back(russianPath + "/recursive5.cpp");
 		createTestFile(fileNames.back(), textOut);
 		// sort test strings for alpha compare
 		sort(fileNames.begin(), fileNames.end());
@@ -996,7 +996,7 @@ struct Codepage1252F : public Test
 		                            LOCALE_IDEFAULTANSICODEPAGE,
 		                            NULL,
 		                            0);
-		char* value = new(nothrow) char[bufSize];
+		char* value = new (nothrow) char[bufSize];
 		if (value == NULL)
 			systemAbort("Bad memory alloc for GetLocaleInfo in Codepage1252F");
 		// get codepage

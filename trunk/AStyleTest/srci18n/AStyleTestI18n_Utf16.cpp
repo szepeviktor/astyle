@@ -34,14 +34,14 @@ bool isLittleEndian()
 // Return true if an int is little endian.
 {
 	short int word = 0x0001;
-	char* byte = (char*)&word;
+	char* byte = (char*) &word;
 	return (byte[0] ? true : false);
 }
 
 int swap16Bit(int value)
 // Swap the two low order bytes of a 16 bit integer value.
 {
-	return ( ((value & 0xff) << 8) | ((value & 0xff00) >> 8) );
+	return (((value & 0xff) << 8) | ((value & 0xff00) >> 8));
 }
 
 void convertEndian(char* textIn, size_t textLen)
@@ -152,7 +152,7 @@ string utf16LEToUtf8Str(utf16_t* wcIn)
 	}
 	// allocate memory for output
 	size_t mbLen = wcLen * sizeof(utf16_t);
-	char* mbOut = new(nothrow) char[mbLen];
+	char* mbOut = new (nothrow) char[mbLen];
 	if (mbOut == NULL)
 		systemAbort("Bad allocation in utf16LEToUtf8Str()");
 	// convert to utf-8

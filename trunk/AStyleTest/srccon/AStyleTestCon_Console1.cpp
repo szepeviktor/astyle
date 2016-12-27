@@ -719,7 +719,7 @@ TEST_F(FileSuffixF, None)
 	// call astyle processFiles()
 	g_console->processFiles();
 	// all files should be formatted
-	ASSERT_EQ((int)fileNames.size(), g_console->getFilesFormatted());
+	ASSERT_EQ((int) fileNames.size(), g_console->getFilesFormatted());
 	// check for .orig file on disk
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
@@ -746,7 +746,7 @@ TEST_F(FileSuffixF, DotOld)
 	g_console->processFiles();
 	// all files should be formatted
 	EXPECT_TRUE(fileNames.size() > 0);
-	ASSERT_EQ((int)fileNames.size(), g_console->getFilesFormatted());
+	ASSERT_EQ((int) fileNames.size(), g_console->getFilesFormatted());
 	// check for .old file on disk
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
@@ -773,7 +773,7 @@ TEST_F(FileSuffixF, SansDot)
 	g_console->processFiles();
 	// all files should be formatted
 	EXPECT_TRUE(fileNames.size() > 0);
-	ASSERT_EQ((int)fileNames.size(), g_console->getFilesFormatted());
+	ASSERT_EQ((int) fileNames.size(), g_console->getFilesFormatted());
 	// check for xxx file on disk
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{

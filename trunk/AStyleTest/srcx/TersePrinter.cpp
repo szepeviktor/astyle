@@ -43,7 +43,8 @@ void TersePrinter::OnEnvironmentsSetUpStart(const UnitTest& /*unit_test*/)
 // Called before the test case starts.
 void TersePrinter::OnTestCaseStart(const TestCase& test_case)
 {
-	if (useTerseOutput) return;
+	if (useTerseOutput)
+		return;
 
 	ColoredPrintf(COLOR_GREEN, "[----------] ");
 	printf("%s from %s\n",
@@ -69,7 +70,7 @@ void TersePrinter::OnTestStart(const TestInfo& test_info)
 // Then print the failed test summary.
 void TersePrinter::OnTestPartResult(const TestPartResult& test_part_result)
 {
-	if (test_part_result.failed() )
+	if (test_part_result.failed())
 	{
 		if (!test_header_printed_)
 		{
@@ -522,7 +523,8 @@ bool ShouldUseColor(bool stdoutIsTty)
 {
 	// use the TERM variable.
 	const char* const term = getenv("TERM");
-	if (term == NULL) return false;
+	if (term == NULL)
+		return false;
 	const bool termSupportsColor = strcmp(term, "xterm") == 0
 	                               || strcmp(term, "xterm-color") == 0
 	                               || strcmp(term, "xterm-256color") == 0

@@ -32,7 +32,7 @@ import libtest
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN         # C# - 1000 files from SharpDevelop
 # TESTPROJECT
-__project = libastyle.GWORKSPACE
+__project = libastyle.JEDIT
 
 # select OPT0 thru OPT3, or use customized options
 __options = libastyle.OPT3
