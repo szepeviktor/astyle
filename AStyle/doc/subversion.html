@@ -72,7 +72,7 @@
     <h4>AStyleTest</h4>
 
     <p>
-        AStyleTest contains the unit test programs and test scripts for Artistic Style. There are over 2000 tests in the
+        AStyleTest contains the unit test programs and test scripts for Artistic Style. There are over 2500 tests in the
         main test program.</p>
     <p>
         This project requires the Artistic Style project to compile.
@@ -88,10 +88,13 @@
     <h4>AStyleWx</h4>
 
     <p>
-        AStyleTest contains a GUI test program for Artistic Style. </p>
+        AStyleWx contains a GUI test program for Artistic Style that uses the wxWidgets C++ library.</p>
     <p>
-        This project requires the Artistic Style project to compile. Downloadable files are made available in &quot;AStyleWx
-        Test Program&quot;. Refer to that section for more information. </p>
+        This project requires the Artistic Style project to compile. 
+        Files for download are made available in the 
+        <a href="https://sourceforge.net/projects/astylewx.astyle.p/" target="_blank" title="open new window">Artistic Style
+            Wx</a> subproject. The download contains all files needed to compile the project. The subproject can be accessed
+        from the Artistic Style SourceForge pages.</p>
     <p>
         A sample checkout is:<br />
         <strong>svn&nbsp; checkout&nbsp; "https://svn.code.sf.net/p/astyle/code/trunk/AStyleWx&quot;&nbsp; "$HOME/astylewx&quot;
@@ -112,37 +115,38 @@
     <h4>Google Mock and Google Test</h4>
 
     <p>
-        Google Mock and Google Test is the Google multi-platform framework for writing C++ unit tests.
-        It is available at <a href="https://github.com/google/googlemock" target="_blank" title="open new window">GitHub</a>.
-        It can be downloaded as a zip file by pressing the &quot;Download ZIP&quot; button. The default is to download
-        the master development branch. The latest stable release can be obtained by selecting Branch, tags, then select
-        the latest release. For release 1.7 and older, googlemock has not been transferred to the googletest repository.
-        Download googletest from the current GitHub repository. Then get the same release of googlemock <a href="https://github.com/google/googlemock"
-            target="_blank" title="open new window">here</a>.</p>
+        Google Test and Google Mock is the Google multi-platform framework for writing C++ unit tests.
+        It is available on <a href="https://github.com/google/googletest" target="_blank" title="open new window">GitHub</a>
+        and can be downloaded as a zip file by pressing the green &quot;clone or download&quot; button and selecting 
+        &quot;Download ZIP&quot;. The default is to download the master development branch. The latest stable release
+        can be obtained by using the dropdown box labeled &quot;Branch: master&quot;, selecting the &quot;tags&quot;
+        tab, and then selecting the latest release. The selected release can then be downloaded using the &quot;clone
+        or download&quot; button. Download the latest release for googletest and googlemock from the repository.</p>
     <p>
         The Artistic Style project files are set up to use googletest and googlemock installed in the top level folder
         as indicated above. The library compile for googlemock includes googletest. The library compile for googletest
         includes only googletest. The AStyle test programs have their own project files for compiling the test platform.
-        There are also compile projects in the google modules if you want to use them. They create a static library file
-        that is linked with the test program. The google downloads contain instructions for using the package.</p>
+        There are also compile project files in the downloaded google modules if you want to use them. They create a static
+        library file that is linked to the test program. The google downloads contain instructions for using the 
+        package. </p>
 
     <h4>Visual Studio Test Explorer</h4>
 
     <p>
         Some of the test projects can be run in Visual Studio 2013 or 2015 using Visual Studio Test Explorer.
-        If there is a .gta.runsettings file in the solution directory for a test project, the test will run in the 
-        Test Explorer.</p>
+        If there is a <strong>.</strong>gta<strong>.</strong>runsettings file in the solution directory for a test project,
+        the test will run in the Test Explorer.</p>
     <p>
         The &quot;Google Test Adapter&quot; extension must be installed from the &quot;Tools&quot; &gt; &quot;Extensions
         and Updates&quot; menu. After restarting Visual Studio the test window is activated from the &quot;Test&quot;
         &gt; &quot;Windows&quot; &gt; &quot;Test Explorer&quot; menu option. After compiling, the tests will appear in
-        the test window. They may then be run from the &quot;Test Explorer&quot; window or from the &quot;Test&quot; menu
+        the test window. Then they may be run from the &quot;Test Explorer&quot; window or from the &quot;Test&quot; menu
         options.</p>
     <p>
-        Test Explorer may be used for other test projects by adding a proper .gta.runsettings file to the solution directory,
-        AStyleTest\build\vs2015 (or vs2013).</p>
+        Test Explorer may be used for other test projects by adding a proper <strong>.</strong>gta<strong>.</strong>runsettings
+        file to the solution directory, AStyleTest\build\vs2015 (or vs2013).</p>
     <p>
-        The tests can also be run as a command line program by using the standard debug or run buttons on the menu or
+        The tests can also be run as a command line program by using the standard debug or run button on the menu or
         toolbar.</p>
 
     <p>
