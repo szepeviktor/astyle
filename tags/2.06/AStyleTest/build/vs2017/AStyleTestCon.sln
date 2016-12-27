@@ -1,0 +1,72 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTestCon", "AStyleTestCon\AStyleTestCon.vcxproj", "{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2} = {D336FE81-2B92-49AF-A040-D30C384C8FD2}
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599} = {8563FBDA-FEDC-4233-B585-EBDA55E1C599}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleCon Lib", "AStyleCon Lib\AStyleCon Lib.vcxproj", "{8563FBDA-FEDC-4233-B585-EBDA55E1C599}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMock Lib", "GMock Lib\GMock Lib.vcxproj", "{D336FE81-2B92-49AF-A040-D30C384C8FD2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AA5C4DF5-BDFE-4005-8B8D-1C89C31512C7}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\srcx\gtest-options.lst = ..\..\srcx\gtest-options.lst
+		..\..\srcx\vs2015-problem.lst = ..\..\srcx\vs2015-problem.lst
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		LeakDetector|x64 = LeakDetector|x64
+		LeakDetector|x86 = LeakDetector|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Debug|x64.ActiveCfg = Debug|x64
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Debug|x64.Build.0 = Debug|x64
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Debug|x86.ActiveCfg = Debug|Win32
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Debug|x86.Build.0 = Debug|Win32
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.LeakDetector|x64.ActiveCfg = LeakDetector|x64
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.LeakDetector|x64.Build.0 = LeakDetector|x64
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.LeakDetector|x86.ActiveCfg = LeakDetector|Win32
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.LeakDetector|x86.Build.0 = LeakDetector|Win32
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|x64.ActiveCfg = Release|x64
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|x64.Build.0 = Release|x64
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|x86.ActiveCfg = Release|Win32
+		{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}.Release|x86.Build.0 = Release|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|x64.ActiveCfg = Debug|x64
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|x64.Build.0 = Debug|x64
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|x86.ActiveCfg = Debug|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|x86.Build.0 = Debug|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|x64.ActiveCfg = Debug|x64
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|x64.Build.0 = Debug|x64
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|x86.ActiveCfg = Debug|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|x86.Build.0 = Debug|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|x64.ActiveCfg = Release|x64
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|x64.Build.0 = Release|x64
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|x86.ActiveCfg = Release|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|x86.Build.0 = Release|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x64.ActiveCfg = Debug|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x64.Build.0 = Debug|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x86.ActiveCfg = Debug|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x86.Build.0 = Debug|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.LeakDetector|x64.ActiveCfg = Debug|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.LeakDetector|x64.Build.0 = Debug|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.LeakDetector|x86.ActiveCfg = Debug|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.LeakDetector|x86.Build.0 = Debug|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x64.ActiveCfg = Release|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x64.Build.0 = Release|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x86.ActiveCfg = Release|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
