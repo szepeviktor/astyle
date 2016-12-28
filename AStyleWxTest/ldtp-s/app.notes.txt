@@ -1,0 +1,10 @@
+To run the LDTP module from the NUnit test program:
+	Add a manifest with level="asInvoker":
+		Right click on the project in Solution Explorer.
+		Select Add | New Item...
+		From Visual C# Items select 'Application Manifest File'
+		Change the “level” statement to requireAdministrator.
+		Include the manifest in the project.
+		The manifest must have the file name app.manifest.
+	The NUnit GUI must then be run as an administrator.
+
