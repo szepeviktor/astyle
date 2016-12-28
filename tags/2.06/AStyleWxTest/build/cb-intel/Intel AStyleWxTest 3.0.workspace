@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Intel AStyleWxTest 3.0">
+		<Project filename="Intel AStyleWxTest 3.0.cbp">
+			<Depends filename="Intel GMock A.cbp" />
+		</Project>
+		<Project filename="Intel GMock A.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

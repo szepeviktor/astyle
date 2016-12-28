@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="MinGW AStyleWxTest 3.0">
+		<Project filename="MinGW AStyleWxTest 3.0.cbp">
+			<Depends filename="MinGW GMock Lib.cbp" />
+		</Project>
+		<Project filename="MinGW GMock Lib.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>
