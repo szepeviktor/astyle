@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MinGW AStyleWx 3.0" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="wx3.0/bin/AStyleWxd" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx3.0/obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-std=gnu++11" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-DTESTMODE1" />
+					<Add directory="../../src" />
+					<Add directory="$(#wx30mingw)/lib/gcc_lib/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#wx30mingw)/lib/gcc_lib/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="wxmsw30u_adv" />
+					<Add library="wxmsw30u_aui" />
+					<Add library="wxmsw30u_stc" />
+					<Add library="wxmsw30u_core" />
+					<Add library="wxbase30u" />
+					<Add library="wxscintilla" />
+					<Add library="wxpng" />
+					<Add library="wxzlib" />
+					<Add library="comctl32" />
+					<Add library="oleaut32" />
+					<Add library="ole32" />
+					<Add library="uuid" />
+					<Add library="winspool" />
+					<Add library="astyled" />
+					<Add directory="lib" />
+					<Add directory="$(#wx30mingw)/lib/gcc_lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="wx3.0/bin/AStyleWx" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx3.0/obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-std=gnu++11" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-DNDEBUG" />
+					<Add directory="../../src" />
+					<Add directory="$(#wx30mingw)/lib/gcc_lib/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#wx30mingw)/lib/gcc_lib/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="wxmsw30u_adv" />
+					<Add library="wxmsw30u_aui" />
+					<Add library="wxmsw30u_stc" />
+					<Add library="wxmsw30u_core" />
+					<Add library="wxbase30u" />
+					<Add library="wxscintilla" />
+					<Add library="wxpng" />
+					<Add library="wxzlib" />
+					<Add library="comctl32" />
+					<Add library="oleaut32" />
+					<Add library="ole32" />
+					<Add library="uuid" />
+					<Add library="winspool" />
+					<Add library="astyle" />
+					<Add directory="lib" />
+					<Add directory="$(#wx30mingw)/lib/gcc_lib" />
+				</Linker>
+			</Target>
+			<Target title="DLL Debug">
+				<Option output="wx3.0/bin/AStyleWxd_dll" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx3.0/obj/DLL Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-std=gnu++11" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-DWXUSINGDLL" />
+					<Add option="-DTESTMODE1" />
+					<Add directory="../../src" />
+					<Add directory="$(#wx30mingw)/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#wx30mingw)/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="wxmsw30u_adv" />
+					<Add library="wxmsw30u_aui" />
+					<Add library="wxmsw30u_stc" />
+					<Add library="wxmsw30u_core" />
+					<Add library="wxbase30u" />
+					<Add library="wxscintilla" />
+					<Add library="wxpng" />
+					<Add library="wxzlib" />
+					<Add library="comctl32" />
+					<Add library="oleaut32" />
+					<Add library="ole32" />
+					<Add library="uuid" />
+					<Add library="winspool" />
+					<Add library="astyled" />
+					<Add directory="lib" />
+					<Add directory="$(#wx30mingw)/lib/gcc_dll" />
+				</Linker>
+			</Target>
+			<Target title="DLL Release">
+				<Option output="wx3.0/bin/AStyleWx_dll" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx3.0/obj/DLL Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-std=gnu++11" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DWXUSINGDLL" />
+					<Add directory="../../src" />
+					<Add directory="$(#wx30mingw)/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#wx30mingw)/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="wxmsw30u_adv" />
+					<Add library="wxmsw30u_aui" />
+					<Add library="wxmsw30u_stc" />
+					<Add library="wxmsw30u_core" />
+					<Add library="wxbase30u" />
+					<Add library="wxscintilla" />
+					<Add library="wxpng" />
+					<Add library="wxzlib" />
+					<Add library="comctl32" />
+					<Add library="oleaut32" />
+					<Add library="ole32" />
+					<Add library="uuid" />
+					<Add library="winspool" />
+					<Add library="astyle" />
+					<Add directory="lib" />
+					<Add directory="$(#wx30mingw)/lib/gcc_dll" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add directory="$(#wx30mingw)/include" />
+			<Add directory="../../dialog" />
+		</Compiler>
+		<ResourceCompiler>
+			<Add directory="$(#wx30mingw)/include" />
+		</ResourceCompiler>
+		<Unit filename="../../dialog/AStyleDlgBase.cpp" />
+		<Unit filename="../../dialog/AStyleDlgBase.h" />
+		<Unit filename="../../dialog/AboutDlgBase.cpp" />
+		<Unit filename="../../dialog/AboutDlgBase.h" />
+		<Unit filename="../../dialog/EditorDlgBase.cpp" />
+		<Unit filename="../../dialog/EditorDlgBase.h" />
+		<Unit filename="../../dialog/SettingsDlgBase.cpp" />
+		<Unit filename="../../dialog/SettingsDlgBase.h" />
+		<Unit filename="../../image/AStyleWx.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="../../src/ASApp.cpp" />
+		<Unit filename="../../src/ASEditor.cpp" />
+		<Unit filename="../../src/AStyleDisplay.cpp" />
+		<Unit filename="../../src/AStyleDisplay.h" />
+		<Unit filename="../../src/AStyleDlg.cpp" />
+		<Unit filename="../../src/AStyleDlg.h" />
+		<Unit filename="../../src/AStyleFormat.cpp" />
+		<Unit filename="../../src/AStyleFormat.h" />
+		<Unit filename="../../src/AStyleIFace.cpp" />
+		<Unit filename="../../src/AStyleIFace.h" />
+		<Unit filename="../../src/AStyleWx.cpp" />
+		<Unit filename="../../src/AStyleWx.h" />
+		<Unit filename="../../src/AboutDlg.cpp" />
+		<Unit filename="../../src/AboutDlg.h" />
+		<Unit filename="../../src/Config.cpp" />
+		<Unit filename="../../src/Config.h" />
+		<Unit filename="../../src/Constants.h" />
+		<Unit filename="../../src/EditorDlg.cpp" />
+		<Unit filename="../../src/EditorDlg.h" />
+		<Unit filename="../../src/Encoding.cpp" />
+		<Unit filename="../../src/Encoding.h" />
+		<Unit filename="../../src/FileManager.cpp" />
+		<Unit filename="../../src/FileManager.h" />
+		<Unit filename="../../src/Indent.cpp" />
+		<Unit filename="../../src/SettingsDlg.cpp" />
+		<Unit filename="../../src/SettingsDlg.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

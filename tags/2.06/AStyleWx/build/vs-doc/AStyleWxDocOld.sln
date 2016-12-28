@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{52EE16BF-5A2C-4A2D-B204-4F5FBE1DA027}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\doc\AStyleOptions.html = ..\..\doc\AStyleOptions.html
+		..\..\doc\Editor.html = ..\..\doc\Editor.html
+		..\..\doc\EditorOptions.html = ..\..\doc\EditorOptions.html
+		..\..\doc\FrameL.html = ..\..\doc\FrameL.html
+		..\..\doc\FrameR.html = ..\..\doc\FrameR.html
+		..\..\doc\Options.html = ..\..\doc\Options.html
+		..\..\doc\styles(2).css = ..\..\doc\styles(2).css
+		..\..\doc\TOC.html = ..\..\doc\TOC.html
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

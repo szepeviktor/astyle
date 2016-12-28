@@ -1,0 +1,133 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Artistic Style Wx</title>
+    <meta http-equiv="Content-Language" content="en-us" />
+    <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+    <h1>Artistic Style Wx</h1>
+
+    <h2>
+        A Graphical User Interface for Artistic Style<br />
+        Using wxWidgets
+    </h2>
+
+    <center>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <img src="favicon.ico" alt="" /></td>
+                    <td>Project Page:</td>
+                    <td><a href="http://astyle.sourceforge.net/astylewx/">http://astyle.sourceforge.net/astylewx/</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="https://a.fsdn.com/con/img/sftheme/favicon.ico" alt="" /></td>
+                    <td>SourceForge:</td>
+                    <td><a href="https://sourceforge.net/projects/astylewx.astyle.p/">https://sourceforge.net/projects/astylewx.astyle.p/</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </center>
+
+    <p>
+        &nbsp;</p>
+
+    <p class="noindent">
+        Artistic Style Wx (AStyleWx) was developed as a Graphical User Interface test program for <a href="https://sourceforge.net/projects/astyle/"
+            target="_blank" title="open new window">Artistic Style</a>. It is licensed under the MIT license and built
+        using wxWidgets version 3 or higher. It will run on Windows, Linux, or Mac. The source code is available to be
+        used and modified for any purpose you choose. Developers using Artistic Style in another project may use any part
+        of AStyleWx in their project. The modified source code does NOT need to be made available to others.</p>
+    <p class="noindent">
+        A compiled version of wxWidgets must be available for compiling and running AStyleWx. The <a href="install.html"
+            target="_blank" title="open new window">Install Information</a> page has instructions for setting up wxWidgets
+        and compiling the AStyleWx source code. A <a href="static.html" target="_blank" title="open new window">Visual Studio
+            Static Compile</a> page has instructions for setting up the static compile that uses a static runtime library,
+        no exception handling, and no runtime type information (RTTI).</p>
+    <p class="noindent">
+        The latest development files can be checked out from the Artistic Style repository using Subversion. 
+        Files for the latest release can be downloaded from the <a href="https://sourceforge.net/projects/astylewx.astyle.p/files/"
+            target="_blank" title="open new window">Files</a> section on the AStyleWx SourceForge page. The
+        Windows package contains a compiled binary. Other platforms will need to compile the source code. Makefiles are
+        included for the most popular compilers. Follow the install instructions for the appropriate platform as described
+        in the &quot;Install Information&quot; page.</p>
+
+    <h3>Links</h3>
+
+    <p class="contents1">
+        <a href="install.html" target="_blank" title="open new window">Install Information</a></p>
+    <p class="contents1">
+        <a href="static.html" target="_blank" title="open new window">Visual Studio Static Compile</a></p>
+
+    <h3>RAD Tools for Dialogs</h3>
+
+    <p>
+        The Rapid Application Development (RAD) tool used to design the AStyleWx dialog interfaces is <a href="https://sourceforge.net/projects/wxformbuilder/"
+            target="_blank" title="open new window">wxFormBuilder</a>. It allows separation of the generated and written
+        code by using inheritance. I prefer this to having the code combined in the same source file as it seems like
+        a safer way to do it. The wxFormBuilder files and the generated source code are in the AStyleWx &quot;dialog&quot;
+        folder.</p>
+    <p>
+        Windows users can get the release 3.5.1 RC1 executable download from the SourceForge site. It has all the controls
+        used by AStyleWx. Linux users may need to compile it from source. The most current version may not be 
+        available as an install package. The most current <a href="https://github.com/marekr/wxFormBuilder"
+            target="_blank" title="open new window">wxFormBuilder repository</a> is at GitHub instead of SourceForge.
+        The wxFB3.5-RC1 GitHub branch is compatible with the wxFormBuilder 3.5 RC1 release. There are more up to date
+        builds available in the repository if you want to use them.</p>
+    <p>
+        To compile 
+        the Linux build, open a terminal in the top wxFormBuilder directory.</p>
+
+    <pre>cmake CMakeLists.txt 
+make 
+sudo make install</pre>
+
+    <p>
+        You may need to create a menu item after the install.</p>
+    <p>
+        Another RAD tool that will work, with modifications, is <a href="http://wxcrafter.codelite.org/" target="_blank"
+            title="open new window">wxCrafter</a>. It has a GUI similar to wxFormBuilder and generates code in similar
+        manner. It expects the generated code to be used as a base class. But it does not convert the wxStyledTextCtrl,
+        which will need to be rebuilt. It is being maintained so it may be a better choice. It can import an XRC file
+        from any RAD application that will generate one.</p>
+    <p>
+        The main window for Artistic Style Wx does NOT use a RAD. It is created by written, not generated, code. The notebook
+        control is actually a wxAuiNotebook which allows the user to rearrange the tab order using drag-and-drop.</p>
+
+    <h3>Book Classes for Dialogs</h3>
+
+    <p>
+        wxFormBuilder generates wxNotebook (not wxAuiNotebook) controls for the Editor and AStyle dialog windows. 
+        It uses tabs to change the dialog pages. AStyleWx makes use of the base class wxBookCtrl so the &quot;book&quot;
+        class can be converted to wxChoiceBook, wxListBook, or wxTreeBook controls. This is done using the script 
+        &quot;to_xxbook.py&quot;. This is a Python script available in the &quot;file-py&quot; folder. You must have Python
+        installed to run it. In the script change the variable &quot;__new_book&quot; to the value of the desired book
+        control and run the script. When recompiled the dialogs will display the new wxWidgets book control. The main
+        window is NOT changed.</p>
+
+
+    <p>
+        &nbsp;</p>
+
+    <p style="margin-left: -0.4in; text-align: center;">
+        <a href="http://sourceforge.net/projects/astyle">
+            <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=2319&type=16" alt="" />
+        </a></p>
+
+    <p>
+        &nbsp;</p>
+
+</body>
+
+</html>
+
