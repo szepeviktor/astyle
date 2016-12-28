@@ -1,0 +1,645 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BF1D8D70198949F2004E04B0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1D8D6F198949F2004E04B0 /* Cocoa.framework */; };
+		BF1D8DA619894AE0004E04B0 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1D8DA319894AE0004E04B0 /* Carbon.framework */; };
+		BF1D8DA719894AE0004E04B0 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1D8DA419894AE0004E04B0 /* IOKit.framework */; };
+		BF1D8DA819894AE0004E04B0 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1D8DA519894AE0004E04B0 /* OpenGL.framework */; };
+		BF1D8E9119894BCE004E04B0 /* AboutDlgBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E6319894BCE004E04B0 /* AboutDlgBase.cpp */; };
+		BF1D8E9419894BCE004E04B0 /* AStyleDlgBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E6719894BCE004E04B0 /* AStyleDlgBase.cpp */; };
+		BF1D8E9819894BCE004E04B0 /* EditorDlgBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E6C19894BCE004E04B0 /* EditorDlgBase.cpp */; };
+		BF1D8E9C19894BCE004E04B0 /* SettingsDlgBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E7119894BCE004E04B0 /* SettingsDlgBase.cpp */; };
+		BF1D8E9F19894BCE004E04B0 /* AboutDlg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E7619894BCE004E04B0 /* AboutDlg.cpp */; };
+		BF1D8EA019894BCE004E04B0 /* ASApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E7819894BCE004E04B0 /* ASApp.cpp */; };
+		BF1D8EA219894BCE004E04B0 /* ASEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E7A19894BCE004E04B0 /* ASEditor.cpp */; };
+		BF1D8EA319894BCE004E04B0 /* AStyleDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E7B19894BCE004E04B0 /* AStyleDisplay.cpp */; };
+		BF1D8EA419894BCE004E04B0 /* AStyleDlg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E7D19894BCE004E04B0 /* AStyleDlg.cpp */; };
+		BF1D8EA519894BCE004E04B0 /* AStyleFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E7F19894BCE004E04B0 /* AStyleFormat.cpp */; };
+		BF1D8EA619894BCE004E04B0 /* AStyleIFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E8119894BCE004E04B0 /* AStyleIFace.cpp */; };
+		BF1D8EA719894BCE004E04B0 /* AStyleWx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E8319894BCE004E04B0 /* AStyleWx.cpp */; };
+		BF1D8EA819894BCE004E04B0 /* Config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E8519894BCE004E04B0 /* Config.cpp */; };
+		BF1D8EA919894BCE004E04B0 /* EditorDlg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E8819894BCE004E04B0 /* EditorDlg.cpp */; };
+		BF1D8EAA19894BCE004E04B0 /* Encoding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E8A19894BCE004E04B0 /* Encoding.cpp */; };
+		BF1D8EAB19894BCE004E04B0 /* FileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E8C19894BCE004E04B0 /* FileManager.cpp */; };
+		BF1D8EAC19894BCE004E04B0 /* Indent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E8E19894BCE004E04B0 /* Indent.cpp */; };
+		BF1D8EAD19894BCE004E04B0 /* SettingsDlg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E8F19894BCE004E04B0 /* SettingsDlg.cpp */; };
+		BF2F4B031989526500048A77 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B011989526500048A77 /* libz.dylib */; };
+		BF2F4B041989526500048A77 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B021989526500048A77 /* libiconv.dylib */; };
+		BF2F4B0E198952BF00048A77 /* libwx_baseu-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B07198952BF00048A77 /* libwx_baseu-3.0.a */; };
+		BF2F4B0F198952BF00048A77 /* libwx_osx_cocoau_adv-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B08198952BF00048A77 /* libwx_osx_cocoau_adv-3.0.a */; };
+		BF2F4B10198952BF00048A77 /* libwx_osx_cocoau_aui-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B09198952BF00048A77 /* libwx_osx_cocoau_aui-3.0.a */; };
+		BF2F4B11198952C000048A77 /* libwx_osx_cocoau_core-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B0A198952BF00048A77 /* libwx_osx_cocoau_core-3.0.a */; };
+		BF2F4B12198952C000048A77 /* libwx_osx_cocoau_stc-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B0B198952BF00048A77 /* libwx_osx_cocoau_stc-3.0.a */; };
+		BF2F4B13198952C000048A77 /* libwxpng-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B0C198952BF00048A77 /* libwxpng-3.0.a */; };
+		BF2F4B14198952C000048A77 /* libwxscintilla-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B0D198952BF00048A77 /* libwxscintilla-3.0.a */; };
+		BF95E0BE1992F40E0069145A /* ASBeautifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF95E0AF1992F3A80069145A /* ASBeautifier.cpp */; };
+		BF95E0BF1992F40E0069145A /* ASEnhancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF95E0B01992F3A80069145A /* ASEnhancer.cpp */; };
+		BF95E0C01992F40E0069145A /* ASFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF95E0B11992F3A80069145A /* ASFormatter.cpp */; };
+		BF95E0C11992F40E0069145A /* ASResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF95E0B41992F3A80069145A /* ASResource.cpp */; };
+		BF95E0C31992F40E0069145A /* astyle_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF95E0B61992F3A80069145A /* astyle_main.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BFDED279198AAB4A00DE2F50 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BF1D8D64198949F2004E04B0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BF3736E3198A8B870054BF0B;
+			remoteInfo = AStyleDy;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		BF1D8D6F198949F2004E04B0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		BF1D8DA319894AE0004E04B0 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = ../../../../../../System/Library/Frameworks/Carbon.framework; sourceTree = "<group>"; };
+		BF1D8DA419894AE0004E04B0 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
+		BF1D8DA519894AE0004E04B0 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = ../../../../../../System/Library/Frameworks/OpenGL.framework; sourceTree = "<group>"; };
+		BF1D8E6319894BCE004E04B0 /* AboutDlgBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AboutDlgBase.cpp; sourceTree = "<group>"; };
+		BF1D8E6519894BCE004E04B0 /* AboutDlgBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutDlgBase.h; sourceTree = "<group>"; };
+		BF1D8E6719894BCE004E04B0 /* AStyleDlgBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AStyleDlgBase.cpp; sourceTree = "<group>"; };
+		BF1D8E6919894BCE004E04B0 /* AStyleDlgBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AStyleDlgBase.h; sourceTree = "<group>"; };
+		BF1D8E6C19894BCE004E04B0 /* EditorDlgBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorDlgBase.cpp; sourceTree = "<group>"; };
+		BF1D8E6E19894BCE004E04B0 /* EditorDlgBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorDlgBase.h; sourceTree = "<group>"; };
+		BF1D8E7119894BCE004E04B0 /* SettingsDlgBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsDlgBase.cpp; sourceTree = "<group>"; };
+		BF1D8E7319894BCE004E04B0 /* SettingsDlgBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsDlgBase.h; sourceTree = "<group>"; };
+		BF1D8E7619894BCE004E04B0 /* AboutDlg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AboutDlg.cpp; sourceTree = "<group>"; };
+		BF1D8E7719894BCE004E04B0 /* AboutDlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutDlg.h; sourceTree = "<group>"; };
+		BF1D8E7819894BCE004E04B0 /* ASApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASApp.cpp; sourceTree = "<group>"; };
+		BF1D8E7A19894BCE004E04B0 /* ASEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASEditor.cpp; sourceTree = "<group>"; };
+		BF1D8E7B19894BCE004E04B0 /* AStyleDisplay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AStyleDisplay.cpp; sourceTree = "<group>"; };
+		BF1D8E7C19894BCE004E04B0 /* AStyleDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AStyleDisplay.h; sourceTree = "<group>"; };
+		BF1D8E7D19894BCE004E04B0 /* AStyleDlg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AStyleDlg.cpp; sourceTree = "<group>"; };
+		BF1D8E7E19894BCE004E04B0 /* AStyleDlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AStyleDlg.h; sourceTree = "<group>"; };
+		BF1D8E7F19894BCE004E04B0 /* AStyleFormat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AStyleFormat.cpp; sourceTree = "<group>"; };
+		BF1D8E8019894BCE004E04B0 /* AStyleFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AStyleFormat.h; sourceTree = "<group>"; };
+		BF1D8E8119894BCE004E04B0 /* AStyleIFace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AStyleIFace.cpp; sourceTree = "<group>"; };
+		BF1D8E8219894BCE004E04B0 /* AStyleIFace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AStyleIFace.h; sourceTree = "<group>"; };
+		BF1D8E8319894BCE004E04B0 /* AStyleWx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AStyleWx.cpp; sourceTree = "<group>"; };
+		BF1D8E8419894BCE004E04B0 /* AStyleWx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AStyleWx.h; sourceTree = "<group>"; };
+		BF1D8E8519894BCE004E04B0 /* Config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Config.cpp; sourceTree = "<group>"; };
+		BF1D8E8619894BCE004E04B0 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		BF1D8E8719894BCE004E04B0 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		BF1D8E8819894BCE004E04B0 /* EditorDlg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorDlg.cpp; sourceTree = "<group>"; };
+		BF1D8E8919894BCE004E04B0 /* EditorDlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorDlg.h; sourceTree = "<group>"; };
+		BF1D8E8A19894BCE004E04B0 /* Encoding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Encoding.cpp; sourceTree = "<group>"; };
+		BF1D8E8B19894BCE004E04B0 /* Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Encoding.h; sourceTree = "<group>"; };
+		BF1D8E8C19894BCE004E04B0 /* FileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileManager.cpp; sourceTree = "<group>"; };
+		BF1D8E8D19894BCE004E04B0 /* FileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManager.h; sourceTree = "<group>"; };
+		BF1D8E8E19894BCE004E04B0 /* Indent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Indent.cpp; sourceTree = "<group>"; };
+		BF1D8E8F19894BCE004E04B0 /* SettingsDlg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsDlg.cpp; sourceTree = "<group>"; };
+		BF1D8E9019894BCE004E04B0 /* SettingsDlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsDlg.h; sourceTree = "<group>"; };
+		BF2F4B011989526500048A77 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
+		BF2F4B021989526500048A77 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = /usr/lib/libiconv.dylib; sourceTree = "<absolute>"; };
+		BF2F4B07198952BF00048A77 /* libwx_baseu-3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwx_baseu-3.0.a"; path = "../../../../../../usr/local/lib/libwx_baseu-3.0.a"; sourceTree = "<group>"; };
+		BF2F4B08198952BF00048A77 /* libwx_osx_cocoau_adv-3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwx_osx_cocoau_adv-3.0.a"; path = "../../../../../../usr/local/lib/libwx_osx_cocoau_adv-3.0.a"; sourceTree = "<group>"; };
+		BF2F4B09198952BF00048A77 /* libwx_osx_cocoau_aui-3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwx_osx_cocoau_aui-3.0.a"; path = "../../../../../../usr/local/lib/libwx_osx_cocoau_aui-3.0.a"; sourceTree = "<group>"; };
+		BF2F4B0A198952BF00048A77 /* libwx_osx_cocoau_core-3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwx_osx_cocoau_core-3.0.a"; path = "../../../../../../usr/local/lib/libwx_osx_cocoau_core-3.0.a"; sourceTree = "<group>"; };
+		BF2F4B0B198952BF00048A77 /* libwx_osx_cocoau_stc-3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwx_osx_cocoau_stc-3.0.a"; path = "../../../../../../usr/local/lib/libwx_osx_cocoau_stc-3.0.a"; sourceTree = "<group>"; };
+		BF2F4B0C198952BF00048A77 /* libwxpng-3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwxpng-3.0.a"; path = "../../../../../../usr/local/lib/libwxpng-3.0.a"; sourceTree = "<group>"; };
+		BF2F4B0D198952BF00048A77 /* libwxscintilla-3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwxscintilla-3.0.a"; path = "../../../../../../usr/local/lib/libwxscintilla-3.0.a"; sourceTree = "<group>"; };
+		BF929A69198C234200700A51 /* AStyleWxDy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AStyleWxDy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF929A6E198C29D200700A51 /* libastyle-2.06.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libastyle-2.06.dylib"; path = "Build/Products/Release/libastyle-2.06.dylib"; sourceTree = "<group>"; };
+		BF95E0AF1992F3A80069145A /* ASBeautifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASBeautifier.cpp; sourceTree = "<group>"; };
+		BF95E0B01992F3A80069145A /* ASEnhancer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASEnhancer.cpp; sourceTree = "<group>"; };
+		BF95E0B11992F3A80069145A /* ASFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASFormatter.cpp; sourceTree = "<group>"; };
+		BF95E0B41992F3A80069145A /* ASResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASResource.cpp; sourceTree = "<group>"; };
+		BF95E0B51992F3A80069145A /* astyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = astyle.h; sourceTree = "<group>"; };
+		BF95E0B61992F3A80069145A /* astyle_main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = astyle_main.cpp; sourceTree = "<group>"; };
+		BF95E0B71992F3A80069145A /* astyle_main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = astyle_main.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BF1D8D69198949F2004E04B0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF2F4B041989526500048A77 /* libiconv.dylib in Frameworks */,
+				BF2F4B0E198952BF00048A77 /* libwx_baseu-3.0.a in Frameworks */,
+				BF2F4B0F198952BF00048A77 /* libwx_osx_cocoau_adv-3.0.a in Frameworks */,
+				BF2F4B10198952BF00048A77 /* libwx_osx_cocoau_aui-3.0.a in Frameworks */,
+				BF2F4B11198952C000048A77 /* libwx_osx_cocoau_core-3.0.a in Frameworks */,
+				BF2F4B12198952C000048A77 /* libwx_osx_cocoau_stc-3.0.a in Frameworks */,
+				BF2F4B13198952C000048A77 /* libwxpng-3.0.a in Frameworks */,
+				BF2F4B14198952C000048A77 /* libwxscintilla-3.0.a in Frameworks */,
+				BF2F4B031989526500048A77 /* libz.dylib in Frameworks */,
+				BF1D8DA619894AE0004E04B0 /* Carbon.framework in Frameworks */,
+				BF1D8D70198949F2004E04B0 /* Cocoa.framework in Frameworks */,
+				BF1D8DA819894AE0004E04B0 /* OpenGL.framework in Frameworks */,
+				BF1D8DA719894AE0004E04B0 /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF3736E1198A8B870054BF0B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BF1D8D63198949F2004E04B0 = {
+			isa = PBXGroup;
+			children = (
+				BF1D8EAE19894BEC004E04B0 /* AStyleWx */,
+				BF95E0AD1992F3890069145A /* AStyleDy */,
+				BF1D8D6E198949F2004E04B0 /* Frameworks */,
+				BF2F4B001989524800048A77 /* Libraries */,
+				BF929A69198C234200700A51 /* AStyleWxDy.app */,
+				BF929A6E198C29D200700A51 /* libastyle-2.06.dylib */,
+			);
+			sourceTree = "<group>";
+		};
+		BF1D8D6E198949F2004E04B0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BF1D8DA319894AE0004E04B0 /* Carbon.framework */,
+				BF1D8D6F198949F2004E04B0 /* Cocoa.framework */,
+				BF1D8DA419894AE0004E04B0 /* IOKit.framework */,
+				BF1D8DA519894AE0004E04B0 /* OpenGL.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BF1D8E6219894BCE004E04B0 /* dialog */ = {
+			isa = PBXGroup;
+			children = (
+				BF1D8E6319894BCE004E04B0 /* AboutDlgBase.cpp */,
+				BF1D8E6519894BCE004E04B0 /* AboutDlgBase.h */,
+				BF1D8E6719894BCE004E04B0 /* AStyleDlgBase.cpp */,
+				BF1D8E6919894BCE004E04B0 /* AStyleDlgBase.h */,
+				BF1D8E6C19894BCE004E04B0 /* EditorDlgBase.cpp */,
+				BF1D8E6E19894BCE004E04B0 /* EditorDlgBase.h */,
+				BF1D8E7119894BCE004E04B0 /* SettingsDlgBase.cpp */,
+				BF1D8E7319894BCE004E04B0 /* SettingsDlgBase.h */,
+			);
+			name = dialog;
+			path = ../../dialog;
+			sourceTree = "<group>";
+		};
+		BF1D8E7519894BCE004E04B0 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				BF1D8E7619894BCE004E04B0 /* AboutDlg.cpp */,
+				BF1D8E7719894BCE004E04B0 /* AboutDlg.h */,
+				BF1D8E7819894BCE004E04B0 /* ASApp.cpp */,
+				BF1D8E7A19894BCE004E04B0 /* ASEditor.cpp */,
+				BF1D8E7B19894BCE004E04B0 /* AStyleDisplay.cpp */,
+				BF1D8E7C19894BCE004E04B0 /* AStyleDisplay.h */,
+				BF1D8E7D19894BCE004E04B0 /* AStyleDlg.cpp */,
+				BF1D8E7E19894BCE004E04B0 /* AStyleDlg.h */,
+				BF1D8E7F19894BCE004E04B0 /* AStyleFormat.cpp */,
+				BF1D8E8019894BCE004E04B0 /* AStyleFormat.h */,
+				BF1D8E8119894BCE004E04B0 /* AStyleIFace.cpp */,
+				BF1D8E8219894BCE004E04B0 /* AStyleIFace.h */,
+				BF1D8E8319894BCE004E04B0 /* AStyleWx.cpp */,
+				BF1D8E8419894BCE004E04B0 /* AStyleWx.h */,
+				BF1D8E8519894BCE004E04B0 /* Config.cpp */,
+				BF1D8E8619894BCE004E04B0 /* Config.h */,
+				BF1D8E8719894BCE004E04B0 /* Constants.h */,
+				BF1D8E8819894BCE004E04B0 /* EditorDlg.cpp */,
+				BF1D8E8919894BCE004E04B0 /* EditorDlg.h */,
+				BF1D8E8A19894BCE004E04B0 /* Encoding.cpp */,
+				BF1D8E8B19894BCE004E04B0 /* Encoding.h */,
+				BF1D8E8C19894BCE004E04B0 /* FileManager.cpp */,
+				BF1D8E8D19894BCE004E04B0 /* FileManager.h */,
+				BF1D8E8E19894BCE004E04B0 /* Indent.cpp */,
+				BF1D8E8F19894BCE004E04B0 /* SettingsDlg.cpp */,
+				BF1D8E9019894BCE004E04B0 /* SettingsDlg.h */,
+			);
+			name = src;
+			path = ../../src;
+			sourceTree = "<group>";
+		};
+		BF1D8EAE19894BEC004E04B0 /* AStyleWx */ = {
+			isa = PBXGroup;
+			children = (
+				BF1D8E6219894BCE004E04B0 /* dialog */,
+				BF1D8E7519894BCE004E04B0 /* src */,
+			);
+			name = AStyleWx;
+			sourceTree = "<group>";
+		};
+		BF2F4B001989524800048A77 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				BF2F4B051989527E00048A77 /* osx */,
+				BF2F4B061989529000048A77 /* wx */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		BF2F4B051989527E00048A77 /* osx */ = {
+			isa = PBXGroup;
+			children = (
+				BF2F4B011989526500048A77 /* libz.dylib */,
+				BF2F4B021989526500048A77 /* libiconv.dylib */,
+			);
+			name = osx;
+			sourceTree = "<group>";
+		};
+		BF2F4B061989529000048A77 /* wx */ = {
+			isa = PBXGroup;
+			children = (
+				BF2F4B07198952BF00048A77 /* libwx_baseu-3.0.a */,
+				BF2F4B08198952BF00048A77 /* libwx_osx_cocoau_adv-3.0.a */,
+				BF2F4B09198952BF00048A77 /* libwx_osx_cocoau_aui-3.0.a */,
+				BF2F4B0A198952BF00048A77 /* libwx_osx_cocoau_core-3.0.a */,
+				BF2F4B0B198952BF00048A77 /* libwx_osx_cocoau_stc-3.0.a */,
+				BF2F4B0C198952BF00048A77 /* libwxpng-3.0.a */,
+				BF2F4B0D198952BF00048A77 /* libwxscintilla-3.0.a */,
+			);
+			name = wx;
+			sourceTree = "<group>";
+		};
+		BF95E0AD1992F3890069145A /* AStyleDy */ = {
+			isa = PBXGroup;
+			children = (
+				BF95E0AE1992F3A80069145A /* src */,
+			);
+			name = AStyleDy;
+			sourceTree = "<group>";
+		};
+		BF95E0AE1992F3A80069145A /* src */ = {
+			isa = PBXGroup;
+			children = (
+				BF95E0AF1992F3A80069145A /* ASBeautifier.cpp */,
+				BF95E0B01992F3A80069145A /* ASEnhancer.cpp */,
+				BF95E0B11992F3A80069145A /* ASFormatter.cpp */,
+				BF95E0B41992F3A80069145A /* ASResource.cpp */,
+				BF95E0B51992F3A80069145A /* astyle.h */,
+				BF95E0B61992F3A80069145A /* astyle_main.cpp */,
+				BF95E0B71992F3A80069145A /* astyle_main.h */,
+			);
+			name = src;
+			path = ../../../AStyle/src;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		BF3736E2198A8B870054BF0B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		BF1D8D6B198949F2004E04B0 /* AStyleWxDy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF1D8D9D198949F2004E04B0 /* Build configuration list for PBXNativeTarget "AStyleWxDy" */;
+			buildPhases = (
+				BF1D8D68198949F2004E04B0 /* Sources */,
+				BF1D8D69198949F2004E04B0 /* Frameworks */,
+				BF1D8D6A198949F2004E04B0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BFDED27A198AAB4A00DE2F50 /* PBXTargetDependency */,
+			);
+			name = AStyleWxDy;
+			productName = AStyleWxDy;
+			productReference = BF929A69198C234200700A51 /* AStyleWxDy.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BF3736E3198A8B870054BF0B /* AStyleDy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF373703198A8B870054BF0B /* Build configuration list for PBXNativeTarget "AStyleDy" */;
+			buildPhases = (
+				BF3736E0198A8B870054BF0B /* Sources */,
+				BF3736E1198A8B870054BF0B /* Frameworks */,
+				BF3736E2198A8B870054BF0B /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AStyleDy;
+			productName = AStyleDy;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BF1D8D64198949F2004E04B0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "___FULLUSERNAME___";
+			};
+			buildConfigurationList = BF1D8D67198949F2004E04B0 /* Build configuration list for PBXProject "AStyleWxDy" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BF1D8D63198949F2004E04B0;
+			productRefGroup = BF1D8D63198949F2004E04B0;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BF1D8D6B198949F2004E04B0 /* AStyleWxDy */,
+				BF3736E3198A8B870054BF0B /* AStyleDy */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BF1D8D6A198949F2004E04B0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BF1D8D68198949F2004E04B0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF1D8EA219894BCE004E04B0 /* ASEditor.cpp in Sources */,
+				BF1D8EA419894BCE004E04B0 /* AStyleDlg.cpp in Sources */,
+				BF1D8EA719894BCE004E04B0 /* AStyleWx.cpp in Sources */,
+				BF1D8EAB19894BCE004E04B0 /* FileManager.cpp in Sources */,
+				BF1D8EAD19894BCE004E04B0 /* SettingsDlg.cpp in Sources */,
+				BF1D8EA819894BCE004E04B0 /* Config.cpp in Sources */,
+				BF1D8E9819894BCE004E04B0 /* EditorDlgBase.cpp in Sources */,
+				BF1D8EAA19894BCE004E04B0 /* Encoding.cpp in Sources */,
+				BF1D8EA619894BCE004E04B0 /* AStyleIFace.cpp in Sources */,
+				BF1D8E9119894BCE004E04B0 /* AboutDlgBase.cpp in Sources */,
+				BF1D8E9C19894BCE004E04B0 /* SettingsDlgBase.cpp in Sources */,
+				BF1D8EAC19894BCE004E04B0 /* Indent.cpp in Sources */,
+				BF1D8EA319894BCE004E04B0 /* AStyleDisplay.cpp in Sources */,
+				BF1D8EA519894BCE004E04B0 /* AStyleFormat.cpp in Sources */,
+				BF1D8EA919894BCE004E04B0 /* EditorDlg.cpp in Sources */,
+				BF1D8E9419894BCE004E04B0 /* AStyleDlgBase.cpp in Sources */,
+				BF1D8E9F19894BCE004E04B0 /* AboutDlg.cpp in Sources */,
+				BF1D8EA019894BCE004E04B0 /* ASApp.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF3736E0198A8B870054BF0B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF95E0BE1992F40E0069145A /* ASBeautifier.cpp in Sources */,
+				BF95E0BF1992F40E0069145A /* ASEnhancer.cpp in Sources */,
+				BF95E0C01992F40E0069145A /* ASFormatter.cpp in Sources */,
+				BF95E0C11992F40E0069145A /* ASResource.cpp in Sources */,
+				BF95E0C31992F40E0069145A /* astyle_main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BFDED27A198AAB4A00DE2F50 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BF3736E3198A8B870054BF0B /* AStyleDy */;
+			targetProxy = BFDED279198AAB4A00DE2F50 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		BF1D8D9B198949F2004E04B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		BF1D8D9C198949F2004E04B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		BF1D8D9E198949F2004E04B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++98";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					__WXOSX_COCOA__,
+					"_FILE_OFFSET_BITS=64",
+					HAVE_VARIADIC_MACROS,
+					ASTYLE_DYLIB,
+					TESTMODE1,
+				);
+				HEADER_SEARCH_PATHS = (
+					"/usr/local/lib/wx/include/osx_cocoa-unicode-static-3.0",
+					"/usr/local/include/wx-3.0",
+					"/usr/include/c++/4.2.1",
+					../../image,
+				);
+				INFOPLIST_FILE = "AStyleWx/AStyleWx-Info.plist";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OBJROOT = Build/Intermediates;
+				OTHER_LDFLAGS = "-Wl,-rpath,@executable_path/";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYMROOT = Build/Products;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BF1D8D9F198949F2004E04B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++98";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"NDEBUG=1",
+					__WXOSX_COCOA__,
+					"_FILE_OFFSET_BITS=64",
+					HAVE_VARIADIC_MACROS,
+					ASTYLE_DYLIB,
+				);
+				HEADER_SEARCH_PATHS = (
+					"/usr/local/lib/wx/include/osx_cocoa-unicode-static-3.0",
+					"/usr/local/include/wx-3.0",
+					"/usr/include/c++/4.2.1",
+					../../image,
+				);
+				INFOPLIST_FILE = "AStyleWx/AStyleWx-Info.plist";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LLVM_LTO = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OBJROOT = Build/Intermediates;
+				OTHER_LDFLAGS = "-Wl,-rpath,@executable_path/";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYMROOT = Build/Products;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		BF373704198A8B870054BF0B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++98";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(PROJECT).app/Contents/MacOS";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"ASTYLE_LIB=1",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OBJROOT = Build/Intermediates;
+				PRODUCT_NAME = "astyle-2.06d";
+				SYMROOT = Build/Products;
+			};
+			name = Debug;
+		};
+		BF373705198A8B870054BF0B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++98";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(PROJECT).app/Contents/MacOS";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"NDEBUG=1",
+					"ASTYLE_LIB=1",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OBJROOT = Build/Intermediates;
+				PRODUCT_NAME = "astyle-2.06";
+				SYMROOT = Build/Products;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BF1D8D67198949F2004E04B0 /* Build configuration list for PBXProject "AStyleWxDy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF1D8D9B198949F2004E04B0 /* Debug */,
+				BF1D8D9C198949F2004E04B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BF1D8D9D198949F2004E04B0 /* Build configuration list for PBXNativeTarget "AStyleWxDy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF1D8D9E198949F2004E04B0 /* Debug */,
+				BF1D8D9F198949F2004E04B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BF373703198A8B870054BF0B /* Build configuration list for PBXNativeTarget "AStyleDy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF373704198A8B870054BF0B /* Debug */,
+				BF373705198A8B870054BF0B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BF1D8D64198949F2004E04B0 /* Project object */;
+}

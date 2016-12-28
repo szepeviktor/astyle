@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
+	<object class="wxDialog" name="AboutDlgBase">
+		<style>wxDEFAULT_DIALOG_STYLE</style>
+		<title></title>
+		<centered>1</centered>
+		<object class="wxBoxSizer">
+			<orient>wxVERTICAL</orient>
+			<object class="sizeritem">
+				<option>0</option>
+				<flag>wxEXPAND|wxLEFT|wxRIGHT</flag>
+				<border>25</border>
+				<object class="wxBoxSizer">
+					<orient>wxVERTICAL</orient>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxBOTTOM|wxEXPAND|wxTOP</flag>
+						<border>15</border>
+						<object class="wxFlexGridSizer">
+							<rows>1</rows>
+							<cols>2</cols>
+							<vgap>0</vgap>
+							<hgap>0</hgap>
+							<growablecols>0</growablecols>
+							<growablerows></growablerows>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxALIGN_CENTER_VERTICAL|wxEXPAND</flag>
+								<border>5</border>
+								<object class="wxStaticText" name="m_title1">
+									<label>title1</label>
+									<wrap>-1</wrap>
+								</object>
+							</object>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+								<border>5</border>
+								<object class="wxStaticBitmap" name="m_icon">
+									<bitmap />
+								</object>
+							</object>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxBOTTOM|wxEXPAND</flag>
+						<border>5</border>
+						<object class="wxStaticText" name="m_description">
+							<label>Description</label>
+							<wrap>-1</wrap>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxBOTTOM|wxEXPAND|wxTOP</flag>
+						<border>5</border>
+						<object class="wxStaticText" name="m_license">
+							<label>License</label>
+							<wrap>-1</wrap>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxBOTTOM|wxEXPAND|wxTOP</flag>
+						<border>5</border>
+						<object class="wxStaticText" name="m_astylewxVersion">
+							<label>AStyleWx version</label>
+							<wrap>-1</wrap>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxBOTTOM|wxEXPAND|wxTOP</flag>
+						<border>5</border>
+						<object class="wxStaticText" name="m_wxVersion">
+							<label>wxWidgets version</label>
+							<wrap>-1</wrap>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxBOTTOM|wxEXPAND|wxTOP</flag>
+						<border>5</border>
+						<object class="wxStaticLine" name="staticline1">
+							<style>wxLI_HORIZONTAL</style>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxBOTTOM|wxEXPAND|wxTOP</flag>
+						<border>5</border>
+						<object class="wxStaticText" name="m_title2">
+							<style>wxALIGN_LEFT</style>
+							<label>title2</label>
+							<wrap>-1</wrap>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxEXPAND|wxTOP</flag>
+						<border>5</border>
+						<object class="wxStaticText" name="m_astyleVersion">
+							<label>AStyle version</label>
+							<wrap>-1</wrap>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxEXPAND</flag>
+						<border>5</border>
+						<object class="wxBoxSizer">
+							<orient>wxHORIZONTAL</orient>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxBOTTOM|wxEXPAND|wxRIGHT|wxTOP</flag>
+								<border>5</border>
+								<object class="wxStaticText" name="m_astyleWeblabel">
+									<label>Website</label>
+									<wrap>-1</wrap>
+								</object>
+							</object>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxALL</flag>
+								<border>5</border>
+								<object class="wxHyperlinkCtrl" name="m_astyleWebsite">
+									<label>website</label>
+									<url>http://www.wxformbuilder.org</url>
+									<style>wxHL_DEFAULT_STYLE</style>
+								</object>
+							</object>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxBOTTOM|wxEXPAND|wxTOP</flag>
+						<border>5</border>
+						<object class="wxStaticLine" name="staticline2">
+							<style>wxLI_HORIZONTAL</style>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxBOTTOM|wxEXPAND|wxTOP</flag>
+						<border>5</border>
+						<object class="wxStaticText" name="m_title3">
+							<label>title3</label>
+							<wrap>-1</wrap>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>1</option>
+						<flag>wxBOTTOM|wxEXPAND|wxTOP</flag>
+						<border>5</border>
+						<object class="wxFlexGridSizer">
+							<rows>1</rows>
+							<cols>2</cols>
+							<vgap>0</vgap>
+							<hgap>20</hgap>
+							<growablecols></growablecols>
+							<growablerows></growablerows>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag></flag>
+								<border>5</border>
+								<object class="wxStaticText" name="m_localeText">
+									<label>localeText</label>
+									<wrap>-1</wrap>
+								</object>
+							</object>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag></flag>
+								<border>5</border>
+								<object class="wxStaticText" name="m_localeData">
+									<label>localeData</label>
+									<wrap>-1</wrap>
+								</object>
+							</object>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxBOTTOM|wxEXPAND|wxTOP</flag>
+						<border>5</border>
+						<object class="wxStaticLine" name="staticline3">
+							<style>wxLI_HORIZONTAL</style>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxALIGN_RIGHT|wxBOTTOM|wxTOP</flag>
+						<border>10</border>
+						<object class="wxButton" name="m_ok">
+							<label>_OK</label>
+							<default>1</default>
+						</object>
+					</object>
+				</object>
+			</object>
+		</object>
+	</object>
+</resource>

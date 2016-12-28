@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
+	<object class="wxDialog" name="EditorDlgBase">
+		<style>wxDEFAULT_DIALOG_STYLE</style>
+		<exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
+		<title></title>
+		<object class="wxBoxSizer">
+			<orient>wxVERTICAL</orient>
+			<object class="sizeritem">
+				<option>1</option>
+				<flag>wxEXPAND|wxALL</flag>
+				<border>5</border>
+				<object class="wxBoxSizer">
+					<orient>wxHORIZONTAL</orient>
+					<object class="sizeritem">
+						<option>1</option>
+						<flag>wxEXPAND|wxALL</flag>
+						<border>5</border>
+						<object class="wxNotebook" name="m_notebook">
+							<style>wxNB_DEFAULT|wxCLIP_CHILDREN</style>
+							<object class="notebookpage">
+								<label>Options</label>
+								<selected>1</selected>
+								<object class="wxPanel" name="m_optionsPage">
+									<style>wxCLIP_CHILDREN|wxTAB_TRAVERSAL</style>
+									<object class="wxBoxSizer">
+										<orient>wxHORIZONTAL</orient>
+										<object class="sizeritem">
+											<option>0</option>
+											<flag>wxALIGN_TOP|wxALL</flag>
+											<border>20</border>
+											<object class="wxBoxSizer">
+												<orient>wxVERTICAL</orient>
+												<object class="sizeritem">
+													<option>0</option>
+													<flag>wxALIGN_LEFT|wxALL</flag>
+													<border>5</border>
+													<object class="wxCheckBox" name="m_useBottomTabs">
+														<label>Use bottom tabs for source files</label>
+														<checked>0</checked>
+													</object>
+												</object>
+												<object class="sizeritem">
+													<option>0</option>
+													<flag>wxALIGN_LEFT|wxALL</flag>
+													<border>5</border>
+													<object class="wxCheckBox" name="m_useSmallToolbar">
+														<label>Use small toolbar images</label>
+														<checked>0</checked>
+													</object>
+												</object>
+												<object class="sizeritem">
+													<option>0</option>
+													<flag>wxALIGN_LEFT|wxALL</flag>
+													<border>5</border>
+													<object class="wxCheckBox" name="m_showToolbarTooltips">
+														<label>Show toolbar tooltips</label>
+														<checked>0</checked>
+													</object>
+												</object>
+												<object class="sizeritem">
+													<option>0</option>
+													<flag>wxALIGN_LEFT|wxALL</flag>
+													<border>5</border>
+													<object class="wxCheckBox" name="m_showDialogTooltips">
+														<label>Show dialog tooltips</label>
+														<checked>0</checked>
+													</object>
+												</object>
+												<object class="sizeritem">
+													<option>0</option>
+													<flag>wxALIGN_LEFT|wxALL</flag>
+													<border>5</border>
+													<object class="wxCheckBox" name="m_hideFind">
+														<label>Hide find dialog</label>
+														<checked>0</checked>
+													</object>
+												</object>
+												<object class="sizeritem">
+													<option>0</option>
+													<flag>wxALIGN_LEFT|wxALL</flag>
+													<border>5</border>
+													<object class="wxCheckBox" name="m_wrapSearch">
+														<label>Wrap search</label>
+														<checked>0</checked>
+													</object>
+												</object>
+											</object>
+										</object>
+									</object>
+								</object>
+							</object>
+							<object class="notebookpage">
+								<label>Fonts</label>
+								<selected>0</selected>
+								<object class="wxPanel" name="m_fontsPage">
+									<style>wxCLIP_CHILDREN|wxTAB_TRAVERSAL</style>
+									<object class="wxBoxSizer">
+										<orient>wxHORIZONTAL</orient>
+										<object class="sizeritem">
+											<option>0</option>
+											<flag>wxALIGN_TOP|wxALL</flag>
+											<border>10</border>
+											<object class="wxBoxSizer">
+												<orient>wxVERTICAL</orient>
+												<object class="spacer">
+													<option>0</option>
+													<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+													<border>5</border>
+													<size>5,5</size>
+												</object>
+												<object class="sizeritem">
+													<option>0</option>
+													<flag>wxALIGN_LEFT|wxALL</flag>
+													<border>5</border>
+													<object class="wxStaticText" name="m_defaultHeader">
+														<label>Default Font</label>
+														<wrap>-1</wrap>
+													</object>
+												</object>
+												<object class="sizeritem">
+													<option>0</option>
+													<flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT</flag>
+													<border>20</border>
+													<object class="wxBoxSizer">
+														<orient>wxHORIZONTAL</orient>
+														<object class="sizeritem">
+															<option>0</option>
+															<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+															<border>5</border>
+															<object class="wxComboBox" name="m_defaultFonts">
+																<style>wxCB_READONLY</style>
+																<size>250,-1</size>
+																<value></value>
+																<content />
+															</object>
+														</object>
+														<object class="sizeritem">
+															<option>0</option>
+															<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+															<border>5</border>
+															<object class="wxComboBox" name="m_defaultSizes">
+																<style>wxCB_READONLY</style>
+																<size>60,-1</size>
+																<value></value>
+																<content />
+															</object>
+														</object>
+													</object>
+												</object>
+												<object class="spacer">
+													<option>0</option>
+													<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+													<border>5</border>
+													<size>5,5</size>
+												</object>
+												<object class="sizeritem">
+													<option>0</option>
+													<flag>wxALIGN_LEFT|wxALL</flag>
+													<border>5</border>
+													<object class="wxStaticText" name="m_commentHeader">
+														<label>Comment Font</label>
+														<wrap>-1</wrap>
+													</object>
+												</object>
+												<object class="sizeritem">
+													<option>0</option>
+													<flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT</flag>
+													<border>20</border>
+													<object class="wxBoxSizer">
+														<orient>wxHORIZONTAL</orient>
+														<object class="sizeritem">
+															<option>0</option>
+															<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+															<border>5</border>
+															<object class="wxComboBox" name="m_commentFonts">
+																<style>wxCB_READONLY</style>
+																<size>250,-1</size>
+																<value></value>
+																<content />
+															</object>
+														</object>
+														<object class="sizeritem">
+															<option>0</option>
+															<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+															<border>5</border>
+															<object class="wxComboBox" name="m_commentSizes">
+																<style>wxCB_READONLY</style>
+																<size>60,-1</size>
+																<value></value>
+																<content />
+															</object>
+														</object>
+													</object>
+												</object>
+												<object class="spacer">
+													<option>0</option>
+													<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+													<border>5</border>
+													<size>5,5</size>
+												</object>
+											</object>
+										</object>
+									</object>
+								</object>
+							</object>
+							<object class="notebookpage">
+								<label>Styles</label>
+								<selected>0</selected>
+								<object class="wxPanel" name="m_stylesPage">
+									<style>wxCLIP_CHILDREN|wxTAB_TRAVERSAL</style>
+									<object class="wxBoxSizer">
+										<orient>wxVERTICAL</orient>
+										<object class="sizeritem">
+											<option>0</option>
+											<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+											<border>20</border>
+											<object class="wxFlexGridSizer">
+												<rows>1</rows>
+												<cols>2</cols>
+												<vgap>0</vgap>
+												<hgap>20</hgap>
+												<growablecols></growablecols>
+												<growablerows></growablerows>
+												<object class="sizeritem">
+													<option>0</option>
+													<flag>wxEXPAND|wxEXPAND|wxALL</flag>
+													<border>5</border>
+													<object class="wxListBox" name="m_styles">
+														<style>wxLB_NEEDED_SB|wxLB_SINGLE</style>
+														<size>150,150</size>
+														<content />
+													</object>
+												</object>
+												<object class="sizeritem">
+													<option>0</option>
+													<flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+													<border>5</border>
+													<object class="wxBoxSizer">
+														<orient>wxVERTICAL</orient>
+														<object class="sizeritem">
+															<option>0</option>
+															<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+															<border>5</border>
+															<object class="wxPanel" name="m_foreground">
+																<style>wxSIMPLE_BORDER|wxTAB_TRAVERSAL</style>
+																<size>80,35</size>
+															</object>
+														</object>
+														<object class="sizeritem">
+															<option>0</option>
+															<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+															<border>10</border>
+															<object class="wxBoxSizer">
+																<orient>wxVERTICAL</orient>
+																<object class="sizeritem">
+																	<option>0</option>
+																	<flag>wxALIGN_LEFT|wxALL</flag>
+																	<border>5</border>
+																	<object class="wxCheckBox" name="m_bold">
+																		<label>Bold</label>
+																		<checked>0</checked>
+																	</object>
+																</object>
+																<object class="sizeritem">
+																	<option>0</option>
+																	<flag>wxALIGN_LEFT|wxALL</flag>
+																	<border>5</border>
+																	<object class="wxCheckBox" name="m_italic">
+																		<label>Italic</label>
+																		<checked>0</checked>
+																	</object>
+																</object>
+															</object>
+														</object>
+													</object>
+												</object>
+											</object>
+										</object>
+									</object>
+								</object>
+							</object>
+						</object>
+					</object>
+				</object>
+			</object>
+			<object class="sizeritem">
+				<option>0</option>
+				<flag>wxEXPAND</flag>
+				<border>5</border>
+				<object class="wxFlexGridSizer">
+					<rows>1</rows>
+					<cols>2</cols>
+					<vgap>0</vgap>
+					<hgap>0</hgap>
+					<growablecols>1</growablecols>
+					<growablerows></growablerows>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxALL</flag>
+						<border>5</border>
+						<object class="wxButton" name="m_reset ">
+							<label>Reset</label>
+							<default>0</default>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxALL|wxEXPAND</flag>
+						<border>5</border>
+						<object class="wxStdDialogButtonSizer">
+							<object class="button">
+								<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+								<border>5</border>
+								<object class="wxButton" name="wxID_OK">
+									<label>&amp;OK</label>
+								</object>
+							</object>
+							<object class="button">
+								<flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+								<border>5</border>
+								<object class="wxButton" name="wxID_CANCEL">
+									<label>&amp;Cancel</label>
+								</object>
+							</object>
+						</object>
+					</object>
+				</object>
+			</object>
+		</object>
+	</object>
+</resource>
