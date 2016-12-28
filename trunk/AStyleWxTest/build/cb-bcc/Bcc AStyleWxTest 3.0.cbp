@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Bcc AStyleWxTest 3.0" />
+		<Option pch_mode="2" />
+		<Option compiler="embarcadero_compiler_x64_680" />
+		<Build>
+			<Target title="Debug">
+				<Option output="wx3.0/bin/AStyleWxTestd" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx3.0/obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="embarcadero_compiler_x64_680" />
+				<Option parameters="--terse_printer" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-g0" />
+					<Add option="-q" />
+					<Add option="-P" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DASTYLEWX_TEST" />
+					<Add option="-DTESTMODE1" />
+					<Add directory="../../src" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyleWx/src" />
+					<Add directory="../../../AStyleWx/dialog" />
+					<Add directory="$(#wx30bcc)/include" />
+					<Add directory="$(#wx30bcc)/lib/bcc_lib/mswu" />
+					<Add directory="../../../googletest/include" />
+					<Add directory="../../../googlemock/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-c" />
+					<Add option="-Gn" />
+					<Add option="-x" />
+					<Add library="cw64mt" />
+					<Add library="gmockd.lib" />
+					<Add library="wxscintillad" />
+					<Add library="wxmsw30ud" />
+					<Add library="wxzlib" />
+					<Add library="import64" />
+					<Add directory="$(#wx30bcc)/lib/bcc_lib" />
+					<Add directory="lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="wx3.0/bin/AStyleWxTest" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx3.0/obj/Release/" />
+				<Option type="1" />
+				<Option compiler="embarcadero_compiler_x64_680" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-O2" />
+					<Add option="-g0" />
+					<Add option="-q" />
+					<Add option="-P" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DASTYLEWX_TEST" />
+					<Add directory="../../src" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyleWx/src" />
+					<Add directory="../../../AStyleWx/dialog" />
+					<Add directory="$(#wx30bcc)/include" />
+					<Add directory="$(#wx30bcc)/lib/bcc_lib/mswu" />
+					<Add directory="../../../googletest/include" />
+					<Add directory="../../../googlemock/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-c" />
+					<Add option="-Gn" />
+					<Add option="-x" />
+					<Add library="cw64mt" />
+					<Add library="gmock.lib" />
+					<Add library="wxscintilla" />
+					<Add library="wxmsw30u" />
+					<Add library="import64" />
+					<Add library="comctl64" />
+					<Add library="oleaut64" />
+					<Add library="ole64" />
+					<Add library="uuid" />
+					<Add directory="$(#wx30bcc)/lib/bcc_lib" />
+					<Add directory="lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<ExtraCommands>
+			<Add after="cmd /c del  wx3.0\bin\*.tds" />
+		</ExtraCommands>
+		<Unit filename="../../../AStyleWx/dialog/AStyleDlgBase.cpp" />
+		<Unit filename="../../../AStyleWx/dialog/AStyleDlgBase.h" />
+		<Unit filename="../../../AStyleWx/src/AStyleDisplay.cpp" />
+		<Unit filename="../../../AStyleWx/src/AStyleDisplay.h" />
+		<Unit filename="../../../AStyleWx/src/AStyleFormat.cpp" />
+		<Unit filename="../../../AStyleWx/src/AStyleFormat.h" />
+		<Unit filename="../../../AStyleWx/src/AStyleIFace.cpp" />
+		<Unit filename="../../../AStyleWx/src/AStyleIFace.h" />
+		<Unit filename="../../../AStyleWx/src/Config.cpp" />
+		<Unit filename="../../../AStyleWx/src/Config.h" />
+		<Unit filename="../../src/AStyleDisplay_Test.cpp" />
+		<Unit filename="../../src/AStyleFormat_Test.cpp" />
+		<Unit filename="../../src/AStyleIFace_Test.cpp" />
+		<Unit filename="../../src/Config_Test.cpp" />
+		<Unit filename="../../src/Config_Test.h" />
+		<Unit filename="../../src/Main_Test.cpp" />
+		<Unit filename="../../src/Main_Test.h" />
+		<Unit filename="../../srcx/TersePrinter.cpp" />
+		<Unit filename="../../srcx/TersePrinter.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

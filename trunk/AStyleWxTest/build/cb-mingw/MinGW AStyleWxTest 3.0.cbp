@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MinGW AStyleWxTest 3.0" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="DLL Debug">
+				<Option output="wx3.0/bin/AStyleWxTestd_dll" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx3.0/obj/DLL Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="--terse_output" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DWXUSINGDLL" />
+					<Add option="-DASTYLEWX_TEST" />
+					<Add option="-DTESTMODE1" />
+					<Add directory="../../src" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyleWx/dialog" />
+					<Add directory="$(#wx30mingw)/lib/gcc_dll/mswu" />
+				</Compiler>
+				<Linker>
+					<Add library="gmockd" />
+					<Add library="wxbase30u" />
+					<Add library="wxmsw30u_core" />
+					<Add library="wxmsw30u_stc" />
+					<Add directory="$(#wx30mingw)/lib/gcc_dll" />
+					<Add directory="lib" />
+				</Linker>
+			</Target>
+			<Target title="DLL Release">
+				<Option output="wx3.0/bin/AStyleWxTest_dll" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx3.0/obj/DLL Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DWXUSINGDLL" />
+					<Add option="-DASTYLEWX_TEST" />
+					<Add directory="../../src" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyleWx/dialog" />
+					<Add directory="$(#wx30mingw)/lib/gcc_dll/mswu" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="gmock" />
+					<Add library="wxbase30u" />
+					<Add library="wxmsw30u_core" />
+					<Add library="wxmsw30u_stc" />
+					<Add directory="$(#wx30mingw)/lib/gcc_dll" />
+					<Add directory="lib" />
+				</Linker>
+			</Target>
+			<Target title="Debug">
+				<Option output="wx3.0/bin/AStyleWxTestd" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx3.0/obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="--terse_output" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DASTYLEWX_TEST" />
+					<Add option="-DTESTMODE1" />
+					<Add directory="../../src" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyleWx/dialog" />
+					<Add directory="$(#wx30mingw)/lib/gcc_lib/mswu" />
+				</Compiler>
+				<Linker>
+					<Add library="gmockd" />
+					<Add library="wxmsw30u_stc" />
+					<Add library="wxmsw30u_core" />
+					<Add library="wxbase30u" />
+					<Add library="wxscintilla" />
+					<Add library="wxpng" />
+					<Add library="wxzlib" />
+					<Add library="comctl32" />
+					<Add library="comdlg32" />
+					<Add library="gdi32" />
+					<Add library="ole32" />
+					<Add library="oleaut32" />
+					<Add library="uuid" />
+					<Add library="winspool" />
+					<Add directory="$(#wx30mingw)/lib/gcc_lib" />
+					<Add directory="lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="wx3.0/bin/AStyleWxTest" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx3.0/obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DASTYLEWX_TEST" />
+					<Add directory="../../src" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyleWx/dialog" />
+					<Add directory="$(#wx30mingw)/lib/gcc_lib/mswu" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="gmock" />
+					<Add library="wxmsw30u_stc" />
+					<Add library="wxmsw30u_core" />
+					<Add library="wxbase30u" />
+					<Add library="wxscintilla" />
+					<Add library="wxpng" />
+					<Add library="wxzlib" />
+					<Add library="comctl32" />
+					<Add library="comdlg32" />
+					<Add library="gdi32" />
+					<Add library="ole32" />
+					<Add library="oleaut32" />
+					<Add library="uuid" />
+					<Add library="winspool" />
+					<Add directory="$(#wx30mingw)/lib/gcc_lib" />
+					<Add directory="lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add directory="$(#wx30mingw)/include" />
+			<Add directory="../../../googlemock/include" />
+			<Add directory="../../../googletest/include" />
+			<Add directory="../../../AStyleWx/src" />
+			<Add directory="../../src" />
+		</Compiler>
+		<ResourceCompiler>
+			<Add directory="$(#wx30mingw)/include" />
+			<Add directory="../../image" />
+		</ResourceCompiler>
+		<Unit filename="../../../AStyleWx/src/AStyleDisplay.cpp" />
+		<Unit filename="../../../AStyleWx/src/AStyleDisplay.h" />
+		<Unit filename="../../../AStyleWx/src/AStyleFormat.cpp" />
+		<Unit filename="../../../AStyleWx/src/AStyleFormat.h" />
+		<Unit filename="../../../AStyleWx/src/AStyleIFace.cpp" />
+		<Unit filename="../../../AStyleWx/src/AStyleIFace.h" />
+		<Unit filename="../../../AStyleWx/src/Config.cpp" />
+		<Unit filename="../../../AStyleWx/src/Config.h" />
+		<Unit filename="../../src/AStyleDisplay_Test.cpp" />
+		<Unit filename="../../src/AStyleFormat_Test.cpp" />
+		<Unit filename="../../src/AStyleIFace_Test.cpp" />
+		<Unit filename="../../src/Config_Test.cpp" />
+		<Unit filename="../../src/Config_Test.h" />
+		<Unit filename="../../src/Main_Test.cpp" />
+		<Unit filename="../../src/Main_Test.h" />
+		<Unit filename="../../srcx/TersePrinter.cpp" />
+		<Unit filename="../../srcx/TersePrinter.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

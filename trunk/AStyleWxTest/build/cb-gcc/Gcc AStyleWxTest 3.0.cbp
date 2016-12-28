@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Gcc AStyleWxTest 3.0" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="wx3.0/bin/astylewxtestd" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx3.0/obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="--terse_output" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="`wx-config --version=3.0 --cflags --debug`" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-exceptions" />
+					<Add option="-Wno-sign-compare" />
+					<Add option="-DGTEST_HAS_PTHREAD=0" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D__WXDEBUG__" />
+					<Add option="-DwxUSE_UNICODE" />
+					<Add option="-DASTYLEWX_TEST" />
+					<Add directory="../../src" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyleWx/src" />
+					<Add directory="../../../AStyleWx/dialog" />
+					<Add directory="../../../googlemock/include" />
+					<Add directory="../../../googletest/include" />
+				</Compiler>
+				<Linker>
+					<Add option="`wx-config --version=3.0 --libs --debug`" />
+					<Add library="wx_gtk2u_stc-3.0" />
+					<Add library="gmockd" />
+					<Add directory="bin" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="wx3.0/bin/astylewxtest" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx3.0/obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="--gtest_filter=-AStyleDisplayF* --gtest_print_time=0" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="`wx-config --version=3.0 --cflags`" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-exceptions" />
+					<Add option="-Wno-sign-compare" />
+					<Add option="-DGTEST_HAS_PTHREAD=0" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DwxUSE_UNICODE" />
+					<Add option="-DASTYLEWX_TEST" />
+					<Add directory="../../src" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyleWx/src" />
+					<Add directory="../../../AStyleWx/dialog" />
+					<Add directory="../../../googlemock/include" />
+					<Add directory="../../../googletest/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="`wx-config --version=3.0  --libs`" />
+					<Add library="wx_gtk2u_stc-3.0" />
+					<Add library="gmock" />
+					<Add directory="bin" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../../AStyleWx/src/AStyleDisplay.cpp" />
+		<Unit filename="../../../AStyleWx/src/AStyleDisplay.h" />
+		<Unit filename="../../../AStyleWx/src/AStyleFormat.cpp" />
+		<Unit filename="../../../AStyleWx/src/AStyleFormat.h" />
+		<Unit filename="../../../AStyleWx/src/AStyleIFace.cpp" />
+		<Unit filename="../../../AStyleWx/src/AStyleIFace.h" />
+		<Unit filename="../../../AStyleWx/src/Config.cpp" />
+		<Unit filename="../../../AStyleWx/src/Config.h" />
+		<Unit filename="../../../AStyleWx/src/Constants.h" />
+		<Unit filename="../../src/AStyleDisplay_Test.cpp" />
+		<Unit filename="../../src/AStyleFormat_Test.cpp" />
+		<Unit filename="../../src/AStyleIFace_Test.cpp" />
+		<Unit filename="../../src/Config_Test.cpp" />
+		<Unit filename="../../src/Config_Test.h" />
+		<Unit filename="../../src/Main_Test.cpp" />
+		<Unit filename="../../src/Main_Test.h" />
+		<Unit filename="../../srcx/TersePrinter.cpp" />
+		<Unit filename="../../srcx/TersePrinter.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

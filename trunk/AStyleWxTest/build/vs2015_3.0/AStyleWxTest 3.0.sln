@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleWxTest", "AStyleWxTest\AStyleWxTest.vcxproj", "{81836994-4DC6-45BD-8C69-633DF214AD3F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMock Lib", "GMock Lib\GMock Lib.vcxproj", "{D336FE81-2B92-49AF-A040-D30C384C8FD2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{158AAF67-239D-4AFB-AAD4-5994877A3CAB}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\srcx\gtest-options.lst = ..\..\srcx\gtest-options.lst
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		DLL Debug|x64 = DLL Debug|x64
+		DLL Debug|x86 = DLL Debug|x86
+		DLL Release|x64 = DLL Release|x64
+		DLL Release|x86 = DLL Release|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.Debug|x64.ActiveCfg = Debug|x64
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.Debug|x64.Build.0 = Debug|x64
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.Debug|x86.ActiveCfg = Debug|Win32
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.Debug|x86.Build.0 = Debug|Win32
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.DLL Debug|x64.ActiveCfg = DLL Debug|x64
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.DLL Debug|x64.Build.0 = DLL Debug|x64
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.DLL Debug|x86.ActiveCfg = DLL Debug|Win32
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.DLL Debug|x86.Build.0 = DLL Debug|Win32
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.DLL Release|x64.ActiveCfg = DLL Release|x64
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.DLL Release|x64.Build.0 = DLL Release|x64
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.DLL Release|x86.ActiveCfg = DLL Release|Win32
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.DLL Release|x86.Build.0 = DLL Release|Win32
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.Release|x64.ActiveCfg = Release|x64
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.Release|x64.Build.0 = Release|x64
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.Release|x86.ActiveCfg = Release|Win32
+		{81836994-4DC6-45BD-8C69-633DF214AD3F}.Release|x86.Build.0 = Release|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x64.ActiveCfg = Debug|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x64.Build.0 = Debug|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x86.ActiveCfg = Debug|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x86.Build.0 = Debug|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.DLL Debug|x64.ActiveCfg = Debug|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.DLL Debug|x64.Build.0 = Debug|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.DLL Debug|x86.ActiveCfg = Debug|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.DLL Debug|x86.Build.0 = Debug|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.DLL Release|x64.ActiveCfg = Release|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.DLL Release|x64.Build.0 = Release|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.DLL Release|x86.ActiveCfg = Release|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.DLL Release|x86.Build.0 = Release|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x64.ActiveCfg = Release|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x64.Build.0 = Release|x64
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x86.ActiveCfg = Release|Win32
+		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
