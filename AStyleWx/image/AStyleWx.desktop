@@ -1,0 +1,14 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=Artistic Style GUI
+Comment=Source code formatter
+GenericName=Source Code Formatter
+Type=Application
+Exec=astylewx %F
+Icon=astyle-32.xpm
+Terminal=false
+StartupNotify=true
+Categories=Utility;Development;GTK;Application;
+MimeType=text/plain;
+Name[en_US]=AStyleWx

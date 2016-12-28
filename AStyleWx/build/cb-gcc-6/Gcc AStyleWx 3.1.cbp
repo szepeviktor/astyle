@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Gcc AStyleWx 3.1 gcc-6" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="wx3.1/bin/astylewxd" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx3.1/obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option parameters="../../testdata/AppFrame.cpp" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="`/home/jimp/Projects/wxWidgets-3.1.0/gtk-build/wx-config --version=3.1 --cflags`" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-exceptions" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DTESTMODE1" />
+					<Add directory="../../src" />
+					<Add directory="../../dialog" />
+					<Add directory="../../image" />
+				</Compiler>
+				<Linker>
+					<Add option="`/home/jimp/Projects/wxWidgets-3.1.0/gtk-build/wx-config --version=3.1 --libs core, base, adv, aui, stc`" />
+					<Add library="astyled" />
+					<Add directory="lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="wx3.1/bin/astylewx" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx3.1/obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option parameters="../../testdata/AppFrame.cpp" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="`/home/jimp/Projects/wxWidgets-3.1.0/gtk-build/wx-config --version=3.1 --cflags`" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-exceptions" />
+					<Add option="-DNDEBUG" />
+					<Add directory="../../src" />
+					<Add directory="../../dialog" />
+					<Add directory="../../image" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="`/home/jimp/Projects/wxWidgets-3.1.0/gtk-build/wx-config --version=3.1 --libs core, base, adv, aui, stc`" />
+					<Add library="astyle" />
+					<Add directory="lib" />
+					<Add directory="/home/jimp/Projects/wxWidgets-3.1.0/gtk-build/lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../dialog/AStyleDlgBase.cpp" />
+		<Unit filename="../../dialog/AStyleDlgBase.h" />
+		<Unit filename="../../dialog/AboutDlgBase.cpp" />
+		<Unit filename="../../dialog/AboutDlgBase.h" />
+		<Unit filename="../../dialog/EditorDlgBase.cpp" />
+		<Unit filename="../../dialog/EditorDlgBase.h" />
+		<Unit filename="../../dialog/SettingsDlgBase.cpp" />
+		<Unit filename="../../dialog/SettingsDlgBase.h" />
+		<Unit filename="../../src/ASApp.cpp" />
+		<Unit filename="../../src/ASEditor.cpp" />
+		<Unit filename="../../src/AStyleDisplay.cpp" />
+		<Unit filename="../../src/AStyleDisplay.h" />
+		<Unit filename="../../src/AStyleDlg.cpp" />
+		<Unit filename="../../src/AStyleDlg.h" />
+		<Unit filename="../../src/AStyleFormat.cpp" />
+		<Unit filename="../../src/AStyleFormat.h" />
+		<Unit filename="../../src/AStyleIFace.cpp" />
+		<Unit filename="../../src/AStyleIFace.h" />
+		<Unit filename="../../src/AStyleWx.cpp" />
+		<Unit filename="../../src/AStyleWx.h" />
+		<Unit filename="../../src/AboutDlg.cpp" />
+		<Unit filename="../../src/AboutDlg.h" />
+		<Unit filename="../../src/Config.cpp" />
+		<Unit filename="../../src/Config.h" />
+		<Unit filename="../../src/Constants.h" />
+		<Unit filename="../../src/EditorDlg.cpp" />
+		<Unit filename="../../src/EditorDlg.h" />
+		<Unit filename="../../src/Encoding.cpp" />
+		<Unit filename="../../src/Encoding.h" />
+		<Unit filename="../../src/FileManager.cpp" />
+		<Unit filename="../../src/FileManager.h" />
+		<Unit filename="../../src/Indent.cpp" />
+		<Unit filename="../../src/SettingsDlg.cpp" />
+		<Unit filename="../../src/SettingsDlg.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

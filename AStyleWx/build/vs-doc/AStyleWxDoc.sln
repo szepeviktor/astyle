@@ -1,0 +1,18 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DBFA1BC0-70D7-400B-8CEA-5442EC0A4483}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\doc\index.html = ..\..\doc\index.html
+		..\..\doc\install.html = ..\..\doc\install.html
+		..\..\doc\static.html = ..\..\doc\static.html
+		..\..\doc\styles.css = ..\..\doc\styles.css
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

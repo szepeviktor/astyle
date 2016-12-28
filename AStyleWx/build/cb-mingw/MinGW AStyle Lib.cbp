@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MinGW AStyle Lib" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="lib/astyled" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-exceptions" />
+					<Add option="-DASTYLE_LIB" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="lib/astyle" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-exceptions" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DASTYLE_LIB" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<VirtualTargets>
+			<Add alias="DLL Debug" targets="Debug;" />
+			<Add alias="DLL Release" targets="Release;" />
+		</VirtualTargets>
+		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
+		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
+		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />
+		<Unit filename="../../../AStyle/src/ASResource.cpp" />
+		<Unit filename="../../../AStyle/src/astyle.h" />
+		<Unit filename="../../../AStyle/src/astyle_main.cpp" />
+		<Unit filename="../../../AStyle/src/astyle_main.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

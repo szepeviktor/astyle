@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
+	<object class="wxDialog" name="SettingsDlgBase">
+		<style>wxDEFAULT_DIALOG_STYLE</style>
+		<title></title>
+		<centered>1</centered>
+		<object class="wxBoxSizer">
+			<orient>wxVERTICAL</orient>
+			<object class="sizeritem">
+				<option>0</option>
+				<flag>wxALL|wxEXPAND</flag>
+				<border>10</border>
+				<object class="wxBoxSizer">
+					<orient>wxHORIZONTAL</orient>
+					<object class="sizeritem">
+						<option>1</option>
+						<flag>wxEXPAND|wxLEFT|wxRIGHT</flag>
+						<border>10</border>
+						<object class="wxFlexGridSizer">
+							<rows>1</rows>
+							<cols>2</cols>
+							<vgap>0</vgap>
+							<hgap>0</hgap>
+							<growablecols></growablecols>
+							<growablerows></growablerows>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxALL</flag>
+								<border>5</border>
+								<object class="wxStaticText" name="m_shortOptions">
+									<style>wxALIGN_RIGHT</style>
+									<label></label>
+									<wrap>-1</wrap>
+								</object>
+							</object>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxALL</flag>
+								<border>5</border>
+								<object class="wxStaticText" name="m_longOptions">
+									<label></label>
+									<wrap>-1</wrap>
+								</object>
+							</object>
+						</object>
+					</object>
+				</object>
+			</object>
+			<object class="sizeritem">
+				<option>0</option>
+				<flag>wxALIGN_CENTER_HORIZONTAL|wxBOTTOM</flag>
+				<border>10</border>
+				<object class="wxButton" name="m_ok">
+					<label>OK</label>
+					<default>1</default>
+				</object>
+			</object>
+		</object>
+	</object>
+</resource>
