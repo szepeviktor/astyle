@@ -44,14 +44,14 @@ public:
 	MinConditional getDefaultMinConditionalOption() const  { return defaultMinConditionalOption; }
 	int  getDefaultMaxInStatementIndent() const  { return defaultMaxInStatementIndent; }
 	int  getDefaultMaxCodeLength() const         { return defaultMaxCodeLength; }
-	// getters - bracket style
-	int  getBracketStyle() const         { return bracketStyle; }
+	// getters - brace style
+	int  getBraceStyle() const           { return braceStyle; }
 	// getters - tab
 	int  getIndentType() const           { return indentType; }
 	int  getIndentLength() const         { return indentLength; }
 	bool getUseTabLength() const         { return useTabLength; }
 	int  getTabLength() const            { return tabLength; }
-	// getters - bracket modifiers
+	// getters - brace modifiers
 	bool getAttachNamespace() const      { return attachNamespace; }
 	bool getAttachClass() const          { return attachClass; }
 	bool getAttachInline() const         { return attachInline; }
@@ -85,12 +85,12 @@ public:
 	int  getAlignPointer() const         { return alignPointer; }
 	int  getAlignReference() const       { return alignReference; }
 	// getters - formatting
-	bool getBreakCloseBrackets() const   { return breakCloseBrackets; }
+	bool getBreakClosingBraces() const   { return breakClosingBraces; }
 	bool getBreakElseIfs() const         { return breakElseIfs; }
 	bool getBreakOneLineHeaders() const  { return breakOneLineHeaders; }
-	bool getAddBrackets() const          { return addBrackets; }
-	bool getAddOneLineBrackets() const   { return addOneLineBrackets; }
-	bool getRemoveBrackets() const       { return removeBrackets; }
+	bool getAddBraces() const            { return addBraces; }
+	bool getAddOneLineBraces() const     { return addOneLineBraces; }
+	bool getRemoveBraces() const         { return removeBraces; }
 	bool getBreakOneLineBlocks() const   { return breakOneLineBlocks; }
 	bool getBreakOneLineStmts() const    { return breakOneLineStmts; }
 	bool getConvertTabs() const          { return convertTabs; }
@@ -107,14 +107,14 @@ public:
 	bool getUnpadParamType() const       { return unpadParamType; }
 	bool getAlignMethodColon() const     { return alignMethodColon; }
 	int  getPadMethodColon() const       { return padMethodColon; }
-	// setters - bracket style
-	void setBracketStyle(BracketStyle value) { bracketStyle = value; }
+	// setters - brace style
+	void setBraceStyle(BraceStyle value)   { braceStyle = value; }
 	// setters - tab
 	void setIndentType(IndentType value)     { indentType = value; }
 	void setIndentLength(int value)          { indentLength = value; }
 	void setUseTabLength(bool state)         { useTabLength = state; }
 	void setTabLength(int value)             { tabLength = value; }
-	// setters - bracket modifiers
+	// setters - brace modifiers
 	void setAttachNamespace(bool state)      { attachNamespace = state; }
 	void setAttachClass(bool state)          { attachClass = state; }
 	void setAttachInline(bool state)         { attachInline = state; }
@@ -148,12 +148,12 @@ public:
 	void setAlignPointer(PointerAlign value)     { alignPointer = value; }
 	void setAlignReference(ReferenceAlign value) { alignReference = value; }
 	// setters - formatting
-	void setBreakCloseBrackets(bool state)   { breakCloseBrackets = state; }
+	void setBreakClosingBraces(bool state)   { breakClosingBraces = state; }
 	void setBreakElseIfs(bool state)         { breakElseIfs = state; }
 	void setBreakOneLineHeaders(bool state)  { breakOneLineHeaders = state; }
-	void setAddBrackets(bool state)          { addBrackets = state; }
-	void setAddOneLineBrackets(bool state)   { addOneLineBrackets = state; }
-	void setRemoveBrackets(bool state)       { removeBrackets = state; }
+	void setAddBraces(bool state)            { addBraces = state; }
+	void setAddOneLineBraces(bool state)     { addOneLineBraces = state; }
+	void setRemoveBraces(bool state)         { removeBraces = state; }
 	void setBreakOneLineBlocks(bool state)   { breakOneLineBlocks = state; }
 	void setBreakOneLineStmts(bool state)    { breakOneLineStmts = state; }
 	void setConvertTabs(bool state)          { convertTabs = state; }
@@ -178,8 +178,8 @@ private:
 	// the initial value is the default value in Artistic Style
 	// comments are the command line option used to set the variable
 
-	// bracket style option
-	BracketStyle bracketStyle;          // --style=?
+	// brace style option
+	BraceStyle braceStyle;              // --style=?
 
 	// tabs/spaces options
 	IndentType indentType;              // --indent=*
@@ -187,7 +187,7 @@ private:
 	bool useTabLength;                  // --indent=force-tab-x=#
 	int  tabLength;                     // --indent=force-tab-x=#
 
-	// bracket modifier options
+	// brace modifier options
 	bool attachNamespace;               // --attach-namespaces
 	bool attachClass;                   // --attach-classes
 	bool attachInline;                  // --attach-inlines
@@ -224,12 +224,12 @@ private:
 	ReferenceAlign alignReference;      // --align-reference= none, type, middle, name same as pointer
 
 	// formatting options
-	bool breakCloseBrackets;            // --break-closing-brackets
+	bool breakClosingBraces;            // --break-closing-braces
 	bool breakElseIfs;                  // --break-elseifs
 	bool breakOneLineHeaders;           // --break-one-line-headers
-	bool addBrackets;                   // --add-brackets
-	bool addOneLineBrackets;            // --add-one-line-brackets
-	bool removeBrackets;                // --remove-brackets
+	bool addBraces;                     // --add-braces
+	bool addOneLineBraces;              // --add-one-line-braces
+	bool removeBraces;                  // --remove-braces
 	bool breakOneLineBlocks;            // --keep-one-line-blocks
 	bool breakOneLineStmts;             // --keep-one-line-statements
 	bool convertTabs;                   // --convert-tabs

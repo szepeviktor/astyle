@@ -11,10 +11,11 @@
 				<Option object_output="wx3.0/obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option parameters="../../testdata/AppFrame.cpp" />
+				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="`wx-config --version=3.0 --cflags --debug`" />
 					<Add option="-fno-rtti" />
@@ -38,12 +39,13 @@
 				<Option object_output="wx3.0/obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option parameters="../../testdata/AppFrame.cpp" />
+				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="`wx-config --version=3.0 --cflags`" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
@@ -62,12 +64,12 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="../../dialog/AStyleDlgBase.h" />
 		<Unit filename="../../dialog/AStyleDlgBase.cpp" />
+		<Unit filename="../../dialog/AStyleDlgBase.h" />
 		<Unit filename="../../dialog/AboutDlgBase.cpp" />
 		<Unit filename="../../dialog/AboutDlgBase.h" />
-		<Unit filename="../../dialog/EditorDlgBase.h" />
 		<Unit filename="../../dialog/EditorDlgBase.cpp" />
+		<Unit filename="../../dialog/EditorDlgBase.h" />
 		<Unit filename="../../dialog/SettingsDlgBase.cpp" />
 		<Unit filename="../../dialog/SettingsDlgBase.h" />
 		<Unit filename="../../src/ASApp.cpp" />

@@ -19,6 +19,7 @@
 					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
+					<Add option="-std=c++11" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>
 			</Target>
@@ -35,6 +36,7 @@
 					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
+					<Add option="-std=c++11" />
 					<Add option="-wd11074,11076" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_LIB" />

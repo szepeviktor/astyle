@@ -198,7 +198,7 @@ void EditorDlg::OnBoldClick(wxCommandEvent& event)
 	m_newStyleVector[m_ix].bold = event.IsChecked();
 }
 
-void EditorDlg::OnForegroundClick(wxMouseEvent&)
+void EditorDlg::OnForegroundClick(wxMouseEvent& /*event*/)
 {
 	wxColourData data;
 	data.SetColour(m_newStyleVector[m_ix].fore);
@@ -227,7 +227,7 @@ void EditorDlg::OnListboxSelected(wxCommandEvent& event)
 	m_italic->SetValue(m_newStyleVector[m_ix].italic);
 }
 
-void EditorDlg::OnResetClick(wxCommandEvent&)
+void EditorDlg::OnResetClick(wxCommandEvent& /*event*/)
 {
 	wxString page = m_notebook->GetPageText(m_page);
 	assert(page == "Editor Options" || page == "Options"
@@ -271,7 +271,7 @@ void EditorDlg::OnNotebookPageChanged(wxBOOKCTRL_EVENT& event)
 // May be a Choicebook, Listbook, Notebook, or Treebook.
 // Called when the page selection is changed.
 {
-	if (m_reset == NULL)
+	if (m_reset == nullptr)
 		return;
 	m_page = event.GetSelection();
 	SetResetButton();

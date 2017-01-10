@@ -33,20 +33,20 @@ int FileManager::m_fileFilterIndex;
 //-----------------------------------------------------------------------------
 
 FileManager::FileManager()
-	: m_frame(NULL), m_notebook(NULL), m_editor(NULL), m_astyle(NULL)
+	: m_frame(nullptr), m_notebook(nullptr), m_editor(nullptr), m_astyle(nullptr)
 {
 	m_frame = wxGetApp().GetFrame();
-	assert(m_frame != NULL);
+	assert(m_frame != nullptr);
 
 	// __WXQT__ will bypass creating the notebook and stc
 	// can remove the option when these are handled by wxWidgets WXQT
 #ifndef __WXQT__
 	m_notebook = m_frame->GetNotebook();
-	assert(m_notebook != NULL);
+	assert(m_notebook != nullptr);
 #endif
 
 	m_astyle = m_frame->GetAStyle();
-	assert(m_astyle != NULL);
+	assert(m_astyle != nullptr);
 }
 
 FileManager::~FileManager()
@@ -83,12 +83,12 @@ void FileManager::BuildNotebookPageNew()
 	        && m_editor->GetFileName() == wxEmptyString
 	        && m_editor->wxStyledTextCtrl::GetTextLength() == 0)
 		return;
-	m_editor = NULL;
+	m_editor = nullptr;
 	static int editorNum = 0;
 	++editorNum;
 	wxString pageName = wxString::Format("Untitled%d", editorNum);
 	m_editor = new ASEditor(m_notebook);
-	assert(m_editor != NULL);
+	assert(m_editor != nullptr);
 	InitializeEditor();
 	m_notebook->AddPage(m_editor, pageName, true);
 	// SetPageToolTip is documented in include\wx\aui\auibook.h
@@ -119,7 +119,7 @@ int FileManager::BuildNotebookPageWithFile(const wxString& filePathStr, bool sel
 	else
 	{
 		m_editor = new ASEditor(m_notebook);
-		assert(m_editor != NULL);
+		assert(m_editor != nullptr);
 		if (!LoadEditFile(filePath))
 		{
 			delete m_editor;
@@ -141,7 +141,7 @@ void FileManager::CheckFileReload()
 {
 	// check the current active file
 	m_editor = m_frame->GetEditor();
-	if (m_editor == NULL)
+	if (m_editor == nullptr)
 		return;
 
 	static int dialogsOnScreen;
@@ -187,7 +187,7 @@ int FileManager::CloseFile()
 {
 	// close the current active file
 	m_editor = m_frame->GetEditor();
-	assert(m_editor != NULL);
+	assert(m_editor != nullptr);
 	int reply = SaveFileIfNeeded();
 	if (reply == wxID_CANCEL)
 		return reply;
@@ -326,7 +326,7 @@ bool FileManager::SaveEditFile(const wxFileName& filepath)
 {
 	bool useBOM = m_editor->GetUseBOM();
 	wxFontEncoding encoding = m_editor->GetEncoding();
-	const char* BOM = NULL;
+	const char* BOM = nullptr;
 	size_t BOMSize = 0;
 	const wxString textOut = m_editor->wxStyledTextCtrl::GetText();
 
@@ -376,19 +376,16 @@ bool FileManager::SaveEditFile(const wxFileName& filepath)
 			    wxICON_ERROR | wxOK);
 			return false;
 		}
-		else
-		{
-			ShowMessageDialog(
-			    "The saved document contained characters\n"
-			    "which were illegal in the selected encoding.\n\n"
-			    "The file's encoding has been changed to UTF-8\n"
-			    "to prevent you from losing data.",
-			    wxICON_WARNING | wxOK);
-			BOM = NULL;
-			BOMSize = 0;
-			useBOM = false;
-			encoding = wxFONTENCODING_UTF8;
-		}
+		ShowMessageDialog(
+		    "The saved document contained characters\n"
+		    "which were illegal in the selected encoding.\n\n"
+		    "The file's encoding has been changed to UTF-8\n"
+		    "to prevent you from losing data.",
+		    wxICON_WARNING | wxOK);
+		BOM = nullptr;
+		BOMSize = 0;
+		useBOM = false;
+		encoding = wxFONTENCODING_UTF8;
 	}
 
 	// open the output file
@@ -431,7 +428,7 @@ int FileManager::SaveFile()
 {
 	// save the currently active file
 	m_editor = m_frame->GetEditor();
-	assert(m_editor != NULL);
+	assert(m_editor != nullptr);
 	int reply = wxID_NO;
 	if (!m_editor->GetFileIsOk())
 	{
@@ -454,7 +451,7 @@ int FileManager::SaveFileAs()
 {
 	// save the currently active file
 	m_editor = m_frame->GetEditor();
-	assert(m_editor != NULL);
+	assert(m_editor != nullptr);
 	int reply = wxID_NO;
 #ifdef TESTMODE1
 	reply = AskAboutSave(true);
@@ -488,7 +485,7 @@ int FileManager::SaveFileIfNeeded()
 {
 	// save the currently active file
 	m_editor = m_frame->GetEditor();
-	assert(m_editor != NULL);
+	assert(m_editor != nullptr);
 	int reply = wxID_NO;
 #ifndef TESTMODE1
 	if (m_editor->GetModified())

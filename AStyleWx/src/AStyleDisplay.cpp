@@ -31,8 +31,8 @@ AStyleDisplay::AStyleDisplay(wxCheckBox* _useTabLength,
 	   m_indentCaseBlocks(_indentCaseBlocks),
 	   m_breakAfterLogical(_breakAfterLogical)
 {
-	m_event = NULL;
-	m_stc = NULL;
+	m_event = nullptr;
+	m_stc = nullptr;
 }
 
 AStyleDisplay::~AStyleDisplay()
@@ -226,16 +226,16 @@ void AStyleDisplay::DisplayFormatOptions(wxCommandEvent& event, wxStyledTextCtrl
 
 	switch (m_event->GetId())
 	{
-		case ID_ADD_BRACKETS:
-			textOut = StcFormat_AddBrackets();
+		case ID_ADD_BRACES:
+			textOut = StcFormat_AddBraces();
 			break;
 
-		case ID_ADD_OL_BRACKETS:
-			textOut = StcFormat_AddOneLineBrackets();
+		case ID_ADD_OL_BRACES:
+			textOut = StcFormat_AddOneLineBraces();
 			break;
 
 		case ID_BREAK_CLOSING:
-			textOut = StcFormat_BreakClosingBrackets();
+			textOut = StcFormat_BreakClosingBraces();
 			break;
 
 		case ID_BREAK_ELSEIF:
@@ -272,8 +272,8 @@ void AStyleDisplay::DisplayFormatOptions(wxCommandEvent& event, wxStyledTextCtrl
 			textOut = StcFormat_MaxCodeLength_BreakAfterLogical();
 			break;
 
-		case ID_REMOVE_BRACKETS:
-			textOut = StcFormat_RemoveBrackets();
+		case ID_REMOVE_BRACES:
+			textOut = StcFormat_RemoveBraces();
 			break;
 
 		case ID_REMOVE_COMMENT_PREFIX:
@@ -378,7 +378,7 @@ void AStyleDisplay::DisplayModifierOptions(wxCommandEvent& event, wxStyledTextCt
 	m_stc = tabPreviewSTC;
 	wxString textOut;
 
-	// bracket modifiers use the tab page
+	// brace modifiers use the tab page
 	m_stc->ClearAll();
 	m_stc->SetTabWidth(5);
 	// wxSTC_WS_INVISIBLE, wxSTC_WS_VISIBLEALWAYS, wxSTC_WS_VISIBLEAFTERINDENT
@@ -759,7 +759,7 @@ void AStyleDisplay::LexStcText(wxString boldChars /*wxEmptyString*/)
 // STC Display for the Format Tab
 //-----------------------------------------------------------------------------
 
-wxString AStyleDisplay::StcFormat_AddBrackets()
+wxString AStyleDisplay::StcFormat_AddBraces()
 {
 	wxString checked =     "              \n"
 	                       "if (isFoo) {  \n"
@@ -774,7 +774,7 @@ wxString AStyleDisplay::StcFormat_AddBrackets()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcFormat_AddOneLineBrackets()
+wxString AStyleDisplay::StcFormat_AddOneLineBraces()
 {
 	wxString checked =     "             \n"
 	                       "if (isFoo)   \n"
@@ -790,7 +790,7 @@ wxString AStyleDisplay::StcFormat_AddOneLineBrackets()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcFormat_BreakClosingBrackets()
+wxString AStyleDisplay::StcFormat_BreakClosingBraces()
 {
 	wxString checked =     "                       \n"
 	                       "void Foo(bool isFoo)   \n"
@@ -978,7 +978,7 @@ wxString AStyleDisplay::StcFormat_MaxCodeLength_BreakAfterLogical()
 	return textOut;
 }
 
-wxString AStyleDisplay::StcFormat_RemoveBrackets()
+wxString AStyleDisplay::StcFormat_RemoveBraces()
 {
 	wxString checked   =   "              \n"
 	                       "if (isFoo)    \n"

@@ -11,11 +11,12 @@
 				<Option object_output="wx3.1So/obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option parameters="../../testdata/AppFrame.cpp" />
+				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="`/home/jimp/Projects/wxWidgets-3.1.0_Qt/build_qt/lib/wx/config/inplace-qt-unicode-3.1 --version=3.1 --cflags`" />
 					<Add option="-fno-rtti" />
@@ -50,12 +51,13 @@
 				<Option object_output="wx3.1So/obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option parameters="../../testdata/AppFrame.cpp" />
+				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="`/home/jimp/Projects/wxWidgets-3.1.0_Qt/build_qt/lib/wx/config/inplace-qt-unicode-3.1 --version=3.1 --cflags`" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />

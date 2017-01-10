@@ -189,29 +189,29 @@ END_EVENT_TABLE()
 ASFrame::ASFrame()
 {
 	// initialize variables
-	m_editor = NULL;
-	m_notebook = NULL;
-	m_settingsBitmap = NULL;
-	m_config = NULL;
-	m_astyle = NULL;
-	m_useBottomTabs = false;
-	m_useSmallToolbar = false;
-	m_viewStatusBar = false;
-	m_showToolTips = false;
-	m_showDialogTips = false;
+	m_editor               = nullptr;
+	m_notebook             = nullptr;
+	m_optionsBitmap        = nullptr;
+	m_config               = nullptr;
+	m_astyle               = nullptr;
+	m_useBottomTabs        = false;
+	m_useSmallToolbar      = false;
+	m_viewStatusBar        = false;
+	m_showToolTips         = false;
+	m_showDialogTips       = false;
 	// initialize find dialog
-	m_find = NULL;
+	m_find                 = nullptr;
 	m_findData.SetFlags(wxFR_DOWN);
-	m_wrapSearch = false;
+	m_wrapSearch           = false;
 	m_hideDialogAfterMatch = false;
 	// initialize other variables
 	for (int i = 0; i < SB_END; i++)
-		m_statusWidth[i] = 0;
-	m_astyleDlgPage = 0;
-	m_editorDlgPage = 0;
-	m_argsProcessed = false;
+		m_statusWidth[i]   = 0;
+	m_astyleDlgPage        = 0;
+	m_editorDlgPage        = 0;
+	m_argsProcessed        = false;
 	m_statusBarNeedsUpdate = false;
-	m_checkFileReload = false;
+	m_checkFileReload      = false;
 }
 
 ASFrame::~ASFrame()
@@ -230,11 +230,11 @@ void ASFrame::BuildGuiControls(int argc_, wxChar** argv_)
 #else
 	m_config = new Config(wxGetApp().GetAppName());
 #endif
-	assert(m_config != NULL);
+	assert(m_config != nullptr);
 
 	// create astyle interface object with values from config
 	m_astyle = new AStyleIFace();
-	assert(m_astyle != NULL);
+	assert(m_astyle != nullptr);
 	m_config->GetAStyleOptions(m_astyle);
 	m_astyleSettings = m_astyle->GetOptions(true, false);
 	// get style options from config
@@ -242,7 +242,7 @@ void ASFrame::BuildGuiControls(int argc_, wxChar** argv_)
 	assert(m_styleVector.size() > 0);
 
 	// create main window
-	Create(NULL,
+	Create(nullptr,
 	       wxID_ANY,
 	       wxGetApp().GetAppName(),
 	       wxDefaultPosition,
@@ -310,8 +310,8 @@ void ASFrame::BuildGuiControls(int argc_, wxChar** argv_)
 		fm.BuildNotebookPageWithFile(firstArgvFile, true);
 	m_editor->SetFocus();
 #else
-	m_notebook = NULL;
-	m_editor = NULL;
+	m_notebook = nullptr;
+	m_editor = nullptr;
 	this->Center();
 	this->Show();
 	this->SetFocus();
@@ -469,15 +469,15 @@ void ASFrame::BuildStatusBar()
 	wxStatusBar* statusBar = GetStatusBar();
 	if (!IsMenuItemChecked(ID_VIEW_STATUSBAR))
 	{
-		if (m_settingsBitmap)
+		if (m_optionsBitmap)
 		{
-			delete m_settingsBitmap;
-			m_settingsBitmap = NULL;
+			delete m_optionsBitmap;
+			m_optionsBitmap = nullptr;
 		}
 		if (statusBar)
 		{
 			delete statusBar;
-			SetStatusBar(NULL);
+			SetStatusBar(nullptr);
 		}
 		return;
 	}
@@ -485,20 +485,20 @@ void ASFrame::BuildStatusBar()
 	// create statusbar and associate it with the frame
 	statusBar = CreateStatusBar(SB_END, wxSTB_DEFAULT_STYLE, ID_STATUSBAR);
 	// create a settings bitmap button
-	m_settingsBitmap = new wxStaticBitmap(statusBar, ID_SB_ASTYLE_BITMAP, CreateStatusBarSettingsBitmap(),
-	                                      wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT | wxBORDER_NONE);
+	m_optionsBitmap = new wxStaticBitmap(statusBar, ID_SB_ASTYLE_BITMAP, CreateStatusBarOptionsBitmap(),
+	                                     wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT | wxBORDER_NONE);
 	// the reason for wxHAS_EVENT_BIND is described in AStyleDlg.cpp
 #ifdef wxHAS_EVENT_BIND
 	// bind status bar to the context menu handler function
-	statusBar->Bind(wxEVT_RIGHT_UP, &ASFrame::OnStatusRightClick, this);
-	// bind settings bitmap to the handler function
-	m_settingsBitmap->Bind(wxEVT_LEFT_UP, &ASFrame::OnSettingsBitmapClick, this);
+	statusBar->Bind(wxEVT_LEFT_UP, &ASFrame::OnStatusBarClick, this);
+	// bind options bitmap to the handler function
+	m_optionsBitmap->Bind(wxEVT_LEFT_UP, &ASFrame::OnOptionsBitmapClick, this);
 #endif
 	// set field sizes
 	int h;
 	statusBar->GetTextExtent("xxxxxxxxxxxxxxxxxxxx ", &m_statusWidth[SB_SETTINGS], &h);
-	wxSize settingsBmpSize = m_settingsBitmap->GetSize();
-	m_statusWidth[SB_BUTTON] = settingsBmpSize.GetWidth();
+	wxSize optionsBmpSize = m_optionsBitmap->GetSize();
+	m_statusWidth[SB_BUTTON] = optionsBmpSize.GetWidth();
 	statusBar->GetTextExtent("xC/C++x ", &m_statusWidth[SB_FILEMODE], &h);
 	statusBar->GetTextExtent("xCRLFx ", &m_statusWidth[SB_EOL], &h);
 	statusBar->GetTextExtent("xWINDOWS-1252xx ", &m_statusWidth[SB_ENCODING], &h);
@@ -527,10 +527,10 @@ void ASFrame::BuildToolBar()
 {
 	// delete the toolbar
 	wxToolBar* toolBar = GetToolBar();
-	if (toolBar != NULL)
+	if (toolBar != nullptr)
 	{
 		delete toolBar;
-		SetToolBar(NULL);
+		SetToolBar(nullptr);
 	}
 	if (!IsMenuItemChecked(ID_VIEW_TOOLBAR))
 		return;
@@ -660,7 +660,7 @@ void ASFrame::BuildToolBar()
 void ASFrame::BuildToolTips(bool showToolTips)
 {
 	wxToolBar* toolBar = GetToolBar();
-	if (toolBar == NULL)
+	if (toolBar == nullptr)
 		return;
 	m_showToolTips = showToolTips;
 	if (showToolTips)
@@ -697,7 +697,7 @@ void ASFrame::BuildToolTips(bool showToolTips)
 void ASFrame::CloseFindDialog()
 {
 	m_find->Destroy();
-	m_find = NULL;
+	m_find = nullptr;
 }
 
 void ASFrame::CloseNotebook()
@@ -705,11 +705,11 @@ void ASFrame::CloseNotebook()
 	// the notebook has zero pages
 	assert(m_notebook->GetPageCount() == 0);
 	m_notebook->Hide();
-	m_editor = NULL;
+	m_editor = nullptr;
 	UpdateFrame();
 }
 
-wxBitmap ASFrame::CreateStatusBarSettingsBitmap(bool on /*false*/)
+wxBitmap ASFrame::CreateStatusBarOptionsBitmap(bool on /*false*/)
 {
 	const int BMP_RADIUS = 5;
 	const wxColour MAGENTA(255, 0, 255);
@@ -1223,7 +1223,7 @@ void ASFrame::OnFindDialog(wxFindDialogEvent& event)
 	{
 		bool reverseFind = (m_findData.GetFlags() & wxFR_DOWN) == 0;
 		m_editor->FindNext(m_findData, reverseFind);
-		if (m_hideDialogAfterMatch && m_find != NULL)
+		if (m_hideDialogAfterMatch && m_find != nullptr)
 			CloseFindDialog();
 	}
 	else if (type == wxEVT_COMMAND_FIND_CLOSE)
@@ -1353,7 +1353,7 @@ void ASFrame::OnIdle(wxIdleEvent&)
 		m_notebook->SetSelection(0);
 		m_editor->SetFocus();
 		m_argc = 0;
-		m_argv = NULL;
+		m_argv = nullptr;
 	}
 #endif // __WXQT__
 }
@@ -1396,12 +1396,21 @@ void ASFrame::OnMenuOpen(wxMenuEvent&)
 		menuBar->Enable(ID_SEARCH_FINDPREVIOUS, false);
 	}
 	// TOOLS MENU
-	wxMenu* modeMenu = NULL;
+	wxMenu* modeMenu = nullptr;
 	menuBar->FindItem(ID_FILEMODE_CPP, &modeMenu);
 	UpdateModeMenu(modeMenu);
-	wxMenu* lineEndMenu = NULL;
+	wxMenu* lineEndMenu = nullptr;
 	menuBar->FindItem(ID_LINEEND_CRLF, &lineEndMenu);
 	UpdateLineEndMenu(lineEndMenu);
+}
+
+void ASFrame::OnOptionsBitmapClick(wxMouseEvent&)
+{
+	m_optionsBitmap->SetBitmap(CreateStatusBarOptionsBitmap(true));
+	// create a command event with ID_SB_ASTYLE_BITMAP as the ID
+	wxCommandEvent buttonClicked(wxEVT_COMMAND_BUTTON_CLICKED, ID_SB_ASTYLE_BITMAP);
+	OnAStyleOptions(buttonClicked);
+	m_optionsBitmap->SetBitmap(CreateStatusBarOptionsBitmap(false));
 }
 
 void ASFrame::OnSearchMenu(wxCommandEvent& event)
@@ -1448,24 +1457,37 @@ void ASFrame::OnSearchMenu(wxCommandEvent& event)
 	}
 }
 
-void ASFrame::OnSettingsBitmapClick(wxMouseEvent& event)
-{
-	m_settingsBitmap->SetBitmap(CreateStatusBarSettingsBitmap(true));
-	// create a command event with ID_SB_ASTYLE_BITMAP as the ID
-	wxCommandEvent buttonClicked(wxEVT_COMMAND_BUTTON_CLICKED, event.GetId());
-	OnAStyleSettings(buttonClicked);
-	m_settingsBitmap->SetBitmap(CreateStatusBarSettingsBitmap(false));
-}
-
-void ASFrame::OnStatusRightClick(wxMouseEvent& event)
+void ASFrame::OnStatusBarClick(wxMouseEvent& event)
 // Display the correct context menu for the status bar field clicked.
-// Activated by a "Connect" event handler.
+// Activated by a "Connect" or "Bind" event handler.
 {
 	long x, y;
 	event.GetPosition(&x, &y);
 	wxStatusBar* statusBar = GetStatusBar();
 	if (m_editor)
 	{
+		// check for status bar settings field
+		wxRect settings;
+		statusBar->GetFieldRect(SB_SETTINGS, settings);
+		if (x >= settings.GetLeft() && x <= settings.GetRight()
+		        && y >= settings.GetTop() && y <= settings.GetBottom())
+		{
+			// create a command event with ID_SB_ASTYLE_SETTINGS as the ID
+			wxCommandEvent buttonClicked(wxEVT_COMMAND_BUTTON_CLICKED, ID_SB_ASTYLE_SETTINGS);
+			OnAStyleSettings(buttonClicked);
+			return;
+		}
+		// check for status bar options field
+		wxRect options;
+		statusBar->GetFieldRect(SB_BUTTON, options);
+		if (x >= options.GetLeft() && x <= options.GetRight()
+		        && y >= options.GetTop() && y <= options.GetBottom())
+		{
+			// create a mouse event
+			wxMouseEvent buttonClicked(wxEVT_LEFT_UP);
+			OnOptionsBitmapClick(buttonClicked);
+			return;
+		}
 		// check for status bar filemode field
 		wxRect mode;
 		statusBar->GetFieldRect(SB_FILEMODE, mode);
@@ -1787,7 +1809,7 @@ void ASFrame::ShowFindDialog()
 	if (m_find)
 	{
 		delete m_find;
-		m_find = NULL;
+		m_find = nullptr;
 	}
 	wxString selectedText = m_editor->GetWordAtCaret();
 	m_findData.SetFindString(selectedText);
@@ -1819,10 +1841,10 @@ void ASFrame::StatusBarAdjustWidths()
 	// position the settings bitmap
 	wxRect bmpFieldRect;
 	statusBar->GetFieldRect(SB_BUTTON, bmpFieldRect);
-	wxStaticBitmap* settingsBitmap = GetSettingsBitmap();
-	wxSize settingsSize = settingsBitmap->GetSize();
-	settingsBitmap->Move(bmpFieldRect.x + ((bmpFieldRect.width - settingsSize.x) / 2),
-	                     bmpFieldRect.y + ((bmpFieldRect.height - settingsSize.y) / 2));
+	wxStaticBitmap* optionsBitmap = GetOptionsBitmap();
+	wxSize settingsSize = optionsBitmap->GetSize();
+	optionsBitmap->Move(bmpFieldRect.x + ((bmpFieldRect.width - settingsSize.x) / 2),
+	                    bmpFieldRect.y + ((bmpFieldRect.height - settingsSize.y) / 2));
 }
 
 void ASFrame::UpdateFrame()
@@ -1853,7 +1875,7 @@ void ASFrame::UpdateMenuBarDisplay() const
 // Enable menu items when a file is opened.
 {
 	wxMenuBar* menuBar = this->GetMenuBar();
-	bool isOpen = m_editor != NULL;
+	bool isOpen = m_editor != nullptr;
 
 	// these are always disabled initially
 	menuBar->Enable(ID_FILE_SAVE, false);
@@ -1979,9 +2001,9 @@ void ASFrame::UpdateStatusBarDisplay()
 		wxString sysEncodingName = m_editor->GetSysEncodingName();
 		if (encodingName != sysEncodingName)
 		{
-			encodingText = " " + encodingName.Lower();
+			encodingText = " " + encodingName;
 			if (m_editor->GetUseBOM())
-				encodingText.Append(" (b)");
+				encodingText.Append("  (B)");
 		}
 		statusBar->SetStatusText(encodingText, SB_ENCODING);
 
@@ -2021,7 +2043,7 @@ void ASFrame::UpdateToolBarDisplay()
 	bool checked;     // the menu check state
 	wxMenuBar* menuBar = GetMenuBar();
 	wxToolBar* toolBar = GetToolBar();
-	if (toolBar == NULL)
+	if (toolBar == nullptr)
 		return;
 
 	// update toolbar from the menu

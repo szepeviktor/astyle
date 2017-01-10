@@ -36,8 +36,8 @@ Update AStyleDlg.cpp and AStyleDlg.h.
 AStyleIFace::AStyleIFace()
 // The AStyleIFace constructor sets the variable default values.
 {
-	// bracket style options
-	bracketStyle = STYLE_NONE;                 // --style=?
+	// brace style options
+	braceStyle = STYLE_NONE;                 // --style=?
 
 	// tabs/spaces options
 	indentType           = INDENT_SPACES;      // --indent=?, --indent=force-tab=#
@@ -45,7 +45,7 @@ AStyleIFace::AStyleIFace()
 	useTabLength         = false;              // --indent=force-tab-x=#
 	tabLength            = 8;                  // --indent=force-tab-x=#
 
-	// bracket modifier options
+	// brace modifier options
 	attachNamespace      = false;              // --attach-namespaces
 	attachClass          = false;              // --attach-classes
 	attachInline         = false;              // --attach-inlines
@@ -82,12 +82,12 @@ AStyleIFace::AStyleIFace()
 	alignReference       = REF_SAME_AS_PTR;    // --align-reference= none, type, middle, name same as pointer
 
 	// formatting options
-	breakCloseBrackets   = false;              // -- break-closing-brackets
+	breakClosingBraces   = false;              // -- break-closing-braces
 	breakElseIfs         = false;              // --break-elseifs
 	breakOneLineHeaders  = false;              // --break-one-line-headers
-	addBrackets          = false;              // --add-brackets
-	addOneLineBrackets   = false;              // --add-one-line-brackets
-	removeBrackets       = false;              // --remove-brackets
+	addBraces            = false;              // --add-braces
+	addOneLineBraces     = false;              // --add-one-line-braces
+	removeBraces         = false;              // --remove-braces
 	breakOneLineBlocks   = true;               // --one-line=keep-blocks
 	breakOneLineStmts    = true;               // --one-line=keep-statements
 	convertTabs          = false;              // --convert-tabs
@@ -155,109 +155,109 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 	options.Alloc(50);
 	wxString separator = "\n";       // can be new-line, tab, space, or comma
 
-	// bracket style
-	if (getBracketStyle() != STYLE_NONE)
+	// brace style
+	if (getBraceStyle() != STYLE_NONE)
 	{
 		const wxString EQ = "=";
-		if (getBracketStyle() == STYLE_ALLMAN)
+		if (getBraceStyle() == STYLE_ALLMAN)
 		{
 			if (showShort)
 				options.append("A1");
 			else
 				options.append(STYLE + EQ + ALLMAN);
 		}
-		else if (getBracketStyle() == STYLE_JAVA)
+		else if (getBraceStyle() == STYLE_JAVA)
 		{
 			if (showShort)
 				options.append("A2");
 			else
 				options.append(STYLE + EQ + JAVA);
 		}
-		else if (getBracketStyle() == STYLE_KR)
+		else if (getBraceStyle() == STYLE_KR)
 		{
 			if (showShort)
 				options.append("A3");
 			else
 				options.append(STYLE + EQ + KandR);
 		}
-		else if (getBracketStyle() == STYLE_STROUSTRUP)
+		else if (getBraceStyle() == STYLE_STROUSTRUP)
 		{
 			if (showShort)
 				options.append("A4");
 			else
 				options.append(STYLE + EQ + STROUSTRUP);
 		}
-		else if (getBracketStyle() == STYLE_WHITESMITH)
+		else if (getBraceStyle() == STYLE_WHITESMITH)
 		{
 			if (showShort)
 				options.append("A5");
 			else
 				options.append(STYLE + EQ + WHITESMITH);
 		}
-		else if (getBracketStyle() == STYLE_VTK)
+		else if (getBraceStyle() == STYLE_VTK)
 		{
 			if (showShort)
 				options.append("A15");
 			else
 				options.append(STYLE + EQ + VTK);
 		}
-		else if (getBracketStyle() == STYLE_BANNER)
+		else if (getBraceStyle() == STYLE_BANNER)
 		{
 			if (showShort)
 				options.append("A6");
 			else
 				options.append(STYLE + EQ + BANNER);
 		}
-		else if (getBracketStyle() == STYLE_GNU)
+		else if (getBraceStyle() == STYLE_GNU)
 		{
 			if (showShort)
 				options.append("A7");
 			else
 				options.append(STYLE + EQ + GNU);
 		}
-		else if (getBracketStyle() == STYLE_LINUX)
+		else if (getBraceStyle() == STYLE_LINUX)
 		{
 			if (showShort)
 				options.append("A8");
 			else
 				options.append(STYLE + EQ + LINUXX);
 		}
-		else if (getBracketStyle() == STYLE_HORSTMANN)
+		else if (getBraceStyle() == STYLE_HORSTMANN)
 		{
 			if (showShort)
 				options.append("A9");
 			else
 				options.append(STYLE + EQ + HORSTMANN);
 		}
-		else if (getBracketStyle() == STYLE_1TBS)
+		else if (getBraceStyle() == STYLE_1TBS)
 		{
 			if (showShort)
 				options.append("A10");
 			else
 				options.append(STYLE + EQ + oneTBS);
 		}
-		else if (getBracketStyle() == STYLE_GOOGLE)
+		else if (getBraceStyle() == STYLE_GOOGLE)
 		{
 			if (showShort)
 				options.append("A14");
 			else
 				options.append(STYLE + EQ + GOOGLE);
 		}
-		else if (getBracketStyle() == STYLE_MOZILLA)
+		else if (getBraceStyle() == STYLE_MOZILLA)
 		{
 			if (showShort)
 				options.append("A16");
 			else
 				options.append(STYLE + EQ + MOZILLA);
 		}
-		else if (getBracketStyle() == STYLE_PICO)
+		else if (getBraceStyle() == STYLE_PICO)
 		{
 			if (showShort)
 				options.append("A11");
 			else
 				options.append(STYLE + EQ + PICO);
 		}
-		else if (getBracketStyle() == STYLE_LISP)
+		else if (getBraceStyle() == STYLE_LISP)
 		{
 			if (showShort)
 				options.append("A12");
@@ -265,7 +265,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 				options.append(STYLE + EQ + LISP);
 		}
 		else		// force an error message
-			options.append(wxString::Format("invalid-bracketStyle=%d", getBracketStyle()));
+			options.append(wxString::Format("invalid-braceStyle=%d", getBraceStyle()));
 		if (useSeparator)
 			options.append(separator);
 	}
@@ -716,12 +716,12 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getBreakCloseBrackets())
+	if (getBreakClosingBraces())
 	{
 		if (showShort)
 			options.append("y");
 		else
-			options.append(BREAK_CLOSING_BRACKETS);
+			options.append(BREAK_CLOSING_BRACES);
 		if (useSeparator)
 			options.append(separator);
 	}
@@ -743,30 +743,30 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getAddBrackets())
+	if (getAddBraces())
 	{
 		if (showShort)
 			options.append("j");
 		else
-			options.append(ADD_BRACKETS);
+			options.append(ADD_BRACES);
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getAddOneLineBrackets())
+	if (getAddOneLineBraces())
 	{
 		if (showShort)
 			options.append("J");
 		else
-			options.append(ADD_ONE_LINE_BRACKETS);
+			options.append(ADD_ONE_LINE_BRACES);
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getRemoveBrackets())
+	if (getRemoveBraces())
 	{
 		if (showShort)
 			options.append("xj");
 		else
-			options.append(REMOVE_BRACKETS);
+			options.append(REMOVE_BRACES);
 		if (useSeparator)
 			options.append(separator);
 	}
@@ -932,35 +932,35 @@ bool AStyleIFace::SetAStyleOptionFromConfig(const wxString& key, const wxString&
 	if (key == STYLE)
 	{
 		if (value == ALLMAN)
-			bracketStyle = STYLE_ALLMAN;
+			braceStyle = STYLE_ALLMAN;
 		else if (value == JAVA)
-			bracketStyle = STYLE_JAVA;
+			braceStyle = STYLE_JAVA;
 		else if (value == KandR)
-			bracketStyle = STYLE_KR;
+			braceStyle = STYLE_KR;
 		else if (value == STROUSTRUP)
-			bracketStyle = STYLE_STROUSTRUP;
+			braceStyle = STYLE_STROUSTRUP;
 		else if (value == WHITESMITH)
-			bracketStyle = STYLE_WHITESMITH;
+			braceStyle = STYLE_WHITESMITH;
 		else if (value == VTK)
-			bracketStyle = STYLE_VTK;
+			braceStyle = STYLE_VTK;
 		else if (value == BANNER)
-			bracketStyle = STYLE_BANNER;
+			braceStyle = STYLE_BANNER;
 		else if (value == GNU)
-			bracketStyle = STYLE_GNU;
+			braceStyle = STYLE_GNU;
 		else if (value == LINUXX)
-			bracketStyle = STYLE_LINUX;
+			braceStyle = STYLE_LINUX;
 		else if (value == HORSTMANN)
-			bracketStyle = STYLE_HORSTMANN;
+			braceStyle = STYLE_HORSTMANN;
 		else if (value == oneTBS)
-			bracketStyle = STYLE_1TBS;
+			braceStyle = STYLE_1TBS;
 		else if (value == GOOGLE)
-			bracketStyle = STYLE_GOOGLE;
+			braceStyle = STYLE_GOOGLE;
 		else if (value == MOZILLA)
-			bracketStyle = STYLE_MOZILLA;
+			braceStyle = STYLE_MOZILLA;
 		else if (value == PICO)
-			bracketStyle = STYLE_PICO;
+			braceStyle = STYLE_PICO;
 		else if (value == LISP)
-			bracketStyle = STYLE_LISP;
+			braceStyle = STYLE_LISP;
 		else
 			return false;
 	}
@@ -1109,8 +1109,8 @@ bool AStyleIFace::SetAStyleOptionFromConfig_Bool(const wxString& key, bool value
 		attachInline = value;
 	else if (key == ATTACH_EXTERNC)
 		attachExternC = value;
-	else if (key == BREAK_CLOSING_BRACKETS)
-		breakCloseBrackets = value;
+	else if (key == BREAK_CLOSING_BRACES)
+		breakClosingBraces = value;
 	else if (key == INDENT_CLASSES)
 		classIndent = value;
 	else if (key == INDENT_MODIFIERS)
@@ -1151,12 +1151,12 @@ bool AStyleIFace::SetAStyleOptionFromConfig_Bool(const wxString& key, bool value
 		breakOneLineStmts = false;
 	else if (key == KEEP_ONE_LINE_BLOCKS)
 		breakOneLineBlocks = false;
-	else if (key == ADD_BRACKETS)
-		addBrackets = value;
-	else if (key == ADD_ONE_LINE_BRACKETS)
-		addOneLineBrackets = value;
-	else if (key == REMOVE_BRACKETS)
-		removeBrackets = value;
+	else if (key == ADD_BRACES)
+		addBraces = value;
+	else if (key == ADD_ONE_LINE_BRACES)
+		addOneLineBraces = value;
+	else if (key == REMOVE_BRACES)
+		removeBraces = value;
 	else if (key == CLOSE_TEMPLATES)
 		closeTemplates = value;
 	else if (key == REMOVE_COMMENT_PREFIX)

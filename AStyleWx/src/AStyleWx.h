@@ -142,7 +142,8 @@ enum
 	ID_TB_TOOL_FORMATSELECT,
 	ID_TB_TOOL_FORMATSOURCE,
 	// status bar items
-	ID_SB_ASTYLE_BITMAP,
+	ID_SB_ASTYLE_BITMAP,		// for options dialog
+	ID_SB_ASTYLE_SETTINGS,
 	// caret-position menu, a statusbar popup
 	ID_CARET_POS,
 };
@@ -158,7 +159,7 @@ enum
 enum
 {
 	SB_SETTINGS,
-	SB_BUTTON,
+	SB_BUTTON,		// for options dialog
 	SB_FILEMODE,
 	SB_EOL,
 	SB_ENCODING,
@@ -183,10 +184,6 @@ enum
 class ASEditor: public wxStyledTextCtrl
 {
 public:
-	// FileManager needs to call private methods
-	// DiscoverEOLSetting() and SetFileVariables()
-	friend class FileManager;
-
 	explicit ASEditor(wxWindow* notebook);
 	virtual ~ASEditor();
 
@@ -194,6 +191,7 @@ public:
 	void BookmarkNext(int markerBookmark);
 	void BookmarkPrevious(int markerBookmark);
 	void BookmarkToggle(int markerBookmark);
+	void DiscoverEOLSetting(wxString& text);
 	bool FileNeedsReload();
 	void FindMatchingBrace(bool select);
 	int  FindNext(const wxFindReplaceData& findData, bool reverseFind);
@@ -209,6 +207,7 @@ public:
 	void SelectBlock();
 	void SelectToEnd();
 	void SelectToStart();
+	void SetFileVariables(const wxFileName& filepath, wxFontEncoding encoding, bool useBOM);
 	bool ShowGotoLineDialog();
 	void StripTrailingSpaces();
 	void TabsToSpaces();
@@ -256,9 +255,7 @@ private:
 private:
 	int  BraceAtCaret();
 	void CountLineEnds(wxString& text, int& linesCR, int& linesLF, int& linesCRLF);
-	void DiscoverEOLSetting(wxString& text);
 	void FormatFile(bool formatSelection);
-	void OnGotFocus(wxFocusEvent&);
 	void OnMouseCaptureLost(wxMouseCaptureLostEvent&);
 	void OnSTCChange(wxStyledTextEvent&);
 	void OnSTCCharAdded(wxStyledTextEvent& event);
@@ -267,7 +264,6 @@ private:
 	void OnSTCSavePointLeft(wxStyledTextEvent&);
 	void OnSTCSavePointReached(wxStyledTextEvent&);
 	void OnSTCUpdateUI(wxStyledTextEvent& event);
-	void SetFileVariables(const wxFileName& filepath, wxFontEncoding encoding, bool useBOM);
 
 	// indent
 	void AutomaticIndentation(int ch);
@@ -322,7 +318,7 @@ public:
 	bool GetHideFindAfterMatch() const              { return m_hideDialogAfterMatch; }
 	const wxIconBundle& GetIconBundle() const       { return m_iconBundle; }
 	wxAuiNotebook* GetNotebook() const              { return m_notebook; }
-	wxStaticBitmap* GetSettingsBitmap() const       { return m_settingsBitmap; }
+	wxStaticBitmap* GetOptionsBitmap() const        { return m_optionsBitmap; }
 	bool GetShowToolTips() const                    { return m_showToolTips; }
 	bool GetShowDialogTips() const                  { return m_showDialogTips; }
 	const vector<TextStyle>& GetStyleVector() const { return m_styleVector; }
@@ -341,7 +337,7 @@ private:
 	// pointers
 	ASEditor*    m_editor;
 	wxAuiNotebook* m_notebook;
-	wxStaticBitmap* m_settingsBitmap;
+	wxStaticBitmap* m_optionsBitmap;
 	Config*      m_config;
 	AStyleIFace* m_astyle;
 	// toolbar and dialogs
@@ -381,7 +377,7 @@ private:
 	void BuildToolTips(bool showToolTips);
 	void CloseFindDialog();
 	void CloseNotebook();
-	wxBitmap CreateStatusBarSettingsBitmap(bool on = false);
+	wxBitmap CreateStatusBarOptionsBitmap(bool on = false);
 	wxString GetFirstArgvFile();
 	wxSize GetWindowSize() const;
 	void OnApplicationClose(wxCloseEvent& event);
@@ -399,9 +395,9 @@ private:
 	void OnHelpText(wxCommandEvent& event);
 	void OnIdle(wxIdleEvent&);
 	void OnMenuOpen(wxMenuEvent& event);
+	void OnOptionsBitmapClick(wxMouseEvent& event);
 	void OnSearchMenu(wxCommandEvent& event);
-	void OnSettingsBitmapClick(wxMouseEvent& event);
-	void OnStatusRightClick(wxMouseEvent& event);
+	void OnStatusBarClick(wxMouseEvent& event);
 	void OnTestOptions(wxCommandEvent&);
 	void OnToolMenu(wxCommandEvent& event);
 	void OnViewMenu(wxCommandEvent& event);
@@ -437,7 +433,7 @@ int  ShowMessageDialog(const wxString& message, long style);
 class ASApp : public wxApp
 {
 public:
-	ASApp() : m_frame(NULL) {}
+	ASApp() : m_frame(nullptr) {}
 	virtual ~ASApp() {}
 	virtual bool OnInit();
 	virtual int OnExit();

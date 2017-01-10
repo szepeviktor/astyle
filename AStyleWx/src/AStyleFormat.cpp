@@ -30,7 +30,7 @@ AStyleFormat::AStyleFormat()
 	m_minSelectionMarker = "//]])>1";
 	m_maxSelectionMarker = "//]])>2";
 	m_bookmark1Marker	 = "//]])>3";
-	m_stc = NULL;
+	m_stc = nullptr;
 	m_selectionReversed = false;
 	m_line0Inserted = false;
 }
@@ -43,7 +43,7 @@ char* AStyleFormat::CallAStyleMain(const char* textIn, const char* options) cons
 {
 #ifdef ASTYLE_DYLIB
 	// format using dynamic library
-	if (fpAStyleMain == NULL)	// cannot use aslib.IsLoaded() after Detach()
+	if (fpAStyleMain == nullptr)	// cannot use aslib.IsLoaded() after Detach()
 	{
 		ShowMessageDialog(wxString::Format(
 		                      "Error calling the function AStyleMain.\n"
@@ -52,7 +52,7 @@ char* AStyleFormat::CallAStyleMain(const char* textIn, const char* options) cons
 		                      "This must be corrected to format the text!",
 		                      GetDynamicLibraryName().c_str()),
 		                  wxOK | wxICON_ERROR);
-		return NULL;
+		return nullptr;
 	}
 
 	char* textOut = fpAStyleMain(textIn,
@@ -76,12 +76,6 @@ void AStyleFormat::FormatSelection(wxStyledTextCtrl* stc, const wxString& option
 	m_selectionReversed = false;
 	m_line0Inserted = false;
 	int xOffset = stc->GetXOffset();
-	// see if anything is actually selected on the last line
-	int selMax = stc->GetSelectionEnd();
-	int maxLine = m_stc->LineFromPosition(selMax);
-	int selMaxTest = m_stc->PositionFromLine(maxLine);
-	if (selMax == selMaxTest)
-		--maxLine;
 	// flag reversed selection for restore
 	if (m_stc->GetAnchor() > m_stc->GetCurrentPos())
 		m_selectionReversed = true;
@@ -94,10 +88,10 @@ void AStyleFormat::FormatSelection(wxStyledTextCtrl* stc, const wxString& option
 	InsertBookmarkMarkers(1, m_bookmark1Marker);
 	// format text
 	char* textOut = FormatSTCText(optionsWx);
-	if (textOut != NULL)
+	if (textOut != nullptr)
 		InsertFormattedText(textOut);
 	delete [] textOut;
-	textOut = NULL;
+	textOut = nullptr;
 	// restore viewing position
 	// selection markers MUST be LAST or the selection will be removed
 	RestoreBookmarks(1, m_bookmark1Marker);
@@ -106,7 +100,7 @@ void AStyleFormat::FormatSelection(wxStyledTextCtrl* stc, const wxString& option
 	// restore the window
 	stc->EndUndoAction();
 	stc->SetXOffset(xOffset);
-	m_stc = NULL;
+	m_stc = nullptr;
 }
 
 void AStyleFormat::FormatSource(wxStyledTextCtrl* stc, const wxString& optionsWx)
@@ -133,17 +127,17 @@ void AStyleFormat::FormatSource(wxStyledTextCtrl* stc, const wxString& optionsWx
 	InsertBookmarkMarkers(1, m_bookmark1Marker);
 	// format text
 	char* textOut = FormatSTCText(optionsWx);
-	if (textOut != NULL)
+	if (textOut != nullptr)
 		m_stc->SetTextRaw(textOut);
 	delete [] textOut;
-	textOut = NULL;
+	textOut = nullptr;
 	// restore viewing position
 	RestoreBookmarks(1, m_bookmark1Marker);
 	RestoreFirstVisibleLine();
 	// restore the window
 	stc->EndUndoAction();
 	stc->SetXOffset(xOffset);
-	m_stc = NULL;
+	m_stc = nullptr;
 }
 
 char* AStyleFormat::FormatSTCText(const wxString& options) const
@@ -151,7 +145,7 @@ char* AStyleFormat::FormatSTCText(const wxString& options) const
 // The formatted text will be placed in the textOutWx string.
 // textOutWx will be wxEmptyString if a error occurs.
 {
-	assert(m_stc != NULL);
+	assert(m_stc != nullptr);
 	// GetTextRaw avoids the unicode encoding conversions
 	wxCharBuffer textInBuf = m_stc->GetTextRaw();
 	char* textIn = textInBuf.data();
@@ -162,7 +156,7 @@ char* AStyleFormat::FormatSTCText(const wxString& options) const
 wxString AStyleFormat::GetAStyleVersion() const
 {
 #ifdef ASTYLE_DYLIB
-	if (fpAStyleGetVersion == NULL)	// cannot use aslib.IsLoaded() after Detach()
+	if (fpAStyleGetVersion == nullptr)	// cannot use aslib.IsLoaded() after Detach()
 	{
 		ShowMessageDialog(wxString::Format(
 		                      "Error calling the function AStyleGetVersion.\n"
@@ -186,7 +180,7 @@ wxString AStyleFormat::GetAStyleVersion() const
 void AStyleFormat::InsertBookmarkMarkers(int bookmarkNumber, std::string& marker) const
 // Insert bookmark markers at the end of the line.
 {
-	assert(m_stc != NULL);
+	assert(m_stc != nullptr);
 	int lineStart = 0;
 	int markerLine = m_stc->MarkerNext(lineStart, 1 << bookmarkNumber);
 	while (markerLine >= 0)
@@ -204,7 +198,7 @@ void AStyleFormat::InsertBookmarkMarkers(int bookmarkNumber, std::string& marker
 void AStyleFormat::InsertFirstVisibleLineMarker() const
 // Insert a first visible line marker at the end of the line.
 {
-	assert(m_stc != NULL);
+	assert(m_stc != nullptr);
 	int firstVisibleLine = m_stc->GetFirstVisibleLine();
 	int firstVisibleLineEOLPos = m_stc->GetLineEndPosition(firstVisibleLine);
 	if (m_stc->GetCharAt(firstVisibleLineEOLPos - 1) == '*')		// don't create '*/'
@@ -216,14 +210,14 @@ void AStyleFormat::InsertFirstVisibleLineMarker() const
 bool AStyleFormat::InsertFormattedText(const char* textOut)
 // Insert the output selected formatted text into the original unformatted string.
 {
-	assert(m_stc != NULL);
+	assert(m_stc != nullptr);
 	// find formatted text in the formatted output string
-	char* minOut = NULL;
-	char* maxOut = NULL;
+	char* minOut = nullptr;
+	char* maxOut = nullptr;
 	minOut = strstr(const_cast<char*>(textOut), m_minSelectionMarker.c_str());
-	if (minOut != NULL)
+	if (minOut != nullptr)
 		maxOut = strstr(minOut, m_maxSelectionMarker.c_str());
-	if (minOut == NULL || maxOut == NULL)
+	if (minOut == nullptr || maxOut == nullptr)
 	{
 		ShowMessageDialog("Unable to find an output selection marker during replacement!\n"
 		                  "The entire document will be replaced for debugging.",
@@ -258,7 +252,7 @@ bool AStyleFormat::InsertSelectionMarkers()
 // Beginning marker at end of the PREVIOUS line.
 // Ending marker at the end of the last selected line.
 {
-	assert(m_stc != NULL);
+	assert(m_stc != nullptr);
 	int selMin = m_stc->GetSelectionStart();
 	int selMax = m_stc->GetSelectionEnd();
 	if (selMax == selMin)
@@ -310,7 +304,7 @@ bool AStyleFormat::InsertSelectionMarkers()
 void AStyleFormat::RestoreBookmarks(int bookmarkNumber, std::string& marker) const
 // Remove the bookmark markers and restore the bookmark positions.
 {
-	assert(m_stc != NULL);
+	assert(m_stc != nullptr);
 	int markerLine = 0;
 	int markerPosition = m_stc->FindText(markerLine, m_stc->GetTextLength(), marker, wxSTC_FIND_MATCHCASE);
 	while (markerPosition >= 0)
@@ -338,7 +332,7 @@ void AStyleFormat::RestoreBookmarks(int bookmarkNumber, std::string& marker) con
 void AStyleFormat::RestoreFirstVisibleLine() const
 // Remove the first visible line marker and restore the viewing position.
 {
-	assert(m_stc != NULL);
+	assert(m_stc != nullptr);
 	int firstVisibleLine = 0;
 	int firstVisiblePosition = m_stc->FindText(0, m_stc->GetTextLength(), m_firstLineMarker, wxSTC_FIND_MATCHCASE);
 	// TODO: fix this
@@ -385,7 +379,7 @@ bool AStyleFormat::RestoreSelection() const
 // Remove the selection markers and select the text.
 // The entire lines are selected.
 {
-	assert(m_stc != NULL);
+	assert(m_stc != nullptr);
 	bool returnValue = true;
 	// the first visible line must later be restored
 	int firstVisibleLine = m_stc->GetFirstVisibleLine();
@@ -501,8 +495,8 @@ DECLARE_fpASVER
 // static definitions for the AStyle dynamic library
 wxDynamicLibrary AStyleFormat::aslib;
 wxDllType AStyleFormat::aslibHandle = 0;
-fpASMain  AStyleFormat::fpAStyleMain = NULL;
-fpASVer   AStyleFormat::fpAStyleGetVersion = NULL;
+fpASMain  AStyleFormat::fpAStyleMain = nullptr;
+fpASVer   AStyleFormat::fpAStyleGetVersion = nullptr;
 
 //-----------------------------------------------------------------------------
 // methods for dll build of AStyle
@@ -512,9 +506,9 @@ wxString AStyleFormat::GetDynamicLibraryName()
 {
 	wxString libName;
 #ifdef __WXMSW__
-	libName = "AStyle-2.06";
+	libName = "AStyle-2.7";
 #else
-	libName = "astyle-2.06";
+	libName = "astyle-2.7";
 #endif
 #ifndef NDEBUG
 	libName += "d";
@@ -550,7 +544,7 @@ void AStyleFormat::LoadDynamicLibrary()
 
 	// get the AStyleMain address
 	fpAStyleMain = (fpASMain) aslib.GetSymbol("AStyleMain");
-	if (fpAStyleMain == NULL)
+	if (fpAStyleMain == nullptr)
 	{
 		ShowMessageDialog(wxString::Format(
 		                      "Cannot find the symbol AStyleMain in %s.\n"
@@ -563,7 +557,7 @@ void AStyleFormat::LoadDynamicLibrary()
 
 	// verify AStyleGetVersion function - the function address is obtained when it is called
 	fpAStyleGetVersion = (fpASVer) aslib.GetSymbol("AStyleGetVersion");
-	if (fpAStyleGetVersion == NULL)
+	if (fpAStyleGetVersion == nullptr)
 	{
 		ShowMessageDialog(wxString::Format(
 		                      "Cannot find the symbol AStyleGetVersion in %s.\n"

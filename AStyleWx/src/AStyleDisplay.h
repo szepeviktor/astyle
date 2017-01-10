@@ -48,9 +48,9 @@ private:
 	void AlignReplaceIndent(wxString& line, wxString& indent) const;
 	void LexStcText(wxString boldChars = wxEmptyString);
 	// Format Tab
-	wxString StcFormat_AddBrackets();
-	wxString StcFormat_AddOneLineBrackets();
-	wxString StcFormat_BreakClosingBrackets();
+	wxString StcFormat_AddBraces();
+	wxString StcFormat_AddOneLineBraces();
+	wxString StcFormat_BreakClosingBraces();
 	wxString StcFormat_BreakElseIf();
 	wxString StcFormat_BreakOneLineHeaders();
 	wxString StcFormat_CloseTemplates();
@@ -58,7 +58,7 @@ private:
 	wxString StcFormat_KeepOneLineBlocks();
 	wxString StcFormat_KeepOneLineStatements();
 	wxString StcFormat_MaxCodeLength_BreakAfterLogical();
-	wxString StcFormat_RemoveBrackets();
+	wxString StcFormat_RemoveBraces();
 	wxString StcFormat_RemoveCommentPrefix();
 	// Indent Tab
 	wxString StcIndent_IndentCase_IndentSwitch();

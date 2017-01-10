@@ -11,7 +11,7 @@
 				<Option object_output="wx3.0So/obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="icc" />
-				<Option parameters="../../testdata/AppFrame.cpp" />
+				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-fno-rtti" />
@@ -35,7 +35,7 @@
 					<Add option="`wx-config --version=3.0 --libs --debug`" />
 					<Add library="wx_gtk2u_aui-3.0" />
 					<Add library="wx_gtk2u_stc-3.0" />
-					<Add library="astyle-2.06d" />
+					<Add library="astyle-2.7d" />
 					<Add directory="lib" />
 				</Linker>
 			</Target>
@@ -44,7 +44,7 @@
 				<Option object_output="wx3.0So/obj/Release/" />
 				<Option type="0" />
 				<Option compiler="icc" />
-				<Option parameters="../../testdata/AppFrame.cpp" />
+				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-fno-rtti" />
@@ -69,7 +69,7 @@
 					<Add option="-s" />
 					<Add library="wx_gtk2u_aui-3.0" />
 					<Add library="wx_gtk2u_stc-3.0" />
-					<Add library="astyle-2.06" />
+					<Add library="astyle-2.7" />
 					<Add directory="lib" />
 				</Linker>
 			</Target>
