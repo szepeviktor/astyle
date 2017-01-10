@@ -180,7 +180,7 @@ TEST(Config_AStyle_Styles, SaveAStyleOptions_StylesAll)
 
 	struct StyleStruct
 	{
-		BracketStyle styleNum;
+		BraceStyle styleNum;
 		wxString styleName;
 	};
 
@@ -207,7 +207,7 @@ TEST(Config_AStyle_Styles, SaveAStyleOptions_StylesAll)
 	size_t numStyles = sizeof(style) / sizeof(style[0]);
 	for (size_t i = 0; i < numStyles; i++)
 	{
-		astyle.setBracketStyle(style[i].styleNum);
+		astyle.setBraceStyle(style[i].styleNum);
 		config.SaveAStyleOptions(&astyle);
 		config.SetPath("/AStyle");
 		config.Read(key, &value);
@@ -217,7 +217,7 @@ TEST(Config_AStyle_Styles, SaveAStyleOptions_StylesAll)
 
 	// test style none
 	key = STYLE;
-	astyle.setBracketStyle(STYLE_NONE);
+	astyle.setBraceStyle(STYLE_NONE);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -225,7 +225,7 @@ TEST(Config_AStyle_Styles, SaveAStyleOptions_StylesAll)
 
 	// test invalid style
 	key = STYLE;
-	astyle.setBracketStyle(static_cast<BracketStyle>(99));
+	astyle.setBraceStyle(static_cast<BraceStyle>(99));
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -1355,15 +1355,15 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_AddBrackets)
 	wxString value;				// value of config key
 
 	// test true
-	key = ADD_BRACKETS;
-	astyle.setAddBrackets(true);
+	key = ADD_BRACES;
+	astyle.setAddBraces(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setAddBrackets(false);
+	astyle.setAddBraces(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1379,15 +1379,15 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_AddOneLineBrackets)
 	wxString value;				// value of config key
 
 	// test true
-	key = ADD_ONE_LINE_BRACKETS;
-	astyle.setAddOneLineBrackets(true);
+	key = ADD_ONE_LINE_BRACES;
+	astyle.setAddOneLineBraces(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setAddOneLineBrackets(false);
+	astyle.setAddOneLineBraces(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1403,15 +1403,15 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_BreakCloseBrackets)
 	wxString value;				// value of config key
 
 	// test true
-	key = BREAK_CLOSING_BRACKETS;
-	astyle.setBreakCloseBrackets(true);
+	key = BREAK_CLOSING_BRACES;
+	astyle.setBreakClosingBraces(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setBreakCloseBrackets(false);
+	astyle.setBreakClosingBraces(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1616,15 +1616,15 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_RemoveBrackets)
 	wxString value;				// value of config key
 
 	// test true
-	key = REMOVE_BRACKETS;
-	astyle.setRemoveBrackets(true);
+	key = REMOVE_BRACES;
+	astyle.setRemoveBraces(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setRemoveBrackets(false);
+	astyle.setRemoveBraces(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));

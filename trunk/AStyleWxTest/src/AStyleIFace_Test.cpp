@@ -37,54 +37,54 @@ TEST(AStyleIFace_StyleOptions, GetOptions_StylesAll)
 
 	// test the options
 	const wxString STYLE_EQ = "style=";
-	astyle.setBracketStyle(STYLE_NONE);
+	astyle.setBraceStyle(STYLE_NONE);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBracketStyle(STYLE_ALLMAN);
+	astyle.setBraceStyle(STYLE_ALLMAN);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + ALLMAN);
-	astyle.setBracketStyle(STYLE_JAVA);
+	astyle.setBraceStyle(STYLE_JAVA);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + JAVA);
-	astyle.setBracketStyle(STYLE_KR);
+	astyle.setBraceStyle(STYLE_KR);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + KandR);
-	astyle.setBracketStyle(STYLE_STROUSTRUP);
+	astyle.setBraceStyle(STYLE_STROUSTRUP);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + STROUSTRUP);
-	astyle.setBracketStyle(STYLE_WHITESMITH);
+	astyle.setBraceStyle(STYLE_WHITESMITH);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + WHITESMITH);
-	astyle.setBracketStyle(STYLE_BANNER);
+	astyle.setBraceStyle(STYLE_BANNER);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + BANNER);
-	astyle.setBracketStyle(STYLE_GNU);
+	astyle.setBraceStyle(STYLE_GNU);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + GNU);
-	astyle.setBracketStyle(STYLE_LINUX);
+	astyle.setBraceStyle(STYLE_LINUX);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + LINUXX);
-	astyle.setBracketStyle(STYLE_HORSTMANN);
+	astyle.setBraceStyle(STYLE_HORSTMANN);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + HORSTMANN);
-	astyle.setBracketStyle(STYLE_1TBS);
+	astyle.setBraceStyle(STYLE_1TBS);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + oneTBS);
-	astyle.setBracketStyle(STYLE_GOOGLE);
+	astyle.setBraceStyle(STYLE_GOOGLE);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + GOOGLE);
-	astyle.setBracketStyle(STYLE_MOZILLA);
+	astyle.setBraceStyle(STYLE_MOZILLA);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + MOZILLA);
-	astyle.setBracketStyle(STYLE_PICO);
+	astyle.setBraceStyle(STYLE_PICO);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + PICO);
-	astyle.setBracketStyle(STYLE_LISP);
+	astyle.setBraceStyle(STYLE_LISP);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + LISP);
-	astyle.setBracketStyle(static_cast<BracketStyle>(99));
+	astyle.setBraceStyle(static_cast<BraceStyle>(99));
 	options = astyle.GetOptions();
-	EXPECT_TRUE(options == "invalid-bracketStyle=99");
+	EXPECT_TRUE(options == "invalid-braceStyle=99");
 }
 
 //-------------------------------------------------------------------------
@@ -736,12 +736,12 @@ TEST(AStyleIFace_FormatOptions, GetOptions_AddBrackets)
 	wxString options;
 
 	// test the option
-	astyle.setAddBrackets(false);
+	astyle.setAddBraces(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAddBrackets(true);
+	astyle.setAddBraces(true);
 	options = astyle.GetOptions();
-	EXPECT_TRUE(options == ADD_BRACKETS);
+	EXPECT_TRUE(options == ADD_BRACES);
 }
 
 TEST(AStyleIFace_FormatOptions, GetOptions_AddOneLineBrackets)
@@ -752,12 +752,12 @@ TEST(AStyleIFace_FormatOptions, GetOptions_AddOneLineBrackets)
 	wxString options;
 
 	// test the option
-	astyle.setAddOneLineBrackets(false);
+	astyle.setAddOneLineBraces(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAddOneLineBrackets(true);
+	astyle.setAddOneLineBraces(true);
 	options = astyle.GetOptions();
-	EXPECT_TRUE(options == ADD_ONE_LINE_BRACKETS);
+	EXPECT_TRUE(options == ADD_ONE_LINE_BRACES);
 }
 
 TEST(AStyleIFace_FormatOptions, GetOptions_BreakAfterLogical)
@@ -784,12 +784,12 @@ TEST(AStyleIFace_FormatOptions, GetOptions_BreakCloseBrackets)
 	wxString options;
 
 	// test the option
-	astyle.setBreakCloseBrackets(false);
+	astyle.setBreakClosingBraces(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakCloseBrackets(true);
+	astyle.setBreakClosingBraces(true);
 	options = astyle.GetOptions();
-	EXPECT_TRUE(options == BREAK_CLOSING_BRACKETS);
+	EXPECT_TRUE(options == BREAK_CLOSING_BRACES);
 }
 
 TEST(AStyleIFace_FormatOptions, GetOptions_BreakElseIfs)
@@ -924,12 +924,12 @@ TEST(AStyleIFace_FormatOptions, GetOptions_RemoveBrackets)
 	wxString options;
 
 	// test the option
-	astyle.setRemoveBrackets(false);
+	astyle.setRemoveBraces(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setRemoveBrackets(true);
+	astyle.setRemoveBraces(true);
 	options = astyle.GetOptions();
-	EXPECT_TRUE(options == REMOVE_BRACKETS);
+	EXPECT_TRUE(options == REMOVE_BRACES);
 }
 
 TEST(AStyleIFace_FormatOptions, GetOptions_RemoveCommentPrefix)
@@ -1078,54 +1078,54 @@ TEST(AStyleIFace_StyleShort, GetOptions_All)
 
 	// test the options
 	const wxString STYLE_EQ = "style=";
-	astyle.setBracketStyle(STYLE_NONE);
+	astyle.setBraceStyle(STYLE_NONE);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBracketStyle(STYLE_ALLMAN);
+	astyle.setBraceStyle(STYLE_ALLMAN);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A1") << (STYLE_EQ + ALLMAN);
-	astyle.setBracketStyle(STYLE_JAVA);
+	astyle.setBraceStyle(STYLE_JAVA);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A2") << (STYLE_EQ + JAVA);
-	astyle.setBracketStyle(STYLE_KR);
+	astyle.setBraceStyle(STYLE_KR);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A3") << (STYLE_EQ + KandR);
-	astyle.setBracketStyle(STYLE_STROUSTRUP);
+	astyle.setBraceStyle(STYLE_STROUSTRUP);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A4") << (STYLE_EQ + STROUSTRUP);
-	astyle.setBracketStyle(STYLE_WHITESMITH);
+	astyle.setBraceStyle(STYLE_WHITESMITH);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A5") << (STYLE_EQ + WHITESMITH);
-	astyle.setBracketStyle(STYLE_BANNER);
+	astyle.setBraceStyle(STYLE_BANNER);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A6") << (STYLE_EQ + BANNER);
-	astyle.setBracketStyle(STYLE_GNU);
+	astyle.setBraceStyle(STYLE_GNU);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A7") << (STYLE_EQ + GNU);
-	astyle.setBracketStyle(STYLE_LINUX);
+	astyle.setBraceStyle(STYLE_LINUX);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A8") << (STYLE_EQ + LINUXX);
-	astyle.setBracketStyle(STYLE_HORSTMANN);
+	astyle.setBraceStyle(STYLE_HORSTMANN);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A9") << (STYLE_EQ + HORSTMANN);
-	astyle.setBracketStyle(STYLE_1TBS);
+	astyle.setBraceStyle(STYLE_1TBS);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A10") << (STYLE_EQ + oneTBS);
-	astyle.setBracketStyle(STYLE_GOOGLE);
+	astyle.setBraceStyle(STYLE_GOOGLE);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A14") << (STYLE_EQ + GOOGLE);
-	astyle.setBracketStyle(STYLE_MOZILLA);
+	astyle.setBraceStyle(STYLE_MOZILLA);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A16") << (STYLE_EQ + MOZILLA);
-	astyle.setBracketStyle(STYLE_PICO);
+	astyle.setBraceStyle(STYLE_PICO);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A11") << (STYLE_EQ + PICO);
-	astyle.setBracketStyle(STYLE_LISP);
+	astyle.setBraceStyle(STYLE_LISP);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A12") << (STYLE_EQ + LISP);
-	astyle.setBracketStyle(static_cast<BracketStyle>(99));
+	astyle.setBraceStyle(static_cast<BraceStyle>(99));
 	options = astyle.GetOptions(true);
-	EXPECT_TRUE(options == "invalid-bracketStyle=99");
+	EXPECT_TRUE(options == "invalid-braceStyle=99");
 }
 
 //-------------------------------------------------------------------------
@@ -1778,10 +1778,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_AddBrackets)
 	wxString options;
 
 	// test the option
-	astyle.setAddBrackets(false);
+	astyle.setAddBraces(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAddBrackets(true);
+	astyle.setAddBraces(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "j");
 }
@@ -1794,10 +1794,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_AddOneLineBrackets)
 	wxString options;
 
 	// test the option
-	astyle.setAddOneLineBrackets(false);
+	astyle.setAddOneLineBraces(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAddOneLineBrackets(true);
+	astyle.setAddOneLineBraces(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "J");
 }
@@ -1810,10 +1810,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_BreakCloseBrackets)
 	wxString options;
 
 	// test the option
-	astyle.setBreakCloseBrackets(false);
+	astyle.setBreakClosingBraces(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakCloseBrackets(true);
+	astyle.setBreakClosingBraces(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "y");
 }
@@ -1950,10 +1950,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_RemoveBrackets)
 	wxString options;
 
 	// test the option
-	astyle.setRemoveBrackets(false);
+	astyle.setRemoveBraces(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setRemoveBrackets(true);
+	astyle.setRemoveBraces(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xj");
 }
@@ -2218,18 +2218,18 @@ TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_Boolean)
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(FILL_EMPTY_LINES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getFillEmptyLines());
 	// formatting
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(BREAK_CLOSING_BRACKETS, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getBreakCloseBrackets());
+	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(BREAK_CLOSING_BRACES, asTRUE));
+	EXPECT_TRUE(astyle.AStyleIFace::getBreakClosingBraces());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(BREAK_ELSEIFS, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getBreakElseIfs());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(BREAK_ONE_LINE_HEADERS, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getBreakOneLineHeaders());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ADD_BRACKETS, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getAddBrackets());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ADD_ONE_LINE_BRACKETS, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getAddOneLineBrackets());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(REMOVE_BRACKETS, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getRemoveBrackets());
+	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ADD_BRACES, asTRUE));
+	EXPECT_TRUE(astyle.AStyleIFace::getAddBraces());
+	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ADD_ONE_LINE_BRACES, asTRUE));
+	EXPECT_TRUE(astyle.AStyleIFace::getAddOneLineBraces());
+	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(REMOVE_BRACES, asTRUE));
+	EXPECT_TRUE(astyle.AStyleIFace::getRemoveBraces());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(REMOVE_COMMENT_PREFIX, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getRemoveCommentPrefix());
 	// default is true
@@ -2448,33 +2448,33 @@ TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_Styles)
 	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(STYLE, asTRUE));
 	// test the styles
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, ALLMAN));
-	EXPECT_EQ(STYLE_ALLMAN, astyle.AStyleIFace::getBracketStyle());
+	EXPECT_EQ(STYLE_ALLMAN, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, JAVA));
-	EXPECT_EQ(STYLE_JAVA, astyle.AStyleIFace::getBracketStyle());
+	EXPECT_EQ(STYLE_JAVA, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, KandR));
-	EXPECT_EQ(STYLE_KR, astyle.AStyleIFace::getBracketStyle());
+	EXPECT_EQ(STYLE_KR, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, STROUSTRUP));
-	EXPECT_EQ(STYLE_STROUSTRUP, astyle.AStyleIFace::getBracketStyle());
+	EXPECT_EQ(STYLE_STROUSTRUP, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, WHITESMITH));
-	EXPECT_EQ(STYLE_WHITESMITH, astyle.AStyleIFace::getBracketStyle());
+	EXPECT_EQ(STYLE_WHITESMITH, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, BANNER));
-	EXPECT_EQ(STYLE_BANNER, astyle.AStyleIFace::getBracketStyle());
+	EXPECT_EQ(STYLE_BANNER, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, GNU));
-	EXPECT_EQ(STYLE_GNU, astyle.AStyleIFace::getBracketStyle());
+	EXPECT_EQ(STYLE_GNU, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, LINUXX));
-	EXPECT_EQ(STYLE_LINUX, astyle.AStyleIFace::getBracketStyle());
+	EXPECT_EQ(STYLE_LINUX, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, HORSTMANN));
-	EXPECT_EQ(STYLE_HORSTMANN, astyle.AStyleIFace::getBracketStyle());
+	EXPECT_EQ(STYLE_HORSTMANN, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, oneTBS));
-	EXPECT_EQ(STYLE_1TBS, astyle.AStyleIFace::getBracketStyle());
+	EXPECT_EQ(STYLE_1TBS, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, GOOGLE));
-	EXPECT_EQ(STYLE_GOOGLE, astyle.AStyleIFace::getBracketStyle());
+	EXPECT_EQ(STYLE_GOOGLE, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, MOZILLA));
-	EXPECT_EQ(STYLE_MOZILLA, astyle.AStyleIFace::getBracketStyle());
+	EXPECT_EQ(STYLE_MOZILLA, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, PICO));
-	EXPECT_EQ(STYLE_PICO, astyle.AStyleIFace::getBracketStyle());
+	EXPECT_EQ(STYLE_PICO, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, LISP));
-	EXPECT_EQ(STYLE_LISP, astyle.AStyleIFace::getBracketStyle());
+	EXPECT_EQ(STYLE_LISP, astyle.AStyleIFace::getBraceStyle());
 }
 
 //-------------------------------------------------------------------------

@@ -291,6 +291,8 @@ def process_astyleformat(astyleformat_list):
             continue
         if line.startswith("EVT_"):
             continue
+        if line.startswith("minOut"):
+            astyleformat_list.append("redundantAssignment:" + src_path + ":" + str(lines) + "\t\t// MinOut\n")
         if line.startswith("minSTC"):
             astyleformat_list.append("redundantAssignment:" + src_path + ":" + str(lines) + "\t\t// MinSTC\n")
         if line.startswith("minPosition"):

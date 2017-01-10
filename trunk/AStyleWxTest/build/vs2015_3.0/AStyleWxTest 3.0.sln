@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleWxTest", "AStyleWxTest\AStyleWxTest.vcxproj", "{81836994-4DC6-45BD-8C69-633DF214AD3F}"
 EndProject
@@ -9,6 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMock Lib", "GMock Lib\GMoc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{158AAF67-239D-4AFB-AAD4-5994877A3CAB}"
 	ProjectSection(SolutionItems) = preProject
+		AStyleWxTest 3.0.gta.runsettings = AStyleWxTest 3.0.gta.runsettings
 		..\..\srcx\gtest-options.lst = ..\..\srcx\gtest-options.lst
 	EndProjectSection
 EndProject

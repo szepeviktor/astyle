@@ -9,13 +9,21 @@ progdir=clang-tidy-3.9
 options="-header-filter=.*"
 
 # modernize-* are temporary.  Remove for c++11 update.
+# cppcoreguidelines-pro-type-member-init gives constructor does not initialize warning
+# cppcoreguidelines-pro-type-vararg don't use printf in astyle_main
+# google-global-names-in-headers, don't like the restriction (std::vector)
+# google-build-using-namespace gives warning for "using namespace"
 # google-readability-casting replaces c-style casts with c++ casts
-# cert-err34-c warns of using atoi errors - astyle checks the input length to avoid
-# cppcoreguidelines-pro-type-member-init is a false positive which may be fixed in the future
-#     and if used with -fix will cause compile errors
-# misc-unused-parameters is a false positive which may be fixed in the future
-#     and if used with -fix will cause compile errors
-# llvm-include-order is a false positive which may be fixed in the future
+# google-readability-todo adds username to todo comments
+# google-runtime-int values are determined by wxWidgets
+# google-runtime-references 'const' is determined by wxWidgets, cannot fix
+# llvm-header-guard adds the filepath to the header guard name
+# misc-misplaced-widening-cast is casting size_t to int instead of int to size_t
+# misc-unused-parameters, false positive in constructors
+# readability-simplify-boolean-expr returns a conditional statement
+# modernize-loop-convert, vs2010 does not recognize for-each loop
+# modernize-use-default, vs2010 does not recognize default
+
 checks=-checks=*,\
 -cppcoreguidelines-pro-type-member-init,\
 -google-global-names-in-headers,\
@@ -24,15 +32,12 @@ checks=-checks=*,\
 -google-runtime-int,\
 -google-runtime-references,\
 -llvm-header-guard,\
--llvm-include-order,\
 -misc-unused-parameters,\
 -readability-braces-around-statements,\
--readability-named-parameter,\
 -readability-simplify-boolean-expr,\
--modernize-use-auto,\
 -modernize-loop-convert,\
--modernize-use-default,\
--modernize-use-nullptr
+-modernize-use-auto,\
+-modernize-use-default
 
 
 echo

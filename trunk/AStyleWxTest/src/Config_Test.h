@@ -131,8 +131,10 @@ public:
 	// active functions
 	bool IsMenuItemChecked(int viewMenuId) const
 	{
-		if (viewMenuId == ID_VIEW_TOOLBAR_NONE) return !m_boolReturn;
-		else return m_boolReturn;
+		if (viewMenuId == ID_VIEW_TOOLBAR_NONE)
+			return !m_boolReturn;
+		else
+			return m_boolReturn;
 	}
 	void SetFrameBoolReturn(bool state)
 	{
