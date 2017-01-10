@@ -96,11 +96,11 @@ ASLocalizer::ASLocalizer()
 	m_langID = "en";
 	m_lcid = 0;
 	m_subLangID.clear();
-	m_translation = NULL;
+	m_translation = nullptr;
 
 	// Not all compilers support the C++ function locale::global(locale(""));
 	char* localeName = setlocale(LC_ALL, "");
-	if (localeName == NULL)		// use the english (ascii) defaults
+	if (localeName == nullptr)		// use the english (ascii) defaults
 	{
 		fprintf(stderr, "\n%s\n\n", "Cannot set native locale, reverting to English");
 		setTranslationClass();
@@ -256,10 +256,10 @@ void ASLocalizer::setTranslationClass()
 {
 	assert(m_langID.length());
 	// delete previously set (--ascii option)
-	if (m_translation)
+	if (m_translation != nullptr)
 	{
 		delete m_translation;
-		m_translation = NULL;
+		m_translation = nullptr;
 	}
 	if (m_langID == "bg")
 		m_translation = new Bulgarian;
@@ -327,8 +327,8 @@ string Translation::convertToMultiByte(const wstring& wideStr) const
 // Return an empty string if an error occurs.
 {
 	static bool msgDisplayed = false;
-	// get length of the output excluding the NULL and validate the parameters
-	size_t mbLen = wcstombs(NULL, wideStr.c_str(), 0);
+	// get length of the output excluding the nullptr and validate the parameters
+	size_t mbLen = wcstombs(nullptr, wideStr.c_str(), 0);
 	if (mbLen == string::npos)
 	{
 		if (!msgDisplayed)
@@ -340,7 +340,7 @@ string Translation::convertToMultiByte(const wstring& wideStr) const
 	}
 	// convert the characters
 	char* mbStr = new (nothrow) char[mbLen + 1];
-	if (mbStr == NULL)
+	if (mbStr == nullptr)
 	{
 		if (!msgDisplayed)
 		{

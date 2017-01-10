@@ -267,34 +267,9 @@ private:    // variables
 	vector<string> fileOptionsVector;   // options from the options file
 	vector<string> fileName;            // files to be processed including path
 
-public:     // variables
-	explicit ASConsole(ASFormatter& formatterArg) : formatter(formatterArg)
-	{
-		// command line options
-		isRecursive = false;
-		isDryRun = false;
-		noBackup = false;
-		preserveDate = false;
-		isVerbose = false;
-		isQuiet = false;
-		isFormattedOnly = false;
-		ignoreExcludeErrors = false;
-		ignoreExcludeErrorsDisplay = false;
-		optionsFileRequired = false;
-		useAscii = false;
-		// other variables
-		bypassBrowserOpen = false;
-		hasWildcard = false;
-		filesAreIdentical = true;
-		lineEndsMixed = false;
-		origSuffix = ".orig";
-		mainDirectoryLength = 0;
-		filesFormatted = 0;
-		filesUnchanged = 0;
-		linesOut = 0;
-	}
-
 public:     // functions
+	explicit ASConsole(ASFormatter& formatterArg);
+	~ASConsole();
 	void convertLineEnds(ostringstream& out, int lineEnd);
 	FileEncoding detectEncoding(const char* data, size_t dataSize) const;
 	void error() const;
@@ -315,12 +290,12 @@ public:     // functions
 	bool getNoBackup() const;
 	bool getPreserveDate() const;
 	string getLanguageID() const;
-	string getNumberFormat(int num, size_t = 0) const;
+	string getNumberFormat(int num, size_t lcid = 0) const;
 	string getNumberFormat(int num, const char* groupingArg, const char* separator) const;
 	string getOptionsFileName() const;
 	string getOrigSuffix() const;
 	void processFiles();
-	void processOptions(vector<string>& argvOptions);
+	void processOptions(const vector<string>& argvOptions);
 	void setBypassBrowserOpen(bool state);
 	void setIgnoreExcludeErrors(bool state);
 	void setIgnoreExcludeErrorsAndDisplay(bool state);
@@ -349,14 +324,14 @@ private:	// functions
 	void formatFile(const string& fileName_);
 	string getCurrentDirectory(const string& fileName_) const;
 	void getFileNames(const string& directory, const string& wildcard);
-	void getFilePaths(string& filePath);
+	void getFilePaths(const string& filePath);
 	string getParam(const string& arg, const char* op);
 	void initializeOutputEOL(LineEndFormat lineEndFormat);
 	bool isOption(const string& arg, const char* op);
 	bool isOption(const string& arg, const char* a, const char* b);
 	bool isParamOption(const string& arg, const char* option);
 	bool isPathExclued(const string& subPath);
-	void launchDefaultBrowser(const char* filePathIn = NULL) const;
+	void launchDefaultBrowser(const char* filePathIn = nullptr) const;
 	void printHelp() const;
 	void printMsg(const char* msg, const string& data) const;
 	void printSeparatingLine() const;

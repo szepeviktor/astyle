@@ -345,7 +345,7 @@ protected:
 	const string* findOperator(const string& line, int i,
 	                           const vector<const string*>* possibleOperators) const;
 	int  getNextProgramCharDistance(const string& line, int i) const;
-	int  indexOf(vector<const string*>& container, const string* element) const;
+	int  indexOf(const vector<const string*>& container, const string* element) const;
 	void setBlockIndent(bool state);
 	void setBracketIndent(bool state);
 	void setBracketIndentVtk(bool state);
@@ -371,7 +371,7 @@ protected:
 
 private:  // functions
 	ASBeautifier(const ASBeautifier& other);     // inline functions
-	ASBeautifier& operator=(ASBeautifier&);     // not to be implemented
+	ASBeautifier& operator=(ASBeautifier&);      // not to be implemented
 
 	void adjustObjCMethodDefinitionIndentation(const string& line_);
 	void adjustObjCMethodCallIndentation(const string& line_);
@@ -394,13 +394,13 @@ private:  // functions
 	int  convertTabToSpaces(int i, int tabIncrementIn) const;
 	int  getInStatementIndentAssign(const string& line, size_t currPos) const;
 	int  getInStatementIndentComma(const string& line, size_t currPos) const;
-	int  getObjCFollowingKeyword(const string& line, int BracketPos) const;
+	int  getObjCFollowingKeyword(const string& line, int bracketPos) const;
 	bool isIndentedPreprocessor(const string& line, size_t currPos) const;
 	bool isLineEndComment(const string& line, int startPos) const;
 	bool isPreprocessorConditionalCplusplus(const string& line) const;
 	bool isInPreprocessorUnterminatedComment(const string& line);
 	bool statementEndsWithComma(const string& line, int index) const;
-	string& getIndentedLineReturn(string& newLine, const string& originalLine) const;
+	const string& getIndentedLineReturn(const string& newLine, const string& originalLine) const;
 	string getIndentedSpaceEquivalent(const string& line_) const;
 	string preLineWS(int lineIndentCount, int lineSpaceIndentCount) const;
 	template<typename T> void deleteContainer(T& container);
@@ -424,7 +424,7 @@ private:  // variables
 	vector<int>* activeBeautifierStackLengthStack;
 	vector<const string*>* headerStack;
 	vector<vector<const string*>* >* tempStacks;
-	vector<int>* blockParenDepthStack;
+	vector<int>* squareBracketDepthStack;
 	vector<bool>* blockStatementStack;
 	vector<bool>* parenStatementStack;
 	vector<bool>* bracketBlockStateStack;
@@ -521,7 +521,7 @@ private:  // variables
 	int  maxInStatementIndent;
 	int  classInitializerIndents;
 	int  templateDepth;
-	int  blockParenCount;
+	int  squareBracketCount;
 	int  prevFinalLineSpaceIndentCount;
 	int  prevFinalLineIndentCount;
 	int  defineIndentCount;
@@ -547,16 +547,16 @@ public:  // functions
 	void enhance(string& line, bool isInNamespace, bool isInPreprocessor, bool isInSQL);
 
 private:  // functions
-	void    convertForceTabIndentToSpaces(string&  line) const;
-	void    convertSpaceIndentToForceTab(string& line) const;
-	size_t  findCaseColon(string&  line, size_t caseIndex) const;
-	int     indentLine(string&  line, int indent) const;
-	bool    isBeginDeclareSectionSQL(string&  line, size_t index) const;
-	bool    isEndDeclareSectionSQL(string&  line, size_t index) const;
-	bool    isOneLineBlockReached(const string& line, int startChar) const;
-	void    parseCurrentLine(string& line, bool isInPreprocessor, bool isInSQL);
-	size_t  processSwitchBlock(string&  line, size_t index);
-	int     unindentLine(string&  line, int unindent) const;
+	void   convertForceTabIndentToSpaces(string&  line) const;
+	void   convertSpaceIndentToForceTab(string& line) const;
+	size_t findCaseColon(const string&  line, size_t caseIndex) const;
+	int    indentLine(string&  line, int indent) const;
+	bool   isBeginDeclareSectionSQL(const string&  line, size_t index) const;
+	bool   isEndDeclareSectionSQL(const string&  line, size_t index) const;
+	bool   isOneLineBlockReached(const string& line, int startChar) const;
+	void   parseCurrentLine(string& line, bool isInPreprocessor, bool isInSQL);
+	size_t processSwitchBlock(string&  line, size_t index);
+	int    unindentLine(string&  line, int unindent) const;
 
 private:
 	// options from command line or options file
@@ -693,7 +693,7 @@ private:  // functions
 	bool isClosingHeader(const string* header) const;
 	bool isCurrentBracketBroken() const;
 	bool isDereferenceOrAddressOf() const;
-	bool isExecSQL(string& line, size_t index) const;
+	bool isExecSQL(const string& line, size_t index) const;
 	bool isEmptyLine(const string& line) const;
 	bool isExternC() const;
 	bool isMultiStatementLine() const;
@@ -702,11 +702,11 @@ private:  // functions
 	bool isOkToSplitFormattedLine();
 	bool isPointerOrReference() const;
 	bool isPointerOrReferenceCentered() const;
-	bool isPointerOrReferenceVariable(string& word) const;
+	bool isPointerOrReferenceVariable(const string& word) const;
 	bool isSharpStyleWithParen(const string* header) const;
-	bool isStructAccessModified(string& firstLine, size_t index) const;
-	bool isIndentablePreprocessorBlock(string& firstLine, size_t index);
-	bool isNDefPreprocStatement(string& nextLine_, string& preproc) const;
+	bool isStructAccessModified(const string& firstLine, size_t index) const;
+	bool isIndentablePreprocessorBlock(const string& firstLine, size_t index);
+	bool isNDefPreprocStatement(const string& nextLine_, const string& preproc) const;
 	bool isUnaryOperator() const;
 	bool isUniformInitializerBracket() const;
 	bool isImmediatelyPostCast() const;
@@ -771,7 +771,7 @@ private:  // functions
 	void trimContinuationLine();
 	void updateFormattedLineSplitPointsPointerOrReference(size_t index);
 	size_t findFormattedLineSplitPoint() const;
-	size_t findNextChar(string& line, char searchChar, int searchStart = 0) const;
+	size_t findNextChar(const string& line, char searchChar, int searchStart = 0) const;
 	const string* checkForHeaderFollowingComment(const string& firstLine) const;
 	const string* getFollowingOperator() const;
 	string getPreviousWord(const string& line, int currPos) const;
@@ -817,7 +817,7 @@ private:  // variables
 	int  spacePadNum;
 	int  tabIncrementIn;
 	int  templateDepth;
-	int  blockParenCount;
+	int  squareBracketCount;
 	size_t checksumIn;
 	size_t checksumOut;
 	size_t currentLineFirstBracketNum;	// first bracket location on currentLine
@@ -1014,7 +1014,7 @@ private:  // inline functions
 bool sortOnLength(const string* a, const string* b);
 bool sortOnName(const string* a, const string* b);
 
-}   // end of astyle namespace
+}   // namespace astyle
 
 // end of astyle namespace  --------------------------------------------------
 

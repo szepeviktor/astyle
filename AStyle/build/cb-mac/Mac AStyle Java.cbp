@@ -7,7 +7,7 @@
 		<Option compiler="clang" />
 		<Build>
 			<Target title="Debug">
-				<Option output="debug/libastyle-2.06j.so" prefix_auto="0" extension_auto="0" />
+				<Option output="debug/libastyle-2.7j.so" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objJ/Debug/" />
 				<Option type="3" />
 				<Option compiler="clang" />
@@ -20,7 +20,6 @@
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fpic" />
-					<Add option="-fvisibility=hidden" />
 					<Add option="-Wno-c++11-long-long" />
 					<Add option="-Wno-exit-time-destructors" />
 					<Add option="-Wno-global-constructors" />
@@ -38,7 +37,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/libastyle-2.06j.so" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/libastyle-2.7j.so" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objJ/Release/" />
 				<Option type="3" />
 				<Option compiler="clang" />
@@ -51,7 +50,6 @@
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fpic" />
-					<Add option="-fvisibility=hidden" />
 					<Add option="-Wno-c++11-long-long" />
 					<Add option="-Wno-exit-time-destructors" />
 					<Add option="-Wno-global-constructors" />
