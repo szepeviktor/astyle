@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/libastyle-2.06jd.so" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/libastyle-2.7jd.so" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objJ/Debug/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
@@ -24,11 +24,11 @@
 					<Add directory="/usr/lib/jvm/default-java/include/linux" />
 				</Compiler>
 				<ExtraCommands>
-					<Add after="cp  bin/libastyle-2.06jd.so  ../../src-j/" />
+					<Add after="cp  bin/libastyle-2.7jd.so  ../../src-j/" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/libastyle-2.06j.so" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/libastyle-2.7j.so" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objJ/Release/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
@@ -49,7 +49,7 @@
 					<Add option="-s" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/libastyle-2.06j.so  ../../src-j/" />
+					<Add after="cp  bin/libastyle-2.7j.so  ../../src-j/" />
 				</ExtraCommands>
 			</Target>
 		</Build>

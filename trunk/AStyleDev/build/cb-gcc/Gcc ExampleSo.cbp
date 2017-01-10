@@ -19,7 +19,7 @@
 					<Add option="-fno-exceptions" />
 				</Compiler>
 				<Linker>
-					<Add library="astyle-2.06d" />
+					<Add library="astyle-2.7d" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -38,7 +38,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="astyle-2.06" />
+					<Add library="astyle-2.7" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>

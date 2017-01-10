@@ -23,7 +23,7 @@
 				<Linker>
 					<Add library="gnustep-base" />
 					<Add library="objc" />
-					<Add library="astyle-2.06d" />
+					<Add library="astyle-2.7d" />
 					<Add directory="/usr/lib/GNUstep" />
 					<Add directory="bin" />
 				</Linker>
@@ -46,7 +46,7 @@
 					<Add option="-Wl,-rpath,./bin" />
 					<Add library="gnustep-base" />
 					<Add library="objc" />
-					<Add library="astyle-2.06" />
+					<Add library="astyle-2.7" />
 					<Add directory="/usr/lib/GNUstep" />
 					<Add directory="bin" />
 				</Linker>
