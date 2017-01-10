@@ -523,7 +523,7 @@ bool ShouldUseColor(bool stdoutIsTty)
 {
 	// use the TERM variable.
 	const char* const term = getenv("TERM");
-	if (term == NULL)
+	if (term == nullptr)
 		return false;
 	const bool termSupportsColor = strcmp(term, "xterm") == 0
 	                               || strcmp(term, "xterm-color") == 0
