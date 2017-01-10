@@ -31,7 +31,7 @@
 					<Add option="-x" />
 					<Add library="cw64mt" />
 					<Add library="import64" />
-					<Add library="bin/AStyle-2.06.a" />
+					<Add library="bin/AStyle-2.7.a" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>

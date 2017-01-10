@@ -8,7 +8,7 @@
 		<Option compiler="dmc" />
 		<Build>
 			<Target title="AStyleD">
-				<Option output="bin/AStyle-2.06.dll" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/AStyle-2.7.dll" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objDll" />
 				<Option deps_output="dep" />
 				<Option type="3" />
@@ -32,9 +32,9 @@
 				</Linker>
 				<ExtraCommands>
 					<Add after="cmd /c  del *.map" />
-					<Add after="cmd /c  move /y  AStyle-2.06.lib bin &gt; NUL" />
-					<Add after="cmd /c  copy /y  bin\AStyle-2.06.dll  ..\..\src-p\  &gt; NUL" />
-					<Add after="cmd /c  copy /y  bin\AStyle-2.06.dll  ..\..\src-s\   &gt; NUL" />
+					<Add after="cmd /c  move /y  AStyle-2.7.lib bin &gt; NUL" />
+					<Add after="cmd /c  copy /y  bin\AStyle-2.7.dll  ..\..\src-p\  &gt; NUL" />
+					<Add after="cmd /c  copy /y  bin\AStyle-2.7.dll  ..\..\src-s\   &gt; NUL" />
 				</ExtraCommands>
 			</Target>
 		</Build>
