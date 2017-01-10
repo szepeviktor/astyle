@@ -608,7 +608,7 @@ bool ASBase::isLegalNameChar(char ch) const
 {
 	if (isWhiteSpace(ch))
 		return false;
-	if ((unsigned) ch > 127)
+	if ((unsigned char) ch > 127)
 		return false;
 	return (isalnum((unsigned char) ch)
 	        || ch == '.' || ch == '_'

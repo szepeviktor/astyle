@@ -202,7 +202,7 @@ void ASEnhancer::convertSpaceIndentToForceTab(string& line) const
  * @param caseIndex     the line index of the case statement.
  * @return              the line index of the colon.
  */
-size_t ASEnhancer::findCaseColon(string& line, size_t caseIndex) const
+size_t ASEnhancer::findCaseColon(const string& line, size_t caseIndex) const
 {
 	size_t i = caseIndex;
 	bool isInQuote_ = false;
@@ -293,7 +293,7 @@ int ASEnhancer::indentLine(string& line, int indent) const
  * @param index         the current line index.
  * @return              true if a hit.
  */
-bool ASEnhancer::isBeginDeclareSectionSQL(string& line, size_t index) const
+bool ASEnhancer::isBeginDeclareSectionSQL(const string& line, size_t index) const
 {
 	string word;
 	size_t hits = 0;
@@ -342,7 +342,7 @@ bool ASEnhancer::isBeginDeclareSectionSQL(string& line, size_t index) const
  * @param index         the current line index.
  * @return              true if a hit.
  */
-bool ASEnhancer::isEndDeclareSectionSQL(string& line, size_t index) const
+bool ASEnhancer::isEndDeclareSectionSQL(const string& line, size_t index) const
 {
 	string word;
 	size_t hits = 0;

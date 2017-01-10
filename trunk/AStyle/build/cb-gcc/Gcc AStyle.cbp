@@ -13,8 +13,23 @@
 				<Option compiler="gcc" />
 				<Option parameters='&apos;&quot;/home/jimp/Projects/AStyleDev/test-data/*.cpp&quot;&apos;  -v' />
 				<Compiler>
+					<Add option="-Wnon-virtual-dtor" />
+					<Add option="-Wshadow" />
+					<Add option="-Winit-self" />
+					<Add option="-Wredundant-decls" />
+					<Add option="-Wcast-align" />
+					<Add option="-Wundef" />
+					<Add option="-Wfloat-equal" />
+					<Add option="-Winline" />
+					<Add option="-Wunreachable-code" />
+					<Add option="-Wmissing-declarations" />
+					<Add option="-Wmissing-include-dirs" />
+					<Add option="-Wswitch-enum" />
+					<Add option="-Wzero-as-null-pointer-constant" />
+					<Add option="-Wmain" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
@@ -28,8 +43,23 @@
 				<Option parameters='&apos;&quot;/home/jimp/Projects/AStyleDev/test-data/*.cpp&quot;&apos;  -v' />
 				<Compiler>
 					<Add option="-O3" />
+					<Add option="-Wnon-virtual-dtor" />
+					<Add option="-Wshadow" />
+					<Add option="-Winit-self" />
+					<Add option="-Wredundant-decls" />
+					<Add option="-Wcast-align" />
+					<Add option="-Wundef" />
+					<Add option="-Wfloat-equal" />
+					<Add option="-Winline" />
+					<Add option="-Wunreachable-code" />
+					<Add option="-Wmissing-declarations" />
+					<Add option="-Wmissing-include-dirs" />
+					<Add option="-Wswitch-enum" />
+					<Add option="-Wzero-as-null-pointer-constant" />
+					<Add option="-Wmain" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-DNDEBUG" />
@@ -55,13 +85,11 @@
 					<Add option="-Wmissing-declarations" />
 					<Add option="-Wmissing-include-dirs" />
 					<Add option="-Wswitch-enum" />
-					<Add option="-Wswitch-default" />
 					<Add option="-Wmain" />
 					<Add option="-pedantic" />
-					<Add option="-std=c++0x" />
-					<Add option="-std=c++98" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-Wint-to-pointer-cast" />
 					<Add option="-Woverloaded-virtual" />
 					<Add option="-Wwrite-strings" />
@@ -77,8 +105,23 @@
 				<Option compiler="gcc" />
 				<Option parameters="-atOPR  /home/jimp/Projects/TestData/CodeBlocks/*.cpp  /home/jimp/Projects/TestData/CodeBlocks/*.h" />
 				<Compiler>
+					<Add option="-Wnon-virtual-dtor" />
+					<Add option="-Wshadow" />
+					<Add option="-Winit-self" />
+					<Add option="-Wredundant-decls" />
+					<Add option="-Wcast-align" />
+					<Add option="-Wundef" />
+					<Add option="-Wfloat-equal" />
+					<Add option="-Winline" />
+					<Add option="-Wunreachable-code" />
+					<Add option="-Wmissing-declarations" />
+					<Add option="-Wmissing-include-dirs" />
+					<Add option="-Wswitch-enum" />
+					<Add option="-Wzero-as-null-pointer-constant" />
+					<Add option="-Wmain" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-pg" />
 					<Add option="-g" />
 					<Add option="-fprofile-arcs" />

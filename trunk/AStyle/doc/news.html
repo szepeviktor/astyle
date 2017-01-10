@@ -17,6 +17,58 @@
     <p>
         &nbsp;</p>
 
+    <h3>Artistic Style 2.7&nbsp; (Pending)</h3>
+
+    <p>
+        In the Artistic Style documentation, in General Information, Other Considerations, there is a list of 
+        terminology used for special characters used in programming. The terms used by Artistic Style has been 
+        different than is used by Visual Studio, Clang, and others. In this release the terms used by Artistic Style 
+        have been changed to the ones most commonly used in programming documentation. The following chart indicates 
+        the changes.</p>
+
+    <center>
+        <table>
+            <tbody>
+                <tr>
+                    <td><b>&nbsp;&nbsp;&nbsp;&nbsp;OLD</b></td>
+                    <td></td>
+                    <td><b>&nbsp;&nbsp;&nbsp;&nbsp;NEW</b></td>
+                </tr>
+                <tr>
+                    <td>brackets</td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;{ }&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>braces</td>
+                </tr>
+                <tr>
+                    <td>parens</td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;( )&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>parens or round brackets</td>
+                </tr>
+                <tr>
+                    <td>block parens</td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;[ ]&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>square brackets</td>
+                </tr>
+                <tr>
+                    <td>angle brackets</td>
+                    <td>&nbsp;&nbsp;&nbsp;< >&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>angle brackets</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </center>
+
+    <p>
+        Parens and angle brackets do not change. Brackets now refers to the group containing round brackets (parens),
+        square brackets, and angle brackets. The documentation has been updated. There are four options affected by the
+        change, break-closing-brackets, add-brackets, add-one-line-brackets, and remove-brackets. These have been changed
+        to the corresponding break-closing-braces, add-braces, add-one-line-braces, and remove-braces. The old options
+        will be depreciated but will continue to be accepted for the next several releases. </p>
+    <p>
+        The Artistic Style source code now uses the C++11 standard. Compilers that need a standard declared should use
+        C++11. Visual Studio 2010 is currently still supported.</p>
+
     <h3>Artistic Style 2.06&nbsp; (December 2016)</h3>
 
     <p>
@@ -136,12 +188,14 @@
 
     <h4>Coding Styles</h4>
 
-    <p>Coding style, or programming style, is a set of rules or guidelines used when writing the source code. It is 
-        often claimed that following a particular programming style will help in reading and understanding source code 
+    <p>
+        Coding style, or programming style, is a set of rules or guidelines used when writing the source code. It is 
+        often claimed that following a particular programming style will help in reading and understanding source code
         conforming to the style, and help to avoid introducing errors.</p>
-    <p>This Artistic Style distribution has a new &quot;file&quot; folder containing AStyle options files for various coding 
-        styles. Using the option files will give approximately the indicated coding style. The files can be used as 
-        they are, or modified as desired.</p>
+    <p>
+        This Artistic Style distribution has a new &quot;file&quot; folder containing AStyle options files for various
+        coding styles. Using the option files will give approximately the indicated coding style. The files can be used
+        as they are, or modified as desired.</p>
 
     <h4>Artistic Style Wx</h4>
 

@@ -16,6 +16,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-std=c++11" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 				</Compiler>
@@ -29,6 +30,7 @@
 					<Add option="-O3" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-DNDEBUG" />
@@ -64,6 +66,7 @@
 					<Add option="-Wint-to-pointer-cast" />
 					<Add option="-Woverloaded-virtual" />
 					<Add option="-Wwrite-strings" />
+					<Add option="-std=c++11" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fno-rtti" />
 				</Compiler>
@@ -76,6 +79,7 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-pg" />
 					<Add option="-g" />
 					<Add option="-fprofile-arcs" />
