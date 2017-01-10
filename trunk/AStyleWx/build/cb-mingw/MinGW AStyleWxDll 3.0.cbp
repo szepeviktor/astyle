@@ -15,7 +15,6 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-std=gnu++11" />
 					<Add option="-Wno-deprecated-declarations" />
@@ -44,7 +43,7 @@
 					<Add directory="$(#wx30mingw)/lib/gcc_lib" />
 				</Linker>
 				<ExtraCommands>
-					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle-2.06d.dll&quot;   mklink /h  &quot;wx3.0\bin\AStyle-2.06d.dll&quot;  &quot;lib\AStyle-2.06d.dll&quot;' />
+					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle-2.7d.dll&quot;   mklink /h  &quot;wx3.0\bin\AStyle-2.7d.dll&quot;  &quot;lib\AStyle-2.7d.dll&quot;' />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
@@ -57,7 +56,6 @@
 					<Add option="-O2" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-std=c++11" />
 					<Add option="-std=gnu++11" />
 					<Add option="-Wno-deprecated-declarations" />
 					<Add option="-DNDEBUG" />
@@ -86,7 +84,7 @@
 					<Add directory="$(#wx30mingw)/lib/gcc_lib" />
 				</Linker>
 				<ExtraCommands>
-					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle-2.06.dll&quot;   mklink /h  &quot;wx3.0\bin\AStyle-2.06.dll&quot;  &quot;lib\AStyle-2.06.dll&quot;' />
+					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle-2.7.dll&quot;   mklink /h  &quot;wx3.0\bin\AStyle-2.7.dll&quot;  &quot;lib\AStyle-2.7.dll&quot;' />
 				</ExtraCommands>
 			</Target>
 			<Target title="DLL Debug">
@@ -98,7 +96,6 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-std=gnu++11" />
 					<Add option="-Wno-deprecated-declarations" />
@@ -127,7 +124,7 @@
 					<Add directory="$(#wx30mingw)/lib/gcc_dll" />
 				</Linker>
 				<ExtraCommands>
-					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle-2.06d.dll&quot;   cmd /c   mklink /h  &quot;wx3.0\bin\AStyle-2.06d.dll&quot;  &quot;lib\AStyle-2.06d.dll&quot;' />
+					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle-2.7d.dll&quot;   cmd /c   mklink /h  &quot;wx3.0\bin\AStyle-2.7d.dll&quot;  &quot;lib\AStyle-2.7d.dll&quot;' />
 				</ExtraCommands>
 			</Target>
 			<Target title="DLL Release">
@@ -140,7 +137,6 @@
 					<Add option="-O2" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-std=c++11" />
 					<Add option="-std=gnu++11" />
 					<Add option="-Wno-deprecated-declarations" />
 					<Add option="-DNDEBUG" />
@@ -169,7 +165,7 @@
 					<Add directory="$(#wx30mingw)/lib/gcc_dll" />
 				</Linker>
 				<ExtraCommands>
-					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle-2.06.dll&quot;   cmd /c   mklink /h  &quot;wx3.0\bin\AStyle-2.06.dll&quot;  &quot;lib\AStyle-2.06.dll&quot;' />
+					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle-2.7.dll&quot;   cmd /c   mklink /h  &quot;wx3.0\bin\AStyle-2.7.dll&quot;  &quot;lib\AStyle-2.7.dll&quot;' />
 				</ExtraCommands>
 			</Target>
 		</Build>

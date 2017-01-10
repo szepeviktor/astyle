@@ -15,7 +15,6 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-std=gnu++11" />
 					<Add option="-Wno-deprecated-declarations" />
@@ -93,7 +92,6 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-std=gnu++11" />
 					<Add option="-Wno-deprecated-declarations" />
@@ -134,7 +132,6 @@
 					<Add option="-O2" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-std=c++11" />
 					<Add option="-std=gnu++11" />
 					<Add option="-Wno-deprecated-declarations" />
 					<Add option="-DNDEBUG" />

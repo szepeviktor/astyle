@@ -67,9 +67,9 @@ BEGIN_EVENT_TABLE( AStyleDlgBase, wxDialog )
 	EVT_CHECKBOX( ID_BREAK_CLOSING, AStyleDlgBase::_wxFB_OnFormatClick )
 	EVT_CHECKBOX( ID_BREAK_ELSEIF, AStyleDlgBase::_wxFB_OnFormatClick )
 	EVT_CHECKBOX( ID_BREAK_OL_HEADERS, AStyleDlgBase::_wxFB_OnFormatClick )
-	EVT_CHECKBOX( ID_ADD_BRACKETS, AStyleDlgBase::_wxFB_OnFormatClick )
-	EVT_CHECKBOX( ID_ADD_OL_BRACKETS, AStyleDlgBase::_wxFB_OnFormatClick )
-	EVT_CHECKBOX( ID_REMOVE_BRACKETS, AStyleDlgBase::_wxFB_OnFormatClick )
+	EVT_CHECKBOX( ID_ADD_BRACES, AStyleDlgBase::_wxFB_OnFormatClick )
+	EVT_CHECKBOX( ID_ADD_OL_BRACES, AStyleDlgBase::_wxFB_OnFormatClick )
+	EVT_CHECKBOX( ID_REMOVE_BRACES, AStyleDlgBase::_wxFB_OnFormatClick )
 	EVT_CHECKBOX( ID_KEEP_OL_BLOCKS, AStyleDlgBase::_wxFB_OnFormatClick )
 	EVT_CHECKBOX( ID_KEEP_OL_STATEMENTS, AStyleDlgBase::_wxFB_OnFormatClick )
 	EVT_CHECKBOX( ID_CONVERT_TABS, AStyleDlgBase::_wxFB_OnFormatClick )
@@ -109,7 +109,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* bSizer14;
 	bSizer14 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_styleSizer = new wxStaticBoxSizer( new wxStaticBox( m_stylePage, wxID_ANY, wxT("Bracket Style") ), wxVERTICAL );
+	m_styleSizer = new wxStaticBoxSizer( new wxStaticBox( m_stylePage, wxID_ANY, wxT("Brace Style") ), wxVERTICAL );
 	
 	wxStaticText* styleStaticTextBeg;
 	styleStaticTextBeg = new wxStaticText( m_styleSizer->GetStaticBox(), wxID_ANY, wxT("Static box to wrap tab traversal"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -292,7 +292,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	bSizer28->Add( 0, 0, 0, wxALL, 5 );
 	
-	m_modifySizer = new wxStaticBoxSizer( new wxStaticBox( m_tabPage, wxID_ANY, wxT("Bracket Modify") ), wxVERTICAL );
+	m_modifySizer = new wxStaticBoxSizer( new wxStaticBox( m_tabPage, wxID_ANY, wxT("Brace Modify") ), wxVERTICAL );
 	
 	m_attachNamespace = new wxCheckBox( m_modifySizer->GetStaticBox(), ID_ATTACH_NAMESPACE, wxT("Attach &namespaces"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_modifySizer->Add( m_attachNamespace, 0, wxALL, 5 );
@@ -649,8 +649,8 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	m_formatSizer = new wxStaticBoxSizer( new wxStaticBox( m_formatPage, wxID_ANY, wxT("Formatting") ), wxVERTICAL );
 	
-	m_breakClosingBrackets = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_BREAK_CLOSING, wxT("Break &closing brackets"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_formatSizer->Add( m_breakClosingBrackets, 0, wxALL, 5 );
+	m_breakClosingBraces = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_BREAK_CLOSING, wxT("Break &closing braces"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_formatSizer->Add( m_breakClosingBraces, 0, wxALL, 5 );
 	
 	m_breakElseIf = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_BREAK_ELSEIF, wxT("Break &else/if statements"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_formatSizer->Add( m_breakElseIf, 0, wxALL, 5 );
@@ -658,14 +658,14 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_breakOneLineHeaders = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_BREAK_OL_HEADERS, wxT("Break one line &headers"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_formatSizer->Add( m_breakOneLineHeaders, 0, wxALL, 5 );
 	
-	m_addBrackets = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_ADD_BRACKETS, wxT("&Add brackets"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_formatSizer->Add( m_addBrackets, 0, wxALL, 5 );
+	m_addBraces = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_ADD_BRACES, wxT("&Add braces"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_formatSizer->Add( m_addBraces, 0, wxALL, 5 );
 	
-	m_addOneLineBrackets = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_ADD_OL_BRACKETS, wxT("Add &one line brackets"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_formatSizer->Add( m_addOneLineBrackets, 0, wxALL, 5 );
+	m_addOneLineBraces = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_ADD_OL_BRACES, wxT("Add &one line braces"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_formatSizer->Add( m_addOneLineBraces, 0, wxALL, 5 );
 	
-	m_removeBrackets = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_REMOVE_BRACKETS, wxT("&Remove brackets"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_formatSizer->Add( m_removeBrackets, 0, wxALL, 5 );
+	m_removeBraces = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_REMOVE_BRACES, wxT("&Remove braces"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_formatSizer->Add( m_removeBraces, 0, wxALL, 5 );
 	
 	m_keepOneLineBlocks = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_KEEP_OL_BLOCKS, wxT("Keep one line &blocks"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_formatSizer->Add( m_keepOneLineBlocks, 0, wxALL, 5 );

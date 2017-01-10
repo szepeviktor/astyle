@@ -177,15 +177,15 @@ void ASEditor::CountLineEnds(wxString& text, int& linesCR, int& linesLF, int& li
 	linesCR = 0;
 	linesLF = 0;
 	linesCRLF = 0;
-	char chPrev = ' ';
-	char chNext = ' ';
+	int chPrev = ' ';
+	int chNext = ' ';
 	int lengthText = text.Len();
 	if (lengthText > 0)
 		chNext = text[1];
 
 	for (int i = 0; i < lengthText; i++)
 	{
-		char ch = chNext;
+		int ch = chNext;
 		if (i < lengthText - 1)
 			chNext = text[i + 1];
 		else
@@ -621,7 +621,7 @@ void ASEditor::OnSTCUpdateUI(wxStyledTextEvent&)
 	int caretPos = BraceAtCaret();
 	bool isBrace = caretPos >= 0 ? true : false;
 	menuBar->Enable(ID_EDIT_SELECTBLOCK, isBrace);
-	if (toolBar != NULL)
+	if (toolBar != nullptr)
 		toolBar->EnableTool(ID_TB_EDIT_SELECTBLOCK, isBrace);
 	UpdateFormatSelectDisplay();
 	m_frame->UpdateNotebookTabDisplay(wxStyledTextCtrl::GetModify());
@@ -730,7 +730,7 @@ void ASEditor::StripTrailingSpaces()
 	for (int i = 0; i < totalLines; i++)
 	{
 		// do not call GetLineRaw if the last line is empty (July 2013)
-		// it sets 'line' to NULL and causes an exception, so end it here
+		// it sets 'line' to nullptr and causes an exception, so end it here
 		if (i + 1 == totalLines
 		        && wxStyledTextCtrl::PositionFromLine(i) == wxStyledTextCtrl::GetTextLength())
 			break;
@@ -769,7 +769,7 @@ void ASEditor::TabsToSpaces()
 	for (int i = 0; i < totalLines; i++)
 	{
 		// do not call GetLineRaw if the last line is empty (July 2013)
-		// it sets 'line' to NULL and causes an exception, so end it here
+		// it sets 'line' to nullptr and causes an exception, so end it here
 		if (i + 1 == totalLines
 		        && wxStyledTextCtrl::PositionFromLine(i) == wxStyledTextCtrl::GetTextLength())
 			break;
@@ -817,7 +817,7 @@ void ASEditor::TextToStrings()
 	for (int i = 0; i < totalLines; i++)
 	{
 		// do not call GetLineRaw if the last line is empty (July 2013)
-		// it sets 'line' to NULL and causes an exception, so end it here
+		// it sets 'line' to nullptr and causes an exception, so end it here
 		if (i + 1 == totalLines
 		        && wxStyledTextCtrl::PositionFromLine(i) == wxStyledTextCtrl::GetTextLength())
 			break;
@@ -937,13 +937,13 @@ void ASEditor::UpdateFormatSelectDisplay()
 		int selEnd = wxStyledTextCtrl::GetSelectionEnd();
 		bool isSelected = selStart == selEnd ? false : true;
 		menuBar->Enable(ID_TOOL_FORMATSELECT, isSelected);
-		if (toolBar != NULL)
+		if (toolBar != nullptr)
 			toolBar->EnableTool(ID_TB_TOOL_FORMATSELECT, isSelected);
 	}
 	else
 	{
 		menuBar->Enable(ID_TOOL_FORMATSELECT, false);
-		if (toolBar != NULL)
+		if (toolBar != nullptr)
 			toolBar->EnableTool(ID_TB_TOOL_FORMATSELECT, false);
 	}
 }

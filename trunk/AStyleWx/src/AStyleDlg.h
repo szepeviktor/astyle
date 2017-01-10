@@ -10,8 +10,8 @@
 // headers
 //-----------------------------------------------------------------------------
 
-#include "AStyleDlgBase.h"
 #include "AStyleDisplay.h"
+#include "AStyleDlgBase.h"
 #include "AStyleIFace.h"
 #include "AStyleWx.h"
 #include "SettingsDlg.h"

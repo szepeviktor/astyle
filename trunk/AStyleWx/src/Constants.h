@@ -19,7 +19,7 @@
 
 // NOTE: enumerators are always static
 
-enum BracketStyle
+enum BraceStyle
 {
 	STYLE_NONE,
 	STYLE_ALLMAN,
@@ -174,7 +174,7 @@ struct TextStyle
 // in the same order as the documentation
 //-----------------------------------------------------------------------------
 
-// bracket style options
+// brace style options
 #define STYLE                       "style"
 #define ALLMAN                      "allman"
 #define JAVA                        "java"
@@ -204,7 +204,7 @@ struct TextStyle
 #define INDENT_OPT_TAB              "indent=tab"
 #define INDENT_OPT_FTAB             "indent=force-tab"
 #define INDENT_OPT_FTAB_X           "indent=force-tab-x"
-// bracket modifier options
+// brace modifier options
 #define ATTACH_NAMESPACES           "attach-namespaces"
 #define ATTACH_CLASSES              "attach-classes"
 #define ATTACH_INLINES              "attach-inlines"
@@ -246,12 +246,12 @@ struct TextStyle
 #define ALIGN_REFERENCE_MIDDLE      "align-reference=middle"
 #define ALIGN_REFERENCE_NAME        "align-reference=name"
 // formatting options
-#define BREAK_CLOSING_BRACKETS		"break-closing-brackets"
+#define BREAK_CLOSING_BRACES		"break-closing-braces"
 #define BREAK_ELSEIFS				"break-elseifs"
 #define BREAK_ONE_LINE_HEADERS		"break-one-line-headers"
-#define ADD_BRACKETS				"add-brackets"
-#define ADD_ONE_LINE_BRACKETS		"add-one-line-brackets"
-#define REMOVE_BRACKETS				"remove-brackets"
+#define ADD_BRACES				    "add-braces"
+#define ADD_ONE_LINE_BRACES		    "add-one-line-braces"
+#define REMOVE_BRACES				"remove-braces"
 #define KEEP_ONE_LINE_BLOCKS		"keep-one-line-blocks"
 #define KEEP_ONE_LINE_STATEMENTS	"keep-one-line-statements"
 #define CONVERT_TABS				"convert-tabs"

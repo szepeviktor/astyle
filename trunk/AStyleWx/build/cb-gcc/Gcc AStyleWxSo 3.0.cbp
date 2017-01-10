@@ -11,11 +11,12 @@
 				<Option object_output="wx3.0So/obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option parameters="../../testdata/AppFrame.cpp" />
+				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="`wx-config --version=3.0 --cflags --debug`" />
 					<Add option="-fno-rtti" />
@@ -40,12 +41,13 @@
 				<Option object_output="wx3.0So/obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option parameters="../../testdata/AppFrame.cpp" />
+				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="`wx-config --version=3.0 --cflags`" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />

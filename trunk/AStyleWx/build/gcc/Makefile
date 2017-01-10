@@ -44,7 +44,7 @@ ipixmapdir=$(idatadir)/pixmaps
 ibindir=$(prefix)/bin
 # -Wno-unused-local-typedefs is for wxWidgets 2.8 and gcc 4.9 compiler
 # wxWidgets 3.0 does not need it, gcc < 4.9 does not need it
-CBASEFLAGS = -Wall -Wextra -Wno-unused-local-typedefs -fno-rtti -fno-exceptions \
+CBASEFLAGS = -Wall -Wextra -std=c++11 -Wno-unused-local-typedefs -fno-rtti -fno-exceptions \
 -DASTYLE_LIB -I../../src -I../../dialog -I../../image
 LDBASEFLAGS = -L../../../AStyle/build/gcc/bin  -L../../../astyle/build/gcc/bin
 CXX = g++

@@ -38,7 +38,7 @@
 													<border>5</border>
 													<object class="wxStaticBoxSizer">
 														<orient>wxVERTICAL</orient>
-														<label>Bracket Style</label>
+														<label>Brace Style</label>
 														<object class="sizeritem">
 															<option>0</option>
 															<flag>wxALL</flag>
@@ -386,7 +386,7 @@
 															<border>5</border>
 															<object class="wxStaticBoxSizer">
 																<orient>wxVERTICAL</orient>
-																<label>Bracket Modify</label>
+																<label>Brace Modify</label>
 																<object class="sizeritem">
 																	<option>0</option>
 																	<flag>wxALL</flag>
@@ -961,8 +961,8 @@
 															<option>0</option>
 															<flag>wxALL</flag>
 															<border>5</border>
-															<object class="wxCheckBox" name="m_breakClosingBrackets">
-																<label>Break _closing brackets</label>
+															<object class="wxCheckBox" name="m_breakClosingBraces">
+																<label>Break _closing braces</label>
 																<checked>0</checked>
 															</object>
 														</object>
@@ -988,8 +988,8 @@
 															<option>0</option>
 															<flag>wxALL</flag>
 															<border>5</border>
-															<object class="wxCheckBox" name="m_addBrackets">
-																<label>_Add brackets</label>
+															<object class="wxCheckBox" name="m_addBraces">
+																<label>_Add braces</label>
 																<checked>0</checked>
 															</object>
 														</object>
@@ -997,8 +997,8 @@
 															<option>0</option>
 															<flag>wxALL</flag>
 															<border>5</border>
-															<object class="wxCheckBox" name="m_addOneLineBrackets">
-																<label>Add _one line brackets</label>
+															<object class="wxCheckBox" name="m_addOneLineBraces">
+																<label>Add _one line braces</label>
 																<checked>0</checked>
 															</object>
 														</object>
@@ -1006,8 +1006,8 @@
 															<option>0</option>
 															<flag>wxALL</flag>
 															<border>5</border>
-															<object class="wxCheckBox" name="m_removeBrackets">
-																<label>_Remove brackets</label>
+															<object class="wxCheckBox" name="m_removeBraces">
+																<label>_Remove braces</label>
 																<checked>0</checked>
 															</object>
 														</object>

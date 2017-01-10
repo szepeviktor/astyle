@@ -328,38 +328,38 @@ void Config::SaveAStyleOptions(AStyleIFace* astyle)
 {
 	wxConfig::SetPath("/AStyle");
 
-	int bracketStyle = astyle->getBracketStyle();
-	if (bracketStyle == STYLE_NONE)
+	int braceStyle = astyle->getBraceStyle();
+	if (braceStyle == STYLE_NONE)
 		wxConfig::DeleteEntry(STYLE, false);
-	else if (bracketStyle == STYLE_ALLMAN)
+	else if (braceStyle == STYLE_ALLMAN)
 		wxConfig::Write(STYLE, ALLMAN);
-	else if (bracketStyle == STYLE_JAVA)
+	else if (braceStyle == STYLE_JAVA)
 		wxConfig::Write(STYLE, JAVA);
-	else if (bracketStyle == STYLE_KR)
+	else if (braceStyle == STYLE_KR)
 		wxConfig::Write(STYLE, KandR);
-	else if (bracketStyle == STYLE_STROUSTRUP)
+	else if (braceStyle == STYLE_STROUSTRUP)
 		wxConfig::Write(STYLE, STROUSTRUP);
-	else if (bracketStyle == STYLE_WHITESMITH)
+	else if (braceStyle == STYLE_WHITESMITH)
 		wxConfig::Write(STYLE, WHITESMITH);
-	else if (bracketStyle == STYLE_VTK)
+	else if (braceStyle == STYLE_VTK)
 		wxConfig::Write(STYLE, VTK);
-	else if (bracketStyle == STYLE_BANNER)
+	else if (braceStyle == STYLE_BANNER)
 		wxConfig::Write(STYLE,  BANNER);
-	else if (bracketStyle == STYLE_GNU)
+	else if (braceStyle == STYLE_GNU)
 		wxConfig::Write(STYLE, GNU);
-	else if (bracketStyle == STYLE_LINUX)
+	else if (braceStyle == STYLE_LINUX)
 		wxConfig::Write(STYLE, LINUXX);
-	else if (bracketStyle == STYLE_HORSTMANN)
+	else if (braceStyle == STYLE_HORSTMANN)
 		wxConfig::Write(STYLE, HORSTMANN);
-	else if (bracketStyle == STYLE_1TBS)
+	else if (braceStyle == STYLE_1TBS)
 		wxConfig::Write(STYLE, oneTBS);
-	else if (bracketStyle == STYLE_GOOGLE)
+	else if (braceStyle == STYLE_GOOGLE)
 		wxConfig::Write(STYLE, GOOGLE);
-	else if (bracketStyle == STYLE_MOZILLA)
+	else if (braceStyle == STYLE_MOZILLA)
 		wxConfig::Write(STYLE, MOZILLA);
-	else if (bracketStyle == STYLE_PICO)
+	else if (braceStyle == STYLE_PICO)
 		wxConfig::Write(STYLE, PICO);
-	else if (bracketStyle == STYLE_LISP)
+	else if (braceStyle == STYLE_LISP)
 		wxConfig::Write(STYLE, LISP);
 
 	astyle->getAttachNamespace() ? wxConfig::Write(ATTACH_NAMESPACES, asTRUE) : wxConfig::DeleteEntry(ATTACH_NAMESPACES, false);
@@ -495,12 +495,12 @@ void Config::SaveAStyleOptions(AStyleIFace* astyle)
 	else
 		wxConfig::Write(ALIGN_REFERENCE, wxString::Format("%d", astyle->getAlignReference()));
 
-	astyle->getBreakCloseBrackets() ? wxConfig::Write(BREAK_CLOSING_BRACKETS, asTRUE) : wxConfig::DeleteEntry(BREAK_CLOSING_BRACKETS, false);
+	astyle->getBreakClosingBraces() ? wxConfig::Write(BREAK_CLOSING_BRACES, asTRUE) : wxConfig::DeleteEntry(BREAK_CLOSING_BRACES, false);
 	astyle->getBreakElseIfs() ? wxConfig::Write(BREAK_ELSEIFS, asTRUE) : wxConfig::DeleteEntry(BREAK_ELSEIFS, false);
 	astyle->getBreakOneLineHeaders() ? wxConfig::Write(BREAK_ONE_LINE_HEADERS, asTRUE) : wxConfig::DeleteEntry(BREAK_ONE_LINE_HEADERS, false);
-	astyle->getAddBrackets() ? wxConfig::Write(ADD_BRACKETS, asTRUE) : wxConfig::DeleteEntry(ADD_BRACKETS, false);
-	astyle->getAddOneLineBrackets() ? wxConfig::Write(ADD_ONE_LINE_BRACKETS, asTRUE) : wxConfig::DeleteEntry(ADD_ONE_LINE_BRACKETS, false);
-	astyle->getRemoveBrackets() ? wxConfig::Write(REMOVE_BRACKETS, asTRUE) : wxConfig::DeleteEntry(REMOVE_BRACKETS, false);
+	astyle->getAddBraces() ? wxConfig::Write(ADD_BRACES, asTRUE) : wxConfig::DeleteEntry(ADD_BRACES, false);
+	astyle->getAddOneLineBraces() ? wxConfig::Write(ADD_ONE_LINE_BRACES, asTRUE) : wxConfig::DeleteEntry(ADD_ONE_LINE_BRACES, false);
+	astyle->getRemoveBraces() ? wxConfig::Write(REMOVE_BRACES, asTRUE) : wxConfig::DeleteEntry(REMOVE_BRACES, false);
 	astyle->getBreakOneLineBlocks()  ? wxConfig::DeleteEntry(KEEP_ONE_LINE_BLOCKS, false) : wxConfig::Write(KEEP_ONE_LINE_BLOCKS, asTRUE);
 	astyle->getBreakOneLineStmts() ? wxConfig::DeleteEntry(KEEP_ONE_LINE_STATEMENTS, false) : wxConfig::Write(KEEP_ONE_LINE_STATEMENTS, asTRUE);
 	astyle->getConvertTabs() ? wxConfig::Write(CONVERT_TABS, asTRUE) : wxConfig::DeleteEntry(CONVERT_TABS, false);

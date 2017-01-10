@@ -49,7 +49,7 @@ AStyleDlg::AStyleDlg(ASFrame* frame, AStyleIFace* astyle, int page) : AStyleDlgB
 	defaultFont.SetWeight(wxFONTWEIGHT_BOLD);
 	InitializeStaticBoxes(defaultFont, m_styleSizer, m_stylePreviewSizer);
 	InitializeStaticBoxes(defaultFont, m_tabSizer, m_tabPreviewSizer);
-	InitializeStaticBoxes(defaultFont, m_modifySizer, NULL);
+	InitializeStaticBoxes(defaultFont, m_modifySizer, nullptr);
 	InitializeStaticBoxes(defaultFont, m_indentSizer, m_indentPreviewSizer);
 	InitializeStaticBoxes(defaultFont, m_padSizer, m_padPreviewSizer);
 	InitializeStaticBoxes(defaultFont, m_formatSizer, m_formatPreviewSizer);
@@ -61,7 +61,7 @@ AStyleDlg::AStyleDlg(ASFrame* frame, AStyleIFace* astyle, int page) : AStyleDlgB
 	InitializeSTC(m_padPreviewSTC);
 	InitializeSTC(m_formatPreviewSTC);
 	InitializeSTC(m_otherPreviewSTC);
-	// wxWidgets 3.0 needs this because Bind() doesn't work with all compiler
+	// wxWidgets 3.0 needs this because Bind() doesn't work with all compilers
 	// this not the case with wxWidgets 3.1
 	// Connect() will work if the feature is needed
 	// the definition is in wxWidgets include/wx/features.h
@@ -128,7 +128,7 @@ AStyleDlg::AStyleDlg(ASFrame* frame, AStyleIFace* astyle, int page) : AStyleDlgB
 AStyleDlg::~AStyleDlg()
 {
 	// Remove the added tab without deleting the notebook page.
-	if (m_notebook->GetPageText(3) == "Bracket Modify")
+	if (m_notebook->GetPageText(3) == "Brace Modify")
 		m_notebook->RemovePage(3);
 	else
 		m_notebook->RemovePage(2);
@@ -339,12 +339,12 @@ void AStyleDlg::GetFormatOptions(AStyleIFace* astyle)
 // get format control values and update astyle
 // is used for both the config options and the current dialog settings
 {
-	astyle->setBreakCloseBrackets(m_breakClosingBrackets->GetValue());
+	astyle->setBreakClosingBraces(m_breakClosingBraces->GetValue());
 	astyle->setBreakElseIfs(m_breakElseIf->GetValue());
 	astyle->setBreakOneLineHeaders(m_breakOneLineHeaders->GetValue());
-	astyle->setAddBrackets(m_addBrackets->GetValue());
-	astyle->setAddOneLineBrackets(m_addOneLineBrackets->GetValue());
-	astyle->setRemoveBrackets(m_removeBrackets->GetValue());
+	astyle->setAddBraces(m_addBraces->GetValue());
+	astyle->setAddOneLineBraces(m_addOneLineBraces->GetValue());
+	astyle->setRemoveBraces(m_removeBraces->GetValue());
 	astyle->setBreakOneLineBlocks(!m_keepOneLineBlocks->GetValue());      // break == ! keep
 	astyle->setBreakOneLineStmts(!m_keepOneLineStatements->GetValue());   // break == ! keep
 	astyle->setConvertTabs(m_convertTabs->GetValue());
@@ -389,7 +389,7 @@ void AStyleDlg::GetIndentOptions(AStyleIFace* astyle)
 }
 
 void AStyleDlg::GetModifierOptions(AStyleIFace* astyle)
-// get bracket modifier control values and update astyle
+// get brace modifier control values and update astyle
 // is used for both the config options and the current dialog settings
 {
 	astyle->setAttachNamespace(m_attachNamespace->GetValue());
@@ -449,45 +449,45 @@ int  AStyleDlg::GetPage()
 }
 
 void AStyleDlg::GetStyleOptions(AStyleIFace* astyle)
-// get bracket style control values and update astyle
+// get brace style control values and update astyle
 // is used for both the config options and the current dialog settings
 {
 	if (m_styleNone->GetValue())
-		astyle->setBracketStyle(STYLE_NONE);
+		astyle->setBraceStyle(STYLE_NONE);
 	else if (m_styleAllman->GetValue())
-		astyle->setBracketStyle(STYLE_ALLMAN);
+		astyle->setBraceStyle(STYLE_ALLMAN);
 	else if (m_styleJava->GetValue())
-		astyle->setBracketStyle(STYLE_JAVA);
+		astyle->setBraceStyle(STYLE_JAVA);
 	else if (m_styleKR->GetValue())
-		astyle->setBracketStyle(STYLE_KR);
+		astyle->setBraceStyle(STYLE_KR);
 	else if (m_styleStroustrup->GetValue())
-		astyle->setBracketStyle(STYLE_STROUSTRUP);
+		astyle->setBraceStyle(STYLE_STROUSTRUP);
 	else if (m_styleWhitesmith->GetValue())
-		astyle->setBracketStyle(STYLE_WHITESMITH);
+		astyle->setBraceStyle(STYLE_WHITESMITH);
 	else if (m_styleVtk->GetValue())
-		astyle->setBracketStyle(STYLE_VTK);
+		astyle->setBraceStyle(STYLE_VTK);
 	else if (m_styleBanner->GetValue())
-		astyle->setBracketStyle(STYLE_BANNER);
+		astyle->setBraceStyle(STYLE_BANNER);
 	else if (m_styleGnu->GetValue())
-		astyle->setBracketStyle(STYLE_GNU);
+		astyle->setBraceStyle(STYLE_GNU);
 	else if (m_styleLinux->GetValue())
-		astyle->setBracketStyle(STYLE_LINUX);
+		astyle->setBraceStyle(STYLE_LINUX);
 	else if (m_styleHorstmann->GetValue())
-		astyle->setBracketStyle(STYLE_HORSTMANN);
+		astyle->setBraceStyle(STYLE_HORSTMANN);
 	else if (m_style1tbs->GetValue())
-		astyle->setBracketStyle(STYLE_1TBS);
+		astyle->setBraceStyle(STYLE_1TBS);
 	else if (m_styleGoogle->GetValue())
-		astyle->setBracketStyle(STYLE_GOOGLE);
+		astyle->setBraceStyle(STYLE_GOOGLE);
 	else if (m_styleMozilla->GetValue())
-		astyle->setBracketStyle(STYLE_MOZILLA);
+		astyle->setBraceStyle(STYLE_MOZILLA);
 	else if (m_stylePico->GetValue())
-		astyle->setBracketStyle(STYLE_PICO);
+		astyle->setBraceStyle(STYLE_PICO);
 	else if (m_styleLisp->GetValue())
-		astyle->setBracketStyle(STYLE_LISP);
+		astyle->setBraceStyle(STYLE_LISP);
 }
 
 void AStyleDlg::GetTabOptions(AStyleIFace* astyle)
-// get bracket indent values and update astyle
+// get brace indent values and update astyle
 // is used for both the config options and the current dialog settings
 {
 	if (m_spaceIndent->GetValue())
@@ -542,12 +542,12 @@ void AStyleDlg::InitializeStaticBoxes(wxFont& defaultFont,
 	// remove the text
 	sizer->GetStaticBox()->SetFont(defaultFont);
 	sizer->GetStaticBox()->SetLabel(wxEmptyString);
-	if (previewSizer != NULL)
+	if (previewSizer != nullptr)
 		previewSizer->GetStaticBox()->SetLabel(wxEmptyString);
 #else
 	// set the new font
 	sizer->GetStaticBox()->SetFont(defaultFont);
-	if (previewSizer != NULL)
+	if (previewSizer != nullptr)
 		previewSizer->GetStaticBox()->SetFont(defaultFont);
 	if (sizer == m_tabSizer)
 		m_indentLengthText->SetFont(defaultFont);
@@ -602,7 +602,7 @@ void AStyleDlg::OnIndentClick(wxCommandEvent& event)
 }
 
 void AStyleDlg::OnModifierClick(wxCommandEvent& event)
-// a bracket modifier option has been clicked
+// a brace modifier option has been clicked
 {
 	m_display->DisplayModifierOptions(event, m_tabPreviewSTC);
 }
@@ -758,12 +758,12 @@ void AStyleDlg::OnTabMouseUp(wxMouseEvent& mouseEvent)
 void AStyleDlg::SetFormatOptions()
 // set format controls from the current astyle values
 {
-	m_breakClosingBrackets->SetValue(m_astyle->getBreakCloseBrackets());
+	m_breakClosingBraces->SetValue(m_astyle->getBreakClosingBraces());
 	m_breakElseIf->SetValue(m_astyle->getBreakElseIfs());
 	m_breakOneLineHeaders->SetValue(m_astyle->getBreakOneLineHeaders());
-	m_addBrackets->SetValue(m_astyle->getAddBrackets());
-	m_addOneLineBrackets->SetValue(m_astyle->getAddOneLineBrackets());
-	m_removeBrackets->SetValue(m_astyle->getRemoveBrackets());
+	m_addBraces->SetValue(m_astyle->getAddBraces());
+	m_addOneLineBraces->SetValue(m_astyle->getAddOneLineBraces());
+	m_removeBraces->SetValue(m_astyle->getRemoveBraces());
 	m_keepOneLineBlocks->SetValue(!m_astyle->getBreakOneLineBlocks());		// keep == ! break
 	m_keepOneLineStatements->SetValue(!m_astyle->getBreakOneLineStmts());	// keep == ! break
 	m_convertTabs->SetValue(m_astyle->getConvertTabs());
@@ -856,7 +856,7 @@ void AStyleDlg::SetIndentOptions()
 }
 
 void AStyleDlg::SetModifierOptions()
-// set bracket modifier controls from the current astyle values
+// set brace modifier controls from the current astyle values
 {
 	m_attachNamespace->SetValue(m_astyle->getAttachNamespace());
 	m_attachClass->SetValue(m_astyle->getAttachClass());
@@ -946,40 +946,40 @@ void AStyleDlg::SetPadOptions()
 }
 
 void AStyleDlg::SetStyleOptions()
-// set bracket controls from the current astyle values
+// set brace controls from the current astyle values
 {
-	int bracketType = m_astyle->getBracketStyle();
-	if (bracketType == STYLE_NONE)
+	int braceType = m_astyle->getBraceStyle();
+	if (braceType == STYLE_NONE)
 		m_styleNone->SetValue(true);
-	else if (bracketType == STYLE_ALLMAN)
+	else if (braceType == STYLE_ALLMAN)
 		m_styleAllman->SetValue(true);
-	else if (bracketType == STYLE_JAVA)
+	else if (braceType == STYLE_JAVA)
 		m_styleJava->SetValue(true);
-	else if (bracketType == STYLE_KR)
+	else if (braceType == STYLE_KR)
 		m_styleKR->SetValue(true);
-	else if (bracketType == STYLE_STROUSTRUP)
+	else if (braceType == STYLE_STROUSTRUP)
 		m_styleStroustrup->SetValue(true);
-	else if (bracketType == STYLE_WHITESMITH)
+	else if (braceType == STYLE_WHITESMITH)
 		m_styleWhitesmith->SetValue(true);
-	else if (bracketType == STYLE_VTK)
+	else if (braceType == STYLE_VTK)
 		m_styleVtk->SetValue(true);
-	else if (bracketType == STYLE_BANNER)
+	else if (braceType == STYLE_BANNER)
 		m_styleBanner->SetValue(true);
-	else if (bracketType == STYLE_GNU)
+	else if (braceType == STYLE_GNU)
 		m_styleGnu->SetValue(true);
-	else if (bracketType == STYLE_LINUX)
+	else if (braceType == STYLE_LINUX)
 		m_styleLinux->SetValue(true);
-	else if (bracketType == STYLE_HORSTMANN)
+	else if (braceType == STYLE_HORSTMANN)
 		m_styleHorstmann->SetValue(true);
-	else if (bracketType == STYLE_1TBS)
+	else if (braceType == STYLE_1TBS)
 		m_style1tbs->SetValue(true);
-	else if (bracketType == STYLE_GOOGLE)
+	else if (braceType == STYLE_GOOGLE)
 		m_styleGoogle->SetValue(true);
-	else if (bracketType == STYLE_MOZILLA)
+	else if (braceType == STYLE_MOZILLA)
 		m_styleMozilla->SetValue(true);
-	else if (bracketType == STYLE_PICO)
+	else if (braceType == STYLE_PICO)
 		m_stylePico->SetValue(true);
-	else if (bracketType == STYLE_LISP)
+	else if (braceType == STYLE_LISP)
 		m_styleLisp->SetValue(true);
 }
 

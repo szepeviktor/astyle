@@ -104,9 +104,9 @@
 #define ID_BREAK_CLOSING 1068
 #define ID_BREAK_ELSEIF 1069
 #define ID_BREAK_OL_HEADERS 1070
-#define ID_ADD_BRACKETS 1071
-#define ID_ADD_OL_BRACKETS 1072
-#define ID_REMOVE_BRACKETS 1073
+#define ID_ADD_BRACES 1071
+#define ID_ADD_OL_BRACES 1072
+#define ID_REMOVE_BRACES 1073
 #define ID_KEEP_OL_BLOCKS 1074
 #define ID_KEEP_OL_STATEMENTS 1075
 #define ID_CONVERT_TABS 1076
@@ -233,12 +233,12 @@ class AStyleDlgBase : public wxDialog
 		wxStyledTextCtrl* m_padPreviewSTC;
 		wxPanel* m_formatPage;
 		wxStaticBoxSizer* m_formatSizer;
-		wxCheckBox* m_breakClosingBrackets;
+		wxCheckBox* m_breakClosingBraces;
 		wxCheckBox* m_breakElseIf;
 		wxCheckBox* m_breakOneLineHeaders;
-		wxCheckBox* m_addBrackets;
-		wxCheckBox* m_addOneLineBrackets;
-		wxCheckBox* m_removeBrackets;
+		wxCheckBox* m_addBraces;
+		wxCheckBox* m_addOneLineBraces;
+		wxCheckBox* m_removeBraces;
 		wxCheckBox* m_keepOneLineBlocks;
 		wxCheckBox* m_keepOneLineStatements;
 		wxCheckBox* m_convertTabs;
