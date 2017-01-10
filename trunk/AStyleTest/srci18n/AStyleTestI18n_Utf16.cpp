@@ -60,11 +60,11 @@ void convertEndian(char* textIn, size_t textLen)
 string wideCharToUtf8Str(wchar_t* wcIn)
 // WINDOWS convert wide char text (16 bit) to an 8 bit utf-8 string
 {
-	size_t mbLen = WideCharToMultiByte(CP_UTF8, 0, wcIn, -1, NULL, 0, NULL, 0);
+	size_t mbLen = WideCharToMultiByte(CP_UTF8, 0, wcIn, -1, nullptr, 0, nullptr, 0);
 	if (!mbLen)
 		systemAbort("Bad WideCharToMultiByte in Utf16ToUtf8Str()");
 	char* mbOut = new char[mbLen];
-	WideCharToMultiByte(CP_UTF8, 0, wcIn, -1, mbOut, mbLen, NULL, 0);
+	WideCharToMultiByte(CP_UTF8, 0, wcIn, -1, mbOut, mbLen, nullptr, 0);
 	string mbStr(mbOut);
 	delete[]mbOut;
 	return mbStr;
@@ -153,7 +153,7 @@ string utf16LEToUtf8Str(utf16_t* wcIn)
 	// allocate memory for output
 	size_t mbLen = wcLen * sizeof(utf16_t);
 	char* mbOut = new (nothrow) char[mbLen];
-	if (mbOut == NULL)
+	if (mbOut == nullptr)
 		systemAbort("Bad allocation in utf16LEToUtf8Str()");
 	// convert to utf-8
 	char* mbConv = mbOut;
@@ -191,9 +191,9 @@ struct Utf8_16_Class : public Test
 	Utf8_16_Class()
 	{
 		// initialize variables
-		text8Bit = NULL;
+		text8Bit = nullptr;
 		text8Len = 0;
-		text16Bit = NULL;
+		text16Bit = nullptr;
 		text16Len = 0;
 		// set textOut variables
 		wchar_t textIn[] =
@@ -379,9 +379,9 @@ struct ProcessUtf16F : public Test
 	ProcessUtf16F()
 	{
 		// initialize variables
-		text8Bit = NULL;
+		text8Bit = nullptr;
 		text8Len = 0;
-		text16Bit = NULL;
+		text16Bit = nullptr;
 		text16Len = 0;
 		// set textOut variables
 		wchar_t textIn[] =
@@ -442,7 +442,7 @@ struct ProcessUtf16F : public Test
 // Test processing of UTF-16LE files
 {
 	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
 	// initialize variables
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setIsRecursive(true);
@@ -480,7 +480,7 @@ struct ProcessUtf16F : public Test
 // Test processing of UTF-16BE files
 {
 	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
 	// initialize variables
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setIsRecursive(true);

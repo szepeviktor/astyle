@@ -126,7 +126,7 @@ TEST(Tabs, Spaces_Invalid1)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -142,7 +142,7 @@ TEST(Tabs, Spaces_Invalid2)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -158,7 +158,7 @@ TEST(Tabs, Spaces_Invalid3)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -302,7 +302,7 @@ TEST(Tabs, Tab_Invalid1)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -318,7 +318,7 @@ TEST(Tabs, Tab_Invalid2)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -334,7 +334,7 @@ TEST(Tabs, Tab_Invalid3)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -478,7 +478,7 @@ TEST(Tabs, ForceTab_Invalid1)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -494,7 +494,7 @@ TEST(Tabs, ForceTab_Invalid2)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -510,7 +510,7 @@ TEST(Tabs, ForceTab_Invalid3)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 

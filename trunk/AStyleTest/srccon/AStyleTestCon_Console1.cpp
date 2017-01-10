@@ -708,7 +708,7 @@ struct FileSuffixF : public Test
 TEST_F(FileSuffixF, None)
 // test suffix=none option on files
 {
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
 	// initialize variables
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setNoBackup(true);		// test variable
@@ -734,7 +734,7 @@ TEST_F(FileSuffixF, None)
 TEST_F(FileSuffixF, DotOld)
 // test suffix=.old option on files (with dot)
 {
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
 	// initialize variables
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setOrigSuffix(".old"); 	// test variable (with dot)
@@ -761,7 +761,7 @@ TEST_F(FileSuffixF, DotOld)
 TEST_F(FileSuffixF, SansDot)
 // test suffix=xxx option on files (no dot)
 {
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
 	// initialize variables
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setOrigSuffix("xxx"); 	// test variable (no dot)
@@ -901,7 +901,7 @@ struct PreserveDateF : public Test
 TEST_F(PreserveDateF, True)
 // test formatting with preserve-date option
 {
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setNoBackup(true);
 	g_console->setPreserveDate(true);
@@ -928,7 +928,7 @@ TEST_F(PreserveDateF, True)
 TEST_F(PreserveDateF, False)
 // test formatting without preserve-date option
 {
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setNoBackup(true);
 	g_console->setPreserveDate(false);
@@ -939,7 +939,7 @@ TEST_F(PreserveDateF, False)
 	// call astyle processFiles()
 	g_console->processFiles();
 	// loop thru fileNames vector checking the dates
-	string currMDY = getMDY(time(NULL));
+	string currMDY = getMDY(time(nullptr));
 	struct stat s;
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
@@ -991,7 +991,7 @@ struct ChecksumF : public Test
 TEST_F(ChecksumF, NoAdds)
 // test checksum procedure
 {
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setNoBackup(true);
 	// call astyle processOptions()
@@ -1013,15 +1013,15 @@ TEST_F(ChecksumF, NoAdds)
 	EXPECT_TRUE(formatter.getChecksumDiff() == 0);
 }
 
-TEST_F(ChecksumF, AddBrackets)
-// test checksum procedure with add-brackets
+TEST_F(ChecksumF, AddBraces)
+// test checksum procedure with add-braces
 {
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setNoBackup(true);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back("--add-brackets");
+	astyleOptionsVector.push_back("--add-braces");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	g_console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
@@ -1040,15 +1040,15 @@ TEST_F(ChecksumF, AddBrackets)
 	EXPECT_TRUE(formatter.getChecksumDiff() == 0);
 }
 
-TEST_F(ChecksumF, AddOneLineBrackets)
-// test checksum procedure with add-one-line-brackets
+TEST_F(ChecksumF, AddOneLineBraces)
+// test checksum procedure with add-one-line-braces
 {
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setNoBackup(true);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back("--add-one-line-brackets");
+	astyleOptionsVector.push_back("--add-one-line-braces");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	g_console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
@@ -1303,7 +1303,7 @@ struct DisableFormattingF : public Test
 TEST_F(DisableFormattingF, Unchanged)
 // test disable formatting with an unchanged file
 {
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setNoBackup(true);
 	// create test file
@@ -1330,7 +1330,7 @@ TEST_F(DisableFormattingF, Unchanged)
 TEST_F(DisableFormattingF, Formatted)
 // test disable formatting with a formatted file
 {
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setNoBackup(true);
 	// create test file - the first line will be unindented

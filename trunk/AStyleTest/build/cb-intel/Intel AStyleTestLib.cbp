@@ -16,7 +16,9 @@
 					<Add option="-Wall" />
 					<Add option="-w2" />
 					<Add option="-g" />
+					<Add option="-fno-exceptions" />
 					<Add option="-Wextra" />
+					<Add option="-std=c++11" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add option="-DASTYLE_LIB" />
 					<Add directory="../../src" />
@@ -39,7 +41,9 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-w2" />
+					<Add option="-fno-exceptions" />
 					<Add option="-Wextra" />
+					<Add option="-std=c++11" />
 					<Add option="-wd11074,11076" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add option="-DNDEBUG" />

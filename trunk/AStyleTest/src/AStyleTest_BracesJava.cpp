@@ -1,10 +1,10 @@
-// AStyleTest_BracketsJava.cpp
+// AStyleTest_BracesJava.cpp
 // Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
 // License.txt describes the conditions under which this software may be distributed.
 
 //-----------------------------------------------------------------------------
-// AStyle Java Bracket Options
+// AStyle Java Brace Options
 //-----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
@@ -20,19 +20,19 @@
 namespace {
 //
 //-----------------------------------------------------------------------------
-// AStyle Java Bracket Options
+// AStyle Java Brace Options
 //-----------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------
-// AStyle Java Default Bracket Options
+// AStyle Java Default Brace Options
 //-------------------------------------------------------------------------
 
-struct BracketsNoneJavaF : public Test
+struct BracesNoneJavaF : public Test
 {
 	string textStr;
 	const char* textIn;
 
-	BracketsNoneJavaF()
+	BracesNoneJavaF()
 	{
 		textStr =
 		    "\npublic class FooClass\n"
@@ -53,7 +53,7 @@ struct BracketsNoneJavaF : public Test
 	}
 };
 
-TEST_F(BracketsNoneJavaF, Default)
+TEST_F(BracesNoneJavaF, Default)
 {
 	// test default brackets option (do not change)
 	char text[] =
@@ -77,7 +77,7 @@ TEST_F(BracketsNoneJavaF, Default)
 	delete[] textOut;
 }
 
-TEST(BracketsNoneJava, EmptyBrackets)
+TEST(BracesNoneJava, EmptyBraces)
 {
 	// test default brackets option (do not change)
 	// do not change empty brackets
@@ -96,7 +96,7 @@ TEST(BracketsNoneJava, EmptyBrackets)
 	delete[] textOut;
 }
 
-TEST(BracketsNoneJava, EmptyBracketsWithComments)
+TEST(BracesNoneJava, EmptyBracesWithComments)
 {
 	// test default brackets option (do not change) with ending comments
 	// do not change empty brackets
@@ -115,7 +115,7 @@ TEST(BracketsNoneJava, EmptyBracketsWithComments)
 	delete[] textOut;
 }
 
-TEST(BracketsNoneJava, Break)
+TEST(BracesNoneJava, Break)
 {
 	// test default brackets option with broken brackets
 	char text[] =
@@ -136,7 +136,7 @@ TEST(BracketsNoneJava, Break)
 	delete[] textOut;
 }
 
-TEST(BracketsNoneJava, Attach)
+TEST(BracesNoneJava, Attach)
 {
 	// test default brackets option with attached brackets
 	char text[] =
@@ -153,7 +153,7 @@ TEST(BracketsNoneJava, Attach)
 	delete[] textOut;
 }
 
-TEST(BracketsNoneJava, Linux)
+TEST(BracesNoneJava, Linux)
 {
 	// test default brackets option with linux brackets
 	char text[] =
@@ -171,7 +171,7 @@ TEST(BracketsNoneJava, Linux)
 	delete[] textOut;
 }
 
-TEST(BracketsNoneJava, RunIn)
+TEST(BracesNoneJava, RunIn)
 {
 	// test default brackets option with run-in brackets
 	char text[] =
@@ -189,7 +189,7 @@ TEST(BracketsNoneJava, RunIn)
 	delete[] textOut;
 }
 
-TEST(BracketsNoneJava, EnumConstructorBreak)
+TEST(BracesNoneJava, EnumConstructorBreak)
 {
 	// test default brackets option with an enum constructor
 	char text[] =
@@ -215,7 +215,7 @@ TEST(BracketsNoneJava, EnumConstructorBreak)
 	delete[] textOut;
 }
 
-TEST(BracketsNoneJava, EnumConstructorAttach)
+TEST(BracesNoneJava, EnumConstructorAttach)
 {
 	// test default brackets option with an enum constructor
 	char text[] =
@@ -238,7 +238,7 @@ TEST(BracketsNoneJava, EnumConstructorAttach)
 	delete[] textOut;
 }
 
-TEST(BracketsNoneJava, EnumConstructorRunIn)
+TEST(BracesNoneJava, EnumConstructorRunIn)
 {
 	// test default brackets option with an enum constructor
 	char text[] =
@@ -262,15 +262,15 @@ TEST(BracketsNoneJava, EnumConstructorRunIn)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Java Break Bracket Options
+// AStyle Java Break Brace Options
 //-------------------------------------------------------------------------
 
-struct BracketsBreakJavaF : public Test
+struct BracesBreakJavaF : public Test
 {
 	string textStr;
 	const char* textIn;
 
-	BracketsBreakJavaF()
+	BracesBreakJavaF()
 	{
 		textStr =
 		    "\npublic class FooClass\n"
@@ -291,7 +291,7 @@ struct BracketsBreakJavaF : public Test
 	}
 };
 
-TEST_F(BracketsBreakJavaF, LongOption)
+TEST_F(BracesBreakJavaF, LongOption)
 {
 	// test break brackets option
 	char text[] =
@@ -318,7 +318,7 @@ TEST_F(BracketsBreakJavaF, LongOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsBreakJavaF, ShortOption)
+TEST_F(BracesBreakJavaF, ShortOption)
 {
 	// test break brackets short option
 	char text[] =
@@ -345,7 +345,7 @@ TEST_F(BracketsBreakJavaF, ShortOption)
 	delete[] textOut;
 }
 
-TEST(BracketsBreakJava, EmptyBrackets)
+TEST(BracesBreakJava, EmptyBraces)
 {
 	// test break brackets option
 	char textIn[] =
@@ -373,7 +373,7 @@ TEST(BracketsBreakJava, EmptyBrackets)
 	delete[] textOut;
 }
 
-TEST(BracketsBreakJava, EmptyBracketsWithComments)
+TEST(BracesBreakJava, EmptyBracesWithComments)
 {
 	// test break brackets option with ending comments
 	char textIn[] =
@@ -401,7 +401,7 @@ TEST(BracketsBreakJava, EmptyBracketsWithComments)
 	delete[] textOut;
 }
 
-TEST(BracketsBreakJava, Break)
+TEST(BracesBreakJava, Break)
 {
 	// test break brackets option with broken brackets
 	char text[] =
@@ -422,7 +422,7 @@ TEST(BracketsBreakJava, Break)
 	delete[] textOut;
 }
 
-TEST(BracketsBreakJava, Attach)
+TEST(BracesBreakJava, Attach)
 {
 	// test break brackets option with attached brackets
 	char textIn[] =
@@ -451,7 +451,7 @@ TEST(BracketsBreakJava, Attach)
 	delete[] textOut;
 }
 
-TEST(BracketsBreakJava, Linux)
+TEST(BracesBreakJava, Linux)
 {
 	// test break brackets option with linux brackets
 	char textIn[] =
@@ -481,7 +481,7 @@ TEST(BracketsBreakJava, Linux)
 	delete[] textOut;
 }
 
-TEST(BracketsBreakJava, RunIn)
+TEST(BracesBreakJava, RunIn)
 {
 	// test break brackets option with run-in brackets
 	char textIn[] =
@@ -511,7 +511,7 @@ TEST(BracketsBreakJava, RunIn)
 	delete[] textOut;
 }
 
-TEST(BracketsBreakJava, EnumConstructor)
+TEST(BracesBreakJava, EnumConstructor)
 {
 	// test break brackets option with an enum constructor
 	char textIn[] =
@@ -552,15 +552,15 @@ TEST(BracketsBreakJava, EnumConstructor)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Java Attach Bracket Options
+// AStyle Java Attach Brace Options
 //-------------------------------------------------------------------------
 
-struct BracketsAttachJavaF : public Test
+struct BracesAttachJavaF : public Test
 {
 	string textStr;
 	const char* textIn;
 
-	BracketsAttachJavaF()
+	BracesAttachJavaF()
 	{
 		textStr =
 		    "\npublic class FooClass\n"
@@ -581,7 +581,7 @@ struct BracketsAttachJavaF : public Test
 	}
 };
 
-TEST_F(BracketsAttachJavaF, LongOption)
+TEST_F(BracesAttachJavaF, LongOption)
 {
 	// test attach brackets option
 	char text[] =
@@ -603,7 +603,7 @@ TEST_F(BracketsAttachJavaF, LongOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsAttachJavaF, ShortOption)
+TEST_F(BracesAttachJavaF, ShortOption)
 {
 	// test attach brackets short option
 	char text[] =
@@ -625,7 +625,7 @@ TEST_F(BracketsAttachJavaF, ShortOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsAttachJavaF, BreakClosing)
+TEST_F(BracesAttachJavaF, BreakClosing)
 {
 	// test attach brackets option, with break closing brackets
 	char text[] =
@@ -648,7 +648,7 @@ TEST_F(BracketsAttachJavaF, BreakClosing)
 	delete[] textOut;
 }
 
-TEST(BracketsAttachJava, EmptyBrackets)
+TEST(BracesAttachJava, EmptyBraces)
 {
 	// test attach brackets option
 	char text[] =
@@ -665,7 +665,7 @@ TEST(BracketsAttachJava, EmptyBrackets)
 	delete[] textOut;
 }
 
-TEST(BracketsAttachJava, EmptyBracketsWithComments)
+TEST(BracesAttachJava, EmptyBracesWithComments)
 {
 	// test attach brackets option with ending comments
 	char text[] =
@@ -682,7 +682,7 @@ TEST(BracketsAttachJava, EmptyBracketsWithComments)
 	delete[] textOut;
 }
 
-TEST(BracketsAttachJava, Break)
+TEST(BracesAttachJava, Break)
 {
 	// test attach brackets option with broken brackets
 	char textIn[] =
@@ -711,7 +711,7 @@ TEST(BracketsAttachJava, Break)
 	delete[] textOut;
 }
 
-TEST(BracketsAttachJava, Attach)
+TEST(BracesAttachJava, Attach)
 {
 	// test attach brackets option with attached brackets
 	char text[] =
@@ -728,7 +728,7 @@ TEST(BracketsAttachJava, Attach)
 	delete[] textOut;
 }
 
-TEST(BracketsAttachJava, Linux)
+TEST(BracesAttachJava, Linux)
 {
 	// test attach brackets option with linux brackets
 	char textIn[] =
@@ -754,7 +754,7 @@ TEST(BracketsAttachJava, Linux)
 	delete[] textOut;
 }
 
-TEST(BracketsAttachJava, RunIn)
+TEST(BracesAttachJava, RunIn)
 {
 	// test attach brackets option with run-in brackets
 	char textIn[] =
@@ -780,7 +780,7 @@ TEST(BracketsAttachJava, RunIn)
 	delete[] textOut;
 }
 
-TEST(BracketsAttachJava, EnumConstructor)
+TEST(BracesAttachJava, EnumConstructor)
 {
 	// test attach brackets option with an enum constructor
 	char textIn[] =
@@ -821,15 +821,15 @@ TEST(BracketsAttachJava, EnumConstructor)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Java Linux Bracket Options
+// AStyle Java Linux Brace Options
 //-------------------------------------------------------------------------
 
-struct BracketsLinuxJavaF : public Test
+struct BracesLinuxJavaF : public Test
 {
 	string textStr;
 	const char* textIn;
 
-	BracketsLinuxJavaF()
+	BracesLinuxJavaF()
 	{
 		textStr =
 		    "\npublic class FooClass\n"
@@ -850,7 +850,7 @@ struct BracketsLinuxJavaF : public Test
 	}
 };
 
-TEST_F(BracketsLinuxJavaF, LongOption)
+TEST_F(BracesLinuxJavaF, LongOption)
 {
 	// test linux brackets option
 	char text[] =
@@ -874,7 +874,7 @@ TEST_F(BracketsLinuxJavaF, LongOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsLinuxJavaF, ShortOption)
+TEST_F(BracesLinuxJavaF, ShortOption)
 {
 	// test linux brackets short option
 	char text[] =
@@ -898,7 +898,7 @@ TEST_F(BracketsLinuxJavaF, ShortOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsLinuxJavaF, BreakClosing)
+TEST_F(BracesLinuxJavaF, BreakClosing)
 {
 	// test linux brackets option, with break closing brackets
 	char text[] =
@@ -923,7 +923,7 @@ TEST_F(BracketsLinuxJavaF, BreakClosing)
 	delete[] textOut;
 }
 
-TEST(BracketsLinuxJava, EmptyBrackets)
+TEST(BracesLinuxJava, EmptyBraces)
 {
 	// test linux brackets option
 	char textIn[] =
@@ -951,7 +951,7 @@ TEST(BracketsLinuxJava, EmptyBrackets)
 	delete[] textOut;
 }
 
-TEST(BracketsLinuxJava, EmptyBracketsWithComments)
+TEST(BracesLinuxJava, EmptyBracesWithComments)
 {
 	// test linux brackets option with ending comments
 	char textIn[] =
@@ -979,7 +979,7 @@ TEST(BracketsLinuxJava, EmptyBracketsWithComments)
 	delete[] textOut;
 }
 
-TEST(BracketsLinuxJava, Break)
+TEST(BracesLinuxJava, Break)
 {
 	// test linux brackets option with broken brackets
 	char textIn[] =
@@ -1009,7 +1009,7 @@ TEST(BracketsLinuxJava, Break)
 	delete[] textOut;
 }
 
-TEST(BracketsLinuxJava, Attach)
+TEST(BracesLinuxJava, Attach)
 {
 	// test linux brackets option with attached brackets
 	char textIn[] =
@@ -1035,7 +1035,7 @@ TEST(BracketsLinuxJava, Attach)
 	delete[] textOut;
 }
 
-TEST(BracketsLinuxJava, Linux)
+TEST(BracesLinuxJava, Linux)
 {
 	// test linux brackets option with linux brackets
 	char text[] =
@@ -1053,7 +1053,7 @@ TEST(BracketsLinuxJava, Linux)
 	delete[] textOut;
 }
 
-TEST(BracketsLinuxJava, RunIn)
+TEST(BracesLinuxJava, RunIn)
 {
 	// test linux brackets option with run-in brackets
 	char textIn[] =
@@ -1080,7 +1080,7 @@ TEST(BracketsLinuxJava, RunIn)
 	delete[] textOut;
 }
 
-TEST(BracketsLinuxJava, EnumConstructor)
+TEST(BracesLinuxJava, EnumConstructor)
 {
 	// test linux brackets option with an enum constructor
 	char textIn[] =
@@ -1122,15 +1122,15 @@ TEST(BracketsLinuxJava, EnumConstructor)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Java Stroustrup Bracket Options
+// AStyle Java Stroustrup Brace Options
 //-------------------------------------------------------------------------
 
-struct BracketsStroustrupJavaF : public Test
+struct BracesStroustrupJavaF : public Test
 {
 	string textStr;
 	const char* textIn;
 
-	BracketsStroustrupJavaF()
+	BracesStroustrupJavaF()
 	{
 		textStr =
 		    "\npublic class FooClass\n"
@@ -1151,7 +1151,7 @@ struct BracketsStroustrupJavaF : public Test
 	}
 };
 
-TEST_F(BracketsStroustrupJavaF, LongOption)
+TEST_F(BracesStroustrupJavaF, LongOption)
 {
 	// test stroustrup brackets option
 	char text[] =
@@ -1174,7 +1174,7 @@ TEST_F(BracketsStroustrupJavaF, LongOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsStroustrupJavaF, ShortOption)
+TEST_F(BracesStroustrupJavaF, ShortOption)
 {
 	// test stroustrup brackets short option
 	char text[] =
@@ -1197,7 +1197,7 @@ TEST_F(BracketsStroustrupJavaF, ShortOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsStroustrupJavaF, BreakClosing)
+TEST_F(BracesStroustrupJavaF, BreakClosing)
 {
 	// test stroustrup brackets option, with break closing brackets
 	char text[] =
@@ -1221,7 +1221,7 @@ TEST_F(BracketsStroustrupJavaF, BreakClosing)
 	delete[] textOut;
 }
 
-TEST(BracketsStroustrupJava, EmptyBrackets)
+TEST(BracesStroustrupJava, EmptyBraces)
 {
 	// test stroustrup brackets option
 	// do not change empty brackets
@@ -1248,7 +1248,7 @@ TEST(BracketsStroustrupJava, EmptyBrackets)
 	delete[] textOut;
 }
 
-TEST(BracketsStroustrupJava, EmptyBracketsWithComments)
+TEST(BracesStroustrupJava, EmptyBracesWithComments)
 {
 	// test stroustrup brackets option with ending comments
 	// do not change empty brackets
@@ -1275,7 +1275,7 @@ TEST(BracketsStroustrupJava, EmptyBracketsWithComments)
 	delete[] textOut;
 }
 
-TEST(BracketsStroustrupJava, EnumConstructor)
+TEST(BracesStroustrupJava, EnumConstructor)
 {
 	// test stroustrup brackets option with an enum constructor
 	char textIn[] =
@@ -1317,15 +1317,15 @@ TEST(BracketsStroustrupJava, EnumConstructor)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Java RunIn Bracket Options
+// AStyle Java RunIn Brace Options
 //-------------------------------------------------------------------------
 
-struct BracketsRunInJavaF : public Test
+struct BracesRunInJavaF : public Test
 {
 	string textStr;
 	const char* textIn;
 
-	BracketsRunInJavaF()
+	BracesRunInJavaF()
 	{
 		textStr =
 		    "\npublic class FooClass\n"
@@ -1346,7 +1346,7 @@ struct BracketsRunInJavaF : public Test
 	}
 };
 
-TEST_F(BracketsRunInJavaF, LongOption)
+TEST_F(BracesRunInJavaF, LongOption)
 {
 	// test run-in brackets option
 	char text[] =
@@ -1369,7 +1369,7 @@ TEST_F(BracketsRunInJavaF, LongOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsRunInJavaF, ShortOption)
+TEST_F(BracesRunInJavaF, ShortOption)
 {
 	// test run-in brackets short option
 	char text[] =
@@ -1392,7 +1392,7 @@ TEST_F(BracketsRunInJavaF, ShortOption)
 	delete[] textOut;
 }
 
-TEST(BracketsRunInJava, EmptyBrackets)
+TEST(BracesRunInJava, EmptyBraces)
 {
 	// test run-in brackets option
 	char textIn[] =
@@ -1418,7 +1418,7 @@ TEST(BracketsRunInJava, EmptyBrackets)
 	delete[] textOut;
 }
 
-TEST(BracketsRunInJava, EmptyBracketsWithComments)
+TEST(BracesRunInJava, EmptyBracesWithComments)
 {
 	// test run-in brackets option with ending comments
 	char textIn[] =
@@ -1444,7 +1444,7 @@ TEST(BracketsRunInJava, EmptyBracketsWithComments)
 	delete[] textOut;
 }
 
-TEST(BracketsRunInJava, Break)
+TEST(BracesRunInJava, Break)
 {
 	// test run-in brackets option with broken brackets
 	char textIn[] =
@@ -1474,7 +1474,7 @@ TEST(BracketsRunInJava, Break)
 	delete[] textOut;
 }
 
-TEST(BracketsRunInJava, Attach)
+TEST(BracesRunInJava, Attach)
 {
 	// test run-in brackets option with attached brackets
 	char textIn[] =
@@ -1500,7 +1500,7 @@ TEST(BracketsRunInJava, Attach)
 	delete[] textOut;
 }
 
-TEST(BracketsRunInJava, Linux)
+TEST(BracesRunInJava, Linux)
 {
 	// test run-in brackets option with linux brackets
 	char textIn[] =
@@ -1527,7 +1527,7 @@ TEST(BracketsRunInJava, Linux)
 	delete[] textOut;
 }
 
-TEST(BracketsRunInJava, RunIn)
+TEST(BracesRunInJava, RunIn)
 {
 	// test run-in brackets option with run-in brackets
 	char text[] =
@@ -1545,7 +1545,7 @@ TEST(BracketsRunInJava, RunIn)
 	delete[] textOut;
 }
 
-TEST(BracketsRunInJava, EnumConstructor)
+TEST(BracesRunInJava, EnumConstructor)
 {
 	// test run-in brackets option with an enum constructor
 	char textIn[] =
@@ -1586,15 +1586,15 @@ TEST(BracketsRunInJava, EnumConstructor)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Java Other Bracket Options
+// AStyle Java Other Brace Options
 //-------------------------------------------------------------------------
 
-struct BracketsOtherJavaF : public Test
+struct BracesOtherJavaF : public Test
 {
 	string textStr;
 	const char* textIn;
 
-	BracketsOtherJavaF()
+	BracesOtherJavaF()
 	{
 		textStr =
 		    "\npublic class FooClass\n"
@@ -1615,7 +1615,7 @@ struct BracketsOtherJavaF : public Test
 	}
 };
 
-TEST_F(BracketsOtherJavaF, IndentNamespaces)
+TEST_F(BracesOtherJavaF, IndentNamespaces)
 {
 	// indent namespaces should NOT affect java formatting
 	char options[] = "indent-namespaces, mode=java";
@@ -1624,7 +1624,7 @@ TEST_F(BracketsOtherJavaF, IndentNamespaces)
 	delete[] textOut;
 }
 
-TEST_F(BracketsOtherJavaF, IndentClasses)
+TEST_F(BracesOtherJavaF, IndentClasses)
 {
 	// indent classes should NOT affect java formatting
 	char options[] = "indent-classes, mode=java";
@@ -1633,7 +1633,7 @@ TEST_F(BracketsOtherJavaF, IndentClasses)
 	delete[] textOut;
 }
 
-TEST_F(BracketsOtherJavaF, IndentNamespaces_IndentClass)
+TEST_F(BracesOtherJavaF, IndentNamespaces_IndentClass)
 {
 	// indent namespaces and classes should NOT affect java formatting
 	char options[] = "indent-namespaces, indent-classes, mode=java";
@@ -1642,7 +1642,7 @@ TEST_F(BracketsOtherJavaF, IndentNamespaces_IndentClass)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherJava, ClassContinuation_Attached)
+TEST(BracesOtherJava, ClassContinuation_Attached)
 {
 	// test with class continuation and attached brackets
 	char text[] =
@@ -1657,7 +1657,7 @@ TEST(BracketsOtherJava, ClassContinuation_Attached)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherJava, ClassContinuation_Broken)
+TEST(BracesOtherJava, ClassContinuation_Broken)
 {
 	// test with class continuation and broken brackets
 	char text[] =
@@ -1673,7 +1673,7 @@ TEST(BracketsOtherJava, ClassContinuation_Broken)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherJava, Interface)
+TEST(BracesOtherJava, Interface)
 {
 	// test default brackets option (do not change)
 	char text[] =
@@ -1688,7 +1688,7 @@ TEST(BracketsOtherJava, Interface)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherJava, NestedClass)
+TEST(BracesOtherJava, NestedClass)
 {
 	// test interface with nested classes
 	char text[] =
@@ -1718,7 +1718,7 @@ TEST(BracketsOtherJava, NestedClass)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherJava, StaticConstructor)
+TEST(BracesOtherJava, StaticConstructor)
 {
 	// test gnu style option, with static constructor
 	// should NOT indent the method opening bracket
@@ -1745,7 +1745,7 @@ TEST(BracketsOtherJava, StaticConstructor)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherJava, Throws)
+TEST(BracesOtherJava, Throws)
 {
 	// test a method that contains a throws statement
 	// should be recognized as a block opener
@@ -1769,7 +1769,7 @@ TEST(BracketsOtherJava, Throws)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherJava, NewOperator1)
+TEST(BracesOtherJava, NewOperator1)
 {
 	// test new operator ending with })
 	char text[] =
@@ -1794,7 +1794,7 @@ TEST(BracketsOtherJava, NewOperator1)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherJava, NewOperator2)
+TEST(BracesOtherJava, NewOperator2)
 {
 	// test new operator ending with }.start();
 	char text[] =
@@ -1814,10 +1814,10 @@ TEST(BracketsOtherJava, NewOperator2)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Java Array Bracket Options
+// AStyle Java Array Brace Options
 //-------------------------------------------------------------------------
 
-TEST(BracketsArrayJava, None_BracketInParens)
+TEST(BracesArrayJava, None_BraceInParens)
 {
 	// Array brackets should not pad the '( {"unchecked"})'.
 	char text[] =
@@ -1835,7 +1835,7 @@ TEST(BracketsArrayJava, None_BracketInParens)
 	delete[] textOut;
 }
 
-TEST(BracketsArrayJava, None_InStatement)
+TEST(BracesArrayJava, None_InStatement)
 {
 	// the following "new Type" array should have an in statement indent
 	char text[] =
@@ -1861,7 +1861,7 @@ TEST(BracketsArrayJava, None_InStatement)
 	delete[] textOut;
 }
 
-TEST(BracketsArrayJava, None_OneLineBlock1)
+TEST(BracesArrayJava, None_OneLineBlock1)
 {
 	// single line blocks should not be broken
 	char text[] =
@@ -1875,7 +1875,7 @@ TEST(BracketsArrayJava, None_OneLineBlock1)
 	delete[] textOut;
 }
 
-TEST(BracketsArrayJava, None_OneLineBlock2)
+TEST(BracesArrayJava, None_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
@@ -1893,7 +1893,7 @@ TEST(BracketsArrayJava, None_OneLineBlock2)
 	delete[] textOut;
 }
 
-TEST(BracketsArrayJava, Break_BracketInParens)
+TEST(BracesArrayJava, Break_BraceInParens)
 {
 	// Array brackets should not pad the '( {"unchecked"})'.
 	char text[] =
@@ -1911,7 +1911,7 @@ TEST(BracketsArrayJava, Break_BracketInParens)
 	delete[] textOut;
 }
 
-TEST(BracketsArrayJava, Break_OneLineBlock2)
+TEST(BracesArrayJava, Break_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
@@ -1929,7 +1929,7 @@ TEST(BracketsArrayJava, Break_OneLineBlock2)
 	delete[] textOut;
 }
 
-TEST(BracketsArrayJava, Attach_BracketInParens)
+TEST(BracesArrayJava, Attach_BraceInParens)
 {
 	// Array brackets should not pad the '( {"unchecked"})'.
 	char text[] =
@@ -1945,7 +1945,7 @@ TEST(BracketsArrayJava, Attach_BracketInParens)
 	delete[] textOut;
 }
 
-TEST(BracketsArrayJava, Attach_OneLineBlock2)
+TEST(BracesArrayJava, Attach_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
@@ -1961,7 +1961,7 @@ TEST(BracketsArrayJava, Attach_OneLineBlock2)
 	delete[] textOut;
 }
 
-TEST(BracketsArrayJava, RunIn_BracketInParens)
+TEST(BracesArrayJava, RunIn_BraceInParens)
 {
 	// Array brackets should not pad the beginning bracket '( {"unchecked"})'.
 	char text[] =
@@ -1977,7 +1977,7 @@ TEST(BracketsArrayJava, RunIn_BracketInParens)
 	delete[] textOut;
 }
 
-TEST(BracketsArrayJava, RunIn_OneLineBlock2)
+TEST(BracesArrayJava, RunIn_OneLineBlock2)
 {
 	// the single line block "{io.toString()}" should not be broken
 	char text[] =
@@ -1994,10 +1994,10 @@ TEST(BracketsArrayJava, RunIn_OneLineBlock2)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Java Array Bracket Non-In-Statement Options
+// AStyle Java Array Brace Non-In-Statement Options
 //-------------------------------------------------------------------------
 
-TEST(BracketsArrayJava, InStatementArray1)
+TEST(BracesArrayJava, InStatementArray1)
 {
 	// TODO: This should be indented as an in-statement array.
 	//       Why is it indented 9 spaces?
@@ -2015,7 +2015,7 @@ TEST(BracketsArrayJava, InStatementArray1)
 	delete[] textOut;
 }
 
-TEST(BracketsArrayJava, InStatementArray2)
+TEST(BracesArrayJava, InStatementArray2)
 {
 	// TODO: This should be indented as an in-statement array.
 	char text[] =
@@ -2030,7 +2030,7 @@ TEST(BracketsArrayJava, InStatementArray2)
 	delete[] textOut;
 }
 
-TEST(BracketsArrayJava, InStatement_LineCommentClear)
+TEST(BracesArrayJava, InStatement_LineCommentClear)
 {
 	// isNonInStatementArray should be cleared when a // follows a }
 	// if not cleared the "? ERROR" line will not be correctly indented
@@ -2059,7 +2059,7 @@ TEST(BracketsArrayJava, InStatement_LineCommentClear)
 	delete[] textOut;
 }
 
-TEST(BracketsArrayJava, InStatement_CommentClear)
+TEST(BracesArrayJava, InStatement_CommentClear)
 {
 	// isNonInStatementArray should be cleared when a /* follows a }
 	// if not cleared the "? ERROR" line will not be correctly indented

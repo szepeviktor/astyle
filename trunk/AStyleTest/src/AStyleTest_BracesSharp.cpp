@@ -1,10 +1,10 @@
-// AStyleTest_BracketsSharp.cpp
+// AStyleTest_BracesSharp.cpp
 // Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
 // License.txt describes the conditions under which this software may be distributed.
 
 //-----------------------------------------------------------------------------
-// AStyle C# Bracket Options
+// AStyle C# Brace Options
 //-----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
@@ -20,19 +20,19 @@
 namespace {
 //
 //-----------------------------------------------------------------------------
-// AStyle C# Bracket Options
+// AStyle C# Brace Options
 //-----------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------
-// AStyle C# Default Bracket Options
+// AStyle C# Default Brace Options
 //-------------------------------------------------------------------------
 
-struct BracketsNoneSharpF : public Test
+struct BracesNoneSharpF : public Test
 {
 	string textStr;
 	const char* textIn;
 
-	BracketsNoneSharpF()
+	BracesNoneSharpF()
 	{
 		textStr =
 		    "\nnamespace FooName\n"
@@ -64,7 +64,7 @@ struct BracketsNoneSharpF : public Test
 	}
 };
 
-TEST_F(BracketsNoneSharpF, Default)
+TEST_F(BracesNoneSharpF, Default)
 {
 	// test default brackets option (do not change)
 	char text[] =
@@ -102,7 +102,7 @@ TEST_F(BracketsNoneSharpF, Default)
 	delete[] textOut;
 }
 
-TEST_F(BracketsNoneSharpF, Namespace)
+TEST_F(BracesNoneSharpF, Namespace)
 {
 	// test default brackets option, with indented namespace
 	char text[] =
@@ -140,7 +140,7 @@ TEST_F(BracketsNoneSharpF, Namespace)
 	delete[] textOut;
 }
 
-TEST(BracketsNoneSharp, EmptyBrackets)
+TEST(BracesNoneSharp, EmptyBraces)
 {
 	// test default brackets option (do not change)
 	// do not change empty brackets
@@ -159,7 +159,7 @@ TEST(BracketsNoneSharp, EmptyBrackets)
 	delete[] textOut;
 }
 
-TEST(BracketsNoneSharp, EmptyBracketsWithComments)
+TEST(BracesNoneSharp, EmptyBracesWithComments)
 {
 	// test default brackets option (do not change) with ending comments
 	// do not change empty brackets
@@ -178,7 +178,7 @@ TEST(BracketsNoneSharp, EmptyBracketsWithComments)
 	delete[] textOut;
 }
 
-TEST(BracketsNoneSharp, Break)
+TEST(BracesNoneSharp, Break)
 {
 	// test default brackets option with broken brackets
 	char text[] =
@@ -199,7 +199,7 @@ TEST(BracketsNoneSharp, Break)
 	delete[] textOut;
 }
 
-TEST(BracketsNoneSharp, Attach)
+TEST(BracesNoneSharp, Attach)
 {
 	// test default brackets option with attached brackets
 	char text[] =
@@ -216,7 +216,7 @@ TEST(BracketsNoneSharp, Attach)
 	delete[] textOut;
 }
 
-TEST(BracketsNoneSharp, Linux)
+TEST(BracesNoneSharp, Linux)
 {
 	// test default brackets option with linux brackets
 	char text[] =
@@ -234,7 +234,7 @@ TEST(BracketsNoneSharp, Linux)
 	delete[] textOut;
 }
 
-TEST(BracketsNoneSharp, RunIn)
+TEST(BracesNoneSharp, RunIn)
 {
 	// test default brackets option with run-in brackets
 	char text[] =
@@ -254,15 +254,15 @@ TEST(BracketsNoneSharp, RunIn)
 }
 
 //-------------------------------------------------------------------------
-// AStyle C# Break Bracket Options
+// AStyle C# Break Brace Options
 //-------------------------------------------------------------------------
 
-struct BracketsBreakSharpF : public Test
+struct BracesBreakSharpF : public Test
 {
 	string textStr;
 	const char* textIn;
 
-	BracketsBreakSharpF()
+	BracesBreakSharpF()
 	{
 		textStr =
 		    "\nnamespace FooName\n"
@@ -294,7 +294,7 @@ struct BracketsBreakSharpF : public Test
 	}
 };
 
-TEST_F(BracketsBreakSharpF, LongOption)
+TEST_F(BracesBreakSharpF, LongOption)
 {
 	// test break brackets option
 	char text[] =
@@ -335,7 +335,7 @@ TEST_F(BracketsBreakSharpF, LongOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsBreakSharpF, ShortOption)
+TEST_F(BracesBreakSharpF, ShortOption)
 {
 	// test break brackets short option
 	char text[] =
@@ -376,7 +376,7 @@ TEST_F(BracketsBreakSharpF, ShortOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsBreakSharpF, Namespace)
+TEST_F(BracesBreakSharpF, Namespace)
 {
 	// test break brackets option, with indented namespace
 	char text[] =
@@ -417,7 +417,7 @@ TEST_F(BracketsBreakSharpF, Namespace)
 	delete[] textOut;
 }
 
-TEST(BracketsBreakSharp, EmptyBrackets)
+TEST(BracesBreakSharp, EmptyBraces)
 {
 	// test break brackets option
 	char textIn[] =
@@ -445,7 +445,7 @@ TEST(BracketsBreakSharp, EmptyBrackets)
 	delete[] textOut;
 }
 
-TEST(BracketsBreakSharp, EmptyBracketsWithComments)
+TEST(BracesBreakSharp, EmptyBracesWithComments)
 {
 	// test break brackets option with ending comments
 	char textIn[] =
@@ -473,7 +473,7 @@ TEST(BracketsBreakSharp, EmptyBracketsWithComments)
 	delete[] textOut;
 }
 
-TEST(BracketsBreakSharp, Break)
+TEST(BracesBreakSharp, Break)
 {
 	// test break brackets option with broken brackets
 	char text[] =
@@ -494,7 +494,7 @@ TEST(BracketsBreakSharp, Break)
 	delete[] textOut;
 }
 
-TEST(BracketsBreakSharp, Attach)
+TEST(BracesBreakSharp, Attach)
 {
 	// test break brackets option with attached brackets
 	char textIn[] =
@@ -523,7 +523,7 @@ TEST(BracketsBreakSharp, Attach)
 	delete[] textOut;
 }
 
-TEST(BracketsBreakSharp, Linux)
+TEST(BracesBreakSharp, Linux)
 {
 	// test break brackets option with linux brackets
 	char textIn[] =
@@ -553,7 +553,7 @@ TEST(BracketsBreakSharp, Linux)
 	delete[] textOut;
 }
 
-TEST(BracketsBreakSharp, RunIn)
+TEST(BracesBreakSharp, RunIn)
 {
 	// test break brackets option with run-in brackets
 	char textIn[] =
@@ -584,15 +584,15 @@ TEST(BracketsBreakSharp, RunIn)
 }
 
 //-------------------------------------------------------------------------
-// AStyle C# Attach Bracket Options
+// AStyle C# Attach Brace Options
 //-------------------------------------------------------------------------
 
-struct BracketsAttachSharpF : public Test
+struct BracesAttachSharpF : public Test
 {
 	string textStr;
 	const char* textIn;
 
-	BracketsAttachSharpF()
+	BracesAttachSharpF()
 	{
 		textStr =
 		    "\nnamespace FooName\n"
@@ -624,7 +624,7 @@ struct BracketsAttachSharpF : public Test
 	}
 };
 
-TEST_F(BracketsAttachSharpF, LongOption)
+TEST_F(BracesAttachSharpF, LongOption)
 {
 	// test attach brackets option
 	char text[] =
@@ -657,7 +657,7 @@ TEST_F(BracketsAttachSharpF, LongOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsAttachSharpF, ShortOption)
+TEST_F(BracesAttachSharpF, ShortOption)
 {
 	// test attach brackets short option
 	char text[] =
@@ -690,7 +690,7 @@ TEST_F(BracketsAttachSharpF, ShortOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsAttachSharpF, Namespace)
+TEST_F(BracesAttachSharpF, Namespace)
 {
 	// test attach brackets option, with indented namespace
 	char text[] =
@@ -723,7 +723,7 @@ TEST_F(BracketsAttachSharpF, Namespace)
 	delete[] textOut;
 }
 
-TEST_F(BracketsAttachSharpF, BreakClosing)
+TEST_F(BracesAttachSharpF, BreakClosing)
 {
 	// test attach brackets option, with break closing brackets
 	char text[] =
@@ -757,7 +757,7 @@ TEST_F(BracketsAttachSharpF, BreakClosing)
 	delete[] textOut;
 }
 
-TEST(BracketsAttachSharp, EmptyBrackets)
+TEST(BracesAttachSharp, EmptyBraces)
 {
 	// test attach brackets option
 	char text[] =
@@ -774,7 +774,7 @@ TEST(BracketsAttachSharp, EmptyBrackets)
 	delete[] textOut;
 }
 
-TEST(BracketsAttachSharp, EmptyBracketsWithComments)
+TEST(BracesAttachSharp, EmptyBracesWithComments)
 {
 	// test attach brackets option with ending comments
 	char text[] =
@@ -791,7 +791,7 @@ TEST(BracketsAttachSharp, EmptyBracketsWithComments)
 	delete[] textOut;
 }
 
-TEST(BracketsAttachSharp, Break)
+TEST(BracesAttachSharp, Break)
 {
 	// test attach brackets option with broken brackets
 	char textIn[] =
@@ -820,7 +820,7 @@ TEST(BracketsAttachSharp, Break)
 	delete[] textOut;
 }
 
-TEST(BracketsAttachSharp, Attach)
+TEST(BracesAttachSharp, Attach)
 {
 	// test attach brackets option with attached brackets
 	char text[] =
@@ -837,7 +837,7 @@ TEST(BracketsAttachSharp, Attach)
 	delete[] textOut;
 }
 
-TEST(BracketsAttachSharp, Linux)
+TEST(BracesAttachSharp, Linux)
 {
 	// test attach brackets option with linux brackets
 	char textIn[] =
@@ -863,7 +863,7 @@ TEST(BracketsAttachSharp, Linux)
 	delete[] textOut;
 }
 
-TEST(BracketsAttachSharp, RunIn)
+TEST(BracesAttachSharp, RunIn)
 {
 	// test attach brackets option with run-in brackets
 	char textIn[] =
@@ -890,15 +890,15 @@ TEST(BracketsAttachSharp, RunIn)
 }
 
 //-------------------------------------------------------------------------
-// AStyle C# Linux Bracket Options
+// AStyle C# Linux Brace Options
 //-------------------------------------------------------------------------
 
-struct BracketsLinuxSharpF : public Test
+struct BracesLinuxSharpF : public Test
 {
 	string textStr;
 	const char* textIn;
 
-	BracketsLinuxSharpF()
+	BracesLinuxSharpF()
 	{
 		textStr =
 		    "\nnamespace FooName\n"
@@ -930,7 +930,7 @@ struct BracketsLinuxSharpF : public Test
 	}
 };
 
-TEST_F(BracketsLinuxSharpF, LongOption)
+TEST_F(BracesLinuxSharpF, LongOption)
 {
 	// test linux brackets option
 	char text[] =
@@ -967,7 +967,7 @@ TEST_F(BracketsLinuxSharpF, LongOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsLinuxSharpF, ShortOption)
+TEST_F(BracesLinuxSharpF, ShortOption)
 {
 	// test linux brackets short option
 	char text[] =
@@ -1004,7 +1004,7 @@ TEST_F(BracketsLinuxSharpF, ShortOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsLinuxSharpF, Namespace)
+TEST_F(BracesLinuxSharpF, Namespace)
 {
 	// test linux brackets option, with indented namespace
 	char text[] =
@@ -1041,7 +1041,7 @@ TEST_F(BracketsLinuxSharpF, Namespace)
 	delete[] textOut;
 }
 
-TEST_F(BracketsLinuxSharpF, BreakClosing)
+TEST_F(BracesLinuxSharpF, BreakClosing)
 {
 	// test linux brackets option, with break closing brackets
 	char text[] =
@@ -1079,7 +1079,7 @@ TEST_F(BracketsLinuxSharpF, BreakClosing)
 	delete[] textOut;
 }
 
-TEST(BracketsLinuxSharp, EmptyBrackets)
+TEST(BracesLinuxSharp, EmptyBraces)
 {
 	// test linux brackets option
 	char textIn[] =
@@ -1107,7 +1107,7 @@ TEST(BracketsLinuxSharp, EmptyBrackets)
 	delete[] textOut;
 }
 
-TEST(BracketsLinuxSharp, EmptyBracketsWithComments)
+TEST(BracesLinuxSharp, EmptyBracesWithComments)
 {
 	// test linux brackets option with ending comments
 	char textIn[] =
@@ -1135,7 +1135,7 @@ TEST(BracketsLinuxSharp, EmptyBracketsWithComments)
 	delete[] textOut;
 }
 
-TEST(BracketsLinuxSharp, Break)
+TEST(BracesLinuxSharp, Break)
 {
 	// test linux brackets option with broken brackets
 	char textIn[] =
@@ -1165,7 +1165,7 @@ TEST(BracketsLinuxSharp, Break)
 	delete[] textOut;
 }
 
-TEST(BracketsLinuxSharp, Attach)
+TEST(BracesLinuxSharp, Attach)
 {
 	// test linux brackets option with attached brackets
 	char textIn[] =
@@ -1191,7 +1191,7 @@ TEST(BracketsLinuxSharp, Attach)
 	delete[] textOut;
 }
 
-TEST(BracketsLinuxSharp, Linux)
+TEST(BracesLinuxSharp, Linux)
 {
 	// test linux brackets option with linux brackets
 	char text[] =
@@ -1209,7 +1209,7 @@ TEST(BracketsLinuxSharp, Linux)
 	delete[] textOut;
 }
 
-TEST(BracketsLinuxSharp, RunIn)
+TEST(BracesLinuxSharp, RunIn)
 {
 	// test linux brackets option with run-in brackets
 	char textIn[] =
@@ -1236,7 +1236,7 @@ TEST(BracketsLinuxSharp, RunIn)
 	delete[] textOut;
 }
 
-TEST(BracketsLinuxSharp, Formatting)
+TEST(BracesLinuxSharp, Formatting)
 {
 	// test linux brackets option, for non-function top level objects
 	// brackets are attached for arrays, structs, and other top level objects
@@ -1286,7 +1286,7 @@ TEST(BracketsLinuxSharp, Formatting)
 	delete[] textOut;
 }
 
-TEST(BracketsLinuxSharp, NestedNamespace)
+TEST(BracesLinuxSharp, NestedNamespace)
 {
 	// test nested namespaces with linux brackets
 	char text[] =
@@ -1315,15 +1315,15 @@ TEST(BracketsLinuxSharp, NestedNamespace)
 }
 
 //-------------------------------------------------------------------------
-// AStyle C# Stroustrup Bracket Options
+// AStyle C# Stroustrup Brace Options
 //-------------------------------------------------------------------------
 
-struct BracketsStroustrupSharpF : public Test
+struct BracesStroustrupSharpF : public Test
 {
 	string textStr;
 	const char* textIn;
 
-	BracketsStroustrupSharpF()
+	BracesStroustrupSharpF()
 	{
 		textStr =
 		    "\nnamespace FooName\n"
@@ -1355,7 +1355,7 @@ struct BracketsStroustrupSharpF : public Test
 	}
 };
 
-TEST_F(BracketsStroustrupSharpF, LongOption)
+TEST_F(BracesStroustrupSharpF, LongOption)
 {
 	// test stroustrup brackets option
 	char text[] =
@@ -1389,7 +1389,7 @@ TEST_F(BracketsStroustrupSharpF, LongOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsStroustrupSharpF, ShortOption)
+TEST_F(BracesStroustrupSharpF, ShortOption)
 {
 	// test stroustrup brackets short option
 	char text[] =
@@ -1423,7 +1423,7 @@ TEST_F(BracketsStroustrupSharpF, ShortOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsStroustrupSharpF, Namespace)
+TEST_F(BracesStroustrupSharpF, Namespace)
 {
 	// test stroustrup brackets option, with indented namespace
 	char text[] =
@@ -1457,7 +1457,7 @@ TEST_F(BracketsStroustrupSharpF, Namespace)
 	delete[] textOut;
 }
 
-TEST_F(BracketsStroustrupSharpF, BreakClosing)
+TEST_F(BracesStroustrupSharpF, BreakClosing)
 {
 	// test stroustrup brackets option with break closing brackets
 	char text[] =
@@ -1492,7 +1492,7 @@ TEST_F(BracketsStroustrupSharpF, BreakClosing)
 	delete[] textOut;
 }
 
-TEST(BracketsStroustrupSharp, EmptyBrackets)
+TEST(BracesStroustrupSharp, EmptyBraces)
 {
 	// test stroustrup brackets option
 	char textIn[] =
@@ -1518,7 +1518,7 @@ TEST(BracketsStroustrupSharp, EmptyBrackets)
 	delete[] textOut;
 }
 
-TEST(BracketsStroustrupSharp, EmptyBracketsWithComments)
+TEST(BracesStroustrupSharp, EmptyBracesWithComments)
 {
 	// test stroustrup brackets option with ending comments
 	char textIn[] =
@@ -1544,7 +1544,7 @@ TEST(BracketsStroustrupSharp, EmptyBracketsWithComments)
 	delete[] textOut;
 }
 
-TEST(BracketsStroustrupSharp, Formatting)
+TEST(BracesStroustrupSharp, Formatting)
 {
 	// test stroustrup brackets option, for non-function top level objects
 	// brackets are attached for arrays, structs, and other top level objects
@@ -1592,7 +1592,7 @@ TEST(BracketsStroustrupSharp, Formatting)
 	delete[] textOut;
 }
 
-TEST(BracketsStroustrupSharp, NestedNamespace)
+TEST(BracesStroustrupSharp, NestedNamespace)
 {
 	// test nested namespaces with stroustrup brackets
 	char text[] =
@@ -1615,15 +1615,15 @@ TEST(BracketsStroustrupSharp, NestedNamespace)
 }
 
 //-------------------------------------------------------------------------
-// AStyle C# RunIn Bracket Options
+// AStyle C# RunIn Brace Options
 //-------------------------------------------------------------------------
 
-struct BracketsRunInSharpF : public Test
+struct BracesRunInSharpF : public Test
 {
 	string textStr;
 	const char* textIn;
 
-	BracketsRunInSharpF()
+	BracesRunInSharpF()
 	{
 		textStr =
 		    "\nnamespace FooName\n"
@@ -1655,7 +1655,7 @@ struct BracketsRunInSharpF : public Test
 	}
 };
 
-TEST_F(BracketsRunInSharpF, LongOption)
+TEST_F(BracesRunInSharpF, LongOption)
 {
 	// test run-in brackets option
 	char text[] =
@@ -1690,7 +1690,7 @@ TEST_F(BracketsRunInSharpF, LongOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsRunInSharpF, ShortOption)
+TEST_F(BracesRunInSharpF, ShortOption)
 {
 	// test run-in brackets short option
 	char text[] =
@@ -1725,7 +1725,7 @@ TEST_F(BracketsRunInSharpF, ShortOption)
 	delete[] textOut;
 }
 
-TEST_F(BracketsRunInSharpF, Namespace)
+TEST_F(BracesRunInSharpF, Namespace)
 {
 	// test run-in brackets option, with indented namespace
 	char text[] =
@@ -1760,7 +1760,7 @@ TEST_F(BracketsRunInSharpF, Namespace)
 	delete[] textOut;
 }
 
-TEST(BracketsRunInSharp, EmptyBrackets)
+TEST(BracesRunInSharp, EmptyBraces)
 {
 	// test run-in brackets option
 	char textIn[] =
@@ -1786,7 +1786,7 @@ TEST(BracketsRunInSharp, EmptyBrackets)
 	delete[] textOut;
 }
 
-TEST(BracketsRunInSharp, EmptyBracketsWithComments)
+TEST(BracesRunInSharp, EmptyBracesWithComments)
 {
 	// test run-in brackets option with ending comments
 	char textIn[] =
@@ -1812,7 +1812,7 @@ TEST(BracketsRunInSharp, EmptyBracketsWithComments)
 	delete[] textOut;
 }
 
-TEST(BracketsRunInSharp, Break)
+TEST(BracesRunInSharp, Break)
 {
 	// test run-in brackets option with broken brackets
 	char textIn[] =
@@ -1842,7 +1842,7 @@ TEST(BracketsRunInSharp, Break)
 	delete[] textOut;
 }
 
-TEST(BracketsRunInSharp, Attach)
+TEST(BracesRunInSharp, Attach)
 {
 	// test run-in brackets option with attached brackets
 	char textIn[] =
@@ -1868,7 +1868,7 @@ TEST(BracketsRunInSharp, Attach)
 	delete[] textOut;
 }
 
-TEST(BracketsRunInSharp, Linux)
+TEST(BracesRunInSharp, Linux)
 {
 	// test break brackets option with linux brackets
 	char textIn[] =
@@ -1895,7 +1895,7 @@ TEST(BracketsRunInSharp, Linux)
 	delete[] textOut;
 }
 
-TEST(BracketsRunInSharp, RunIn)
+TEST(BracesRunInSharp, RunIn)
 {
 	// test break brackets option with run-in brackets
 	char text[] =
@@ -1914,15 +1914,15 @@ TEST(BracketsRunInSharp, RunIn)
 }
 
 //-------------------------------------------------------------------------
-// AStyle C# Other Bracket Options
+// AStyle C# Other Brace Options
 //-------------------------------------------------------------------------
 
-struct BracketsOtherSharpF : public Test
+struct BracesOtherSharpF : public Test
 {
 	string textStr;
 	const char* textIn;
 
-	BracketsOtherSharpF()
+	BracesOtherSharpF()
 	{
 		textStr =
 		    "\nnamespace FooName\n"
@@ -1954,7 +1954,7 @@ struct BracketsOtherSharpF : public Test
 	}
 };
 
-TEST_F(BracketsOtherSharpF, IndentClasses)
+TEST_F(BracesOtherSharpF, IndentClasses)
 {
 	// indent classes should NOT affect C# formatting
 	char options[] = "indent-classes, keep-one-line-blocks, mode=cs";
@@ -1963,7 +1963,7 @@ TEST_F(BracketsOtherSharpF, IndentClasses)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherSharp, ClassContinuation_Attached)
+TEST(BracesOtherSharp, ClassContinuation_Attached)
 {
 	// test with class continuation and attached brackets
 	char text[] =
@@ -1977,7 +1977,7 @@ TEST(BracketsOtherSharp, ClassContinuation_Attached)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherSharp, ClassContinuation_Broken)
+TEST(BracesOtherSharp, ClassContinuation_Broken)
 {
 	// test with class continuation and broken brackets
 	char text[] =
@@ -1992,7 +1992,7 @@ TEST(BracketsOtherSharp, ClassContinuation_Broken)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherSharp, Where)
+TEST(BracesOtherSharp, Where)
 {
 	// test a method that contains a where statement
 	// should be recognized as a block opener
@@ -2013,7 +2013,7 @@ TEST(BracketsOtherSharp, Where)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherSharp, WhereClass)
+TEST(BracesOtherSharp, WhereClass)
 {
 	// test a class that contains a where statement
 	char text[] =
@@ -2038,7 +2038,7 @@ TEST(BracketsOtherSharp, WhereClass)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherSharp, WhereClassClass)
+TEST(BracesOtherSharp, WhereClassClass)
 {
 	// test a class that contains a where statement, with two 'class' statements
 	char text[] =
@@ -2053,7 +2053,7 @@ TEST(BracketsOtherSharp, WhereClassClass)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherSharp, Accessors1)
+TEST(BracesOtherSharp, Accessors1)
 {
 	// test indent of getters and setters
 	char text[] =
@@ -2079,7 +2079,7 @@ TEST(BracketsOtherSharp, Accessors1)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherSharp, Accessors2)
+TEST(BracesOtherSharp, Accessors2)
 {
 	// test indent of getters and setters, with comments and empty lines
 	char text[] =
@@ -2107,7 +2107,7 @@ TEST(BracketsOtherSharp, Accessors2)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherSharp, NestedClass)
+TEST(BracesOtherSharp, NestedClass)
 {
 	// test interface with nested classes
 	char text[] =
@@ -2137,7 +2137,7 @@ TEST(BracketsOtherSharp, NestedClass)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherSharp, NestedNamespace)
+TEST(BracesOtherSharp, NestedNamespace)
 {
 	// test nested namespaces
 	char text[] =
@@ -2168,7 +2168,7 @@ TEST(BracketsOtherSharp, NestedNamespace)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherSharp, NestedNamespace_IndentNamespaces)
+TEST(BracesOtherSharp, NestedNamespace_IndentNamespaces)
 {
 	// test nested indented namespaces
 	char text[] =
@@ -2200,7 +2200,7 @@ TEST(BracketsOtherSharp, NestedNamespace_IndentNamespaces)
 }
 
 //-------------------------------------------------------------------------
-// AStyle C# Other Bracket Options
+// AStyle C# Other Brace Options
 //-------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
@@ -2478,7 +2478,7 @@ TEST(CsLambda, Set)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherSharp, NewOperator)
+TEST(BracesOtherSharp, NewOperator)
 {
 	// test new operator ending with })
 	char text[] =
@@ -2494,7 +2494,7 @@ TEST(BracketsOtherSharp, NewOperator)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherSharp, NewOperatorDelegate)
+TEST(BracesOtherSharp, NewOperatorDelegate)
 {
 	// Test new operator ending with }) that contains a delegate block.
 	// C# does a full indent of brackets within a paren.
@@ -2523,7 +2523,7 @@ TEST(BracketsOtherSharp, NewOperatorDelegate)
 	delete[] textOut;
 }
 
-TEST(BracketsOtherSharp, ReturnStatement)
+TEST(BracesOtherSharp, ReturnStatement)
 {
 	// test return statement ending with };
 	// }; should not have an in-statement indent.
@@ -2541,10 +2541,10 @@ TEST(BracketsOtherSharp, ReturnStatement)
 }
 
 //-------------------------------------------------------------------------
-// AStyle C# Array Bracket Options
+// AStyle C# Array Brace Options
 //-------------------------------------------------------------------------
 
-TEST(BracketsArraySharp, None_Comments)
+TEST(BracesArraySharp, None_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2560,7 +2560,7 @@ TEST(BracketsArraySharp, None_Comments)
 	delete[] textOut;
 }
 
-TEST(BracketsArraySharp, None_Misc1)
+TEST(BracesArraySharp, None_Misc1)
 {
 	// The following unusual C# array was badly formatted.
 	// It could be better but this is an improvement over what it was.
@@ -2596,7 +2596,7 @@ TEST(BracketsArraySharp, None_Misc1)
 	delete[] textOut;
 }
 
-TEST(BracketsArraySharp, Break_Comments)
+TEST(BracesArraySharp, Break_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2613,7 +2613,7 @@ TEST(BracketsArraySharp, Break_Comments)
 	delete[] textOut;
 }
 
-TEST(BracketsArraySharp, Break_Misc1)
+TEST(BracesArraySharp, Break_Misc1)
 {
 	// The following unusual C# array was badly formatted.
 	// It could be better but this is an improvement over what it was.
@@ -2650,7 +2650,7 @@ TEST(BracketsArraySharp, Break_Misc1)
 	delete[] textOut;
 }
 
-TEST(BracketsArraySharp, Attach_Comments)
+TEST(BracesArraySharp, Attach_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2666,7 +2666,7 @@ TEST(BracketsArraySharp, Attach_Comments)
 	delete[] textOut;
 }
 
-TEST(BracketsArraySharp, Attach_Misc1)
+TEST(BracesArraySharp, Attach_Misc1)
 {
 	// The following unusual C# array was badly formatted.
 	// It could be better but this is an improvement over what it was.
@@ -2703,7 +2703,7 @@ TEST(BracketsArraySharp, Attach_Misc1)
 	delete[] textOut;
 }
 
-TEST(BracketsArraySharp, RunIn_Comments)
+TEST(BracesArraySharp, RunIn_Comments)
 {
 	// comments preceding array entries should NOT break the line
 	char text[] =
@@ -2719,7 +2719,7 @@ TEST(BracketsArraySharp, RunIn_Comments)
 	delete[] textOut;
 }
 
-TEST(BracketsArraySharp, RunIn_Misc1)
+TEST(BracesArraySharp, RunIn_Misc1)
 {
 	// The following unusual C# array was badly formatted.
 	// It could be better but this is an improvement over what it was.
@@ -2753,7 +2753,7 @@ TEST(BracketsArraySharp, RunIn_Misc1)
 	delete[] textOut;
 }
 
-TEST(BracketsArraySharp, Enum)
+TEST(BracesArraySharp, Enum)
 {
 	// test enum formatting
 	// the enum bracket should be space padded and should not be broken
@@ -2774,11 +2774,11 @@ TEST(BracketsArraySharp, Enum)
 }
 
 //-------------------------------------------------------------------------
-// AStyle C# Array Bracket Non-In-Statement Options
+// AStyle C# Array Brace Non-In-Statement Options
 // Currently with C# some commands are handled as non-in-statement arrays
 //-------------------------------------------------------------------------
 
-TEST(BracketsArraySharp, InStatementIndentWithParenLineBegin)
+TEST(BracesArraySharp, InStatementIndentWithParenLineBegin)
 {
 	// a paren begins a line with an in-statement indent
 	char text[] =
@@ -2795,7 +2795,7 @@ TEST(BracketsArraySharp, InStatementIndentWithParenLineBegin)
 	delete[] textOut;
 }
 
-TEST(BracketsArraySharp, Clear_NonInStatementArray2)
+TEST(BracesArraySharp, Clear_NonInStatementArray2)
 {
 	// The isNonInStatementArray should be cleared before brackets are added.
 	// If not cleared the CreateDirectory line is wrong.
@@ -2820,7 +2820,7 @@ TEST(BracketsArraySharp, Clear_NonInStatementArray2)
 	delete[] textOut;
 }
 
-TEST(BracketsArraySharp, Clear_NonInStatementArray3)
+TEST(BracesArraySharp, Clear_NonInStatementArray3)
 {
 	// The isNonInStatementArray should be cleared before brackets are added.
 	// If not cleared the final in-statement indent will be wrong.
@@ -2838,7 +2838,7 @@ TEST(BracketsArraySharp, Clear_NonInStatementArray3)
 	delete[] textOut;
 }
 
-TEST(BracketsArraySharp, Clear_NonInStatementArray4)
+TEST(BracesArraySharp, Clear_NonInStatementArray4)
 {
 	// The isNonInStatementArray should be cleared before brackets are added.
 	// If not cleared the last two lines will be wrong.

@@ -1099,7 +1099,7 @@ TEST(MaxCodeLength, ParenBreak5)
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, BlockParenBreak1)
+TEST(MaxCodeLength, SquareBracketBreak1)
 {
 	// Max code length should not break before an opening or closing block paren.
 	char textIn[] =
@@ -1119,7 +1119,7 @@ TEST(MaxCodeLength, BlockParenBreak1)
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, BlockParenBreak2)
+TEST(MaxCodeLength, SquareBracketBreak2)
 {
 	// Max code length should not break before an
 	// opening or closing block paren within a padded block.
@@ -1722,8 +1722,8 @@ TEST(MaxCodeLength, AlignPointerToType3)
 
 TEST(MaxCodeLength, AddBrackets2)
 {
-	// Test max code length with add-brackets.
-	// Should break line when add-brackets is used.
+	// Test max code length with add-braces.
+	// Should break line when add-braces is used.
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -1738,7 +1738,7 @@ TEST(MaxCodeLength, AddBrackets2)
 	    "                     _(\"(Maybe the file is write-protected?\"));\n"
 	    "    }\n"
 	    "}";
-	char options[] = "max-code-length=50, add-brackets";
+	char options[] = "max-code-length=50, add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1746,7 +1746,7 @@ TEST(MaxCodeLength, AddBrackets2)
 
 TEST(MaxCodeLength, AddBrackets3)
 {
-	// Test max code length with add-brackets.
+	// Test max code length with add-braces.
 	// Should NOT break on the space padding following an added bracket.
 	// This will add an empty line after the conditional.
 	char textIn[] =
@@ -1762,7 +1762,7 @@ TEST(MaxCodeLength, AddBrackets3)
 	    "        AnalyseLine(language);\n"
 	    "    }\n"
 	    "}";
-	char options[] = "max-code-length=50, add-brackets";
+	char options[] = "max-code-length=50, add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1770,7 +1770,7 @@ TEST(MaxCodeLength, AddBrackets3)
 
 TEST(MaxCodeLength, AddBrackets4)
 {
-	// Test max code length with add-brackets.
+	// Test max code length with add-braces.
 	// Should NOT break on the comma following the number 1.
 	// This will leave a long line that will break on a subsequent run.
 	// It should adjust the break point to the highest space split point.
@@ -1788,7 +1788,7 @@ TEST(MaxCodeLength, AddBrackets4)
 	    "                            2);    // skip outmost single-quotes\n"
 	    "    }\n"
 	    "}";
-	char options[] = "max-code-length=50, add-brackets";
+	char options[] = "max-code-length=50, add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1796,7 +1796,7 @@ TEST(MaxCodeLength, AddBrackets4)
 
 TEST(MaxCodeLength, AddBrackets5)
 {
-	// Test max code length with add-brackets.
+	// Test max code length with add-braces.
 	// Should break the brackets.
 	// See the following test for this condition with keep-one-line-blocks.
 	char textIn[] =
@@ -1819,7 +1819,7 @@ TEST(MaxCodeLength, AddBrackets5)
 	    "        bst = bstNone;\n"
 	    "    }\n"
 	    "}";
-	char options[] = "max-code-length=50, add-brackets";
+	char options[] = "max-code-length=50, add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1827,7 +1827,7 @@ TEST(MaxCodeLength, AddBrackets5)
 
 TEST(MaxCodeLength, AddBrackets6)
 {
-	// Test max code length with add-brackets and keep-one-line-blocks.
+	// Test max code length with add-braces and keep-one-line-blocks.
 	// Should break the brackets.
 	// See the previous test for this condition without keep-one-line-blocks.
 	char textIn[] =
@@ -1844,16 +1844,16 @@ TEST(MaxCodeLength, AddBrackets6)
 	    "    else if (event.GetId() == idCBSortByKind) { bst = bstKind; }\n"
 	    "    else { bst = bstNone; }\n"
 	    "}";
-	char options[] = "max-code-length=50, add-brackets, keep-one-line-blocks";
+	char options[] = "max-code-length=50, add-braces, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, AddOneLineBrackets)
+TEST(MaxCodeLength, AddOneLineBraces)
 {
-	// Test max code length with add-one-line-brackets.
-	// Should NOT break line when add-one-line-brackets is used.
+	// Test max code length with add-one-line-braces.
+	// Should NOT break line when add-one-line-braces is used.
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -1866,7 +1866,7 @@ TEST(MaxCodeLength, AddOneLineBrackets)
 	    "    if(!ret)\n"
 	    "    { cbMessageBox(_(\"Couldn't save workspace \") + _(\"(Maybe the file is write-protected?\")); }\n"
 	    "}";
-	char options[] = "max-code-length=50, add-one-line-brackets";
+	char options[] = "max-code-length=50, add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;

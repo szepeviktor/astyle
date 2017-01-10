@@ -231,7 +231,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLib.lib;gtest.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -262,7 +262,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLib.lib;gtest.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -281,10 +281,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\AStyleTest_AlignPointer.cpp" />
-    <ClCompile Include="..\..\..\src\AStyleTest_BracketsCpp1.cpp" />
-    <ClCompile Include="..\..\..\src\AStyleTest_BracketsCpp2.cpp" />
-    <ClCompile Include="..\..\..\src\AStyleTest_BracketsJava.cpp" />
-    <ClCompile Include="..\..\..\src\AStyleTest_BracketsSharp.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_BracesCpp1.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_BracesCpp2.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_BracesJava.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_BracesSharp.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_BugFix.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Format.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Indent.cpp" />
