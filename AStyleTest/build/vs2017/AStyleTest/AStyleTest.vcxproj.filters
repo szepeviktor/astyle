@@ -24,18 +24,6 @@
     <ClCompile Include="..\..\..\src\AStyleTest_AlignPointer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\AStyleTest_BracketsCpp1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\AStyleTest_BracketsCpp2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\AStyleTest_BracketsJava.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\AStyleTest_BracketsSharp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\AStyleTest_BugFix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -73,6 +61,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\AStyleTest_Tabs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AStyleTest_BracesCpp1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AStyleTest_BracesCpp2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AStyleTest_BracesJava.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AStyleTest_BracesSharp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

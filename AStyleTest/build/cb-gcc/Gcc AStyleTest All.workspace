@@ -2,20 +2,20 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Gcc AStyleTest All">
 		<Project filename="Gcc AStyleTest.cbp">
-			<Depends filename="Gcc GMock A.cbp" />
+			<Depends filename="Gcc GMock So.cbp" />
 		</Project>
 		<Project filename="Gcc AStyleTestCon.cbp">
-			<Depends filename="Gcc GMock A.cbp" />
+			<Depends filename="Gcc GMock So.cbp" />
 		</Project>
 		<Project filename="Gcc AStyleTestI18n.cbp">
-			<Depends filename="Gcc GMock A.cbp" />
+			<Depends filename="Gcc GMock So.cbp" />
 		</Project>
 		<Project filename="Gcc AStyleTestLib.cbp">
-			<Depends filename="Gcc GMock A.cbp" />
+			<Depends filename="Gcc GMock So.cbp" />
 		</Project>
 		<Project filename="Gcc AStyleTestLoc.cbp">
-			<Depends filename="Gcc GMock A.cbp" />
+			<Depends filename="Gcc GMock So.cbp" />
 		</Project>
-		<Project filename="Gcc GMock A.cbp" />
+		<Project filename="Gcc GMock So.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

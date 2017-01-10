@@ -123,6 +123,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleConLibd.lib;gmockd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -146,6 +147,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleConLibd.lib;gmockd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -214,6 +216,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleConLibd.lib;gmockd.lib;vld.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -239,6 +242,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleConLibd.lib;gmockd.lib;vld.lib;%(AdditionalDependencies)</AdditionalDependencies>

@@ -13,8 +13,19 @@
 				<Option compiler="gcc" />
 				<Option parameters="--terse_output" />
 				<Compiler>
+					<Add option="-Wnon-virtual-dtor" />
+					<Add option="-Wshadow" />
+					<Add option="-Winit-self" />
+					<Add option="-Wredundant-decls" />
+					<Add option="-Wcast-align" />
+					<Add option="-Wfloat-equal" />
+					<Add option="-Winline" />
+					<Add option="-Wunreachable-code" />
+					<Add option="-Wmissing-include-dirs" />
+					<Add option="-Wmain" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
@@ -37,8 +48,19 @@
 				<Option compiler="gcc" />
 				<Option parameters=" --gtest_print_time=0" />
 				<Compiler>
+					<Add option="-Wnon-virtual-dtor" />
+					<Add option="-Wshadow" />
+					<Add option="-Winit-self" />
+					<Add option="-Wredundant-decls" />
+					<Add option="-Wcast-align" />
+					<Add option="-Wfloat-equal" />
+					<Add option="-Winline" />
+					<Add option="-Wunreachable-code" />
+					<Add option="-Wmissing-include-dirs" />
+					<Add option="-Wmain" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add option="-DNDEBUG" />
@@ -62,8 +84,19 @@
 				<Option compiler="gcc" />
 				<Option parameters="--terse_output" />
 				<Compiler>
+					<Add option="-Wnon-virtual-dtor" />
+					<Add option="-Wshadow" />
+					<Add option="-Winit-self" />
+					<Add option="-Wredundant-decls" />
+					<Add option="-Wcast-align" />
+					<Add option="-Wfloat-equal" />
+					<Add option="-Winline" />
+					<Add option="-Wunreachable-code" />
+					<Add option="-Wmissing-include-dirs" />
+					<Add option="-Wmain" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-pg" />
 					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-fprofile-arcs" />

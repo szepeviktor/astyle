@@ -1076,7 +1076,7 @@ TEST(BreakBlocks, InMultiStatementLine2)
 	    "    else if ( Family == wxSCRIPT     ) { FamilyStr = _T(\"wxSCRIPT\"); }\n"
 	    "    else if ( Family == wxTELETYPE   ) { FamilyStr = _T(\"wxTELETYPE\"); }\n"
 	    "}";
-	char options[] = "break-blocks, break-closing-brackets, add-one-line-brackets";
+	char options[] = "break-blocks, break-closing-braces, add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2366,7 +2366,7 @@ TEST(PadOperator, Comments)
 	delete[] textOut;
 }
 
-TEST(PadOperator, BlockParens)
+TEST(PadOperator, SquareBrackets)
 {
 	// operators in block paren should be padded
 	// this was added in release 2.01
@@ -2400,7 +2400,7 @@ TEST(PadOperator, BlockParens)
 	delete[] textOut;
 }
 
-TEST(PadOperator, BlockParensSans)
+TEST(PadOperator, SquareBracketsSans)
 {
 	// dereference or address-of in block parens should NOT be padded
 	// this was added in release 2.01
@@ -3014,7 +3014,7 @@ TEST(PadParen, Template)
 	delete[] textOut;
 }
 
-TEST(PadParen, BlockParenSans)
+TEST(PadParen, SquareBracketSans)
 {
 	// do NOT pad a closing paren followed by a block paren ")]"
 	char textIn[] =

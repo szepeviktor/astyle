@@ -69,7 +69,7 @@ utf16_t* utf8ToWideChar(const char* utf8In)
 // WINDOWS convert 8 bit utf-8 string to wide char string (16 bit)
 // The calling program must delete the returned allocation.
 {
-	size_t wcLen = MultiByteToWideChar(CP_UTF8, 0, utf8In, -1, NULL, 0);
+	size_t wcLen = MultiByteToWideChar(CP_UTF8, 0, utf8In, -1, nullptr, 0);
 	if (!wcLen)
 		systemAbort("Bad MultiByteToWideChar in Utf8ToWideCharStr()");
 	wchar_t* wcOut = new wchar_t[wcLen];
@@ -82,11 +82,11 @@ char* wideCharToUtf8(utf16_t* utf16In)
 // The calling program must delete the returned allocation.
 {
 	wchar_t* wcIn = reinterpret_cast<wchar_t*>(utf16In);
-	size_t mbLen = WideCharToMultiByte(CP_UTF8, 0, wcIn, -1, NULL, 0, NULL, 0);
+	size_t mbLen = WideCharToMultiByte(CP_UTF8, 0, wcIn, -1, nullptr, 0, nullptr, 0);
 	if (!mbLen)
 		systemAbort("Bad WideCharToMultiByte in WideCharToUtf8Str()");
 	char* mbOut = new char[mbLen];
-	WideCharToMultiByte(CP_UTF8, 0, wcIn, -1, mbOut, mbLen, NULL, 0);
+	WideCharToMultiByte(CP_UTF8, 0, wcIn, -1, mbOut, mbLen, nullptr, 0);
 	return mbOut;
 }
 
@@ -103,7 +103,7 @@ utf16_t* utf8ToUtf16(char* utf8In)
 	// allocate memory for output
 	size_t wcLen = (mbLen * sizeof(utf16_t)) + sizeof(utf16_t);
 	char* wcOut = new (nothrow) char[wcLen];
-	if (wcOut == NULL)
+	if (wcOut == nullptr)
 		systemAbort("Bad allocation in utf8ToUtf16()");
 	// convert to utf-8
 	char* wcConv = wcOut;
@@ -140,7 +140,7 @@ char* utf16ToUtf8(utf16_t* utf16In)
 	// allocate memory for output
 	size_t mbLen = wcLen * sizeof(utf16_t);
 	char* mbOut = new (nothrow) char[mbLen];
-	if (mbOut == NULL)
+	if (mbOut == nullptr)
 		systemAbort("Bad allocation in utf16ToUtf8()");
 	// convert to utf-8
 	char* mbConv = mbOut;
@@ -184,8 +184,8 @@ struct AStyleMainF1 : public Test
 		    "}\n";
 		char options[] = "";
 		// initialize variables
-		text8 = NULL;
-		options8 = NULL;
+		text8 = nullptr;
+		options8 = nullptr;
 		// copy 8 bit values
 		size_t text8Len = strlen(text) + 1;
 		text8 = new char[text8Len];
@@ -206,38 +206,38 @@ TEST_F(AStyleMainF1, NullPointerToSource)
 {
 	// test error handling for NULL pointer to source
 	int errorsIn = getErrorHandler2Calls();
-	char* textOut = ::AStyleMain(NULL, options8, errorHandler2, memoryAlloc);
+	char* textOut = ::AStyleMain(nullptr, options8, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut == NULL);
+	EXPECT_TRUE(textOut == nullptr);
 }
 
 TEST_F(AStyleMainF1, NullPointerToOptions)
 {
 	// test error handling for NULL pointer to options
 	int errorsIn = getErrorHandler2Calls();
-	char* textOut = ::AStyleMain(text8, NULL, errorHandler2, memoryAlloc);
+	char* textOut = ::AStyleMain(text8, nullptr, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut == NULL);
+	EXPECT_TRUE(textOut == nullptr);
 }
 
 TEST_F(AStyleMainF1, NullPointerToErrorHandler)
 {
 	// test error handling for NULL error handler pointer
 	// this cannot call the error handler, EXPECT_TRUE only for NULL return
-	char* textOut = ::AStyleMain(text8, options8, NULL, memoryAlloc);
-	EXPECT_TRUE(textOut == NULL);
+	char* textOut = ::AStyleMain(text8, options8, nullptr, memoryAlloc);
+	EXPECT_TRUE(textOut == nullptr);
 }
 
 TEST_F(AStyleMainF1, NullPointerToMemoryAlloc)
 {
 	// test error handling for NULL memory allocation pointer
 	int errorsIn = getErrorHandler2Calls();
-	char* textOut = ::AStyleMain(text8, options8, errorHandler2, NULL);
+	char* textOut = ::AStyleMain(text8, options8, errorHandler2, nullptr);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut == NULL);
+	EXPECT_TRUE(textOut == nullptr);
 }
 
 TEST_F(AStyleMainF1, InvalidOption)
@@ -282,9 +282,9 @@ struct AStyleMainUtf16F1 : public Test
 		    "}\n";
 		char options[] = "";
 		// initialize variables
-		text16 = NULL;
-		options16 = NULL;
-		text8 = NULL;
+		text16 = nullptr;
+		options16 = nullptr;
+		text8 = nullptr;
 		// convert 16 bit
 		ASLibrary library;
 		text16 = library.convertUtf8ToUtf16(text, memoryAlloc);
@@ -307,38 +307,38 @@ TEST_F(AStyleMainUtf16F1, NullPointerToSource)
 {
 	// test error handling for NULL pointer to source
 	int errorsIn = getErrorHandler2Calls();
-	utf16_t* text16Out = ::AStyleMainUtf16(NULL, options16, errorHandler2, memoryAlloc);
+	utf16_t* text16Out = ::AStyleMainUtf16(nullptr, options16, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(text16Out == NULL);
+	EXPECT_TRUE(text16Out == nullptr);
 }
 
 TEST_F(AStyleMainUtf16F1, NullPointerToOptions)
 {
 	// test error handling for NULL pointer to options
 	int errorsIn = getErrorHandler2Calls();
-	utf16_t* text16Out = ::AStyleMainUtf16(text16, NULL, errorHandler2, memoryAlloc);
+	utf16_t* text16Out = ::AStyleMainUtf16(text16, nullptr, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(text16Out == NULL);
+	EXPECT_TRUE(text16Out == nullptr);
 }
 
 TEST_F(AStyleMainUtf16F1, NullPointerToErrorHandler)
 {
 	// test error handling for NULL pointer to error handler pointer
 	// this cannot call the error handler
-	utf16_t* text16Out = ::AStyleMainUtf16(text16, options16, NULL, memoryAlloc);
-	EXPECT_TRUE(text16Out == NULL);
+	utf16_t* text16Out = ::AStyleMainUtf16(text16, options16, nullptr, memoryAlloc);
+	EXPECT_TRUE(text16Out == nullptr);
 }
 
 TEST_F(AStyleMainUtf16F1, NullPointerToMemoryAlloc)
 {
 	// test error handling for NULL pointer to memory allocator
 	int errorsIn = getErrorHandler2Calls();
-	utf16_t* text16Out = ::AStyleMainUtf16(text16, options16, errorHandler2, NULL);
+	utf16_t* text16Out = ::AStyleMainUtf16(text16, options16, errorHandler2, nullptr);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(text16Out == NULL);
+	EXPECT_TRUE(text16Out == nullptr);
 }
 
 TEST_F(AStyleMainUtf16F1, InvalidOption)
@@ -387,13 +387,13 @@ TEST_F(AStyleMainUtf16F1, NullConvertSource)
 	// Test formatUtf16() error handling for source.
 	ASLibrary_Mock8 library;
 	EXPECT_CALL(library, convertUtf16ToUtf8(_))
-	.WillOnce(Return(static_cast<char*>(NULL)));
+	.WillOnce(Return(static_cast<char*>(nullptr)));
 	// test the error handling
 	int errorsIn = getErrorHandler2Calls();
 	utf16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_EQ(NULL, textOut);
+	EXPECT_EQ(nullptr, textOut);
 }
 
 TEST_F(AStyleMainUtf16F1, NullConvertOptions)
@@ -407,13 +407,13 @@ TEST_F(AStyleMainUtf16F1, NullConvertOptions)
 	InSequence s;			// the following returns must occur in sequence
 	EXPECT_CALL(library, convertUtf16ToUtf8(_))
 	.WillOnce(Return(utf8Formatted))
-	.WillOnce(Return(static_cast<char*>(NULL)));
+	.WillOnce(Return(static_cast<char*>(nullptr)));
 	// test the error handling
 	int errorsIn = getErrorHandler2Calls();
 	utf16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_EQ(NULL, textOut);
+	EXPECT_EQ(nullptr, textOut);
 }
 
 TEST_F(AStyleMainUtf16F1, NullConvertFormattedText)
@@ -422,13 +422,13 @@ TEST_F(AStyleMainUtf16F1, NullConvertFormattedText)
 	ASLibrary_Mock16 library;
 	// this method returns an error
 	EXPECT_CALL(library, convertUtf8ToUtf16(_, _))
-	.WillOnce(Return(static_cast<utf16_t*>(NULL)));
+	.WillOnce(Return(static_cast<utf16_t*>(nullptr)));
 	// test the error handling
 	int errorsIn = getErrorHandler2Calls();
 	utf16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_EQ(NULL, textOut);
+	EXPECT_EQ(nullptr, textOut);
 }
 
 //----------------------------------------------------------------------------
@@ -451,10 +451,10 @@ struct AStyleMainUtf16F2 : public Test
 	AStyleMainUtf16F2()
 	{
 		// initialize variables
-		text8 = NULL;
-		text16 = NULL;
+		text8 = nullptr;
+		text16 = nullptr;
 		text16Len = 0;
-		options16 = NULL;
+		options16 = nullptr;
 		options16Len = 0;
 		// set textOut variables
 		char textIn[] =

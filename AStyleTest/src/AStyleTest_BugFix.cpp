@@ -19,6 +19,47 @@ namespace {
 // AStyle version 2.06 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V30, PreprocDefineMemoryLeak1)
+{
+	// This caused a memory leak in version 2.06.
+	// If run in debug it will now cause an assert failure if it occurs.
+	// It was caused by the #define ending on an empty line.
+	char text[] =
+	    "\n"
+	    "#define TRACE_TO_FILE(msg)                      \\\n"
+	    "    if (g_EnableDebugTraceFile)                 \\\n"
+	    "        wxTextFile f(g_DebugTraceFile);         \\\n"
+	    "\n"
+	    "#define TRACE_THIS_TO_FILE(msg)                 \\\n"
+	    "    if (!g_DebugTraceFile.IsEmpty())            \\\n"
+	    "        wxTextFile f(g_DebugTraceFile);         \\\n"
+	    "\n";
+	char options[] = "indent-preproc-define";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V30, PreprocDefineMemoryLeak2)
+{
+	// This was mal-formatted when run WITHOUT indent-preproc-define.
+	// It was caused by the #define ending on an empty line.
+	char text[] =
+	    "\n"
+	    "#define TRACE_THIS_TO_FILE(msg)           \\\n"
+	    "    if (!g_DebugTraceFile.IsEmpty())      \\\n"
+	    "        cbAssert(f.Write() && f.Close()); \\\n"
+	    "\n"
+	    "CCLogger::CCLogger() :\n"
+	    "    m_Parent(nullptr),\n"
+	    "    m_AddTokenId(-1)\n"
+	    "{}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V206, StripBrokenBrackets)
 {
 	// The bracket broken fron should not have an ending space.
@@ -1213,7 +1254,7 @@ TEST(BugFix_V201, WhitesmithSingleLineArray)
 TEST(BugFix_V201, NotInTemplate)
 {
 	// The following statements were incorrectly flagged as templates.
-	// This caused add-brackets to attach the opening bracket in the wrong place.
+	// This caused add-braces to attach the opening bracket in the wrong place.
 	// The function checkIfTemplateOpener() was corrected.
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -1237,7 +1278,7 @@ TEST(BugFix_V201, NotInTemplate)
 	    "        }\n"
 	    "    }\n"
 	    "}";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2145,7 +2186,7 @@ TEST(BugFix_V201, ExtraClosingParens)
 	delete[] textOut;
 }
 
-TEST(BugFix_V201, ExtraClosingBlockParens)
+TEST(BugFix_V201, ExtraClosingSquareBrackets)
 {
 	// should not abort with extra closing block parens
 	char text[] =
@@ -2278,7 +2319,7 @@ TEST(BugFix_V124, AddBracketsRunInNestedIfStatements)
 	    "{   if (isBar1)\n"
 	    "        if (isBar2) { return true; }\n"
 	    "}\n";
-	char options[] = "add-brackets, style=horstmann, keep-one-line-blocks";
+	char options[] = "add-braces, style=horstmann, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;

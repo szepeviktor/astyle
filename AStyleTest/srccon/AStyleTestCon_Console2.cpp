@@ -64,7 +64,7 @@ struct GetFilePathsF : public Test
 TEST_F(GetFilePathsF, FilePaths1)
 // test fileName vector and getFilePaths with *.cpp
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -82,7 +82,7 @@ TEST_F(GetFilePathsF, FilePaths1)
 TEST_F(GetFilePathsF, FilePaths2)
 // test fileName vector and getFilePaths with *.c??
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -100,7 +100,7 @@ TEST_F(GetFilePathsF, FilePaths2)
 TEST_F(GetFilePathsF, FilePaths3)
 // test fileName vector and getFilePaths with getFilePaths*.cpp
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -119,7 +119,7 @@ TEST_F(GetFilePathsF, FilePaths4)
 // test fileName vector and getFilePaths with *.c*
 // * at the end WITH remaining data allows complete coverage of wildcmp function
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -138,7 +138,7 @@ TEST_F(GetFilePathsF, FilePaths5)
 // test fileName vector and getFilePaths with *.cpp*
 // * at the end WITHOUT remaining data allows complete coverage of wildcmp function
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -156,7 +156,7 @@ TEST_F(GetFilePathsF, FilePaths5)
 TEST_F(GetFilePathsF, FilePathsError)
 // test fileName vector and getFilePaths with bad file path
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -186,7 +186,7 @@ TEST_F(GetFilePathsF, FilePathsError)
 TEST_F(GetFilePathsF, FilePathsErrorRecursive)
 // test fileName vector and getFilePaths with bad file path using recursive option
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setIsRecursive(true);
 	// call astyle processOptions()
@@ -216,7 +216,7 @@ TEST_F(GetFilePathsF, FilePathsErrorRecursive)
 TEST_F(GetFilePathsF, FilePathsErrorSansFilename)
 // test fileName vector and getFilePaths with no filename and no recursive option
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/");	// no file
@@ -244,7 +244,7 @@ TEST_F(GetFilePathsF, FilePathsErrorSansFilename)
 TEST_F(GetFilePathsF, FilePathsErrorRecursiveSansWildcard)
 // test fileName vector and getFilePaths with recursive option and no wildcard
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setIsRecursive(true);
 	vector<string> astyleOptionsVector;
@@ -276,7 +276,7 @@ TEST_F(GetFilePathsF, FilePathsErrorRecursiveSansWildcard)
 TEST_F(GetFilePathsF, FilePathsErrorInDirectoryName)
 // test fileName vector and getFilePaths with a non-existant directory
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setIsRecursive(true);
 	vector<string> astyleOptionsVector;
@@ -342,7 +342,7 @@ struct GetFileTypeF : public Test
 TEST_F(GetFileTypeF, FileTypeC)
 // test getFileType with *.cpp
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -357,7 +357,7 @@ TEST_F(GetFileTypeF, FileTypeC)
 TEST_F(GetFileTypeF, FileTypeJava)
 // test getFileType with *.java
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -372,7 +372,7 @@ TEST_F(GetFileTypeF, FileTypeJava)
 TEST_F(GetFileTypeF, FileTypeSharp)
 // test getFileType with *.cs
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -387,7 +387,7 @@ TEST_F(GetFileTypeF, FileTypeSharp)
 TEST_F(GetFileTypeF, FileTypeError)
 // test getFileType with an invalid type, should return C_TYPE
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -438,7 +438,7 @@ struct LanguageVectorsF : public Test
 TEST_F(LanguageVectorsF, FileTypeC)
 // Test the language vector setting with *.cpp.
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// verify initial setting
 	EXPECT_EQ(9, formatter.getFormatterFileType());
@@ -455,7 +455,7 @@ TEST_F(LanguageVectorsF, FileTypeC)
 TEST_F(LanguageVectorsF, FileTypeJava)
 // Test the language vector setting with *.java.
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// verify initial setting
 	EXPECT_EQ(9, formatter.getFormatterFileType());
@@ -472,7 +472,7 @@ TEST_F(LanguageVectorsF, FileTypeJava)
 TEST_F(LanguageVectorsF, FileTypeSharp)
 // Test the language vector setting with *.cs.
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// verify initial setting
 	EXPECT_EQ(9, formatter.getFormatterFileType());
@@ -597,7 +597,7 @@ struct RecursiveF : public Test
 TEST_F(RecursiveF, Default)
 // test recursive option
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setIsRecursive(true);
 	// call astyle processOptions()
@@ -616,7 +616,7 @@ TEST_F(RecursiveF, Default)
 TEST_F(RecursiveF, Sans)
 // test *.cpp WITHOUT recursive
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setIsRecursive(false);
 	// call astyle processOptions()
@@ -649,7 +649,7 @@ TEST_F(RecursiveF, Sans)
 TEST_F(RecursiveF, Exclude)
 // test recursive option with exclude
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setIsRecursive(true);
 	// call astyle processOptions()
@@ -679,7 +679,7 @@ TEST_F(RecursiveF, Exclude)
 TEST_F(RecursiveF, ExcludeErrors)
 // test recursive option with unmatched excludes
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -705,7 +705,7 @@ TEST_F(RecursiveF, ExcludeErrors)
 TEST_F(RecursiveF, ExcludeErrorsRecursive)
 // test recursive option with unmatched excludes and recursive option
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setIsRecursive(true);
 	// call astyle processOptions()
@@ -731,7 +731,7 @@ TEST_F(RecursiveF, ExcludeErrorsRecursive)
 TEST_F(RecursiveF, HiddenFiles)
 // test recursive option with hidden files
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setIsRecursive(true);
 	// write the hidden files
@@ -820,7 +820,7 @@ TEST_F(DryRunF, DryRunTest)
 // Test dry-run option.
 // Backup files should NOT be created.
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	g_console->setIsDryRun(true);
 	// set the formatter options
@@ -850,7 +850,7 @@ TEST_F(DryRunF, DryRunSans)
 // Test without dry-run option.
 // Backup files should be created.
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// set the formatter options
 	vector<string> astyleOptionsVector;
@@ -941,7 +941,7 @@ struct LineEndsFormattedF : public Test
 TEST_F(LineEndsFormattedF, LineEndWindows)
 // test if lineend=windows formats the file
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -961,7 +961,7 @@ TEST_F(LineEndsFormattedF, LineEndWindows)
 TEST_F(LineEndsFormattedF, LineEndLinux)
 // test if lineend=linux formats the file
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -981,7 +981,7 @@ TEST_F(LineEndsFormattedF, LineEndLinux)
 TEST_F(LineEndsFormattedF, LineEndMacOld)
 // test if lineend=macold formats the file
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -1064,7 +1064,7 @@ struct LineEndsUnchangedF : public Test
 TEST_F(LineEndsUnchangedF, LineEndWindows)
 // test if lineend=windows leaves the file unchanged
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -1084,7 +1084,7 @@ TEST_F(LineEndsUnchangedF, LineEndWindows)
 TEST_F(LineEndsUnchangedF, LineEndLinux)
 // test if lineend=linux leaves the file unchanged
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -1104,7 +1104,7 @@ TEST_F(LineEndsUnchangedF, LineEndLinux)
 TEST_F(LineEndsUnchangedF, LineEndMacOld)
 // test if lineend=macold leaves the file unchanged
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -1187,7 +1187,7 @@ struct LineEndsDefaultF : public Test
 TEST_F(LineEndsDefaultF, LineEndWindows)
 // test if default line end leaves a windows file unchanged
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -1206,7 +1206,7 @@ TEST_F(LineEndsDefaultF, LineEndWindows)
 TEST_F(LineEndsDefaultF, LineEndLinux)
 // test if default line end leaves a linux file unchanged
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -1225,7 +1225,7 @@ TEST_F(LineEndsDefaultF, LineEndLinux)
 TEST_F(LineEndsDefaultF, LineEndMacOld)
 // test if default line end leaves a macold file unchanged
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -1310,7 +1310,7 @@ struct LineEndsDefaultMixedF : public Test
 TEST_F(LineEndsDefaultMixedF, LineEndWindows)
 // test if default line ends outputs windows line ends by calling convertLineEnds()
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -1333,7 +1333,7 @@ TEST_F(LineEndsDefaultMixedF, LineEndWindows)
 TEST_F(LineEndsDefaultMixedF, LineEndLinux)
 // test if default line ends outputs linux line ends by calling convertLineEnds()
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -1356,7 +1356,7 @@ TEST_F(LineEndsDefaultMixedF, LineEndLinux)
 TEST_F(LineEndsDefaultMixedF, LineEndMacOld)
 // test if default line ends outputs linux line ends by calling convertLineEnds()
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -1442,7 +1442,7 @@ struct LineEndsDefaultMixedSansF : public Test
 TEST_F(LineEndsDefaultMixedSansF, LineEndWindows)
 // test if default line ends outputs windows line ends without calling convertLineEnds()
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -1465,7 +1465,7 @@ TEST_F(LineEndsDefaultMixedSansF, LineEndWindows)
 TEST_F(LineEndsDefaultMixedSansF, LineEndLinux)
 // test if default line ends outputs linux line ends without calling convertLineEnds()
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -1488,7 +1488,7 @@ TEST_F(LineEndsDefaultMixedSansF, LineEndLinux)
 TEST_F(LineEndsDefaultMixedSansF, LineEndMacOld)
 // test if default line ends outputs linux line ends without calling convertLineEnds()
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;

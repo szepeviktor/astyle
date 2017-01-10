@@ -108,7 +108,7 @@ struct ProcessUtf32F : public Test
 TEST_F(ProcessUtf32F, Utf32LE_Abort)
 // test rejection of UTF-32 files
 {
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
 	// initialize variables
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
@@ -136,7 +136,7 @@ TEST_F(ProcessUtf32F, Utf32LE_Abort)
 TEST_F(ProcessUtf32F, Utf32BE_Abort)
 // test rejection of UTF-32 files
 {
-	ASSERT_TRUE(g_console != NULL) << "Console object not initialized.";
+	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
 	// initialize variables
 	g_console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()

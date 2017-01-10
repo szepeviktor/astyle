@@ -19,6 +19,7 @@
 					<Add option="-g" />
 					<Add option="-fno-exceptions" />
 					<Add option="-Wextra" />
+					<Add option="-std=c++11" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DASTYLE_LIB" />
 					<Add directory="../../src" />
@@ -43,6 +44,7 @@
 					<Add option="-w2" />
 					<Add option="-fno-exceptions" />
 					<Add option="-extra" />
+					<Add option="-std=c++11" />
 					<Add option="-wd11074,11076" />
 					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DASTYLE_LIB" />

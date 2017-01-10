@@ -201,12 +201,12 @@ void displayLastError()
 	DWORD lastError = GetLastError();
 	FormatMessage(
 	    FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-	    NULL,
+	    nullptr,
 	    lastError,
 	    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),  // Default language
 	    (LPSTR) &msgBuf,
 	    0,
-	    NULL
+	    nullptr
 	);
 	// Display the string.
 	cout << "Error (" << lastError << ") " << msgBuf << endl;
@@ -228,7 +228,7 @@ void retryCreateDirectory(const string& directory)
 	for (size_t seconds = 1; seconds <= 5; seconds++)
 	{
 		sleep(1);
-		BOOL ok = ::CreateDirectory(directory.c_str(), NULL);
+		BOOL ok = ::CreateDirectory(directory.c_str(), nullptr);
 		if (ok || GetLastError() == ERROR_ALREADY_EXISTS)
 		{
 //			cout << "create retry: " << seconds << " seconds" << endl;
@@ -288,7 +288,7 @@ void cleanTestDirectory(const string& directory)
 		ASTYLE_ABORT(string(strerror(errno))
 		             + "\nCannot open directory for clean: " + directory);
 	// remove files and sub directories
-	while ((entry = readdir(dp)) != NULL)
+	while ((entry = readdir(dp)) != nullptr)
 	{
 		// get file status
 		string entryFilepath = directory + '/' + entry->d_name;
@@ -324,11 +324,6 @@ void cleanTestDirectory(const string& directory)
 		             + "\nError processing directory for clean: " + directory);
 }
 
-void displayLastError()
-// LINUX does nothing, for Windows messages only
-{
-}
-
 void removeTestDirectory(const string& dirName)
 // LINUX remove a test directory
 {
@@ -342,12 +337,12 @@ wstring convertToWideChar(const string& mbStr)
 // convert multibyte to wchar_t using the currently assigned locale
 {
 	// get length of the output excluding the NULL and validate the parameters
-	size_t wcLen = mbstowcs(NULL, mbStr.c_str(), 0);
+	size_t wcLen = mbstowcs(nullptr, mbStr.c_str(), 0);
 	if (wcLen == string::npos)
 		ASTYLE_ABORT("Bad char in multi-byte string");
 	// convert the characters
 	wchar_t* wcStr = new (nothrow) wchar_t[wcLen + 1];
-	if (wcStr == NULL)
+	if (wcStr == nullptr)
 		ASTYLE_ABORT("Bad memory alloc for wide character string");
 	mbstowcs(wcStr, mbStr.c_str(), wcLen + 1);
 	// return the string
@@ -371,7 +366,7 @@ void createTestDirectory(const string& dirPath)
 // create a test directory
 {
 #ifdef _WIN32
-	BOOL ok = ::CreateDirectory(dirPath.c_str(), NULL);
+	BOOL ok = ::CreateDirectory(dirPath.c_str(), nullptr);
 	if (!ok && GetLastError() != ERROR_ALREADY_EXISTS)
 		retryCreateDirectory(dirPath);
 #else
@@ -396,7 +391,9 @@ void createTestFile(const string& testFilePath, const char* testFileText, int si
 	ofstream fout(testFilePath.c_str(), ios::binary | ios::trunc);
 	if (!fout)
 	{
+#ifdef _WIN32
 		displayLastError();
+#endif
 		ASTYLE_ABORT("Cannot open output file: " + testFilePath);
 	}
 	if (size == 0)
@@ -410,7 +407,7 @@ void deleteConsoleGlobalObject()
 // deletes the g_console object
 {
 	delete g_console;
-	g_console = NULL;
+	g_console = nullptr;
 	// check global error display
 	if (_err != &cerr)
 		systemPause("_err ostream not replaced");
@@ -431,7 +428,7 @@ string getCurrentDirectory()
 		gotDirectory = false;
 #else
 	char* currdir = getenv("PWD");
-	if (currdir != NULL)
+	if (currdir != nullptr)
 		currentDirectory = currdir;
 	else
 		gotDirectory = false;
@@ -451,7 +448,7 @@ string getDefaultOptionsFilePath()
 	char* env = getenv("HOME");
 	char name[] = "/.astylerc";
 #endif
-	if (env == NULL)
+	if (env == nullptr)
 		systemAbort("Cannot get $HOME directory");
 	return string(env) + name;
 }
@@ -548,7 +545,7 @@ void setTestDirectory()
 #endif
 	// get replacement for environment variable
 	char* envPath = getenv(varName.c_str());
-	if (envPath == NULL)
+	if (envPath == nullptr)
 		ASTYLE_ABORT("Bad char in wide character string: " + envVar);
 	// replace the environment variable
 	size_t iEnv = g_testDirectory.find(envVar.c_str());

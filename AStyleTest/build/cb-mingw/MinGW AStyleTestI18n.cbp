@@ -16,6 +16,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-std=c++11" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />
@@ -37,6 +38,7 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../srccon" />
@@ -62,6 +64,7 @@
 					<Add option="-Wall" />
 					<Add option="-pg" />
 					<Add option="-g" />
+					<Add option="-std=c++11" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
 					<Add option="-DASTYLECON_LIB" />

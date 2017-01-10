@@ -126,12 +126,20 @@ void PrintF::adjustText(string& text)
 	// replace first line with version number and date
 	if (text.compare(0, 14, "Artistic Style") == 0)
 	{
-		size_t verStart = text.find("<version>");
+		string tagVersion = "<version>";
+		string tagDate = "<date>";
+		string replaceVersion = string(g_version);
+		size_t verStart = text.find(tagVersion);
+		size_t verEnd = verStart + replaceVersion.length();
 		if (verStart != string::npos)
-			text.replace(verStart, 9, string(g_version));
-		size_t dateStart = text.find("<date>");
+			text.replace(verStart, tagVersion.length(), replaceVersion);
+		if (replaceVersion.length() < tagVersion.length())
+			text.insert(verEnd, tagVersion.length() - replaceVersion.length(), ' ');
+		else if (replaceVersion.length() > tagVersion.length())
+			text.erase(verEnd, replaceVersion.length() - tagVersion.length());
+		size_t dateStart = text.find(tagDate);
 		if (dateStart != string::npos)
-			text.replace(dateStart, 6, getCurrentDate());
+			text.replace(dateStart, tagDate.length(), getCurrentDate());
 	}
 	// insert linefeed as first character for readability
 	text.insert(0, "\n");
@@ -229,7 +237,7 @@ string PrintF::getCurrentDate()
 	struct tm* ptr;
 	time_t lt;
 	char str[20];
-	lt = time(NULL);
+	lt = time(nullptr);
 	ptr = localtime(&lt);
 	strftime(str, 20, "%x", ptr);
 	return string(str);
@@ -277,7 +285,7 @@ void PrintF::redirectStream()
 	GTEST_CHECK_(captured_fd != -1) << "Unable to open temporary file " << temp_file_path;
 	filename_ = temp_file_path;
 #endif
-	fflush(NULL);
+	fflush(nullptr);
 	dup2(captured_fd, fd_);
 	close(captured_fd);
 }
@@ -288,7 +296,7 @@ string PrintF::restoreStream()
 	if (uncaptured_fd_ != -1)
 	{
 		// restore the original stream
-		fflush(NULL);
+		fflush(nullptr);
 		dup2(uncaptured_fd_, fd_);
 		close(uncaptured_fd_);
 		uncaptured_fd_ = -1;
@@ -306,7 +314,7 @@ string PrintF::restoreStream()
 TEST_F(PrintF, DefaultWildcard)
 // test print wildcard with no options
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	// expected text
 	string text =
 	    "------------------------------------------------------------\n"
@@ -335,7 +343,7 @@ TEST_F(PrintF, DefaultWildcard)
 TEST_F(PrintF, DefaultWildcard_Exclude)
 // test print wildcard with an exclude
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	// expected text
 	string text =
 	    "------------------------------------------------------------\n"
@@ -367,7 +375,7 @@ TEST_F(PrintF, DefaultWildcard_Exclude)
 TEST_F(PrintF, DefaultWildcard_ExcludeError)
 // test print wildcard with exclude errors and ignore-exclude-errors
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	// expected text
 	string text =
 	    "------------------------------------------------------------\n"
@@ -404,7 +412,7 @@ TEST_F(PrintF, DefaultWildcard_ExcludeError)
 TEST_F(PrintF, DefaultWildcard_ExcludeErrorNoPrint)
 // test print wildcard with exclude errors and ignore-exclude-errors-x
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	// expected text
 	string text =
 	    "------------------------------------------------------------\n"
@@ -439,7 +447,7 @@ TEST_F(PrintF, DefaultWildcard_ExcludeErrorNoPrint)
 TEST_F(PrintF, FormattedWildcard)
 // test print with "formatted" wildcard
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsFormattedOnly(true);		// test variable
 	// expected text
 	string text =
@@ -468,7 +476,7 @@ TEST_F(PrintF, FormattedWildcard)
 TEST_F(PrintF, VerboseWildcard_OptionsFile)
 // test print with "verbose" wildcard
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsVerbose(true);		// test variable
 	// expected text
 	string text =
@@ -504,7 +512,7 @@ TEST_F(PrintF, VerboseWildcard_OptionsFile)
 TEST_F(PrintF, VerboseFormattedWildcard)
 // test print with "verbose" and "formatted" wildcard
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsVerbose(true);			// test variable
 	g_console->setIsFormattedOnly(true);		// test variable
 	// expected text
@@ -537,7 +545,7 @@ TEST_F(PrintF, VerboseFormattedWildcard)
 TEST_F(PrintF, DefaultSingleFile)
 // test print single file with no options
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	// expected text
 	string text = "Formatted  <test_directory>/fileFormatted.cpp\n";
 	adjustText(text);
@@ -561,7 +569,7 @@ TEST_F(PrintF, DefaultSingleFile)
 TEST_F(PrintF, FormattedSingleFile)
 // test print with "formatted" single file
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsFormattedOnly(true);		// test variable
 	// expected text
 	string text = "Formatted  <test_directory>/fileFormatted.cpp\n";
@@ -586,7 +594,7 @@ TEST_F(PrintF, FormattedSingleFile)
 TEST_F(PrintF, VerboseSingleFile_OptionsFile)
 // test print with "verbose" single file
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsVerbose(true);		// test variable
 	// expected text
 	string text =
@@ -617,7 +625,7 @@ TEST_F(PrintF, VerboseSingleFile_OptionsFile)
 TEST_F(PrintF, Quiet_AllOptions)
 // test print with "quiet" and all other options
 {
-	assert(g_console != NULL);
+	assert(g_console != nullptr);
 	g_console->setIsFormattedOnly(true);
 	g_console->setIsVerbose(true);
 	g_console->setIsQuiet(true);		// test variable

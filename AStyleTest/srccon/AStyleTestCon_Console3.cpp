@@ -138,7 +138,7 @@ void ProcessOptions3F::redirectStream()
 	GTEST_CHECK_(captured_fd != -1) << "Unable to open temporary file " << temp_file_path;
 	filename_ = temp_file_path;
 #endif
-	fflush(NULL);
+	fflush(nullptr);
 	dup2(captured_fd, fd_);
 	close(captured_fd);
 }
@@ -149,7 +149,7 @@ string ProcessOptions3F::restoreStream()
 	if (uncaptured_fd_ != -1)
 	{
 		// restore the original stream
-		fflush(NULL);
+		fflush(nullptr);
 		dup2(uncaptured_fd_, fd_);
 		close(uncaptured_fd_);
 		uncaptured_fd_ = -1;
@@ -183,7 +183,7 @@ TEST_F(ProcessOptions3F, HelpOption)
 	            "");
 	string textOut = restoreStream();
 	// check a sample of the text
-	size_t heading1 = textOut.find("Bracket Style Options:");
+	size_t heading1 = textOut.find("Brace Style Options:");
 	size_t heading2 = textOut.find("Other Options:");
 	size_t heading3 = textOut.find("Command Line Only:");
 	EXPECT_TRUE(heading1 != string::npos);
@@ -213,7 +213,7 @@ TEST_F(ProcessOptions3F, HelpOption_Short1)
 	            "");
 	string textOut = restoreStream();
 	// check a sample of the text
-	size_t heading1 = textOut.find("Bracket Style Options:");
+	size_t heading1 = textOut.find("Brace Style Options:");
 	size_t heading2 = textOut.find("Other Options:");
 	size_t heading3 = textOut.find("Command Line Only:");
 	EXPECT_TRUE(heading1 != string::npos);
@@ -243,7 +243,7 @@ TEST_F(ProcessOptions3F, HelpOption_Short2)
 	            "");
 	string textOut = restoreStream();
 	// check a sample of the text
-	size_t heading1 = textOut.find("Bracket Style Options:");
+	size_t heading1 = textOut.find("Brace Style Options:");
 	size_t heading2 = textOut.find("Other Options:");
 	size_t heading3 = textOut.find("Command Line Only:");
 	EXPECT_TRUE(heading1 != string::npos);

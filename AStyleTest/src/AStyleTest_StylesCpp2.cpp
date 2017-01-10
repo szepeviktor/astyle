@@ -1528,9 +1528,9 @@ TEST_F(Style1TBSCppF, Short)
 	delete[] textOut;
 }
 
-TEST_F(Style1TBSCppF, AddOneLineBrackets)
+TEST_F(Style1TBSCppF, AddOneLineBraces)
 {
-	// add-one-line-brackets implies keep-one-line-blocks
+	// add-one-line-braces implies keep-one-line-blocks
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -1554,7 +1554,7 @@ TEST_F(Style1TBSCppF, AddOneLineBrackets)
 	    "}\n"
 	    "\n"
 	    "}   // end FooName\n";;
-	char options[] = "style=1tbs, add-one-line-brackets";
+	char options[] = "style=1tbs, add-one-line-braces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1804,7 +1804,7 @@ TEST(Style1TBSCpp, MinConditionalIndent2)
 	delete[] textOut;
 }
 
-TEST(Style1TBSCpp, AddOneLineBrackets)
+TEST(Style1TBSCpp, AddOneLineBraces)
 {
 	// test 1tbs style option with add one line brackets
 	char textIn[] =
@@ -1827,7 +1827,7 @@ TEST(Style1TBSCpp, AddOneLineBrackets)
 	    "    } else\n"
 	    "    { anotherBar(); }\n"
 	    "}\n";
-	char options[] = "style=1tbs, add-one-line-brackets";
+	char options[] = "style=1tbs, add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3243,7 +3243,7 @@ TEST(StylePicoCpp, KeepOneLineStatements)
 
 TEST(StylePicoCpp, AddBrackets1)
 {
-	// pico style add-brackets implies add-one-line-brackets
+	// pico style add-braces implies add-one-line-braces
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{   if (isFoo)\n"
@@ -3252,7 +3252,7 @@ TEST(StylePicoCpp, AddBrackets1)
 	    "\nvoid foo()\n"
 	    "{   if (isFoo)\n"
 	    "    {   isFoo1=false; } }\n";
-	char options[] = "style=pico, add-brackets";
+	char options[] = "style=pico, add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3260,9 +3260,9 @@ TEST(StylePicoCpp, AddBrackets1)
 
 TEST(StylePicoCpp, AddBrackets2)
 {
-	// pico style add-brackets implies add-one-line-brackets
-	// add-brackets with this will not format correctly
-	// it must be converted to add-one-line-brackets
+	// pico style add-braces implies add-one-line-braces
+	// add-braces with this will not format correctly
+	// it must be converted to add-one-line-braces
 	char textIn[] =
 	    "\nbool foo()\n"
 	    "{   // comment\n"
@@ -3275,15 +3275,15 @@ TEST(StylePicoCpp, AddBrackets2)
 	    "    if (isFoo)\n"
 	    "    {   return; }    // true;\n"
 	    "}\n";
-	char options[] = "style=pico, add-brackets";
+	char options[] = "style=pico, add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(StylePicoCpp, AddOneLineBrackets)
+TEST(StylePicoCpp, AddOneLineBraces)
 {
-	// pico style does support add-one-line-brackets
+	// pico style does support add-one-line-braces
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{   if (isFoo)\n"
@@ -3292,7 +3292,7 @@ TEST(StylePicoCpp, AddOneLineBrackets)
 	    "\nvoid foo()\n"
 	    "{   if (isFoo)\n"
 	    "    {   isFoo1=false; } }\n";
-	char options[] = "style=pico, add-one-line-brackets";
+	char options[] = "style=pico, add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -4249,7 +4249,7 @@ TEST(StyleLispCpp, KeepOneLineStatements)
 
 TEST(StyleLispCpp, AddBrackets1)
 {
-	// lisp style add-brackets does NOT imply add-one-line-brackets
+	// lisp style add-braces does NOT imply add-one-line-braces
 	char textIn[] =
 	    "\nvoid foo() {\n"
 	    "    if (isFoo)\n"
@@ -4258,7 +4258,7 @@ TEST(StyleLispCpp, AddBrackets1)
 	    "\nvoid foo() {\n"
 	    "    if (isFoo) {\n"
 	    "        isFoo1=false; } }\n";
-	char options[] = "style=lisp, add-brackets";
+	char options[] = "style=lisp, add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -4266,7 +4266,7 @@ TEST(StyleLispCpp, AddBrackets1)
 
 TEST(StyleLispCpp, AddBrackets2)
 {
-	// lisp style add-one-line-brackets implies add-brackets
+	// lisp style add-one-line-braces implies add-braces
 	char textIn[] =
 	    "\nbool foo() {\n"
 	    "    // comment\n"
@@ -4279,16 +4279,16 @@ TEST(StyleLispCpp, AddBrackets2)
 	    "    if (isFoo) {\n"
 	    "        return; }    // true;\n"
 	    "}\n";
-	char options[] = "style=lisp, add-one-line-brackets";
+	char options[] = "style=lisp, add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(StyleLispCpp, AddOneLineBrackets)
+TEST(StyleLispCpp, AddOneLineBraces)
 {
-	// lisp style does NOT support add-one-line-brackets
-	// they are converted to add-brackets
+	// lisp style does NOT support add-one-line-braces
+	// they are converted to add-braces
 	char textIn[] =
 	    "\nvoid foo() {\n"
 	    "    if (isFoo)\n"
@@ -4297,7 +4297,7 @@ TEST(StyleLispCpp, AddOneLineBrackets)
 	    "\nvoid foo() {\n"
 	    "    if (isFoo) {\n"
 	    "        isFoo1=false; } }\n";
-	char options[] = "style=lisp, add-one-line-brackets";
+	char options[] = "style=lisp, add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;

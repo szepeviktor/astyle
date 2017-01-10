@@ -16,6 +16,7 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-std=c++11" />
 					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-DASTYLE_LIB" />
 					<Add directory="../../srclib" />
@@ -38,6 +39,7 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DNDEBUG" />
@@ -64,6 +66,7 @@
 					<Add option="-Wall" />
 					<Add option="-pg" />
 					<Add option="-g" />
+					<Add option="-std=c++11" />
 					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />

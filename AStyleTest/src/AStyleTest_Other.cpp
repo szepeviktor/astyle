@@ -1560,7 +1560,7 @@ TEST(Macro, QtForeachSans)
 	    "    const bool foreach = true;\n"
 	    "    const bool xxxxxxx = true;\n"
 	    "}";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1615,7 +1615,7 @@ TEST(Macro, QtForeverSans)
 	    "{\n"
 	    "    const bool forever = true;\n"
 	    "}";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1770,7 +1770,7 @@ TEST(ExtraShortOption, ErrorXSans)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -1788,7 +1788,7 @@ TEST(ExtraShortOption, ErrorExtraX1)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -1806,7 +1806,7 @@ TEST(ExtraShortOption, ErrorExtraX2)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -1824,7 +1824,7 @@ TEST(ExtraShortOption, ErrorNumericX)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -1848,7 +1848,7 @@ TEST(ConsoleShortOption, SuffixNoneShort)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -1867,7 +1867,7 @@ TEST(ConsoleShortOption, Recursive1Short)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -1886,7 +1886,7 @@ TEST(ConsoleShortOption, Recursive2Short)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -1905,7 +1905,7 @@ TEST(ConsoleShortOption, IgnoreExcludeErrorsShort)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -1924,7 +1924,7 @@ TEST(ConsoleShortOption, IgnoreExcludeErrorsXShort)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -1943,7 +1943,7 @@ TEST(ConsoleShortOption, ErrorsToStdoutShort)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -1962,7 +1962,7 @@ TEST(ConsoleShortOption, PreserveDateShort)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -1981,7 +1981,7 @@ TEST(ConsoleShortOption, VerboseShort)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -2000,7 +2000,7 @@ TEST(ConsoleShortOption, FormattedShort)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -2019,7 +2019,7 @@ TEST(ConsoleShortOption, QuietShort)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -2038,7 +2038,7 @@ TEST(ConsoleShortOption, LineEndWindowsShort)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -2057,7 +2057,7 @@ TEST(ConsoleShortOption, LineEndLinuxShort)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -2076,7 +2076,7 @@ TEST(ConsoleShortOption, LineEndMacOldShort)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -2095,7 +2095,7 @@ TEST(ConsoleShortOption, AsciiShort)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -2114,7 +2114,7 @@ TEST(ConsoleShortOption, VersionShort)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -2133,7 +2133,7 @@ TEST(ConsoleShortOption, Help1Short)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 
@@ -2152,7 +2152,7 @@ TEST(ConsoleShortOption, Help2Short)
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_TRUE(textOut != NULL);
+	EXPECT_TRUE(textOut != nullptr);
 	delete[] textOut;
 }
 

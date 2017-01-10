@@ -97,8 +97,8 @@ def process_astyle_main(astyle_main_list):
             continue
         if line.startswith("if (!isdigit((unsigned char)arg[1]))"):
             args_processed += 1
-            if args_processed == 2:
-                astyle_main_list.append("arrayIndexOutOfBounds:" + src_path + ":" + str(lines) + "\t// arg[1]\n")
+        if line.startswith("if (sizeof(utf16_t) != sizeCheck)"):
+             astyle_main_list.append("knownConditionTrueFalse:" + src_path + ":" + str(lines) + "\t\t// utf16_t sizeCheck\n")
         # unusedFunction warnings
         if "ASConsole::getExcludeHitsVector(" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t\t// getExcludeHitsVector\n")
@@ -299,19 +299,6 @@ def process_formatter(formatter_list):
         if (line.startswith("assert")
                 and "computeChecksumOut" in line):
             formatter_list.append("assertWithSideEffect:" + src_path + ":" + str(lines) + "\t\t// assert\n")
-        # useInitializationList error - false positive
-        if line.startswith("formattingStyle = STYLE_NONE;"):
-            formatter_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// formattingStyle\n")
-        if line.startswith("bracketFormatMode = NONE_MODE;"):
-            formatter_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// bracketFormatMode\n")
-        if line.startswith("pointerAlignment = PTR_ALIGN_NONE;"):
-            formatter_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// pointerAlignment\n")
-        if line.startswith("referenceAlignment = REF_SAME_AS_PTR;"):
-            formatter_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// referenceAlignment\n")
-        if line.startswith("objCColonPadMode = COLON_PAD_NO_CHANGE;"):
-            formatter_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// objCColonPadMode\n")
-        if line.startswith("lineEnd = LINEEND_DEFAULT;"):
-            formatter_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// lineEnd\n")
         # unusedFunction warnings
         if "ASFormatter::getChecksumIn" in line:
             formatter_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t\t// getChecksumIn\n")

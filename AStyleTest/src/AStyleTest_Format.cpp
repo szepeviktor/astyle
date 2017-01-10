@@ -20,7 +20,7 @@ namespace {
 // Additional tests are in the Brackets tests
 //-------------------------------------------------------------------------
 
-TEST(BreakClosingBrackets, LongOption)
+TEST(BreakClosingBraces, LongOption)
 {
 	// test NONE_MODE brackets with break closing headers
 	char textIn[] =
@@ -42,13 +42,13 @@ TEST(BreakClosingBrackets, LongOption)
 	    "    }\n"
 	    "}\n"
 	    "\n";
-	char options[] = "break-closing-brackets";
+	char options[] = "break-closing-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BreakClosingBrackets, ShortOption)
+TEST(BreakClosingBraces, ShortOption)
 {
 	// test NONE_MODE brackets with break closing headers
 	char textIn[] =
@@ -76,7 +76,35 @@ TEST(BreakClosingBrackets, ShortOption)
 	delete[] textOut;
 }
 
-TEST(BreakClosingBrackets, Break)
+TEST(BreakClosingBraces, TempBracketsOption)
+{
+	// test NONE_MODE brackets with break closing brackets
+	char textIn[] =
+		"\nvoid FooClass::Foo(bool isFoo) {\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    } else {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n"
+		"\n";
+	char text[] =
+		"\nvoid FooClass::Foo(bool isFoo) {\n"
+		"    if (isFoo) {\n"
+		"        bar();\n"
+		"    }\n"
+		"    else {\n"
+		"        anotherBar();\n"
+		"    }\n"
+		"}\n"
+		"\n";
+	char options[] = "break-closing-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakClosingBraces, Break)
 {
 	// test BREAK_MODE brackets with break closing headers
 	char textIn[] =
@@ -101,13 +129,13 @@ TEST(BreakClosingBrackets, Break)
 	    "    }\n"
 	    "}\n"
 	    "\n";
-	char options[] = "style=allman, break-closing-brackets";
+	char options[] = "style=allman, break-closing-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BreakClosingBrackets, Attach)
+TEST(BreakClosingBraces, Attach)
 {
 	// test ATTACH_MODE brackets with break closing headers
 	char textIn[] =
@@ -129,13 +157,13 @@ TEST(BreakClosingBrackets, Attach)
 	    "    }\n"
 	    "}\n"
 	    "\n";
-	char options[] = "style=java, break-closing-brackets";
+	char options[] = "style=java, break-closing-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BreakClosingBrackets, Linux)
+TEST(BreakClosingBraces, Linux)
 {
 	// test LINUX_MODE brackets with break closing headers
 	char textIn[] =
@@ -158,13 +186,13 @@ TEST(BreakClosingBrackets, Linux)
 	    "    }\n"
 	    "}\n"
 	    "\n";
-	char options[] = "style=kr, break-closing-brackets";
+	char options[] = "style=kr, break-closing-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BreakClosingBrackets, Stroustrup)
+TEST(BreakClosingBraces, Stroustrup)
 {
 	// test STROUSTRUP_MODE brackets with break closing headers
 	char textIn[] =
@@ -187,13 +215,13 @@ TEST(BreakClosingBrackets, Stroustrup)
 	    "    }\n"
 	    "}\n"
 	    "\n";
-	char options[] = "style=stroustrup, break-closing-brackets";
+	char options[] = "style=stroustrup, break-closing-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BreakClosingBrackets, KeepBlocks)
+TEST(BreakClosingBraces, KeepBlocks)
 {
 	// test break closing headers with keep one line blocks
 	// it shouldn't make any difference
@@ -216,13 +244,13 @@ TEST(BreakClosingBrackets, KeepBlocks)
 	    "    }\n"
 	    "}\n"
 	    "\n";
-	char options[] = "style=java, break-closing-brackets, keep-one-line-blocks";
+	char options[] = "style=java, break-closing-braces, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BreakClosingBrackets, ElseSans)
+TEST(BreakClosingBraces, ElseSans)
 {
 	// test if/else without break closing brackets
 	// else statement should be attached to the closing bracket
@@ -251,7 +279,7 @@ TEST(BreakClosingBrackets, ElseSans)
 	delete[] textOut;
 }
 
-TEST(BreakClosingBrackets, Catch)
+TEST(BreakClosingBraces, Catch)
 {
 	// test try/catch with break closing brackets
 	char textIn[] =
@@ -271,13 +299,13 @@ TEST(BreakClosingBrackets, Catch)
 	    "        cout << i << endl;\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=java, break-closing-brackets";
+	char options[] = "style=java, break-closing-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BreakClosingBrackets, CatchSans)
+TEST(BreakClosingBraces, CatchSans)
 {
 	// test try/catch without break closing brackets
 	// catch statement should be attached to the closing bracket
@@ -304,7 +332,7 @@ TEST(BreakClosingBrackets, CatchSans)
 	delete[] textOut;
 }
 
-TEST(BreakClosingBrackets, While)
+TEST(BreakClosingBraces, While)
 {
 	// test do/while with break closing brackets
 	char textIn[] =
@@ -320,13 +348,13 @@ TEST(BreakClosingBrackets, While)
 	    "    }\n"
 	    "    while (int x < 9);\n"
 	    "}\n";
-	char options[] = "style=java, break-closing-brackets";
+	char options[] = "style=java, break-closing-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BreakClosingBrackets, WhileSans)
+TEST(BreakClosingBraces, WhileSans)
 {
 	// test do/while without break closing brackets
 	// while statement should be attached to the closing bracket
@@ -349,7 +377,7 @@ TEST(BreakClosingBrackets, WhileSans)
 	delete[] textOut;
 }
 
-TEST(BreakClosingBrackets, CSharp)
+TEST(BreakClosingBraces, CSharp)
 {
 	// test break closing brackets with a preceeding one line block
 	char textIn[] =
@@ -373,7 +401,7 @@ TEST(BreakClosingBrackets, CSharp)
 	    "        Show(completion);\n"
 	    "    }\n"
 	    "}";
-	char options[] = "break-closing-brackets, keep-one-line-statements, mode=cs";
+	char options[] = "break-closing-braces, keep-one-line-statements, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -920,9 +948,9 @@ TEST(BreakElseIfs, CommentsInPreprocessor)
 	delete[] textOut;
 }
 
-TEST(BreakElseIfs, AddBrackets)
+TEST(BreakElseIfs, AddBraces)
 {
-	// Test break else/if with add-brackets.
+	// Test break else/if with add-braces.
 	// The resulting closing brackets should align
 	// with the 'if' instead of the 'else'.
 	char textIn[] =
@@ -956,7 +984,7 @@ TEST(BreakElseIfs, AddBrackets)
 	    "            }\n"
 	    "    endBar();\n"
 	    "}";
-	char options[] = "break-elseifs, add-brackets";
+	char options[] = "break-elseifs, add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1690,7 +1718,7 @@ TEST(BreakOneLineHeaders, AddBracketsKeepOneLine1)
 	    "        bar();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "break-one-line-headers, add-brackets, -Oo";
+	char options[] = "break-one-line-headers, add-braces, -Oo";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1715,7 +1743,7 @@ TEST(BreakOneLineHeaders, AddBracketsKeepOneLine2)
 	    "        bar2();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "break-one-line-headers, add-brackets, -Oo";
+	char options[] = "break-one-line-headers, add-braces, -Oo";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1915,7 +1943,7 @@ TEST(BreakOneLineHeaders, BlockStatementAddBracketsKeepOneLine)
 	    "        }\n"
 	    "    }\n"
 	    "}";
-	char options[] = "break-one-line-headers, add-brackets, keep-one-line-blocks";
+	char options[] = "break-one-line-headers, add-braces, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1938,7 +1966,7 @@ TEST(BreakOneLineHeaders, PicoStyleAddBrackets)
 	    "    {   return false; }\n"
 	    "    else\n"
 	    "    {   return true; } }\n";
-	char options[] = "add-brackets, style=pico, add-brackets";
+	char options[] = "add-braces, style=pico, add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1995,10 +2023,10 @@ TEST(BreakOneLineHeaders, Misc2)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Add Brackets
+// AStyle Add Braces
 //-------------------------------------------------------------------------
 
-TEST(AddBrackets, LongOption)
+TEST(AddBraces, LongOption)
 {
 	// test add brackets
 	char textIn[] =
@@ -2014,13 +2042,13 @@ TEST(AddBrackets, LongOption)
 	    "        return false;\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, ShortOption)
+TEST(AddBraces, ShortOption)
 {
 	// test add brackets short option
 	char textIn[] =
@@ -2042,7 +2070,29 @@ TEST(AddBrackets, ShortOption)
 	delete[] textOut;
 }
 
-TEST(AddBrackets, All)
+TEST(AddBraces, TempBracketsOption)
+{
+	// test add brackets
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo()) {\n"
+		"        return false;\n"
+		"    }\n"
+		"}\n";
+	char options[] = "add-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AddBraces, All)
 {
 	// test add brackets for all headers
 	char textIn[] =
@@ -2093,13 +2143,13 @@ TEST(AddBrackets, All)
 	    "    }\n"
 	    "    while (isFoo);\n"
 	    "}\n";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, ElseIf)
+TEST(AddBraces, ElseIf)
 {
 	// test add brackets for "else if" statements
 	char textIn[] =
@@ -2120,13 +2170,13 @@ TEST(AddBrackets, ElseIf)
 	    "        return false;\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, SemiFollows)
+TEST(AddBraces, SemiFollows)
 {
 	// test add brackets when a semi-colon follows the statement
 	char textIn[] =
@@ -2147,13 +2197,13 @@ TEST(AddBrackets, SemiFollows)
 	    "        ;\n"
 	    "    while (isFoo); // comment\n"
 	    "}\n";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, Sharp)
+TEST(AddBraces, Sharp)
 {
 	// test add brackets to C# headers
 	// 'delegate' statement contains brackets
@@ -2178,13 +2228,13 @@ TEST(AddBrackets, Sharp)
 	    "        fooBar* = null;\n"
 	    "    });\n"
 	    "}\n";
-	char options[] = "add-brackets, mode=cs";
+	char options[] = "add-braces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, KeepOneLiners)
+TEST(AddBraces, KeepOneLiners)
 {
 	// add brackets with keep one liners
 	// should break the added brackets
@@ -2236,13 +2286,13 @@ TEST(AddBrackets, KeepOneLiners)
 	    "    }\n"
 	    "    while (isFoo);\n"
 	    "}\n";
-	char options[] = "add-brackets, keep-one-line-blocks, keep-one-line-statements";
+	char options[] = "add-braces, keep-one-line-blocks, keep-one-line-statements";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, SingleLine)
+TEST(AddBraces, SingleLine)
 {
 	// add brackets to one line statements
 	// should break the statements
@@ -2286,13 +2336,13 @@ TEST(AddBrackets, SingleLine)
 	    "    }\n"
 	    "    while (isFoo);\n"
 	    "}\n";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, SingleLineKeepOneLiners)
+TEST(AddBraces, SingleLineKeepOneLiners)
 {
 	// add brackets to one line statements with keep one liners
 	// should keep one line blocks with added brackets
@@ -2322,13 +2372,13 @@ TEST(AddBrackets, SingleLineKeepOneLiners)
 	    "\n"
 	    "    do { bar(); } while (isFoo);\n"
 	    "}\n";
-	char options[] = "add-brackets, keep-one-line-blocks, keep-one-line-statements";
+	char options[] = "add-braces, keep-one-line-blocks, keep-one-line-statements";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, Break)
+TEST(AddBraces, Break)
 {
 	// test add brackets for broken brackets
 	char textIn[] =
@@ -2351,13 +2401,13 @@ TEST(AddBrackets, Break)
 	    "        return true;\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "add-brackets, style=allman";
+	char options[] = "add-braces, style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, Attach)
+TEST(AddBraces, Attach)
 {
 	// test add brackets for attached brackets
 	char textIn[] =
@@ -2377,13 +2427,13 @@ TEST(AddBrackets, Attach)
 	    "        return true;\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "add-brackets, style=kr";
+	char options[] = "add-braces, style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, RunIn)
+TEST(AddBraces, RunIn)
 {
 	// test add brackets for run-in brackets
 	char textIn[] =
@@ -2403,13 +2453,13 @@ TEST(AddBrackets, RunIn)
 	    "    {   return true;\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "add-brackets, style=horstmann";
+	char options[] = "add-braces, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, ExtraSpaces)
+TEST(AddBraces, ExtraSpaces)
 {
 	// extra spaces should be removed
 	char textIn[] =
@@ -2424,13 +2474,13 @@ TEST(AddBrackets, ExtraSpaces)
 	    "        (*str) += \"<?xml \";\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, ElseParen)
+TEST(AddBraces, ElseParen)
 {
 	// else statement with following paren
 	char textIn[] =
@@ -2449,13 +2499,13 @@ TEST(AddBrackets, ElseParen)
 	    "        (numBar)--;\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, ElseBlock)
+TEST(AddBraces, ElseBlock)
 {
 	// else statement should be recognized as a command-type bracket
 	char textIn[] =
@@ -2476,13 +2526,13 @@ TEST(AddBrackets, ElseBlock)
 	    "        printf(\"Nothing\");\n"
 	    "    }\n"
 	    "}";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, Quote)
+TEST(AddBraces, Quote)
 {
 	// must bypass quote with semi-colons and escaped quote marks
 	char textIn[] =
@@ -2505,13 +2555,13 @@ TEST(AddBrackets, Quote)
 	    "        bar = \";;version=\";\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, QuoteSans)
+TEST(AddBraces, QuoteSans)
 {
 	// must bypass multi-line quote
 	char text[] =
@@ -2522,13 +2572,13 @@ TEST(AddBrackets, QuoteSans)
 	    "  two \\\n"
 	    "      three\";\n"
 	    "}\n";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, Comment)
+TEST(AddBraces, Comment)
 {
 	// must bypass comment before a semi-colon
 	// the last statement should be bracketed
@@ -2558,13 +2608,13 @@ TEST(AddBrackets, Comment)
 	    "        bar = /* comment */ foo2;\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, AfterCommentKeepOLBlocks)
+TEST(AddBraces, AfterCommentKeepOLBlocks)
 {
 	// add brackets after a comment with keep one line blocks
 	// the brackets should be broken
@@ -2586,13 +2636,13 @@ TEST(AddBrackets, AfterCommentKeepOLBlocks)
 	    "        insert(*it);\n"
 	    "    }\n"
 	    "}";
-	char options[] = "add-brackets, keep-one-line-blocks";
+	char options[] = "add-braces, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, Sans)
+TEST(AddBraces, Sans)
 {
 	// brackets should be added to specified headers only
 	char text[] =
@@ -2602,13 +2652,13 @@ TEST(AddBrackets, Sans)
 	    "    fixed(byte* pBuffer = buffer)\n"
 	    "        readCount = ReadMemory(size);\n"
 	    "}\n";
-	char options[] = "add-brackets, mode=cs";
+	char options[] = "add-braces, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, ConvertTabs)
+TEST(AddBraces, ConvertTabs)
 {
 	// add brackets with convert tabs
 	// the tabs should be converted
@@ -2627,13 +2677,13 @@ TEST(AddBrackets, ConvertTabs)
 	    "        isDoc = CurrentChar();    //    \"/**\" but not \"/**/\"\n"
 	    "    }\n"
 	    "}";
-	char options[] = "add-brackets, convert-tabs";
+	char options[] = "add-braces, convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, KeepOneLineBlocks)
+TEST(AddBraces, KeepOneLineBlocks)
 {
 	// should NOT add brackets to one line blocks
 	char text[] =
@@ -2642,13 +2692,13 @@ TEST(AddBrackets, KeepOneLineBlocks)
 	    "{\n"
 	    "    { if(true) bar(); }\n"
 	    "}";
-	char options[] = "add-brackets, keep-one-line-blocks";
+	char options[] = "add-braces, keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, KeepOneLineBlocksSans1)
+TEST(AddBraces, KeepOneLineBlocksSans1)
 {
 	// should add brackets if one line blocks are NOT retained
 	char textIn[] =
@@ -2667,13 +2717,13 @@ TEST(AddBrackets, KeepOneLineBlocksSans1)
 	    "        }\n"
 	    "    }\n"
 	    "}";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, KeepOneLineBlocksSans2)
+TEST(AddBraces, KeepOneLineBlocksSans2)
 {
 	// should add brackets if one line blocks are NOT retained
 	// with more than one statement
@@ -2694,13 +2744,13 @@ TEST(AddBrackets, KeepOneLineBlocksSans2)
 	    "        return;\n"
 	    "    }\n"
 	    "}";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, KeepOneLineStatements)
+TEST(AddBraces, KeepOneLineStatements)
 {
 	// should NOT add brackets to one line statements
 	char text[] =
@@ -2713,13 +2763,13 @@ TEST(AddBrackets, KeepOneLineStatements)
 	    "    default: nr=current_size+nr; if (nr>9) nr=9; if (nr< -9) nr=-9; break;\n"
 	    "    }\n"
 	    "}";
-	char options[] = "add-brackets, keep-one-line-statements";
+	char options[] = "add-braces, keep-one-line-statements";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddBrackets, KeepOneLineStatementsSans)
+TEST(AddBraces, KeepOneLineStatementsSans)
 {
 	// should add brackets if one line statements are NOT retained
 	char textIn[] =
@@ -2751,18 +2801,18 @@ TEST(AddBrackets, KeepOneLineStatementsSans)
 	    "        break;\n"
 	    "    }\n"
 	    "}";
-	char options[] = "add-brackets";
+	char options[] = "add-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
-// AStyle Add One Line Brackets
+// AStyle Add One Line Braces
 // Implies keep-one-line-blocks
 //-------------------------------------------------------------------------
 
-TEST(AddOneLineBrackets, LongOption)
+TEST(AddOneLineBraces, LongOption)
 {
 	// test add one line brackets
 	char textIn[] =
@@ -2777,13 +2827,13 @@ TEST(AddOneLineBrackets, LongOption)
 	    "    if (isFoo())\n"
 	    "    { return false; }\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets";
+	char options[] = "add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, ShortOption)
+TEST(AddOneLineBraces, ShortOption)
 {
 	// test add one line brackets short option
 	char textIn[] =
@@ -2804,7 +2854,28 @@ TEST(AddOneLineBrackets, ShortOption)
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, All)
+TEST(AddOneLineBraces, TempBracketsOption)
+{
+	// test add one line brackets
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"        return false;\n"
+		"}\n";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo())\n"
+		"    { return false; }\n"
+		"}\n";
+	char options[] = "add-one-line-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AddOneLineBraces, All)
 {
 	// test add one line brackets for all headers
 	char textIn[] =
@@ -2849,13 +2920,13 @@ TEST(AddOneLineBrackets, All)
 	    "    { bar(); }\n"
 	    "    while (isFoo);\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets";
+	char options[] = "add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, ElseIf)
+TEST(AddOneLineBraces, ElseIf)
 {
 	// test add one line brackets for "else if" statements
 	char textIn[] =
@@ -2874,13 +2945,13 @@ TEST(AddOneLineBrackets, ElseIf)
 	    "    else if (isFoo())\n"
 	    "    { return false; }\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets";
+	char options[] = "add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, SemiFollows)
+TEST(AddOneLineBraces, SemiFollows)
 {
 	// test add brackets when a semi-colon follows the statement
 	char textIn[] =
@@ -2901,13 +2972,13 @@ TEST(AddOneLineBrackets, SemiFollows)
 	    "        ;\n"
 	    "    while (isFoo); // comment\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets";
+	char options[] = "add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, Sharp)
+TEST(AddOneLineBraces, Sharp)
 {
 	// test add one line brackets to C# headers
 	// 'delegate' statement contains brackets
@@ -2929,13 +3000,13 @@ TEST(AddOneLineBrackets, Sharp)
 	    "    if (isFoo)\n"
 	    "        bar(delegate { fooBar* = null; });\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets, mode=cs";
+	char options[] = "add-one-line-braces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, SingleLine)
+TEST(AddOneLineBraces, SingleLine)
 {
 	// add one line brackets to one line statements
 	// should keep the one line statements
@@ -2967,13 +3038,13 @@ TEST(AddOneLineBrackets, SingleLine)
 	    "    do { bar(); }\n"
 	    "    while (isFoo);\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets";
+	char options[] = "add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, SingleLineKeepOneLiners)
+TEST(AddOneLineBraces, SingleLineKeepOneLiners)
 {
 	// add one line brackets to one line statements with keep one liners
 	// should keep the one liners (keep blocks is implied)
@@ -3003,13 +3074,13 @@ TEST(AddOneLineBrackets, SingleLineKeepOneLiners)
 	    "\n"
 	    "    do { bar(); } while (isFoo);\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets, keep-one-line-statements";
+	char options[] = "add-one-line-braces, keep-one-line-statements";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, Break)
+TEST(AddOneLineBraces, Break)
 {
 	// test add one line brackets for broken brackets
 	char textIn[] =
@@ -3028,13 +3099,13 @@ TEST(AddOneLineBrackets, Break)
 	    "    else\n"
 	    "    { return true; }\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets, style=allman";
+	char options[] = "add-one-line-braces, style=allman";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, Attach)
+TEST(AddOneLineBraces, Attach)
 {
 	// test add one line brackets for attached brackets
 	char textIn[] =
@@ -3053,13 +3124,13 @@ TEST(AddOneLineBrackets, Attach)
 	    "    else\n"
 	    "    { return true; }\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets, style=kr";
+	char options[] = "add-one-line-braces, style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, RunIn)
+TEST(AddOneLineBraces, RunIn)
 {
 	// test add one line brackets for run-in brackets
 	char textIn[] =
@@ -3077,13 +3148,13 @@ TEST(AddOneLineBrackets, RunIn)
 	    "    else\n"
 	    "    { return true; }\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets, style=horstmann";
+	char options[] = "add-one-line-braces, style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, ExtraSpaces)
+TEST(AddOneLineBraces, ExtraSpaces)
 {
 	// extra spaces should not be removed
 	char textIn[] =
@@ -3096,13 +3167,13 @@ TEST(AddOneLineBrackets, ExtraSpaces)
 	    "{\n"
 	    "    if ( str )   { (*str) += \"<?xml \"; }\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets";
+	char options[] = "add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, ElseParen)
+TEST(AddOneLineBraces, ElseParen)
 {
 	// else statement with following paren
 	char textIn[] =
@@ -3117,13 +3188,13 @@ TEST(AddOneLineBrackets, ElseParen)
 	    "    if (isFoo) { break; }\n"
 	    "    else { (numBar)--; }\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets";
+	char options[] = "add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, Quote)
+TEST(AddOneLineBraces, Quote)
 {
 	// must bypass quote with semi-colons and escaped quote marks
 	char textIn[] =
@@ -3140,13 +3211,13 @@ TEST(AddOneLineBrackets, Quote)
 	    "    if (isFoo) { bar = '\\\\'; }\n"
 	    "    if (isBar) { bar = \";;version=\"; }\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets";
+	char options[] = "add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, QuoteSans)
+TEST(AddOneLineBraces, QuoteSans)
 {
 	// must bypass multi-line quote
 	char text[] =
@@ -3157,13 +3228,13 @@ TEST(AddOneLineBrackets, QuoteSans)
 	    "  two \\\n"
 	    "      three\";\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets";
+	char options[] = "add-one-line-braces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, Comment)
+TEST(AddOneLineBraces, Comment)
 {
 	// must bypass comment before a semi-colon
 	// the last statement should be bracketed
@@ -3191,13 +3262,13 @@ TEST(AddOneLineBrackets, Comment)
 	    "            foo2;\n"
 	    "    if (isFoo) { bar = /* comment */ foo2; }\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets";
+	char options[] = "add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(AddOneLineBrackets, Sans)
+TEST(AddOneLineBraces, Sans)
 {
 	// brackets should be added to specified headers only
 	char text[] =
@@ -3207,17 +3278,17 @@ TEST(AddOneLineBrackets, Sans)
 	    "    fixed(byte* pBuffer = buffer)\n"
 	    "        readCount = ReadMemory(size);\n"
 	    "}\n";
-	char options[] = "add-one-line-brackets, mode=cs";
+	char options[] = "add-one-line-braces, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
 //-------------------------------------------------------------------------
-// AStyle Remove Brackets
+// AStyle Remove Braces
 //-------------------------------------------------------------------------
 
-TEST(RemoveBrackets, LongOption)
+TEST(RemoveBraces, LongOption)
 {
 	// test remove brackets
 	char textIn[] =
@@ -3239,13 +3310,13 @@ TEST(RemoveBrackets, LongOption)
 	    "    else if (isFoo3)\n"
 	    "        bar3();\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, ShortOption)
+TEST(RemoveBraces, ShortOption)
 {
 	// test remove brackets
 	char textIn[] =
@@ -3273,7 +3344,35 @@ TEST(RemoveBrackets, ShortOption)
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, WithEmptyLine1)
+TEST(RemoveBraces, TempBracketsOption)
+{
+	// test remove brackets
+	char textIn[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"    {\n"
+		"        bar2();\n"
+		"    }\n"
+		"    else if (isFoo3) {\n"
+		"        bar3();\n"
+		"    }\n"
+		"}";
+	char text[] =
+		"\nvoid Foo()\n"
+		"{\n"
+		"    if (isFoo2)\n"
+		"        bar2();\n"
+		"    else if (isFoo3)\n"
+		"        bar3();\n"
+		"}";
+	char options[] = "remove-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(RemoveBraces, WithEmptyLine1)
 {
 	// test with a preceding empty line
 	char textIn[] =
@@ -3299,13 +3398,13 @@ TEST(RemoveBrackets, WithEmptyLine1)
 	    "\n"
 	    "        bar3();\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, WithEmptyLine2)
+TEST(RemoveBraces, WithEmptyLine2)
 {
 	// test with a following empty line
 	char textIn[] =
@@ -3331,13 +3430,13 @@ TEST(RemoveBrackets, WithEmptyLine2)
 	    "        bar3();\n"
 	    "\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, WithEmptyLine3)
+TEST(RemoveBraces, WithEmptyLine3)
 {
 	// test attached brackets with a empty lines
 	char textIn[] =
@@ -3367,13 +3466,13 @@ TEST(RemoveBrackets, WithEmptyLine3)
 	    "        m_pCategories->Clear();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, Sans)
+TEST(RemoveBraces, Sans)
 {
 	// don't remove if not a single statement
 	char text[] =
@@ -3389,13 +3488,13 @@ TEST(RemoveBrackets, Sans)
 	    "        bar3a();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, OneLineBlock1)
+TEST(RemoveBraces, OneLineBlock1)
 {
 	// test with a one line block and keep-one-line-blocks
 	// should NOT break the one-line block
@@ -3413,13 +3512,13 @@ TEST(RemoveBrackets, OneLineBlock1)
 	    "        bar2();\n"
 	    "    else if (isFoo3)  bar3();\n"
 	    "}";
-	char options[] = "remove-brackets, keep-one-line-blocks";
+	char options[] = "remove-braces, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, OneLineBlockSans1)
+TEST(RemoveBraces, OneLineBlockSans1)
 {
 	// test with a one line block and NOT keep-one-line-blocks
 	// should break the one-line block
@@ -3438,13 +3537,13 @@ TEST(RemoveBrackets, OneLineBlockSans1)
 	    "    else if (isFoo3)\n"
 	    "        bar3();\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, OneLineBlockSans2)
+TEST(RemoveBraces, OneLineBlockSans2)
 {
 	// test with a one line block to NOT remove brackets
 	// with keep-one-line-blocks
@@ -3455,13 +3554,13 @@ TEST(RemoveBrackets, OneLineBlockSans2)
 	    "    { bar2();  bar4(); }\n"
 	    "    else if (isFoo3) { bar3(); bar4(); }\n"
 	    "}";
-	char options[] = "remove-brackets, keep-one-line-blocks";
+	char options[] = "remove-braces, keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, OneLineBlockSans3)
+TEST(RemoveBraces, OneLineBlockSans3)
 {
 	// test with a one line block to NOT remove brackets
 	// without keep-one-line-blocks
@@ -3485,13 +3584,13 @@ TEST(RemoveBrackets, OneLineBlockSans3)
 	    "        bar4();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, BreakBlocks1)
+TEST(RemoveBraces, BreakBlocks1)
 {
 	// test remove brackets with break blocks
 	char textIn[] =
@@ -3519,13 +3618,13 @@ TEST(RemoveBrackets, BreakBlocks1)
 	    "\n"
 	    "    bar6();\n"
 	    "}";
-	char options[] = "remove-brackets, break-blocks";
+	char options[] = "remove-braces, break-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, BreakBlocks2)
+TEST(RemoveBraces, BreakBlocks2)
 {
 	// test remove brackets with break all blocks
 	char textIn[] =
@@ -3554,13 +3653,13 @@ TEST(RemoveBrackets, BreakBlocks2)
 	    "\n"
 	    "    bar6();\n"
 	    "}";
-	char options[] = "remove-brackets, break-blocks=all";
+	char options[] = "remove-braces, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, Comment1)
+TEST(RemoveBraces, Comment1)
 {
 	// remove one-line brackets with a comment
 	char textIn[] =
@@ -3575,13 +3674,13 @@ TEST(RemoveBrackets, Comment1)
 	    "    if (keycode == WXK_RETURN)\n"
 	    "        myidx = 0;   // Edit\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, Comment2)
+TEST(RemoveBraces, Comment2)
 {
 	// remove one-line brackets with a comment
 	char textIn[] =
@@ -3596,13 +3695,13 @@ TEST(RemoveBrackets, Comment2)
 	    "    if ( (target = Convert()) )\n"
 	    "        ; //ok\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, Comment3)
+TEST(RemoveBraces, Comment3)
 {
 	// remove brackets with a comment following closing bracket
 	char textIn[] =
@@ -3620,13 +3719,13 @@ TEST(RemoveBrackets, Comment3)
 	    "        AppendToLog(Output[i]);\n"
 	    "    // end for : idx: i\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, Comment4)
+TEST(RemoveBraces, Comment4)
 {
 	// remove attached bracket with a comment
 	char textIn[] =
@@ -3642,13 +3741,13 @@ TEST(RemoveBrackets, Comment4)
 	    "    if (isFoo)    // comment\n"
 	    "        bar();\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, CommentSans1)
+TEST(RemoveBraces, CommentSans1)
 {
 	// don't remove if a preceding comment
 	char text[] =
@@ -3665,13 +3764,13 @@ TEST(RemoveBrackets, CommentSans1)
 	    "        bar3();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, CommentSans2)
+TEST(RemoveBraces, CommentSans2)
 {
 	// don't remove if a preceding column 1 comment
 	char text[] =
@@ -3685,13 +3784,13 @@ TEST(RemoveBrackets, CommentSans2)
 	    "//        Manager::Get()->GetLogManager();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, FollowingHeaderSans)
+TEST(RemoveBraces, FollowingHeaderSans)
 {
 	// don't remove if a following header
 	char textIn[] =
@@ -3719,13 +3818,13 @@ TEST(RemoveBrackets, FollowingHeaderSans)
 	    "            bar3();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, AddBracketsSans)
+TEST(RemoveBraces, AddBracketsSans)
 {
 	// should NOT remove brackets if add brackets is also requested
 	char text[] =
@@ -3739,13 +3838,13 @@ TEST(RemoveBrackets, AddBracketsSans)
 	    "        bar3();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "remove-brackets, add-brackets";
+	char options[] = "remove-braces, add-braces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, AddOneLineBracketsSans)
+TEST(RemoveBraces, AddOneLineBracketsSans)
 {
 	// should NOT remove brackets if add one line brackets is also requested
 	char text[] =
@@ -3759,13 +3858,13 @@ TEST(RemoveBrackets, AddOneLineBracketsSans)
 	    "        bar3();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "remove-brackets, add-one-line-brackets";
+	char options[] = "remove-braces, add-one-line-braces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, OtherHeaders)
+TEST(RemoveBraces, OtherHeaders)
 {
 	// test remove brackets with other headers
 	char textIn[] =
@@ -3794,13 +3893,13 @@ TEST(RemoveBrackets, OtherHeaders)
 	    "        bar4();\n"
 	    "    } while (int x < 9);\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, SharpOtherHeaders)
+TEST(RemoveBraces, SharpOtherHeaders)
 {
 	// test remove brackets with other C# headers
 	char textIn[] =
@@ -3817,13 +3916,13 @@ TEST(RemoveBrackets, SharpOtherHeaders)
 	    "    foreach (T x in list)\n"
 	    "        foo = bar;\n"
 	    "}";
-	char options[] = "remove-brackets, mode=cs";
+	char options[] = "remove-braces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, OTBSSans)
+TEST(RemoveBraces, OTBSSans)
 {
 	// should NOT remove brackets if "One True Brace Style" is requested
 	char text[] =
@@ -3835,13 +3934,13 @@ TEST(RemoveBrackets, OTBSSans)
 	    "        bar3();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "remove-brackets, style=otbs";
+	char options[] = "remove-braces, style=otbs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, BreakClosingBrackets)
+TEST(RemoveBraces, BreakClosingBraces)
 {
 	// test remove brackets with break closing brackets
 	char textIn[] =
@@ -3862,13 +3961,13 @@ TEST(RemoveBrackets, BreakClosingBrackets)
 	    "    else if (isFoo3)\n"
 	    "        bar3();\n"
 	    "}";
-	char options[] = "remove-brackets, break-closing-brackets";
+	char options[] = "remove-braces, break-closing-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, UnbrokenElse)
+TEST(RemoveBraces, UnbrokenElse)
 {
 	// test remove brackets with a unbroken "else if" statement
 	char textIn[] =
@@ -3889,13 +3988,13 @@ TEST(RemoveBrackets, UnbrokenElse)
 	    "    else if (isFoo3)\n"
 	    "        bar3();\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, Preprocessor)
+TEST(RemoveBraces, Preprocessor)
 {
 	// test remove brackets with a preprocessor directive
 	// the brackets should NOT be removed
@@ -3903,13 +4002,13 @@ TEST(RemoveBrackets, Preprocessor)
 	    "\nvoid Foo() {\n"
 	    "#define if(_RET_SUCCEED(exp)) { result = (exp); }\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, BracketInQuote)
+TEST(RemoveBraces, BracketInQuote)
 {
 	// test remove brackets within a quote
 	// should not remove the bracket in the quotes
@@ -3924,13 +4023,13 @@ TEST(RemoveBrackets, BracketInQuote)
 	    "    if (closingBrackets > 0)\n"
 	    "        wrapper.Append(new string('}', closingBrackets));\n"
 	    "}";
-	char options[] = "remove-brackets, mode=cs";
+	char options[] = "remove-braces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, BracketInComment1)
+TEST(RemoveBraces, BracketInComment1)
 {
 	// test remove with brackets within a line comment
 	// should not remove the brackets
@@ -3940,13 +4039,13 @@ TEST(RemoveBrackets, BracketInComment1)
 	    "        wrapper.Append(closingBrackets); // }\n"
 	    "    }\n"
 	    "}";
-	char options[] = "remove-brackets, mode=cs";
+	char options[] = "remove-braces, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, BracketInComment2)
+TEST(RemoveBraces, BracketInComment2)
 {
 	// test remove with brackets within a comment
 	// should not remove the brackets
@@ -3956,13 +4055,13 @@ TEST(RemoveBrackets, BracketInComment2)
 	    "        wrapper.Append(closingBrackets); /* } */\n"
 	    "    }\n"
 	    "}";
-	char options[] = "remove-brackets, mode=cs";
+	char options[] = "remove-braces, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(RemoveBrackets, HorstmannBracketWithComment)
+TEST(RemoveBraces, HorstmannBracketWithComment)
 {
 	// test remove horstmann bracket with a comment
 	// should not remove the brackets
@@ -3973,7 +4072,7 @@ TEST(RemoveBrackets, HorstmannBracketWithComment)
 	    "        bar();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "remove-brackets";
+	char options[] = "remove-braces";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -4797,7 +4896,7 @@ TEST(KeepOneLineStatements, ElseAtEndOfLine2)
 	    "    else if ( Family == wxSCRIPT     ) { FamilyStr = _T(\"wxSCRIPT\"); }\n"
 	    "    else if ( Family == wxTELETYPE   ) { FamilyStr = _T(\"wxTELETYPE\"); }\n"
 	    "}";
-	char options[] = "keep-one-line-statements, add-one-line-brackets";
+	char options[] = "keep-one-line-statements, add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
