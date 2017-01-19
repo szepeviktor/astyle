@@ -28,7 +28,7 @@
 #include <wx/spinctrl.h>
 #include <wx/button.h>
 #include <wx/choice.h>
-#include <wx/treebook.h>
+#include <wx/notebook.h>
 #include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -64,71 +64,72 @@
 #define ID_ATTACH_NAMESPACE 1028
 #define ID_ATTACH_CLASS 1029
 #define ID_ATTACH_INLINE 1030
-#define ID_ATTACH_EXTERNC 1031
-#define ID_TAB_PREVIEW_STC 1032
-#define ID_INDENT_PAGE 1033
-#define ID_INDENT_CLASS 1034
-#define ID_INDENT_MODIFIER 1035
-#define ID_INDENT_SWITCH 1036
-#define ID_INDENT_CASE 1037
-#define ID_INDENT_NAMESPACE 1038
-#define ID_INDENT_CONTINUATION 1039
-#define ID_INDENT_GOTO 1040
-#define ID_INDENT_PREPROC_BLOCK 1041
-#define ID_INDENT_PREPROC_DEFINE 1042
-#define ID_INDENT_PREPROC_COND 1043
-#define ID_INDENT_COL1_COMMENT 1044
-#define ID_MIN_CONDITIONAL 1045
-#define ID_MIN_CONDITIONAL_DISPLAY 1046
-#define ID_MAX_INSTATEMENT 1047
-#define ID_MAX_INSTATEMENT_DISPLAY 1048
-#define ID_INDENT_PREVIEW_STC 1049
-#define ID_PAD_PAGE 1050
-#define ID_BREAK_HEADER 1051
-#define ID_BREAK_ALL 1052
-#define ID_PAD_OPERATOR 1053
-#define ID_PAD_COMMA 1054
-#define ID_PAD_PAREN_OUT 1055
-#define ID_PAD_PAREN_IN 1056
-#define ID_PAD_FIRST_PAREN_OUT 1057
-#define ID_PAD_HEADER 1058
-#define ID_UNPAD_PAREN 1059
-#define ID_DELETE_EMPTY_LINE 1060
-#define ID_FILL_EMPTY_LINE 1061
-#define ID_ALIGN_POINTER 1062
-#define ID_ALIGN_POINTER_DISPLAY 1063
-#define ID_ALIGN_REFERENCE 1064
-#define ID_ALIGN_REFERENCE_DISPLAY 1065
-#define ID_PAD_PREVIEW_STC 1066
-#define ID_FOMAT_PAGE 1067
-#define ID_BREAK_CLOSING 1068
-#define ID_BREAK_ELSEIF 1069
-#define ID_BREAK_OL_HEADERS 1070
-#define ID_ADD_BRACES 1071
-#define ID_ADD_OL_BRACES 1072
-#define ID_REMOVE_BRACES 1073
-#define ID_KEEP_OL_BLOCKS 1074
-#define ID_KEEP_OL_STATEMENTS 1075
-#define ID_CONVERT_TABS 1076
-#define ID_CLOSE_TEMPLATES 1077
-#define ID_REMOVE_COMMENT_PREFIX 1078
-#define ID_MAX_CODE_LENGTH 1079
-#define ID_MAX_CODE_LENGTH_DISPLAY 1080
-#define ID_BREAK_AFTER_LOGICAL 1081
-#define ID_FORMAT_PREVIEW_STC 1082
-#define ID_OTHER_PAGE 1083
-#define ID_PAD_METHOD_PREFIX 1084
-#define ID_UNPAD_METHOD_PREFIX 1085
-#define ID_PAD_RETURN_TYPE 1086
-#define ID_UNPAD_RETURN_TYPE 1087
-#define ID_PAD_PARAM_TYPE 1088
-#define ID_UNPAD_PARAM_TYPE 1089
-#define ID_ALIGN_METHOD_COLON 1090
-#define ID_PAD_METHOD_COLON 1091
-#define ID_PAD_METHOD_COLON_DISPLAY 1092
-#define ID_OTHER_PREVIEW_STC 1093
-#define ID_RESET_ALL 1094
-#define ID_NEW_SETTINGS 1095
+#define ID_ATTACH_EXTERN_C 1031
+#define ID_ATTACH_CLOSING_WHILE 1032
+#define ID_TAB_PREVIEW_STC 1033
+#define ID_INDENT_PAGE 1034
+#define ID_INDENT_CLASS 1035
+#define ID_INDENT_MODIFIER 1036
+#define ID_INDENT_SWITCH 1037
+#define ID_INDENT_CASE 1038
+#define ID_INDENT_NAMESPACE 1039
+#define ID_INDENT_CONTINUATION 1040
+#define ID_INDENT_GOTO 1041
+#define ID_INDENT_PREPROC_BLOCK 1042
+#define ID_INDENT_PREPROC_DEFINE 1043
+#define ID_INDENT_PREPROC_COND 1044
+#define ID_INDENT_COL1_COMMENT 1045
+#define ID_MIN_CONDITIONAL 1046
+#define ID_MIN_CONDITIONAL_DISPLAY 1047
+#define ID_MAX_INSTATEMENT 1048
+#define ID_MAX_INSTATEMENT_DISPLAY 1049
+#define ID_INDENT_PREVIEW_STC 1050
+#define ID_PAD_PAGE 1051
+#define ID_BREAK_HEADER 1052
+#define ID_BREAK_ALL 1053
+#define ID_PAD_OPERATOR 1054
+#define ID_PAD_COMMA 1055
+#define ID_PAD_PAREN_OUT 1056
+#define ID_PAD_PAREN_IN 1057
+#define ID_PAD_FIRST_PAREN_OUT 1058
+#define ID_PAD_HEADER 1059
+#define ID_UNPAD_PAREN 1060
+#define ID_DELETE_EMPTY_LINE 1061
+#define ID_FILL_EMPTY_LINE 1062
+#define ID_ALIGN_POINTER 1063
+#define ID_ALIGN_POINTER_DISPLAY 1064
+#define ID_ALIGN_REFERENCE 1065
+#define ID_ALIGN_REFERENCE_DISPLAY 1066
+#define ID_PAD_PREVIEW_STC 1067
+#define ID_FOMAT_PAGE 1068
+#define ID_BREAK_CLOSING 1069
+#define ID_BREAK_ELSEIF 1070
+#define ID_BREAK_OL_HEADERS 1071
+#define ID_ADD_BRACES 1072
+#define ID_ADD_OL_BRACES 1073
+#define ID_REMOVE_BRACES 1074
+#define ID_KEEP_OL_BLOCKS 1075
+#define ID_KEEP_OL_STATEMENTS 1076
+#define ID_CONVERT_TABS 1077
+#define ID_CLOSE_TEMPLATES 1078
+#define ID_REMOVE_COMMENT_PREFIX 1079
+#define ID_MAX_CODE_LENGTH 1080
+#define ID_MAX_CODE_LENGTH_DISPLAY 1081
+#define ID_BREAK_AFTER_LOGICAL 1082
+#define ID_FORMAT_PREVIEW_STC 1083
+#define ID_OTHER_PAGE 1084
+#define ID_PAD_METHOD_PREFIX 1085
+#define ID_UNPAD_METHOD_PREFIX 1086
+#define ID_PAD_RETURN_TYPE 1087
+#define ID_UNPAD_RETURN_TYPE 1088
+#define ID_PAD_PARAM_TYPE 1089
+#define ID_UNPAD_PARAM_TYPE 1090
+#define ID_ALIGN_METHOD_COLON 1091
+#define ID_PAD_METHOD_COLON 1092
+#define ID_PAD_METHOD_COLON_DISPLAY 1093
+#define ID_OTHER_PREVIEW_STC 1094
+#define ID_RESET_ALL 1095
+#define ID_NEW_SETTINGS 1096
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class AStyleDlgBase
@@ -139,7 +140,7 @@ class AStyleDlgBase : public wxDialog
 	private:
 		
 		// Private event handlers
-		void _wxFB_OnNotebookPageChanged( wxTreebookEvent& event ){ OnNotebookPageChanged( event ); }
+		void _wxFB_OnNotebookPageChanged( wxNotebookEvent& event ){ OnNotebookPageChanged( event ); }
 		void _wxFB_OnStyleClick( wxCommandEvent& event ){ OnStyleClick( event ); }
 		void _wxFB_OnTabClick( wxCommandEvent& event ){ OnTabClick( event ); }
 		void _wxFB_OnModifierClick( wxCommandEvent& event ){ OnModifierClick( event ); }
@@ -154,7 +155,7 @@ class AStyleDlgBase : public wxDialog
 	
 	protected:
 		wxBoxSizer* m_astyleDlgSizer;
-		wxTreebook* m_notebook;
+		wxNotebook* m_notebook;
 		wxPanel* m_stylePage;
 		wxStaticBoxSizer* m_styleSizer;
 		wxRadioButton* m_styleNone;
@@ -190,6 +191,7 @@ class AStyleDlgBase : public wxDialog
 		wxCheckBox* m_attachClass;
 		wxCheckBox* m_attachInline;
 		wxCheckBox* m_attachExternC;
+		wxCheckBox* m_attachClosingWhile;
 		wxStaticBoxSizer* m_tabPreviewSizer;
 		wxStyledTextCtrl* m_tabPreviewSTC;
 		wxPanel* m_indentPage;
@@ -269,7 +271,7 @@ class AStyleDlgBase : public wxDialog
 		wxButton* m_sdbSizerCancel;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void OnNotebookPageChanged( wxTreebookEvent& event ) { event.Skip(); }
+		virtual void OnNotebookPageChanged( wxNotebookEvent& event ) { event.Skip(); }
 		virtual void OnStyleClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnTabClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnModifierClick( wxCommandEvent& event ) { event.Skip(); }

@@ -116,6 +116,7 @@ private:
 	// Tab Tab
 	wxString StcModifier_AttachNamespace();
 	wxString StcModifier_AttachClass_AttachInline();
+	wxString StcModifier_AttachClosingWhile();
 	wxString StcModifier_AttachExternC();
 	wxString StcTab_IndentLengthDisplay();
 	wxString StcTab_IndentWithForceTab_UseTabLength();

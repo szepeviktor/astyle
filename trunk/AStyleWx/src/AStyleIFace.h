@@ -56,6 +56,7 @@ public:
 	bool getAttachClass() const          { return attachClass; }
 	bool getAttachInline() const         { return attachInline; }
 	bool getAttachExternC() const        { return attachExternC; }
+	bool getAttachClosingWhile() const   { return attachClosingWhile; }
 	// getters - indentation
 	bool getClassIndent() const          { return classIndent; }
 	bool getModifierIndent() const       { return modifierIndent; }
@@ -119,6 +120,7 @@ public:
 	void setAttachClass(bool state)          { attachClass = state; }
 	void setAttachInline(bool state)         { attachInline = state; }
 	void setAttachExternC(bool state)        { attachExternC = state; }
+	void setAttachClosingWhile(bool state)   { attachClosingWhile = state; }
 	// setters - indentation
 	void setClassIndent(bool state)          { classIndent = state; }
 	void setModifierIndent(bool state)       { modifierIndent = state; }
@@ -192,6 +194,7 @@ private:
 	bool attachClass;                   // --attach-classes
 	bool attachInline;                  // --attach-inlines
 	bool attachExternC;                 // --attach-extern-c
+	bool attachClosingWhile;            // --attach-closing-while
 
 	// indentation options
 	bool classIndent;                   // --indent-classes

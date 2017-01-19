@@ -365,7 +365,8 @@ void Config::SaveAStyleOptions(AStyleIFace* astyle)
 	astyle->getAttachNamespace() ? wxConfig::Write(ATTACH_NAMESPACES, asTRUE) : wxConfig::DeleteEntry(ATTACH_NAMESPACES, false);
 	astyle->getAttachClass() ? wxConfig::Write(ATTACH_CLASSES, asTRUE) : wxConfig::DeleteEntry(ATTACH_CLASSES, false);
 	astyle->getAttachInline() ? wxConfig::Write(ATTACH_INLINES, asTRUE) : wxConfig::DeleteEntry(ATTACH_INLINES, false);
-	astyle->getAttachExternC() ? wxConfig::Write(ATTACH_EXTERNC, asTRUE) : wxConfig::DeleteEntry(ATTACH_EXTERNC, false);
+	astyle->getAttachExternC() ? wxConfig::Write(ATTACH_EXTERN_C, asTRUE) : wxConfig::DeleteEntry(ATTACH_EXTERN_C, false);
+	astyle->getAttachClosingWhile() ? wxConfig::Write(ATTACH_CLOSING_WHILE, asTRUE) : wxConfig::DeleteEntry(ATTACH_CLOSING_WHILE, false);
 
 	IndentType indentType = static_cast<IndentType>(astyle->getIndentType());
 	int indentLength = astyle->getIndentLength();

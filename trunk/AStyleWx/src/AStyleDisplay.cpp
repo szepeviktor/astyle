@@ -386,20 +386,24 @@ void AStyleDisplay::DisplayModifierOptions(wxCommandEvent& event, wxStyledTextCt
 
 	switch (m_event->GetId())
 	{
-		case ID_ATTACH_NAMESPACE:
-			textOut = StcModifier_AttachNamespace();
-			break;
-
 		case ID_ATTACH_CLASS:
 			textOut = StcModifier_AttachClass_AttachInline();
 			break;
 
-		case ID_ATTACH_EXTERNC:
+		case ID_ATTACH_CLOSING_WHILE:
+			textOut = StcModifier_AttachClosingWhile();
+			break;
+
+		case ID_ATTACH_EXTERN_C:
 			textOut = StcModifier_AttachExternC();
 			break;
 
 		case ID_ATTACH_INLINE:
 			textOut = StcModifier_AttachClass_AttachInline();
+			break;
+
+		case ID_ATTACH_NAMESPACE:
+			textOut = StcModifier_AttachNamespace();
 			break;
 
 		default:
@@ -2203,6 +2207,32 @@ wxString AStyleDisplay::StcModifier_AttachClass_AttachInline()
 		}
 	}
 	return display;
+}
+
+wxString AStyleDisplay::StcModifier_AttachClosingWhile()
+{
+	wxString checked =     "                      \n"
+	                       "void Foo()            \n"
+	                       "{                     \n"
+	                       "    do                \n"
+	                       "    {                 \n"
+	                       "        bar();        \n"
+	                       "        ++x;          \n"
+	                       "    } while (x < max);\n"
+	                       "}                     ";
+
+	wxString unchecked =   "                      \n"
+	                       "void Foo()            \n"
+	                       "{                     \n"
+	                       "    do                \n"
+	                       "    {                 \n"
+	                       "        bar();        \n"
+	                       "        ++x;          \n"
+	                       "    }                 \n"
+	                       "    while (x < max);  \n"
+	                       "}                   ";
+
+	return m_event->IsChecked() ? checked : unchecked;
 }
 
 wxString AStyleDisplay::StcModifier_AttachExternC()
