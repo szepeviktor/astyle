@@ -580,7 +580,7 @@ TEST(Config_AStyle_Modifier, SaveAStyleOptions_AttachExternC)
 	wxString value;				// value of config key
 
 	// test true
-	key = ATTACH_EXTERNC;
+	key = ATTACH_EXTERN_C;
 	astyle.setAttachExternC(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
@@ -589,6 +589,30 @@ TEST(Config_AStyle_Modifier, SaveAStyleOptions_AttachExternC)
 
 	// test false (delete key)
 	astyle.setAttachExternC(false);
+	config.SaveAStyleOptions(&astyle);
+	config.SetPath("/AStyle");
+	ASSERT_FALSE(config.Read(key, &value));
+}
+
+TEST(Config_AStyle_Modifier, SaveAStyleOptions_AttachClosingWhile)
+// Test config file writes for astyle attachClosingWhile option
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	AStyleIFace_Test astyle;	// uses getters and setters from AStyleIFace
+	wxString key;				// config key
+	wxString value;				// value of config key
+
+	// test true
+	key = ATTACH_CLOSING_WHILE;
+	astyle.setAttachClosingWhile(true);
+	config.SaveAStyleOptions(&astyle);
+	config.SetPath("/AStyle");
+	ASSERT_TRUE(config.Read(key, &value));
+	EXPECT_STREQ(asTRUE, value);
+
+	// test false (delete key)
+	astyle.setAttachClosingWhile(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
