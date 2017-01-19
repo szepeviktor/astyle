@@ -230,7 +230,7 @@ public:
 	static const string AS_OPEN_BRACKET, AS_CLOSE_BRACKET;
 	static const string AS_OPEN_LINE_COMMENT, AS_OPEN_COMMENT, AS_CLOSE_COMMENT;
 	static const string AS_BAR_DEFINE, AS_BAR_INCLUDE, AS_BAR_IF, AS_BAR_EL, AS_BAR_ENDIF;
-	static const string AS_RETURN;
+	static const string AS_AUTO, AS_RETURN;
 	static const string AS_CIN, AS_COUT, AS_CERR;
 	static const string AS_ASSIGN, AS_PLUS_ASSIGN, AS_MINUS_ASSIGN, AS_MULT_ASSIGN;
 	static const string AS_DIV_ASSIGN, AS_MOD_ASSIGN, AS_XOR_ASSIGN, AS_OR_ASSIGN, AS_AND_ASSIGN;
@@ -355,7 +355,7 @@ protected:
 
 	// variables set by ASFormatter - must be updated in activeBeautifierStack
 	int  inLineNumber;
-	int  horstmannIndentInStatement;
+	int  runInIndentInStatement;
 	int  nonInStatementBracket;
 	int  objCColonAlignSubsequent;		// for subsequent lines not counting indent
 	bool lineCommentNoBeautify;
@@ -448,7 +448,7 @@ private:  // variables
 	bool isInAsmBlock;
 	bool isInComment;
 	bool isInPreprocessorComment;
-	bool isInHorstmannComment;
+	bool isInRunInComment;
 	bool isInCase;
 	bool isInQuestion;
 	bool isInStatement;
@@ -627,6 +627,7 @@ public:	// functions
 	void setAddOneLineBracketsMode(bool state);
 	void setRemoveBracketsMode(bool state);
 	void setAttachClass(bool state);
+	void setAttachClosingWhile(bool state);
 	void setAttachExternC(bool state);
 	void setAttachNamespace(bool state);
 	void setAttachInline(bool state);
@@ -723,6 +724,7 @@ private:  // functions
 	void adjustComments();
 	void appendChar(char ch, bool canBreakLine);
 	void appendCharInsideComments();
+	void appendClosingHeader();
 	void appendOperator(const string& sequence, bool canBreakLine = true);
 	void appendSequence(const string& sequence, bool canBreakLine = true);
 	void appendSpacePad();
@@ -810,7 +812,7 @@ private:  // variables
 	char quoteChar;
 	streamoff preprocBlockEnd;
 	int  charNum;
-	int  horstmannIndentChars;
+	int  runInIndentChars;
 	int  nextLineSpacePadNum;
 	int  objCColonAlign;
 	int  preprocBracketTypeStackSize;
@@ -862,6 +864,7 @@ private:  // variables
 	bool shouldAttachExternC;
 	bool shouldAttachNamespace;
 	bool shouldAttachClass;
+	bool shouldAttachClosingWhile;
 	bool shouldAttachInline;
 	bool isInLineComment;
 	bool isInComment;
@@ -893,6 +896,7 @@ private:  // variables
 	bool foundInterfaceHeader;
 	bool foundPreCommandHeader;
 	bool foundPreCommandMacro;
+	bool foundTrailingReturnType;
 	bool foundCastOperator;
 	bool isInLineBreak;
 	bool endOfAsmReached;

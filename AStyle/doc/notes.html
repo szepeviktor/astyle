@@ -17,11 +17,16 @@
     <p>
         &nbsp;</p>
 
-     <h3>Artistic Style 2.7&nbsp; (Pending)</h3>
+    <h3>Artistic Style 2.7&nbsp; (Pending)</h3>
 
     <ul>
+        <li>Add new option "attach-closing-while" (#177).</li>
+        <li>Add &quot;style=run-in&quot; as an alternative for &quot;style=horstmann&quot;.</li>
+        <li>Add formatting for C++11 trailing return type methods.</li>
         <li>Change variable names to new AStyle terminology.</li>
         <li>Fix memory leak when using &quot;indent-preproc-define&quot;.</li>
+        <li>Fix boundary conditions discovered by <a href="https://github.com/mirrorer/afl" target="_blank"
+            title="open new window">american fuzzy lop</a> fuzzer (#370).</li>
         <li>Refactoring:
             <ul>
                 <li>Replace NULL with C++11 nullptr.</li>

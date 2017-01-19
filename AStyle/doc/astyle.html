@@ -73,7 +73,8 @@
         <a class="contents" href="#_style=google">style=google</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_style=mozilla">style=mozilla</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_style=pico">style=pico</a>&nbsp;&nbsp;&nbsp;
-        <a class="contents" href="#_style=lisp">style=lisp</a>&nbsp;&nbsp;&nbsp;</p>
+        <a class="contents" href="#_style=lisp">style=lisp</a>&nbsp;&nbsp;&nbsp;
+    </p>
     <p class="contents1">
         <a class="contents" href="#_Tab_Options">Tab&nbsp;Options</a></p>
     <p class="contents2">
@@ -81,14 +82,17 @@
         <a class="contents" href="#_indent=spaces">indent=spaces</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_indent=tab">indent=tab</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_indent=force-tab">indent=force&#8209;tab</a>&nbsp;&nbsp;&nbsp;
-        <a class="contents" href="#_indent=force-tab-x">--indent=force&#8209;tab&#8209;x</a>&nbsp;&nbsp;&nbsp;</p>
+        <a class="contents" href="#_indent=force-tab-x">--indent=force&#8209;tab&#8209;x</a>&nbsp;&nbsp;&nbsp;
+    </p>
     <p class="contents1">
         <a class="contents" href="#_Brace_Modify_Options">Brace&nbsp;Modify&nbsp;Options</a></p>
     <p class="contents2">
         <a class="contents" href="#_attach_namespaces">attach&#8209;namespaces</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_attach_classes">attach&#8209;classes</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_attach_inlines">attach&#8209;inlines</a>&nbsp;&nbsp;&nbsp;
-        <a class="contents" href="#_attach-extern-c">attach&#8209;extern&#8209;c</a>&nbsp;&nbsp;&nbsp;</p>
+        <a class="contents" href="#_attach-extern-c">attach&#8209;extern&#8209;c</a>&nbsp;&nbsp;&nbsp;
+        <a class="contents" href="#_attach-closing-while">attach&#8209;closing&#8209;while</a>&nbsp;&nbsp;&nbsp;
+    </p>
     <p class="contents1">
         <a class="contents" href="#_Indentation_Options">Indentation&nbsp;Options</a></p>
     <p class="contents2">
@@ -122,7 +126,8 @@
         <a class="contents" href="#_delete-empty-lines">delete&#8209;empty&#8209;lines</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_fill-empty-lines">fill&#8209;empty&#8209;lines</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_align-pointer">align&#8209;pointer</a>&nbsp;&nbsp;&nbsp;
-        <a class="contents" href="#_align-reference">align&#8209;reference</a>&nbsp;&nbsp;&nbsp;</p>
+        <a class="contents" href="#_align-reference">align&#8209;reference</a>&nbsp;&nbsp;&nbsp;
+    </p>
     <p class="contents1">
         <a class="contents" href="#_Formatting_Options">Formatting&nbsp;Options</a></p>
     <p class="contents2">
@@ -139,7 +144,8 @@
         <a class="contents" href="#_remove-comment-prefix">remove&#8209;comment&#8209;prefix</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_max-code-length">max&#8209;code&#8209;length</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_max-code-length">break&#8209;after&#8209;logical</a>&nbsp;&nbsp;&nbsp;
-        <a class="contents" href="#_mode">mode</a>&nbsp;&nbsp;&nbsp;</p>
+        <a class="contents" href="#_mode">mode</a>&nbsp;&nbsp;&nbsp;
+    </p>
     <p class="contents1">
         <a class="contents" href="#_Objective_C_Options">Objective&#8209;C&nbsp;Options</a></p>
     <p class="contents2">
@@ -150,7 +156,8 @@
         <a class="contents" href="#_pad-param-type">pad&#8209;param&#8209;type</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_unpad-param-type">unpad&#8209;param&#8209;type</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_align-method-colon">align&#8209;method&#8209;colon</a>&nbsp;&nbsp;&nbsp;
-        <a class="contents" href="#_pad-method-colon">pad&#8209;method&#8209;colon</a>&nbsp;&nbsp;&nbsp;</p>
+        <a class="contents" href="#_pad-method-colon">pad&#8209;method&#8209;colon</a>&nbsp;&nbsp;&nbsp;
+    </p>
     <p class="contents1">
         <a class="contents" href="#_Other_Options">Other&nbsp;Options</a>&nbsp;&nbsp;&nbsp;</p>
     <p class="contents2">
@@ -165,7 +172,8 @@
         <a class="contents" href="#_verbose">verbose</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_formatted">formatted</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_quiet">quiet</a>&nbsp;&nbsp;&nbsp;
-        <a class="contents" href="#_lineend">lineend</a>&nbsp;&nbsp;&nbsp;</p>
+        <a class="contents" href="#_lineend">lineend</a>&nbsp;&nbsp;&nbsp;
+    </p>
     <p class="contents1">
         <a class="contents" href="#_Command_Line_Only">Command&nbsp;Line&nbsp;Only</a></p>
     <p class="contents2">
@@ -175,7 +183,8 @@
         <a class="contents" href="#_version">version</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_help">help</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_html">html</a>&nbsp;&nbsp;&nbsp;
-        <a class="contents" href="#_html=">html=</a>&nbsp;&nbsp;&nbsp;</p>
+        <a class="contents" href="#_html=">html=</a>&nbsp;&nbsp;&nbsp;
+    </p>
     <p>
         &nbsp;</p>
     <hr />
@@ -701,7 +710,7 @@ indent-switches     <span class="comment"># cannot do this on the command line</
     <p>
         &nbsp;</p>
     <p id="_style=horstmann">
-        <code class="title">--style=horstmann / -A9</code><br />
+        <code class="title">--style=horstmann / --style=run-in / -A9</code><br />
         Horstmann style uses broken braces and run-in statements. Switches are indented to allow a run-in to the opening
         switch block. This style frequently is used with an indent of 3 spaces.</p>
     <div class="code">
@@ -987,6 +996,29 @@ extern "C" <span class="brace">{</span>
             but function definitions are formatted according to the requested brace style:</p>
         <pre>extern "C" EXPORT void STDCALL Foo()
 <span class="brace">{}</span>
+</pre>
+    </div>
+    <p>
+        &nbsp;</p>
+    <p id="_attach-closing-while">
+        <code class="title">--attach-closing-while / -xV</code><br />
+        Attach the closing 'while' of a 'do-while' statement to the closing brace. This has precedence over both 
+        the brace style and the break closing braces option.</p>
+    <div class="code">
+        <pre>do
+<span class="brace">{</span>
+    bar();
+    ++x;
+<span class="brace">}</span>
+while x == 1;
+</pre>
+        <p class="code">
+            becomes:</p>
+        <pre>do
+<span class="brace">{</span>
+    bar();
+    ++x;
+<span class="brace">}</span> while x == 1;
 </pre>
     </div>
     <p>

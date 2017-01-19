@@ -1623,7 +1623,7 @@ void ASConsole::printHelp() const
 	cout << "    Linux style formatting/indenting.\n";
 	cout << "    Linux braces, minimum conditional indent is one-half indent.\n";
 	cout << endl;
-	cout << "    --style=horstmann  OR  -A9\n";
+	cout << "    --style=horstmann  OR  --style=run-in  OR  -A9\n";
 	cout << "    Horstmann style formatting/indenting.\n";
 	cout << "    Run-in braces, indented switches.\n";
 	cout << endl;
@@ -1688,6 +1688,9 @@ void ASConsole::printHelp() const
 	cout << endl;
 	cout << "    --attach-extern-c  OR  -xk\n";
 	cout << "    Attach braces to an extern \"C\" statement.\n";
+	cout << endl;
+	cout << "    --attach-closing-while  OR  -xV\n";
+	cout << "    Attach closing while of do-while to the preceeding brace.\n";
 	cout << endl;
 	cout << "Indentation Options:\n";
 	cout << "--------------------\n";
@@ -2685,7 +2688,7 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	{
 		formatter.setFormattingStyle(STYLE_LINUX);
 	}
-	else if ( isOption(arg, "style=horstmann") )
+	else if ( isOption(arg, "style=horstmann") || isOption(arg, "style=run-in") )
 	{
 		formatter.setFormattingStyle(STYLE_HORSTMANN);
 	}
@@ -3090,6 +3093,10 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	else if ( isOption(arg, "xc", "attach-classes") )
 	{
 		formatter.setAttachClass(true);
+	}
+	else if ( isOption(arg, "xV", "attach-closing-while") )
+	{
+		formatter.setAttachClosingWhile(true);
 	}
 	else if ( isOption(arg, "xk", "attach-extern-c") )
 	{
