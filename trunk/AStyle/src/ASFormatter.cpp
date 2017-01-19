@@ -61,6 +61,7 @@ ASFormatter::ASFormatter()
 	shouldAttachExternC = false;
 	shouldAttachNamespace = false;
 	shouldAttachClass = false;
+	shouldAttachClosingWhile = false;
 	shouldAttachInline = false;
 	shouldBreakBlocks = false;
 	shouldBreakClosingHeaderBlocks = false;
@@ -187,7 +188,7 @@ void ASFormatter::init(ASSourceIterator* si)
 	objCColonAlign = 0;
 	templateDepth = 0;
 	squareBracketCount = 0;
-	horstmannIndentChars = 0;
+	runInIndentChars = 0;
 	tabIncrementIn = 0;
 	previousBracketType = NULL_TYPE;
 	previousOperator = nullptr;
@@ -222,6 +223,7 @@ void ASFormatter::init(ASSourceIterator* si)
 	foundPreDefinitionHeader = false;
 	foundPreCommandHeader = false;
 	foundPreCommandMacro = false;
+	foundTrailingReturnType = false;
 	foundCastOperator = false;
 	foundQuestionMark = false;
 	isInLineBreak = false;
@@ -585,7 +587,7 @@ string ASFormatter::nextLine()
 			            || findKeyword(preproc, 0, "line")))
 			{
 				currentLine = rtrim(currentLine);	// trim the end only
-				// check for horstmann run-in
+				// check for run-in
 				if (formattedLine.length() > 0 && formattedLine[0] == '{')
 				{
 					isInLineBreak = true;
@@ -635,7 +637,7 @@ string ASFormatter::nextLine()
 		if (currentChar == '#')
 		{
 			isInPreprocessor = true;
-			// check for horstmann run-in
+			// check for run-in
 			if (formattedLine.length() > 0 && formattedLine[0] == '{')
 			{
 				isInLineBreak = true;
@@ -954,6 +956,7 @@ string ASFormatter::nextLine()
 				foundPreDefinitionHeader = false;
 				foundPreCommandHeader = false;
 				foundPreCommandMacro = false;
+				foundTrailingReturnType = false;
 				isInPotentialCalculation = false;
 				isInObjCMethodDefinition = false;
 				isInObjCInterface = false;
@@ -1448,6 +1451,12 @@ string ASFormatter::nextLine()
 			if (isCStyle() && findKeyword(currentLine, charNum, AS_EXTERN) && isExternC())
 				isInExternC = true;
 
+			if (isCStyle() && findKeyword(currentLine, charNum, AS_AUTO)
+			        && (isBracketType(bracketTypeStack->back(), NULL_TYPE)
+			            || isBracketType(bracketTypeStack->back(), NAMESPACE_TYPE)
+			            || isBracketType(bracketTypeStack->back(), CLASS_TYPE)))
+				foundTrailingReturnType = true;
+
 			// Objective-C NSException macros are preCommandHeaders
 			if (isCStyle() && findKeyword(currentLine, charNum, AS_NS_DURING))
 				foundPreCommandMacro = true;
@@ -1728,13 +1737,13 @@ string ASFormatter::nextLine()
 	else		// format the current formatted line
 	{
 		isLineReady = false;
-		horstmannIndentInStatement = horstmannIndentChars;
+		runInIndentInStatement = runInIndentChars;
 		beautifiedLine = beautify(readyFormattedLine);
 		previousReadyFormattedLineLength = readyFormattedLineLength;
 		// the enhancer is not called for no-indent line comments
 		if (!lineCommentNoBeautify && !isFormattingModeOff)
 			enhancer->enhance(beautifiedLine, isInNamespace, isInPreprocessorBeautify, isInBeautifySQL);
-		horstmannIndentChars = 0;
+		runInIndentChars = 0;
 		lineCommentNoBeautify = lineCommentNoIndent;
 		lineCommentNoIndent = false;
 		isInIndentablePreproc = isIndentableProprocessor;
@@ -2108,6 +2117,11 @@ void ASFormatter::setAttachNamespace(bool state)
 void ASFormatter::setAttachInline(bool state)
 {
 	shouldAttachInline = state;
+}
+
+void ASFormatter::setAttachClosingWhile(bool state)
+{
+	shouldAttachClosingWhile = state;
 }
 
 /**
@@ -2772,6 +2786,7 @@ BracketType ASFormatter::getBracketType()
 		                          && isPreviousBracketBlockRelated)
 		                      || (isInClassInitializer
 		                          && (!isLegalNameChar(previousNonWSChar) || foundPreCommandHeader))
+		                      || foundTrailingReturnType
 		                      || isInObjCMethodDefinition
 		                      || isInObjCInterface
 		                      || isJavaStaticConstructor
@@ -2945,7 +2960,9 @@ bool ASFormatter::isPointerOrReference() const
 	{
 		if (previousNonWSChar == '>')
 			return true;
-		string followingText = peekNextText(currentLine.substr(charNum + 2));
+		string followingText;
+		if ((int) currentLine.length() > charNum + 2)
+			followingText = peekNextText(currentLine.substr(charNum + 2));
 		if (followingText.length() > 0 && followingText[0] == ')')
 			return true;
 		if (currentHeader != nullptr || isInPotentialCalculation)
@@ -5050,8 +5067,8 @@ void ASFormatter::formatRunIn()
 	if (extraHalfIndent)
 	{
 		int indentLength_ = getIndentLength();
-		horstmannIndentChars = indentLength_ / 2;
-		formattedLine.append(horstmannIndentChars - 1, ' ');
+		runInIndentChars = indentLength_ / 2;
+		formattedLine.append(runInIndentChars - 1, ' ');
 	}
 	else if (getForceTabIndentation() && getIndentLength() != getTabLength())
 	{
@@ -5065,7 +5082,7 @@ void ASFormatter::formatRunIn()
 		// replace spaces indents with tab indents
 		size_t tabCount = indent.length() / tabLength_;		// truncate extra spaces
 		indent.replace(0U, tabCount * tabLength_, tabCount, '\t');
-		horstmannIndentChars = indentLength_;
+		runInIndentChars = indentLength_;
 		if (indent[0] == ' ')			// allow for bracket
 			indent.erase(0, 1);
 		formattedLine.append(indent);
@@ -5073,22 +5090,22 @@ void ASFormatter::formatRunIn()
 	else if (getIndentString() == "\t")
 	{
 		appendChar('\t', false);
-		horstmannIndentChars = 2;	// one for { and one for tab
+		runInIndentChars = 2;	// one for { and one for tab
 		if (extraIndent)
 		{
 			appendChar('\t', false);
-			horstmannIndentChars++;
+			runInIndentChars++;
 		}
 	}
 	else // spaces
 	{
 		int indentLength_ = getIndentLength();
 		formattedLine.append(indentLength_ - 1, ' ');
-		horstmannIndentChars = indentLength_;
+		runInIndentChars = indentLength_;
 		if (extraIndent)
 		{
 			formattedLine.append(indentLength_, ' ');
-			horstmannIndentChars += indentLength_;
+			runInIndentChars += indentLength_;
 		}
 	}
 	isInBracketRunIn = true;
@@ -5117,13 +5134,13 @@ void ASFormatter::formatArrayRunIn()
 	if (getIndentString() == "\t")
 	{
 		appendChar('\t', false);
-		horstmannIndentChars = 2;	// one for { and one for tab
+		runInIndentChars = 2;	// one for { and one for tab
 	}
 	else
 	{
 		int indent = getIndentLength();
 		formattedLine.append(indent - 1, ' ');
-		horstmannIndentChars = indent;
+		runInIndentChars = indent;
 	}
 	isInBracketRunIn = true;
 	isInLineBreak = false;
@@ -5948,6 +5965,13 @@ string ASFormatter::getPreviousWord(const string& line, int currPos) const
 void ASFormatter::isLineBreakBeforeClosingHeader()
 {
 	assert(foundClosingHeader && previousNonWSChar == '}');
+
+	if (currentHeader == &AS_WHILE && shouldAttachClosingWhile)
+	{
+		appendClosingHeader();
+		return;
+	}
+
 	if (bracketFormatMode == BREAK_MODE
 	        || bracketFormatMode == RUN_IN_MODE
 	        || attachClosingBracketMode)
@@ -5983,24 +6007,31 @@ void ASFormatter::isLineBreakBeforeClosingHeader()
 		}
 		else
 		{
-			// if a blank line does not precede this
-			// or last line is not a one line block, attach header
-			bool previousLineIsEmpty = isEmptyLine(formattedLine);
-			int previousLineIsOneLineBlock = 0;
-			size_t firstBracket = findNextChar(formattedLine, '{');
-			if (firstBracket != string::npos)
-				previousLineIsOneLineBlock = isOneLineBlockReached(formattedLine, firstBracket);
-			if (!previousLineIsEmpty
-			        && previousLineIsOneLineBlock == 0)
-			{
-				isInLineBreak = false;
-				appendSpacePad();
-				spacePadNum = 0;	// don't count as comment padding
-			}
-
+			appendClosingHeader();
 			if (shouldBreakBlocks)
 				isAppendPostBlockEmptyLineRequested = false;
 		}
+	}
+}
+
+/**
+ * Append a closing header to the previous closing bracket, if possible
+ */
+void ASFormatter::appendClosingHeader()
+{
+	// if a blank line does not precede this
+	// or last line is not a one line block, attach header
+	bool previousLineIsEmpty = isEmptyLine(formattedLine);
+	int previousLineIsOneLineBlock = 0;
+	size_t firstBracket = findNextChar(formattedLine, '{');
+	if (firstBracket != string::npos)
+		previousLineIsOneLineBlock = isOneLineBlockReached(formattedLine, firstBracket);
+	if (!previousLineIsEmpty
+	        && previousLineIsOneLineBlock == 0)
+	{
+		isInLineBreak = false;
+		appendSpacePad();
+		spacePadNum = 0;	// don't count as comment padding
 	}
 }
 
@@ -7358,6 +7389,7 @@ void ASFormatter::resetEndOfStatement()
 	foundPreDefinitionHeader = false;
 	foundPreCommandHeader = false;
 	foundPreCommandMacro = false;
+	foundTrailingReturnType = false;
 	foundCastOperator = false;
 	isInPotentialCalculation = false;
 	isSharpAccessor = false;

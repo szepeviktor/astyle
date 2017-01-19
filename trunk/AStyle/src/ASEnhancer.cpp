@@ -621,7 +621,7 @@ void ASEnhancer::parseCurrentLine(string& line, bool isInPreprocessor, bool isIn
 
 		// ----------------  process switch statements  ---------------------------------
 
-		if (isPotentialKeyword && findKeyword(line, i, "switch"))
+		if (isPotentialKeyword && findKeyword(line, i, ASResource::AS_SWITCH))
 		{
 			switchDepth++;
 			switchStack.push_back(sw);                      // save current variables
@@ -700,7 +700,8 @@ size_t ASEnhancer::processSwitchBlock(string& line, size_t index)
 	}
 
 	if (isPotentialKeyword
-	        && (findKeyword(line, i, "case") || findKeyword(line, i, "default")))
+	        && (findKeyword(line, i, ASResource::AS_CASE)
+	            || findKeyword(line, i, ASResource::AS_DEFAULT)))
 	{
 		if (sw.unindentCase)					// if unindented last case
 		{

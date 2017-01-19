@@ -145,7 +145,7 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	// variables set by ASFormatter
 	// must also be updated in activeBeautifierStack
 	inLineNumber = other.inLineNumber;
-	horstmannIndentInStatement = other.horstmannIndentInStatement;
+	runInIndentInStatement = other.runInIndentInStatement;
 	nonInStatementBracket = other.nonInStatementBracket;
 	objCColonAlignSubsequent = other.objCColonAlignSubsequent;
 	lineCommentNoBeautify = other.lineCommentNoBeautify;
@@ -175,7 +175,7 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	isInAsmBlock = other.isInAsmBlock;
 	isInComment = other.isInComment;
 	isInPreprocessorComment = other.isInPreprocessorComment;
-	isInHorstmannComment = other.isInHorstmannComment;
+	isInRunInComment = other.isInRunInComment;
 	isInCase = other.isInCase;
 	isInQuestion = other.isInQuestion;
 	isInStatement = other.isInStatement;
@@ -332,7 +332,7 @@ void ASBeautifier::init(ASSourceIterator* iter)
 	isInAsmBlock = false;
 	isInComment = false;
 	isInPreprocessorComment = false;
-	isInHorstmannComment = false;
+	isInRunInComment = false;
 	isInStatement = false;
 	isInCase = false;
 	isInQuestion = false;
@@ -407,7 +407,7 @@ void ASBeautifier::init(ASSourceIterator* iter)
 	isInIndentableStruct = false;
 	isInIndentablePreproc = false;
 	inLineNumber = 0;
-	horstmannIndentInStatement = 0;
+	runInIndentInStatement = 0;
 	nonInStatementBracket = 0;
 	objCColonAlignSubsequent = 0;
 }
@@ -960,7 +960,7 @@ string ASBeautifier::beautify(const string& originalLine)
 			}
 		}
 
-		isInHorstmannComment = false;
+		isInRunInComment = false;
 		size_t j = line.find_first_not_of(" \t{");
 		if (j != string::npos && line.compare(j, 2, "//") == 0)
 			lineOpensWithLineComment = true;
@@ -969,7 +969,7 @@ string ASBeautifier::beautify(const string& originalLine)
 			lineOpensWithComment = true;
 			size_t k = line.find_first_not_of(" \t");
 			if (k != string::npos && line.compare(k, 1, "{") == 0)
-				isInHorstmannComment = true;
+				isInRunInComment = true;
 		}
 	}
 
@@ -1127,7 +1127,7 @@ string ASBeautifier::beautify(const string& originalLine)
 	if (!isInDefine && activeBeautifierStack != nullptr && !activeBeautifierStack->empty())
 	{
 		activeBeautifierStack->back()->inLineNumber = inLineNumber;
-		activeBeautifierStack->back()->horstmannIndentInStatement = horstmannIndentInStatement;
+		activeBeautifierStack->back()->runInIndentInStatement = runInIndentInStatement;
 		activeBeautifierStack->back()->nonInStatementBracket = nonInStatementBracket;
 		activeBeautifierStack->back()->objCColonAlignSubsequent = objCColonAlignSubsequent;
 		activeBeautifierStack->back()->lineCommentNoBeautify = lineCommentNoBeautify;
@@ -1278,7 +1278,7 @@ void ASBeautifier::registerInStatementIndent(const string& line, int i, int spac
 	}
 
 	if (updateParenStack)
-		parenIndentStack->push_back(i + spaceIndentCount_ - horstmannIndentInStatement);
+		parenIndentStack->push_back(i + spaceIndentCount_ - runInIndentInStatement);
 
 	int tabIncrement = tabIncrementIn;
 
@@ -2165,10 +2165,10 @@ void ASBeautifier::computePreliminaryIndentation()
 	         && lineBeginsWithCloseBracket)
 		--indentCount;
 
-	// handle special case of horstmann comment in an indented class statement
+	// handle special case of run-in comment in an indented class statement
 	if (isInClass
 	        && classIndent
-	        && isInHorstmannComment
+	        && isInRunInComment
 	        && !lineOpensWithComment
 	        && headerStack->size() > 1
 	        && (*headerStack)[headerStack->size() - 2] == &AS_CLASS)
@@ -2860,7 +2860,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			{
 				objCColonAlignSubsequent = 0;
 				isImmediatelyPostObjCMethodDefinition = true;
-				if (lineBeginsWithOpenBracket)		// for horstmann brackets
+				if (lineBeginsWithOpenBracket)		// for run-in brackets
 					clearObjCMethodDefinitionAlignment();
 			}
 
