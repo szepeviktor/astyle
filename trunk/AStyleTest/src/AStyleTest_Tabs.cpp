@@ -1734,6 +1734,362 @@ TEST(AttachInlines, SharpClass)
 	delete[] textOut;
 }
 
+//-----------------------------------------------------------------------------
+// AStyle Attach Closing While
+//-----------------------------------------------------------------------------
+
+TEST(AttachClosingWhile, LongOption)
+{
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    do\n"
+	    "    {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    } \n"
+	    "    while (x == 1);    // comment\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    do\n"
+	    "    {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    } while (x == 1);  // comment\n"
+	    "}";
+	char options[] = "attach-closing-while";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachClosingWhile, ShortOption)
+{
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    do\n"
+	    "    {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    } \n"
+	    "    while (x == 1);    // comment\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    do\n"
+	    "    {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    } while (x == 1);  // comment\n"
+	    "}";
+	char options[] = "-xV";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachClosingWhile, BreakStyle)
+{
+	// test BREAK_MODE brackets with attach closing while
+	char textIn[] =
+	    "\n"
+	    "void Foo() {\n"
+	    "     do {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    }\n"
+	    "    while (x == 1);    // comment\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    do\n"
+	    "    {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    } while (x == 1);  // comment\n"
+	    "}";
+	char options[] = "style=allman, attach-closing-while";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachClosingWhile, AttachStyle)
+{
+	// test ATTACH_MODE brackets with attach closing while
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    do\n"
+	    "    {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    }\n"
+	    "    while (x == 1);    // comment\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo() {\n"
+	    "    do {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    } while (x == 1);  // comment\n"
+	    "}";
+	char options[] = "style=java, attach-closing-while";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachClosingWhile, LinuxStyle)
+{
+	// test LINUX_MODE brackets with attach closing while
+	char textIn[] =
+	    "\n"
+	    "void Foo() {\n"
+	    "     do {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    }\n"
+	    "    while (x == 1);    // comment\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    do {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    } while (x == 1);  // comment\n"
+	    "}";
+	char options[] = "style=kr, attach-closing-while";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachClosingWhile, RunInStyle)
+{
+	// test RUN_IN_MODE brackets with attach closing while
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    do {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    }\n"
+	    "    while (x == 1);    // comment\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{   do\n"
+	    "    {   bar();\n"
+	    "        ++x;\n"
+	    "    } while (x == 1);  // comment\n"
+	    "}";
+	char options[] = "style=horstmann, attach-closing-while";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachClosingWhile, BreakStyleSans)
+{
+	// test BREAK_MODE brackets without attach closing while
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    do\n"
+	    "    {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    }\n"
+	    "    while (x == 1);  // comment\n"
+	    "}";
+	char options[] = "style=allman";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachClosingWhile, AttachStyleSans)
+{
+	// test ATTACH_MODE brackets without attach closing while
+	char text[] =
+	    "\n"
+	    "void Foo() {\n"
+	    "    do {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    } while (x == 1);  // comment\n"
+	    "}";
+	char options[] = "style=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachClosingWhile, LinuxStyleSans)
+{
+	// test LINUX_MODE brackets without attach closing while
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    do {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    } while (x == 1);  // comment\n"
+	    "}";
+	char options[] = "style=kr";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachClosingWhile, RunInStyleSans)
+{
+	// test RUN_IN_MODE brackets without attach closing while
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{   do\n"
+	    "    {   bar();\n"
+	    "        ++x;\n"
+	    "    }\n"
+	    "    while (x == 1);  // comment\n"
+	    "}";
+	char options[] = "style=horstmann";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachClosingWhile, BreakBlocks)
+{
+	// test spacing with break blocks
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar1();\n"
+	    "    do\n"
+	    "    {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    } \n"
+	    "    while (x == 1);    // comment\n"
+	    "    bar2();\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar1();\n"
+	    "\n"
+	    "    do\n"
+	    "    {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    } while (x == 1);  // comment\n"
+	    "\n"
+	    "    bar2();\n"
+	    "}";
+	char options[] = "attach-closing-while, break-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachClosingWhile, BreakBlocksAll)
+{
+	// test spacing with break blocks all
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar1();\n"
+	    "    do\n"
+	    "    {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    } \n"
+	    "    while (x == 1);    // comment\n"
+	    "    bar2();\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar1();\n"
+	    "\n"
+	    "    do\n"
+	    "    {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    } while (x == 1);  // comment\n"
+	    "\n"
+	    "    bar2();\n"
+	    "}";
+	char options[] = "attach-closing-while, break-blocks=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachClosingWhile, PreceedingEmptyLine)
+{
+	// do not attach closing while to a preceeding empty line
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    do\n"
+	    "    {\n"
+	    "        bar();\n"
+	    "        ++x;\n"
+	    "    }\n"
+	    "\n"
+	    "    while (x == 1);    // comment\n"
+	    "}";
+	char options[] = "attach-closing-while";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachClosingWhile, KeepOneLineBlocks)
+{
+	// do not attach closing while to a one line block
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    do\n"
+	    "    { bar(); ++x; }\n"
+	    "    while (x == 1);    // comment\n"
+	    "}";
+	char options[] = "attach-closing-while, keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+
 //----------------------------------------------------------------------------
 
 }  // namespace

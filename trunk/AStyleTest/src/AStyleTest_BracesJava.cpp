@@ -55,7 +55,7 @@ struct BracesNoneJavaF : public Test
 
 TEST_F(BracesNoneJavaF, Default)
 {
-	// test default brackets option (do not change)
+	// test default braces option (do not change)
 	char text[] =
 	    "\npublic class FooClass\n"
 	    "{\n"
@@ -79,8 +79,8 @@ TEST_F(BracesNoneJavaF, Default)
 
 TEST(BracesNoneJava, EmptyBraces)
 {
-	// test default brackets option (do not change)
-	// do not change empty brackets
+	// test default braces option (do not change)
+	// do not change empty braces
 	char text[] =
 	    "\npublic class FooClass\n"
 	    "{\n"
@@ -98,8 +98,8 @@ TEST(BracesNoneJava, EmptyBraces)
 
 TEST(BracesNoneJava, EmptyBracesWithComments)
 {
-	// test default brackets option (do not change) with ending comments
-	// do not change empty brackets
+	// test default braces option (do not change) with ending comments
+	// do not change empty braces
 	char text[] =
 	    "\npublic class FooClass // comment\n"
 	    "{\n"
@@ -117,7 +117,7 @@ TEST(BracesNoneJava, EmptyBracesWithComments)
 
 TEST(BracesNoneJava, Break)
 {
-	// test default brackets option with broken brackets
+	// test default braces option with broken braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -138,7 +138,7 @@ TEST(BracesNoneJava, Break)
 
 TEST(BracesNoneJava, Attach)
 {
-	// test default brackets option with attached brackets
+	// test default braces option with attached braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -155,7 +155,7 @@ TEST(BracesNoneJava, Attach)
 
 TEST(BracesNoneJava, Linux)
 {
-	// test default brackets option with linux brackets
+	// test default braces option with linux braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -173,7 +173,7 @@ TEST(BracesNoneJava, Linux)
 
 TEST(BracesNoneJava, RunIn)
 {
-	// test default brackets option with run-in brackets
+	// test default braces option with run-in braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -191,7 +191,7 @@ TEST(BracesNoneJava, RunIn)
 
 TEST(BracesNoneJava, EnumConstructorBreak)
 {
-	// test default brackets option with an enum constructor
+	// test default braces option with an enum constructor
 	char text[] =
 	    "\npublic enum Scope\n"
 	    "{\n"
@@ -217,7 +217,7 @@ TEST(BracesNoneJava, EnumConstructorBreak)
 
 TEST(BracesNoneJava, EnumConstructorAttach)
 {
-	// test default brackets option with an enum constructor
+	// test default braces option with an enum constructor
 	char text[] =
 	    "\npublic enum Scope {\n"
 	    "    global, view, editpane;\n"
@@ -240,7 +240,7 @@ TEST(BracesNoneJava, EnumConstructorAttach)
 
 TEST(BracesNoneJava, EnumConstructorRunIn)
 {
-	// test default brackets option with an enum constructor
+	// test default braces option with an enum constructor
 	char text[] =
 	    "\npublic enum Scope\n"
 	    "{   global, view, editpane;\n"
@@ -293,7 +293,7 @@ struct BracesBreakJavaF : public Test
 
 TEST_F(BracesBreakJavaF, LongOption)
 {
-	// test break brackets option
+	// test break braces option
 	char text[] =
 	    "\npublic class FooClass\n"
 	    "{\n"
@@ -320,7 +320,7 @@ TEST_F(BracesBreakJavaF, LongOption)
 
 TEST_F(BracesBreakJavaF, ShortOption)
 {
-	// test break brackets short option
+	// test break braces short option
 	char text[] =
 	    "\npublic class FooClass\n"
 	    "{\n"
@@ -347,7 +347,7 @@ TEST_F(BracesBreakJavaF, ShortOption)
 
 TEST(BracesBreakJava, EmptyBraces)
 {
-	// test break brackets option
+	// test break braces option
 	char textIn[] =
 	    "\npublic class FooClass\n"
 	    "{\n"
@@ -375,7 +375,7 @@ TEST(BracesBreakJava, EmptyBraces)
 
 TEST(BracesBreakJava, EmptyBracesWithComments)
 {
-	// test break brackets option with ending comments
+	// test break braces option with ending comments
 	char textIn[] =
 	    "\npublic class FooClass // comment\n"
 	    "{\n"
@@ -403,7 +403,7 @@ TEST(BracesBreakJava, EmptyBracesWithComments)
 
 TEST(BracesBreakJava, Break)
 {
-	// test break brackets option with broken brackets
+	// test break braces option with broken braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -424,7 +424,7 @@ TEST(BracesBreakJava, Break)
 
 TEST(BracesBreakJava, Attach)
 {
-	// test break brackets option with attached brackets
+	// test break braces option with attached braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -453,7 +453,7 @@ TEST(BracesBreakJava, Attach)
 
 TEST(BracesBreakJava, Linux)
 {
-	// test break brackets option with linux brackets
+	// test break braces option with linux braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -483,7 +483,7 @@ TEST(BracesBreakJava, Linux)
 
 TEST(BracesBreakJava, RunIn)
 {
-	// test break brackets option with run-in brackets
+	// test break braces option with run-in braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -513,7 +513,7 @@ TEST(BracesBreakJava, RunIn)
 
 TEST(BracesBreakJava, EnumConstructor)
 {
-	// test break brackets option with an enum constructor
+	// test break braces option with an enum constructor
 	char textIn[] =
 	    "\npublic enum Scope {\n"
 	    "    global, view, editpane;\n"
@@ -583,7 +583,7 @@ struct BracesAttachJavaF : public Test
 
 TEST_F(BracesAttachJavaF, LongOption)
 {
-	// test attach brackets option
+	// test attach braces option
 	char text[] =
 	    "\npublic class FooClass {\n"
 	    "    private bool var1;\n"
@@ -605,7 +605,7 @@ TEST_F(BracesAttachJavaF, LongOption)
 
 TEST_F(BracesAttachJavaF, ShortOption)
 {
-	// test attach brackets short option
+	// test attach braces short option
 	char text[] =
 	    "\npublic class FooClass {\n"
 	    "    private bool var1;\n"
@@ -627,7 +627,7 @@ TEST_F(BracesAttachJavaF, ShortOption)
 
 TEST_F(BracesAttachJavaF, BreakClosing)
 {
-	// test attach brackets option, with break closing brackets
+	// test attach braces option, with break closing braces
 	char text[] =
 	    "\npublic class FooClass {\n"
 	    "    private bool var1;\n"
@@ -650,7 +650,7 @@ TEST_F(BracesAttachJavaF, BreakClosing)
 
 TEST(BracesAttachJava, EmptyBraces)
 {
-	// test attach brackets option
+	// test attach braces option
 	char text[] =
 	    "\npublic class FooClass {\n"
 	    "    public FooClass() {}\n"
@@ -667,7 +667,7 @@ TEST(BracesAttachJava, EmptyBraces)
 
 TEST(BracesAttachJava, EmptyBracesWithComments)
 {
-	// test attach brackets option with ending comments
+	// test attach braces option with ending comments
 	char text[] =
 	    "\npublic class FooClass { // comment\n"
 	    "    public FooClass() {} // comment\n"
@@ -684,7 +684,7 @@ TEST(BracesAttachJava, EmptyBracesWithComments)
 
 TEST(BracesAttachJava, Break)
 {
-	// test attach brackets option with broken brackets
+	// test attach braces option with broken braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -713,7 +713,7 @@ TEST(BracesAttachJava, Break)
 
 TEST(BracesAttachJava, Attach)
 {
-	// test attach brackets option with attached brackets
+	// test attach braces option with attached braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -730,7 +730,7 @@ TEST(BracesAttachJava, Attach)
 
 TEST(BracesAttachJava, Linux)
 {
-	// test attach brackets option with linux brackets
+	// test attach braces option with linux braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -756,7 +756,7 @@ TEST(BracesAttachJava, Linux)
 
 TEST(BracesAttachJava, RunIn)
 {
-	// test attach brackets option with run-in brackets
+	// test attach braces option with run-in braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -782,7 +782,7 @@ TEST(BracesAttachJava, RunIn)
 
 TEST(BracesAttachJava, EnumConstructor)
 {
-	// test attach brackets option with an enum constructor
+	// test attach braces option with an enum constructor
 	char textIn[] =
 	    "\npublic enum Scope\n"
 	    "{\n"
@@ -852,7 +852,7 @@ struct BracesLinuxJavaF : public Test
 
 TEST_F(BracesLinuxJavaF, LongOption)
 {
-	// test linux brackets option
+	// test linux braces option
 	char text[] =
 	    "\npublic class FooClass\n"
 	    "{\n"
@@ -876,7 +876,7 @@ TEST_F(BracesLinuxJavaF, LongOption)
 
 TEST_F(BracesLinuxJavaF, ShortOption)
 {
-	// test linux brackets short option
+	// test linux braces short option
 	char text[] =
 	    "\npublic class FooClass\n"
 	    "{\n"
@@ -900,7 +900,7 @@ TEST_F(BracesLinuxJavaF, ShortOption)
 
 TEST_F(BracesLinuxJavaF, BreakClosing)
 {
-	// test linux brackets option, with break closing brackets
+	// test linux braces option, with break closing braces
 	char text[] =
 	    "\npublic class FooClass\n"
 	    "{\n"
@@ -925,7 +925,7 @@ TEST_F(BracesLinuxJavaF, BreakClosing)
 
 TEST(BracesLinuxJava, EmptyBraces)
 {
-	// test linux brackets option
+	// test linux braces option
 	char textIn[] =
 	    "\npublic class FooClass\n"
 	    "{\n"
@@ -953,7 +953,7 @@ TEST(BracesLinuxJava, EmptyBraces)
 
 TEST(BracesLinuxJava, EmptyBracesWithComments)
 {
-	// test linux brackets option with ending comments
+	// test linux braces option with ending comments
 	char textIn[] =
 	    "\npublic class FooClass // comment\n"
 	    "{\n"
@@ -981,7 +981,7 @@ TEST(BracesLinuxJava, EmptyBracesWithComments)
 
 TEST(BracesLinuxJava, Break)
 {
-	// test linux brackets option with broken brackets
+	// test linux braces option with broken braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -1011,7 +1011,7 @@ TEST(BracesLinuxJava, Break)
 
 TEST(BracesLinuxJava, Attach)
 {
-	// test linux brackets option with attached brackets
+	// test linux braces option with attached braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -1037,7 +1037,7 @@ TEST(BracesLinuxJava, Attach)
 
 TEST(BracesLinuxJava, Linux)
 {
-	// test linux brackets option with linux brackets
+	// test linux braces option with linux braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -1055,7 +1055,7 @@ TEST(BracesLinuxJava, Linux)
 
 TEST(BracesLinuxJava, RunIn)
 {
-	// test linux brackets option with run-in brackets
+	// test linux braces option with run-in braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -1082,7 +1082,7 @@ TEST(BracesLinuxJava, RunIn)
 
 TEST(BracesLinuxJava, EnumConstructor)
 {
-	// test linux brackets option with an enum constructor
+	// test linux braces option with an enum constructor
 	char textIn[] =
 	    "\npublic enum Scope\n"
 	    "{\n"
@@ -1153,7 +1153,7 @@ struct BracesStroustrupJavaF : public Test
 
 TEST_F(BracesStroustrupJavaF, LongOption)
 {
-	// test stroustrup brackets option
+	// test stroustrup braces option
 	char text[] =
 	    "\npublic class FooClass {\n"
 	    "    private bool var1;\n"
@@ -1176,7 +1176,7 @@ TEST_F(BracesStroustrupJavaF, LongOption)
 
 TEST_F(BracesStroustrupJavaF, ShortOption)
 {
-	// test stroustrup brackets short option
+	// test stroustrup braces short option
 	char text[] =
 	    "\npublic class FooClass {\n"
 	    "    private bool var1;\n"
@@ -1199,7 +1199,7 @@ TEST_F(BracesStroustrupJavaF, ShortOption)
 
 TEST_F(BracesStroustrupJavaF, BreakClosing)
 {
-	// test stroustrup brackets option, with break closing brackets
+	// test stroustrup braces option, with break closing braces
 	char text[] =
 	    "\npublic class FooClass {\n"
 	    "    private bool var1;\n"
@@ -1223,8 +1223,8 @@ TEST_F(BracesStroustrupJavaF, BreakClosing)
 
 TEST(BracesStroustrupJava, EmptyBraces)
 {
-	// test stroustrup brackets option
-	// do not change empty brackets
+	// test stroustrup braces option
+	// do not change empty braces
 	char textIn[] =
 	    "\npublic class FooClass {\n"
 	    "    public FooClass() {}\n"
@@ -1250,8 +1250,8 @@ TEST(BracesStroustrupJava, EmptyBraces)
 
 TEST(BracesStroustrupJava, EmptyBracesWithComments)
 {
-	// test stroustrup brackets option with ending comments
-	// do not change empty brackets
+	// test stroustrup braces option with ending comments
+	// do not change empty braces
 	char textIn[] =
 	    "\npublic class FooClass { // comment\n"
 	    "    public FooClass() {} // comment\n"
@@ -1277,7 +1277,7 @@ TEST(BracesStroustrupJava, EmptyBracesWithComments)
 
 TEST(BracesStroustrupJava, EnumConstructor)
 {
-	// test stroustrup brackets option with an enum constructor
+	// test stroustrup braces option with an enum constructor
 	char textIn[] =
 	    "\npublic enum Scope\n"
 	    "{\n"
@@ -1348,7 +1348,7 @@ struct BracesRunInJavaF : public Test
 
 TEST_F(BracesRunInJavaF, LongOption)
 {
-	// test run-in brackets option
+	// test run-in braces option
 	char text[] =
 	    "\npublic class FooClass\n"
 	    "{   private bool var1;\n"
@@ -1363,7 +1363,7 @@ TEST_F(BracesRunInJavaF, LongOption)
 	    "        }\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=java";
+	char options[] = "style=run-in, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1371,7 +1371,7 @@ TEST_F(BracesRunInJavaF, LongOption)
 
 TEST_F(BracesRunInJavaF, ShortOption)
 {
-	// test run-in brackets short option
+	// test run-in braces short option
 	char text[] =
 	    "\npublic class FooClass\n"
 	    "{   private bool var1;\n"
@@ -1394,7 +1394,7 @@ TEST_F(BracesRunInJavaF, ShortOption)
 
 TEST(BracesRunInJava, EmptyBraces)
 {
-	// test run-in brackets option
+	// test run-in braces option
 	char textIn[] =
 	    "\npublic class FooClass\n"
 	    "{   public FooClass() {}\n"
@@ -1412,7 +1412,7 @@ TEST(BracesRunInJava, EmptyBraces)
 	    "    public FooClass()\n"
 	    "    {}\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=java";
+	char options[] = "style=run-in, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1420,7 +1420,7 @@ TEST(BracesRunInJava, EmptyBraces)
 
 TEST(BracesRunInJava, EmptyBracesWithComments)
 {
-	// test run-in brackets option with ending comments
+	// test run-in braces option with ending comments
 	char textIn[] =
 	    "\npublic class FooClass // comment\n"
 	    "{   public FooClass() {} // comment\n"
@@ -1438,7 +1438,7 @@ TEST(BracesRunInJava, EmptyBracesWithComments)
 	    "    public FooClass() // comment\n"
 	    "    {}\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=java";
+	char options[] = "style=run-in, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1446,7 +1446,7 @@ TEST(BracesRunInJava, EmptyBracesWithComments)
 
 TEST(BracesRunInJava, Break)
 {
-	// test run-in brackets option with broken brackets
+	// test run-in braces option with broken braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -1468,7 +1468,7 @@ TEST(BracesRunInJava, Break)
 	    "    {   anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=java";
+	char options[] = "style=run-in, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1476,7 +1476,7 @@ TEST(BracesRunInJava, Break)
 
 TEST(BracesRunInJava, Attach)
 {
-	// test run-in brackets option with attached brackets
+	// test run-in braces option with attached braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -1494,7 +1494,7 @@ TEST(BracesRunInJava, Attach)
 	    "    {   anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=java";
+	char options[] = "style=run-in, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1502,7 +1502,7 @@ TEST(BracesRunInJava, Attach)
 
 TEST(BracesRunInJava, Linux)
 {
-	// test run-in brackets option with linux brackets
+	// test run-in braces option with linux braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -1521,7 +1521,7 @@ TEST(BracesRunInJava, Linux)
 	    "    {   anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=java";
+	char options[] = "style=run-in, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1529,7 +1529,7 @@ TEST(BracesRunInJava, Linux)
 
 TEST(BracesRunInJava, RunIn)
 {
-	// test run-in brackets option with run-in brackets
+	// test run-in braces option with run-in braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -1539,7 +1539,7 @@ TEST(BracesRunInJava, RunIn)
 	    "    {   anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=java";
+	char options[] = "style=run-in, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1547,7 +1547,7 @@ TEST(BracesRunInJava, RunIn)
 
 TEST(BracesRunInJava, EnumConstructor)
 {
-	// test run-in brackets option with an enum constructor
+	// test run-in braces option with an enum constructor
 	char textIn[] =
 	    "\npublic enum Scope\n"
 	    "{\n"
@@ -1579,7 +1579,7 @@ TEST(BracesRunInJava, EnumConstructor)
 	    "        return global;\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=java";
+	char options[] = "style=run-in, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1644,7 +1644,7 @@ TEST_F(BracesOtherJavaF, IndentNamespaces_IndentClass)
 
 TEST(BracesOtherJava, ClassContinuation_Attached)
 {
-	// test with class continuation and attached brackets
+	// test with class continuation and attached braces
 	char text[] =
 	    "\npublic class Foo\n"
 	    "    extends Bar1\n"
@@ -1659,7 +1659,7 @@ TEST(BracesOtherJava, ClassContinuation_Attached)
 
 TEST(BracesOtherJava, ClassContinuation_Broken)
 {
-	// test with class continuation and broken brackets
+	// test with class continuation and broken braces
 	char text[] =
 	    "\npublic class Foo\n"
 	    "    extends Bar1\n"
@@ -1675,7 +1675,7 @@ TEST(BracesOtherJava, ClassContinuation_Broken)
 
 TEST(BracesOtherJava, Interface)
 {
-	// test default brackets option (do not change)
+	// test default braces option (do not change)
 	char text[] =
 	    "\npublic interface FooIF\n"
 	    "{\n"
@@ -1819,7 +1819,7 @@ TEST(BracesOtherJava, NewOperator2)
 
 TEST(BracesArrayJava, None_BraceInParens)
 {
-	// Array brackets should not pad the '( {"unchecked"})'.
+	// Array braces should not pad the '( {"unchecked"})'.
 	char text[] =
 	    "\npublic void Foo()\n"
 	    "{\n"
@@ -1895,7 +1895,7 @@ TEST(BracesArrayJava, None_OneLineBlock2)
 
 TEST(BracesArrayJava, Break_BraceInParens)
 {
-	// Array brackets should not pad the '( {"unchecked"})'.
+	// Array braces should not pad the '( {"unchecked"})'.
 	char text[] =
 	    "\npublic void Foo()\n"
 	    "{\n"
@@ -1931,7 +1931,7 @@ TEST(BracesArrayJava, Break_OneLineBlock2)
 
 TEST(BracesArrayJava, Attach_BraceInParens)
 {
-	// Array brackets should not pad the '( {"unchecked"})'.
+	// Array braces should not pad the '( {"unchecked"})'.
 	char text[] =
 	    "\npublic void Foo() {\n"
 	    "    try {\n"
@@ -1963,7 +1963,7 @@ TEST(BracesArrayJava, Attach_OneLineBlock2)
 
 TEST(BracesArrayJava, RunIn_BraceInParens)
 {
-	// Array brackets should not pad the beginning bracket '( {"unchecked"})'.
+	// Array braces should not pad the beginning brace '( {"unchecked"})'.
 	char text[] =
 	    "\npublic void Foo()\n"
 	    "{   try\n"
@@ -1971,7 +1971,7 @@ TEST(BracesArrayJava, RunIn_BraceInParens)
 	    "        t(transferable);\n"
 	    "    }\n"
 	    "}";
-	char options[] = "style=horstmann, mode=java";
+	char options[] = "style=run-in, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1987,7 +1987,7 @@ TEST(BracesArrayJava, RunIn_OneLineBlock2)
 	    "                         {io.toString()});\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=java";
+	char options[] = "style=run-in, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;

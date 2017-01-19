@@ -76,29 +76,29 @@ TEST(BreakClosingBraces, ShortOption)
 	delete[] textOut;
 }
 
-TEST(BreakClosingBraces, TempBracketsOption)
+TEST(BreakClosingBraces, BreakClosingBraces)
 {
-	// test NONE_MODE brackets with break closing brackets
+	// test NONE_MODE brackets with break closing braces
 	char textIn[] =
-		"\nvoid FooClass::Foo(bool isFoo) {\n"
-		"    if (isFoo) {\n"
-		"        bar();\n"
-		"    } else {\n"
-		"        anotherBar();\n"
-		"    }\n"
-		"}\n"
-		"\n";
+	    "\nvoid FooClass::Foo(bool isFoo) {\n"
+	    "    if (isFoo) {\n"
+	    "        bar();\n"
+	    "    } else {\n"
+	    "        anotherBar();\n"
+	    "    }\n"
+	    "}\n"
+	    "\n";
 	char text[] =
-		"\nvoid FooClass::Foo(bool isFoo) {\n"
-		"    if (isFoo) {\n"
-		"        bar();\n"
-		"    }\n"
-		"    else {\n"
-		"        anotherBar();\n"
-		"    }\n"
-		"}\n"
-		"\n";
-	char options[] = "break-closing-brackets";
+	    "\nvoid FooClass::Foo(bool isFoo) {\n"
+	    "    if (isFoo) {\n"
+	    "        bar();\n"
+	    "    }\n"
+	    "    else {\n"
+	    "        anotherBar();\n"
+	    "    }\n"
+	    "}\n"
+	    "\n";
+	char options[] = "break-closing-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -192,9 +192,9 @@ TEST(BreakClosingBraces, Linux)
 	delete[] textOut;
 }
 
-TEST(BreakClosingBraces, Stroustrup)
+TEST(BreakClosingBraces, RunIn)
 {
-	// test STROUSTRUP_MODE brackets with break closing headers
+	// test RUN_IN_MODE brackets with break closing headers
 	char textIn[] =
 	    "\nvoid FooClass::Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -206,16 +206,15 @@ TEST(BreakClosingBraces, Stroustrup)
 	    "\n";
 	char text[] =
 	    "\nvoid FooClass::Foo(bool isFoo)\n"
-	    "{\n"
-	    "    if (isFoo) {\n"
-	    "        bar();\n"
+	    "{   if (isFoo)\n"
+	    "    {   bar();\n"
 	    "    }\n"
-	    "    else {\n"
-	    "        anotherBar();\n"
+	    "    else\n"
+	    "    {   anotherBar();\n"
 	    "    }\n"
 	    "}\n"
 	    "\n";
-	char options[] = "style=stroustrup, break-closing-braces";
+	char options[] = "style=horstmann, break-closing-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2074,18 +2073,18 @@ TEST(AddBraces, TempBracketsOption)
 {
 	// test add brackets
 	char textIn[] =
-		"\nvoid Foo()\n"
-		"{\n"
-		"    if (isFoo())\n"
-		"        return false;\n"
-		"}\n";
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (isFoo())\n"
+	    "        return false;\n"
+	    "}\n";
 	char text[] =
-		"\nvoid Foo()\n"
-		"{\n"
-		"    if (isFoo()) {\n"
-		"        return false;\n"
-		"    }\n"
-		"}\n";
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (isFoo()) {\n"
+	    "        return false;\n"
+	    "    }\n"
+	    "}\n";
 	char options[] = "add-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -2858,17 +2857,17 @@ TEST(AddOneLineBraces, TempBracketsOption)
 {
 	// test add one line brackets
 	char textIn[] =
-		"\nvoid Foo()\n"
-		"{\n"
-		"    if (isFoo())\n"
-		"        return false;\n"
-		"}\n";
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (isFoo())\n"
+	    "        return false;\n"
+	    "}\n";
 	char text[] =
-		"\nvoid Foo()\n"
-		"{\n"
-		"    if (isFoo())\n"
-		"    { return false; }\n"
-		"}\n";
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (isFoo())\n"
+	    "    { return false; }\n"
+	    "}\n";
 	char options[] = "add-one-line-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -3348,24 +3347,24 @@ TEST(RemoveBraces, TempBracketsOption)
 {
 	// test remove brackets
 	char textIn[] =
-		"\nvoid Foo()\n"
-		"{\n"
-		"    if (isFoo2)\n"
-		"    {\n"
-		"        bar2();\n"
-		"    }\n"
-		"    else if (isFoo3) {\n"
-		"        bar3();\n"
-		"    }\n"
-		"}";
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (isFoo2)\n"
+	    "    {\n"
+	    "        bar2();\n"
+	    "    }\n"
+	    "    else if (isFoo3) {\n"
+	    "        bar3();\n"
+	    "    }\n"
+	    "}";
 	char text[] =
-		"\nvoid Foo()\n"
-		"{\n"
-		"    if (isFoo2)\n"
-		"        bar2();\n"
-		"    else if (isFoo3)\n"
-		"        bar3();\n"
-		"}";
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (isFoo2)\n"
+	    "        bar2();\n"
+	    "    else if (isFoo3)\n"
+	    "        bar3();\n"
+	    "}";
 	char options[] = "remove-brackets";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
