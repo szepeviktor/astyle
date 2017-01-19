@@ -17,7 +17,7 @@ namespace {
 //
 //----------------------------------------------------------------------------
 // AStyle Java Files
-// Additional tests are in the brackets tests
+// Additional tests are in the braces tests
 //----------------------------------------------------------------------------
 
 struct StyleJavaF : public Test
@@ -596,7 +596,7 @@ TEST(StyleJava, Gnu_Throws)
 
 //----------------------------------------------------------------------------
 // AStyle C# Files
-// Additional tests are in the brackets tests
+// Additional tests are in the braces tests
 //----------------------------------------------------------------------------
 
 struct StyleSharpF : public Test

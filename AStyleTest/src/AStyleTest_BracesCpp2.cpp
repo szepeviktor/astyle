@@ -60,7 +60,7 @@ struct BracesRunInCppF : public Test
 
 TEST_F(BracesRunInCppF, LongOption)
 {
-	// test run-in brackets option
+	// test run-in braces option
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -85,7 +85,7 @@ TEST_F(BracesRunInCppF, LongOption)
 	    "}\n"
 	    "\n"
 	    "}   // end FooName\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -93,7 +93,7 @@ TEST_F(BracesRunInCppF, LongOption)
 
 TEST_F(BracesRunInCppF, ShortOption)
 {
-	// test run-in brackets short option
+	// test run-in braces short option
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -126,7 +126,7 @@ TEST_F(BracesRunInCppF, ShortOption)
 
 TEST_F(BracesRunInCppF, Namespace)
 {
-	// test run-in brackets option
+	// test run-in braces option
 	// indented namespace
 	char text[] =
 	    "\nnamespace FooName\n"
@@ -152,7 +152,7 @@ TEST_F(BracesRunInCppF, Namespace)
 	    "    }\n"
 	    "\n"
 	    "}   // end FooName\n";
-	char options[] = "style=horstmann, indent-namespaces";
+	char options[] = "style=run-in, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -160,7 +160,7 @@ TEST_F(BracesRunInCppF, Namespace)
 
 TEST_F(BracesRunInCppF, Class)
 {
-	// test run-in brackets option
+	// test run-in braces option
 	// indent class blocks
 	char text[] =
 	    "\nnamespace FooName\n"
@@ -185,7 +185,7 @@ TEST_F(BracesRunInCppF, Class)
 	    "}\n"
 	    "\n"
 	    "}   // end FooName\n";
-	char options[] = "style=horstmann, indent-classes";
+	char options[] = "style=run-in, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -193,7 +193,7 @@ TEST_F(BracesRunInCppF, Class)
 
 TEST_F(BracesRunInCppF, NamespaceClass)
 {
-	// test run-in brackets option
+	// test run-in braces option
 	// indented namespace and class
 	char text[] =
 	    "\nnamespace FooName\n"
@@ -218,7 +218,7 @@ TEST_F(BracesRunInCppF, NamespaceClass)
 	    "    }\n"
 	    "\n"
 	    "}   // end FooName\n";
-	char options[] = "style=horstmann, indent-namespaces, indent-classes";
+	char options[] = "style=run-in, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -226,8 +226,8 @@ TEST_F(BracesRunInCppF, NamespaceClass)
 
 TEST(BracesRunInCpp, EmptyBraces)
 {
-	// test run-in brackets option
-	// do not change empty brackets
+	// test run-in braces option
+	// do not change empty braces
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -262,7 +262,7 @@ TEST(BracesRunInCpp, EmptyBraces)
 	    "}\n"
 	    "FooClass() : ed(ed)\n"
 	    "{}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -270,8 +270,8 @@ TEST(BracesRunInCpp, EmptyBraces)
 
 TEST(BracesRunInCpp, EmptyBracesWithComments)
 {
-	// test run-in brackets option with ending comments
-	// do not change empty brackets
+	// test run-in braces option with ending comments
+	// do not change empty braces
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -306,7 +306,7 @@ TEST(BracesRunInCpp, EmptyBracesWithComments)
 	    "}\n"
 	    "FooClass() : ed(ed) // comment\n"
 	    "{}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -314,7 +314,7 @@ TEST(BracesRunInCpp, EmptyBracesWithComments)
 
 TEST(BracesRunInCpp, Extern)
 {
-	// extern statement should not change its bracket type
+	// extern statement should not change its brace type
 	// and should NOT use in-statement indents
 	char textIn[] =
 	    "\nextern \"C\" {\n"
@@ -342,7 +342,7 @@ TEST(BracesRunInCpp, Extern)
 	    "	{	bar2();\n"
 	    "	}\n"
 	    "}\n";
-	char options[] = "indent=tab, style=horstmann";
+	char options[] = "indent=tab, style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -368,7 +368,7 @@ TEST(BracesRunInCpp, Assembler)
 	    "        out dx, al\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -376,7 +376,7 @@ TEST(BracesRunInCpp, Assembler)
 
 TEST(BracesRunInCpp, Break)
 {
-	// test run-in brackets option with broken brackets
+	// test run-in braces option with broken braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{\n"
@@ -398,7 +398,7 @@ TEST(BracesRunInCpp, Break)
 	    "    {   anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -406,7 +406,7 @@ TEST(BracesRunInCpp, Break)
 
 TEST(BracesRunInCpp, Attach)
 {
-	// test run-in brackets option with attached brackets
+	// test run-in braces option with attached braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -424,7 +424,7 @@ TEST(BracesRunInCpp, Attach)
 	    "    {   anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -432,7 +432,7 @@ TEST(BracesRunInCpp, Attach)
 
 TEST(BracesRunInCpp, Linux)
 {
-	// test run-in brackets option with linux brackets
+	// test run-in braces option with linux braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{\n"
@@ -451,7 +451,7 @@ TEST(BracesRunInCpp, Linux)
 	    "    {   anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -459,7 +459,7 @@ TEST(BracesRunInCpp, Linux)
 
 TEST(BracesRunInCpp, RunIn1)
 {
-	// test run-in brackets option with run-in brackets
+	// test run-in braces option with run-in braces
 	char text[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -469,7 +469,7 @@ TEST(BracesRunInCpp, RunIn1)
 	    "    {   anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -477,8 +477,8 @@ TEST(BracesRunInCpp, RunIn1)
 
 TEST(BracesRunInCpp, RunIn2)
 {
-	// test default brackets option with run-in brackets
-	// and 2 brackets on the same line
+	// test default braces option with run-in braces
+	// and 2 braces on the same line
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{   if(isFoo) {\n"
@@ -491,7 +491,7 @@ TEST(BracesRunInCpp, RunIn2)
 	    "    {   bar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -499,7 +499,7 @@ TEST(BracesRunInCpp, RunIn2)
 
 TEST(BracesRunInCpp, ClassSansPrivate1)
 {
-	// test run-in brackets without class indent
+	// test run-in braces without class indent
 	// with and without 'private' class modifier
 	char textIn[] =
 	    "\nclass fooClass1\n"
@@ -522,7 +522,7 @@ TEST(BracesRunInCpp, ClassSansPrivate1)
 	    "class fooClass2\n"
 	    "{   bool foo2;\n"
 	    "};\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -530,7 +530,7 @@ TEST(BracesRunInCpp, ClassSansPrivate1)
 
 TEST(BracesRunInCpp, ClassSansPrivate2)
 {
-	// test run-in brackets with class indent
+	// test run-in braces with class indent
 	// with and without 'private' class modifier
 	char textIn[] =
 	    "\nclass fooClass1\n"
@@ -552,7 +552,7 @@ TEST(BracesRunInCpp, ClassSansPrivate2)
 	    "class fooClass2\n"
 	    "{       bool foo2;\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent-classes";
+	char options[] = "style=run-in, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -560,7 +560,7 @@ TEST(BracesRunInCpp, ClassSansPrivate2)
 
 TEST(BracesRunInCpp, Misc1)
 {
-	// test run-in brackets option with the following unusual format
+	// test run-in braces option with the following unusual format
 	char textIn[] =
 	    "\nvoid foo1() { error = false;\n"
 	    "              errorId = 0;\n"
@@ -590,7 +590,7 @@ TEST(BracesRunInCpp, Misc1)
 	    "{   error = false;\n"
 	    "    errorId = 0;\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -598,7 +598,7 @@ TEST(BracesRunInCpp, Misc1)
 
 TEST(BracesRunInCpp, Misc2)
 {
-	// test run-in brackets option with the following unusual format
+	// test run-in braces option with the following unusual format
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -612,7 +612,7 @@ TEST(BracesRunInCpp, Misc2)
 	    "\n"
 	    "    if (bar1()) {;/* dummy */}\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -620,8 +620,8 @@ TEST(BracesRunInCpp, Misc2)
 
 TEST(BracesRunInCpp, Misc3)
 {
-	// test run-in brackets option with a macro
-	// bracket type will be incorrectly classified as an array
+	// test run-in braces option with a macro
+	// brace type will be incorrectly classified as an array
 	// but should not break at the semi colon
 	char text[] =
 	    "\nvoid foo()\n"
@@ -629,7 +629,7 @@ TEST(BracesRunInCpp, Misc3)
 	    "    { BEGIN(list); return CONT; }\n"
 	    "    YY_BREAK\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -637,7 +637,7 @@ TEST(BracesRunInCpp, Misc3)
 
 TEST(BracesRunInCpp, ClassContinuation)
 {
-	// test with class continuation and run-in brackets
+	// test with class continuation and run-in braces
 	char text[] =
 	    "\nclass Foo :\n"
 	    "    public Bar\n"
@@ -645,7 +645,7 @@ TEST(BracesRunInCpp, ClassContinuation)
 	    "public:\n"
 	    "    Foo(T *in);\n"
 	    "};\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -653,14 +653,14 @@ TEST(BracesRunInCpp, ClassContinuation)
 
 TEST(BracesRunInCpp, ClassContinuation_IndentClass)
 {
-	// test with class continuation, run-in brackets, and indented class blocks
+	// test with class continuation, run-in braces, and indented class blocks
 	char text[] =
 	    "\nclass Foo :\n"
 	    "    public Bar\n"
 	    "{   public:\n"
 	    "        Foo(T *in);\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent-classes";
+	char options[] = "style=run-in, indent-classes";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -668,7 +668,7 @@ TEST(BracesRunInCpp, ClassContinuation_IndentClass)
 
 TEST(BracesRunInCpp, RunInIndent1)
 {
-	// test run-in brackets option with run-in brackets
+	// test run-in braces option with run-in braces
 	// with the indent changed from 2 to 4
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -690,7 +690,7 @@ TEST(BracesRunInCpp, RunInIndent1)
 	    "        bar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -698,7 +698,7 @@ TEST(BracesRunInCpp, RunInIndent1)
 
 TEST(BracesRunInCpp, RunInIndent2)
 {
-	// test run-in brackets option with run-in brackets
+	// test run-in braces option with run-in braces
 	// with the indent changed from 6 to 4
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -720,7 +720,7 @@ TEST(BracesRunInCpp, RunInIndent2)
 	    "        bar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -728,7 +728,7 @@ TEST(BracesRunInCpp, RunInIndent2)
 
 TEST(BracesRunInCpp, LineCommentsBreak)
 {
-	// comments following broken brackets should be attached
+	// comments following broken braces should be attached
 	char textIn[] =
 	    "\nvoid foo(bool isFoo)\n"
 	    "{\n"
@@ -754,7 +754,7 @@ TEST(BracesRunInCpp, LineCommentsBreak)
 	    "        }\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -762,7 +762,7 @@ TEST(BracesRunInCpp, LineCommentsBreak)
 
 TEST(BracesRunInCpp, LineCommentsAttach)
 {
-	// comments following attached brackets should stay attached to the line
+	// comments following attached braces should stay attached to the line
 	char textIn[] =
 	    "\nvoid foo(bool isFoo) {    // comment1\n"
 	    "    if (isFoo) {          // comment2\n"
@@ -779,7 +779,7 @@ TEST(BracesRunInCpp, LineCommentsAttach)
 	    "        }\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -787,7 +787,7 @@ TEST(BracesRunInCpp, LineCommentsAttach)
 
 TEST(BracesRunInCpp, LineCommentsRunIn)
 {
-	// comments following run-in brackets should be unchanged
+	// comments following run-in braces should be unchanged
 	char text[] =
 	    "\nvoid foo(bool isFoo)\n"
 	    "{   // comment1\n"
@@ -799,7 +799,7 @@ TEST(BracesRunInCpp, LineCommentsRunIn)
 	    "        }\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -807,7 +807,7 @@ TEST(BracesRunInCpp, LineCommentsRunIn)
 
 TEST(BracesRunInCpp, LineCommentsClosingHeader)
 {
-	// test comment alignment when a closing header is attached to a closing bracket
+	// test comment alignment when a closing header is attached to a closing brace
 	char textIn[] =
 	    "\nvoid foo()       // comment0\n"
 	    "{\n"
@@ -826,7 +826,7 @@ TEST(BracesRunInCpp, LineCommentsClosingHeader)
 	    "    {   bar2();  // comment4\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -834,7 +834,7 @@ TEST(BracesRunInCpp, LineCommentsClosingHeader)
 
 TEST(BracesRunInCpp, CommentsBreak1)
 {
-	// broken brackets with following comments to run-in
+	// broken braces with following comments to run-in
 	char textIn[] =
 	    "\nvoid (foo)\n"
 	    "{\n"
@@ -861,7 +861,7 @@ TEST(BracesRunInCpp, CommentsBreak1)
 	    "        bar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -869,7 +869,7 @@ TEST(BracesRunInCpp, CommentsBreak1)
 
 TEST(BracesRunInCpp, CommentsAttach1)
 {
-	// attached brackets with following comments to run-in
+	// attached braces with following comments to run-in
 	char textIn[] =
 	    "\nvoid (foo) {\n"
 	    "    /*\n"
@@ -894,7 +894,7 @@ TEST(BracesRunInCpp, CommentsAttach1)
 	    "        bar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -902,7 +902,7 @@ TEST(BracesRunInCpp, CommentsAttach1)
 
 TEST(BracesRunInCpp, CommentsRunIn1)
 {
-	// run-in brackets should not change
+	// run-in braces should not change
 	char text[] =
 	    "\nvoid (foo)\n"
 	    "{   /*\n"
@@ -915,7 +915,7 @@ TEST(BracesRunInCpp, CommentsRunIn1)
 	    "        bar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -923,7 +923,7 @@ TEST(BracesRunInCpp, CommentsRunIn1)
 
 TEST(BracesRunInCpp, CommentsBreak2)
 {
-	// broken brackets with following comments to run-in
+	// broken braces with following comments to run-in
 	// mixed tabs and spaces
 	char textIn[] =
 	    "\nvoid (foo)\n"
@@ -951,7 +951,7 @@ TEST(BracesRunInCpp, CommentsBreak2)
 	    "        bar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -959,7 +959,7 @@ TEST(BracesRunInCpp, CommentsBreak2)
 
 TEST(BracesRunInCpp, CommentsAttach2)
 {
-	// attached brackets with following comments to run-in
+	// attached braces with following comments to run-in
 	// mixed tabs and spaces
 	char textIn[] = "\nvoid (foo) {\n"
 	                "	/*\n"
@@ -984,7 +984,7 @@ TEST(BracesRunInCpp, CommentsAttach2)
 	    "        bar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -992,7 +992,7 @@ TEST(BracesRunInCpp, CommentsAttach2)
 
 TEST(BracesRunInCpp, CommentsRunIn2)
 {
-	// run-in brackets with following comments to run-in
+	// run-in braces with following comments to run-in
 	// mixed tabs and spaces
 	char textIn[] =
 	    "\nvoid (foo)\n"
@@ -1018,7 +1018,7 @@ TEST(BracesRunInCpp, CommentsRunIn2)
 	    "        bar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1026,7 +1026,7 @@ TEST(BracesRunInCpp, CommentsRunIn2)
 
 TEST(BracesRunInCpp, CommentsBreak3)
 {
-	// comments following broken brackets should attach to the bracket
+	// comments following broken braces should attach to the brace
 	char textIn[] =
 	    "\nvoid foo1(bool isFoo) /* comment0 */\n"
 	    "{\n"
@@ -1071,7 +1071,7 @@ TEST(BracesRunInCpp, CommentsBreak3)
 	    "        fooBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1079,8 +1079,8 @@ TEST(BracesRunInCpp, CommentsBreak3)
 
 TEST(BracesRunInCpp, CommentsAttach3)
 {
-	// test comments following brackets
-	// multi-line comments following attached brackets break
+	// test comments following braces
+	// multi-line comments following attached braces break
 	//    but are NOT aligned
 	char textIn[] =
 	    "\nvoid foo1(bool isFoo) {  /* comment0 */\n"
@@ -1119,7 +1119,7 @@ TEST(BracesRunInCpp, CommentsAttach3)
 	    "        fooBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1127,7 +1127,7 @@ TEST(BracesRunInCpp, CommentsAttach3)
 
 TEST(BracesRunInCpp, CommentsRunIn3)
 {
-	// comments following run-in brackets should be unchanged
+	// comments following run-in braces should be unchanged
 	char text[] =
 	    "\nvoid foo1(bool isFoo) /* comment0 */\n"
 	    "{   /* comment1 */\n"
@@ -1148,7 +1148,7 @@ TEST(BracesRunInCpp, CommentsRunIn3)
 	    "        fooBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1243,7 +1243,7 @@ TEST(BracesRunInCpp, CommentsRunInNamespace2)
 
 TEST(BracesRunInCpp, MultipleCommentsBreak)
 {
-	// multiple comments with broken brackets should be run-in
+	// multiple comments with broken braces should be run-in
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -1258,7 +1258,7 @@ TEST(BracesRunInCpp, MultipleCommentsBreak)
 	    "    {   bar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1266,7 +1266,7 @@ TEST(BracesRunInCpp, MultipleCommentsBreak)
 
 TEST(BracesRunInCpp, MultipleCommentsAttach)
 {
-	// multiple comments with attached brackets should not be broken
+	// multiple comments with attached braces should not be broken
 	char textIn[] =
 	    "\nvoid foo() {\n"
 	    "    if (isFoo) { /* comment1 */  // comment2\n"
@@ -1279,7 +1279,7 @@ TEST(BracesRunInCpp, MultipleCommentsAttach)
 	    "        bar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1287,14 +1287,14 @@ TEST(BracesRunInCpp, MultipleCommentsAttach)
 
 TEST(BracesRunInCpp, MultipleCommentsRunIn)
 {
-	// multiple comments with run-in brackets should remain unchanged
+	// multiple comments with run-in braces should remain unchanged
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{   if (isFoo) /* comment1 */  // comment2\n"
 	    "    {   bar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1302,12 +1302,12 @@ TEST(BracesRunInCpp, MultipleCommentsRunIn)
 
 //-------------------------------------------------------------------------
 // AStyle C++ Array Default Brace Options
-// NOTE: Array brackets are NOT converted TO or FROM RunIn style
+// NOTE: Array braces are NOT converted TO or FROM RunIn style
 //-------------------------------------------------------------------------
 
 TEST(BracesArrayNoneCpp, Break)
 {
-	// test array formatting with broken bracket
+	// test array formatting with broken brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst char *foo[] =\n"
@@ -1331,7 +1331,7 @@ TEST(BracesArrayNoneCpp, Break)
 
 TEST(BracesArrayNoneCpp, Attach)
 {
-	// test array formatting with attached brackets
+	// test array formatting with attached braces
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst char *foo[] = {\n"
@@ -1353,7 +1353,7 @@ TEST(BracesArrayNoneCpp, Attach)
 
 TEST(BracesArrayNoneCpp, RunIn1)
 {
-	// test array formatting with run-in brackets
+	// test array formatting with run-in braces
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst int foo[] =\n"
@@ -1375,7 +1375,7 @@ TEST(BracesArrayNoneCpp, RunIn1)
 
 TEST(BracesArrayNoneCpp, RunIn2)
 {
-	// test array formatting with run-in brackets
+	// test array formatting with run-in braces
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst char *foo[] =\n"
@@ -1397,7 +1397,7 @@ TEST(BracesArrayNoneCpp, RunIn2)
 
 TEST(BracesArrayNoneCpp, RunIn3)
 {
-	// test array formatting with multiple brackets
+	// test array formatting with multiple braces
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nstatic wxString codes[2][4] =\n"
@@ -1425,7 +1425,7 @@ TEST(BracesArrayNoneCpp, RunIn3)
 
 TEST(BracesArrayNoneCpp, RunIn4)
 {
-	// test array formatting with multiple one-line-statement brackets
+	// test array formatting with multiple one-line-statement braces
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst ct_data static_ltree[L_CODES+2] =\n"
@@ -1572,8 +1572,8 @@ TEST(BracesArrayNoneCpp, InStatement1)
 
 TEST(BracesArrayNoneCpp, InStatement2)
 {
-	// test array formatting with run-in brackets
-	// and a non in-statement bracket on the same line
+	// test array formatting with run-in braces
+	// and a non in-statement brace on the same line
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -1631,7 +1631,7 @@ TEST(BracesArrayNoneCpp, Comments1)
 
 TEST(BracesArrayNoneCpp, Comments2)
 {
-	// test array formatting, opening bracket after a comment
+	// test array formatting, opening brace after a comment
 	// TODO: Fix the following array
 	char textIn[] =
 	    "\nstatic tAction StateTable[enStates][enEvents] =\n"
@@ -1660,7 +1660,7 @@ TEST(BracesArrayNoneCpp, Comments2)
 TEST(BracesArrayNoneCpp, Enum)
 {
 	// test enum formatting
-	// the enum bracket should be space padded and should not be broken
+	// the enum brace should be space padded and should not be broken
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -1679,13 +1679,13 @@ TEST(BracesArrayNoneCpp, Enum)
 
 //-------------------------------------------------------------------------
 // AStyle C++ Array Break Brace Options
-// NOTE: Array brackets are NOT converted TO or FROM RunIn style
+// NOTE: Array braces are NOT converted TO or FROM RunIn style
 //-------------------------------------------------------------------------
 
 TEST(BracesArrayBreakCpp, Break)
 {
-	// test array formatting with broken brackets
-	// should not change a broken bracket
+	// test array formatting with broken braces
+	// should not change a broken brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst char *foo[] =\n"
@@ -1709,8 +1709,8 @@ TEST(BracesArrayBreakCpp, Break)
 
 TEST(BracesArrayBreakCpp, Attach)
 {
-	// test array formatting with attached brackets
-	// should break an attached bracket
+	// test array formatting with attached braces
+	// should break an attached brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst char *foo[] = {\n"
@@ -1733,7 +1733,7 @@ TEST(BracesArrayBreakCpp, Attach)
 
 TEST(BracesArrayBreakCpp, RunIn1)
 {
-	// test array formatting with run-in brackets
+	// test array formatting with run-in braces
 	// should break run-in run-ins
 	// use indent=tab to check indent character
 	char textIn[] =
@@ -1757,7 +1757,7 @@ TEST(BracesArrayBreakCpp, RunIn1)
 
 TEST(BracesArrayBreakCpp, RunIn2)
 {
-	// test array formatting with run-in brackets
+	// test array formatting with run-in braces
 	// should break run-in run-ins
 	// use indent=tab to check indent character
 	char textIn[] =
@@ -1781,7 +1781,7 @@ TEST(BracesArrayBreakCpp, RunIn2)
 
 TEST(BracesArrayBreakCpp, RunIn3)
 {
-	// test array formatting with multiple brackets
+	// test array formatting with multiple braces
 	// should break run-in run-ins
 	// use indent=tab to check indent character
 	char textIn[] =
@@ -1813,7 +1813,7 @@ TEST(BracesArrayBreakCpp, RunIn3)
 
 TEST(BracesArrayBreakCpp, RunIn4)
 {
-	// test array formatting with multiple one-line-statement brackets
+	// test array formatting with multiple one-line-statement braces
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst ct_data static_ltree[L_CODES+2] =\n"
@@ -1967,8 +1967,8 @@ TEST(BracesArrayBreakCpp, InStatement1)
 
 TEST(BracesArrayBreakCpp, InStatement2)
 {
-	// test array formatting with run-in brackets
-	// and a non in-statement bracket on the same line
+	// test array formatting with run-in braces
+	// and a non in-statement brace on the same line
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -2001,7 +2001,7 @@ TEST(BracesArrayBreakCpp, InStatement2)
 TEST(BracesArrayBreakCpp, LineComments)
 {
 	// test array formatting with line-end comments
-	// should break an attached bracket
+	// should break an attached brace
 	char textIn[] =
 	    "\nconst char *foo[] = { // comment\n"
 	    "    \"foo1\",\n"
@@ -2024,7 +2024,7 @@ TEST(BracesArrayBreakCpp, LineComments)
 TEST(BracesArrayBreakCpp, Comments)
 {
 	// test array formatting with comments
-	// should break an attached bracket
+	// should break an attached brace
 	// UNLESS it is multi-line
 	// TODO: Fix indentation of multi-line comment
 	char textIn[] =
@@ -2063,7 +2063,7 @@ TEST(BracesArrayBreakCpp, Comments)
 TEST(BracesArrayBreakCpp, Enum)
 {
 	// test enum formatting
-	// the enum bracket should be space padded and should not be broken
+	// the enum brace should be space padded and should not be broken
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -2082,13 +2082,13 @@ TEST(BracesArrayBreakCpp, Enum)
 
 //-------------------------------------------------------------------------
 // AStyle C++ Array Attach Brace Options
-// NOTE: Array brackets are NOT converted TO or FROM RunIn style
+// NOTE: Array braces are NOT converted TO or FROM RunIn style
 //-------------------------------------------------------------------------
 
 TEST(BracesArrayAttachCpp, Break)
 {
-	// test array formatting with broken brackets
-	// should attach a broken bracket
+	// test array formatting with broken braces
+	// should attach a broken brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst char *foo[] =\n"
@@ -2111,8 +2111,8 @@ TEST(BracesArrayAttachCpp, Break)
 
 TEST(BracesArrayAttachCpp, Attach)
 {
-	// test array formatting with attached brackets
-	// should not change an attached bracket
+	// test array formatting with attached braces
+	// should not change an attached brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst char *foo[] = {\n"
@@ -2134,8 +2134,8 @@ TEST(BracesArrayAttachCpp, Attach)
 
 TEST(BracesArrayAttachCpp, RunIn1)
 {
-	// test array formatting with horstmann brackets
-	// should attach a run-in bracket
+	// test array formatting with horstmann braces
+	// should attach a run-in brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst int foo[] =\n"
@@ -2157,8 +2157,8 @@ TEST(BracesArrayAttachCpp, RunIn1)
 
 TEST(BracesArrayAttachCpp, RunIn2)
 {
-	// test array formatting with horstmann brackets
-	// should attach a run-in bracket
+	// test array formatting with horstmann braces
+	// should attach a run-in brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst char *foo[] =\n"
@@ -2180,7 +2180,7 @@ TEST(BracesArrayAttachCpp, RunIn2)
 
 TEST(BracesArrayAttachCpp, RunIn3)
 {
-	// test array formatting with multiple brackets
+	// test array formatting with multiple braces
 	// should break run-in run-ins
 	// use indent=tab to check indent character
 	char textIn[] =
@@ -2211,7 +2211,7 @@ TEST(BracesArrayAttachCpp, RunIn3)
 
 TEST(BracesArrayAttachCpp, RunIn4)
 {
-	// test array formatting with multiple one-line-statement brackets
+	// test array formatting with multiple one-line-statement braces
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst ct_data static_ltree[L_CODES+2] =\n"
@@ -2358,8 +2358,8 @@ TEST(BracesArrayAttachCpp, InStatement1)
 
 TEST(BracesArrayAttachCpp, InStatement2)
 {
-	// test array formatting with run-in brackets
-	// and a non in-statement bracket on the same line
+	// test array formatting with run-in braces
+	// and a non in-statement brace on the same line
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -2390,7 +2390,7 @@ TEST(BracesArrayAttachCpp, InStatement2)
 TEST(BracesArrayAttachCpp, LineComments)
 {
 	// test array formatting with line-end comments
-	// should attach a broken bracket
+	// should attach a broken brace
 	char textIn[] =
 	    "\nconst char *foo[] = // comment\n"
 	    "{\n"
@@ -2413,9 +2413,9 @@ TEST(BracesArrayAttachCpp, LineComments)
 TEST(BracesArrayAttachCpp, Comments)
 {
 	// test array formatting with comments
-	// should attach a broken bracket
+	// should attach a broken brace
 	// UNLESS it is multi-line
-	// TODO: Attach bracket to line-end comment
+	// TODO: Attach brace to line-end comment
 	char textIn[] =
 	    "\nconst char *foo[] = /* comment */\n"
 	    "{\n"
@@ -2433,7 +2433,7 @@ TEST(BracesArrayAttachCpp, Comments)
 	    "};\n";
 	char text[] =
 	    "\nconst char *foo[] = /* comment */\n"
-	    "{\n"				//bracket should attach
+	    "{\n"				//brace should attach
 	    "    \"foo1\",\n"
 	    "    \"foo2\",\n"
 	    "    \"foo3\",\n"
@@ -2473,7 +2473,7 @@ TEST(BracesArrayAttachCpp, Sans)
 TEST(BracesArrayAttachCpp, Enum)
 {
 	// test enum formatting
-	// the enum bracket should be space padded and should not be broken
+	// the enum brace should be space padded and should not be broken
 	char textIn[] =
 	    "\nvoid foo() {\n"
 	    "    enum SQGeneratorState{ eRunning, eSuspended, eDead };\n"
@@ -2490,15 +2490,15 @@ TEST(BracesArrayAttachCpp, Enum)
 
 //-------------------------------------------------------------------------
 // AStyle C++ Array Linux Brace Options
-// NOTE: Array brackets are NOT converted TO or FROM RunIn style
-// Linux array brackets do NOT have complete tests.
+// NOTE: Array braces are NOT converted TO or FROM RunIn style
+// Linux array braces do NOT have complete tests.
 //-------------------------------------------------------------------------
 
 TEST(BracesArrayLinuxCpp, Break)
 {
-	// linux attaches the opening bracket for arrays
-	// test array formatting with broken brackets
-	// should attach a broken bracket
+	// linux attaches the opening brace for arrays
+	// test array formatting with broken braces
+	// should attach a broken brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst char *foo[] =\n"
@@ -2521,9 +2521,9 @@ TEST(BracesArrayLinuxCpp, Break)
 
 TEST(BracesArrayLinuxCpp, Attach)
 {
-	// linux attaches the opening bracket for arrays
-	// test array formatting with attached brackets
-	// should not change attached bracket
+	// linux attaches the opening brace for arrays
+	// test array formatting with attached braces
+	// should not change attached brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst char *foo[] = {\n"
@@ -2545,8 +2545,8 @@ TEST(BracesArrayLinuxCpp, Attach)
 
 TEST(BracesArrayLinuxCpp, RunIn1)
 {
-	// linux attaches the opening bracket for arrays
-	// test array formatting with run-in brackets
+	// linux attaches the opening brace for arrays
+	// test array formatting with run-in braces
 	// should attach run-ins
 	// use indent=tab to check indent character
 	char textIn[] =
@@ -2570,7 +2570,7 @@ TEST(BracesArrayLinuxCpp, RunIn1)
 TEST(BracesArrayLinuxCpp, Enum)
 {
 	// test enum formatting
-	// the enum bracket should be space padded and should not be broken
+	// the enum brace should be space padded and should not be broken
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -2589,13 +2589,13 @@ TEST(BracesArrayLinuxCpp, Enum)
 
 //-------------------------------------------------------------------------
 // AStyle C++ Array RunIn Brace Options
-// NOTE: Array brackets are NOT converted TO or FROM RunIn style
+// NOTE: Array braces are NOT converted TO or FROM RunIn style
 //-------------------------------------------------------------------------
 
 TEST(BracesArrayRunInCpp, Break1)
 {
-	// test array formatting with broken brackets
-	// should run-in a broken bracket
+	// test array formatting with broken braces
+	// should run-in a broken brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst int foo[] =\n"
@@ -2610,7 +2610,7 @@ TEST(BracesArrayRunInCpp, Break1)
 	    "	FOO2,\n"
 	    "	FOO3,\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2619,7 +2619,7 @@ TEST(BracesArrayRunInCpp, Break1)
 TEST(BracesArrayRunInCpp, Break2)
 {
 	// test array formatting with quotes
-	// should run-in a broken bracket
+	// should run-in a broken brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst char *foo[] =\n"
@@ -2634,7 +2634,7 @@ TEST(BracesArrayRunInCpp, Break2)
 	    "	\"foo2\",\n"
 	    "	\"foo3\",\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2642,8 +2642,8 @@ TEST(BracesArrayRunInCpp, Break2)
 
 TEST(BracesArrayRunInCpp, Break3)
 {
-	// test array formatting with multiple brackets
-	// should run-in all brackets
+	// test array formatting with multiple braces
+	// should run-in all braces
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nstatic wxString codes[2][4] =\n"
@@ -2666,7 +2666,7 @@ TEST(BracesArrayRunInCpp, Break3)
 	    "		_T(\"1001110\"),_T(\"1110100\")\n"
 	    "	}\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2674,7 +2674,7 @@ TEST(BracesArrayRunInCpp, Break3)
 
 TEST(BracesArrayRunInCpp, Break4)
 {
-	// test array formatting with multiple one-line-statement brackets
+	// test array formatting with multiple one-line-statement braces
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst ct_data static_ltree[L_CODES+2] =\n"
@@ -2687,7 +2687,7 @@ TEST(BracesArrayRunInCpp, Break4)
 	    "{	{{ 12},{  8}}, {{140},{  8}}, {{ 76},{  8}}, {{204},{  8}}, {{ 44},{  8}},\n"
 	    "	{{172},{  8}}, {{108},{  8}}, {{236},{  8}}, {{ 28},{  8}}, {{156},{  8}}\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2710,7 +2710,7 @@ TEST(BracesArrayRunInCpp, Break5)
 	    "		0,0,0,0\n"
 	    "	}\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2745,7 +2745,7 @@ TEST(BracesArrayRunInCpp, Break6)
 	    "		}\n"
 	    "	}\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2753,8 +2753,8 @@ TEST(BracesArrayRunInCpp, Break6)
 
 TEST(BracesArrayRunInCpp, Attach1)
 {
-	// test array formatting with attached brackets
-	// should run-in an attached bracket
+	// test array formatting with attached braces
+	// should run-in an attached brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst int foo[] = {\n"
@@ -2768,7 +2768,7 @@ TEST(BracesArrayRunInCpp, Attach1)
 	    "	FOO2,\n"
 	    "	FOO3,\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2777,7 +2777,7 @@ TEST(BracesArrayRunInCpp, Attach1)
 TEST(BracesArrayRunInCpp, Attach2)
 {
 	// test array formatting with quotes
-	// should run-in an attached bracket
+	// should run-in an attached brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst char *foo[] = {\n"
@@ -2791,7 +2791,7 @@ TEST(BracesArrayRunInCpp, Attach2)
 	    "	\"foo2\",\n"
 	    "	\"foo3\",\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2799,8 +2799,8 @@ TEST(BracesArrayRunInCpp, Attach2)
 
 TEST(BracesArrayRunInCpp, Attach3)
 {
-	// test array formatting with multiple brackets
-	// should run-in all brackets
+	// test array formatting with multiple braces
+	// should run-in all braces
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nstatic wxString codes[2][4] = {\n"
@@ -2822,7 +2822,7 @@ TEST(BracesArrayRunInCpp, Attach3)
 	    "		_T(\"1001110\"),_T(\"1110100\")\n"
 	    "	}\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2830,7 +2830,7 @@ TEST(BracesArrayRunInCpp, Attach3)
 
 TEST(BracesArrayRunInCpp, Attach4)
 {
-	// test array formatting with multiple one-line-statement brackets
+	// test array formatting with multiple one-line-statement braces
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst ct_data static_ltree[L_CODES+2] = {\n"
@@ -2842,7 +2842,7 @@ TEST(BracesArrayRunInCpp, Attach4)
 	    "{	{{ 12},{  8}}, {{140},{  8}}, {{ 76},{  8}}, {{204},{  8}}, {{ 44},{  8}},\n"
 	    "	{{172},{  8}}, {{108},{  8}}, {{236},{  8}}, {{ 28},{  8}}, {{156},{  8}}\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2864,7 +2864,7 @@ TEST(BracesArrayRunInCpp, Attach5)
 	    "		0,0,0,0\n"
 	    "	}\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2898,7 +2898,7 @@ TEST(BracesArrayRunInCpp, Attach6)
 	    "		}\n"
 	    "	}\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2920,7 +2920,7 @@ TEST(BracesArrayRunInCpp, AttachLineComments)
 	    "	\"foo2\",\n"
 	    "	\"foo3\",\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2942,7 +2942,7 @@ TEST(BracesArrayRunInCpp, AttachComments)
 	    "	\"foo2\",\n"
 	    "	\"foo3\",\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2951,7 +2951,7 @@ TEST(BracesArrayRunInCpp, AttachComments)
 TEST(BracesArrayRunInCpp, RunIn1)
 {
 	// test array formatting
-	// should NOT change a run-in bracket
+	// should NOT change a run-in brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst int foo[] =\n"
@@ -2965,7 +2965,7 @@ TEST(BracesArrayRunInCpp, RunIn1)
 	    "	FOO2,\n"
 	    "	FOO3,\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2974,7 +2974,7 @@ TEST(BracesArrayRunInCpp, RunIn1)
 TEST(BracesArrayRunInCpp, RunIn2)
 {
 	// test array formatting with quotes
-	// should NOT change a run-in bracket
+	// should NOT change a run-in brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst char *foo[] =\n"
@@ -2988,7 +2988,7 @@ TEST(BracesArrayRunInCpp, RunIn2)
 	    "	\"foo2\",\n"
 	    "	\"foo3\",\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2996,8 +2996,8 @@ TEST(BracesArrayRunInCpp, RunIn2)
 
 TEST(BracesArrayRunInCpp, RunIn3)
 {
-	// test array formatting with multiple brackets
-	// should NOT change a run-in bracket
+	// test array formatting with multiple braces
+	// should NOT change a run-in brace
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nstatic wxString codes[2][4] =\n"
@@ -3017,7 +3017,7 @@ TEST(BracesArrayRunInCpp, RunIn3)
 	    "		_T(\"1001110\"),_T(\"1110100\")\n"
 	    "	}\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3025,7 +3025,7 @@ TEST(BracesArrayRunInCpp, RunIn3)
 
 TEST(BracesArrayRunInCpp, RunIn4)
 {
-	// test array formatting with multiple one-line-statement brackets
+	// test array formatting with multiple one-line-statement braces
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nconst ct_data static_ltree[L_CODES+2] =\n"
@@ -3037,7 +3037,7 @@ TEST(BracesArrayRunInCpp, RunIn4)
 	    "{	{{ 12},{  8}}, {{140},{  8}}, {{ 76},{  8}}, {{204},{  8}}, {{ 44},{  8}},\n"
 	    "	{{172},{  8}}, {{108},{  8}}, {{236},{  8}}, {{ 28},{  8}}, {{156},{  8}}\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3058,7 +3058,7 @@ TEST(BracesArrayRunInCpp, RunIn5)
 	    "		0,0,0,0\n"
 	    "	}\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3090,7 +3090,7 @@ TEST(BracesArrayRunInCpp, RunIn6)
 	    "		}\n"
 	    "	}\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3115,7 +3115,7 @@ TEST(BracesArrayRunInCpp, RunInLineComments1)
 	    "	\"foo2\",\n"
 	    "	\"foo3\",\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3142,7 +3142,7 @@ TEST(BracesArrayRunInCpp, RunInLineComments2)
 	    "	\"foo2\",\n"
 	    "	\"foo3\",\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3167,7 +3167,7 @@ TEST(BracesArrayRunInCpp, RunInComments)
 	    "	\"foo2\",\n"
 	    "	\"foo3\",\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3183,7 +3183,7 @@ TEST(BracesArrayRunInCpp, InStatement1)
 	    "	              \"uno\", \"dos\"\n"
 	    "	            };\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3191,8 +3191,8 @@ TEST(BracesArrayRunInCpp, InStatement1)
 
 TEST(BracesArrayRunInCpp, InStatement2)
 {
-	// test array formatting with run-in brackets
-	// and a non in-statement bracket on the same line
+	// test array formatting with run-in braces
+	// and a non in-statement brace on the same line
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -3215,7 +3215,7 @@ TEST(BracesArrayRunInCpp, InStatement2)
 	    "	bar1();\n"
 	    "	bar2();\n"
 	    "}\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3223,8 +3223,8 @@ TEST(BracesArrayRunInCpp, InStatement2)
 
 TEST(BracesArrayRunInCpp, InStatement3)
 {
-	// test array formatting with run-in brackets
-	// and a non in-statement bracket on the same line
+	// test array formatting with run-in braces
+	// and a non in-statement brace on the same line
 	// use indent=tab to check indent character
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -3246,7 +3246,7 @@ TEST(BracesArrayRunInCpp, InStatement3)
 	    "	bar1();\n"
 	    "	bar2();\n"
 	    "}\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3255,7 +3255,7 @@ TEST(BracesArrayRunInCpp, InStatement3)
 TEST(BracesArrayRunInCpp, Enum)
 {
 	// test enum formatting
-	// the enum bracket should be space padded and should not be broken
+	// the enum brace should be space padded and should not be broken
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{   enum SQGeneratorState{ eRunning, eSuspended, eDead };\n"
@@ -3264,7 +3264,7 @@ TEST(BracesArrayRunInCpp, Enum)
 	    "\nvoid foo()\n"
 	    "{   enum SQGeneratorState { eRunning, eSuspended, eDead };\n"
 	    "};\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;

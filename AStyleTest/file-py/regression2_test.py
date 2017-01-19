@@ -32,10 +32,11 @@ import libtest
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN         # C# - 1000 files from SharpDevelop
 # TESTPROJECT
-__project = libastyle.JEDIT
+__project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
-__options = libastyle.OPT3
+# ADD xV TO LINASTYLE.PY OPTIONS **********************************
+__options = libastyle.OPT1
 
 # options_x are for BOTH executables
 __options_x = ""
@@ -46,7 +47,7 @@ __options_x2 = ""
 #__options = "-tapOHUk3"
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle26n"
+__astyleexe1 = "astyle26"
 __astyleexe2 = "astyled"
 
 # select one of the following to format files in the OLD directory

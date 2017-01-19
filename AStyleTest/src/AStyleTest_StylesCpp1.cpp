@@ -21,7 +21,7 @@ namespace {
 
 //----------------------------------------------------------------------------
 // AStyle C++ Default Style
-// Additional tests are in the break brackets tests
+// Additional tests are in the break braces tests
 //----------------------------------------------------------------------------
 
 struct StyleDefaultCppF : public Test
@@ -519,8 +519,8 @@ TEST(StyleDefaultCpp, NestedNamespaceClass_IndentNamespaceClass)
 
 TEST(StyleDefaultCpp, Pico)
 {
-	// test default style with pico brackets
-	// the closing brackets should be broken
+	// test default style with pico braces
+	// the closing braces should be broken
 	// the ENTIRE one-line block should be broken
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
@@ -549,8 +549,8 @@ TEST(StyleDefaultCpp, Pico)
 
 TEST(StyleDefaultCpp, PicoOneLine)
 {
-	// test default style with pico brackets and one-line blocks
-	// the closing brackets should be broken
+	// test default style with pico braces and one-line blocks
+	// the closing braces should be broken
 	// the ENTIRE one-line block should be broken
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
@@ -577,7 +577,7 @@ TEST(StyleDefaultCpp, PicoOneLine)
 
 //----------------------------------------------------------------------------
 // AStyle C++ Allman Style
-// Additional tests are in the break brackets tests
+// Additional tests are in the break braces tests
 //----------------------------------------------------------------------------
 
 struct StyleAllmanCppF : public Test
@@ -1273,7 +1273,7 @@ TEST(StyleAllmanCpp, NestedNamespaceClass_IndentNamespaceClass)
 
 TEST(StyleAllmanCpp, Pico)
 {
-	// test allman style with pico brackets
+	// test allman style with pico braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -1304,7 +1304,7 @@ TEST(StyleAllmanCpp, Pico)
 
 TEST(StyleAllmanCpp, PicoOneLine)
 {
-	// test allman style with pico brackets and one-line blocks
+	// test allman style with pico braces and one-line blocks
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -1331,7 +1331,7 @@ TEST(StyleAllmanCpp, PicoOneLine)
 
 //----------------------------------------------------------------------------
 // AStyle C++ Java Style
-// Additional tests are in the attach brackets tests
+// Additional tests are in the attach braces tests
 //----------------------------------------------------------------------------
 
 struct StyleJavaCppF : public Test
@@ -1881,7 +1881,7 @@ TEST(StyleJavaCpp, NestedNamespaceClass_IndentNamespaceClass)
 
 TEST(StyleJavaCpp, Pico)
 {
-	// test java style with pico brackets
+	// test java style with pico braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -1908,7 +1908,7 @@ TEST(StyleJavaCpp, Pico)
 
 TEST(StyleJavaCpp, PicoOneLine)
 {
-	// test java style with pico brackets and one-line blocks
+	// test java style with pico braces and one-line blocks
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -1931,7 +1931,7 @@ TEST(StyleJavaCpp, PicoOneLine)
 
 //----------------------------------------------------------------------------
 // AStyle C++ K & R Style
-// Additional tests are in the linux brackets tests
+// Additional tests are in the linux braces tests
 //----------------------------------------------------------------------------
 
 struct StyleKRCppF : public Test
@@ -2566,7 +2566,7 @@ TEST(StyleKRCpp, NestedNamespaceClass_IndentNamespaceClass)
 
 TEST(StyleKRCpp, Pico)
 {
-	// test k&r style with pico brackets
+	// test k&r style with pico braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -2594,7 +2594,7 @@ TEST(StyleKRCpp, Pico)
 
 TEST(StyleKRCpp, PicoOneLine)
 {
-	// test k&r style with pico brackets and one-line blocks
+	// test k&r style with pico braces and one-line blocks
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -2618,7 +2618,7 @@ TEST(StyleKRCpp, PicoOneLine)
 
 //----------------------------------------------------------------------------
 // AStyle C++ Stroustrup Style
-// Additional tests are in the stroustrup brackets tests
+// Additional tests are in the stroustrup braces tests
 //----------------------------------------------------------------------------
 
 struct StyleStroustrupCppF : public Test
@@ -3156,7 +3156,7 @@ TEST(StyleStroustrupCpp, NestedNamespaceClass_IndentNamespaceClass)
 
 TEST(StyleStroustrupCpp, Pico)
 {
-	// test stroustrup style with pico brackets
+	// test stroustrup style with pico braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -3184,7 +3184,7 @@ TEST(StyleStroustrupCpp, Pico)
 
 TEST(StyleStroustrupCpp, PicoOneLine)
 {
-	// test stroustrup style with pico brackets and one-line blocks
+	// test stroustrup style with pico braces and one-line blocks
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -3208,7 +3208,7 @@ TEST(StyleStroustrupCpp, PicoOneLine)
 
 //----------------------------------------------------------------------------
 // AStyle C++ Whitesmith Style
-// There are NO additional tests are in the brackets tests
+// There are NO additional tests are in the braces tests
 //----------------------------------------------------------------------------
 
 struct StyleWhitesmithCppF : public Test
@@ -3911,7 +3911,7 @@ TEST(StyleWhitesmithCpp, Arrays)
 
 TEST(StyleWhitesmithCpp, Pico)
 {
-	// test whitesmith style with pico brackets
+	// test whitesmith style with pico braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -3942,7 +3942,7 @@ TEST(StyleWhitesmithCpp, Pico)
 
 TEST(StyleWhitesmithCpp, PicoOneLine)
 {
-	// test whitesmith style with pico brackets and one-line blocks
+	// test whitesmith style with pico braces and one-line blocks
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -3969,7 +3969,7 @@ TEST(StyleWhitesmithCpp, PicoOneLine)
 
 //----------------------------------------------------------------------------
 // AStyle C++ VTK Style
-// There are NO additional tests are in the brackets tests
+// There are NO additional tests are in the braces tests
 //----------------------------------------------------------------------------
 
 struct StyleVTKCppF : public Test
@@ -4672,7 +4672,7 @@ TEST(StyleVTKCpp, Arrays)
 
 TEST(StyleVTKCpp, Pico)
 {
-	// test vtk style with pico brackets
+	// test vtk style with pico braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -4703,7 +4703,7 @@ TEST(StyleVTKCpp, Pico)
 
 TEST(StyleVTKCpp, PicoOneLine)
 {
-	// test vtk style with pico brackets and one-line blocks
+	// test vtk style with pico braces and one-line blocks
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -4730,7 +4730,7 @@ TEST(StyleVTKCpp, PicoOneLine)
 
 //----------------------------------------------------------------------------
 // AStyle C++ Banner Style
-// There are NO additional tests are in the brackets tests
+// There are NO additional tests are in the braces tests
 //----------------------------------------------------------------------------
 
 struct StyleBannerCppF : public Test
@@ -5330,7 +5330,7 @@ TEST(StyleBannerCpp, Arrays)
 
 TEST(StyleBannerCpp, Pico)
 {
-	// test banner style with pico brackets
+	// test banner style with pico braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -5358,7 +5358,7 @@ TEST(StyleBannerCpp, Pico)
 
 TEST(StyleBannerCpp, PicoOneLine)
 {
-	// test banner style with pico brackets and one-line blocks
+	// test banner style with pico braces and one-line blocks
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -5382,7 +5382,7 @@ TEST(StyleBannerCpp, PicoOneLine)
 
 //----------------------------------------------------------------------------
 // AStyle C++ Gnu Style
-// There are NO additional tests are in the brackets tests
+// There are NO additional tests are in the braces tests
 //----------------------------------------------------------------------------
 
 struct StyleGnuCppF : public Test
@@ -5668,7 +5668,7 @@ TEST(StyleGnuCpp, Struct1)
 TEST(StyleGnuCpp, Struct2)
 {
 	// test gnu style with structs and unions
-	// the opening bracket should NOT be indented
+	// the opening brace should NOT be indented
 	char text[] =
 	    "\nstruct b_type\n"
 	    "{\n"
@@ -6183,7 +6183,7 @@ TEST(StyleGnuCpp, VolatileOnly)
 
 TEST(StyleGnuCpp, Pico)
 {
-	// test gnu style with pico brackets
+	// test gnu style with pico braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -6210,7 +6210,7 @@ TEST(StyleGnuCpp, Pico)
 
 TEST(StyleGnuCpp, PicoOneLine)
 {
-	// test gnu style with pico brackets and one-line blocks
+	// test gnu style with pico braces and one-line blocks
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"

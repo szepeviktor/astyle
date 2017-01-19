@@ -21,7 +21,7 @@ namespace {
 
 //----------------------------------------------------------------------------
 // AStyle C++ Linux Style
-// Additional tests are in the linux brackets tests
+// Additional tests are in the linux braces tests
 //----------------------------------------------------------------------------
 
 struct StyleLinuxCppF : public Test
@@ -626,7 +626,7 @@ TEST(StyleLinuxCpp, NestedNamespaceClass_IndentNamespaceClass)
 
 TEST(StyleLinuxCpp, Pico)
 {
-	// test linux style with pico brackets
+	// test linux style with pico braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -654,7 +654,7 @@ TEST(StyleLinuxCpp, Pico)
 
 TEST(StyleLinuxCpp, PicoOneLine)
 {
-	// test linux style with pico brackets and one-line blocks
+	// test linux style with pico braces and one-line blocks
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -678,7 +678,7 @@ TEST(StyleLinuxCpp, PicoOneLine)
 
 //----------------------------------------------------------------------------
 // AStyle C++ Horstmann Style
-// Additional tests are in the run-in brackets tests
+// Additional tests are in the run-in braces tests
 //----------------------------------------------------------------------------
 
 struct StyleHorstmannCppF : public Test
@@ -744,6 +744,38 @@ TEST_F(StyleHorstmannCppF, LongOption)
 	    "\n"
 	    "}   // end FooName\n";
 	char options[] = "style=horstmann, indent=spaces=3";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST_F(StyleHorstmannCppF, RunInOption)
+{
+	// test run-in style option
+	char text[] =
+	    "\nnamespace FooName\n"
+	    "{\n"
+	    "\n"
+	    "class FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "   bool var1;\n"
+	    "   void func1();\n"
+	    "protected:\n"
+	    "   bool var2;\n"
+	    "   void func2();\n"
+	    "};\n"
+	    "\n"
+	    "void FooClass::Foo(bool isFoo)\n"
+	    "{  if (isFoo)\n"
+	    "   {  bar();\n"
+	    "   }\n"
+	    "   else\n"
+	    "      anotherBar();\n"
+	    "}\n"
+	    "\n"
+	    "}   // end FooName\n";
+	char options[] = "style=run-in, indent=spaces=3";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1338,7 +1370,7 @@ TEST(StyleHorstmannCpp, NestedNamespaceClass_IndentNamespaceClass)
 
 TEST(StyleHorstmannCpp, Pico)
 {
-	// test horstmann style with pico brackets
+	// test horstmann style with pico braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -1366,7 +1398,7 @@ TEST(StyleHorstmannCpp, Pico)
 
 TEST(StyleHorstmannCpp, PicoOneLine)
 {
-	// test horstmann style with pico brackets and one-line blocks
+	// test horstmann style with pico braces and one-line blocks
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -1390,7 +1422,7 @@ TEST(StyleHorstmannCpp, PicoOneLine)
 
 //----------------------------------------------------------------------------
 // AStyle C++ 1TBS Style
-// Additional tests are in the break brackets tests
+// Additional tests are in the break braces tests
 //----------------------------------------------------------------------------
 
 struct Style1TBSCppF : public Test
@@ -1806,7 +1838,7 @@ TEST(Style1TBSCpp, MinConditionalIndent2)
 
 TEST(Style1TBSCpp, AddOneLineBraces)
 {
-	// test 1tbs style option with add one line brackets
+	// test 1tbs style option with add one line braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{\n"
@@ -2070,7 +2102,7 @@ TEST(Style1TBSCpp, NestedNamespaceClass_IndentNamespaceClass)
 
 TEST(Style1TBSCpp, Pico)
 {
-	// test 1tbs style with pico brackets
+	// test 1tbs style with pico braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -2096,7 +2128,7 @@ TEST(Style1TBSCpp, Pico)
 
 TEST(Style1TBSCpp, PicoOneLine)
 {
-	// test 1tbs style with pico brackets and one-line blocks
+	// test 1tbs style with pico braces and one-line blocks
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -2120,7 +2152,7 @@ TEST(Style1TBSCpp, PicoOneLine)
 
 //----------------------------------------------------------------------------
 // AStyle C++ Google Style
-// Additional tests are in the attach brackets tests
+// Additional tests are in the attach braces tests
 //----------------------------------------------------------------------------
 
 struct StyleGoogleCppF : public Test
@@ -2423,7 +2455,7 @@ TEST(StyleGoogleCpp, Enum)
 
 //----------------------------------------------------------------------------
 // AStyle C++ Mozilla Style
-// Additional tests are in the attach brackets tests
+// Additional tests are in the attach braces tests
 //----------------------------------------------------------------------------
 
 struct StyleMozillaCppF : public Test
@@ -3538,7 +3570,7 @@ TEST(StylePicoCpp, AttachedClosingNamespace2)
 
 TEST(StylePicoCpp, AfterPreprocessor1)
 {
-	// closing brackets should not be broken after a preprocessor statement
+	// closing braces should not be broken after a preprocessor statement
 	char text[] =
 	    "\n#ifdef __WIN32__\n"
 	    "void foo() { SetEnvironmentVariable (k, v); }\n"
@@ -3551,7 +3583,7 @@ TEST(StylePicoCpp, AfterPreprocessor1)
 
 TEST(StylePicoCpp, AfterPreprocessor2)
 {
-	// closing brackets should not be broken after a preprocessor statement
+	// closing braces should not be broken after a preprocessor statement
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{   if (isFoo)\n"
@@ -3611,7 +3643,7 @@ TEST(StylePicoCpp, SansPreprocessor)
 
 TEST(StylePicoCpp, SansPreprocessorBreak)
 {
-	// don't break empty brackets after a preprocessor
+	// don't break empty braces after a preprocessor
 	char text[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -4521,7 +4553,7 @@ TEST(StyleLispCpp, AttachedClosingNamespace2)
 
 TEST(StyleLispCpp, AfterPreprocessor1)
 {
-	// closing brackets should not be broken after a preprocessor statement
+	// closing braces should not be broken after a preprocessor statement
 	char textIn[] =
 	    "\n#ifdef __WIN32__\n"
 	    "void foo() { SetEnvironmentVariable (k, v); }\n"
@@ -4539,7 +4571,7 @@ TEST(StyleLispCpp, AfterPreprocessor1)
 
 TEST(StyleLispCpp, AfterPreprocessor2)
 {
-	// closing brackets should not be broken after a preprocessor statement
+	// closing braces should not be broken after a preprocessor statement
 	char text[] =
 	    "\nvoid foo() {\n"
 	    "    if (isFoo) {\n"
@@ -4599,7 +4631,7 @@ TEST(StyleLispCpp, SansPreprocessor)
 
 TEST(StyleLispCpp, SansPreprocessorBreak)
 {
-	// don't break empty brackets after a preprocessor
+	// don't break empty braces after a preprocessor
 	char text[] =
 	    "\nclass FooClass {\n"
 	    "#ifdef DEBUG_chardet\n"

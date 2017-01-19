@@ -60,7 +60,7 @@ struct BracesNoneCppF : public Test
 
 TEST_F(BracesNoneCppF, Default)
 {
-	// test default brackets option (do not change)
+	// test default braces option (do not change)
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -93,7 +93,7 @@ TEST_F(BracesNoneCppF, Default)
 
 TEST_F(BracesNoneCppF, Namespace)
 {
-	// test default brackets option (do not change)
+	// test default braces option (do not change)
 	// indented namespace
 	char text[] =
 	    "\nnamespace FooName\n"
@@ -127,7 +127,7 @@ TEST_F(BracesNoneCppF, Namespace)
 
 TEST_F(BracesNoneCppF, Class)
 {
-	// test default brackets option (do not change)
+	// test default braces option (do not change)
 	// indent class blocks
 	char text[] =
 	    "\nnamespace FooName\n"
@@ -161,7 +161,7 @@ TEST_F(BracesNoneCppF, Class)
 
 TEST_F(BracesNoneCppF, NamespaceClass)
 {
-	// test default brackets option (do not change)
+	// test default braces option (do not change)
 	// indented namespace and class
 	char text[] =
 	    "\nnamespace FooName\n"
@@ -195,8 +195,8 @@ TEST_F(BracesNoneCppF, NamespaceClass)
 
 TEST(BracesNoneCpp, EmptyBraces)
 {
-	// test default brackets option (do not change)
-	// do not change empty brackets
+	// test default braces option (do not change)
+	// do not change empty braces
 	char text[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -221,8 +221,8 @@ TEST(BracesNoneCpp, EmptyBraces)
 
 TEST(BracesNoneCpp, EmptyBracesWithComments)
 {
-	// test default brackets option (do not change) with ending comments
-	// do not change empty brackets
+	// test default braces option (do not change) with ending comments
+	// do not change empty braces
 	char text[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -247,8 +247,8 @@ TEST(BracesNoneCpp, EmptyBracesWithComments)
 
 TEST(BracesNoneCpp, Extern)
 {
-	// test default brackets option (do not change)
-	// extern statement should not change its bracket type
+	// test default braces option (do not change)
+	// extern statement should not change its brace type
 	// and should NOT use in-statement indents
 	char text[] =
 	    "\nextern \"C\" {\n"
@@ -291,7 +291,7 @@ TEST(BracesNoneCpp, Assembler)
 
 TEST(BracesNoneCpp, Break)
 {
-	// test default brackets option with broken brackets
+	// test default braces option with broken braces
 	char text[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{\n"
@@ -312,7 +312,7 @@ TEST(BracesNoneCpp, Break)
 
 TEST(BracesNoneCpp, Attach)
 {
-	// test default brackets option with attached brackets
+	// test default braces option with attached braces
 	char text[] =
 	    "\nvoid Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -329,7 +329,7 @@ TEST(BracesNoneCpp, Attach)
 
 TEST(BracesNoneCpp, Linux)
 {
-	// test default brackets option with linux brackets
+	// test default braces option with linux braces
 	char text[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{\n"
@@ -345,9 +345,9 @@ TEST(BracesNoneCpp, Linux)
 	delete[] textOut;
 }
 
-TEST(BracesNoneCpp, Horstmann1)
+TEST(BracesNoneCpp, RunIn1)
 {
-	// test default brackets option with horstmann brackets
+	// test default braces option with horstmann braces
 	char text[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -363,10 +363,10 @@ TEST(BracesNoneCpp, Horstmann1)
 	delete[] textOut;
 }
 
-TEST(BracesNoneCpp, Horstmann2)
+TEST(BracesNoneCpp, RunIn2)
 {
-	// test default brackets option with horstmann brackets
-	// and 2 brackets on the same line
+	// test default braces option with horstmann braces
+	// and 2 braces on the same line
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{   if(isFoo) {\n"
@@ -381,7 +381,7 @@ TEST(BracesNoneCpp, Horstmann2)
 
 TEST(BracesNoneCpp, Misc1)
 {
-	// test default brackets option with the following unusual format
+	// test default braces option with the following unusual format
 	char textIn[] =
 	    "\nvoid foo1() { error = false;\n"
 	    "              errorId = 0;\n"
@@ -419,7 +419,7 @@ TEST(BracesNoneCpp, Misc1)
 
 TEST(BracesNoneCpp, Misc2)
 {
-	// test default brackets option with the following unusual format
+	// test default braces option with the following unusual format
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -435,8 +435,8 @@ TEST(BracesNoneCpp, Misc2)
 
 TEST(BracesNoneCpp, Misc3)
 {
-	// test default brackets option with a macro
-	// bracket type will be incorrectly classified as an array
+	// test default braces option with a macro
+	// brace type will be incorrectly classified as an array
 	// but should not break at the semi colon
 	char text[] =
 	    "\nvoid foo()\n"
@@ -453,7 +453,7 @@ TEST(BracesNoneCpp, Misc3)
 
 TEST(BracesNoneCpp, ClassContinuation_Attach)
 {
-	// test with class continuation and attached brackets
+	// test with class continuation and attached braces
 	char text[] =
 	    "\nclass Foo :\n"
 	    "    public Bar {\n"
@@ -468,7 +468,7 @@ TEST(BracesNoneCpp, ClassContinuation_Attach)
 
 TEST(BracesNoneCpp, ClassContinuation_Break)
 {
-	// test with class continuation and broken brackets
+	// test with class continuation and broken braces
 	char text[] =
 	    "\nclass Foo :\n"
 	    "    public Bar\n"
@@ -482,9 +482,9 @@ TEST(BracesNoneCpp, ClassContinuation_Break)
 	delete[] textOut;
 }
 
-TEST(BracesNoneCpp, HorstmannIndent1)
+TEST(BracesNoneCpp, RunInIndent1)
 {
-	// test default brackets option with horstmann brackets
+	// test default braces option with horstmann braces
 	// with the indent changed from 2 to 4
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -512,9 +512,9 @@ TEST(BracesNoneCpp, HorstmannIndent1)
 	delete[] textOut;
 }
 
-TEST(BracesNoneCpp, HorstmannIndent2)
+TEST(BracesNoneCpp, RunInIndent2)
 {
-	// test default brackets option with horstmann brackets
+	// test default braces option with horstmann braces
 	// with the indent changed from 6 to 4
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -542,9 +542,9 @@ TEST(BracesNoneCpp, HorstmannIndent2)
 	delete[] textOut;
 }
 
-TEST(BracesNoneCpp, HorstmannIndentComment1)
+TEST(BracesNoneCpp, RunInComment1)
 {
-	// test default brackets option with horstmann brackets
+	// test default braces option with horstmann braces
 	// with the indent changed from 2 to 4
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -578,9 +578,9 @@ TEST(BracesNoneCpp, HorstmannIndentComment1)
 	delete[] textOut;
 }
 
-TEST(BracesNoneCpp, HorstmannIndentComment2)
+TEST(BracesNoneCpp, RunInComment2)
 {
-	// test default brackets option with horstmann brackets
+	// test default braces option with horstmann braces
 	// with the indent changed from 6 to 4
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -616,7 +616,7 @@ TEST(BracesNoneCpp, HorstmannIndentComment2)
 
 TEST(BracesNoneCpp, LineCommentsBreak)
 {
-	// line comments following broken brackets should be unchanged
+	// line comments following broken braces should be unchanged
 	char text[] =
 	    "\nvoid foo(bool isFoo) // comment0\n"
 	    "{\n"
@@ -635,7 +635,7 @@ TEST(BracesNoneCpp, LineCommentsBreak)
 
 TEST(BracesNoneCpp, LineCommentsAttach)
 {
-	// line comments following attached brackets should be unchanged
+	// line comments following attached braces should be unchanged
 	char text[] =
 	    "\nvoid foo(bool isFoo) {    // comment1\n"
 	    "    if (isFoo) {          // comment2\n"
@@ -649,9 +649,9 @@ TEST(BracesNoneCpp, LineCommentsAttach)
 	delete[] textOut;
 }
 
-TEST(BracesNoneCpp, LineCommentsHorstmann)
+TEST(BracesNoneCpp, LineCommentsRunIn)
 {
-	// line comments following horstmann brackets should be unchanged
+	// line comments following horstmann braces should be unchanged
 	char text[] =
 	    "\nvoid foo(bool isFoo) // comment0\n"
 	    "{   // comment1\n"
@@ -668,7 +668,7 @@ TEST(BracesNoneCpp, LineCommentsHorstmann)
 
 TEST(BracesNoneCpp, CommentsBreak1)
 {
-	// broken brackets should not change
+	// broken braces should not change
 	char text[] =
 	    "\nvoid (foo)\n"
 	    "{\n"
@@ -685,7 +685,7 @@ TEST(BracesNoneCpp, CommentsBreak1)
 
 TEST(BracesNoneCpp, CommentsAttach1)
 {
-	// attached brackets should not change
+	// attached braces should not change
 	char text[] =
 	    "\nvoid (foo) {\n"
 	    "    /*\n"
@@ -699,9 +699,9 @@ TEST(BracesNoneCpp, CommentsAttach1)
 	delete[] textOut;
 }
 
-TEST(BracesNoneCpp, CommentsHorstmann1)
+TEST(BracesNoneCpp, CommentsRunIn1)
 {
-	// horstmann brackets should not change
+	// horstmann braces should not change
 	char text[] =
 	    "\nvoid (foo)\n"
 	    "{   /*\n"
@@ -717,7 +717,7 @@ TEST(BracesNoneCpp, CommentsHorstmann1)
 
 TEST(BracesNoneCpp, CommentsBreak2)
 {
-	// broken brackets with following comments
+	// broken braces with following comments
 	// mixed tabs and spaces
 	char textIn[] =
 	    "\nvoid (foo)\n"
@@ -755,7 +755,7 @@ TEST(BracesNoneCpp, CommentsBreak2)
 
 TEST(BracesNoneCpp, CommentsAttach2)
 {
-	// attached brackets with following comments
+	// attached braces with following comments
 	// mixed tabs and spaces
 	char textIn[] = "\nvoid (foo) {\n"
 	                "	/*\n"
@@ -785,9 +785,9 @@ TEST(BracesNoneCpp, CommentsAttach2)
 	delete[] textOut;
 }
 
-TEST(BracesNoneCpp, CommentsHorstmann2)
+TEST(BracesNoneCpp, CommentsRunIn2)
 {
-	// horstmann brackets with following comments
+	// horstmann braces with following comments
 	// mixed tabs and spaces
 	char textIn[] =
 	    "\nvoid (foo)\n"
@@ -821,7 +821,7 @@ TEST(BracesNoneCpp, CommentsHorstmann2)
 
 TEST(BracesNoneCpp, CommentsBreak3)
 {
-	// comments following broken brackets should be unchanged
+	// comments following broken braces should be unchanged
 	char text[] =
 	    "\nvoid foo1(bool isFoo) /* comment0 */\n"
 	    "{\n"
@@ -854,8 +854,8 @@ TEST(BracesNoneCpp, CommentsBreak3)
 
 TEST(BracesNoneCpp, CommentsAttach3)
 {
-	// comments following attached brackets should be unchanged
-	// multi-line comments following attached brackets break
+	// comments following attached braces should be unchanged
+	// multi-line comments following attached braces break
 	//    but are NOT aligned
 	char textIn[] =
 	    "\nvoid foo1(bool isFoo) { /* comment1 */\n"
@@ -897,9 +897,9 @@ TEST(BracesNoneCpp, CommentsAttach3)
 	delete[] textOut;
 }
 
-TEST(BracesNoneCpp, CommentsHorstmann3)
+TEST(BracesNoneCpp, CommentsRunIn3)
 {
-	// comments following horstmann brackets should be unchanged
+	// comments following horstmann braces should be unchanged
 	char text[] =
 	    "\nvoid foo1(bool isFoo) /* comment0 */\n"
 	    "{   /* comment1 */\n"
@@ -928,7 +928,7 @@ TEST(BracesNoneCpp, CommentsHorstmann3)
 
 TEST(BracesNoneCpp, MultipleCommentsBreak)
 {
-	// multiple comments with broken brackets should remain unchanged
+	// multiple comments with broken braces should remain unchanged
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -945,7 +945,7 @@ TEST(BracesNoneCpp, MultipleCommentsBreak)
 
 TEST(BracesNoneCpp, MultipleCommentsAttach)
 {
-	// multiple comments with attached brackets remain unchanged
+	// multiple comments with attached braces remain unchanged
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -959,9 +959,9 @@ TEST(BracesNoneCpp, MultipleCommentsAttach)
 	delete[] textOut;
 }
 
-TEST(BracesNoneCpp, MultipleCommentsHorstmann)
+TEST(BracesNoneCpp, MultipleCommentsRunIn)
 {
-	// multiple comments with horstmann brackets remain unchanged
+	// multiple comments with horstmann braces remain unchanged
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{   if (isFoo) /* comment1 */  // comment2\n"
@@ -1015,7 +1015,7 @@ struct BracesBreakCppF : public Test
 
 TEST_F(BracesBreakCppF, LongOption)
 {
-	// test break brackets option
+	// test break braces option
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -1051,7 +1051,7 @@ TEST_F(BracesBreakCppF, LongOption)
 
 TEST_F(BracesBreakCppF, ShortOption)
 {
-	// test break brackets short option
+	// test break braces short option
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -1087,7 +1087,7 @@ TEST_F(BracesBreakCppF, ShortOption)
 
 TEST_F(BracesBreakCppF, Namespace)
 {
-	// test break brackets option
+	// test break braces option
 	// indented namespace
 	char text[] =
 	    "\nnamespace FooName\n"
@@ -1124,7 +1124,7 @@ TEST_F(BracesBreakCppF, Namespace)
 
 TEST_F(BracesBreakCppF, Class)
 {
-	// test break brackets option
+	// test break braces option
 	// indent class blocks
 	char text[] =
 	    "\nnamespace FooName\n"
@@ -1161,7 +1161,7 @@ TEST_F(BracesBreakCppF, Class)
 
 TEST_F(BracesBreakCppF, NamespaceClass)
 {
-	// test break brackets option
+	// test break braces option
 	// indented namespace and class
 	char text[] =
 	    "\nnamespace FooName\n"
@@ -1198,7 +1198,7 @@ TEST_F(BracesBreakCppF, NamespaceClass)
 
 TEST(BracesBreakCpp, EmptyBraces)
 {
-	// test break brackets option
+	// test break braces option
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -1241,8 +1241,8 @@ TEST(BracesBreakCpp, EmptyBraces)
 
 TEST(BracesBreakCpp, EmptyBracesWithComments)
 {
-	// test break brackets option with ending comments
-	// do not change empty brackets
+	// test break braces option with ending comments
+	// do not change empty braces
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -1285,7 +1285,7 @@ TEST(BracesBreakCpp, EmptyBracesWithComments)
 
 TEST(BracesBreakCpp, Extern)
 {
-	// extern statement should not change its bracket type
+	// extern statement should not change its brace type
 	// and should NOT use in-statement indents
 	char textIn[] =
 	    "\nextern \"C\" {\n"
@@ -1351,7 +1351,7 @@ TEST(BracesBreakCpp, Assembler)
 
 TEST(BracesBreakCpp, Break)
 {
-	// test break brackets option with broken brackets
+	// test break braces option with broken braces
 	char text[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{\n"
@@ -1372,7 +1372,7 @@ TEST(BracesBreakCpp, Break)
 
 TEST(BracesBreakCpp, Attach)
 {
-	// test break brackets option with attached brackets
+	// test break braces option with attached braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -1401,7 +1401,7 @@ TEST(BracesBreakCpp, Attach)
 
 TEST(BracesBreakCpp, Linux)
 {
-	// test break brackets option with linux brackets
+	// test break braces option with linux braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{\n"
@@ -1429,9 +1429,9 @@ TEST(BracesBreakCpp, Linux)
 	delete[] textOut;
 }
 
-TEST(BracesBreakCpp, Horstmann1)
+TEST(BracesBreakCpp, RunIn1)
 {
-	// test break brackets option with horstmann brackets
+	// test break braces option with horstmann braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -1459,10 +1459,10 @@ TEST(BracesBreakCpp, Horstmann1)
 	delete[] textOut;
 }
 
-TEST(BracesBreakCpp, Horstmann2)
+TEST(BracesBreakCpp, RunIn2)
 {
-	// test default brackets option with horstmann brackets
-	// and 2 brackets on the same line
+	// test default braces option with horstmann braces
+	// and 2 braces on the same line
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{   if(isFoo) {\n"
@@ -1485,7 +1485,7 @@ TEST(BracesBreakCpp, Horstmann2)
 
 TEST(BracesBreakCpp, Misc1)
 {
-	// test break brackets option with the following unusual format
+	// test break braces option with the following unusual format
 	char textIn[] =
 	    "\nvoid foo1() { error = false;\n"
 	    "              errorId = 0;\n"
@@ -1526,7 +1526,7 @@ TEST(BracesBreakCpp, Misc1)
 
 TEST(BracesBreakCpp, Misc2)
 {
-	// test break brackets option with the following unusual format
+	// test break braces option with the following unusual format
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -1542,8 +1542,8 @@ TEST(BracesBreakCpp, Misc2)
 
 TEST(BracesBreakCpp, Misc3)
 {
-	// test break brackets option with a macro
-	// bracket type will be incorrectly classified as an array
+	// test break braces option with a macro
+	// brace type will be incorrectly classified as an array
 	// but should not break at the semi colon
 	char text[] =
 	    "\nvoid foo()\n"
@@ -1560,7 +1560,7 @@ TEST(BracesBreakCpp, Misc3)
 
 TEST(BracesBreakCpp, ClassContinuation)
 {
-	// test with class continuation and broken brackets
+	// test with class continuation and broken braces
 	char text[] =
 	    "\nclass Foo :\n"
 	    "    public Bar\n"
@@ -1576,7 +1576,7 @@ TEST(BracesBreakCpp, ClassContinuation)
 
 TEST(BracesBreakCpp, LineCommentsBreak)
 {
-	// comments following broken brackets should be unchanged
+	// comments following broken braces should be unchanged
 	char text[] =
 	    "\nvoid foo(bool isFoo) // comment0\n"
 	    "{\n"
@@ -1595,7 +1595,7 @@ TEST(BracesBreakCpp, LineCommentsBreak)
 
 TEST(BracesBreakCpp, LineCommentsAttach)
 {
-	// comments following attached brackets should stay attached to the line
+	// comments following attached braces should stay attached to the line
 	char textIn[] =
 	    "\nvoid foo(bool isFoo) {  // comment1\n"
 	    "    if(isFoo) {           // comment2\n"
@@ -1618,9 +1618,9 @@ TEST(BracesBreakCpp, LineCommentsAttach)
 	delete[] textOut;
 }
 
-TEST(BracesBreakCpp, LineCommentsHorstmann)
+TEST(BracesBreakCpp, LineCommentsRunIn)
 {
-	// comments following horstmann brackets should be broken
+	// comments following horstmann braces should be broken
 	char textIn[] =
 	    "\nvoid foo(bool isFoo) // comment0\n"
 	    "{   // comment1\n"
@@ -1647,7 +1647,7 @@ TEST(BracesBreakCpp, LineCommentsHorstmann)
 
 TEST(BracesBreakCpp, LineCommentsClosingHeader)
 {
-	// test comment alignment when a closing header is broken from a closing bracket
+	// test comment alignment when a closing header is broken from a closing brace
 	char textIn[] =
 	    "\nvoid foo() {     // comment0\n"
 	    "    if (isFoo) { // comment1\n"
@@ -1676,7 +1676,7 @@ TEST(BracesBreakCpp, LineCommentsClosingHeader)
 
 TEST(BracesBreakCpp, CommentsBreak1)
 {
-	// broken brackets should not change
+	// broken braces should not change
 	char text[] =
 	    "\nvoid (foo)\n"
 	    "{\n"
@@ -1699,7 +1699,7 @@ TEST(BracesBreakCpp, CommentsBreak1)
 
 TEST(BracesBreakCpp, CommentsAttach1)
 {
-	// break attached brackets with following comments
+	// break attached braces with following comments
 	char textIn[] =
 	    "\nvoid (foo) {\n"
 	    "    /*\n"
@@ -1732,9 +1732,9 @@ TEST(BracesBreakCpp, CommentsAttach1)
 	delete[] textOut;
 }
 
-TEST(BracesBreakCpp, CommentsHorstmann1)
+TEST(BracesBreakCpp, CommentsRunIn1)
 {
-	// break horstmann brackets with following comments
+	// break horstmann braces with following comments
 	char textIn[] =
 	    "\nvoid (foo)\n"
 	    "{   /*\n"
@@ -1769,7 +1769,7 @@ TEST(BracesBreakCpp, CommentsHorstmann1)
 
 TEST(BracesBreakCpp, CommentsBreak2)
 {
-	// broken brackets with following comments
+	// broken braces with following comments
 	// mixed tabs and spaces
 	char textIn[] =
 	    "\nvoid (foo)\n"
@@ -1807,7 +1807,7 @@ TEST(BracesBreakCpp, CommentsBreak2)
 
 TEST(BracesBreakCpp, CommentsAttach2)
 {
-	// break attached brackets with following comments
+	// break attached braces with following comments
 	// mixed tabs and spaces
 	char textIn[] = "\nvoid (foo) {\n"
 	                "	/*\n"
@@ -1840,9 +1840,9 @@ TEST(BracesBreakCpp, CommentsAttach2)
 	delete[] textOut;
 }
 
-TEST(BracesBreakCpp, CommentsHorstmann2)
+TEST(BracesBreakCpp, CommentsRunIn2)
 {
-	// break horstmann brackets with following comments
+	// break horstmann braces with following comments
 	// mixed tabs and spaces
 	char textIn[] =
 	    "\nvoid (foo)\n"
@@ -1878,7 +1878,7 @@ TEST(BracesBreakCpp, CommentsHorstmann2)
 
 TEST(BracesBreakCpp, CommentsBreak3)
 {
-	// comments following broken brackets should be unchanged
+	// comments following broken braces should be unchanged
 	char text[] =
 	    "\nvoid foo1(bool isFoo) /* comment0 */\n"
 	    "{\n"
@@ -1911,8 +1911,8 @@ TEST(BracesBreakCpp, CommentsBreak3)
 
 TEST(BracesBreakCpp, CommentsAttach3)
 {
-	// test comments following brackets
-	// multi-line comments following attached brackets break
+	// test comments following braces
+	// multi-line comments following attached braces break
 	//    but are NOT aligned
 	char textIn[] =
 	    "\nvoid foo1(bool isFoo) {   /* comment1 */\n"
@@ -1958,9 +1958,9 @@ TEST(BracesBreakCpp, CommentsAttach3)
 	delete[] textOut;
 }
 
-TEST(BracesBreakCpp, CommentsHorstmann3)
+TEST(BracesBreakCpp, CommentsRunIn3)
 {
-	// comments following horstmann brackets should be broken
+	// comments following horstmann braces should be broken
 	char textIn[] =
 	    "\nvoid foo1(bool isFoo) /* comment0 */\n"
 	    "{   /* comment1 */\n"
@@ -2013,7 +2013,7 @@ TEST(BracesBreakCpp, CommentsHorstmann3)
 
 TEST(BracesBreakCpp, MultipleCommentsBreak)
 {
-	// multiple comments with broken brackets should remain unchanged
+	// multiple comments with broken braces should remain unchanged
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -2030,7 +2030,7 @@ TEST(BracesBreakCpp, MultipleCommentsBreak)
 
 TEST(BracesBreakCpp, MultipleCommentsAttach)
 {
-	// multiple comments with attached brackets should remain unchanged
+	// multiple comments with attached braces should remain unchanged
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -2044,9 +2044,9 @@ TEST(BracesBreakCpp, MultipleCommentsAttach)
 	delete[] textOut;
 }
 
-TEST(BracesBreakCpp, MultipleCommentsHorstmann)
+TEST(BracesBreakCpp, MultipleCommentsRunIn)
 {
-	// multiple comments with horstmann brackets should be broken
+	// multiple comments with horstmann braces should be broken
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{   if (isFoo) /* comment1 */  // comment2\n"
@@ -2108,7 +2108,7 @@ struct BracesAttachCppF : public Test
 
 TEST_F(BracesAttachCppF, LongOption)
 {
-	// test attach brackets option
+	// test attach braces option
 	char text[] =
 	    "\nnamespace FooName {\n"
 	    "\n"
@@ -2138,7 +2138,7 @@ TEST_F(BracesAttachCppF, LongOption)
 
 TEST_F(BracesAttachCppF, ShortOption)
 {
-	// test attach brackets option
+	// test attach braces option
 	char text[] =
 	    "\nnamespace FooName {\n"
 	    "\n"
@@ -2168,7 +2168,7 @@ TEST_F(BracesAttachCppF, ShortOption)
 
 TEST_F(BracesAttachCppF, Namespace)
 {
-	// test attach brackets option
+	// test attach braces option
 	// indented namespace
 	char text[] =
 	    "\nnamespace FooName {\n"
@@ -2199,7 +2199,7 @@ TEST_F(BracesAttachCppF, Namespace)
 
 TEST_F(BracesAttachCppF, Class)
 {
-	// test attach brackets option
+	// test attach braces option
 	// indent class blocks
 	char text[] =
 	    "\nnamespace FooName {\n"
@@ -2230,7 +2230,7 @@ TEST_F(BracesAttachCppF, Class)
 
 TEST_F(BracesAttachCppF, NamespaceClass)
 {
-	// test attach brackets option
+	// test attach braces option
 	// indented namespace and class
 	char text[] =
 	    "\nnamespace FooName {\n"
@@ -2261,7 +2261,7 @@ TEST_F(BracesAttachCppF, NamespaceClass)
 
 TEST_F(BracesAttachCppF, BreakClosing)
 {
-	// test attach brackets option
+	// test attach braces option
 	char text[] =
 	    "\nnamespace FooName {\n"
 	    "\n"
@@ -2292,7 +2292,7 @@ TEST_F(BracesAttachCppF, BreakClosing)
 
 TEST(BracesAttachCpp, EmptyBraces)
 {
-	// test attach brackets option
+	// test attach braces option
 	char text[] =
 	    "\nclass FooClass {\n"
 	    "public:\n"
@@ -2316,7 +2316,7 @@ TEST(BracesAttachCpp, EmptyBraces)
 
 TEST(BracesAttachCpp, EmptyBracesWithComments)
 {
-	// test attach brackets option with ending comments
+	// test attach braces option with ending comments
 	char text[] =
 	    "\nclass FooClass {\n"
 	    "public:\n"
@@ -2340,7 +2340,7 @@ TEST(BracesAttachCpp, EmptyBracesWithComments)
 
 TEST(BracesAttachCpp, Extern)
 {
-	// extern statement should not change its bracket type
+	// extern statement should not change its brace type
 	// and should NOT use in-statement indents
 	char textIn[] =
 	    "\nextern \"C\" {\n"
@@ -2404,7 +2404,7 @@ TEST(BracesAttachCpp, Assembler)
 
 TEST(BracesAttachCpp, Break)
 {
-	// test attach brackets option with broken brackets
+	// test attach braces option with broken braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{\n"
@@ -2433,7 +2433,7 @@ TEST(BracesAttachCpp, Break)
 
 TEST(BracesAttachCpp, Attach)
 {
-	// test attach brackets option with attached brackets
+	// test attach braces option with attached braces
 	char text[] =
 	    "\nvoid Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -2450,7 +2450,7 @@ TEST(BracesAttachCpp, Attach)
 
 TEST(BracesAttachCpp, Linux)
 {
-	// test attach brackets option with linux brackets
+	// test attach braces option with linux braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{\n"
@@ -2474,9 +2474,9 @@ TEST(BracesAttachCpp, Linux)
 	delete[] textOut;
 }
 
-TEST(BracesAttachCpp, Horstmann1)
+TEST(BracesAttachCpp, RunIn1)
 {
-	// test attach brackets option with horstmann brackets
+	// test attach braces option with horstmann braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -2500,10 +2500,10 @@ TEST(BracesAttachCpp, Horstmann1)
 	delete[] textOut;
 }
 
-TEST(BracesAttachCpp, Horstmann2)
+TEST(BracesAttachCpp, RunIn2)
 {
-	// test default brackets option with horstmann brackets
-	// and 2 brackets on the same line
+	// test default braces option with horstmann braces
+	// and 2 braces on the same line
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{   if(isFoo) {\n"
@@ -2524,7 +2524,7 @@ TEST(BracesAttachCpp, Horstmann2)
 
 TEST(BracesAttachCpp, Misc1)
 {
-	// test attach brackets option with the following unusual format
+	// test attach braces option with the following unusual format
 	char textIn[] =
 	    "\nvoid foo1() { error = false;\n"
 	    "              errorId = 0;\n"
@@ -2562,7 +2562,7 @@ TEST(BracesAttachCpp, Misc1)
 
 TEST(BracesAttachCpp, Misc2)
 {
-	// test attach brackets option with the following unusual format
+	// test attach braces option with the following unusual format
 	char text[] =
 	    "\nvoid foo() {\n"
 	    "    if (bar1()) {/* dummy */}\n"
@@ -2577,8 +2577,8 @@ TEST(BracesAttachCpp, Misc2)
 
 TEST(BracesAttachCpp, Misc3)
 {
-	// test attach brackets option with a macro
-	// bracket type will be incorrectly classified as an array
+	// test attach braces option with a macro
+	// brace type will be incorrectly classified as an array
 	// but should not break at the semi colon
 	char text[] =
 	    "\nvoid foo() {\n"
@@ -2594,7 +2594,7 @@ TEST(BracesAttachCpp, Misc3)
 
 TEST(BracesAttachCpp, ClassContinuation)
 {
-	// test with class continuation and attached brackets
+	// test with class continuation and attached braces
 	char text[] =
 	    "\nclass Foo :\n"
 	    "    public Bar {\n"
@@ -2609,7 +2609,7 @@ TEST(BracesAttachCpp, ClassContinuation)
 
 TEST(BracesAttachCpp, LineCommentsBreak)
 {
-	// comments following broken brackets should NOT be attached
+	// comments following broken braces should NOT be attached
 	char textIn[] =
 	    "\nvoid foo(bool isFoo) // comment0\n"
 	    "{\n"
@@ -2649,9 +2649,9 @@ TEST(BracesAttachCpp, LineCommentsAttach)
 	delete[] textOut;
 }
 
-TEST(BracesAttachCpp, LineCommentsHorstmann)
+TEST(BracesAttachCpp, LineCommentsRunIn)
 {
-	// comments following horstmann brackets should be attached
+	// comments following horstmann braces should be attached
 	char textIn[] =
 	    "\nvoid foo(bool isFoo) // comment0\n"
 	    "{   // comment1\n"
@@ -2676,7 +2676,7 @@ TEST(BracesAttachCpp, LineCommentsHorstmann)
 
 TEST(BracesAttachCpp, LineCommentsClosingHeader)
 {
-	// test comment alignment when a closing header is attached to a closing bracket
+	// test comment alignment when a closing header is attached to a closing brace
 	char textIn[] =
 	    "\nvoid foo()       // comment0\n"
 	    "{\n"
@@ -2705,7 +2705,7 @@ TEST(BracesAttachCpp, LineCommentsClosingHeader)
 
 TEST(BracesAttachCpp, CommentsBreak1)
 {
-	// attach broken brackets with following comments
+	// attach broken braces with following comments
 	char textIn[] =
 	    "\nvoid (foo)\n"
 	    "{\n"
@@ -2740,7 +2740,7 @@ TEST(BracesAttachCpp, CommentsBreak1)
 
 TEST(BracesAttachCpp, CommentsAttach1)
 {
-	// attached brackets should not change
+	// attached braces should not change
 	char text[] =
 	    "\nvoid (foo) {\n"
 	    "    /*\n"
@@ -2759,9 +2759,9 @@ TEST(BracesAttachCpp, CommentsAttach1)
 	delete[] textOut;
 }
 
-TEST(BracesAttachCpp, CommentsHorstmann1)
+TEST(BracesAttachCpp, CommentsRunIn1)
 {
-	// attach horstmann brackets with following comments
+	// attach horstmann braces with following comments
 	char textIn[] =
 	    "\nvoid (foo)\n"
 	    "{   /*\n"
@@ -2794,7 +2794,7 @@ TEST(BracesAttachCpp, CommentsHorstmann1)
 
 TEST(BracesAttachCpp, CommentsBreak2)
 {
-	// attach broken brackets with following comments
+	// attach broken braces with following comments
 	// mixed tabs and spaces
 	char textIn[] =
 	    "\nvoid (foo)\n"
@@ -2830,7 +2830,7 @@ TEST(BracesAttachCpp, CommentsBreak2)
 
 TEST(BracesAttachCpp, CommentsAttach2)
 {
-	// attached brackets with following comments
+	// attached braces with following comments
 	char textIn[] =
 	    "\nvoid (foo) {\n"
 	    "	/*\n"
@@ -2861,9 +2861,9 @@ TEST(BracesAttachCpp, CommentsAttach2)
 	delete[] textOut;
 }
 
-TEST(BracesAttachCpp, CommentsHorstmann2)
+TEST(BracesAttachCpp, CommentsRunIn2)
 {
-	// attach horstmann brackets with following comments
+	// attach horstmann braces with following comments
 	// mixed tabs and spaces
 	char textIn[] =
 	    "\nvoid (foo)\n"
@@ -2897,7 +2897,7 @@ TEST(BracesAttachCpp, CommentsHorstmann2)
 
 TEST(BracesAttachCpp, CommentsBreak3)
 {
-	// comments following broken brackets should NOT be attached
+	// comments following broken braces should NOT be attached
 	char textIn[] =
 	    "\nvoid foo1(bool isFoo) /* comment0 */\n"
 	    "{\n"
@@ -2950,8 +2950,8 @@ TEST(BracesAttachCpp, CommentsBreak3)
 
 TEST(BracesAttachCpp, CommentsAttach3)
 {
-	// test comments following brackets
-	// multi-line comments following attached brackets break
+	// test comments following braces
+	// multi-line comments following attached braces break
 	//    but are NOT aligned
 	char textIn[] =
 	    "\nvoid foo1(bool isFoo) { /* comment1 */\n"
@@ -2993,9 +2993,9 @@ TEST(BracesAttachCpp, CommentsAttach3)
 	delete[] textOut;
 }
 
-TEST(BracesAttachCpp, CommentsHorstmann3)
+TEST(BracesAttachCpp, CommentsRunIn3)
 {
-	// comments following horstmann brackets should NOT be attached
+	// comments following horstmann braces should NOT be attached
 	char textIn[] =
 	    "\nvoid foo1(bool isFoo) /* comment0 */\n"
 	    "{   /* comment1 */\n"
@@ -3042,9 +3042,9 @@ TEST(BracesAttachCpp, CommentsHorstmann3)
 	delete[] textOut;
 }
 
-TEST(BracesAttachCpp, CommentsHorstmann5)
+TEST(BracesAttachCpp, CommentsRunIn5)
 {
-	// attached brackets with following comments
+	// attached braces with following comments
 	// if NOT attached the run-in statement should be broken
 	char textIn[] =
 	    "\n// -------------\n"
@@ -3067,7 +3067,7 @@ TEST(BracesAttachCpp, CommentsHorstmann5)
 
 TEST(BracesAttachCpp, MultipleCommentsBreak)
 {
-	// multiple comments with broken brackets should NOT be attached
+	// multiple comments with broken braces should NOT be attached
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -3091,7 +3091,7 @@ TEST(BracesAttachCpp, MultipleCommentsBreak)
 
 TEST(BracesAttachCpp, MultipleCommentsAttach)
 {
-	// multiple comments with attached brackets should remain unchanged
+	// multiple comments with attached braces should remain unchanged
 	char text[] =
 	    "\nvoid foo() {\n"
 	    "    if (isFoo) { /* comment1 */  // comment2\n"
@@ -3104,9 +3104,9 @@ TEST(BracesAttachCpp, MultipleCommentsAttach)
 	delete[] textOut;
 }
 
-TEST(BracesAttachCpp, MultipleCommentsHorstmann)
+TEST(BracesAttachCpp, MultipleCommentsRunIn)
 {
-	// multiple comments with horstmann brackets should NOT be attached
+	// multiple comments with horstmann braces should NOT be attached
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{   if (isFoo) /* comment1 */  // comment2\n"
@@ -3128,7 +3128,7 @@ TEST(BracesAttachCpp, MultipleCommentsHorstmann)
 
 TEST(BracesAttachCpp, Xtra1)
 {
-	// don't attach brackets if previous line is empty
+	// don't attach braces if previous line is empty
 	char text[] =
 	    "\nvoid foo()\n"
 	    "\n"
@@ -3147,7 +3147,7 @@ TEST(BracesAttachCpp, Xtra1)
 
 TEST(BracesAttachCpp, Xtra2)
 {
-	// can attach brackets if previous empty line is deleted
+	// can attach braces if previous empty line is deleted
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "\n"
@@ -3174,7 +3174,7 @@ TEST(BracesAttachCpp, Xtra2)
 
 TEST(BracesAttachCpp, Xtra3)
 {
-	// cannot attach brackets following a semi-colon
+	// cannot attach braces following a semi-colon
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -3198,7 +3198,7 @@ TEST(BracesAttachCpp, Xtra3)
 
 TEST(BracesAttachCpp, Xtra4)
 {
-	// cannot attach brackets following a "{" or "}"
+	// cannot attach braces following a "{" or "}"
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -3288,7 +3288,7 @@ struct BracesLinuxCppF : public Test
 
 TEST_F(BracesLinuxCppF, LongOption)
 {
-	// test linux brackets option
+	// test linux braces option
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3321,7 +3321,7 @@ TEST_F(BracesLinuxCppF, LongOption)
 
 TEST_F(BracesLinuxCppF, ShortOption)
 {
-	// test linux brackets option
+	// test linux braces option
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3354,7 +3354,7 @@ TEST_F(BracesLinuxCppF, ShortOption)
 
 TEST_F(BracesLinuxCppF, Namespace)
 {
-	// test linux brackets option
+	// test linux braces option
 	// indented namespace
 	char text[] =
 	    "\nnamespace FooName\n"
@@ -3388,7 +3388,7 @@ TEST_F(BracesLinuxCppF, Namespace)
 
 TEST_F(BracesLinuxCppF, Class)
 {
-	// test linux brackets option
+	// test linux braces option
 	// indent class blocks
 	char text[] =
 	    "\nnamespace FooName\n"
@@ -3422,7 +3422,7 @@ TEST_F(BracesLinuxCppF, Class)
 
 TEST_F(BracesLinuxCppF, NamespaceClass)
 {
-	// test linux brackets option
+	// test linux braces option
 	// indented namespace and class
 	char text[] =
 	    "\nnamespace FooName\n"
@@ -3456,8 +3456,8 @@ TEST_F(BracesLinuxCppF, NamespaceClass)
 
 TEST_F(BracesLinuxCppF, BreakClosing)
 {
-	// test break closing brackets option with linux brackets
-	// effective only with attach or linux brackets
+	// test break closing braces option with linux braces
+	// effective only with attach or linux braces
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3491,7 +3491,7 @@ TEST_F(BracesLinuxCppF, BreakClosing)
 
 TEST(BracesLinuxCpp, EmptyBraces)
 {
-	// test linux brackets option
+	// test linux braces option
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -3534,7 +3534,7 @@ TEST(BracesLinuxCpp, EmptyBraces)
 
 TEST(BracesLinuxCpp, EmptyBracesWithComments)
 {
-	// test linux brackets option with ending comments
+	// test linux braces option with ending comments
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -3577,7 +3577,7 @@ TEST(BracesLinuxCpp, EmptyBracesWithComments)
 
 TEST(BracesLinuxCpp, Extern)
 {
-	// extern statement should not change its bracket type
+	// extern statement should not change its brace type
 	// and should NOT use in-statement indents
 	char textIn[] =
 	    "\nextern \"C\" {\n"
@@ -3644,7 +3644,7 @@ TEST(BracesLinuxCpp, Assembler)
 
 TEST(BracesLinuxCpp, Break)
 {
-	// test linux brackets option with broken brackets
+	// test linux braces option with broken braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{\n"
@@ -3674,7 +3674,7 @@ TEST(BracesLinuxCpp, Break)
 
 TEST(BracesLinuxCpp, Attach)
 {
-	// test linux brackets option with attached brackets
+	// test linux braces option with attached braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -3700,7 +3700,7 @@ TEST(BracesLinuxCpp, Attach)
 
 TEST(BracesLinuxCpp, Linux)
 {
-	// test linux brackets option with linux brackets
+	// test linux braces option with linux braces
 	char text[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{\n"
@@ -3716,9 +3716,9 @@ TEST(BracesLinuxCpp, Linux)
 	delete[] textOut;
 }
 
-TEST(BracesLinuxCpp, Horstmann1)
+TEST(BracesLinuxCpp, RunIn1)
 {
-	// test linux brackets option with horstmann brackets
+	// test linux braces option with horstmann braces
 	char textIn[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -3743,10 +3743,10 @@ TEST(BracesLinuxCpp, Horstmann1)
 	delete[] textOut;
 }
 
-TEST(BracesLinuxCpp, Horstmann2)
+TEST(BracesLinuxCpp, RunIn2)
 {
-	// test default brackets option with horstmann brackets
-	// and 2 brackets on the same line
+	// test default braces option with horstmann braces
+	// and 2 braces on the same line
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{   if(isFoo) {\n"
@@ -3768,7 +3768,7 @@ TEST(BracesLinuxCpp, Horstmann2)
 
 TEST(BracesLinuxCpp, Misc1)
 {
-	// test linux brackets option with the following unusual format
+	// test linux braces option with the following unusual format
 	char textIn[] =
 	    "\nvoid foo1() { error = false;\n"
 	    "              errorId = 0;\n"
@@ -3809,7 +3809,7 @@ TEST(BracesLinuxCpp, Misc1)
 
 TEST(BracesLinuxCpp, Misc2)
 {
-	// test linux brackets option with the following unusual format
+	// test linux braces option with the following unusual format
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -3825,8 +3825,8 @@ TEST(BracesLinuxCpp, Misc2)
 
 TEST(BracesLinuxCpp, Misc3)
 {
-	// test linux brackets option with a macro
-	// bracket type will be incorrectly classified as an array
+	// test linux braces option with a macro
+	// brace type will be incorrectly classified as an array
 	// but should not break at the semi colon
 	char text[] =
 	    "\nvoid foo()\n"
@@ -3843,7 +3843,7 @@ TEST(BracesLinuxCpp, Misc3)
 
 TEST(BracesLinuxCpp, ClassContinuation)
 {
-	// test with class continuation and linux brackets
+	// test with class continuation and linux braces
 	char text[] =
 	    "\nclass Foo :\n"
 	    "    public Bar\n"
@@ -3859,9 +3859,9 @@ TEST(BracesLinuxCpp, ClassContinuation)
 
 TEST(BracesLinuxCpp, Formatting1)
 {
-	// test linux brackets option, for non-function top level objects
-	// brackets are attached for function definitions within a class
-	// brackets are attached for arrays, structs, enums and other top level
+	// test linux braces option, for non-function top level objects
+	// braces are attached for function definitions within a class
+	// braces are attached for arrays, structs, enums and other top level
 	//      objects that are not classes or functions.
 	char text[] =
 	    "\nnamespace FooName\n"
@@ -3921,8 +3921,8 @@ TEST(BracesLinuxCpp, Formatting1)
 
 TEST(BracesLinuxCpp, Formatting2)
 {
-	// test linux brackets option, for non-function objects within a function
-	// brackets are attached for arrays, structs, enums and other objects  within a function.
+	// test linux braces option, for non-function objects within a function
+	// braces are attached for arrays, structs, enums and other objects  within a function.
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -3953,7 +3953,7 @@ TEST(BracesLinuxCpp, Formatting2)
 
 TEST(BracesLinuxCpp, NestedNamespace)
 {
-	// test indent nested namespaces with linux brackets
+	// test indent nested namespaces with linux braces
 	char text[] =
 	    "\nnamespace A\n"
 	    "{\n"
@@ -3984,7 +3984,7 @@ TEST(BracesLinuxCpp, NestedNamespace)
 
 TEST(BracesLinuxCpp, LineCommentsBreak)
 {
-	// comments following broken brackets should NOT be attached
+	// comments following broken braces should NOT be attached
 	char textIn[] =
 	    "\nvoid foo(bool isFoo) // comment0\n"
 	    "{\n"
@@ -4012,7 +4012,7 @@ TEST(BracesLinuxCpp, LineCommentsBreak)
 
 TEST(BracesLinuxCpp, LineCommentsAttach)
 {
-	// comments following attached brackets should stay attached to the line
+	// comments following attached braces should stay attached to the line
 	char textIn[] =
 	    "\nvoid foo(bool isFoo) {    // comment0\n"
 	    "    // comment1\n"
@@ -4036,9 +4036,9 @@ TEST(BracesLinuxCpp, LineCommentsAttach)
 	delete[] textOut;
 }
 
-TEST(BracesLinuxCpp, LineCommentsHorstmann)
+TEST(BracesLinuxCpp, LineCommentsRunIn)
 {
-	// comments following horstmann brackets should NOT be attached
+	// comments following horstmann braces should NOT be attached
 	char textIn[] =
 	    "\nvoid foo(bool isFoo) /* comment0 */\n"
 	    "{   // comment1\n"
@@ -4064,7 +4064,7 @@ TEST(BracesLinuxCpp, LineCommentsHorstmann)
 
 TEST(BracesLinuxCpp, LineCommentsClosingHeader)
 {
-	// test comment alignment when a closing header is attached to a closing bracket
+	// test comment alignment when a closing header is attached to a closing brace
 	char textIn[] =
 	    "\nvoid foo()       // comment0\n"
 	    "{\n"
@@ -4094,7 +4094,7 @@ TEST(BracesLinuxCpp, LineCommentsClosingHeader)
 
 TEST(BracesLinuxCpp, CommentsBreak1)
 {
-	// broken brackets with following comments to linux
+	// broken braces with following comments to linux
 	char textIn[] =
 	    "\nvoid (foo)\n"
 	    "{\n"
@@ -4130,7 +4130,7 @@ TEST(BracesLinuxCpp, CommentsBreak1)
 
 TEST(BracesLinuxCpp, CommentsAttach1)
 {
-	// attached brackets with following comments to linux
+	// attached braces with following comments to linux
 	char textIn[] =
 	    "\nvoid (foo) {\n"
 	    "    /*\n"
@@ -4162,9 +4162,9 @@ TEST(BracesLinuxCpp, CommentsAttach1)
 	delete[] textOut;
 }
 
-TEST(BracesLinuxCpp, CommentsHorstmann1)
+TEST(BracesLinuxCpp, CommentsRunIn1)
 {
-	// horstmann brackets with following comments to linux
+	// horstmann braces with following comments to linux
 	char textIn[] =
 	    "\nvoid (foo)\n"
 	    "{   /*\n"
@@ -4198,7 +4198,7 @@ TEST(BracesLinuxCpp, CommentsHorstmann1)
 
 TEST(BracesLinuxCpp, CommentsBreak2)
 {
-	// broken brackets with following comments to linux
+	// broken braces with following comments to linux
 	// mixed tabs and spaces
 	char textIn[] =
 	    "\nvoid (foo)\n"
@@ -4235,7 +4235,7 @@ TEST(BracesLinuxCpp, CommentsBreak2)
 
 TEST(BracesLinuxCpp, CommentsAttach2)
 {
-	// attached brackets with following comments to linux
+	// attached braces with following comments to linux
 	// mixed tabs and spaces
 	char textIn[] = "\nvoid (foo) {\n"
 	                "	/*\n"
@@ -4267,9 +4267,9 @@ TEST(BracesLinuxCpp, CommentsAttach2)
 	delete[] textOut;
 }
 
-TEST(BracesLinuxCpp, CommentsHorstmann2)
+TEST(BracesLinuxCpp, CommentsRunIn2)
 {
-	// horstmann brackets with following comments to linux
+	// horstmann braces with following comments to linux
 	// mixed tabs and spaces
 	char textIn[] =
 	    "\nvoid (foo)\n"
@@ -4304,7 +4304,7 @@ TEST(BracesLinuxCpp, CommentsHorstmann2)
 
 TEST(BracesLinuxCpp, CommentsBreak3)
 {
-	// comments following broken brackets should NOT be attached
+	// comments following broken braces should NOT be attached
 	char textIn[] =
 	    "\nvoid foo1(bool isFoo) /* comment0 */\n"
 	    "{\n"
@@ -4359,8 +4359,8 @@ TEST(BracesLinuxCpp, CommentsBreak3)
 
 TEST(BracesLinuxCpp, CommentsAttach3)
 {
-	// test comments following brackets
-	// multi-line comments following attached brackets break
+	// test comments following braces
+	// multi-line comments following attached braces break
 	//    but are NOT aligned
 	char textIn[] =
 	    "\nvoid foo1(bool isFoo) {  /* comment0 */\n"
@@ -4406,9 +4406,9 @@ TEST(BracesLinuxCpp, CommentsAttach3)
 	delete[] textOut;
 }
 
-TEST(BracesLinuxCpp, CommentsHorstmann3)
+TEST(BracesLinuxCpp, CommentsRunIn3)
 {
-	// comments following horstmann brackets should NOT be attached
+	// comments following horstmann braces should NOT be attached
 	char textIn[] =
 	    "\nvoid foo1(bool isFoo) /* comment0 */\n"
 	    "{   /* comment1 */\n"
@@ -4459,7 +4459,7 @@ TEST(BracesLinuxCpp, CommentsHorstmann3)
 
 TEST(BracesLinuxCpp, MultipleCommentsBreak)
 {
-	// multiple comments with broken brackets should remain unchanged
+	// multiple comments with broken braces should remain unchanged
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4476,7 +4476,7 @@ TEST(BracesLinuxCpp, MultipleCommentsBreak)
 
 TEST(BracesLinuxCpp, MultipleCommentsAttach)
 {
-	// multiple comments with attached brackets remain unchanged
+	// multiple comments with attached braces remain unchanged
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4490,9 +4490,9 @@ TEST(BracesLinuxCpp, MultipleCommentsAttach)
 	delete[] textOut;
 }
 
-TEST(BracesLinuxCpp, MultipleCommentsHorstmann)
+TEST(BracesLinuxCpp, MultipleCommentsRunIn)
 {
-	// multiple comments with horstmann brackets should NOT be attached
+	// multiple comments with horstmann braces should NOT be attached
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{   if (isFoo) /* comment1 */  // comment2\n"
@@ -4515,7 +4515,7 @@ TEST(BracesLinuxCpp, MultipleCommentsHorstmann)
 
 TEST(BracesLinuxCpp, Xtra1)
 {
-	// don't attach brackets if previous line is empty
+	// don't attach braces if previous line is empty
 	char text[] =
 	    "\nvoid foo()\n"
 	    "\n"
@@ -4534,7 +4534,7 @@ TEST(BracesLinuxCpp, Xtra1)
 
 TEST(BracesLinuxCpp, Xtra2)
 {
-	// can attach brackets if previous empty line is deleted
+	// can attach braces if previous empty line is deleted
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "\n"
@@ -4561,7 +4561,7 @@ TEST(BracesLinuxCpp, Xtra2)
 
 TEST(BracesLinuxCpp, Xtra3)
 {
-	// cannot attach brackets following a semi-colon
+	// cannot attach braces following a semi-colon
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4586,7 +4586,7 @@ TEST(BracesLinuxCpp, Xtra3)
 
 TEST(BracesLinuxCpp, Xtra4)
 {
-	// cannot attach brackets following a "{" or "}"
+	// cannot attach braces following a "{" or "}"
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"

@@ -354,7 +354,7 @@ def get_diff_path():
        endexe = True will add an ending '.exe' to Windows.
     """
     if os.name == "nt":
-        exepath = "/Program Files (x86)" + "/WinMerge/WinMergeU.exe"
+        exepath = "/Program Files (x86)" + "/WinMerge2011/WinMergeU.exe"
         if not os.path.isfile(exepath):
             message = "Cannot find diff path: " + exepath
             system_exit(message)

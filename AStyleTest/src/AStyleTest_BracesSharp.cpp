@@ -66,7 +66,7 @@ struct BracesNoneSharpF : public Test
 
 TEST_F(BracesNoneSharpF, Default)
 {
-	// test default brackets option (do not change)
+	// test default braces option (do not change)
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -104,7 +104,7 @@ TEST_F(BracesNoneSharpF, Default)
 
 TEST_F(BracesNoneSharpF, Namespace)
 {
-	// test default brackets option, with indented namespace
+	// test default braces option, with indented namespace
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -142,8 +142,8 @@ TEST_F(BracesNoneSharpF, Namespace)
 
 TEST(BracesNoneSharp, EmptyBraces)
 {
-	// test default brackets option (do not change)
-	// do not change empty brackets
+	// test default braces option (do not change)
+	// do not change empty braces
 	char text[] =
 	    "\npublic class FooClass\n"
 	    "{\n"
@@ -161,8 +161,8 @@ TEST(BracesNoneSharp, EmptyBraces)
 
 TEST(BracesNoneSharp, EmptyBracesWithComments)
 {
-	// test default brackets option (do not change) with ending comments
-	// do not change empty brackets
+	// test default braces option (do not change) with ending comments
+	// do not change empty braces
 	char text[] =
 	    "\npublic class FooClass // comment\n"
 	    "{\n"
@@ -180,7 +180,7 @@ TEST(BracesNoneSharp, EmptyBracesWithComments)
 
 TEST(BracesNoneSharp, Break)
 {
-	// test default brackets option with broken brackets
+	// test default braces option with broken braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -201,7 +201,7 @@ TEST(BracesNoneSharp, Break)
 
 TEST(BracesNoneSharp, Attach)
 {
-	// test default brackets option with attached brackets
+	// test default braces option with attached braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -218,7 +218,7 @@ TEST(BracesNoneSharp, Attach)
 
 TEST(BracesNoneSharp, Linux)
 {
-	// test default brackets option with linux brackets
+	// test default braces option with linux braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -236,7 +236,7 @@ TEST(BracesNoneSharp, Linux)
 
 TEST(BracesNoneSharp, RunIn)
 {
-	// test default brackets option with run-in brackets
+	// test default braces option with run-in braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -296,7 +296,7 @@ struct BracesBreakSharpF : public Test
 
 TEST_F(BracesBreakSharpF, LongOption)
 {
-	// test break brackets option
+	// test break braces option
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -337,7 +337,7 @@ TEST_F(BracesBreakSharpF, LongOption)
 
 TEST_F(BracesBreakSharpF, ShortOption)
 {
-	// test break brackets short option
+	// test break braces short option
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -378,7 +378,7 @@ TEST_F(BracesBreakSharpF, ShortOption)
 
 TEST_F(BracesBreakSharpF, Namespace)
 {
-	// test break brackets option, with indented namespace
+	// test break braces option, with indented namespace
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -419,7 +419,7 @@ TEST_F(BracesBreakSharpF, Namespace)
 
 TEST(BracesBreakSharp, EmptyBraces)
 {
-	// test break brackets option
+	// test break braces option
 	char textIn[] =
 	    "\npublic class FooClass\n"
 	    "{\n"
@@ -447,7 +447,7 @@ TEST(BracesBreakSharp, EmptyBraces)
 
 TEST(BracesBreakSharp, EmptyBracesWithComments)
 {
-	// test break brackets option with ending comments
+	// test break braces option with ending comments
 	char textIn[] =
 	    "\npublic class FooClass // comment\n"
 	    "{\n"
@@ -475,7 +475,7 @@ TEST(BracesBreakSharp, EmptyBracesWithComments)
 
 TEST(BracesBreakSharp, Break)
 {
-	// test break brackets option with broken brackets
+	// test break braces option with broken braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -496,7 +496,7 @@ TEST(BracesBreakSharp, Break)
 
 TEST(BracesBreakSharp, Attach)
 {
-	// test break brackets option with attached brackets
+	// test break braces option with attached braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -525,7 +525,7 @@ TEST(BracesBreakSharp, Attach)
 
 TEST(BracesBreakSharp, Linux)
 {
-	// test break brackets option with linux brackets
+	// test break braces option with linux braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -555,7 +555,7 @@ TEST(BracesBreakSharp, Linux)
 
 TEST(BracesBreakSharp, RunIn)
 {
-	// test break brackets option with run-in brackets
+	// test break braces option with run-in braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -626,7 +626,7 @@ struct BracesAttachSharpF : public Test
 
 TEST_F(BracesAttachSharpF, LongOption)
 {
-	// test attach brackets option
+	// test attach braces option
 	char text[] =
 	    "\nnamespace FooName {\n"
 	    "\n"
@@ -659,7 +659,7 @@ TEST_F(BracesAttachSharpF, LongOption)
 
 TEST_F(BracesAttachSharpF, ShortOption)
 {
-	// test attach brackets short option
+	// test attach braces short option
 	char text[] =
 	    "\nnamespace FooName {\n"
 	    "\n"
@@ -692,7 +692,7 @@ TEST_F(BracesAttachSharpF, ShortOption)
 
 TEST_F(BracesAttachSharpF, Namespace)
 {
-	// test attach brackets option, with indented namespace
+	// test attach braces option, with indented namespace
 	char text[] =
 	    "\nnamespace FooName {\n"
 	    "\n"
@@ -725,7 +725,7 @@ TEST_F(BracesAttachSharpF, Namespace)
 
 TEST_F(BracesAttachSharpF, BreakClosing)
 {
-	// test attach brackets option, with break closing brackets
+	// test attach braces option, with break closing braces
 	char text[] =
 	    "\nnamespace FooName {\n"
 	    "\n"
@@ -759,7 +759,7 @@ TEST_F(BracesAttachSharpF, BreakClosing)
 
 TEST(BracesAttachSharp, EmptyBraces)
 {
-	// test attach brackets option
+	// test attach braces option
 	char text[] =
 	    "\npublic class FooClass {\n"
 	    "    public FooClass() {}\n"
@@ -776,7 +776,7 @@ TEST(BracesAttachSharp, EmptyBraces)
 
 TEST(BracesAttachSharp, EmptyBracesWithComments)
 {
-	// test attach brackets option with ending comments
+	// test attach braces option with ending comments
 	char text[] =
 	    "\npublic class FooClass { // comment\n"
 	    "    public FooClass() {} // comment\n"
@@ -793,7 +793,7 @@ TEST(BracesAttachSharp, EmptyBracesWithComments)
 
 TEST(BracesAttachSharp, Break)
 {
-	// test attach brackets option with broken brackets
+	// test attach braces option with broken braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -822,7 +822,7 @@ TEST(BracesAttachSharp, Break)
 
 TEST(BracesAttachSharp, Attach)
 {
-	// test attach brackets option with attached brackets
+	// test attach braces option with attached braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -839,7 +839,7 @@ TEST(BracesAttachSharp, Attach)
 
 TEST(BracesAttachSharp, Linux)
 {
-	// test attach brackets option with linux brackets
+	// test attach braces option with linux braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -865,7 +865,7 @@ TEST(BracesAttachSharp, Linux)
 
 TEST(BracesAttachSharp, RunIn)
 {
-	// test attach brackets option with run-in brackets
+	// test attach braces option with run-in braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -932,7 +932,7 @@ struct BracesLinuxSharpF : public Test
 
 TEST_F(BracesLinuxSharpF, LongOption)
 {
-	// test linux brackets option
+	// test linux braces option
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -969,7 +969,7 @@ TEST_F(BracesLinuxSharpF, LongOption)
 
 TEST_F(BracesLinuxSharpF, ShortOption)
 {
-	// test linux brackets short option
+	// test linux braces short option
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -1006,7 +1006,7 @@ TEST_F(BracesLinuxSharpF, ShortOption)
 
 TEST_F(BracesLinuxSharpF, Namespace)
 {
-	// test linux brackets option, with indented namespace
+	// test linux braces option, with indented namespace
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -1043,7 +1043,7 @@ TEST_F(BracesLinuxSharpF, Namespace)
 
 TEST_F(BracesLinuxSharpF, BreakClosing)
 {
-	// test linux brackets option, with break closing brackets
+	// test linux braces option, with break closing braces
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -1081,7 +1081,7 @@ TEST_F(BracesLinuxSharpF, BreakClosing)
 
 TEST(BracesLinuxSharp, EmptyBraces)
 {
-	// test linux brackets option
+	// test linux braces option
 	char textIn[] =
 	    "\npublic class FooClass\n"
 	    "{\n"
@@ -1109,7 +1109,7 @@ TEST(BracesLinuxSharp, EmptyBraces)
 
 TEST(BracesLinuxSharp, EmptyBracesWithComments)
 {
-	// test linux brackets option with ending comments
+	// test linux braces option with ending comments
 	char textIn[] =
 	    "\npublic class FooClass // comment\n"
 	    "{\n"
@@ -1137,7 +1137,7 @@ TEST(BracesLinuxSharp, EmptyBracesWithComments)
 
 TEST(BracesLinuxSharp, Break)
 {
-	// test linux brackets option with broken brackets
+	// test linux braces option with broken braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -1167,7 +1167,7 @@ TEST(BracesLinuxSharp, Break)
 
 TEST(BracesLinuxSharp, Attach)
 {
-	// test linux brackets option with attached brackets
+	// test linux braces option with attached braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -1193,7 +1193,7 @@ TEST(BracesLinuxSharp, Attach)
 
 TEST(BracesLinuxSharp, Linux)
 {
-	// test linux brackets option with linux brackets
+	// test linux braces option with linux braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -1211,7 +1211,7 @@ TEST(BracesLinuxSharp, Linux)
 
 TEST(BracesLinuxSharp, RunIn)
 {
-	// test linux brackets option with run-in brackets
+	// test linux braces option with run-in braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -1238,8 +1238,8 @@ TEST(BracesLinuxSharp, RunIn)
 
 TEST(BracesLinuxSharp, Formatting)
 {
-	// test linux brackets option, for non-function top level objects
-	// brackets are attached for arrays, structs, and other top level objects
+	// test linux braces option, for non-function top level objects
+	// braces are attached for arrays, structs, and other top level objects
 	//     that are not classes or functions.
 	char textIn[] =
 	    "\nnamespace fooName\n"
@@ -1288,7 +1288,7 @@ TEST(BracesLinuxSharp, Formatting)
 
 TEST(BracesLinuxSharp, NestedNamespace)
 {
-	// test nested namespaces with linux brackets
+	// test nested namespaces with linux braces
 	char text[] =
 	    "\nnamespace A\n"
 	    "{\n"
@@ -1357,7 +1357,7 @@ struct BracesStroustrupSharpF : public Test
 
 TEST_F(BracesStroustrupSharpF, LongOption)
 {
-	// test stroustrup brackets option
+	// test stroustrup braces option
 	char text[] =
 	    "\nnamespace FooName {\n"
 	    "\n"
@@ -1391,7 +1391,7 @@ TEST_F(BracesStroustrupSharpF, LongOption)
 
 TEST_F(BracesStroustrupSharpF, ShortOption)
 {
-	// test stroustrup brackets short option
+	// test stroustrup braces short option
 	char text[] =
 	    "\nnamespace FooName {\n"
 	    "\n"
@@ -1425,7 +1425,7 @@ TEST_F(BracesStroustrupSharpF, ShortOption)
 
 TEST_F(BracesStroustrupSharpF, Namespace)
 {
-	// test stroustrup brackets option, with indented namespace
+	// test stroustrup braces option, with indented namespace
 	char text[] =
 	    "\nnamespace FooName {\n"
 	    "\n"
@@ -1459,7 +1459,7 @@ TEST_F(BracesStroustrupSharpF, Namespace)
 
 TEST_F(BracesStroustrupSharpF, BreakClosing)
 {
-	// test stroustrup brackets option with break closing brackets
+	// test stroustrup braces option with break closing braces
 	char text[] =
 	    "\nnamespace FooName {\n"
 	    "\n"
@@ -1494,7 +1494,7 @@ TEST_F(BracesStroustrupSharpF, BreakClosing)
 
 TEST(BracesStroustrupSharp, EmptyBraces)
 {
-	// test stroustrup brackets option
+	// test stroustrup braces option
 	char textIn[] =
 	    "\npublic class FooClass {\n"
 	    "    public FooClass() {}\n"
@@ -1520,7 +1520,7 @@ TEST(BracesStroustrupSharp, EmptyBraces)
 
 TEST(BracesStroustrupSharp, EmptyBracesWithComments)
 {
-	// test stroustrup brackets option with ending comments
+	// test stroustrup braces option with ending comments
 	char textIn[] =
 	    "\npublic class FooClass { //comment\n"
 	    "    public FooClass() {} //comment\n"
@@ -1546,8 +1546,8 @@ TEST(BracesStroustrupSharp, EmptyBracesWithComments)
 
 TEST(BracesStroustrupSharp, Formatting)
 {
-	// test stroustrup brackets option, for non-function top level objects
-	// brackets are attached for arrays, structs, and other top level objects
+	// test stroustrup braces option, for non-function top level objects
+	// braces are attached for arrays, structs, and other top level objects
 	//     that are not classes or functions.
 	char textIn[] =
 	    "\nnamespace fooName\n"
@@ -1594,7 +1594,7 @@ TEST(BracesStroustrupSharp, Formatting)
 
 TEST(BracesStroustrupSharp, NestedNamespace)
 {
-	// test nested namespaces with stroustrup brackets
+	// test nested namespaces with stroustrup braces
 	char text[] =
 	    "\nnamespace A {\n"
 	    "class A {\n"
@@ -1657,7 +1657,7 @@ struct BracesRunInSharpF : public Test
 
 TEST_F(BracesRunInSharpF, LongOption)
 {
-	// test run-in brackets option
+	// test run-in braces option
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -1684,7 +1684,7 @@ TEST_F(BracesRunInSharpF, LongOption)
 	    "    }\n"
 	    "}\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=cs";
+	char options[] = "style=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1692,7 +1692,7 @@ TEST_F(BracesRunInSharpF, LongOption)
 
 TEST_F(BracesRunInSharpF, ShortOption)
 {
-	// test run-in brackets short option
+	// test run-in braces short option
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -1727,7 +1727,7 @@ TEST_F(BracesRunInSharpF, ShortOption)
 
 TEST_F(BracesRunInSharpF, Namespace)
 {
-	// test run-in brackets option, with indented namespace
+	// test run-in braces option, with indented namespace
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -1754,7 +1754,7 @@ TEST_F(BracesRunInSharpF, Namespace)
 	    "        }\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann, indent-namespaces, mode=cs";
+	char options[] = "style=run-in, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1762,7 +1762,7 @@ TEST_F(BracesRunInSharpF, Namespace)
 
 TEST(BracesRunInSharp, EmptyBraces)
 {
-	// test run-in brackets option
+	// test run-in braces option
 	char textIn[] =
 	    "\npublic class FooClass\n"
 	    "{   public FooClass() {}\n"
@@ -1780,7 +1780,7 @@ TEST(BracesRunInSharp, EmptyBraces)
 	    "    public FooClass()\n"
 	    "    {}\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=cs";
+	char options[] = "style=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1788,7 +1788,7 @@ TEST(BracesRunInSharp, EmptyBraces)
 
 TEST(BracesRunInSharp, EmptyBracesWithComments)
 {
-	// test run-in brackets option with ending comments
+	// test run-in braces option with ending comments
 	char textIn[] =
 	    "\npublic class FooClass // comment\n"
 	    "{   public FooClass() {} // comment\n"
@@ -1806,7 +1806,7 @@ TEST(BracesRunInSharp, EmptyBracesWithComments)
 	    "    public FooClass() // comment\n"
 	    "    {}\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=cs";
+	char options[] = "style=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1814,7 +1814,7 @@ TEST(BracesRunInSharp, EmptyBracesWithComments)
 
 TEST(BracesRunInSharp, Break)
 {
-	// test run-in brackets option with broken brackets
+	// test run-in braces option with broken braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -1836,7 +1836,7 @@ TEST(BracesRunInSharp, Break)
 	    "    {   anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=cs";
+	char options[] = "style=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1844,7 +1844,7 @@ TEST(BracesRunInSharp, Break)
 
 TEST(BracesRunInSharp, Attach)
 {
-	// test run-in brackets option with attached brackets
+	// test run-in braces option with attached braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -1862,7 +1862,7 @@ TEST(BracesRunInSharp, Attach)
 	    "    {   anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=cs";
+	char options[] = "style=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1870,7 +1870,7 @@ TEST(BracesRunInSharp, Attach)
 
 TEST(BracesRunInSharp, Linux)
 {
-	// test break brackets option with linux brackets
+	// test break braces option with linux braces
 	char textIn[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{\n"
@@ -1889,7 +1889,7 @@ TEST(BracesRunInSharp, Linux)
 	    "    {   anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=cs";
+	char options[] = "style=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1897,7 +1897,7 @@ TEST(BracesRunInSharp, Linux)
 
 TEST(BracesRunInSharp, RunIn)
 {
-	// test break brackets option with run-in brackets
+	// test break braces option with run-in braces
 	char text[] =
 	    "\npublic void Foo(bool isFoo)\n"
 	    "{   if (isFoo)\n"
@@ -1907,7 +1907,7 @@ TEST(BracesRunInSharp, RunIn)
 	    "    {   anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann, mode=cs";
+	char options[] = "style=run-in, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1965,7 +1965,7 @@ TEST_F(BracesOtherSharpF, IndentClasses)
 
 TEST(BracesOtherSharp, ClassContinuation_Attached)
 {
-	// test with class continuation and attached brackets
+	// test with class continuation and attached braces
 	char text[] =
 	    "\npublic interface Foo\n"
 	    "    : Bar {\n"
@@ -1979,7 +1979,7 @@ TEST(BracesOtherSharp, ClassContinuation_Attached)
 
 TEST(BracesOtherSharp, ClassContinuation_Broken)
 {
-	// test with class continuation and broken brackets
+	// test with class continuation and broken braces
 	char text[] =
 	    "\npublic interface Foo\n"
 	    "    : Bar\n"
@@ -2497,7 +2497,7 @@ TEST(BracesOtherSharp, NewOperator)
 TEST(BracesOtherSharp, NewOperatorDelegate)
 {
 	// Test new operator ending with }) that contains a delegate block.
-	// C# does a full indent of brackets within a paren.
+	// C# does a full indent of braces within a paren.
 	// TODO: doesn't work, should be indented like textIn
 	char textIn[] =
 	    "\nstatic void Parse(string fileName, string fileContent)\n"
@@ -2713,7 +2713,7 @@ TEST(BracesArraySharp, RunIn_Comments)
 	    "    /* 1: after quote   */ new int[] { 2,   6,   10,  0,   8 },\n"
 	    "    /* 2: after d-quote */ new int[] { 3,   7,   0,   0,   0 }\n"
 	    "};\n";
-	char options[] = "style=horstmann, mode=cs";
+	char options[] = "style=run-in, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2747,7 +2747,7 @@ TEST(BracesArraySharp, RunIn_Misc1)
 	    "        PwDefs.PasswordField\n"
 	    "    }),\n"
 	    "};";
-	char options[] = "style=horstmann, mode=cs";
+	char options[] = "style=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2756,7 +2756,7 @@ TEST(BracesArraySharp, RunIn_Misc1)
 TEST(BracesArraySharp, Enum)
 {
 	// test enum formatting
-	// the enum bracket should be space padded and should not be broken
+	// the enum brace should be space padded and should not be broken
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -2797,7 +2797,7 @@ TEST(BracesArraySharp, InStatementIndentWithParenLineBegin)
 
 TEST(BracesArraySharp, Clear_NonInStatementArray2)
 {
-	// The isNonInStatementArray should be cleared before brackets are added.
+	// The isNonInStatementArray should be cleared before braces are added.
 	// If not cleared the CreateDirectory line is wrong.
 	char textIn[] =
 	    "\npublic void CreateEntry()\n"
@@ -2822,7 +2822,7 @@ TEST(BracesArraySharp, Clear_NonInStatementArray2)
 
 TEST(BracesArraySharp, Clear_NonInStatementArray3)
 {
-	// The isNonInStatementArray should be cleared before brackets are added.
+	// The isNonInStatementArray should be cleared before braces are added.
 	// If not cleared the final in-statement indent will be wrong.
 	char text[] =
 	    "\nstatic void LoadProjectInternal()\n"
@@ -2840,7 +2840,7 @@ TEST(BracesArraySharp, Clear_NonInStatementArray3)
 
 TEST(BracesArraySharp, Clear_NonInStatementArray4)
 {
-	// The isNonInStatementArray should be cleared before brackets are added.
+	// The isNonInStatementArray should be cleared before braces are added.
 	// If not cleared the last two lines will be wrong.
 	char text[] =
 	    "\nstatic void NeedsToClear()\n"
