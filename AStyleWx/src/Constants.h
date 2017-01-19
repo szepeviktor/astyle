@@ -208,7 +208,8 @@ struct TextStyle
 #define ATTACH_NAMESPACES           "attach-namespaces"
 #define ATTACH_CLASSES              "attach-classes"
 #define ATTACH_INLINES              "attach-inlines"
-#define ATTACH_EXTERNC              "attach-extern-c"
+#define ATTACH_EXTERN_C             "attach-extern-c"
+#define ATTACH_CLOSING_WHILE        "attach-closing-while"
 // indentation options
 #define INDENT_CLASSES              "indent-classes"
 #define INDENT_MODIFIERS            "indent-modifiers"

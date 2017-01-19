@@ -396,6 +396,7 @@ void AStyleDlg::GetModifierOptions(AStyleIFace* astyle)
 	astyle->setAttachClass(m_attachClass->GetValue());
 	astyle->setAttachInline(m_attachInline->GetValue());
 	astyle->setAttachExternC(m_attachExternC->GetValue());
+	astyle->setAttachClosingWhile(m_attachClosingWhile->GetValue());
 }
 
 void AStyleDlg::GetOtherOptions(AStyleIFace* astyle)
@@ -862,6 +863,7 @@ void AStyleDlg::SetModifierOptions()
 	m_attachClass->SetValue(m_astyle->getAttachClass());
 	m_attachInline->SetValue(m_astyle->getAttachInline());
 	m_attachExternC->SetValue(m_astyle->getAttachExternC());
+	m_attachClosingWhile->SetValue(m_astyle->getAttachClosingWhile());
 }
 
 void AStyleDlg::SetOtherOptions()

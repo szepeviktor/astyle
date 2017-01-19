@@ -423,6 +423,15 @@
 																		<checked>0</checked>
 																	</object>
 																</object>
+																<object class="sizeritem">
+																	<option>0</option>
+																	<flag>wxALL</flag>
+																	<border>5</border>
+																	<object class="wxCheckBox" name="m_attachClosingWhile">
+																		<label>Attach closing _while</label>
+																		<checked>0</checked>
+																	</object>
+																</object>
 															</object>
 														</object>
 													</object>

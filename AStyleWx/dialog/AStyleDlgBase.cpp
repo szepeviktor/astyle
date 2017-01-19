@@ -10,7 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////
 
 BEGIN_EVENT_TABLE( AStyleDlgBase, wxDialog )
-	EVT_TREEBOOK_PAGE_CHANGED( ID_ASTYLE_NOTEBOOK, AStyleDlgBase::_wxFB_OnNotebookPageChanged )
+	EVT_NOTEBOOK_PAGE_CHANGED( ID_ASTYLE_NOTEBOOK, AStyleDlgBase::_wxFB_OnNotebookPageChanged )
 	EVT_RADIOBUTTON( ID_STYLE_NONE, AStyleDlgBase::_wxFB_OnStyleClick )
 	EVT_RADIOBUTTON( ID_STYLE_ALLMAN, AStyleDlgBase::_wxFB_OnStyleClick )
 	EVT_RADIOBUTTON( ID_STYLE_JAVA, AStyleDlgBase::_wxFB_OnStyleClick )
@@ -35,7 +35,8 @@ BEGIN_EVENT_TABLE( AStyleDlgBase, wxDialog )
 	EVT_CHECKBOX( ID_ATTACH_NAMESPACE, AStyleDlgBase::_wxFB_OnModifierClick )
 	EVT_CHECKBOX( ID_ATTACH_CLASS, AStyleDlgBase::_wxFB_OnModifierClick )
 	EVT_CHECKBOX( ID_ATTACH_INLINE, AStyleDlgBase::_wxFB_OnModifierClick )
-	EVT_CHECKBOX( ID_ATTACH_EXTERNC, AStyleDlgBase::_wxFB_OnModifierClick )
+	EVT_CHECKBOX( ID_ATTACH_EXTERN_C, AStyleDlgBase::_wxFB_OnModifierClick )
+	EVT_CHECKBOX( ID_ATTACH_CLOSING_WHILE, AStyleDlgBase::_wxFB_OnModifierClick )
 	EVT_CHECKBOX( ID_INDENT_CLASS, AStyleDlgBase::_wxFB_OnIndentClick )
 	EVT_CHECKBOX( ID_INDENT_MODIFIER, AStyleDlgBase::_wxFB_OnIndentClick )
 	EVT_CHECKBOX( ID_INDENT_SWITCH, AStyleDlgBase::_wxFB_OnIndentClick )
@@ -101,7 +102,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* notebookSizer;
 	notebookSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_notebook = new wxTreebook( this, ID_ASTYLE_NOTEBOOK, wxDefaultPosition, wxDefaultSize, 0|wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
+	m_notebook = new wxNotebook( this, ID_ASTYLE_NOTEBOOK, wxDefaultPosition, wxDefaultSize, 0|wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	m_stylePage = new wxPanel( m_notebook, ID_STYLE_PAGE, wxPoint( -1,0 ), wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* styleSizer;
 	styleSizer = new wxBoxSizer( wxVERTICAL );
@@ -221,8 +222,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_stylePage->SetSizer( styleSizer );
 	m_stylePage->Layout();
 	styleSizer->Fit( m_stylePage );
-	m_notebook->AddPage( NULL, wxT("Artistic Style Options"), false );
-	m_notebook->AddSubPage( m_stylePage, wxT("Bracket Style"), false );
+	m_notebook->AddPage( m_stylePage, wxT("Style"), false );
 	m_tabPage = new wxPanel( m_notebook, ID_TABS_PAGE, wxPoint( -1,0 ), wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* tabSizer;
 	tabSizer = new wxBoxSizer( wxVERTICAL );
@@ -303,8 +303,11 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_attachInline = new wxCheckBox( m_modifySizer->GetStaticBox(), ID_ATTACH_INLINE, wxT("Attach in&lines"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_modifySizer->Add( m_attachInline, 0, wxALL, 5 );
 	
-	m_attachExternC = new wxCheckBox( m_modifySizer->GetStaticBox(), ID_ATTACH_EXTERNC, wxT("Attach e&xtern C"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_attachExternC = new wxCheckBox( m_modifySizer->GetStaticBox(), ID_ATTACH_EXTERN_C, wxT("Attach e&xtern C"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_modifySizer->Add( m_attachExternC, 0, wxALL, 5 );
+	
+	m_attachClosingWhile = new wxCheckBox( m_modifySizer->GetStaticBox(), ID_ATTACH_CLOSING_WHILE, wxT("Attach closing &while"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_modifySizer->Add( m_attachClosingWhile, 0, wxALL, 5 );
 	
 	
 	bSizer28->Add( m_modifySizer, 1, wxALL|wxEXPAND, 5 );
@@ -355,7 +358,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_tabPage->SetSizer( tabSizer );
 	m_tabPage->Layout();
 	tabSizer->Fit( m_tabPage );
-	m_notebook->AddSubPage( m_tabPage, wxT("Tabs/Spaces"), false );
+	m_notebook->AddPage( m_tabPage, wxT("Tabs"), false );
 	m_indentPage = new wxPanel( m_notebook, ID_INDENT_PAGE, wxPoint( -1,0 ), wxSize( -1,-1 ), wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* indentSizer;
 	indentSizer = new wxBoxSizer( wxVERTICAL );
@@ -500,7 +503,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_indentPage->SetSizer( indentSizer );
 	m_indentPage->Layout();
 	indentSizer->Fit( m_indentPage );
-	m_notebook->AddSubPage( m_indentPage, wxT("Indentation"), false );
+	m_notebook->AddPage( m_indentPage, wxT("Indent"), false );
 	m_padPage = new wxPanel( m_notebook, ID_PAD_PAGE, wxPoint( -1,0 ), wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* padSizer;
 	padSizer = new wxBoxSizer( wxVERTICAL );
@@ -639,7 +642,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_padPage->SetSizer( padSizer );
 	m_padPage->Layout();
 	padSizer->Fit( m_padPage );
-	m_notebook->AddSubPage( m_padPage, wxT("Padding"), false );
+	m_notebook->AddPage( m_padPage, wxT("Pad"), false );
 	m_formatPage = new wxPanel( m_notebook, ID_FOMAT_PAGE, wxPoint( -1,0 ), wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* formatSizer;
 	formatSizer = new wxBoxSizer( wxVERTICAL );
@@ -762,7 +765,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_formatPage->SetSizer( formatSizer );
 	m_formatPage->Layout();
 	formatSizer->Fit( m_formatPage );
-	m_notebook->AddSubPage( m_formatPage, wxT("Formatting"), true );
+	m_notebook->AddPage( m_formatPage, wxT("Format"), true );
 	m_otherPage = new wxPanel( m_notebook, ID_OTHER_PAGE, wxPoint( -1,0 ), wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* otherSizer;
 	otherSizer = new wxBoxSizer( wxVERTICAL );
@@ -865,7 +868,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_otherPage->SetSizer( otherSizer );
 	m_otherPage->Layout();
 	otherSizer->Fit( m_otherPage );
-	m_notebook->AddSubPage( m_otherPage, wxT("Objective-C"), false );
+	m_notebook->AddPage( m_otherPage, wxT("Other"), false );
 	
 	notebookSizer->Add( m_notebook, 1, wxEXPAND | wxALL, 5 );
 	

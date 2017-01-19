@@ -50,6 +50,7 @@ AStyleIFace::AStyleIFace()
 	attachClass          = false;              // --attach-classes
 	attachInline         = false;              // --attach-inlines
 	attachExternC        = false;              // --attach-extern-c
+	attachClosingWhile   = false;              // --attach-closing-while
 
 	// indentation options
 	classIndent          = false;              // --indent-classes
@@ -393,7 +394,16 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (showShort)
 			options.append("xk");
 		else
-			options.append(ATTACH_EXTERNC);
+			options.append(ATTACH_EXTERN_C);
+		if (useSeparator)
+			options.append(separator);
+	}
+	if (getAttachClosingWhile())
+	{
+		if (showShort)
+			options.append("xV");
+		else
+			options.append(ATTACH_CLOSING_WHILE);
 		if (useSeparator)
 			options.append(separator);
 	}
@@ -1107,8 +1117,10 @@ bool AStyleIFace::SetAStyleOptionFromConfig_Bool(const wxString& key, bool value
 		attachClass = value;
 	else if (key == ATTACH_INLINES)
 		attachInline = value;
-	else if (key == ATTACH_EXTERNC)
+	else if (key == ATTACH_EXTERN_C)
 		attachExternC = value;
+	else if (key == ATTACH_CLOSING_WHILE)
+		attachClosingWhile = value;
 	else if (key == BREAK_CLOSING_BRACES)
 		breakClosingBraces = value;
 	else if (key == INDENT_CLASSES)
