@@ -263,7 +263,23 @@ TEST(AStyleIFace_ModifierOptions, GetOptions_AttachExternC)
 	EXPECT_TRUE(options == wxEmptyString);
 	astyle.setAttachExternC(true);
 	options = astyle.GetOptions();
-	EXPECT_TRUE(options == ATTACH_EXTERNC);
+	EXPECT_TRUE(options == ATTACH_EXTERN_C);
+}
+
+TEST(AStyleIFace_ModifierOptions, GetOptions_AttachClosingWhile)
+// Test AStyleIFace::GetOptions attachExternC option
+{
+	// create objects
+	AStyleIFace astyle;
+	wxString options;
+
+	// test the option
+	astyle.setAttachClosingWhile(false);
+	options = astyle.GetOptions();
+	EXPECT_TRUE(options == wxEmptyString);
+	astyle.setAttachClosingWhile(true);
+	options = astyle.GetOptions();
+	EXPECT_TRUE(options == ATTACH_CLOSING_WHILE);
 }
 
 //-------------------------------------------------------------------------
@@ -2181,8 +2197,10 @@ TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_Boolean)
 	EXPECT_TRUE(astyle.AStyleIFace::getAttachClass());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ATTACH_INLINES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getAttachInline());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ATTACH_EXTERNC, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ATTACH_EXTERN_C, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getAttachExternC());
+	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ATTACH_CLOSING_WHILE, asTRUE));
+	EXPECT_TRUE(astyle.AStyleIFace::getAttachClosingWhile());
 	// indentation
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_CLASSES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getClassIndent());
