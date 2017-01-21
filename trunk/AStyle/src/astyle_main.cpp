@@ -525,7 +525,7 @@ void ASConsole::formatCinToCout()
 		}
 		else
 		{
-			// this can happen if the file if missing a closing bracket and break-blocks is requested
+			// this can happen if the file if missing a closing brace and break-blocks is requested
 			if (formatter.getIsLineReady())
 			{
 				setOutputEOL(lineEndFormat, streamIterator.getOutputEOL());
@@ -583,7 +583,7 @@ void ASConsole::formatFile(const string& fileName_)
 		else
 		{
 			streamIterator.saveLastInputLine();     // to compare the last input line
-			// this can happen if the file if missing a closing bracket and break-blocks is requested
+			// this can happen if the file if missing a closing brace and break-blocks is requested
 			if (formatter.getIsLineReady())
 			{
 				setOutputEOL(lineEndFormat, streamIterator.getOutputEOL());
@@ -2910,7 +2910,7 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	}
 	else if ( isOption(arg, "y", "break-closing-braces") )
 	{
-		formatter.setBreakClosingHeaderBracketsMode(true);
+		formatter.setBreakClosingHeaderBracesMode(true);
 	}
 	else if ( isOption(arg, "O", "keep-one-line-blocks") )
 	{
@@ -2988,15 +2988,15 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	}
 	else if ( isOption(arg, "j", "add-braces") )
 	{
-		formatter.setAddBracketsMode(true);
+		formatter.setAddBracesMode(true);
 	}
 	else if ( isOption(arg, "J", "add-one-line-braces") )
 	{
-		formatter.setAddOneLineBracketsMode(true);
+		formatter.setAddOneLineBracesMode(true);
 	}
 	else if ( isOption(arg, "xj", "remove-braces") )
 	{
-		formatter.setRemoveBracketsMode(true);
+		formatter.setRemoveBracesMode(true);
 	}
 	else if ( isOption(arg, "Y", "indent-col1-comments") )
 	{
@@ -3168,20 +3168,20 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	{
 		formatter.setFormattingStyle(STYLE_ALLMAN);
 	}
-	// depreciated in release 3.0 /////////////////////////////////////////////////////////////////
-	else if ( isOption(arg, "break-closing-brackets") )		// depreciated release 3.0
+	// depreciated in release 2.7 /////////////////////////////////////////////////////////////////
+	else if ( isOption(arg, "break-closing-brackets") )		// depreciated release 2.7
 	{
 		formatter.setBreakClosingHeaderBracketsMode(true);
 	}
-	else if ( isOption(arg, "add-brackets") )				// depreciated release 3.0
+	else if ( isOption(arg, "add-brackets") )				// depreciated release 2.7
 	{
 		formatter.setAddBracketsMode(true);
 	}
-	else if ( isOption(arg, "add-one-line-brackets") )		// depreciated release 3.0
+	else if ( isOption(arg, "add-one-line-brackets") )		// depreciated release 2.7
 	{
 		formatter.setAddOneLineBracketsMode(true);
 	}
-	else if ( isOption(arg, "remove-brackets") )			// depreciated release 3.0
+	else if ( isOption(arg, "remove-brackets") )			// depreciated release 2.7
 	{
 		formatter.setRemoveBracketsMode(true);
 	}
@@ -3845,7 +3845,7 @@ extern "C" EXPORT char* STDCALL AStyleMain(const char* pSourceIn,		// the source
 			out << streamIterator.getOutputEOL();
 		else
 		{
-			// this can happen if the file if missing a closing bracket and break-blocks is requested
+			// this can happen if the file if missing a closing brace and break-blocks is requested
 			if (formatter.getIsLineReady())
 			{
 				out << streamIterator.getOutputEOL();
