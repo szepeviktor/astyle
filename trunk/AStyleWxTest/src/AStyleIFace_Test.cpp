@@ -25,11 +25,11 @@ All boolean functions for the above are added to "SetAStyleOptionFromConfig_Bool
 namespace {
 //
 //-------------------------------------------------------------------------
-// AStyleIFace GetOptions Tests for Bracket Style Options
+// AStyleIFace GetOptions Tests for Brace Style Options
 //-------------------------------------------------------------------------
 
 TEST(AStyleIFace_StyleOptions, GetOptions_StylesAll)
-// Test AStyleIFace::GetOptions for bracket style options
+// Test AStyleIFace::GetOptions for brace style options
 {
 	// create objects
 	AStyleIFace astyle;
@@ -199,7 +199,7 @@ TEST(AStyleIFace_TabOptions, GetOptions_IndentInvalid)
 }
 
 //-------------------------------------------------------------------------
-// AStyleIFace GetOptions Tests for Bracket Modifier Options
+// AStyleIFace GetOptions Tests for Brace Modifier Options
 //-------------------------------------------------------------------------
 
 TEST(AStyleIFace_ModifierOptions, GetOptions_AttachNamespace)
@@ -744,8 +744,8 @@ TEST(AStyleIFace_PadOptions, GetOptions_UnpadParen)
 // AStyleIFace GetOptions Tests for Formatting Options
 //-------------------------------------------------------------------------
 
-TEST(AStyleIFace_FormatOptions, GetOptions_AddBrackets)
-// Test AStyleIFace::GetOptions addBrackets option
+TEST(AStyleIFace_FormatOptions, GetOptions_AddBraces)
+// Test AStyleIFace::GetOptions addBraces option
 {
 	// create objects
 	AStyleIFace astyle;
@@ -760,8 +760,8 @@ TEST(AStyleIFace_FormatOptions, GetOptions_AddBrackets)
 	EXPECT_TRUE(options == ADD_BRACES);
 }
 
-TEST(AStyleIFace_FormatOptions, GetOptions_AddOneLineBrackets)
-// Test AStyleIFace::GetOptions addOneLineBrackets option
+TEST(AStyleIFace_FormatOptions, GetOptions_AddOneLineBraces)
+// Test AStyleIFace::GetOptions addOneLineBraces option
 {
 	// create objects
 	AStyleIFace astyle;
@@ -792,8 +792,8 @@ TEST(AStyleIFace_FormatOptions, GetOptions_BreakAfterLogical)
 	EXPECT_TRUE(options == BREAK_AFTER_LOGICAL);
 }
 
-TEST(AStyleIFace_FormatOptions, GetOptions_BreakCloseBrackets)
-// Test AStyleIFace::GetOptions breakCloseBrackets option
+TEST(AStyleIFace_FormatOptions, GetOptions_BreakCloseBraces)
+// Test AStyleIFace::GetOptions breakCloseBraces option
 {
 	// create objects
 	AStyleIFace astyle;
@@ -932,8 +932,8 @@ TEST(AStyleIFace_IndentOptions, GetOptions_MaxCodeLength)
 	EXPECT_TRUE(options == "invalid-maxCodeLength=201");
 }
 
-TEST(AStyleIFace_FormatOptions, GetOptions_RemoveBrackets)
-// Test AStyleIFace::GetOptions removeBrackets option
+TEST(AStyleIFace_FormatOptions, GetOptions_RemoveBraces)
+// Test AStyleIFace::GetOptions removeBraces option
 {
 	// create objects
 	AStyleIFace astyle;
@@ -1082,7 +1082,7 @@ TEST(AStyleIFace_OtherOptions, GetOptions_PadMethodColon)
 }
 
 //-------------------------------------------------------------------------
-// AStyleIFace GetOptions Tests for Bracket Style Short Options
+// AStyleIFace GetOptions Tests for Brace Style Short Options
 //-------------------------------------------------------------------------
 
 TEST(AStyleIFace_StyleShort, GetOptions_All)
@@ -1257,7 +1257,7 @@ TEST(AStyleIFace_TabShort, GetOptions_IndentInvalid)
 }
 
 //-------------------------------------------------------------------------
-// AStyleIFace GetOptions Tests for Bracket Modifier Short Options
+// AStyleIFace GetOptions Tests for Brace Modifier Short Options
 //-------------------------------------------------------------------------
 
 TEST(AStyleIFace_ModifierShort, GetOptions_AttachNamespace)
@@ -1786,8 +1786,8 @@ TEST(AStyleIFace_PadShort, GetOptions_UnpadParen)
 // AStyleIFace GetOptions Tests for Formatting Short Options
 //-------------------------------------------------------------------------
 
-TEST(AStyleIFace_FormatShort, GetOptions_AddBrackets)
-// Test AStyleIFace::GetOptions addBrackets short option
+TEST(AStyleIFace_FormatShort, GetOptions_AddBraces)
+// Test AStyleIFace::GetOptions addBraces short option
 {
 	// create objects
 	AStyleIFace astyle;
@@ -1802,8 +1802,8 @@ TEST(AStyleIFace_FormatShort, GetOptions_AddBrackets)
 	EXPECT_TRUE(options == "j");
 }
 
-TEST(AStyleIFace_FormatShort, GetOptions_AddOneLineBrackets)
-// Test AStyleIFace::GetOptions addOneLineBrackets short option
+TEST(AStyleIFace_FormatShort, GetOptions_AddOneLineBraces)
+// Test AStyleIFace::GetOptions addOneLineBraces short option
 {
 	// create objects
 	AStyleIFace astyle;
@@ -1818,8 +1818,8 @@ TEST(AStyleIFace_FormatShort, GetOptions_AddOneLineBrackets)
 	EXPECT_TRUE(options == "J");
 }
 
-TEST(AStyleIFace_FormatShort, GetOptions_BreakCloseBrackets)
-// Test AStyleIFace::GetOptions breakCloseBrackets short option
+TEST(AStyleIFace_FormatShort, GetOptions_BreakCloseBraces)
+// Test AStyleIFace::GetOptions breakCloseBraces short option
 {
 	// create objects
 	AStyleIFace astyle;
@@ -1958,8 +1958,8 @@ TEST(AStyleIFace_FormatShort, GetOptions_MaxCodeLength)
 	EXPECT_TRUE(options == "invalid-maxCodeLength=201");
 }
 
-TEST(AStyleIFace_FormatShort, GetOptions_RemoveBrackets)
-// Test AStyleIFace::GetOptions removeBrackets short option
+TEST(AStyleIFace_FormatShort, GetOptions_RemoveBraces)
+// Test AStyleIFace::GetOptions removeBraces short option
 {
 	// create objects
 	AStyleIFace astyle;

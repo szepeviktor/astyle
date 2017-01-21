@@ -170,7 +170,7 @@ TEST(Config_AStyle, GetAStyleOptions)
 //-------------------------------------------------------------------------
 
 TEST(Config_AStyle_Styles, SaveAStyleOptions_StylesAll)
-// Test config file writes for astyle bracket style options
+// Test config file writes for astyle brace style options
 {
 	// create objects
 	Config_Test config(CONFIG_TEST_NAME);
@@ -495,7 +495,7 @@ TEST(Config_AStyle_Tabs, SaveAStyleOptions_Indent_UseTabLen_Sans)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Config Tests for Bracket Modifier Options
+// AStyle Config Tests for Brace Modifier Options
 //-------------------------------------------------------------------------
 
 TEST(Config_AStyle_Modifier, SaveAStyleOptions_AttachNamespace)
@@ -1369,8 +1369,8 @@ TEST(Config_AStyle_Pad, SaveAStyleOptions_UnpadParen)
 // AStyle Config Tests for Formatting Options
 //-------------------------------------------------------------------------
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_AddBrackets)
-// Test config file writes for astyle addBrackets option
+TEST(Config_AStyle_Format, SaveAStyleOptions_AddBraces)
+// Test config file writes for astyle addBraces option
 {
 	// create objects
 	Config_Test config(CONFIG_TEST_NAME);
@@ -1393,8 +1393,8 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_AddBrackets)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_AddOneLineBrackets)
-// Test config file writes for astyle addOneLineBrackets option
+TEST(Config_AStyle_Format, SaveAStyleOptions_AddOneLineBraces)
+// Test config file writes for astyle addOneLineBraces option
 {
 	// create objects
 	Config_Test config(CONFIG_TEST_NAME);
@@ -1417,8 +1417,8 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_AddOneLineBrackets)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_BreakCloseBrackets)
-// Test config file writes for astyle breakCloseBrackets option
+TEST(Config_AStyle_Format, SaveAStyleOptions_BreakCloseBraces)
+// Test config file writes for astyle breakCloseBraces option
 {
 	// create objects
 	Config_Test config(CONFIG_TEST_NAME);
@@ -1630,8 +1630,8 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_MaxCodeLength)
 	EXPECT_EQ(maxCodeLengthMaxValue, value) << "Failure for invalid max code length";
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_RemoveBrackets)
-// Test config file writes for astyle removeBrackets option
+TEST(Config_AStyle_Format, SaveAStyleOptions_RemoveBraces)
+// Test config file writes for astyle removeBraces option
 {
 	// create objects
 	Config_Test config(CONFIG_TEST_NAME);

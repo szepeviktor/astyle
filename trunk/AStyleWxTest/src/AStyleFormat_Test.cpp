@@ -464,8 +464,8 @@ TEST(AStyleFormat_Insert, InsertFormattedText)
 	EXPECT_STREQ(textOutSTC.wc_str(), textOutReplaced.wc_str());
 }
 
-TEST(AStyleFormat_Insert, InsertFormattedText_Brackets)
-// Test InsertFormattedText with the markers on brackets.
+TEST(AStyleFormat_Insert, InsertFormattedText_Braces)
+// Test InsertFormattedText with the markers on braces.
 // With some options , such as A1, AStyle will break the line with the marker.
 // On replacement, the extra line should be removed.
 {
@@ -480,34 +480,34 @@ TEST(AStyleFormat_Insert, InsertFormattedText_Brackets)
 	// the marked text in, lines 3 thru 8
 	wxString textInMarked =
 	    "void TextIn(bool isSplitLine)\n"
-	    "{" + minSelectionMarker + "\n"			// marked start
+	    "{" + minSelectionMarker + "\n"				// marked start
 	    "    textInReady = true;\n"
 	    "    textInBreak = false;\n"
 	    "    textInNum = nextLineSpacePadNum;\n"
 	    "    textInPadNum = 0;\n"
 	    "    textInLine =  formattedLine;\n"
-	    "}" + maxSelectionMarker;						// marked end
+	    "}" + maxSelectionMarker;					// marked end
 	// the marked and formatted text out
 	wxString textOutMarked =
 	    "void FormattedOut(bool isSplitLine)\n"
-	    "{\n"											// marked start, originally here
-	    "    " + minSelectionMarker + "\n"		// marked start, broken by astyle
+	    "{\n"										// marked start, originally here
+	    "    " + minSelectionMarker + "\n"			// marked start, broken by astyle
 	    "    formattedOutReady = true;\n"
 	    "    formattedOutBreak = false;\n"
 	    "    formattedOutNum = nextLineSpacePadNum;\n"
 	    "    formattedOutPadNum = 0;\n"
 	    "    formattedOutLine =  formattedLine;\n"
-	    "}" + maxSelectionMarker;						// marked end
+	    "}" + maxSelectionMarker;					// marked end
 	// the marked and formatted text out after replacement
 	wxString textOutReplaced =
 	    "void TextIn(bool isSplitLine)\n"
-	    "{" + minSelectionMarker + "\n"			// marked start, no empty line
+	    "{" + minSelectionMarker + "\n"				// marked start, no empty line
 	    "    formattedOutReady = true;\n"
 	    "    formattedOutBreak = false;\n"
 	    "    formattedOutNum = nextLineSpacePadNum;\n"
 	    "    formattedOutPadNum = 0;\n"
 	    "    formattedOutLine =  formattedLine;\n"
-	    "}" + maxSelectionMarker;						// marked end
+	    "}" + maxSelectionMarker;					// marked end
 	// convert textOutMarked to raw text
 	stc->SetText(textOutMarked);
 	wxCharBuffer textOutMarkedRawBuf = stc->GetTextRaw();
