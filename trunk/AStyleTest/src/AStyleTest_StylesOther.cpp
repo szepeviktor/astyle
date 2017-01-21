@@ -365,7 +365,7 @@ TEST(StyleJava, Whitesmith_NestedClass)
 TEST(StyleJava, Whitesmith_StaticConstructor)
 {
 	// test whitesmith style with static constructor
-	// should NOT indent the method opening bracket
+	// should NOT indent the method opening brace
 	char text[] =
 	    "\npublic class FooClass\n"
 	    "    {\n"
@@ -455,7 +455,7 @@ TEST(StyleJava, Banner_NestedClass)
 TEST(StyleJava, Banner_StaticConstructor)
 {
 	// test banner style with static constructor
-	// should NOT indent the method opening bracket
+	// should NOT indent the method opening brace
 	char text[] =
 	    "\npublic class FooClass {\n"
 	    "    private bool foo;\n"
@@ -546,7 +546,7 @@ TEST(StyleJava, Gnu_NestedClass)
 TEST(StyleJava, Gnu_StaticConstructor)
 {
 	// test gnu style with static constructor
-	// should NOT indent the method opening bracket
+	// should NOT indent the method opening brace
 	char text[] =
 	    "\npublic class FooClass\n"
 	    "{\n"

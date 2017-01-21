@@ -2274,7 +2274,7 @@ TEST(ObjCAlignMethodColonDef, Headers)
 
 TEST(ObjCAlignMethodColonDef, MethodsBreak)
 {
-	// Test align-method-colon methods with broken brackets.
+	// Test align-method-colon methods with broken braces.
 	char text[] =
 	    "\n"
 	    "- (BOOL)tableView:(NSTableView *)tableView\n"
@@ -2299,7 +2299,7 @@ TEST(ObjCAlignMethodColonDef, MethodsBreak)
 
 TEST(ObjCAlignMethodColonDef, MethodsAttach)
 {
-	// Test align-method-colon methods with attached brackets.
+	// Test align-method-colon methods with attached braces.
 	char text[] =
 	    "\n"
 	    "- (BOOL)tableView:(NSTableView *)tableView\n"
@@ -2324,8 +2324,8 @@ TEST(ObjCAlignMethodColonDef, MethodsAttach)
 
 TEST(ObjCAlignMethodColonDef, MethodsAttachToLongest)
 {
-	// Test align-method-colon methods with attached brackets.
-	// Attached bracket is the longest line.
+	// Test align-method-colon methods with attached braces.
+	// Attached brace is the longest line.
 	char text[] =
 	    "\n"
 	    "- (void)short : (GTMFoo *)theFoo\n"
@@ -2632,7 +2632,7 @@ TEST(ObjCAlignMethodColonCall, MethodAssignment2)
 
 TEST(ObjCAlignMethodColonCall, MethodAssignment3)
 {
-	// Test align-method-colon in an assignment with Horstmann brackets and continuation.
+	// Test align-method-colon in an assignment with run-in braces and continuation.
 	char text[] =
 	    "\n"
 	    "void Foo()\n"
@@ -2693,9 +2693,9 @@ TEST(ObjCAlignMethodColonCall, ColonAtEnd3)
 	delete[] textOut;
 }
 
-TEST(ObjCAlignMethodColonCall, HorstmannBrackets1)
+TEST(ObjCAlignMethodColonCall, RunInBraces1)
 {
-	// Align with Horstmann brackets.
+	// Align with run-in braces.
 	char text[] =
 	    "\n"
 	    "NSString* getText(NSString* filePath)\n"
@@ -2709,9 +2709,9 @@ TEST(ObjCAlignMethodColonCall, HorstmannBrackets1)
 	delete[] textOut;
 }
 
-TEST(ObjCAlignMethodColonCall, HorstmannBrackets2)
+TEST(ObjCAlignMethodColonCall, RunInBraces2)
 {
-	// Align with Horstmann brackets.
+	// Align with run-in braces.
 	// When a method call follows a method definition the variables
 	// must be cleared.
 	char text[] =
@@ -2729,9 +2729,9 @@ TEST(ObjCAlignMethodColonCall, HorstmannBrackets2)
 	delete[] textOut;
 }
 
-TEST(ObjCAlignMethodColonCall, AttachedBrackets)
+TEST(ObjCAlignMethodColonCall, AttachedBraces)
 {
-	// Align with attached brackets.
+	// Align with attached braces.
 	// When a method call follows a method definition the variables
 	// must be cleared.
 	char text[] =
@@ -2749,9 +2749,9 @@ TEST(ObjCAlignMethodColonCall, AttachedBrackets)
 	delete[] textOut;
 }
 
-TEST(ObjCAlignMethodColonCall, HorstmannBracketsTabs1)
+TEST(ObjCAlignMethodColonCall, RunInBracesTabs1)
 {
-	// Align with Horstmann brackets and tabbed indents.
+	// Align with run-in braces and tabbed indents.
 	char text[] =
 	    "\n"
 	    "NSString* getText(NSString* filePath)\n"
@@ -2765,9 +2765,9 @@ TEST(ObjCAlignMethodColonCall, HorstmannBracketsTabs1)
 	delete[] textOut;
 }
 
-TEST(ObjCAlignMethodColonCall, HorstmannBracketsTabs2)
+TEST(ObjCAlignMethodColonCall, RunInBracesTabs2)
 {
-	// Align with Horstmann brackets and tabbed indents with embedded tabs.
+	// Align with run-in braces and tabbed indents with embedded tabs.
 	char text[] =
 	    "\n"
 	    "NSString* getText(NSString* filePath)\n"
@@ -2944,9 +2944,9 @@ TEST(ObjCSansAlignMethodColonCall, ColonAtEnd3)
 	delete[] textOut;
 }
 
-TEST(ObjCSansAlignMethodColonCall, HorstmannBrackets)
+TEST(ObjCSansAlignMethodColonCall, RunInBraces)
 {
-	// Align with Horstmann brackets.
+	// Align with run-in braces.
 	char text[] =
 	    "\n"
 	    "NSString* getText(NSString* filePath)\n"
@@ -2960,9 +2960,9 @@ TEST(ObjCSansAlignMethodColonCall, HorstmannBrackets)
 	delete[] textOut;
 }
 
-TEST(ObjCSansAlignMethodColonCall, HorstmannBracketsTabs1)
+TEST(ObjCSansAlignMethodColonCall, RunInBracesTabs1)
 {
-	// Align with Horstmann brackets and tabbed indents.
+	// Align with run-in braces and tabbed indents.
 	char text[] =
 	    "\n"
 	    "NSString* getText(NSString* filePath)\n"
@@ -2976,9 +2976,9 @@ TEST(ObjCSansAlignMethodColonCall, HorstmannBracketsTabs1)
 	delete[] textOut;
 }
 
-TEST(ObjCSansAlignMethodColonCall, HorstmannBracketsTabs2)
+TEST(ObjCSansAlignMethodColonCall, RunInBracesTabs2)
 {
-	// Align with Horstmann brackets and tabbed indents with embedded tabs.
+	// Align with run-in braces and tabbed indents with embedded tabs.
 	char text[] =
 	    "\n"
 	    "NSString* getText(NSString* filePath)\n"
@@ -3015,9 +3015,9 @@ TEST(ObjCSansAlignMethodColonCall, InStatementValue)
 // AStyle Objective-C Other Tests
 //-------------------------------------------------------------------------
 
-TEST(ObjCOther, 1TBSAddBrackets)
+TEST(ObjCOther, 1TBSAddBraces)
 {
-	// test 1tbs style option with added brackets
+	// test 1tbs style option with added braces
 	char textIn[] =
 	    "\n@interface Foo : NSObject\n"
 	    "{\n"
@@ -3167,7 +3167,7 @@ TEST(ObjCOther, SpacesBeforeDefinition)
 TEST(ObjCOther, InterfaceContinuation1)
 {
 	// test an Objective-C header with continuation lines
-	// no bracket
+	// no brace
 	char text[] =
 	    "\n@interface Foo1 :\n"
 	    "    NSObject\n"
@@ -3185,7 +3185,7 @@ TEST(ObjCOther, InterfaceContinuation1)
 TEST(ObjCOther, InterfaceContinuation2)
 {
 	// test google style option with a multi-line interface
-	// attached bracket
+	// attached brace
 	char text[] =
 	    "\n@interface Foo1 :\n"
 	    "    NSObject {\n"
@@ -3205,7 +3205,7 @@ TEST(ObjCOther, InterfaceContinuation2)
 TEST(ObjCOther, InterfaceContinuation3)
 {
 	// test google style option with a multi-line interface
-	// broken bracket
+	// broken brace
 	char text[] =
 	    "\n@interface Foo1 :\n"
 	    "    NSObject\n"
@@ -3224,9 +3224,9 @@ TEST(ObjCOther, InterfaceContinuation3)
 	delete[] textOut;
 }
 
-TEST(ObjCOther, InterfaceNoBrackets)
+TEST(ObjCOther, InterfaceNoBraces)
 {
-	// test interface with no brackets
+	// test interface with no braces
 	char text[] =
 	    "\n"
 	    "@interface SettingsTableViewController () <iTunesFilesSelectionDelegate>\n"
@@ -3322,7 +3322,7 @@ TEST(ObjCOther, MethodCallHeader)
 
 TEST(ObjCOther, AutoreleasepoolBreak)
 {
-	// Precommand header autoreleasepoolwith broken brackets.
+	// Precommand header autoreleasepoolwith broken braces.
 	char text[] =
 	    "\nvirtual void foo()\n"
 	    "{\n"
@@ -3339,7 +3339,7 @@ TEST(ObjCOther, AutoreleasepoolBreak)
 
 TEST(ObjCOther, AutoreleasepoolAttach)
 {
-	// Precommand header autoreleasepoolwith attached brackets.
+	// Precommand header autoreleasepoolwith attached braces.
 	char textIn[] =
 	    "\nvirtual void foo()\n"
 	    "{\n"
@@ -3362,7 +3362,7 @@ TEST(ObjCOther, AutoreleasepoolAttach)
 
 TEST(ObjCOther, AutoreleasepoolKandR)
 {
-	// Precommand header autoreleasepoolwith K&R brackets.
+	// Precommand header autoreleasepoolwith K&R braces.
 	char textIn[] =
 	    "\nvirtual void foo()\n"
 	    "{\n"

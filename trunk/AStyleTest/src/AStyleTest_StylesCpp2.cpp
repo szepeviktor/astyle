@@ -3273,7 +3273,7 @@ TEST(StylePicoCpp, KeepOneLineStatements)
 	delete[] textOut;
 }
 
-TEST(StylePicoCpp, AddBrackets1)
+TEST(StylePicoCpp, AddBraces1)
 {
 	// pico style add-braces implies add-one-line-braces
 	char textIn[] =
@@ -3290,7 +3290,7 @@ TEST(StylePicoCpp, AddBrackets1)
 	delete[] textOut;
 }
 
-TEST(StylePicoCpp, AddBrackets2)
+TEST(StylePicoCpp, AddBraces2)
 {
 	// pico style add-braces implies add-one-line-braces
 	// add-braces with this will not format correctly
@@ -4279,7 +4279,7 @@ TEST(StyleLispCpp, KeepOneLineStatements)
 	delete[] textOut;
 }
 
-TEST(StyleLispCpp, AddBrackets1)
+TEST(StyleLispCpp, AddBraces1)
 {
 	// lisp style add-braces does NOT imply add-one-line-braces
 	char textIn[] =
@@ -4296,7 +4296,7 @@ TEST(StyleLispCpp, AddBrackets1)
 	delete[] textOut;
 }
 
-TEST(StyleLispCpp, AddBrackets2)
+TEST(StyleLispCpp, AddBraces2)
 {
 	// lisp style add-one-line-braces implies add-braces
 	char textIn[] =

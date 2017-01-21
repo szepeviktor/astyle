@@ -16,13 +16,13 @@
 namespace {
 //
 //-------------------------------------------------------------------------
-// AStyle Break Closing Brackets
-// Additional tests are in the Brackets tests
+// AStyle Break Closing Braces
+// Additional tests are in the Braces tests
 //-------------------------------------------------------------------------
 
 TEST(BreakClosingBraces, LongOption)
 {
-	// test NONE_MODE brackets with break closing headers
+	// test NONE_MODE braces with break closing headers
 	char textIn[] =
 	    "\nvoid FooClass::Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -50,7 +50,7 @@ TEST(BreakClosingBraces, LongOption)
 
 TEST(BreakClosingBraces, ShortOption)
 {
-	// test NONE_MODE brackets with break closing headers
+	// test NONE_MODE braces with break closing headers
 	char textIn[] =
 	    "\nvoid FooClass::Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -76,9 +76,39 @@ TEST(BreakClosingBraces, ShortOption)
 	delete[] textOut;
 }
 
+TEST(BreakClosingBraces, TempBracketsOption)
+{
+	// test break closing brackets
+	// retained for compatablilty with release 2.06.
+	// uses the setBreakClosingHeaderBracketsMode method
+	char textIn[] =
+	    "\nvoid FooClass::Foo(bool isFoo) {\n"
+	    "    if (isFoo) {\n"
+	    "        bar();\n"
+	    "    } else {\n"
+	    "        anotherBar();\n"
+	    "    }\n"
+	    "}\n"
+	    "\n";
+	char text[] =
+	    "\nvoid FooClass::Foo(bool isFoo) {\n"
+	    "    if (isFoo) {\n"
+	    "        bar();\n"
+	    "    }\n"
+	    "    else {\n"
+	    "        anotherBar();\n"
+	    "    }\n"
+	    "}\n"
+	    "\n";
+	char options[] = "break-closing-brackets";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BreakClosingBraces, BreakClosingBraces)
 {
-	// test NONE_MODE brackets with break closing braces
+	// test NONE_MODE braces with break closing braces
 	char textIn[] =
 	    "\nvoid FooClass::Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -106,7 +136,7 @@ TEST(BreakClosingBraces, BreakClosingBraces)
 
 TEST(BreakClosingBraces, Break)
 {
-	// test BREAK_MODE brackets with break closing headers
+	// test BREAK_MODE braces with break closing headers
 	char textIn[] =
 	    "\nvoid FooClass::Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -137,7 +167,7 @@ TEST(BreakClosingBraces, Break)
 
 TEST(BreakClosingBraces, Attach)
 {
-	// test ATTACH_MODE brackets with break closing headers
+	// test ATTACH_MODE braces with break closing headers
 	char textIn[] =
 	    "\nvoid FooClass::Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -165,7 +195,7 @@ TEST(BreakClosingBraces, Attach)
 
 TEST(BreakClosingBraces, Linux)
 {
-	// test LINUX_MODE brackets with break closing headers
+	// test LINUX_MODE braces with break closing headers
 	char textIn[] =
 	    "\nvoid FooClass::Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -194,7 +224,7 @@ TEST(BreakClosingBraces, Linux)
 
 TEST(BreakClosingBraces, RunIn)
 {
-	// test RUN_IN_MODE brackets with break closing headers
+	// test RUN_IN_MODE braces with break closing headers
 	char textIn[] =
 	    "\nvoid FooClass::Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -251,8 +281,8 @@ TEST(BreakClosingBraces, KeepBlocks)
 
 TEST(BreakClosingBraces, ElseSans)
 {
-	// test if/else without break closing brackets
-	// else statement should be attached to the closing bracket
+	// test if/else without break closing braces
+	// else statement should be attached to the closing brace
 	char textIn[] =
 	    "\nvoid FooClass::Foo(bool isFoo) {\n"
 	    "    if (isFoo) {\n"
@@ -280,7 +310,7 @@ TEST(BreakClosingBraces, ElseSans)
 
 TEST(BreakClosingBraces, Catch)
 {
-	// test try/catch with break closing brackets
+	// test try/catch with break closing braces
 	char textIn[] =
 	    "\nvoid FooClass::Foo(bool isFoo) {\n"
 	    "    try {\n"
@@ -306,8 +336,8 @@ TEST(BreakClosingBraces, Catch)
 
 TEST(BreakClosingBraces, CatchSans)
 {
-	// test try/catch without break closing brackets
-	// catch statement should be attached to the closing bracket
+	// test try/catch without break closing braces
+	// catch statement should be attached to the closing brace
 	char textIn[] =
 	    "\nvoid FooClass::Foo(bool isFoo) {\n"
 	    "    try {\n"
@@ -333,7 +363,7 @@ TEST(BreakClosingBraces, CatchSans)
 
 TEST(BreakClosingBraces, While)
 {
-	// test do/while with break closing brackets
+	// test do/while with break closing braces
 	char textIn[] =
 	    "\nvoid FooClass::Foo(bool isFoo) {\n"
 	    "    do {\n"
@@ -355,8 +385,8 @@ TEST(BreakClosingBraces, While)
 
 TEST(BreakClosingBraces, WhileSans)
 {
-	// test do/while without break closing brackets
-	// while statement should be attached to the closing bracket
+	// test do/while without break closing braces
+	// while statement should be attached to the closing brace
 	char textIn[] =
 	    "\nvoid FooClass::Foo(bool isFoo) {\n"
 	    "    do {\n"
@@ -378,7 +408,7 @@ TEST(BreakClosingBraces, WhileSans)
 
 TEST(BreakClosingBraces, CSharp)
 {
-	// test break closing brackets with a preceeding one line block
+	// test break closing braces with a preceeding one line block
 	char textIn[] =
 	    "\n"
 	    "bool CtrlSpace()\n"
@@ -950,7 +980,7 @@ TEST(BreakElseIfs, CommentsInPreprocessor)
 TEST(BreakElseIfs, AddBraces)
 {
 	// Test break else/if with add-braces.
-	// The resulting closing brackets should align
+	// The resulting closing braces should align
 	// with the 'if' instead of the 'else'.
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -1700,7 +1730,7 @@ TEST(BreakOneLineHeaders, KeepOLBlocksElseIf)
 	delete[] textOut;
 }
 
-TEST(BreakOneLineHeaders, AddBracketsKeepOneLine1)
+TEST(BreakOneLineHeaders, AddBracesKeepOneLine1)
 {
 	// -Oo, keep-one-line-blocks, keep-one-line-statements
 	char textIn[] =
@@ -1723,7 +1753,7 @@ TEST(BreakOneLineHeaders, AddBracketsKeepOneLine1)
 	delete[] textOut;
 }
 
-TEST(BreakOneLineHeaders, AddBracketsKeepOneLine2)
+TEST(BreakOneLineHeaders, AddBracesKeepOneLine2)
 {
 	// -Oo, keep-one-line-blocks, keep-one-line-statements
 	char textIn[] =
@@ -1765,9 +1795,9 @@ TEST(BreakOneLineHeaders, NoFollowingStatement)
 	delete[] textOut;
 }
 
-TEST(BreakOneLineHeaders, EmptyBracketsFollow)
+TEST(BreakOneLineHeaders, EmptyBracesFollow)
 {
-	// empty brackets should NOT be changed
+	// empty braces should NOT be changed
 	char text[] =
 	    "\n"
 	    "void Foo()\n"
@@ -1900,7 +1930,7 @@ TEST(BreakOneLineHeaders, EmptyBlock)
 
 TEST(BreakOneLineHeaders, BlockStatementKeepOneLine)
 {
-	// statement enclosed in brackets with keep one line blocks
+	// statement enclosed in braces with keep one line blocks
 	char textIn[] =
 	    "\n"
 	    "void Foo()\n"
@@ -1923,9 +1953,9 @@ TEST(BreakOneLineHeaders, BlockStatementKeepOneLine)
 	delete[] textOut;
 }
 
-TEST(BreakOneLineHeaders, BlockStatementAddBracketsKeepOneLine)
+TEST(BreakOneLineHeaders, BlockStatementAddBracesKeepOneLine)
 {
-	// statement enclosed in brackets with add brackets and keep one line blocks
+	// statement enclosed in braces with add braces and keep one line blocks
 	char textIn[] =
 	    "\n"
 	    "void Foo()\n"
@@ -1948,9 +1978,9 @@ TEST(BreakOneLineHeaders, BlockStatementAddBracketsKeepOneLine)
 	delete[] textOut;
 }
 
-TEST(BreakOneLineHeaders, PicoStyleAddBrackets)
+TEST(BreakOneLineHeaders, PicoStyleAddBraces)
 {
-	// test add brackets for pico brackets
+	// test add braces for pico braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -1995,7 +2025,7 @@ TEST(BreakOneLineHeaders, Misc1)
 
 TEST(BreakOneLineHeaders, Misc2)
 {
-	// should break the ending bracket after ('=') without a semicolon
+	// should break the ending brace after ('=') without a semicolon
 	char textIn[] =
 	    "\n"
 	    "void Foo()\n"
@@ -2027,7 +2057,7 @@ TEST(BreakOneLineHeaders, Misc2)
 
 TEST(AddBraces, LongOption)
 {
-	// test add brackets
+	// test add braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2049,7 +2079,7 @@ TEST(AddBraces, LongOption)
 
 TEST(AddBraces, ShortOption)
 {
-	// test add brackets short option
+	// test add braces short option
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2072,6 +2102,8 @@ TEST(AddBraces, ShortOption)
 TEST(AddBraces, TempBracketsOption)
 {
 	// test add brackets
+	// retained for compatablilty with release 2.06.
+	// uses the setAddBracketsMode method
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2093,7 +2125,7 @@ TEST(AddBraces, TempBracketsOption)
 
 TEST(AddBraces, All)
 {
-	// test add brackets for all headers
+	// test add braces for all headers
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2150,7 +2182,7 @@ TEST(AddBraces, All)
 
 TEST(AddBraces, ElseIf)
 {
-	// test add brackets for "else if" statements
+	// test add braces for "else if" statements
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2177,7 +2209,7 @@ TEST(AddBraces, ElseIf)
 
 TEST(AddBraces, SemiFollows)
 {
-	// test add brackets when a semi-colon follows the statement
+	// test add braces when a semi-colon follows the statement
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -2204,8 +2236,8 @@ TEST(AddBraces, SemiFollows)
 
 TEST(AddBraces, Sharp)
 {
-	// test add brackets to C# headers
-	// 'delegate' statement contains brackets
+	// test add braces to C# headers
+	// 'delegate' statement contains braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2235,8 +2267,8 @@ TEST(AddBraces, Sharp)
 
 TEST(AddBraces, KeepOneLiners)
 {
-	// add brackets with keep one liners
-	// should break the added brackets
+	// add braces with keep one liners
+	// should break the added braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2293,7 +2325,7 @@ TEST(AddBraces, KeepOneLiners)
 
 TEST(AddBraces, SingleLine)
 {
-	// add brackets to one line statements
+	// add braces to one line statements
 	// should break the statements
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -2343,8 +2375,8 @@ TEST(AddBraces, SingleLine)
 
 TEST(AddBraces, SingleLineKeepOneLiners)
 {
-	// add brackets to one line statements with keep one liners
-	// should keep one line blocks with added brackets
+	// add braces to one line statements with keep one liners
+	// should keep one line blocks with added braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2379,7 +2411,7 @@ TEST(AddBraces, SingleLineKeepOneLiners)
 
 TEST(AddBraces, Break)
 {
-	// test add brackets for broken brackets
+	// test add braces for broken braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2408,7 +2440,7 @@ TEST(AddBraces, Break)
 
 TEST(AddBraces, Attach)
 {
-	// test add brackets for attached brackets
+	// test add braces for attached braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2434,7 +2466,7 @@ TEST(AddBraces, Attach)
 
 TEST(AddBraces, RunIn)
 {
-	// test add brackets for run-in brackets
+	// test add braces for run-in braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2506,7 +2538,7 @@ TEST(AddBraces, ElseParen)
 
 TEST(AddBraces, ElseBlock)
 {
-	// else statement should be recognized as a command-type bracket
+	// else statement should be recognized as a command-type brace
 	char textIn[] =
 	    "\n"
 	    "{\n"
@@ -2615,8 +2647,8 @@ TEST(AddBraces, Comment)
 
 TEST(AddBraces, AfterCommentKeepOLBlocks)
 {
-	// add brackets after a comment with keep one line blocks
-	// the brackets should be broken
+	// add braces after a comment with keep one line blocks
+	// the braces should be broken
 	char textIn[] =
 	    "\n"
 	    "void Foo()\n"
@@ -2643,7 +2675,7 @@ TEST(AddBraces, AfterCommentKeepOLBlocks)
 
 TEST(AddBraces, Sans)
 {
-	// brackets should be added to specified headers only
+	// braces should be added to specified headers only
 	char text[] =
 	    "\npublic unsafe int foo()\n"
 	    "{\n"
@@ -2659,7 +2691,7 @@ TEST(AddBraces, Sans)
 
 TEST(AddBraces, ConvertTabs)
 {
-	// add brackets with convert tabs
+	// add braces with convert tabs
 	// the tabs should be converted
 	char textIn[] =
 	    "\n"
@@ -2684,7 +2716,7 @@ TEST(AddBraces, ConvertTabs)
 
 TEST(AddBraces, KeepOneLineBlocks)
 {
-	// should NOT add brackets to one line blocks
+	// should NOT add braces to one line blocks
 	char text[] =
 	    "\n"
 	    "void Foo()\n"
@@ -2699,7 +2731,7 @@ TEST(AddBraces, KeepOneLineBlocks)
 
 TEST(AddBraces, KeepOneLineBlocksSans1)
 {
-	// should add brackets if one line blocks are NOT retained
+	// should add braces if one line blocks are NOT retained
 	char textIn[] =
 	    "\n"
 	    "void Foo()\n"
@@ -2724,7 +2756,7 @@ TEST(AddBraces, KeepOneLineBlocksSans1)
 
 TEST(AddBraces, KeepOneLineBlocksSans2)
 {
-	// should add brackets if one line blocks are NOT retained
+	// should add braces if one line blocks are NOT retained
 	// with more than one statement
 	char textIn[] =
 	    "\n"
@@ -2751,7 +2783,7 @@ TEST(AddBraces, KeepOneLineBlocksSans2)
 
 TEST(AddBraces, KeepOneLineStatements)
 {
-	// should NOT add brackets to one line statements
+	// should NOT add braces to one line statements
 	char text[] =
 	    "\n"
 	    "void Foo()\n"
@@ -2770,7 +2802,7 @@ TEST(AddBraces, KeepOneLineStatements)
 
 TEST(AddBraces, KeepOneLineStatementsSans)
 {
-	// should add brackets if one line statements are NOT retained
+	// should add braces if one line statements are NOT retained
 	char textIn[] =
 	    "\n"
 	    "void Foo()\n"
@@ -2813,7 +2845,7 @@ TEST(AddBraces, KeepOneLineStatementsSans)
 
 TEST(AddOneLineBraces, LongOption)
 {
-	// test add one line brackets
+	// test add one line braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2834,7 +2866,7 @@ TEST(AddOneLineBraces, LongOption)
 
 TEST(AddOneLineBraces, ShortOption)
 {
-	// test add one line brackets short option
+	// test add one line braces short option
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2856,6 +2888,8 @@ TEST(AddOneLineBraces, ShortOption)
 TEST(AddOneLineBraces, TempBracketsOption)
 {
 	// test add one line brackets
+	// retained for compatablilty with release 2.06.
+	// uses the setAddOneLineBracketsMode method
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2876,7 +2910,7 @@ TEST(AddOneLineBraces, TempBracketsOption)
 
 TEST(AddOneLineBraces, All)
 {
-	// test add one line brackets for all headers
+	// test add one line braces for all headers
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2927,7 +2961,7 @@ TEST(AddOneLineBraces, All)
 
 TEST(AddOneLineBraces, ElseIf)
 {
-	// test add one line brackets for "else if" statements
+	// test add one line braces for "else if" statements
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2952,7 +2986,7 @@ TEST(AddOneLineBraces, ElseIf)
 
 TEST(AddOneLineBraces, SemiFollows)
 {
-	// test add brackets when a semi-colon follows the statement
+	// test add braces when a semi-colon follows the statement
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -2979,8 +3013,8 @@ TEST(AddOneLineBraces, SemiFollows)
 
 TEST(AddOneLineBraces, Sharp)
 {
-	// test add one line brackets to C# headers
-	// 'delegate' statement contains brackets
+	// test add one line braces to C# headers
+	// 'delegate' statement contains braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3007,7 +3041,7 @@ TEST(AddOneLineBraces, Sharp)
 
 TEST(AddOneLineBraces, SingleLine)
 {
-	// add one line brackets to one line statements
+	// add one line braces to one line statements
 	// should keep the one line statements
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -3045,7 +3079,7 @@ TEST(AddOneLineBraces, SingleLine)
 
 TEST(AddOneLineBraces, SingleLineKeepOneLiners)
 {
-	// add one line brackets to one line statements with keep one liners
+	// add one line braces to one line statements with keep one liners
 	// should keep the one liners (keep blocks is implied)
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -3081,7 +3115,7 @@ TEST(AddOneLineBraces, SingleLineKeepOneLiners)
 
 TEST(AddOneLineBraces, Break)
 {
-	// test add one line brackets for broken brackets
+	// test add one line braces for broken braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3106,7 +3140,7 @@ TEST(AddOneLineBraces, Break)
 
 TEST(AddOneLineBraces, Attach)
 {
-	// test add one line brackets for attached brackets
+	// test add one line braces for attached braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3131,7 +3165,7 @@ TEST(AddOneLineBraces, Attach)
 
 TEST(AddOneLineBraces, RunIn)
 {
-	// test add one line brackets for run-in brackets
+	// test add one line braces for run-in braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3269,7 +3303,7 @@ TEST(AddOneLineBraces, Comment)
 
 TEST(AddOneLineBraces, Sans)
 {
-	// brackets should be added to specified headers only
+	// braces should be added to specified headers only
 	char text[] =
 	    "\npublic unsafe int foo()\n"
 	    "{\n"
@@ -3289,7 +3323,7 @@ TEST(AddOneLineBraces, Sans)
 
 TEST(RemoveBraces, LongOption)
 {
-	// test remove brackets
+	// test remove braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3317,7 +3351,7 @@ TEST(RemoveBraces, LongOption)
 
 TEST(RemoveBraces, ShortOption)
 {
-	// test remove brackets
+	// test remove braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3346,6 +3380,8 @@ TEST(RemoveBraces, ShortOption)
 TEST(RemoveBraces, TempBracketsOption)
 {
 	// test remove brackets
+	// retained for compatablilty with release 2.06.
+	// uses the setRemoveBracketsMode method
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3437,7 +3473,7 @@ TEST(RemoveBraces, WithEmptyLine2)
 
 TEST(RemoveBraces, WithEmptyLine3)
 {
-	// test attached brackets with a empty lines
+	// test attached braces with a empty lines
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3544,7 +3580,7 @@ TEST(RemoveBraces, OneLineBlockSans1)
 
 TEST(RemoveBraces, OneLineBlockSans2)
 {
-	// test with a one line block to NOT remove brackets
+	// test with a one line block to NOT remove braces
 	// with keep-one-line-blocks
 	char text[] =
 	    "\nvoid Foo()\n"
@@ -3561,7 +3597,7 @@ TEST(RemoveBraces, OneLineBlockSans2)
 
 TEST(RemoveBraces, OneLineBlockSans3)
 {
-	// test with a one line block to NOT remove brackets
+	// test with a one line block to NOT remove braces
 	// without keep-one-line-blocks
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -3591,7 +3627,7 @@ TEST(RemoveBraces, OneLineBlockSans3)
 
 TEST(RemoveBraces, BreakBlocks1)
 {
-	// test remove brackets with break blocks
+	// test remove braces with break blocks
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3625,7 +3661,7 @@ TEST(RemoveBraces, BreakBlocks1)
 
 TEST(RemoveBraces, BreakBlocks2)
 {
-	// test remove brackets with break all blocks
+	// test remove braces with break all blocks
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3660,7 +3696,7 @@ TEST(RemoveBraces, BreakBlocks2)
 
 TEST(RemoveBraces, Comment1)
 {
-	// remove one-line brackets with a comment
+	// remove one-line braces with a comment
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -3681,7 +3717,7 @@ TEST(RemoveBraces, Comment1)
 
 TEST(RemoveBraces, Comment2)
 {
-	// remove one-line brackets with a comment
+	// remove one-line braces with a comment
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -3702,7 +3738,7 @@ TEST(RemoveBraces, Comment2)
 
 TEST(RemoveBraces, Comment3)
 {
-	// remove brackets with a comment following closing bracket
+	// remove braces with a comment following closing brace
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -3726,7 +3762,7 @@ TEST(RemoveBraces, Comment3)
 
 TEST(RemoveBraces, Comment4)
 {
-	// remove attached bracket with a comment
+	// remove attached brace with a comment
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3823,9 +3859,9 @@ TEST(RemoveBraces, FollowingHeaderSans)
 	delete[] textOut;
 }
 
-TEST(RemoveBraces, AddBracketsSans)
+TEST(RemoveBraces, AddBracesSans)
 {
-	// should NOT remove brackets if add brackets is also requested
+	// should NOT remove braces if add braces is also requested
 	char text[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3843,9 +3879,9 @@ TEST(RemoveBraces, AddBracketsSans)
 	delete[] textOut;
 }
 
-TEST(RemoveBraces, AddOneLineBracketsSans)
+TEST(RemoveBraces, AddOneLineBracesSans)
 {
-	// should NOT remove brackets if add one line brackets is also requested
+	// should NOT remove braces if add one line braces is also requested
 	char text[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3865,7 +3901,7 @@ TEST(RemoveBraces, AddOneLineBracketsSans)
 
 TEST(RemoveBraces, OtherHeaders)
 {
-	// test remove brackets with other headers
+	// test remove braces with other headers
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3900,7 +3936,7 @@ TEST(RemoveBraces, OtherHeaders)
 
 TEST(RemoveBraces, SharpOtherHeaders)
 {
-	// test remove brackets with other C# headers
+	// test remove braces with other C# headers
 	char textIn[] =
 	    "\nprivate void Foo()\n"
 	    "{\n"
@@ -3923,7 +3959,7 @@ TEST(RemoveBraces, SharpOtherHeaders)
 
 TEST(RemoveBraces, OTBSSans)
 {
-	// should NOT remove brackets if "One True Brace Style" is requested
+	// should NOT remove braces if "One True Brace Style" is requested
 	char text[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3941,7 +3977,7 @@ TEST(RemoveBraces, OTBSSans)
 
 TEST(RemoveBraces, BreakClosingBraces)
 {
-	// test remove brackets with break closing brackets
+	// test remove braces with break closing braces
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3968,7 +4004,7 @@ TEST(RemoveBraces, BreakClosingBraces)
 
 TEST(RemoveBraces, UnbrokenElse)
 {
-	// test remove brackets with a unbroken "else if" statement
+	// test remove braces with a unbroken "else if" statement
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -3995,8 +4031,8 @@ TEST(RemoveBraces, UnbrokenElse)
 
 TEST(RemoveBraces, Preprocessor)
 {
-	// test remove brackets with a preprocessor directive
-	// the brackets should NOT be removed
+	// test remove braces with a preprocessor directive
+	// the braces should NOT be removed
 	char text[] =
 	    "\nvoid Foo() {\n"
 	    "#define if(_RET_SUCCEED(exp)) { result = (exp); }\n"
@@ -4007,20 +4043,20 @@ TEST(RemoveBraces, Preprocessor)
 	delete[] textOut;
 }
 
-TEST(RemoveBraces, BracketInQuote)
+TEST(RemoveBraces, BraceInQuote)
 {
-	// test remove brackets within a quote
-	// should not remove the bracket in the quotes
+	// test remove braces within a quote
+	// should not remove the brace in the quotes
 	char textIn[] =
 	    "\nprivate void Foo() {\n"
-	    "    if (closingBrackets > 0) {\n"
-	    "        wrapper.Append(new string('}', closingBrackets));\n"
+	    "    if (closingBraces > 0) {\n"
+	    "        wrapper.Append(new string('}', closingBraces));\n"
 	    "    }\n"
 	    "}";
 	char text[] =
 	    "\nprivate void Foo() {\n"
-	    "    if (closingBrackets > 0)\n"
-	    "        wrapper.Append(new string('}', closingBrackets));\n"
+	    "    if (closingBraces > 0)\n"
+	    "        wrapper.Append(new string('}', closingBraces));\n"
 	    "}";
 	char options[] = "remove-braces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -4028,14 +4064,14 @@ TEST(RemoveBraces, BracketInQuote)
 	delete[] textOut;
 }
 
-TEST(RemoveBraces, BracketInComment1)
+TEST(RemoveBraces, BraceInComment1)
 {
-	// test remove with brackets within a line comment
-	// should not remove the brackets
+	// test remove with braces within a line comment
+	// should not remove the braces
 	char text[] =
 	    "\nprivate void Foo() {\n"
-	    "    if (closingBrackets > 0) {\n"
-	    "        wrapper.Append(closingBrackets); // }\n"
+	    "    if (closingBraces > 0) {\n"
+	    "        wrapper.Append(closingBraces); // }\n"
 	    "    }\n"
 	    "}";
 	char options[] = "remove-braces, mode=cs";
@@ -4044,14 +4080,14 @@ TEST(RemoveBraces, BracketInComment1)
 	delete[] textOut;
 }
 
-TEST(RemoveBraces, BracketInComment2)
+TEST(RemoveBraces, BraceInComment2)
 {
-	// test remove with brackets within a comment
-	// should not remove the brackets
+	// test remove with braces within a comment
+	// should not remove the braces
 	char text[] =
 	    "\nprivate void Foo() {\n"
-	    "    if (closingBrackets > 0) {\n"
-	    "        wrapper.Append(closingBrackets); /* } */\n"
+	    "    if (closingBraces > 0) {\n"
+	    "        wrapper.Append(closingBraces); /* } */\n"
 	    "    }\n"
 	    "}";
 	char options[] = "remove-braces, mode=cs";
@@ -4060,10 +4096,10 @@ TEST(RemoveBraces, BracketInComment2)
 	delete[] textOut;
 }
 
-TEST(RemoveBraces, HorstmannBracketWithComment)
+TEST(RemoveBraces, HorstmannBraceWithComment)
 {
-	// test remove horstmann bracket with a comment
-	// should not remove the brackets
+	// test remove horstmann brace with a comment
+	// should not remove the braces
 	char text[] =
 	    "\nvoid Foo()\n"
 	    "{   if (isFoo)\n"
@@ -4125,7 +4161,7 @@ TEST(KeepOneLineBlocks, StartOfLine)
 	delete[] textOut;
 }
 
-TEST(KeepOneLineBlocks, NoneBrackets)
+TEST(KeepOneLineBlocks, NoneBraces)
 {
 	// test keep one line blocks
 	char text[] =
@@ -4141,7 +4177,7 @@ TEST(KeepOneLineBlocks, NoneBrackets)
 	delete[] textOut;
 }
 
-TEST(KeepOneLineBlocks, BreakBrackets)
+TEST(KeepOneLineBlocks, BreakBraces)
 {
 	// test keep one line blocks
 	char text[] =
@@ -4157,7 +4193,7 @@ TEST(KeepOneLineBlocks, BreakBrackets)
 	delete[] textOut;
 }
 
-TEST(KeepOneLineBlocks, AttachBrackets)
+TEST(KeepOneLineBlocks, AttachBraces)
 {
 	// test keep one line blocks
 	char text[] =
@@ -4172,7 +4208,7 @@ TEST(KeepOneLineBlocks, AttachBrackets)
 	delete[] textOut;
 }
 
-TEST(KeepOneLineBlocks, LinuxBrackets)
+TEST(KeepOneLineBlocks, LinuxBraces)
 {
 	// test keep one line blocks
 	char text[] =
@@ -4188,7 +4224,7 @@ TEST(KeepOneLineBlocks, LinuxBrackets)
 	delete[] textOut;
 }
 
-TEST(KeepOneLineBlocks, RunInBrackets)
+TEST(KeepOneLineBlocks, RunInBraces)
 {
 	// test keep one line blocks
 	char text[] =
@@ -4301,9 +4337,9 @@ TEST(KeepOneLineBlocks, BreakBlocks3)
 	delete[] textOut;
 }
 
-TEST(KeepOneLineBlocks, MultipleBrackets)
+TEST(KeepOneLineBlocks, MultipleBraces)
 {
-	// test keep one line blocks with multiple brackets
+	// test keep one line blocks with multiple braces
 	char text[] =
 	    "\npublic class FooClass\n"
 	    "{\n"
@@ -4320,7 +4356,7 @@ TEST(KeepOneLineBlocks, MultipleBrackets)
 TEST(KeepOneLineBlocks, Sans1)
 {
 	// test without keep one line blocks
-	// should not break {} when break brackets
+	// should not break {} when break braces
 	char text[] =
 	    "\nclass JipeConsole\n"
 	    "{\n"
@@ -4342,7 +4378,7 @@ TEST(KeepOneLineBlocks, Sans1)
 TEST(KeepOneLineBlocks, Sans2)
 {
 	// test without keep one line blocks
-	// test attach bracket inside comment on single line block
+	// test attach brace inside comment on single line block
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -4362,9 +4398,9 @@ TEST(KeepOneLineBlocks, Sans2)
 	delete[] textOut;
 }
 
-TEST(KeepOneLineBlocks, SansMultipleBrackets)
+TEST(KeepOneLineBlocks, SansMultipleBraces)
 {
-	// test without keep one line blocks with multiple brackets
+	// test without keep one line blocks with multiple braces
 	char textIn[] =
 	    "\npublic class FooClass\n"
 	    "{\n"
@@ -4396,7 +4432,7 @@ TEST(KeepOneLineBlocks, SansMultipleBrackets)
 
 TEST(KeepOneLineBlocks, NoneRunIn)
 {
-	// test none brackets with keep one line blocks and run-in
+	// test none braces with keep one line blocks and run-in
 	// should not indent the run-in
 	char text[] =
 	    "\nvoid foo()\n"
@@ -4412,7 +4448,7 @@ TEST(KeepOneLineBlocks, NoneRunIn)
 
 TEST(KeepOneLineBlocks, RunInRunIn)
 {
-	// test run-in brackets with keep one line blocks and run-in
+	// test run-in braces with keep one line blocks and run-in
 	// should not indent the run-in
 	char text[] =
 	    "\nvoid foo()\n"
@@ -4559,10 +4595,10 @@ TEST(KeepOneLineBlocks, IndentAfterHeader)
 	delete[] textOut;
 }
 
-TEST(KeepOneLineBlocks, IndentAfterHeaderSansBrackets)
+TEST(KeepOneLineBlocks, IndentAfterHeaderSansBraces)
 {
 	// Test one line blocks indentation following a header
-	// when the header does not contain brackets.
+	// when the header does not contain braces.
 	char text[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{\n"
@@ -4597,7 +4633,7 @@ TEST(KeepOneLineBlocks, IndentSansHeader)
 TEST(KeepOneLineBlocks, IndentWithConstMethod)
 {
 	// Test one line blocks indentation following a header
-	// when the header does not contain brackets.
+	// when the header does not contain braces.
 	char text[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -4875,7 +4911,7 @@ TEST(KeepOneLineStatements, ElseAtEndOfLine1)
 
 TEST(KeepOneLineStatements, ElseAtEndOfLine2)
 {
-	// test special case of an an "else" statement at the end of line with added brackets
+	// test special case of an an "else" statement at the end of line with added braces
 	// should NOT put everything on one line
 	char textIn[] =
 	    "\n"

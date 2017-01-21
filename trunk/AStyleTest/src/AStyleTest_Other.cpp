@@ -798,7 +798,7 @@ TEST(Macro, QtForeachAlignPointer)
 TEST(Macro, QtForeachSans)
 {
 	// Qt foreach may be used as a variable in C++.
-	// Brackets should not attach.
+	// Braces should not attach.
 	// The following line should be indented correctly.
 	char text[] =
 	    "\nvoid astyle_bug()\n"
@@ -855,7 +855,7 @@ TEST(Macro, QtForever2)
 TEST(Macro, QtForeverSans)
 {
 	// Qt forever may be used as a variable in C++.
-	// Brackets should not attach.
+	// Braces should not attach.
 	char text[] =
 	    "\nvoid astyle_bug()\n"
 	    "{\n"
@@ -1744,7 +1744,7 @@ TEST(Enum, Class1)
 TEST(Enum, Class2)
 {
 	// test indent of enum in a class
-	// enum has a colon (:) and no brackets
+	// enum has a colon (:) and no braces
 	char text[] =
 	    "\n"
 	    "class TestClass : public ParentClass {\n"
@@ -2048,7 +2048,7 @@ TEST(Enum, EnumArgument2)
 TEST(Enum, EnumArgument3)
 {
 	// An enum argument is NOT an enum.
-	// The brackets will be changed if it is incorrectly flagged.
+	// The braces will be changed if it is incorrectly flagged.
 	char text[] =
 	    "\nvoid cliConsoleDiagnostic (struct Command* chain,\n"
 	    "                           enum ErrorType errtype,\n"
@@ -2096,7 +2096,7 @@ TEST(Enum, Java)
 
 TEST(Struct, Break)
 {
-	// struct with broken brackets
+	// struct with broken braces
 	char text[] =
 	    "\nstruct\n"
 	    "{\n"
@@ -2115,7 +2115,7 @@ TEST(Struct, Break)
 
 TEST(Struct, Attach)
 {
-	// struct with attached brackets
+	// struct with attached braces
 	char text[] =
 	    "\nstruct {\n"
 	    "    const char *name;\n"
@@ -2132,7 +2132,7 @@ TEST(Struct, Attach)
 
 TEST(Struct, RunIn)
 {
-	// struct with attached brackets
+	// struct with attached braces
 	char text[] =
 	    "\nstruct\n"
 	    "{   const char *name;\n"
@@ -2369,10 +2369,10 @@ TEST(PreCommandHeaders, NoExcept)
 // AStyle Preprocessor
 //----------------------------------------------------------------------------
 
-TEST(Preprocessor, CppExternCBracket1)
+TEST(Preprocessor, CppExternCBrace1)
 {
-	// Preprocessor C++ definition defined as 'extern "C"' with a bracket,
-	// the bracket should NOT cause an indentation.
+	// Preprocessor C++ definition defined as 'extern "C"' with a brace,
+	// the brace should NOT cause an indentation.
 	char text[] =
 	    "\n#ifdef __cplusplus\n"
 	    "extern \"C\" {\n"
@@ -2392,11 +2392,11 @@ TEST(Preprocessor, CppExternCBracket1)
 	delete[] textOut;
 }
 
-TEST(Preprocessor, CppExternCBracket2)
+TEST(Preprocessor, CppExternCBrace2)
 {
-	// Preprocessor C++ definition defined as 'extern "C"' with a bracket,
-	// the bracket should NOT cause an indentation.
-	// The bracket is broken.
+	// Preprocessor C++ definition defined as 'extern "C"' with a brace,
+	// the brace should NOT cause an indentation.
+	// The brace is broken.
 	char text[] =
 	    "\n#ifdef __cplusplus\n"
 	    "extern \"C\"\n"
@@ -2417,10 +2417,10 @@ TEST(Preprocessor, CppExternCBracket2)
 	delete[] textOut;
 }
 
-TEST(Preprocessor, CppExternCBracket3)
+TEST(Preprocessor, CppExternCBrace3)
 {
-	// Preprocessor C++ definition defined as 'extern "C"' with a bracket,
-	// the bracket should NOT cause an indentation.
+	// Preprocessor C++ definition defined as 'extern "C"' with a brace,
+	// the brace should NOT cause an indentation.
 	// "defined" is used instead of "ifdef".
 	char text[] =
 	    "\n#if  defined ( __cplusplus )\n"
@@ -2442,10 +2442,10 @@ TEST(Preprocessor, CppExternCBracket3)
 	delete[] textOut;
 }
 
-TEST(Preprocessor, CppExternCBracket4)
+TEST(Preprocessor, CppExternCBrace4)
 {
-	// Preprocessor C++ definition defined as 'extern "C"' with a bracket,
-	// the bracket should NOT cause an indentation.
+	// Preprocessor C++ definition defined as 'extern "C"' with a brace,
+	// the brace should NOT cause an indentation.
 	// Has indented namespace after the "endif".
 	char text[] =
 	    "\n#ifdef __cplusplus\n"
@@ -2473,10 +2473,10 @@ TEST(Preprocessor, CppExternCBracket4)
 	delete[] textOut;
 }
 
-TEST(Preprocessor, CppExternCBracket5)
+TEST(Preprocessor, CppExternCBrace5)
 {
-	// Preprocessor C++ definition defined as 'extern "C"' with a bracket,
-	// the bracket should NOT cause an indentation.
+	// Preprocessor C++ definition defined as 'extern "C"' with a brace,
+	// the brace should NOT cause an indentation.
 	// The define has additional data.
 	char text[] =
 	    "\n#ifdef __cplusplus\n"
@@ -2511,9 +2511,9 @@ TEST(Preprocessor, CppExternCBracket5)
 	delete[] textOut;
 }
 
-TEST(Preprocessor, CppExternCSansBracket1)
+TEST(Preprocessor, CppExternCSansBrace1)
 {
-	// Preprocessor C++ definition defined as 'extern "C"' WITHOUT a bracket,
+	// Preprocessor C++ definition defined as 'extern "C"' WITHOUT a brace,
 	// Following functions should NOT be de-indented.
 	char text[] =
 	    "\n#ifdef __cplusplus\n"
@@ -2532,9 +2532,9 @@ TEST(Preprocessor, CppExternCSansBracket1)
 	delete[] textOut;
 }
 
-TEST(Preprocessor, CppExternCSansBracket2)
+TEST(Preprocessor, CppExternCSansBrace2)
 {
-	// Preprocessor C++ definition defined as 'extern "C"' WITHOUT a bracket,
+	// Preprocessor C++ definition defined as 'extern "C"' WITHOUT a brace,
 	// Comments added.
 	// Following functions should NOT be de-indented.
 	char text[] =
@@ -2558,7 +2558,7 @@ TEST(Preprocessor, CppExternCSansBracket2)
 TEST(Preprocessor, CommandType)
 {
 	// EXPECT_TRUE indentation
-	// correctly identifying as a COMMND_TYPE bracket
+	// correctly identifying as a COMMND_TYPE brace
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -2586,7 +2586,7 @@ TEST(Preprocessor, CommandType)
 
 TEST(Preprocessor, FollowsConditional)
 {
-	// A preprocessor directive follows an unbracketed conditional.
+	// A preprocessor directive follows an unbraced conditional.
 	// Tests the indent following the conditional statement.
 	// After the #endif should be aligned under the if().
 	char text[] =
@@ -3012,7 +3012,7 @@ TEST(Preprocessor, LineStatement3)
 TEST(Preprocessor, ArrayType)
 {
 	// EXPECT_TRUE indentation
-	// correctly identifying as an ARRAY_TYPE bracket
+	// correctly identifying as an ARRAY_TYPE brace
 	char text[] =
 	    "\nstatic SQRegFunction base_funcs[] = {\n"
 	    "    {_SC(\"seterrorhandler\"),base_seterrorhandler,2, NULL},\n"
@@ -3049,7 +3049,7 @@ TEST(Preprocessor, ArrayMissingOpener)
 
 TEST(Preprocessor, ArrayRunIn_Break)
 {
-	// EXPECT_TRUE broken brackets to run-in
+	// EXPECT_TRUE broken braces to run-in
 	// should NOT run-in a preprocessor directive
 	char text[] =
 	    "\nchar *section_list[] =\n"
@@ -3070,7 +3070,7 @@ TEST(Preprocessor, ArrayRunIn_Break)
 
 TEST(Preprocessor, ArrayRunIn_Attach)
 {
-	// EXPECT_TRUE attached brackets to run-in
+	// EXPECT_TRUE attached braces to run-in
 	// should NOT run-in a preprocessor directive
 	char textIn[] =
 	    "\nchar *section_list[] = {\n"
@@ -3101,7 +3101,7 @@ TEST(Preprocessor, ArrayRunIn_Attach)
 
 TEST(Preprocessor, ArrayRunIn_RunIn)
 {
-	// EXPECT_TRUE run-in brackets to run-in
+	// EXPECT_TRUE run-in braces to run-in
 	// should NOT run-in a preprocessor directive
 	char text[] =
 	    "\nchar *section_list[] =\n"
@@ -3161,10 +3161,10 @@ TEST(Preprocessor, CommentContinuation2)
 // AStyle Comments
 //----------------------------------------------------------------------------
 
-TEST(Comment, BracketsNone_NamespaceClassIndent_None)
+TEST(Comment, BracesNone_NamespaceClassIndent_None)
 {
 	// comments should indent with namespaces and classes
-	// brackets=none with default brackets
+	// braces=none with default braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3211,10 +3211,10 @@ TEST(Comment, BracketsNone_NamespaceClassIndent_None)
 	delete[] textOut;
 }
 
-TEST(Comment, BracketsNone_NamespaceClassIndent_Break)
+TEST(Comment, BracesNone_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
-	// brackets=none with broken brackets
+	// braces=none with broken braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3261,10 +3261,10 @@ TEST(Comment, BracketsNone_NamespaceClassIndent_Break)
 	delete[] textOut;
 }
 
-TEST(Comment, BracketsNone_NamespaceClassIndent_Attach)
+TEST(Comment, BracesNone_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
-	// brackets=none with attached brackets
+	// braces=none with attached braces
 	char textIn[] =
 	    "\nnamespace FooName {\n"
 	    "/*\n"
@@ -3305,10 +3305,10 @@ TEST(Comment, BracketsNone_NamespaceClassIndent_Attach)
 	delete[] textOut;
 }
 
-TEST(Comment, BracketsNone_NamespaceClassIndent_RunIn)
+TEST(Comment, BracesNone_NamespaceClassIndent_RunIn)
 {
 	// comments should indent with namespaces and classes
-	// brackets=none with run-in brackets
+	// braces=none with run-in braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3347,10 +3347,10 @@ TEST(Comment, BracketsNone_NamespaceClassIndent_RunIn)
 	delete[] textOut;
 }
 
-TEST(Comment, BracketsBreak_NamespaceClassIndent_Break)
+TEST(Comment, BracesBreak_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
-	// style=allman with broken brackets
+	// style=allman with broken braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3397,10 +3397,10 @@ TEST(Comment, BracketsBreak_NamespaceClassIndent_Break)
 	delete[] textOut;
 }
 
-TEST(Comment, BracketsBreak_NamespaceClassIndent_Attach)
+TEST(Comment, BracesBreak_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
-	// style=allman with attached brackets
+	// style=allman with attached braces
 	char textIn[] =
 	    "\nnamespace FooName {\n"
 	    "/*\n"
@@ -3444,10 +3444,10 @@ TEST(Comment, BracketsBreak_NamespaceClassIndent_Attach)
 	delete[] textOut;
 }
 
-TEST(Comment, BracketsBreak_NamespaceClassIndent_RunIn)
+TEST(Comment, BracesBreak_NamespaceClassIndent_RunIn)
 {
 	// comments should indent with namespaces and classes
-	// style=allman with run-in brackets
+	// style=allman with run-in braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3487,10 +3487,10 @@ TEST(Comment, BracketsBreak_NamespaceClassIndent_RunIn)
 	delete[] textOut;
 }
 
-TEST(Comment, BracketsAttach_NamespaceClassIndent_Break)
+TEST(Comment, BracesAttach_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
-	// style=java with broken brackets
+	// style=java with broken braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3534,10 +3534,10 @@ TEST(Comment, BracketsAttach_NamespaceClassIndent_Break)
 	delete[] textOut;
 }
 
-TEST(Comment, BracketsAttach_NamespaceClassIndent_Attach)
+TEST(Comment, BracesAttach_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
-	// style=java with attached brackets
+	// style=java with attached braces
 	char textIn[] =
 	    "\nnamespace FooName {\n"
 	    "/*\n"
@@ -3578,10 +3578,10 @@ TEST(Comment, BracketsAttach_NamespaceClassIndent_Attach)
 	delete[] textOut;
 }
 
-TEST(Comment, BracketsAttach_NamespaceClassIndent_RunIn)
+TEST(Comment, BracesAttach_NamespaceClassIndent_RunIn)
 {
 	// comments should indent with namespaces and classes
-	// style=java with run-in brackets
+	// style=java with run-in braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3618,10 +3618,10 @@ TEST(Comment, BracketsAttach_NamespaceClassIndent_RunIn)
 	delete[] textOut;
 }
 
-TEST(Comment, BracketsRunIn_NamespaceClassIndent_Break)
+TEST(Comment, BracesRunIn_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
-	// style=horstmann with broken brackets
+	// style=horstmann with broken braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3660,10 +3660,10 @@ TEST(Comment, BracketsRunIn_NamespaceClassIndent_Break)
 	delete[] textOut;
 }
 
-TEST(Comment, BracketsRunIn_NamespaceClassIndent_Attach)
+TEST(Comment, BracesRunIn_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
-	// style=horstmann with attached brackets
+	// style=horstmann with attached braces
 	char textIn[] =
 	    "\nnamespace FooName {\n"
 	    "class FooClass {\n"
@@ -3699,10 +3699,10 @@ TEST(Comment, BracketsRunIn_NamespaceClassIndent_Attach)
 	delete[] textOut;
 }
 
-TEST(Comment, BracketsRunIn_NamespaceClassIndent_RunIn)
+TEST(Comment, BracesRunIn_NamespaceClassIndent_RunIn)
 {
 	// comments should indent with namespaces and classes
-	// style=horstmann with run-in brackets
+	// style=horstmann with run-in braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3743,7 +3743,7 @@ TEST(Comment, BracketsRunIn_NamespaceClassIndent_RunIn)
 TEST(Comment, Namespace_Misc1)
 {
 	// comments should indent with namespaces
-	// comments precede the brackets
+	// comments precede the braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3787,7 +3787,7 @@ TEST(Comment, Namespace_Misc1)
 TEST(Comment, Namespace_ClassMisc2)
 {
 	// comments should indent with namespaces and classes
-	// comments precede the brackets
+	// comments precede the braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3831,7 +3831,7 @@ TEST(Comment, Namespace_ClassMisc2)
 TEST(Comment, NestedClass_Misc3)
 {
 	// comments should indent with classes
-	// comments precede the brackets
+	// comments precede the braces
 	char text[] =
 	    "\nclass A\n"
 	    "/*\n"
@@ -3865,7 +3865,7 @@ TEST(Comment, NestedClass_Misc3)
 TEST(Comment, NestedClass_Misc4)
 {
 	// comments should indent with classes
-	// comments precede the brackets in indented classes
+	// comments precede the braces in indented classes
 	char text[] =
 	    "\nclass A\n"
 	    "/*\n"
@@ -3899,7 +3899,7 @@ TEST(Comment, NestedClass_Misc4)
 TEST(Comment, NamespaceClass_Misc5)
 {
 	// comments should indent with classes with inheritance
-	// comments precede the brackets
+	// comments precede the braces
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3927,7 +3927,7 @@ TEST(Comment, NamespaceClass_Misc5)
 TEST(Comment, NamespaceClass_Misc6)
 {
 	// comments should indent with classes with inheritance
-	// comments precede the brackets
+	// comments precede the braces
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3972,7 +3972,7 @@ TEST(Comment, BeforeStatement_Misc7)
 TEST(Comment, NamespaceClass_Misc8)
 {
 	// line comments should indent with classes with inheritance
-	// line comments precede the brackets
+	// line comments precede the braces
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3996,7 +3996,7 @@ TEST(Comment, NamespaceClass_Misc8)
 TEST(Comment, NamespaceClass_Misc9)
 {
 	// line comments should indent with classes with inheritance
-	// line comments precede the brackets
+	// line comments precede the braces
 	char text[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -4107,10 +4107,10 @@ TEST(Comment, LeadingSpaceCorrection3)
 // AStyle Continuation Lines
 //----------------------------------------------------------------------------
 
-TEST(Continuation, BracketsNone_Break)
+TEST(Continuation, BracesNone_Break)
 {
 	// continuation lines
-	// brackets=none and input of broken brackets
+	// braces=none and input of broken braces
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4131,10 +4131,10 @@ TEST(Continuation, BracketsNone_Break)
 	delete[] textOut;
 }
 
-TEST(Continuation, BracketsNone_Attach)
+TEST(Continuation, BracesNone_Attach)
 {
 	// continuation lines
-	// brackets=none and input of attached brackets
+	// braces=none and input of attached braces
 	char text[] =
 	    "\nvoid foo() {\n"
 	    "    if (isFoo1()) {\n"
@@ -4152,10 +4152,10 @@ TEST(Continuation, BracketsNone_Attach)
 	delete[] textOut;
 }
 
-TEST(Continuation, BracketsNone_RunIn)
+TEST(Continuation, BracesNone_RunIn)
 {
 	// continuation lines
-	// brackets=none and input of run-in brackets
+	// braces=none and input of run-in braces
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{   if (isFoo1())\n"
@@ -4173,10 +4173,10 @@ TEST(Continuation, BracketsNone_RunIn)
 	delete[] textOut;
 }
 
-TEST(Continuation, BracketsBreak_Break)
+TEST(Continuation, BracesBreak_Break)
 {
 	// continuation lines
-	// style=allman and input of broken brackets
+	// style=allman and input of broken braces
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4197,10 +4197,10 @@ TEST(Continuation, BracketsBreak_Break)
 	delete[] textOut;
 }
 
-TEST(Continuation, BracketsBreak_Attach)
+TEST(Continuation, BracesBreak_Attach)
 {
 	// continuation lines
-	// style=allman and input of attached brackets
+	// style=allman and input of attached braces
 	char textIn[] =
 	    "\nvoid foo() {\n"
 	    "    if (isFoo1()) {\n"
@@ -4232,10 +4232,10 @@ TEST(Continuation, BracketsBreak_Attach)
 	delete[] textOut;
 }
 
-TEST(Continuation, BracketsBreak_RunIn)
+TEST(Continuation, BracesBreak_RunIn)
 {
 	// continuation lines
-	// style=allman and input of run-in brackets
+	// style=allman and input of run-in braces
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{   if (isFoo1())\n"
@@ -4267,10 +4267,10 @@ TEST(Continuation, BracketsBreak_RunIn)
 	delete[] textOut;
 }
 
-TEST(Continuation, BracketsAttach_Break)
+TEST(Continuation, BracesAttach_Break)
 {
 	// continuation lines
-	// style=java and input of broken brackets
+	// style=java and input of broken braces
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4302,10 +4302,10 @@ TEST(Continuation, BracketsAttach_Break)
 	delete[] textOut;
 }
 
-TEST(Continuation, BracketsAttach_Attach)
+TEST(Continuation, BracesAttach_Attach)
 {
 	// continuation lines
-	// style=java and input of attached brackets
+	// style=java and input of attached braces
 	char text[] =
 	    "\nvoid foo() {\n"
 	    "    if (isFoo1()) {\n"
@@ -4323,10 +4323,10 @@ TEST(Continuation, BracketsAttach_Attach)
 	delete[] textOut;
 }
 
-TEST(Continuation, BracketsAttach_RunIn)
+TEST(Continuation, BracesAttach_RunIn)
 {
 	// continuation lines
-	// style=java and input of run-in brackets
+	// style=java and input of run-in braces
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{   if (isFoo1())\n"
@@ -4355,10 +4355,10 @@ TEST(Continuation, BracketsAttach_RunIn)
 	delete[] textOut;
 }
 
-TEST(Continuation, BracketsRunIn_Break)
+TEST(Continuation, BracesRunIn_Break)
 {
 	// continuation lines
-	// style=horstmann and input of broken brackets
+	// style=horstmann and input of broken braces
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4390,10 +4390,10 @@ TEST(Continuation, BracketsRunIn_Break)
 	delete[] textOut;
 }
 
-TEST(Continuation, BracketsRunIn_Attach)
+TEST(Continuation, BracesRunIn_Attach)
 {
 	// continuation lines
-	// style=horstmann and input of attached brackets
+	// style=horstmann and input of attached braces
 	char textIn[] =
 	    "\nvoid foo() {\n"
 	    "    if (isFoo1()) {\n"
@@ -4422,10 +4422,10 @@ TEST(Continuation, BracketsRunIn_Attach)
 	delete[] textOut;
 }
 
-TEST(Continuation, BracketsRunIn_RunIn)
+TEST(Continuation, BracesRunIn_RunIn)
 {
 	// continuation lines
-	// style=horstmann and input of run-in brackets
+	// style=horstmann and input of run-in braces
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{   if (isFoo1())\n"
@@ -4507,10 +4507,10 @@ TEST(Continuation, InlineTab2)
 // AStyle Continuation Lines with Tabs
 //----------------------------------------------------------------------------
 
-TEST(ContinuationTab, BracketsNone_Break)
+TEST(ContinuationTab, BracesNone_Break)
 {
 	// continuation lines with tabs
-	// brackets=none and input of broken brackets
+	// braces=none and input of broken braces
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4531,10 +4531,10 @@ TEST(ContinuationTab, BracketsNone_Break)
 	delete[] textOut;
 }
 
-TEST(ContinuationTab, BracketsNone_Attach)
+TEST(ContinuationTab, BracesNone_Attach)
 {
 	// continuation lines with tabs
-	// brackets=none and input of attached brackets
+	// braces=none and input of attached braces
 	char text[] =
 	    "\nvoid foo() {\n"
 	    "	if (isFoo1()) {\n"
@@ -4552,10 +4552,10 @@ TEST(ContinuationTab, BracketsNone_Attach)
 	delete[] textOut;
 }
 
-TEST(ContinuationTab, BracketsNone_RunIn)
+TEST(ContinuationTab, BracesNone_RunIn)
 {
 	// continuation lines with tabs
-	// brackets=none and input of run-in brackets
+	// braces=none and input of run-in braces
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{	if (isFoo1())\n"
@@ -4573,10 +4573,10 @@ TEST(ContinuationTab, BracketsNone_RunIn)
 	delete[] textOut;
 }
 
-TEST(ContinuationTab, BracketsBreak_Break)
+TEST(ContinuationTab, BracesBreak_Break)
 {
 	// continuation lines with tabs
-	// style=allman and input of broken brackets
+	// style=allman and input of broken braces
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4597,10 +4597,10 @@ TEST(ContinuationTab, BracketsBreak_Break)
 	delete[] textOut;
 }
 
-TEST(ContinuationTab, BracketsBreak_Attach)
+TEST(ContinuationTab, BracesBreak_Attach)
 {
 	// continuation lines with tabs
-	// style=allman and input of attached brackets
+	// style=allman and input of attached braces
 	char textIn[] =
 	    "\nvoid foo() {\n"
 	    "	if (isFoo1()) {\n"
@@ -4632,10 +4632,10 @@ TEST(ContinuationTab, BracketsBreak_Attach)
 	delete[] textOut;
 }
 
-TEST(ContinuationTab, BracketsBreak_RunIn)
+TEST(ContinuationTab, BracesBreak_RunIn)
 {
 	// continuation lines with tabs
-	// style=allman and input of run-in brackets
+	// style=allman and input of run-in braces
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{	if (isFoo1())\n"
@@ -4667,10 +4667,10 @@ TEST(ContinuationTab, BracketsBreak_RunIn)
 	delete[] textOut;
 }
 
-TEST(ContinuationTab, BracketsAttach_Break)
+TEST(ContinuationTab, BracesAttach_Break)
 {
 	// continuation lines with tabs
-	// style=java and input of broken brackets
+	// style=java and input of broken braces
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4702,10 +4702,10 @@ TEST(ContinuationTab, BracketsAttach_Break)
 	delete[] textOut;
 }
 
-TEST(ContinuationTab, BracketsAttach_Attach)
+TEST(ContinuationTab, BracesAttach_Attach)
 {
 	// continuation lines with tabs
-	// style=java and input of attached brackets
+	// style=java and input of attached braces
 	char text[] =
 	    "\nvoid foo() {\n"
 	    "	if (isFoo1()) {\n"
@@ -4723,10 +4723,10 @@ TEST(ContinuationTab, BracketsAttach_Attach)
 	delete[] textOut;
 }
 
-TEST(ContinuationTab, BracketsAttach_RunIn)
+TEST(ContinuationTab, BracesAttach_RunIn)
 {
 	// continuation lines with tabs
-	// style=java and input of run-in brackets
+	// style=java and input of run-in braces
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{	if (isFoo1())\n"
@@ -4755,10 +4755,10 @@ TEST(ContinuationTab, BracketsAttach_RunIn)
 	delete[] textOut;
 }
 
-TEST(ContinuationTab, BracketsRunIn_Break)
+TEST(ContinuationTab, BracesRunIn_Break)
 {
 	// continuation lines with tabs
-	// style=horstmann and input of broken brackets
+	// style=horstmann and input of broken braces
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4790,10 +4790,10 @@ TEST(ContinuationTab, BracketsRunIn_Break)
 	delete[] textOut;
 }
 
-TEST(ContinuationTab, BracketsRunIn_Attach)
+TEST(ContinuationTab, BracesRunIn_Attach)
 {
 	// continuation lines with tabs
-	// style=horstmann and input of attached brackets
+	// style=horstmann and input of attached braces
 	char textIn[] =
 	    "\nvoid foo() {\n"
 	    "	if (isFoo1()) {\n"
@@ -4822,10 +4822,10 @@ TEST(ContinuationTab, BracketsRunIn_Attach)
 	delete[] textOut;
 }
 
-TEST(ContinuationTab, BracketsRunIn_RunIn)
+TEST(ContinuationTab, BracesRunIn_RunIn)
 {
 	// continuation lines with tabs
-	// style=horstmann and input of run-in brackets
+	// style=horstmann and input of run-in braces
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{	if (isFoo1())\n"
@@ -5294,9 +5294,9 @@ TEST(SQL, SwitchIndentCase)
 	delete[] textOut;
 }
 
-TEST(SQL, BracketsRunIn)
+TEST(SQL, BracesRunIn)
 {
-	// SQL statements in run-in brackets
+	// SQL statements in run-in braces
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{   EXEC SQL SELECT BLP_PIN_TYPE\n"
@@ -5574,7 +5574,7 @@ TEST(MultipleVariable, MultipleSpacesToName)
 TEST(MultipleVariable, ClassHeader)
 {
 	// class headers are aligned on first variable
-	// last line with brackets should be indented
+	// last line with braces should be indented
 	char text[] =
 	    "\nclass ASBeautifier\n"
 	    "    : protected ASResource1,\n"
@@ -5685,7 +5685,7 @@ TEST(MultipleVariable, ClassInitializer4)
 TEST(MultipleVariable, ClassInitializer5)
 {
 	// class initializers are aligned on first variable
-	// last line with brackets should be indented
+	// last line with braces should be indented
 	char text[] =
 	    "\nFooBar::FooBar(int width = 1, int style = wxSOLID,\n"
 	    "               int cap = wxCAP_ROUND)\n"
@@ -5825,10 +5825,10 @@ TEST(MultipleVariable, Misc2)
 // Other Tests
 //----------------------------------------------------------------------------
 
-TEST(Other, VirginLineBrackets)
+TEST(Other, VirginLineBraces)
 {
-	// test bracket on second line
-	// linux bracket should not attach
+	// test brace on second line
+	// linux brace should not attach
 	char text[] =
 	    "void Foo(bool isFoo)\n"
 	    "{\n"

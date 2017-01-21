@@ -736,7 +736,7 @@ TEST(AlignPointerNone, TrailingReferenceType)
 
 TEST(AlignPointerNone, SquareBrackets)
 {
-	// A * in brackets is an operator.
+	// A * in square brackets is an operator.
 	// Should not change the alignment.
 	char text[] =
 	    "\nclass Matrix\n"
@@ -1991,7 +1991,7 @@ TEST(AlignPointerType, TrailingReferenceType)
 
 TEST(AlignPointerType, SquareBrackets)
 {
-	// A * in brackets is an operator.
+	// A * in square brackets is an operator.
 	// Should not change the alignment.
 	char text[] =
 	    "\nclass Matrix\n"
@@ -3219,7 +3219,7 @@ TEST(AlignPointerMiddle, TrailingReferenceType)
 
 TEST(AlignPointerMiddle, SquareBrackets)
 {
-	// A * in brackets is an operator.
+	// A * in square brackets is an operator.
 	// Should not change the alignment.
 	char text[] =
 	    "\nclass Matrix\n"
@@ -4463,7 +4463,7 @@ TEST(AlignPointerName, TrailingReferenceType)
 
 TEST(AlignPointerName, SquareBrackets)
 {
-	// A * in brackets is an operator.
+	// A * in square brackets is an operator.
 	// Should not change the alignment.
 	char text[] =
 	    "\nclass Matrix\n"
@@ -5174,14 +5174,14 @@ TEST(AlignReferenceToPointer, PointerType_ReferenceDefault)
 {
 	// Test *& with align-pointer=type and align-reference default.
 	char textIn[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> *&container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string *> & operators)\n"
 	    "{}\n"
 	    "void deleteContainer1 (vector<vector<const string *>*> * & container)\n"
 	    "{}";
 	char text[] =
-	    "\nvoid deleteContainer2 (vector<BracketType>*& container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType>*& container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string*>& operators)\n"
 	    "{}\n"
@@ -5197,14 +5197,14 @@ TEST(AlignReferenceToPointer, PointerType_ReferenceType)
 {
 	// Test *& with align-pointer=type and align-reference=type.
 	char textIn[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> *&container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string *> & operators)\n"
 	    "{}\n"
 	    "void deleteContainer1 (vector<vector<const string *>*> * & container)\n"
 	    "{}";
 	char text[] =
-	    "\nvoid deleteContainer2 (vector<BracketType>*& container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType>*& container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string*>& operators)\n"
 	    "{}\n"
@@ -5220,14 +5220,14 @@ TEST(AlignReferenceToPointer, PointerType_ReferenceMiddle)
 {
 	// Test *& with align-pointer=type and align-reference=middle.
 	char textIn[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> *&container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string *>& operators)\n"
 	    "{}\n"
 	    "void deleteContainer1 (vector<vector<const string *>*> * &container)\n"
 	    "{}";
 	char text[] =
-	    "\nvoid deleteContainer2 (vector<BracketType>* & container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType>* & container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string*> & operators)\n"
 	    "{}\n"
@@ -5243,14 +5243,14 @@ TEST(AlignReferenceToPointer, PointerType_ReferenceName)
 {
 	// Test *& with align-pointer=type and align-reference=name.
 	char textIn[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> *&container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string*>& operators)\n"
 	    "{}\n"
 	    "void deleteContainer1 (vector<vector<const string *>*> * & container)\n"
 	    "{}";
 	char text[] =
-	    "\nvoid deleteContainer2 (vector<BracketType>* &container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType>* &container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string*> &operators)\n"
 	    "{}\n"
@@ -5296,14 +5296,14 @@ TEST(AlignReferenceToPointer, PointerMiddle_ReferenceType_)
 	// Test *& with align-pointer=middle and align-reference=type.
 	// Conflicting alignments aligns both to pointer value.
 	char textIn[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> *&container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string*> & operators)\n"
 	    "{}\n"
 	    "void deleteContainer1 (vector<vector<const string *>*>* &container)\n"
 	    "{}";
 	char text[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> *& container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> *& container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string *>& operators)\n"
 	    "{}\n"
@@ -5319,14 +5319,14 @@ TEST(AlignReferenceToPointer, PointerMiddle_ReferenceDefault)
 {
 	// Test *& with align-pointer=middle and align-reference default.
 	char textIn[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> *&container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string*> &operators)\n"
 	    "{}\n"
 	    "void deleteContainer1 (vector<vector<const string*>*> *& container)\n"
 	    "{}";
 	char text[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> *& container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> *& container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string *> & operators)\n"
 	    "{}\n"
@@ -5342,14 +5342,14 @@ TEST(AlignReferenceToPointer, PointerMiddle_ReferenceMiddle)
 {
 	// Test *& with align-pointer=middle and align-reference=middle.
 	char textIn[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> *&container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string*> &operators)\n"
 	    "{}\n"
 	    "void deleteContainer1 (vector<vector<const string*>*> *& container)\n"
 	    "{}";
 	char text[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> *& container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> *& container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string *> & operators)\n"
 	    "{}\n"
@@ -5365,14 +5365,14 @@ TEST(AlignReferenceToPointer, PointerMiddle_ReferenceName)
 {
 	// Test *& with align-pointer=middle and align-reference=name.
 	char textIn[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> *& container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> *& container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string*> & operators)\n"
 	    "{}\n"
 	    "void deleteContainer1 (vector<vector<const string *>*>* &container)\n"
 	    "{}";
 	char text[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> * &container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> * &container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string *> &operators)\n"
 	    "{}\n"
@@ -5418,14 +5418,14 @@ TEST(AlignReferenceToPointer, PointerName_ReferenceType)
 	// Test *& with align-pointer=name and align-reference=type.
 	// Conflicting alignments aligns both to pointer value.
 	char textIn[] =
-	    "\nvoid deleteContainer2 (vector<BracketType>*& container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType>*& container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string*> & operators)\n"
 	    "{}\n"
 	    "void deleteContainer1 (vector<vector<const string *>*>* &container)\n"
 	    "{}";
 	char text[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> *&container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string *>& operators)\n"
 	    "{}\n"
@@ -5442,14 +5442,14 @@ TEST(AlignReferenceToPointer, PointerName_ReferenceMiddle)
 	// Test *& with align-pointer=name and align-reference=middle.
 	// Conflicting alignments aligns both to pointer value.
 	char textIn[] =
-	    "\nvoid deleteContainer2 (vector<BracketType>*& container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType>*& container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string*>& operators)\n"
 	    "{}\n"
 	    "void deleteContainer1 (vector<vector<const string*>*>* &container)\n"
 	    "{}";
 	char text[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> *&container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string *> & operators)\n"
 	    "{}\n"
@@ -5465,14 +5465,14 @@ TEST(AlignReferenceToPointer, PointerName_ReferenceDefault)
 {
 	// Test *& with align-pointer=middle and align-reference default.
 	char textIn[] =
-	    "\nvoid deleteContainer2 (vector<BracketType>*& container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType>*& container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string*> & operators)\n"
 	    "{}\n"
 	    "void deleteContainer1 (vector<vector<const string*>*> * & container)\n"
 	    "{}";
 	char text[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> *&container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string *> &operators)\n"
 	    "{}\n"
@@ -5488,14 +5488,14 @@ TEST(AlignReferenceToPointer, PointerName_ReferenceName)
 {
 	// Test *& with align-pointer=name and align-reference=name.
 	char textIn[] =
-	    "\nvoid deleteContainer2 (vector<BracketType>*& container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType>*& container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string*> & operators)\n"
 	    "{}\n"
 	    "void deleteContainer1 (vector<vector<const string*>*> * & container)\n"
 	    "{}";
 	char text[] =
-	    "\nvoid deleteContainer2 (vector<BracketType> *&container)\n"
+	    "\nvoid deleteContainer2 (vector<BraceType> *&container)\n"
 	    "{}\n"
 	    "void buildOperators (vector<const string *> &operators)\n"
 	    "{}\n"

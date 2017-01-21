@@ -107,10 +107,10 @@ TEST(BreakBlocks, ShortOption)
 	delete[] textOut;
 }
 
-TEST(BreakBlocks, WithBrackets)
+TEST(BreakBlocks, WithBraces)
 {
-	// break blocks with preceding and following brackets
-	// should NOT break before brackets
+	// break blocks with preceding and following braces
+	// should NOT break before braces
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -256,7 +256,7 @@ TEST(BreakBlocks, WithForLoop)
 TEST(BreakBlocks, WithSwitch1)
 {
 	// Break blocks with 'switch' statement.
-	// Case statements with NO brackets are broken.
+	// Case statements with NO braces are broken.
 	char textIn[] =
 	    "\nvoid fooFunction()\n"
 	    "{\n"
@@ -293,8 +293,8 @@ TEST(BreakBlocks, WithSwitch1)
 TEST(BreakBlocks, WithSwitch2)
 {
 	// Break blocks with 'switch' statement.
-	// Case statements WITH brackets are broken.
-	// Break statements are INSIDE the brackets.
+	// Case statements WITH braces are broken.
+	// Break statements are INSIDE the braces.
 	char textIn[] =
 	    "\nvoid fooFunction()\n"
 	    "{\n"
@@ -339,8 +339,8 @@ TEST(BreakBlocks, WithSwitch2)
 TEST(BreakBlocks, WithSwitch3)
 {
 	// Break blocks with 'switch' statement.
-	// Case statements WITH brackets are broken.
-	// Break statements are OUTSIDE the brackets.
+	// Case statements WITH braces are broken.
+	// Break statements are OUTSIDE the braces.
 	char textIn[] =
 	    "\nvoid fooFunction()\n"
 	    "{\n"
@@ -385,7 +385,7 @@ TEST(BreakBlocks, WithSwitch3)
 TEST(BreakBlocks, WithSwitch4)
 {
 	// Break blocks with 'switch' statement.
-	// Multiple fall-thru case statements with no bracket.
+	// Multiple fall-thru case statements with no brace.
 	char textIn[] =
 	    "\nvoid fooFunction()\n"
 	    "{\n"
@@ -1057,7 +1057,7 @@ TEST(BreakBlocks, InMultiStatementLine1)
 
 TEST(BreakBlocks, InMultiStatementLine2)
 {
-	// Break blocks, break closing, and add OL brackets in this multi-statement line.
+	// Break blocks, break closing, and add OL braces in this multi-statement line.
 	char textIn[] =
 	    "\n"
 	    "void Foo()\n"
@@ -1213,9 +1213,9 @@ TEST(BreakAllBlocks, ShortOption)
 	delete[] textOut;
 }
 
-TEST(BreakAllBlocks, BreakBrackets)
+TEST(BreakAllBlocks, BreakBraces)
 {
-	// test break all blocks with break brackets
+	// test break all blocks with break braces
 	char textIn[] =
 	    "\nvoid foo() {\n"
 	    "    bar1();\n"
@@ -1244,9 +1244,9 @@ TEST(BreakAllBlocks, BreakBrackets)
 	delete[] textOut;
 }
 
-TEST(BreakAllBlocks, AttachBrackets)
+TEST(BreakAllBlocks, AttachBraces)
 {
-	// test break all blocks with attach brackets
+	// test break all blocks with attach braces
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -2368,7 +2368,7 @@ TEST(PadOperator, Comments)
 
 TEST(PadOperator, SquareBrackets)
 {
-	// operators in block paren should be padded
+	// operators in square bracket should be padded
 	// this was added in release 2.01
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -2402,7 +2402,7 @@ TEST(PadOperator, SquareBrackets)
 
 TEST(PadOperator, SquareBracketsSans)
 {
-	// dereference or address-of in block parens should NOT be padded
+	// dereference or address-of in square brackets should NOT be padded
 	// this was added in release 2.01
 	char text[] =
 	    "\nvoid foo()\n"
@@ -3016,7 +3016,7 @@ TEST(PadParen, Template)
 
 TEST(PadParen, SquareBracketSans)
 {
-	// do NOT pad a closing paren followed by a block paren ")]"
+	// do NOT pad a closing paren followed by a square bracket ")]"
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4478,8 +4478,8 @@ TEST(DeleteEmptyLines, BreakBlocks5)
 TEST(DeleteEmptyLines, BreakBlocks6)
 {
 	// test delete empty lines, with break blocks
-	// the line after opening bracket should be deleted
-	// the line before closing bracket should be deleted
+	// the line after opening brace should be deleted
+	// the line before closing brace should be deleted
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4653,8 +4653,8 @@ TEST(DeleteEmptyLines, BreakBlocksAll5)
 TEST(DeleteEmptyLines, BreakBlocksAll6)
 {
 	// test delete empty lines, with break blocks
-	// the line after opening bracket should be deleted
-	// the line before closing bracket should be deleted
+	// the line after opening brace should be deleted
+	// the line before closing brace should be deleted
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
