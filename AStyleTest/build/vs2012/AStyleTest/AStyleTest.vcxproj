@@ -286,6 +286,7 @@
     <ClCompile Include="..\..\..\src\AStyleTest_BracesJava.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_BracesSharp.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_BugFix.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_Cpp0x.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Format.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Indent.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Main.cpp" />

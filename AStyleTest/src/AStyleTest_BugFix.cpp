@@ -60,9 +60,9 @@ TEST(BugFix_V30, PreprocDefineMemoryLeak2)
 	delete[] textOut;
 }
 
-TEST(BugFix_V206, StripBrokenBrackets)
+TEST(BugFix_V206, StripBrokenBraces)
 {
-	// The bracket broken fron should not have an ending space.
+	// The brace broken from should not have an ending space.
 	char textIn[] =
 	    "\n"
 	    "[Test()]\n"
@@ -127,9 +127,9 @@ TEST(BugFix_V206, TemplateClearVariable)
 	delete[] textOut;
 }
 
-TEST(BugFix_V206, AttachBracketInsideCommentAbort)
+TEST(BugFix_V206, AttachBraceInsideCommentAbort)
 {
-	// When formatting attached brackets to the first line the program aborts.
+	// When formatting attached braces to the first line the program aborts.
 	// This text CANNOT START WITH A BLANK LINE.
 	char text[] =
 	    "// comment\n"
@@ -184,7 +184,7 @@ TEST(BugFix_V206, BlockFormatAtStartOfFileRunIn)
 	char text[] =
 	    "{   int x = 10;\n"
 	    "}";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -193,7 +193,7 @@ TEST(BugFix_V206, BlockFormatAtStartOfFileRunIn)
 TEST(BugFix_V206, QuoteEscapedSpace)
 {
 	// Recogninion of an escaped space within a quote.
-	// The ending bracket will be misplaced if the '\ ' isn't recognized.
+	// The ending brace will be misplaced if the '\ ' isn't recognized.
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -327,7 +327,7 @@ TEST(BugFix_V205, StructObjectIdentification)
 TEST(BugFix_V205, CaseIndentAfterAsmBlock)
 {
 	// Fix the extra indent in a 'case' statement after an _asm block.
-	// The '_asm' opening bracket was not identified as a block opener
+	// The '_asm' opening brace was not identified as a block opener
 	// and the variable 'isInAsmBlock" was never being cleared
 	// in ASBeautifier.
 	char textIn[] =
@@ -487,9 +487,9 @@ TEST(BugFix_V204, OperatorWithBitwiseNot)
 	delete[] textOut;
 }
 
-TEST(BugFix_V204, AttachBracketToBackslash)
+TEST(BugFix_V204, AttachBraceToBackslash)
 {
-	// Fix brackets to NOT attach to a line ending in a backslash (\).
+	// Fix braces to NOT attach to a line ending in a backslash (\).
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -769,9 +769,9 @@ TEST(BugFix_V203, QuoteContinuationPreprocessor)
 
 TEST(BugFix_V203, StructReturnType)
 {
-	// Functions with a 'struct' return type and Linux style brackets
-	// should break the opening bracket on a function.
-	// The bracket on the struct definition should be attached.
+	// Functions with a 'struct' return type and Linux style braces
+	// should break the opening brace on a function.
+	// The brace on the struct definition should be attached.
 	char text[] =
 	    "\nstruct foo {\n"
 	    "    int foo;\n"
@@ -968,8 +968,8 @@ TEST(BugFix_V202, ConditionalWithinConditional)
 TEST(BugFix_V202, TryFinallyExceptExtension1)
 {
 	// C++ __try __finally __except Microsoft extension
-	// Added to headers and non-paren headers to be recognized as a command bracket.
-	// Broken brackets, no style. __finally and __except are attached.
+	// Added to headers and non-paren headers to be recognized as a command brace.
+	// Broken braces, no style. __finally and __except are attached.
 	char text[] =
 	    "\nvoid fooBar()\n"
 	    "{\n"
@@ -999,8 +999,8 @@ TEST(BugFix_V202, TryFinallyExceptExtension1)
 TEST(BugFix_V202, TryFinallyExceptExtension2)
 {
 	// C++ __try __finally __except Microsoft extension
-	// Added to headers and non-paren headers to be recognized as a command bracket.
-	// Attached brackets, no style. __finally and __except are attached.
+	// Added to headers and non-paren headers to be recognized as a command brace.
+	// Attached braces, no style. __finally and __except are attached.
 	char text[] =
 	    "\nvoid fooBar() {\n"
 	    "    __try {\n"
@@ -1023,8 +1023,8 @@ TEST(BugFix_V202, TryFinallyExceptExtension2)
 TEST(BugFix_V202, TryFinallyExceptExtension3)
 {
 	// C++ __try __finally __except Microsoft extension
-	// Added to headers and non-paren headers to be recognized as a command bracket.
-	// Attached brackets changed to Allman style. __finally and __except are broken.
+	// Added to headers and non-paren headers to be recognized as a command brace.
+	// Attached braces changed to Allman style. __finally and __except are broken.
 	char textIn[] =
 	    "\nvoid fooBar() {\n"
 	    "    __try {\n"
@@ -1067,8 +1067,8 @@ TEST(BugFix_V202, TryFinallyExceptExtension3)
 TEST(BugFix_V202, TryFinallyExceptExtension4)
 {
 	// C++ __try __finally __except Microsoft extension
-	// Added to headers and non-paren headers to be recognized as a command bracket.
-	// Broken brackets changed to Java style. __finally and __except are attached.
+	// Added to headers and non-paren headers to be recognized as a command brace.
+	// Broken braces changed to Java style. __finally and __except are attached.
 	char textIn[] =
 	    "\nvoid fooBar()\n"
 	    "{\n"
@@ -1147,10 +1147,10 @@ TEST(BugFix_V202, BreakBlocks_ConstVariableFollowsHeader)
 	delete[] textOut;
 }
 
-TEST(BugFix_V202, RunInBrackets_ColonIdentification)
+TEST(BugFix_V202, RunInBraces_ColonIdentification)
 {
-	// With run-in brackets when using indent-namespaces and indent-classes with a class modifier
-	// on the same line as the class opening bracket resulted in failure to recognize the class indent.
+	// With run-in braces when using indent-namespaces and indent-classes with a class modifier
+	// on the same line as the class opening brace resulted in failure to recognize the class indent.
 	// This was a problem only when indent-labels was also used.
 	char text[] =
 	    "\nnamespace\n"
@@ -1195,9 +1195,9 @@ TEST(BugFix_V201, UnpadParen_PadParenIn)
 	delete[] textOut;
 }
 
-TEST(BugFix_V201, AlignOnBracket)
+TEST(BugFix_V201, AlignOnBrace)
 {
-	// Test alignment on a bracket.
+	// Test alignment on a brace.
 	char text[] =
 	    "\n[Browsable(true),\n"
 	    " DisplayName(\"Display ordinal\"),\n"
@@ -1212,9 +1212,9 @@ TEST(BugFix_V201, AlignOnBracket)
 	delete[] textOut;
 }
 
-TEST(BugFix_V201, TwoBracketsOnLine)
+TEST(BugFix_V201, TwoBracesOnLine)
 {
-	// Test bracket alignment with two brackets on a line.
+	// Test brace alignment with two braces on a line.
 	char text[] =
 	    "\nvoid LoadToc()\n"
 	    "{\n"
@@ -1254,7 +1254,7 @@ TEST(BugFix_V201, WhitesmithSingleLineArray)
 TEST(BugFix_V201, NotInTemplate)
 {
 	// The following statements were incorrectly flagged as templates.
-	// This caused add-braces to attach the opening bracket in the wrong place.
+	// This caused add-braces to attach the opening brace in the wrong place.
 	// The function checkIfTemplateOpener() was corrected.
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -1422,7 +1422,7 @@ TEST(BugFix_V201, Switch_FillEmptyLines_BreakBlocks)
 
 TEST(BugFix_V201, AppendCharInsideCommentsPostPreprocessor)
 {
-	// An opening bracket should not be appended to a preprocessor statement.
+	// An opening brace should not be appended to a preprocessor statement.
 	// This bug occurred only when comments followed the preprocessor.
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -1453,12 +1453,12 @@ TEST(BugFix_V201, AppendCharInsideCommentsPostPreprocessor)
 	delete[] textOut;
 }
 
-TEST(BugFix_V201, SwitchBracketInPreprocessor1)
+TEST(BugFix_V201, SwitchBraceInPreprocessor1)
 {
-	// Test that the bracket before a preprocessor statement in a "switch" is recognized.
+	// Test that the brace before a preprocessor statement in a "switch" is recognized.
 	// If enhance is called with the argument isInPreprocessor instead of isImmediatelyPostPreprocessor,
-	// the preceding bracket will not be recognized. This causes the "switch" statement closing
-	// bracket to be incorrectly indented.
+	// the preceding brace will not be recognized. This causes the "switch" statement closing
+	// brace to be incorrectly indented.
 	char text[] =
 	    "\nvoid wxsListBox::OnBuildCreatingCode()\n"
 	    "{\n"
@@ -1480,11 +1480,11 @@ TEST(BugFix_V201, SwitchBracketInPreprocessor1)
 	delete[] textOut;
 }
 
-TEST(BugFix_V201, SwitchBracketInPreprocessor2)
+TEST(BugFix_V201, SwitchBraceInPreprocessor2)
 {
-	// Test that the bracket after a preprocessor statement in a "switch" is recognized.
+	// Test that the brace after a preprocessor statement in a "switch" is recognized.
 	// If the variable isImmediatelyPostPreprocessor is not cleared at a line break
-	// and brackets are changed from attached to broken, a bracket will be incorrectly indented.
+	// and braces are changed from attached to broken, a brace will be incorrectly indented.
 	char textIn[] =
 	    "\nvoid OnBuildCreatingCode() {\n"
 	    "    switch (GetLanguage()) {\n"
@@ -1527,10 +1527,10 @@ TEST(BugFix_V201, SwitchBracketInPreprocessor2)
 	delete[] textOut;
 }
 
-TEST(BugFix_V201, PopParenStackOnBracket)
+TEST(BugFix_V201, PopParenStackOnBrace)
 {
-	// Test that paren stack is popped when an attached bracket preceding a comment is broken.
-	// In the test case it caused the bracket following line "public bool ShowingDialog"
+	// Test that paren stack is popped when an attached brace preceding a comment is broken.
+	// In the test case it caused the brace following line "public bool ShowingDialog"
 	// to not be broken.
 	char textIn[] =
 	    "\nvoid OnRootMonitorDisposed() {\n"
@@ -1570,7 +1570,7 @@ TEST(BugFix_V201, PopParenStackOnBracket)
 	    "        }\n"
 	    "    }\n"
 	    "}";
-	char options[] = "style=horstmann, mode=cs";
+	char options[] = "style=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1579,8 +1579,8 @@ TEST(BugFix_V201, PopParenStackOnBracket)
 TEST(BugFix_V201, SharpBreakSingleLineStatements)
 {
 	// Test a breaking a sharp abstract method single line block.
-	// Both of the ending brackets should be broken.
-	// TODO: The bracket in-statement formatting could be improved.
+	// Both of the ending braces should be broken.
+	// TODO: The brace in-statement formatting could be improved.
 	char textIn[] =
 	    "\nvoid LoadToc()\n"
 	    "{\n"
@@ -1652,10 +1652,10 @@ TEST(BugFix_V201, JavaBreakOneLineBlocks2)
 	delete[] textOut;
 }
 
-TEST(BugFix_V201, DontAttachBracketToComment)
+TEST(BugFix_V201, DontAttachBraceToComment)
 {
-	// This is for array type brackets.
-	// The one line bracket following the comment should not be attached.
+	// This is for array type braces.
+	// The one line brace following the comment should not be attached.
 	char text[] =
 	    "\nstatic Dictionary<Gdk.Key, string> keyStringMaps = new Dictionary<Gdk.Key, string> () {\n"
 	    "    { Gdk.Key.Tab,    \"Tab\"   },\n"
@@ -1668,10 +1668,10 @@ TEST(BugFix_V201, DontAttachBracketToComment)
 	delete[] textOut;
 }
 
-TEST(BugFix_V201, DontAttachBracketToLineComment)
+TEST(BugFix_V201, DontAttachBraceToLineComment)
 {
-	// This is for array type brackets.
-	// The one line bracket following the line comment should not be attached.
+	// This is for array type braces.
+	// The one line brace following the line comment should not be attached.
 	char text[] =
 	    "\nstatic Dictionary<Gdk.Key, string> keyStringMaps = new Dictionary<Gdk.Key, string> () {\n"
 	    "    { Gdk.Key.Tab,    \"Tab\"   },\n"
@@ -1686,8 +1686,8 @@ TEST(BugFix_V201, DontAttachBracketToLineComment)
 
 TEST(BugFix_V201, SharpTemplateArrayDefinition)
 {
-	// The second bracket should be identified as an array type.
-	// The ending bracket on the second line should not be broken.
+	// The second brace should be identified as an array type.
+	// The ending brace on the second line should not be broken.
 	char text[] =
 	    "\nstatic Dictionary<string, char> stringCharMaps = new Dictionary<string, char> () {\n"
 	    "    { \"Nul\",   '0' },\n"
@@ -1700,9 +1700,9 @@ TEST(BugFix_V201, SharpTemplateArrayDefinition)
 	delete[] textOut;
 }
 
-TEST(BugFix_V201, RunInCommentEndsWithBracket)
+TEST(BugFix_V201, RunInCommentEndsWithBrace)
 {
-	// Run-in brackets did not break line if the line ends with a bracket.
+	// Run-in braces did not break line if the line ends with a brace.
 	char textIn[] =
 	    "\npublic CSharpSpanParser ()\n"
 	    "{\n"
@@ -1718,7 +1718,7 @@ TEST(BugFix_V201, RunInCommentEndsWithBracket)
 	    "            }\n"
 	    "        }*/\n"
 	    "}";
-	char options[] = "style=horstmann, mode=cs";
+	char options[] = "style=run-in, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1726,7 +1726,7 @@ TEST(BugFix_V201, RunInCommentEndsWithBracket)
 
 TEST(BugFix_V201, JavaSingleLineAbstractMethod1)
 {
-	// Single line abstract method should break the closing bracket.
+	// Single line abstract method should break the closing brace.
 	char textIn[] =
 	    "\npublic void foo()\n"
 	    "{\n"
@@ -1749,8 +1749,8 @@ TEST(BugFix_V201, JavaSingleLineAbstractMethod1)
 
 TEST(BugFix_V201, JavaSingleLineAbstractMethod2)
 {
-	// Single line abstract method should break the closing bracket.
-	// Attached brackets.
+	// Single line abstract method should break the closing brace.
+	// Attached braces.
 	char textIn[] =
 	    "\npublic void foo()\n"
 	    "{\n"
@@ -1851,12 +1851,12 @@ TEST(BugFix_V201, CommentEnclosesNoIndentLineComment)
 }
 
 TEST(BugFix_V201, CheckSumError)
-// Test with --break-blocks and --delete-empty-lines and missing closing bracket
+// Test with --break-blocks and --delete-empty-lines and missing closing brace
 // Caused a checksum assert failure. This must be run in debug configuration.
 // This test is also included in AStyleTestCon for the console build.
 {
 	char text[] =
-	    // this file is missing a closing bracket
+	    // this file is missing a closing brace
 	    "\nvoid foo()\n"
 	    "{\n"
 	    "    if (isBar)\n"
@@ -1869,9 +1869,9 @@ TEST(BugFix_V201, CheckSumError)
 	delete[] textOut;
 }
 
-TEST(BugFix_V201, CloseingBracket_FollowsEndComment)
+TEST(BugFix_V201, CloseingBrace_FollowsEndComment)
 {
-	// A closing bracket following a end comment
+	// A closing brace following a end comment
 	// caused the previous line to be deleted.
 	// In version 2.01 it caused an assert failure
 	// with the checksum.
@@ -1879,7 +1879,7 @@ TEST(BugFix_V201, CloseingBracket_FollowsEndComment)
 	    "\nvoid foo()\n"
 	    "{\n"
 	    "    if (foo1) {\n"
-	    "/*      closing bracket following comment end\n"
+	    "/*      closing brace following comment end\n"
 	    "        this line should not be deleted\n"
 	    "*/  }\n"
 	    "\n"
@@ -1891,7 +1891,7 @@ TEST(BugFix_V201, CloseingBracket_FollowsEndComment)
 	    "\nvoid foo()\n"
 	    "{\n"
 	    "    if (foo1) {\n"
-	    "        /*      closing bracket following comment end\n"
+	    "        /*      closing brace following comment end\n"
 	    "                this line should not be deleted\n"
 	    "        */\n"
 	    "    }\n"
@@ -1926,7 +1926,7 @@ TEST(BugFix_V201, UnpadParens_ConvertTabs)
 
 TEST(BugFix_V201, DeleteEmptyLines_BreakBlocks)
 {
-	// a missing closing bracket with delete-empty-lines and break-blocks
+	// a missing closing brace with delete-empty-lines and break-blocks
 	// should not cause an assert error on the call to sourceIterator->peekNextLine()
 	// in the function ASFormatter::commentAndHeaderFollows()
 	char textIn[] =
@@ -2038,9 +2038,9 @@ TEST(BugFix_V201, TwoGreaterSymblolsClosingTemplate)
 	delete[] textOut;
 }
 
-TEST(BugFix_V201, Col1ElseWithPreceedingBracket)
+TEST(BugFix_V201, Col1ElseWithPreceedingBrace)
 {
-	// else in col 1 with preceding bracket tests a seldom used branch
+	// else in col 1 with preceding brace tests a seldom used branch
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -2150,9 +2150,9 @@ TEST(BugFix_V201, TemplateASBeautifier)
 	delete[] textOut;
 }
 
-TEST(BugFix_V201, ExtraClosingBrackets)
+TEST(BugFix_V201, ExtraClosingBraces)
 {
-	// should not abort with extra closing brackets
+	// should not abort with extra closing braces
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -2188,7 +2188,7 @@ TEST(BugFix_V201, ExtraClosingParens)
 
 TEST(BugFix_V201, ExtraClosingSquareBrackets)
 {
-	// should not abort with extra closing block parens
+	// should not abort with extra closing square brackets
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -2303,10 +2303,10 @@ TEST(BugFix_V201, ColZeroPointerOrReference)
 // AStyle version 1.24 TEST functions
 //----------------------------------------------------------------------------
 
-TEST(BugFix_V124, AddBracketsRunInNestedIfStatements)
+TEST(BugFix_V124, AddBracesRunInNestedIfStatements)
 {
-	// add on line brackets to nested "if" statements
-	// with keep one line brackets
+	// add on line braces to nested "if" statements
+	// with keep one line braces
 	// should not break the statement (a variable was not reset)
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -2319,7 +2319,7 @@ TEST(BugFix_V124, AddBracketsRunInNestedIfStatements)
 	    "{   if (isBar1)\n"
 	    "        if (isBar2) { return true; }\n"
 	    "}\n";
-	char options[] = "add-braces, style=horstmann, keep-one-line-blocks";
+	char options[] = "add-braces, style=run-in, keep-one-line-blocks";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2359,9 +2359,9 @@ TEST(BugFix_V124, ClassIndentRunInComment)
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, AppendAttachedBracketInsideCommentsLineBreak)
+TEST(BugFix_V124, AppendAttachedBraceInsideCommentsLineBreak)
 {
-	// should not insert an empty line after appending a bracket inside comments
+	// should not insert an empty line after appending a brace inside comments
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{   switch(req) {\n"
@@ -2463,7 +2463,7 @@ TEST(BugFix_V124, BreakOneLineBlocks_Comment2)
 TEST(BugFix_V124, SharpDelegate)
 {
 	// sharp 'delegate' should be recognized as a keyword
-	// the Linux brackets should be attached
+	// the Linux braces should be attached
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -2550,7 +2550,7 @@ TEST(BugFix_V124, SharpNonParenHeader_Delegate)
 
 TEST(BugFix_V124, PadCommentBeforeTab)
 {
-	// space padding the bracket should NOT pad a comment
+	// space padding the brace should NOT pad a comment
 	//     when the comment is preceded by a tab
 	//     but should delete a space when preceded spaces
 	char textIn[] =
@@ -2577,9 +2577,9 @@ TEST(BugFix_V124, PadCommentBeforeTab)
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsBreak_PadParen)
+TEST(BugFix_V124, BracesBreak_PadParen)
 {
-	// break attached brackets with pad-paren
+	// break attached braces with pad-paren
 	// comments should be moved with one padded space
 	char textIn[] =
 	    "\nvoid foo() { // comment0\n"
@@ -2619,10 +2619,10 @@ TEST(BugFix_V124, BracketsBreak_PadParen)
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsAttach_CommentsMisc1)
+TEST(BugFix_V124, BracesAttach_CommentsMisc1)
 {
-	// attach bracket inside a line end comment
-	// when multi-line comments follow a run-in bracket
+	// attach brace inside a line end comment
+	// when multi-line comments follow a run-in brace
 	char textIn[] =
 	    "\nvoid foo2(bool isFoo) /* comment0 */\n"
 	    "{   /* comment1\n"
@@ -2653,9 +2653,9 @@ TEST(BugFix_V124, BracketsAttach_CommentsMisc1)
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsAttach_CommentMisc2)
+TEST(BugFix_V124, BracesAttach_CommentMisc2)
 {
-	// do NOT attach bracket inside a line end comment
+	// do NOT attach brace inside a line end comment
 	// when two comments are on the line
 	char text[] =
 	    "\nvoid foo() {\n"
@@ -2670,9 +2670,9 @@ TEST(BugFix_V124, BracketsAttach_CommentMisc2)
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsAttach_CommentMisc3)
+TEST(BugFix_V124, BracesAttach_CommentMisc3)
 {
-	// when a bracket is NOT attached
+	// when a brace is NOT attached
 	// following run-in comments should be broken and correctly formatted
 	char textIn[] =
 	    "\nvoid foo() {\n"
@@ -2699,9 +2699,9 @@ TEST(BugFix_V124, BracketsAttach_CommentMisc3)
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsAttach_CommentMisc4)
+TEST(BugFix_V124, BracesAttach_CommentMisc4)
 {
-	// attached brackets with following comments
+	// attached braces with following comments
 	// the second comment should be correctly formatted
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -2737,9 +2737,9 @@ TEST(BugFix_V124, BracketsAttach_CommentMisc4)
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_Tabs)
+TEST(BugFix_V124, BracesRunIn_Tabs)
 {
-	// test run-in brackets with tab indents
+	// test run-in braces with tab indents
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2754,15 +2754,15 @@ TEST(BugFix_V124, BracketsRunIn_Tabs)
 	    "	{	bar();\n"
 	    "	}\n"
 	    "}\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_Array1)
+TEST(BugFix_V124, BracesRunIn_Array1)
 {
-	// test run-in brackets with single line array
+	// test run-in braces with single line array
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2774,15 +2774,15 @@ TEST(BugFix_V124, BracketsRunIn_Array1)
 	    "{   wxChar name[MAX_PATH] = {0};\n"
 	    "    bar();\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_Array2)
+TEST(BugFix_V124, BracesRunIn_Array2)
 {
-	// test run-in brackets with structs and arrays
+	// test run-in braces with structs and arrays
 	char textIn[] =
 	    "\nstruct runinClass2\n"
 	    "{\n"
@@ -2803,15 +2803,15 @@ TEST(BugFix_V124, BracketsRunIn_Array2)
 	    "{   \"Bugs\",\n"
 	    "    \"Daffy\",\n"
 	    "};\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_Spaces1)
+TEST(BugFix_V124, BracesRunIn_Spaces1)
 {
-	// test run-in brackets with extra spaces
+	// test run-in braces with extra spaces
 	// extra spaces should be deleted
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -2825,15 +2825,15 @@ TEST(BugFix_V124, BracketsRunIn_Spaces1)
 	    "    {   bar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_Spaces2)
+TEST(BugFix_V124, BracesRunIn_Spaces2)
 {
-	// test multiple run-in brackets runs
+	// test multiple run-in braces runs
 	// extra spaces should not be added on subsequent runs
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -2849,7 +2849,7 @@ TEST(BugFix_V124, BracketsRunIn_Spaces2)
 	    "    {   bar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOne = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	char* textOut = AStyleMain(textOne, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -2857,9 +2857,9 @@ TEST(BugFix_V124, BracketsRunIn_Spaces2)
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_Preprocessor)
+TEST(BugFix_V124, BracesRunIn_Preprocessor)
 {
-	// test run-in brackets with preprocessor
+	// test run-in braces with preprocessor
 	// preprocessor should NOT be attached
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -2879,15 +2879,15 @@ TEST(BugFix_V124, BracketsRunIn_Preprocessor)
 	    "    bar2();\n"
 	    "#endif\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_EmptyLine)
+TEST(BugFix_V124, BracesRunIn_EmptyLine)
 {
-	// test run-in brackets with following empty line
+	// test run-in braces with following empty line
 	// empty line should NOT be deleted
 	char text[] =
 	    "\nvoid Foo()\n"
@@ -2896,15 +2896,15 @@ TEST(BugFix_V124, BracketsRunIn_EmptyLine)
 	    "    if (isFoo())\n"
 	    "        bar();\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_Comment1)
+TEST(BugFix_V124, BracesRunIn_Comment1)
 {
-	// test run-in brackets with following comment
+	// test run-in braces with following comment
 	// second comment should NOT be attached to the first
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -2921,15 +2921,15 @@ TEST(BugFix_V124, BracketsRunIn_Comment1)
 	    "    if (isFoo())\n"
 	    "        bar();\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_Comment2)
+TEST(BugFix_V124, BracesRunIn_Comment2)
 {
-	// test run-in brackets with following comment in column 1
+	// test run-in braces with following comment in column 1
 	// the comment should NOT be attached
 	char text[] =
 	    "\nvoid Foo()\n"
@@ -2939,45 +2939,45 @@ TEST(BugFix_V124, BracketsRunIn_Comment2)
 	    "    if (isFoo())\n"
 	    "        bar();\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_Comment3)
+TEST(BugFix_V124, BracesRunIn_Comment3)
 {
-	// test run-in brackets with following comment
+	// test run-in braces with following comment
 	// the comment should NOT be attached to the previous line
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{   foo1();\n"
 	    "    /* comment */\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_Comment4)
+TEST(BugFix_V124, BracesRunIn_Comment4)
 {
-	// test run-in brackets with following comment
+	// test run-in braces with following comment
 	// the comment should NOT be attached to the previous line
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{   // comment1\n"
 	    "    /*comment2*/\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_Comment5)
+TEST(BugFix_V124, BracesRunIn_Comment5)
 {
-	// test run-in brackets with following comment
+	// test run-in braces with following comment
 	// the comment on unattached lines should be correctly indented
 	char textIn[] =
 	    "\nnamespace fooName\n"
@@ -3004,15 +3004,15 @@ TEST(BugFix_V124, BracketsRunIn_Comment5)
 	    "     */\n"
 	    "}\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_Comment6)
+TEST(BugFix_V124, BracesRunIn_Comment6)
 {
-	// test run-in brackets with following comment
+	// test run-in braces with following comment
 	// the comment on unattached lines should be correctly indented
 	char textIn[] =
 	    "\nnamespace fooName\n"
@@ -3039,15 +3039,15 @@ TEST(BugFix_V124, BracketsRunIn_Comment6)
 	    "         */\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann, indent-namespaces";
+	char options[] = "style=run-in, indent-namespaces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_Comment7)
+TEST(BugFix_V124, BracesRunIn_Comment7)
 {
-	// test run-in brackets with comment following line comment
+	// test run-in braces with comment following line comment
 	// the comment should NOT be attached to the previous line
 	char textIn[] =
 	    "\nvoid foo(bool isFoo)\n"
@@ -3067,15 +3067,15 @@ TEST(BugFix_V124, BracketsRunIn_Comment7)
 	    "        bar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_BreakAllBlocks1)
+TEST(BugFix_V124, BracesRunIn_BreakAllBlocks1)
 {
-	// test run-in brackets with break all blocks
+	// test run-in braces with break all blocks
 	// the blocks should be correctly broken
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -3107,15 +3107,15 @@ TEST(BugFix_V124, BracketsRunIn_BreakAllBlocks1)
 	    "\n"
 	    "    bar4();\n"
 	    "}\n";
-	char options[] = "style=horstmann, break-blocks=all";
+	char options[] = "style=run-in, break-blocks=all";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_BreakAllBlocks2)
+TEST(BugFix_V124, BracesRunIn_BreakAllBlocks2)
 {
-	// test run-in brackets with break all blocks and delete empty lines
+	// test run-in braces with break all blocks and delete empty lines
 	// and comments separated by an empty line
 	// the empty line should NOT be deleted
 	char textIn[] =
@@ -3135,15 +3135,15 @@ TEST(BugFix_V124, BracketsRunIn_BreakAllBlocks2)
 	    "    if (isFoo)\n"
 	    "        bar();\n"
 	    "}\n";
-	char options[] = "style=horstmann, break-blocks=all, delete-empty-lines";
+	char options[] = "style=run-in, break-blocks=all, delete-empty-lines";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_UnpadParen1)
+TEST(BugFix_V124, BracesRunIn_UnpadParen1)
 {
-	// test run-in brackets with unpad parens
+	// test run-in braces with unpad parens
 	// the indent should NOT be removed
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -3161,15 +3161,15 @@ TEST(BugFix_V124, BracketsRunIn_UnpadParen1)
 	    "        (*_err) << arg;    // comment2\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = ", style=horstmann, unpad-paren";
+	char options[] = ", style=run-in, unpad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_UnpadParen2)
+TEST(BugFix_V124, BracesRunIn_UnpadParen2)
 {
-	// test run-in brackets with unpad parens and pad-parens
+	// test run-in braces with unpad parens and pad-parens
 	// the indent should NOT be removed
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -3187,15 +3187,15 @@ TEST(BugFix_V124, BracketsRunIn_UnpadParen2)
 	    "        ( *_err ) << arg; // comment2\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = ", style=horstmann, unpad-paren, pad-paren";
+	char options[] = ", style=run-in, unpad-paren, pad-paren";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_UnpadParen3)
+TEST(BugFix_V124, BracesRunIn_UnpadParen3)
 {
-	// test run-in brackets with unpad parens and pad-parens
+	// test run-in braces with unpad parens and pad-parens
 	//	and tab indents
 	// the indent should NOT be removed
 	char textIn[] =
@@ -3214,15 +3214,15 @@ TEST(BugFix_V124, BracketsRunIn_UnpadParen3)
 	    "		( *_err ) << arg; // comment2\n"
 	    "	}\n"
 	    "}\n";
-	char options[] = ", style=horstmann, unpad-paren, pad-paren, indent=tab";
+	char options[] = ", style=run-in, unpad-paren, pad-paren, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_SingleLineBlock1)
+TEST(BugFix_V124, BracesRunIn_SingleLineBlock1)
 {
-	// test run-in brackets with single line block
+	// test run-in braces with single line block
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{ bar1(); bar2() }\n";
@@ -3231,19 +3231,19 @@ TEST(BugFix_V124, BracketsRunIn_SingleLineBlock1)
 	    "{   bar1();\n"
 	    "    bar2()\n"
 	    "}\n";
-	char options[] = ", style=horstmann";
+	char options[] = ", style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(BugFix_V124, BracketsRunIn_SingleLineBlock2)
+TEST(BugFix_V124, BracesRunIn_SingleLineBlock2)
 {
-	// test run-in brackets with single line block
+	// test run-in braces with single line block
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{ bar1(); bar2() }\n";
-	char options[] = ", style=horstmann, keep-one-line-blocks";
+	char options[] = ", style=run-in, keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3418,8 +3418,8 @@ TEST(BugFix_V123, BreakElseIfWithCatch)
 
 TEST(BugFix_V123, WhitesmithInComment)
 {
-	// test whitesmith style with brackets in comment
-	// should not indent brackets in comments
+	// test whitesmith style with braces in comment
+	// should not indent braces in comments
 	char text[] =
 	    "\nvoid foo()\n"
 	    "    {\n"
@@ -3457,9 +3457,9 @@ TEST(BugFix_V123, BreakBlocksWithEmptyLine)
 	delete[] textOut;
 }
 
-TEST(BugFix_V123, UnmatchedBracketsInPreprocessor1)
+TEST(BugFix_V123, UnmatchedBracesInPreprocessor1)
 {
-	// unmatched brackets in preprocessor directives
+	// unmatched braces in preprocessor directives
 	// should not cause formatting problems on following lines
 	char text[] =
 	    "\n//-----------\n"
@@ -3486,9 +3486,9 @@ TEST(BugFix_V123, UnmatchedBracketsInPreprocessor1)
 	delete[] textOut;
 }
 
-TEST(BugFix_V123, UnmatchedBracketsInPreprocessor2)
+TEST(BugFix_V123, UnmatchedBracesInPreprocessor2)
 {
-	// unmatched brackets in preprocessor directives
+	// unmatched braces in preprocessor directives
 	// should not cause formatting problems on following lines
 	char text[] =
 	    "\nnamespace fooName\n"
@@ -3657,9 +3657,9 @@ TEST(BugFix_V123, CSharp_BreakBlocks_KeepOneLineBlocks)
 TEST(BugFix_V123, EnumDefinitionPadding)
 {
 	// enum should space pad before the definition
-	// NOTE: the enum is an array type bracket
+	// NOTE: the enum is an array type brace
 	char textIn[] =
-	    "\n// should space pad after the closing bracket\n"
+	    "\n// should space pad after the closing brace\n"
 	    "typedef enum tagSQObjectType{\n"
 	    "    OT_INTEGER = (_RT_INTEGER),\n"
 	    "    OT_BOOL =    (_RT_BOOL),\n"
@@ -3671,7 +3671,7 @@ TEST(BugFix_V123, EnumDefinitionPadding)
 	    "    OT_BOOL =    (_RT_BOOL),\n"
 	    "};";
 	char text[] =
-	    "\n// should space pad after the closing bracket\n"
+	    "\n// should space pad after the closing brace\n"
 	    "typedef enum tagSQObjectType {\n"
 	    "    OT_INTEGER = (_RT_INTEGER),\n"
 	    "    OT_BOOL =    (_RT_BOOL),\n"
@@ -3692,7 +3692,7 @@ TEST(BugFix_V123, UnionDefinitionPadding)
 {
 	// union should space pad before the definition
 	char textIn[] =
-	    "\n// should space pad after the brackets\n"
+	    "\n// should space pad after the braces\n"
 	    "typedef union tagSQObjectValue{\n"
 	    "    struct SQTable *pTable;\n"
 	    "    struct SQArray *pArray;\n"
@@ -3704,7 +3704,7 @@ TEST(BugFix_V123, UnionDefinitionPadding)
 	    "    struct SQArray *pArray;\n"
 	    "};";
 	char text[] =
-	    "\n// should space pad after the brackets\n"
+	    "\n// should space pad after the braces\n"
 	    "typedef union tagSQObjectValue {\n"
 	    "    struct SQTable *pTable;\n"
 	    "    struct SQArray *pArray;\n"
@@ -3725,7 +3725,7 @@ TEST(BugFix_V123, StructDefinitionPadding)
 {
 	// struct should space pad before the definition
 	char textIn[] =
-	    "\n// should space pad after the brackets\n"
+	    "\n// should space pad after the braces\n"
 	    "typedef struct tagSQStackInfos{\n"
 	    "    const SQChar* funcname;\n"
 	    "    const SQChar* source;\n"
@@ -3737,7 +3737,7 @@ TEST(BugFix_V123, StructDefinitionPadding)
 	    "    const SQChar* source;\n"
 	    "};";
 	char text[] =
-	    "\n// should space pad after the brackets\n"
+	    "\n// should space pad after the braces\n"
 	    "typedef struct tagSQStackInfos {\n"
 	    "    const SQChar* funcname;\n"
 	    "    const SQChar* source;\n"

@@ -17,7 +17,7 @@ namespace {
 //
 //-------------------------------------------------------------------------
 // AStyle Indent Classes
-// Additional tests are in the Brackets tests
+// Additional tests are in the Braces tests
 //-------------------------------------------------------------------------
 
 TEST(IndentClasses, LongOption)
@@ -94,7 +94,7 @@ TEST(IndentClasses, ShortOption)
 
 TEST(IndentClasses, EmptyClass)
 {
-	// empty brackets should not receive an extra indent
+	// empty braces should not receive an extra indent
 	char text[] =
 	    "\nclass FooClass\n"
 	    "{};\n";
@@ -106,7 +106,7 @@ TEST(IndentClasses, EmptyClass)
 
 TEST(IndentClasses, EmptyClassSans)
 {
-	// empty brackets should not receive an extra indent
+	// empty braces should not receive an extra indent
 	char text[] =
 	    "\nclass FooClass\n"
 	    "{};\n";
@@ -152,7 +152,7 @@ TEST(IndentClasses, MultipleInheritance2)
 
 TEST(IndentClasses, RunIn)
 {
-	// test indent class blocks with run-in brackets
+	// test indent class blocks with run-in braces
 	// 'public' 'private' and 'protected' are run-in if class block is indented
 	char textIn[] =
 	    "\nclass fooClass1\n"
@@ -182,7 +182,7 @@ TEST(IndentClasses, RunIn)
 
 TEST(IndentClasses, RunInTab)
 {
-	// test indent class blocks with run-in brackets and tab indents
+	// test indent class blocks with run-in braces and tab indents
 	// 'public' 'private' and 'protected' are run-in if class block is indented
 	char textIn[] =
 	    "\nclass fooClass1\n"
@@ -212,7 +212,7 @@ TEST(IndentClasses, RunInTab)
 
 TEST(IndentClasses, RunInSans)
 {
-	// test without indent class blocks with run-in brackets
+	// test without indent class blocks with run-in braces
 	// 'public' 'private' and 'protected' are NOT run-in if class block is not indented
 	char textIn[] =
 	    "\nclass fooClass1\n"
@@ -243,7 +243,7 @@ TEST(IndentClasses, RunInSans)
 
 TEST(IndentClasses, RunInSansTab)
 {
-	// test without indent class blocks with run-in brackets and tab indents
+	// test without indent class blocks with run-in braces and tab indents
 	// 'public' 'private' and 'protected' are NOT run-in if class block is not indented
 	char textIn[] =
 	    "\nclass fooClass1\n"
@@ -274,7 +274,7 @@ TEST(IndentClasses, RunInSansTab)
 
 TEST(IndentClasses, RunInLineComment)
 {
-	// test indent class blocks line comment with run-in brackets
+	// test indent class blocks line comment with run-in braces
 	// is run-in if class block is indented and does not start in column 1
 	char textIn[] =
 	    "\nclass fooClass1\n"
@@ -307,7 +307,7 @@ TEST(IndentClasses, RunInLineComment)
 
 TEST(IndentClasses, RunInLineCommentSans)
 {
-	// test without indent class blocks line comment with run-in brackets
+	// test without indent class blocks line comment with run-in braces
 	// currently are run-in and indented one indent if class block is not indented
 	char textIn[] =
 	    "\nclass fooClass1\n"
@@ -340,7 +340,7 @@ TEST(IndentClasses, RunInLineCommentSans)
 
 TEST(IndentClasses, RunInComment)
 {
-	// test indent class blocks comment with run-in brackets
+	// test indent class blocks comment with run-in braces
 	// is run-in if class block is indented and does not start in column 1
 	char textIn[] =
 	    "\nclass fooClass1\n"
@@ -361,7 +361,7 @@ TEST(IndentClasses, RunInComment)
 
 TEST(IndentClasses, RunInCommentSans)
 {
-	// test without indent class blocks comment with run-in brackets
+	// test without indent class blocks comment with run-in braces
 	// currently are run-in and indented one indent if class block is not indented
 	char textIn[] =
 	    "\nclass fooClass1\n"
@@ -383,7 +383,7 @@ TEST(IndentClasses, RunInCommentSans)
 TEST(IndentClasses, LineComment)
 {
 	// test line comment with indent class blocks
-	// line comment is before the opening bracket
+	// line comment is before the opening brace
 	//     and should NOT receive an extra indent
 	char text[] =
 	    "\nclass FooClass\n"
@@ -399,7 +399,7 @@ TEST(IndentClasses, LineComment)
 TEST(IndentClasses, LineCommentSans)
 {
 	// test line comment without indent class blocks
-	// line comment is before the opening bracket
+	// line comment is before the opening brace
 	//     and should NOT receive an extra indent
 	char text[] =
 	    "\nclass FooClass\n"
@@ -415,7 +415,7 @@ TEST(IndentClasses, LineCommentSans)
 TEST(IndentClasses, Comment)
 {
 	// test comment with indent class blocks
-	// comment is before the opening bracket
+	// comment is before the opening brace
 	//     and should NOT receive an extra indent
 	char text[] =
 	    "\nclass FooClass\n"
@@ -441,7 +441,7 @@ TEST(IndentClasses, Comment)
 TEST(IndentClasses, CommentSans)
 {
 	// test comment without indent class blocks
-	// comment is before the opening bracket
+	// comment is before the opening brace
 	//     and should NOT receive an extra indent
 	char text[] =
 	    "\nclass FooClass\n"
@@ -509,7 +509,7 @@ TEST(IndentClasses, StructComment)
 
 TEST(IndentClasses, StructQuote)
 {
-	// struct with quotes containing access modifiers and brackets
+	// struct with quotes containing access modifiers and braces
 	// should NOT have extra indent
 	char text[] =
 	    "\nstruct cppText\n"
@@ -561,9 +561,9 @@ TEST(IndentClasses, StructSansLeadingModifier)
 	delete[] textOut;
 }
 
-TEST(IndentClasses, StructBrackets)
+TEST(IndentClasses, StructBraces)
 {
-	// struct containing non-struct brackets
+	// struct containing non-struct braces
 	char text[] =
 	    "\nstruct FooClass2\n"
 	    "{\n"
@@ -582,7 +582,7 @@ TEST(IndentClasses, StructBrackets)
 
 TEST(IndentClasses, StructRunIn)
 {
-	// struct containing run-in brackets
+	// struct containing run-in braces
 	char textIn[] =
 	    "\nstruct FooClass1\n"
 	    "{\n"
@@ -617,7 +617,7 @@ TEST(IndentClasses, StructRunIn)
 
 TEST(IndentClasses, StructRunInSans)
 {
-	// struct containing run-in brackets without indent-classes
+	// struct containing run-in braces without indent-classes
 	char textIn[] =
 	    "\nstruct FooClass1\n"
 	    "{\n"
@@ -651,9 +651,9 @@ TEST(IndentClasses, StructRunInSans)
 	delete[] textOut;
 }
 
-TEST(IndentClasses, StructUnmatchedBrackets)
+TEST(IndentClasses, StructUnmatchedBraces)
 {
-	// struct with unmatched brackets should not cause an abort
+	// struct with unmatched braces should not cause an abort
 	char textIn[] =
 	    "\nstruct FooClass2\n"
 	    "{\n"
@@ -973,7 +973,7 @@ TEST(IndentModifiers, WithStructSansModifiers)
 TEST(IndentModifiers, HorstmannClass)
 {
 	// Test indent access modifiers with a Horstmann class.
-	// The brackets should be run-in.
+	// The braces should be run-in.
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -994,7 +994,7 @@ TEST(IndentModifiers, HorstmannClass)
 TEST(IndentModifiers, HorstmannStruct)
 {
 	// Test indent access modifiers with a Horstmann struct.
-	// The brackets should be run-in.
+	// The braces should be run-in.
 	char textIn[] =
 	    "\nstruct FooStruct\n"
 	    "{\n"
@@ -1288,7 +1288,7 @@ TEST(IndentSwitches, Comment2MultiLineSans)
 
 TEST(IndentSwitches, Comment3MultiLine)
 {
-	// test switch block with brackets comments
+	// test switch block with braces comments
 	// multi-line comments immediately preceeding a 'case' must be unindented
 	char text[] =
 	    "\nvoid Foo()\n"
@@ -1323,7 +1323,7 @@ TEST(IndentSwitches, Comment3MultiLine)
 
 TEST(IndentSwitches, Comment3MultiLineSans)
 {
-	// test switch block with brackets NOT indented comments
+	// test switch block with braces NOT indented comments
 	// multi-line comments immediately preceeding a 'case' must be unindented
 	char text[] =
 	    "\nvoid Foo()\n"
@@ -1358,7 +1358,7 @@ TEST(IndentSwitches, Comment3MultiLineSans)
 
 TEST(IndentSwitches, Comment4PreceedsEmptyLine)
 {
-	// Test switch block with brackets preeceding an empty line.
+	// Test switch block with braces preeceding an empty line.
 	// The comments should not have an extra indent.
 	char text[] =
 	    "\nvoid Foo()\n"
@@ -1384,7 +1384,7 @@ TEST(IndentSwitches, Comment4PreceedsEmptyLine)
 
 TEST(IndentSwitches, Comment4PreceedsEmptyLineSans)
 {
-	// Test switch block with brackets preeceding an empty line.
+	// Test switch block with braces preeceding an empty line.
 	// The comments should not have an extra indent.
 	char text[] =
 	    "\nvoid Foo()\n"
@@ -1410,7 +1410,7 @@ TEST(IndentSwitches, Comment4PreceedsEmptyLineSans)
 
 TEST(IndentSwitches, NestedSwitchComments)
 {
-	// test nested switch block with brackets comments
+	// test nested switch block with braces comments
 	// multi-line comments immediately preceeding a 'case' must be unindented
 	char text[] =
 	    "\nvoid Foo()\n"
@@ -1458,7 +1458,7 @@ TEST(IndentSwitches, NestedSwitchComments)
 
 TEST(IndentSwitches, NestedSwitchCommentsSans)
 {
-	// test nested switch block with brackets NOT indented comments
+	// test nested switch block with braces NOT indented comments
 	// multi-line comments immediately preceeding a 'case' must be unindented
 	char text[] =
 	    "\nvoid Foo()\n"
@@ -1506,7 +1506,7 @@ TEST(IndentSwitches, NestedSwitchCommentsSans)
 
 TEST(IndentSwitches, RunInTab)
 {
-	// test indent switch blocks with run-in brackets and tab indents
+	// test indent switch blocks with run-in braces and tab indents
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -1546,7 +1546,7 @@ TEST(IndentSwitches, HorstmannTab)
 {
 	// Test switch block with horstmann style.
 	// Horstmann style implies indented switch blocks.
-	// textIn is broken brackets and indented switch blocks.
+	// textIn is broken braces and indented switch blocks.
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -1617,7 +1617,7 @@ TEST(IndentSwitches, HorstmannComment)
 {
 	// Test switch block comments with horstmann style.
 	// Horstmann style implies indented switch blocks.
-	// textIn is broken brackets and indented switch blocks.
+	// textIn is broken braces and indented switch blocks.
 	char textIn[] =
 	    "\nvoid Foo()\n"
 	    "{\n"
@@ -2044,7 +2044,7 @@ TEST(IndentCases, Switches)
 
 //-------------------------------------------------------------------------
 // AStyle Indent Namespaces
-// Additional tests are in the Brackets tests
+// Additional tests are in the Braces tests
 //-------------------------------------------------------------------------
 
 TEST(IndentNamespaces, LongOption)
@@ -2121,7 +2121,7 @@ TEST(IndentNamespaces, ShortOption)
 
 TEST(IndentNamespaces, RunIn)
 {
-	// run-in brackets should NOT run-in to namespaces
+	// run-in braces should NOT run-in to namespaces
 	char text[] =
 	    "\nnamespace FooName1\n"
 	    "{\n"
@@ -2192,7 +2192,7 @@ TEST(IndentNamespaces, CorbaIDLModuleSans)
 TEST(IndentNamespaces, CorbaIDLModuleRunIn)
 {
 	// CORBA IDL module acts the same as namespaces
-	// run-in brackets should NOT run-in to modules
+	// run-in braces should NOT run-in to modules
 	char text[] =
 	    "\nmodule FooName1\n"
 	    "{\n"
@@ -2634,9 +2634,9 @@ TEST(IndentPreprocBlock, ContainsElif)
 	delete[] textOut;
 }
 
-TEST(IndentPreprocBlock, ContainsBrackets)
+TEST(IndentPreprocBlock, ContainsBraces)
 {
-	// test indent preprocessor block contains brackets, should not be indented
+	// test indent preprocessor block contains braces, should not be indented
 	char text[] =
 	    "\n#ifndef ASTYLE_LIB\n"
 	    "// rewrite a stringstream converting the line ends\n"
@@ -3592,9 +3592,9 @@ TEST(IndentPreprocConditional, ExternC1)
 TEST(IndentPreprocConditional, ExternC2)
 {
 	// Test indent preprocessor conditional around an extern "C" statement.
-	// The closing extern "C" bracket is in a #else preprocessor statement.
+	// The closing extern "C" brace is in a #else preprocessor statement.
 	// It will NOT format correctly unless the variable
-	// g_preprocessorCppExternCBracket is global.
+	// g_preprocessorCppExternCBrace is global.
 	char text[] =
 	    "\n#if HAVE_TSEARCH\n"
 	    "#include <search.h>\n"
@@ -3624,9 +3624,9 @@ TEST(IndentPreprocConditional, ExternC2)
 TEST(IndentPreprocConditional, ExternC2Sans)
 {
 	// Test extern "C" statement WITHOUT indent preprocessor conditional.
-	// The closing extern "C" bracket is in a #else preprocessor statement.
+	// The closing extern "C" brace is in a #else preprocessor statement.
 	// It will NOT format correctly unless the variable
-	// g_preprocessorCppExternCBracket is global.
+	// g_preprocessorCppExternCBrace is global.
 	char text[] =
 	    "\n#if HAVE_TSEARCH\n"
 	    "#include <search.h>\n"
@@ -3768,7 +3768,7 @@ TEST(IndentPreprocConditional, ClassInitializer)
 TEST(IndentPreprocConditional, FollowsConditional1)
 {
 	// Test indent preprocessor following a conditional statement.
-	// Preprocessor is NOT followed by an open bracket.
+	// Preprocessor is NOT followed by an open brace.
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -3794,7 +3794,7 @@ TEST(IndentPreprocConditional, FollowsConditional1)
 TEST(IndentPreprocConditional, FollowsConditional2)
 {
 	// Test indent preprocessor following a conditional statement.
-	// Preprocessor IS followed by an open bracket.
+	// Preprocessor IS followed by an open brace.
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -3955,7 +3955,7 @@ TEST(IndentCol1Comment, Sans)
 
 TEST(IndentCol1Comment, Namespace1)
 {
-	// test in namespace before the opening bracket
+	// test in namespace before the opening brace
 	// namespace is NOT indented
 	char text[] =
 	    "\n// ---------------------------\n"
@@ -3972,7 +3972,7 @@ TEST(IndentCol1Comment, Namespace1)
 
 TEST(IndentCol1Comment, Namespace2)
 {
-	// test in namespace before the opening bracket
+	// test in namespace before the opening brace
 	// namespace IS indented
 	char textIn[] =
 	    "\n// ---------------------------\n"
@@ -3996,7 +3996,7 @@ TEST(IndentCol1Comment, Namespace2)
 
 TEST(IndentCol1Comment, NamespaceSans1)
 {
-	// test in namespace before the opening bracket
+	// test in namespace before the opening brace
 	// namespace is NOT indented, no indent-col1-comments
 	char textIn[] =
 	    "\n// ---------------------------\n"
@@ -4020,7 +4020,7 @@ TEST(IndentCol1Comment, NamespaceSans1)
 
 TEST(IndentCol1Comment, NamespaceSans2)
 {
-	// test in namespace before the opening bracket
+	// test in namespace before the opening brace
 	// namespace IS indented, no indent-col1-comments
 	char text[] =
 	    "\n// ---------------------------\n"

@@ -39,6 +39,7 @@
     <ClCompile Include="..\..\..\src\AStyleTest_BracesJava.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_BracesSharp.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_BugFix.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleTest_Cpp0x.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Format.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Indent.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Main.cpp" />
@@ -51,6 +52,9 @@
     <ClCompile Include="..\..\..\src\AStyleTest_StylesCpp2.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_StylesOther.cpp" />
     <ClCompile Include="..\..\..\src\AStyleTest_Tabs.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\src\AStyleTest_Format.cpp.orig" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0DEFDCE1-664C-4170-8742-F9BF2E2284DD}</ProjectGuid>

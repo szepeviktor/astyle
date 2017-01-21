@@ -1101,7 +1101,7 @@ TEST(MaxCodeLength, ParenBreak5)
 
 TEST(MaxCodeLength, SquareBracketBreak1)
 {
-	// Max code length should not break before an opening or closing block paren.
+	// Max code length should not break before an opening or closing square bracket.
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -1122,7 +1122,7 @@ TEST(MaxCodeLength, SquareBracketBreak1)
 TEST(MaxCodeLength, SquareBracketBreak2)
 {
 	// Max code length should not break before an
-	// opening or closing block paren within a padded block.
+	// opening or closing square bracket within a padded block.
 	char textIn[] =
 	    "\nconst char* TiXmlBase::errorString[ TIXML_ERROR_STRING_COUNT ] =\n"
 	    "{\n"
@@ -1720,7 +1720,7 @@ TEST(MaxCodeLength, AlignPointerToType3)
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, AddBrackets2)
+TEST(MaxCodeLength, AddBraces2)
 {
 	// Test max code length with add-braces.
 	// Should break line when add-braces is used.
@@ -1744,10 +1744,10 @@ TEST(MaxCodeLength, AddBrackets2)
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, AddBrackets3)
+TEST(MaxCodeLength, AddBraces3)
 {
 	// Test max code length with add-braces.
-	// Should NOT break on the space padding following an added bracket.
+	// Should NOT break on the space padding following an added brace.
 	// This will add an empty line after the conditional.
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -1768,7 +1768,7 @@ TEST(MaxCodeLength, AddBrackets3)
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, AddBrackets4)
+TEST(MaxCodeLength, AddBraces4)
 {
 	// Test max code length with add-braces.
 	// Should NOT break on the comma following the number 1.
@@ -1794,10 +1794,10 @@ TEST(MaxCodeLength, AddBrackets4)
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, AddBrackets5)
+TEST(MaxCodeLength, AddBraces5)
 {
 	// Test max code length with add-braces.
-	// Should break the brackets.
+	// Should break the braces.
 	// See the following test for this condition with keep-one-line-blocks.
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -1825,10 +1825,10 @@ TEST(MaxCodeLength, AddBrackets5)
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, AddBrackets6)
+TEST(MaxCodeLength, AddBraces6)
 {
 	// Test max code length with add-braces and keep-one-line-blocks.
-	// Should break the brackets.
+	// Should break the braces.
 	// See the previous test for this condition without keep-one-line-blocks.
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -2050,10 +2050,10 @@ TEST(MaxCodeLength, PadParen7)
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, AttachBracket2)
+TEST(MaxCodeLength, AttachBrace2)
 {
-	// Test max code length when a bracket is attached inside a comment.
-	// Should break when the bracket is attached.
+	// Test max code length when a brace is attached inside a comment.
+	// Should break when the brace is attached.
 	char textIn[] =
 	    "\nbool QueryColour ( char* propgrid, char* primary ) // comment\n"
 	    "{\n"
@@ -2068,10 +2068,10 @@ TEST(MaxCodeLength, AttachBracket2)
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, AttachBracket3)
+TEST(MaxCodeLength, AttachBrace3)
 {
-	// Test max code length when a bracket is attached inside a comment.
-	// Special problem where bracket wasn't attached on the first try
+	// Test max code length when a brace is attached inside a comment.
+	// Special problem where brace wasn't attached on the first try
 	// due to the setting of "formattedLineCommentNum".
 	char textIn[] =
 	    "\nvoid foo()\n"
@@ -2096,9 +2096,9 @@ TEST(MaxCodeLength, AttachBracket3)
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, AttachBracket4)
+TEST(MaxCodeLength, AttachBrace4)
 {
-	// Test max code length when a bracket is changed from run-in to attached.
+	// Test max code length when a brace is changed from run-in to attached.
 	char textIn[] =
 	    "\nvoid ClassBrowser::SetParser ( Parser* parser )\n"
 	    "{   if ( parser != pParser\n"
@@ -2134,9 +2134,9 @@ TEST(MaxCodeLength, AttachBracket4)
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, AttachBracket5)
+TEST(MaxCodeLength, AttachBrace5)
 {
-	// Splitting a line with a following comment and the line follows a closing bracket.
+	// Splitting a line with a following comment and the line follows a closing brace.
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -2156,10 +2156,10 @@ TEST(MaxCodeLength, AttachBracket5)
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, AttachBracket6)
+TEST(MaxCodeLength, AttachBrace6)
 {
-	// Test max code length when a bracket is attached.
-	// An array exceeds max-code-length when the bracket is attached.
+	// Test max code length when a brace is attached.
+	// An array exceeds max-code-length when the brace is attached.
 	char textIn[] =
 	    "\nTiXmlBase::Entity TiXmlBase::entity[ NM_ENTITY ] =\n"
 	    "{\n"
@@ -2176,9 +2176,9 @@ TEST(MaxCodeLength, AttachBracket6)
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, HorstmannBracket1)
+TEST(MaxCodeLength, HorstmannBrace1)
 {
-	// Test max code length with Horstmann brackets.
+	// Test max code length with Horstmann braces.
 	// Should split the line 3 times on the first try.
 	char textIn[] =
 	    "\nvoid Foo()\n"
@@ -2201,11 +2201,11 @@ TEST(MaxCodeLength, HorstmannBracket1)
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, HorstmannBracket2)
+TEST(MaxCodeLength, HorstmannBrace2)
 {
-	// Test max code length with Horstmann brackets.
+	// Test max code length with Horstmann braces.
 	// Should not split the line because of trailing spaces
-	// when converting to attached brackets.
+	// when converting to attached braces.
 	char textIn[] =
 	    "\nDeclaration& operator= (const Declaration& copy)\n"
 	    "{   Clear();\n"
@@ -2220,10 +2220,10 @@ TEST(MaxCodeLength, HorstmannBracket2)
 	delete[] textOut;
 }
 
-TEST(MaxCodeLength, AfterClosingBracket)
+TEST(MaxCodeLength, AfterClosingBrace)
 {
-	// Test max code length with C# brackets.
-	// Should split the line after the closing bracket.
+	// Test max code length with C# braces.
+	// Should split the line after the closing brace.
 	char textIn[] =
 	    "\npublic void UploadUsageDataAsync () {\n"
 	    "    base.InvokeAsync(this.onBeginUploadUsageDataDelegate, new object[] {\n"

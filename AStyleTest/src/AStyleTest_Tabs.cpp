@@ -733,7 +733,7 @@ TEST(Tabs, ForceTabX_Indent4)
 
 TEST(Tabs, ForceTabX_Horstmann1)
 {
-	// Test force-tab option with Horstmann brackets.
+	// Test force-tab option with Horstmann braces.
 	char text[] =
 	    "\nvoid Foo(bool isFoo)\n"
 	    "{   if (isFoo\n"
@@ -751,7 +751,7 @@ TEST(Tabs, ForceTabX_Horstmann1)
 
 TEST(Tabs, ForceTabX_Horstmann2)
 {
-	// Test force-tab option with Horstmann brackets.
+	// Test force-tab option with Horstmann braces.
 	// A Comment in a switch statement requires 2 indents.
 	char text[] =
 	    "\nvoid Foo()\n"
@@ -770,7 +770,7 @@ TEST(Tabs, ForceTabX_Horstmann2)
 
 TEST(Tabs, ForceTabX_Horstmann3)
 {
-	// Test force-tab option with Horstmann brackets
+	// Test force-tab option with Horstmann braces
 	// with a tab-size of 4 spaces and an indent size of 8 spaces.
 	// There will be two tabs per indent.
 	char text[] =
@@ -790,7 +790,7 @@ TEST(Tabs, ForceTabX_Horstmann3)
 
 TEST(Tabs, ForceTabX_Horstmann4)
 {
-	// Test force-tab option with Horstmann brackets
+	// Test force-tab option with Horstmann braces
 	// with a tab-size of 6 spaces and an indent size of 4 spaces.
 	char text[] =
 	    "\nvoid Foo(bool isFoo)\n"
@@ -855,9 +855,9 @@ TEST(AttachExternC, ShortOption)
 	delete[] textOut;
 }
 
-TEST(AttachExternC, BreakBrackets)
+TEST(AttachExternC, BreakBraces)
 {
-	// test attach extern C with break brackets
+	// test attach extern C with break braces
 	char textIn[] =
 	    "\nextern \"C\"\n"
 	    "{\n"
@@ -878,9 +878,9 @@ TEST(AttachExternC, BreakBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachExternC, AttachBrackets)
+TEST(AttachExternC, AttachBraces)
 {
-	// test attach extern C with attach brackets
+	// test attach extern C with attach braces
 	char textIn[] =
 	    "\nextern \"C\"\n"
 	    "{\n"
@@ -901,9 +901,9 @@ TEST(AttachExternC, AttachBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachExternC, LinuxBrackets)
+TEST(AttachExternC, LinuxBraces)
 {
-	// test attach extern C with linux brackets
+	// test attach extern C with linux braces
 	char textIn[] =
 	    "\nextern \"C\"\n"
 	    "{\n"
@@ -925,9 +925,9 @@ TEST(AttachExternC, LinuxBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachExternC, StroustrupBrackets)
+TEST(AttachExternC, StroustrupBraces)
 {
-	// test attach extern C with stroustrup brackets
+	// test attach extern C with stroustrup braces
 	char textIn[] =
 	    "\nextern \"C\"\n"
 	    "{\n"
@@ -949,9 +949,9 @@ TEST(AttachExternC, StroustrupBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachExternC, RunInBrackets)
+TEST(AttachExternC, RunInBraces)
 {
-	// test attach extern C with run-in brackets
+	// test attach extern C with run-in braces
 	char textIn[] =
 	    "\nextern \"C\"\n"
 	    "{\n"
@@ -1038,9 +1038,9 @@ TEST(AttachNamespaces, ShortOption)
 	delete[] textOut;
 }
 
-TEST(AttachNamespaces, BreakBrackets)
+TEST(AttachNamespaces, BreakBraces)
 {
-	// test attach namespaces with break brackets
+	// test attach namespaces with break braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -1056,9 +1056,9 @@ TEST(AttachNamespaces, BreakBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachNamespaces, AttachBrackets)
+TEST(AttachNamespaces, AttachBraces)
 {
-	// test attach namespaces with attach brackets
+	// test attach namespaces with attach braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -1074,9 +1074,9 @@ TEST(AttachNamespaces, AttachBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachNamespaces, LinuxBrackets)
+TEST(AttachNamespaces, LinuxBraces)
 {
-	// test attach namespaces with linux brackets
+	// test attach namespaces with linux braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -1092,9 +1092,9 @@ TEST(AttachNamespaces, LinuxBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachNamespaces, StroustrupBrackets)
+TEST(AttachNamespaces, StroustrupBraces)
 {
-	// test attach namespaces with stroustrup brackets
+	// test attach namespaces with stroustrup braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -1110,9 +1110,9 @@ TEST(AttachNamespaces, StroustrupBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachNamespaces, RunInBrackets)
+TEST(AttachNamespaces, RunInBraces)
 {
-	// test attach namespaces with run-in brackets
+	// test attach namespaces with run-in braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -1206,9 +1206,9 @@ TEST(AttachClasses, ShortOption)
 	delete[] textOut;
 }
 
-TEST(AttachClasses, BreakBrackets)
+TEST(AttachClasses, BreakBraces)
 {
-	// test attach classes with break brackets
+	// test attach classes with break braces
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -1222,9 +1222,9 @@ TEST(AttachClasses, BreakBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachClasses, AttachBrackets)
+TEST(AttachClasses, AttachBraces)
 {
-	// test attach classes with attach brackets
+	// test attach classes with attach braces
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -1238,9 +1238,9 @@ TEST(AttachClasses, AttachBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachClasses, LinuxBrackets)
+TEST(AttachClasses, LinuxBraces)
 {
-	// test attach classes with linux brackets
+	// test attach classes with linux braces
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -1254,9 +1254,9 @@ TEST(AttachClasses, LinuxBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachClasses, StroustrupBrackets)
+TEST(AttachClasses, StroustrupBraces)
 {
-	// test attach classes with stroustrup brackets
+	// test attach classes with stroustrup braces
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -1270,9 +1270,9 @@ TEST(AttachClasses, StroustrupBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachClasses, RunInBrackets)
+TEST(AttachClasses, RunInBraces)
 {
-	// test attach classes with run-in brackets
+	// test attach classes with run-in braces
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -1461,9 +1461,9 @@ TEST(AttachInlines, ShortOption)
 	delete[] textOut;
 }
 
-TEST(AttachInlines, BreakBrackets)
+TEST(AttachInlines, BreakBraces)
 {
-	// test attach inlines with break brackets
+	// test attach inlines with break braces
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -1499,9 +1499,9 @@ TEST(AttachInlines, BreakBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachInlines, AttachBrackets)
+TEST(AttachInlines, AttachBraces)
 {
-	// test attach inlines with attach brackets
+	// test attach inlines with attach braces
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -1536,9 +1536,9 @@ TEST(AttachInlines, AttachBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachInlines, LinuxBrackets)
+TEST(AttachInlines, LinuxBraces)
 {
-	// test attach inlines with linux brackets
+	// test attach inlines with linux braces
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -1574,9 +1574,9 @@ TEST(AttachInlines, LinuxBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachInlines, StroustrupBrackets)
+TEST(AttachInlines, StroustrupBraces)
 {
-	// test attach inlines with stroustrup brackets
+	// test attach inlines with stroustrup braces
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -1611,10 +1611,10 @@ TEST(AttachInlines, StroustrupBrackets)
 	delete[] textOut;
 }
 
-TEST(AttachInlines, RunInBrackets)
+TEST(AttachInlines, RunInBraces)
 {
-	// test attach inlines with run-in brackets
-	// run-in brackets should NOT be attached
+	// test attach inlines with run-in braces
+	// run-in braces should NOT be attached
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
@@ -1652,13 +1652,13 @@ TEST(AttachInlines, RunInBrackets)
 TEST(AttachInlines, StructInClass)
 {
 	// test attach inlines with a struct in a class
-	// the brackets are attached
+	// the braces are attached
 	char textIn[] =
 	    "\nclass FooClass\n"
 	    "{\n"
 	    "    struct switchVariables\n"
 	    "    {\n"
-	    "        int  switchBracketCount;\n"
+	    "        int  switchBraceCount;\n"
 	    "        int  Foo()\n"
 	    "        {\n"
 	    "            bool unindentCase;\n"
@@ -1670,7 +1670,7 @@ TEST(AttachInlines, StructInClass)
 	    "{\n"
 	    "    struct switchVariables\n"
 	    "    {\n"
-	    "        int  switchBracketCount;\n"
+	    "        int  switchBraceCount;\n"
 	    "        int  Foo() {\n"
 	    "            bool unindentCase;\n"
 	    "        }\n"
@@ -1798,7 +1798,7 @@ TEST(AttachClosingWhile, ShortOption)
 
 TEST(AttachClosingWhile, BreakStyle)
 {
-	// test BREAK_MODE brackets with attach closing while
+	// test BREAK_MODE braces with attach closing while
 	char textIn[] =
 	    "\n"
 	    "void Foo() {\n"
@@ -1826,7 +1826,7 @@ TEST(AttachClosingWhile, BreakStyle)
 
 TEST(AttachClosingWhile, AttachStyle)
 {
-	// test ATTACH_MODE brackets with attach closing while
+	// test ATTACH_MODE braces with attach closing while
 	char textIn[] =
 	    "\n"
 	    "void Foo()\n"
@@ -1854,7 +1854,7 @@ TEST(AttachClosingWhile, AttachStyle)
 
 TEST(AttachClosingWhile, LinuxStyle)
 {
-	// test LINUX_MODE brackets with attach closing while
+	// test LINUX_MODE braces with attach closing while
 	char textIn[] =
 	    "\n"
 	    "void Foo() {\n"
@@ -1881,7 +1881,7 @@ TEST(AttachClosingWhile, LinuxStyle)
 
 TEST(AttachClosingWhile, RunInStyle)
 {
-	// test RUN_IN_MODE brackets with attach closing while
+	// test RUN_IN_MODE braces with attach closing while
 	char textIn[] =
 	    "\n"
 	    "void Foo()\n"
@@ -1908,7 +1908,7 @@ TEST(AttachClosingWhile, RunInStyle)
 
 TEST(AttachClosingWhile, BreakStyleSans)
 {
-	// test BREAK_MODE brackets without attach closing while
+	// test BREAK_MODE braces without attach closing while
 	char text[] =
 	    "\n"
 	    "void Foo()\n"
@@ -1928,7 +1928,7 @@ TEST(AttachClosingWhile, BreakStyleSans)
 
 TEST(AttachClosingWhile, AttachStyleSans)
 {
-	// test ATTACH_MODE brackets without attach closing while
+	// test ATTACH_MODE braces without attach closing while
 	char text[] =
 	    "\n"
 	    "void Foo() {\n"
@@ -1945,7 +1945,7 @@ TEST(AttachClosingWhile, AttachStyleSans)
 
 TEST(AttachClosingWhile, LinuxStyleSans)
 {
-	// test LINUX_MODE brackets without attach closing while
+	// test LINUX_MODE braces without attach closing while
 	char text[] =
 	    "\n"
 	    "void Foo()\n"
@@ -1963,7 +1963,7 @@ TEST(AttachClosingWhile, LinuxStyleSans)
 
 TEST(AttachClosingWhile, RunInStyleSans)
 {
-	// test RUN_IN_MODE brackets without attach closing while
+	// test RUN_IN_MODE braces without attach closing while
 	char text[] =
 	    "\n"
 	    "void Foo()\n"
