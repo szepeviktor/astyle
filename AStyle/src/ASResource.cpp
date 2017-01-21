@@ -93,8 +93,8 @@ const string ASResource::AS_BAR_IF = string("#if");
 const string ASResource::AS_BAR_EL = string("#el");
 const string ASResource::AS_BAR_ENDIF = string("#endif");
 
-const string ASResource::AS_OPEN_BRACKET = string("{");
-const string ASResource::AS_CLOSE_BRACKET = string("}");
+const string ASResource::AS_OPEN_BRACE = string("{");
+const string ASResource::AS_CLOSE_BRACE = string("}");
 const string ASResource::AS_OPEN_LINE_COMMENT = string("//");
 const string ASResource::AS_OPEN_COMMENT = string("/*");
 const string ASResource::AS_CLOSE_COMMENT = string("*/");
@@ -498,7 +498,7 @@ void ASResource::buildPreBlockStatements(vector<const string*>* preBlockStatemen
  * NOTE: Cannot be both a header and a preCommandHeader.
  *
  * A preCommandHeader is in a function definition between
- * the closing paren and the opening bracket.
+ * the closing paren and the opening brace.
  * e.g. in "void foo() const {}", "const" is a preCommandHeader.
  */
 void ASResource::buildPreCommandHeaders(vector<const string*>* preCommandHeaders, int fileType)
@@ -530,7 +530,7 @@ void ASResource::buildPreCommandHeaders(vector<const string*>* preCommandHeaders
 /**
  * Build the vector of pre-definition headers.
  * Used by ONLY ASFormatter.cpp
- * NOTE: Do NOT add 'enum' here. It is an array type bracket.
+ * NOTE: Do NOT add 'enum' here. It is an array type brace.
  * NOTE: Do NOT add 'extern' here. Do not want an extra indent.
  *
  * @param preDefinitionHeaders      a reference to the vector to be built.
