@@ -14,9 +14,10 @@ import sys
 import time
 
 if os.name == "nt":
-    import msvcrt			# Windows only for get_ch()
+    import msvcrt		# Windows only for get_ch()
 else:
-    import termios, tty		# Linux only for get_ch()
+    import termios		# Linux only for get_ch()
+    import tty
 
 # global variables ------------------------------------------------------------
 
@@ -24,8 +25,8 @@ else:
 CODEBLOCKS   = "CodeBlocks"
 GWORKSPACE   = "GWorkspace"         # Objective C
 JEDIT        = "jEdit"              # Java
-#KDEVELOP     = "KDevelop"          # C++- To complicated to compile on Windows
-#MONODEVELOP  = "MonoDevelop"       # C# - To complicated to compile on Windows
+# KDEVELOP     = "KDevelop"          # C++- To complicated to compile on Windows
+# MONODEVELOP  = "MonoDevelop"       # C# - To complicated to compile on Windows
 SCITE        = "SciTE"
 SHARPDEVELOP = "SharpDevelop"       # C# - Compile on Windows only
 SHARPMAIN    = "SharpDevelopMain"   # C# - 1000 files from SharpDevelop
@@ -38,14 +39,14 @@ TESTPROJECT  = "TestProject"
 OPT0 = ""
 
 # OPT1
-# align-pointer=type (k1), add-brackets (j), break-blocks=all (F),
+# align-pointer=type (k1), add-braces (j), break-blocks=all (F),
 #     min-conditional-indent=0 (m0), pad-oper (p), pad-oparen (P)
 #     obj-c (xMxQxqxSxP1)
 OPT1 = "-CSKNLwxwxWYM50m0FpPHUEk1yexbjOocxMxQxqxSxP1"
 
 # OPT2
 # align-pointer=name (k3), align-reference=type (W1),
-#     add-one-line-brackets (J), break-blocks (f),
+#     add-one-line-braces (J), break-blocks (f),
 #     min-conditional-indent=3 (m3), pad-paren-out(d)
 #     pad-oper (p), delete-empty-lines (xe)
 #     obj-c (xMxRxrxsxP0)
@@ -55,11 +56,11 @@ OPT2 = "-xGSKNLwxWM60m3fpdHUxeEk3W1yeJcxMxRxrxsxP0"
 # OPT3
 # align-pointer=middle (k2), align-reference=name (W3),
 #     min-conditional-indent=1 (m1), pad-paren-in(D)
-#     remove-brackets (xj),
+#     remove-braces (xj),
 # WITHOUT: indent-classes (C), indent-switches (S),
 #     indent-cases (K), indent-namespaces (N),
 #     indent-labels (L), indent-preproc-define (w),
-#     add-brackets (j,J), break-blocks (f,F),
+#     add-braces (j,J), break-blocks (f,F),
 #     pad-oper (p), delete-empty-lines (xe)
 OPT3 = "-xwM80m1DyHUEk2W3xbxjxyxpxkxcxlxnxdxgxt2"
 
@@ -68,9 +69,9 @@ OPT3 = "-xwM80m1DyHUEk2W3xbxjxyxpxkxcxlxnxdxgxt2"
 # -xC# -xL
 
 # compile configurations
-DEBUG   = "debug"
-RELEASE = "release"
-STATIC  = "static"
+DEBUG     = "debug"
+RELEASE   = "release"
+STATIC    = "static"
 STATIC_XP = "static-xp"
 
 # Visual Studio release
@@ -197,7 +198,7 @@ def get_archive_directory(endsep=False):
         system_exit(message)
     if endsep:
         arcdir += '/'
-    return  arcdir
+    return arcdir
 
 # -----------------------------------------------------------------------------
 
@@ -254,9 +255,9 @@ def get_astyleexe_directory(config, endsep=False):
         subpath = "/build/" + VS_RELEASE + "/bin"
         if config == DEBUG:
             subpath = subpath.replace("bin", "debug")
-        elif  config == STATIC:
+        elif config == STATIC:
             subpath = subpath.replace("bin", "binstatic")
-        elif  config == STATIC_XP:
+        elif config == STATIC_XP:
             subpath = subpath.replace("bin", "binstatic_xp")
     else:
         subpath = "/build/gcc/bin"
@@ -360,7 +361,7 @@ def get_diff_path():
             system_exit(message)
     else:
         exepath = "diffuse"
-    return  exepath
+    return exepath
 
 # -----------------------------------------------------------------------------
 
@@ -377,9 +378,9 @@ def get_file_py_directory(endsep=False):
         if pydir[0:2] != "C:" and pydir[0:2] != "F:":
             system_exit("File executed from drive " + pydir[0:2])
     else:
-       if pydir[0:6] != "/home/":
+        if pydir[0:6] != "/home/":
             system_exit("File executed from " + pydir)
-    return  pydir
+    return pydir
 
 # -----------------------------------------------------------------------------
 
@@ -404,7 +405,7 @@ def get_home_directory(endsep=False):
         homedir = os.getenv("HOME")
     if endsep:
         homedir += '/'
-    return  homedir
+    return homedir
 
 # -----------------------------------------------------------------------------
 
@@ -419,18 +420,18 @@ def get_project_directory(endsep=False):
     #~ projdir = pydir
     #~ tail = pydir
     #~ while len(tail) > 0:
-        #~ head, tail = os.path.split(projdir)
-        #~ if tail == 'Projects':
-            #~ break
-        #~ projdir = head
+    #~ head, tail = os.path.split(projdir)
+    #~ if tail == 'Projects':
+    #~ break
+    #~ projdir = head
     #~ if len(tail) == 0:
-        #~ system_exit("Cannot find project directory " + pydir[0:])
+    #~ system_exit("Cannot find project directory " + pydir[0:])
 
     projdir = os.path.realpath(pydir + "../../../")
     #~ print("project directory = " + projdir)
     if endsep:
         projdir += '/'
-    return  projdir
+    return projdir
 
 # -----------------------------------------------------------------------------
 
@@ -445,14 +446,14 @@ def get_project_excludes(project):
         # advprops.h is __WXPYTHON__ at line 192
         # propgrid.cpp is the macro IMPLEMENT_GET_VALUE
         # sqplus.h aborts on verifyBeautifierStacks because of unmatched paren
-        # sqvm.cpp doesn't compile because of _RET_SUCCEED macro used with --remove-brackets
+        # sqvm.cpp doesn't compile because of _RET_SUCCEED macro used with --remove-braces
         excludes.append("--exclude=wx/wxscintilla.h")
         excludes.append("--exclude=wx/propgrid/advprops.h")
         excludes.append("--exclude=wx/propgrid/manager.h")
         excludes.append("--exclude=wx/propgrid/propgrid.h")
         excludes.append("--exclude=sqplus/sqplus.h")
         excludes.append("--exclude=squirrel/sqvm.cpp")
-        #excludes.append("--exclude=propgrid/propgrid.cpp")
+        # excludes.append("--exclude=propgrid/propgrid.cpp")
     elif project == GWORKSPACE:
         excludes.append("--exclude=GNUstep.h")
 #	elif project == KDEVELOP:
@@ -540,7 +541,7 @@ def get_temp_directory():
         tempdir = tempdir.replace('\\', '/')
     else:
         tempdir = "./"
-    return  tempdir
+    return tempdir
 
 # -----------------------------------------------------------------------------
 
@@ -554,7 +555,7 @@ def get_test_directory(endsep=False):
         system_exit(message)
     if endsep:
         testdir += '/'
-    return  testdir
+    return testdir
 
 # -----------------------------------------------------------------------------
 

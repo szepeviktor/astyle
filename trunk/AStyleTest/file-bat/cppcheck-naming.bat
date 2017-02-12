@@ -3,10 +3,12 @@
 cd "%USERPROFILE%/Projects/AStyle"
 
 REM Can replace --force with -D_WIN32 to for faster testing.
-if not exist "src/ASBeautifier.cpp.dump" (
+if not exist "src/astyle_main.cpp.dump" (
 echo Creating dump files
 "C:/Program Files/Cppcheck/cppcheck.exe"  --dump --force  src/ > src\dump.txt
 del src\dump.txt
+) else (
+echo Using existing dump files
 )
 
 echo.
@@ -30,11 +32,17 @@ REM Class names start with upper case.
 REM eState is an allowed enum exception
 set class="[A-Z].*|eState"
 echo running naming.py
+echo.
 "C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/ASBeautifier.cpp.dump"
+echo.
 "C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/ASEnhancer.cpp.dump"
+echo.
 "C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/ASFormatter.cpp.dump"
+echo.
 "C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/ASLocalizer.cpp.dump"
+echo.
 "C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/ASResource.cpp.dump"
+echo.
 "C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/astyle_main.cpp.dump"
 
 REM echo.

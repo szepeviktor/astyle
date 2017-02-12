@@ -15,7 +15,7 @@ REM Must manually add any files that are missing to the checks and change the va
 set count=0
 for %%v in (src\*.cpp) do set /a count += 1
 echo checking %count% files
-set /a count = %count% - 18
+set /a count = %count% - 19
 echo %count% files missing
 
 echo.
@@ -30,11 +30,12 @@ REM eState is an allowed enum exception
 set class="[A-Z].*|eState"
 echo running naming.py
 "C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleTest_AlignPointer.cpp.dump"
-"C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleTest_BracketsCpp1.cpp.dump"
-"C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleTest_BracketsCpp2.cpp.dump"
-"C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleTest_BracketsJava.cpp.dump"
-"C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleTest_BracketsSharp.cpp.dump"
+"C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleTest_BracesCpp1.cpp.dump"
+"C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleTest_BracesCpp2.cpp.dump"
+"C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleTest_BracesJava.cpp.dump"
+"C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleTest_BracesSharp.cpp.dump"
 "C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleTest_BugFix.cpp.dump"
+"C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleTest_Cpp0x.cpp.dump"
 "C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleTest_Format.cpp.dump"
 "C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleTest_Indent.cpp.dump"
 "C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleTest_Main.cpp.dump"

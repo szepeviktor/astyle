@@ -367,6 +367,7 @@ struct ProcessUtf16F : public Test
 // These test the processFiles function.
 {
 	ASFormatter formatter;
+	ASConsole* console;
 	vector<string> fileNames;
 	// variables values set using native functions
 	string text8BitStr;		// 8 bit text string
@@ -422,13 +423,13 @@ struct ProcessUtf16F : public Test
 		text16Len = wideCharToUtf16LE(textIn, wcslen(textIn), text16Bit, text16Buf);
 #endif
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 	}	// end c'tor
 
 	~ProcessUtf16F()
 	{
 		delete[]text16Bit;
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 };
 
@@ -442,19 +443,19 @@ struct ProcessUtf16F : public Test
 // Test processing of UTF-16LE files
 {
 	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
-	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
+	ASSERT_TRUE(console != nullptr) << "Console object not initialized.";
 	// initialize variables
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	formatter.setFormattingStyle(STYLE_JAVA);  // to format the file
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
 	fileNames.push_back(getTestDirectory() + "/UTF-16LE.cpp");
 	createTestFile(fileNames.back(), text16Bit, text16Len);
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = fileNames.back() + ".orig";
 	struct stat stBuf;
@@ -466,7 +467,7 @@ struct ProcessUtf16F : public Test
 	ifstream fin(fileNames.back().c_str(), ios::binary);
 	char Bom16LE[BomSize];
 	fin.read(Bom16LE, BomSize);
-	FileEncoding encoding16LE = g_console->detectEncoding(Bom16LE, BomSize);
+	FileEncoding encoding16LE = console->detectEncoding(Bom16LE, BomSize);
 	EXPECT_TRUE(encoding16LE == UTF_16LE);
 }
 
@@ -480,20 +481,20 @@ struct ProcessUtf16F : public Test
 // Test processing of UTF-16BE files
 {
 	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
-	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
+	ASSERT_TRUE(console != nullptr) << "Console object not initialized.";
 	// initialize variables
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	formatter.setFormattingStyle(STYLE_JAVA);	// to format the file
 	// call astyle processOptions()
 	convertEndian(text16Bit, text16Len);
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
 	fileNames.push_back(getTestDirectory() + "/UTF-16BE.cpp");
 	createTestFile(fileNames.back(), text16Bit, text16Len);
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = fileNames.back() + ".orig";
 	struct stat stBuf;
@@ -505,7 +506,7 @@ struct ProcessUtf16F : public Test
 	ifstream fin(fileNames.back().c_str(), ios::binary);
 	char Bom16BE[BomSize];
 	fin.read(Bom16BE, BomSize);
-	FileEncoding encoding16BE = g_console->detectEncoding(Bom16BE, BomSize);
+	FileEncoding encoding16BE = console->detectEncoding(Bom16BE, BomSize);
 	EXPECT_TRUE(encoding16BE == UTF_16BE);
 }
 

@@ -1203,6 +1203,170 @@ TEST(Cpp11Function, BracesRunIn_RunIn)
 	delete[] textOut;
 }
 
+TEST(Cpp11Function, BracesClass)
+{
+	// test braces in a class
+	char text[] =
+	    "\n"
+	    "class serial_pool\n"
+	    "{\n"
+	    "    auto submit() -> void\n"
+	    "    {\n"
+	    "        if (!ThreadpoolCallback(callback))\n"
+	    "        {\n"
+	    "            throw windows_exception();\n"
+	    "        }\n"
+	    "    }\n"
+	    "};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Function, BraceNamespaceClass)
+{
+	// test braces in a namespace and class
+	char text[] =
+	    "\n"
+	    "namespace pool\n"
+	    "{\n"
+	    "class serial_pool\n"
+	    "{\n"
+	    "    auto submit() -> void\n"
+	    "    {\n"
+	    "        if (!ThreadpoolCallback(callback))\n"
+	    "        {\n"
+	    "            throw windows_exception();\n"
+	    "        }\n"
+	    "    }\n"
+	    "};\n"
+	    "}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Function, BraceNamespaceClassIndent)
+{
+	// test braces in an indented namespace and class
+	char text[] =
+	    "\n"
+	    "namespace pool\n"
+	    "{\n"
+	    "    class serial_pool\n"
+	    "    {\n"
+	    "        auto submit() -> void\n"
+	    "        {\n"
+	    "            if (!ThreadpoolCallback(callback))\n"
+	    "            {\n"
+	    "                throw windows_exception();\n"
+	    "            }\n"
+	    "        }\n"
+	    "    };\n"
+	    "}";
+	char options[] = "indent-namespaces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Function, NestedClass)
+{
+	// test nested classes
+	char text[] =
+	    "\nclass A\n"
+	    "{\n"
+	    "public:\n"
+	    "    int foo1;\n"
+	    "    class B\n"
+	    "    {\n"
+	    "    public:\n"
+	    "        int foo2;\n"
+	    "        class C\n"
+	    "        {\n"
+	    "        public:\n"
+	    "            auto submit() -> void\n"
+	    "            {\n"
+	    "                if (!ThreadpoolCallback(callback))\n"
+	    "                {\n"
+	    "                    throw windows_exception();\n"
+	    "                }\n"
+	    "            }\n"
+	    "        }\n"
+	    "    }\n"
+	    "}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Function, NestedNamespace)
+{
+	// test nested namespaces
+	char text[] =
+	    "\nnamespace A\n"
+	    "{\n"
+	    "namespace B\n"
+	    "{\n"
+	    "namespace C\n"
+	    "{\n"
+	    "auto submit() -> void\n"
+	    "{\n"
+	    "    if (!ThreadpoolCallback(callback))\n"
+	    "    {\n"
+	    "        throw windows_exception();\n"
+	    "    }\n"
+	    "}\n"
+	    "}\n"
+	    "}\n"
+	    "}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Function, NestedNamespaceClass)
+{
+	// test namespaces within a class
+	char text[] =
+	    "\nnamespace A\n"
+	    "{\n"
+	    "class A\n"
+	    "{\n"
+	    "public:\n"
+	    "    namespace B\n"
+	    "    {\n"
+	    "    class B\n"
+	    "    {\n"
+	    "    public:\n"
+	    "        namespace C\n"
+	    "        {\n"
+	    "        class C\n"
+	    "        {\n"
+	    "        public:\n"
+	    "            auto submit() -> void\n"
+	    "            {\n"
+	    "                if (!ThreadpoolCallback(callback))\n"
+	    "                {\n"
+	    "                    throw windows_exception();\n"
+	    "                }\n"
+	    "            }\n"
+	    "        }\n"
+	    "        }\n"
+	    "    }\n"
+	    "    }\n"
+	    "}\n"
+	    "}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle C++11 Raw String Literals
 //----------------------------------------------------------------------------

@@ -31,7 +31,7 @@ TEST(ProcessOptions, ExcludeVector)
 // test processOptions for excludeVector
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// build excludeVector
 	vector<string> excludesIn;
 	excludesIn.push_back("--exclude=../dir1/prog1.cpp");
@@ -46,27 +46,27 @@ TEST(ProcessOptions, ExcludeVector)
 	excludesIn.push_back("--exclude=dir4");
 	excludesIn.push_back("--exclude=/dir5");
 	excludesIn.push_back("--exclude=\\dir6");
-	g_console->processOptions(excludesIn);
+	console->processOptions(excludesIn);
 	// build vector for checking results
 	vector<string> excludes;
 	for (size_t i = 0; i < excludesIn.size(); i++)
 	{
 		excludes.push_back(excludesIn[i].substr(10));
-		g_console->standardizePath(excludes[i], true);
+		console->standardizePath(excludes[i], true);
 	}
 	// check excludeVector
-	vector<string> excludeVector = g_console->getExcludeVector();
+	vector<string> excludeVector = console->getExcludeVector();
 	EXPECT_EQ(excludesIn.size(), excludeVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < excludeVector.size(); i++)
 		EXPECT_EQ(excludes[i], excludeVector[i]);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(ProcessOptions, ExcludeHitsVector)
 // test processOptions for excludeHitsVector
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// build excludeHitsVector
 	vector<string> excludesIn;
 	excludesIn.push_back("--exclude=../dir/prog1.cpp");
@@ -75,40 +75,40 @@ TEST(ProcessOptions, ExcludeHitsVector)
 	excludesIn.push_back("--exclude=../dir3/");
 	excludesIn.push_back("--exclude=..\\dir4");
 	excludesIn.push_back("--exclude=../dir\\");
-	g_console->processOptions(excludesIn);
+	console->processOptions(excludesIn);
 	// check excludeHitsVector
-	vector<bool> excludeHitsVector = g_console->getExcludeHitsVector();
+	vector<bool> excludeHitsVector = console->getExcludeHitsVector();
 	EXPECT_EQ(excludesIn.size(), excludeHitsVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < excludeHitsVector.size(); i++)
 		EXPECT_FALSE(excludeHitsVector[i]);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(ProcessOptions, FileNameVector)
 // test processOptions for fileNameVector
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// build fileNameVector
 	vector<string> fileNameIn;
 	fileNameIn.push_back("../..\\..\\srccon/*.cpp");
-	g_console->processOptions(fileNameIn);
+	console->processOptions(fileNameIn);
 	vector<string> fileName;
 	fileName.push_back("../../../srccon/*.cpp");
-	g_console->standardizePath(fileName.back());
+	console->standardizePath(fileName.back());
 	// check fileNameVector
-	vector<string> fileNameVector = g_console->getFileNameVector();
+	vector<string> fileNameVector = console->getFileNameVector();
 	EXPECT_EQ(fileName.size(), fileNameVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileNameVector.size(); i++)
 		EXPECT_EQ(fileName[i], fileNameVector[i]);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(ProcessOptions, OptionsVector)
 // test processOptions for optionsVector
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// build optionsVector
 	vector<string> optionsIn;
 	optionsIn.push_back("--style=allman");
@@ -116,27 +116,27 @@ TEST(ProcessOptions, OptionsVector)
 	optionsIn.push_back("-OoP");
 	optionsIn.push_back("-Ewc");
 	optionsIn.push_back("--align-pointer=type");
-	g_console->processOptions(optionsIn);
+	console->processOptions(optionsIn);
 	// check optionsVector
-	vector<string> optionsVector = g_console->getOptionsVector();
+	vector<string> optionsVector = console->getOptionsVector();
 	EXPECT_EQ(optionsIn.size(), optionsVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < optionsVector.size(); i++)
 		EXPECT_EQ(optionsIn[i], optionsVector[i]);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(ProcessOptions, GetCurrentDirectory)
 // test getCurrentDirectory function
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	g_console->setNoBackup(true);
-	g_console->setIsQuiet(true);		// change this to see results
+	auto console = new ASConsole(formatter);
+	console->setNoBackup(true);
+	console->setIsQuiet(true);		// change this to see results
 	char textIn[] = "void foo(){}\n";
-	// a file without a path will call the g_console->getCurrentDirectory
+	// a file without a path will call the console->getCurrentDirectory
 	string testFile = "/GetCurrentDirectory.cpp";
 	string testFilePath = getCurrentDirectory() + testFile;
-	g_console->standardizePath(testFilePath);
+	console->standardizePath(testFilePath);
 	// write the output file to the current directory
 	ofstream fout(testFilePath.c_str(), ios::binary | ios::trunc);
 	if (!fout)
@@ -149,13 +149,13 @@ TEST(ProcessOptions, GetCurrentDirectory)
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(testFilePath);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
-	vector<string> fileName = g_console->getFileName();
+	console->processFiles();
+	vector<string> fileName = console->getFileName();
 	EXPECT_EQ(testFilePath, fileName[0]);
 	removeTestFile(testFilePath);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(ProcessOptions, OtherOptions)
@@ -163,7 +163,7 @@ TEST(ProcessOptions, OtherOptions)
 // the "lineend" option is tested separately
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// set console options
 	vector<string> optionsIn;
 	optionsIn.push_back("--suffix=none");
@@ -175,26 +175,25 @@ TEST(ProcessOptions, OtherOptions)
 	optionsIn.push_back("--quiet");
 	optionsIn.push_back("--errors-to-stdout");
 	optionsIn.push_back("--preserve-date");
-	g_console->processOptions(optionsIn);
+	console->processOptions(optionsIn);
 	// check console options
-	EXPECT_TRUE(g_console->getNoBackup());
-	EXPECT_EQ(string(".old"), g_console->getOrigSuffix());
-	EXPECT_TRUE(g_console->getIsRecursive());
-	EXPECT_TRUE(g_console->getIsDryRun());
-	EXPECT_TRUE(g_console->getIsVerbose());
-	EXPECT_TRUE(g_console->getIsFormattedOnly());
-	EXPECT_TRUE(g_console->getIsQuiet());
-	EXPECT_TRUE(_err == &cout);
-	EXPECT_TRUE(g_console->getPreserveDate());
-	_err = &cerr;
-	deleteConsoleGlobalObject();
+	EXPECT_TRUE(console->getNoBackup());
+	EXPECT_EQ(string(".old"), console->getOrigSuffix());
+	EXPECT_TRUE(console->getIsRecursive());
+	EXPECT_TRUE(console->getIsDryRun());
+	EXPECT_TRUE(console->getIsVerbose());
+	EXPECT_TRUE(console->getIsFormattedOnly());
+	EXPECT_TRUE(console->getIsQuiet());
+	EXPECT_TRUE(console->getErrorStream() == &cout);
+	EXPECT_TRUE(console->getPreserveDate());
+	delete console;
 }
 
 TEST(ProcessOptions, OtherOptions_Short)
 // test processOptions for short other options
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// set console options
 	vector<string> optionsIn;
 	optionsIn.push_back("-n");	// suffix=none
@@ -205,24 +204,23 @@ TEST(ProcessOptions, OtherOptions_Short)
 	optionsIn.push_back("-q");	// quiet
 	optionsIn.push_back("-X");	// errors-to-stdout
 	optionsIn.push_back("-Z");	// preserve-date
-	g_console->processOptions(optionsIn);
+	console->processOptions(optionsIn);
 	// check console options
-	EXPECT_TRUE(g_console->getNoBackup());
-	EXPECT_TRUE(g_console->getIsRecursive());
-	EXPECT_TRUE(g_console->getIsVerbose());
-	EXPECT_TRUE(g_console->getIsFormattedOnly());
-	EXPECT_TRUE(g_console->getIsQuiet());
-	EXPECT_TRUE(_err == &cout);
-	EXPECT_TRUE(g_console->getPreserveDate());
-	_err = &cerr;
-	deleteConsoleGlobalObject();
+	EXPECT_TRUE(console->getNoBackup());
+	EXPECT_TRUE(console->getIsRecursive());
+	EXPECT_TRUE(console->getIsVerbose());
+	EXPECT_TRUE(console->getIsFormattedOnly());
+	EXPECT_TRUE(console->getIsQuiet());
+	EXPECT_TRUE(console->getErrorStream() == &cout);
+	EXPECT_TRUE(console->getPreserveDate());
+	delete console;
 }
 
 TEST(ProcessOptions, ConsoleOptions_Error)
 // test processOptions for command line options errors
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--style=allman");
@@ -235,7 +233,7 @@ TEST(ProcessOptions, ConsoleOptions_Error)
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid command line options
-	EXPECT_EXIT(g_console->processOptions(optionsIn),
+	EXPECT_EXIT(console->processOptions(optionsIn),
 	            ExitedWithCode(EXIT_FAILURE),
 	            "Invalid command line options:\n"
 	            "invalid1\n"
@@ -243,7 +241,7 @@ TEST(ProcessOptions, ConsoleOptions_Error)
 	            "invalid3\n\n"
 	            "For help on options type 'astyle -h'");
 #endif
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 //----------------------------------------------------------------------------
@@ -255,14 +253,14 @@ TEST(ProcessOptions, AsciiOption)
 // For a complete test the user locale should something besides English.
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--ascii");
-	g_console->processOptions(optionsIn);
-	string langID = g_console->getLanguageID();
+	console->processOptions(optionsIn);
+	string langID = console->getLanguageID();
 	EXPECT_EQ(langID, "en");
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(ProcessOptions, AsciiOption_Short)
@@ -270,75 +268,75 @@ TEST(ProcessOptions, AsciiOption_Short)
 // For a complete test the user locale should something besides English.
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("-I");
-	g_console->processOptions(optionsIn);
+	console->processOptions(optionsIn);
 	// test the language
-	string langID = g_console->getLanguageID();
+	string langID = console->getLanguageID();
 	EXPECT_EQ(langID, "en");
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(ProcessOptions, IgnoreExcludeErrorsOption)
 // test processOptions for ignore-exclude-errors option
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// set console options
 	vector<string> optionsIn;
 	optionsIn.push_back("--ignore-exclude-errors");
-	g_console->processOptions(optionsIn);
+	console->processOptions(optionsIn);
 	// check console options
-	EXPECT_TRUE(g_console->getIgnoreExcludeErrors());
-	EXPECT_FALSE(g_console->getIgnoreExcludeErrorsDisplay());
-	deleteConsoleGlobalObject();
+	EXPECT_TRUE(console->getIgnoreExcludeErrors());
+	EXPECT_FALSE(console->getIgnoreExcludeErrorsDisplay());
+	delete console;
 }
 
 TEST(ProcessOptions, IgnoreExcludeErrorsOption_Short)
 // test processOptions for ignore-exclude-errors short option
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// set console options
 	vector<string> optionsIn;
 	optionsIn.push_back("-i");
-	g_console->processOptions(optionsIn);
+	console->processOptions(optionsIn);
 	// check console options
-	EXPECT_TRUE(g_console->getIgnoreExcludeErrors());
-	EXPECT_FALSE(g_console->getIgnoreExcludeErrorsDisplay());
-	deleteConsoleGlobalObject();
+	EXPECT_TRUE(console->getIgnoreExcludeErrors());
+	EXPECT_FALSE(console->getIgnoreExcludeErrorsDisplay());
+	delete console;
 }
 
 TEST(ProcessOptions, IgnoreExcludeErrorsAndDisplayOption)
 // test processOptions for ignore-exclude-errors-x option
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// set console options
 	vector<string> optionsIn;
 	optionsIn.push_back("--ignore-exclude-errors-x");
-	g_console->processOptions(optionsIn);
+	console->processOptions(optionsIn);
 	// check console options
-	EXPECT_TRUE(g_console->getIgnoreExcludeErrors());
-	EXPECT_TRUE(g_console->getIgnoreExcludeErrorsDisplay());
-	deleteConsoleGlobalObject();
+	EXPECT_TRUE(console->getIgnoreExcludeErrors());
+	EXPECT_TRUE(console->getIgnoreExcludeErrorsDisplay());
+	delete console;
 }
 
 TEST(ProcessOptions, IgnoreExcludeErrorsAndDisplayOption_Short)
 // test processOptions for ignore-exclude-errors-x short option
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// set console options
 	vector<string> optionsIn;
 	optionsIn.push_back("-xi");
-	g_console->processOptions(optionsIn);
+	console->processOptions(optionsIn);
 	// check console options
-	EXPECT_TRUE(g_console->getIgnoreExcludeErrors());
-	EXPECT_TRUE(g_console->getIgnoreExcludeErrorsDisplay());
-	deleteConsoleGlobalObject();
+	EXPECT_TRUE(console->getIgnoreExcludeErrors());
+	EXPECT_TRUE(console->getIgnoreExcludeErrorsDisplay());
+	delete console;
 }
 
 //----------------------------------------------------------------------------
@@ -350,7 +348,7 @@ TEST(ProcessFileOptions, OptionsPath)
 // test processOptions for fileOptionsVector with --options=###
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	char fileIn[] =
 	    "# this line is a comment\n"
 	    "--style=attach   # this is a line-end comment\n"
@@ -387,20 +385,20 @@ TEST(ProcessFileOptions, OptionsPath)
 	fileOptions.push_back("-K");
 	// write the options file
 	string optionsFileName = getTestDirectory() + "/astylerc.txt";
-	g_console->standardizePath(optionsFileName);
+	console->standardizePath(optionsFileName);
 	if (!writeOptionsFile(optionsFileName, fileIn))
 		return;
 	// build fileOptionsVector
 	vector<string> optionsIn;
 	optionsIn.push_back("--options=" + optionsFileName);
-	g_console->processOptions(optionsIn);
+	console->processOptions(optionsIn);
 	// check fileOptionsVector
-	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	vector<string> fileOptionsVector = console->getFileOptionsVector();
 	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
 	removeTestFile(optionsFileName);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(ProcessFileOptions, AStyleEnvironmentVariable)
@@ -408,7 +406,7 @@ TEST(ProcessFileOptions, AStyleEnvironmentVariable)
 //     with ARTISTIC_STYLE_OPTIONS enviromnent variable
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	char fileIn[] =
 	    "--style=allman\n"
 	    "-OoP\n"
@@ -420,8 +418,8 @@ TEST(ProcessFileOptions, AStyleEnvironmentVariable)
 	// set the new environment variable
 	string envFilePath = getTestDirectory() + "/astylexx";
 	string envValue = "ARTISTIC_STYLE_OPTIONS=" + envFilePath;
-	g_console->standardizePath(envFilePath);
-	g_console->standardizePath(envValue);
+	console->standardizePath(envFilePath);
+	console->standardizePath(envValue);
 	int isError = putenv(const_cast<char*>(envValue.c_str()));
 	if (isError)
 	{
@@ -433,9 +431,9 @@ TEST(ProcessFileOptions, AStyleEnvironmentVariable)
 		return;
 	// build fileOptionsVector
 	vector<string> optionsIn;
-	g_console->processOptions(optionsIn);
+	console->processOptions(optionsIn);
 	// check fileOptionsVector
-	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	vector<string> fileOptionsVector = console->getFileOptionsVector();
 	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
@@ -444,14 +442,14 @@ TEST(ProcessFileOptions, AStyleEnvironmentVariable)
 	putenv(const_cast<char*>(envClear.c_str()));
 	// cleanup
 	removeTestFile(envFilePath);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(ProcessFileOptions, HomeEnvironmentVariable)
 // test processOptions for fileOptionsVector with $HOME options
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	char fileIn[] =
 	    "--style=allman\n"
 	    "-OoP\n"
@@ -462,19 +460,19 @@ TEST(ProcessFileOptions, HomeEnvironmentVariable)
 	fileOptions.push_back("--indent-classes");
 	// write the options file
 	string optionsFileName = getDefaultOptionsFilePath();
-	g_console->standardizePath(optionsFileName);
+	console->standardizePath(optionsFileName);
 	if (!writeOptionsFile(optionsFileName, fileIn))
 		return;
 	// build fileOptionsVector
 	vector<string> optionsIn;
-	g_console->processOptions(optionsIn);
+	console->processOptions(optionsIn);
 	// check fileOptionsVector
-	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	vector<string> fileOptionsVector = console->getFileOptionsVector();
 	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
 	removeTestFile(optionsFileName);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(ProcessFileOptions, DisabledOptionsFile)
@@ -482,25 +480,25 @@ TEST(ProcessFileOptions, DisabledOptionsFile)
 // should not process the astylerc file
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	char fileIn[] =
 	    "--style=allman\n"
 	    "-OoP\n"
 	    "--indent-classes\n";
 	// write the options file
 	string optionsFileName = getDefaultOptionsFilePath();
-	g_console->standardizePath(optionsFileName);
+	console->standardizePath(optionsFileName);
 	if (!writeOptionsFile(optionsFileName, fileIn))
 		return;
 	// build fileOptionsVector
 	vector<string> optionsIn;
 	optionsIn.push_back("--options=none");
-	g_console->processOptions(optionsIn);
+	console->processOptions(optionsIn);
 	// check fileOptionsVector
-	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	vector<string> fileOptionsVector = console->getFileOptionsVector();
 	EXPECT_TRUE(fileOptionsVector.size() == 0);
 	removeTestFile(optionsFileName);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(ProcessFileOptions, NoFinalLineEnd)
@@ -508,7 +506,7 @@ TEST(ProcessFileOptions, NoFinalLineEnd)
 //    and NO final line end
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	char fileIn[] =
 	    "--style=allman\n"
 	    "-OoP\n"
@@ -519,27 +517,27 @@ TEST(ProcessFileOptions, NoFinalLineEnd)
 	fileOptions.push_back("--indent-classes");
 	// write the options file
 	string optionsFileName = getTestDirectory() + "/astylerc";
-	g_console->standardizePath(optionsFileName);
+	console->standardizePath(optionsFileName);
 	if (!writeOptionsFile(optionsFileName, fileIn))
 		return;
 	// build fileOptionsVector
 	vector<string> optionsIn;
 	optionsIn.push_back("--options=" + optionsFileName);
-	g_console->processOptions(optionsIn);
+	console->processOptions(optionsIn);
 	// check fileOptionsVector
-	vector<string> fileOptionsVector = g_console->getFileOptionsVector();
+	vector<string> fileOptionsVector = console->getFileOptionsVector();
 	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
 	removeTestFile(optionsFileName);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(ProcessFileOptions, OptionErrors)
 // test processOptions for file option errors
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	char fileIn[] =
 	    "--style=allman\n"
 	    "-OoP\n"
@@ -556,7 +554,7 @@ TEST(ProcessFileOptions, OptionErrors)
 	fileOptions.push_back("--indent-classes");
 	// write options the file
 	string optionsFileName = getTestDirectory() + "/astylerc.txt";
-	g_console->standardizePath(optionsFileName);
+	console->standardizePath(optionsFileName);
 	if (!writeOptionsFile(optionsFileName, fileIn))
 		return;
 	// build optionsIn
@@ -566,7 +564,7 @@ TEST(ProcessFileOptions, OptionErrors)
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid file options
-	EXPECT_EXIT(g_console->processOptions(optionsIn),
+	EXPECT_EXIT(console->processOptions(optionsIn),
 	            ExitedWithCode(EXIT_FAILURE),
 	            "Invalid option file options:\n"
 	            "invalid1\n"
@@ -575,7 +573,7 @@ TEST(ProcessFileOptions, OptionErrors)
 	            "For help on options type 'astyle -h'");
 #endif
 	removeTestFile(optionsFileName);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(ProcessFileOptions, FileError1)
@@ -584,21 +582,21 @@ TEST(ProcessFileOptions, FileError1)
 // invalidrc.txt is not a valid file
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// build optionsIn
 	string optionsFileName = "../../srccon/invalidrc.txt";
-	g_console->standardizePath(optionsFileName);
+	console->standardizePath(optionsFileName);
 	vector<string> optionsIn;
 	optionsIn.push_back("--options=" + optionsFileName);
 	optionsIn.push_back("--ascii");		// output in English
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with options file error
-	EXPECT_EXIT(g_console->processOptions(optionsIn),
+	EXPECT_EXIT(console->processOptions(optionsIn),
 	            ExitedWithCode(EXIT_FAILURE),
 	            "Cannot open options file");
 #endif
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(ProcessFileOptions, FileError2)
@@ -606,7 +604,7 @@ TEST(ProcessFileOptions, FileError2)
 // input with --options= (no filename)
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--options=");
@@ -614,11 +612,11 @@ TEST(ProcessFileOptions, FileError2)
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with options file error
-	EXPECT_EXIT(g_console->processOptions(optionsIn),
+	EXPECT_EXIT(console->processOptions(optionsIn),
 	            ExitedWithCode(EXIT_FAILURE),
 	            "Cannot open options file");
 #endif
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(ProcessFileOptions, Excludes)
@@ -627,7 +625,7 @@ TEST(ProcessFileOptions, Excludes)
 // the quotes must be removed from the excludeVector
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	char fileIn[] =
 	    "--exclude=\"prog 1.cpp\"\n"
 	    "exclude=\"\\prog 2.cpp\"\n"
@@ -652,24 +650,24 @@ TEST(ProcessFileOptions, Excludes)
 	excludesOut.push_back("prog 8.cpp");
 	excludesOut.push_back("prog 8a.cpp");
 	for (size_t i = 0; i < excludesOut.size(); i++)
-		g_console->standardizePath(excludesOut[i], true);
+		console->standardizePath(excludesOut[i], true);
 	// write the options file
 	string optionsFileName = getTestDirectory() + "/astylerc.txt";
-	g_console->standardizePath(optionsFileName);
+	console->standardizePath(optionsFileName);
 	if (!writeOptionsFile(optionsFileName, fileIn))
 		return;
 	// build fileOptionsVector
 	vector<string> optionsIn;
 	optionsIn.push_back("--options=" + optionsFileName);
-	g_console->processOptions(optionsIn);
+	console->processOptions(optionsIn);
 	// check excludeVector
-	vector<string> excludeVector = g_console->getExcludeVector();
+	vector<string> excludeVector = console->getExcludeVector();
 	EXPECT_EQ(excludesOut.size(), excludeVector.size()) << "Vector sizes not equal.";
 	// NOTE: errors may not display correctly on Windows because of '\' in file paths
 	for (size_t i = 0; i < excludeVector.size(); i++)
 		EXPECT_EQ(excludesOut[i], excludeVector[i]);
 	removeTestFile(optionsFileName);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 //----------------------------------------------------------------------------
@@ -679,6 +677,7 @@ TEST(ProcessFileOptions, Excludes)
 struct FileSuffixF : public Test
 {
 	ASFormatter formatter;
+	ASConsole* console;
 	vector<string> fileNames;
 
 	// build fileNames vector and write the output files
@@ -690,36 +689,36 @@ struct FileSuffixF : public Test
 		    "bar();\n"
 		    "}\n";
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 		fileNames.push_back(getTestDirectory() + "/suffix1.cpp");
 		for (size_t i = 0; i < fileNames.size(); i++)
 		{
-			g_console->standardizePath(fileNames[i]);
+			console->standardizePath(fileNames[i]);
 			createTestFile(fileNames[i], textIn);
 		}
 	}
 
 	~FileSuffixF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 };
 
 TEST_F(FileSuffixF, None)
 // test suffix=none option on files
 {
-	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
+	ASSERT_TRUE(console != nullptr) << "Console object not initialized.";
 	// initialize variables
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setNoBackup(true);		// test variable
+	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);		// test variable
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// all files should be formatted
-	ASSERT_EQ((int) fileNames.size(), g_console->getFilesFormatted());
+	ASSERT_EQ((int) fileNames.size(), console->getFilesFormatted());
 	// check for .orig file on disk
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
@@ -734,19 +733,19 @@ TEST_F(FileSuffixF, None)
 TEST_F(FileSuffixF, DotOld)
 // test suffix=.old option on files (with dot)
 {
-	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
+	ASSERT_TRUE(console != nullptr) << "Console object not initialized.";
 	// initialize variables
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setOrigSuffix(".old"); 	// test variable (with dot)
+	console->setIsQuiet(true);		// change this to see results
+	console->setOrigSuffix(".old"); 	// test variable (with dot)
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// all files should be formatted
 	EXPECT_TRUE(fileNames.size() > 0);
-	ASSERT_EQ((int) fileNames.size(), g_console->getFilesFormatted());
+	ASSERT_EQ((int) fileNames.size(), console->getFilesFormatted());
 	// check for .old file on disk
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
@@ -761,19 +760,19 @@ TEST_F(FileSuffixF, DotOld)
 TEST_F(FileSuffixF, SansDot)
 // test suffix=xxx option on files (no dot)
 {
-	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
+	ASSERT_TRUE(console != nullptr) << "Console object not initialized.";
 	// initialize variables
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setOrigSuffix("xxx"); 	// test variable (no dot)
+	console->setIsQuiet(true);		// change this to see results
+	console->setOrigSuffix("xxx"); 	// test variable (no dot)
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// all files should be formatted
 	EXPECT_TRUE(fileNames.size() > 0);
-	ASSERT_EQ((int) fileNames.size(), g_console->getFilesFormatted());
+	ASSERT_EQ((int) fileNames.size(), console->getFilesFormatted());
 	// check for xxx file on disk
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
@@ -792,46 +791,46 @@ TEST_F(FileSuffixF, SansDot)
 TEST(StringEndsWith, FileExtension_True)
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	bool result1 = g_console->stringEndsWith("fileName.cpp", string(".cpp"));
+	auto console = new ASConsole(formatter);
+	bool result1 = console->stringEndsWith("fileName.cpp", string(".cpp"));
 	EXPECT_TRUE(result1);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(StringEndsWith, FileExtension_False)
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	bool result2 = g_console->stringEndsWith("fileName.cpp", string(".xxx"));
+	auto console = new ASConsole(formatter);
+	bool result2 = console->stringEndsWith("fileName.cpp", string(".xxx"));
 	EXPECT_FALSE(result2);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(StringEndsWith, SansFileExtension)
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	bool result3 = g_console->stringEndsWith("fileNamenoextension", string("noextension"));
+	auto console = new ASConsole(formatter);
+	bool result3 = console->stringEndsWith("fileNamenoextension", string("noextension"));
 	EXPECT_TRUE(result3);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(StringEndsWith, WholeName)
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	bool result4 = g_console->stringEndsWith("wholename", string("wholename"));
+	auto console = new ASConsole(formatter);
+	bool result4 = console->stringEndsWith("wholename", string("wholename"));
 	EXPECT_TRUE(result4);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(StringEndsWith, TestLongerThanName)
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	bool result5 = g_console->stringEndsWith("long", string("xlong"));
+	auto console = new ASConsole(formatter);
+	bool result5 = console->stringEndsWith("long", string("xlong"));
 	EXPECT_FALSE(result5);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 //----------------------------------------------------------------------------
@@ -841,6 +840,7 @@ TEST(StringEndsWith, TestLongerThanName)
 struct PreserveDateF : public Test
 {
 	ASFormatter formatter;
+	ASConsole* console;
 	vector<string> fileNames;
 	struct utimbuf ut;
 
@@ -869,13 +869,13 @@ struct PreserveDateF : public Test
 #endif
 		ut.actime = ut.modtime = mktime(&t);
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 		fileNames.push_back(getTestDirectory() + "/PreserveDate1.cpp");
 		fileNames.push_back(getTestDirectory() + "/PreserveDate2.cpp");
 		// write files and change the date
 		for (size_t i = 0; i < fileNames.size(); i++)
 		{
-			g_console->standardizePath(fileNames[i]);
+			console->standardizePath(fileNames[i]);
 			createTestFile(fileNames[i], textIn);
 			utime(fileNames[i].c_str(), &ut);
 		}
@@ -883,7 +883,7 @@ struct PreserveDateF : public Test
 
 	~PreserveDateF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 
 	// get the date from time_t
@@ -901,16 +901,16 @@ struct PreserveDateF : public Test
 TEST_F(PreserveDateF, True)
 // test formatting with preserve-date option
 {
-	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setNoBackup(true);
-	g_console->setPreserveDate(true);
+	ASSERT_TRUE(console != nullptr) << "Console object not initialized.";
+	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
+	console->setPreserveDate(true);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// loop thru fileNames vector checking the dates
 	struct stat s;
 	for (size_t i = 0; i < fileNames.size(); i++)
@@ -928,16 +928,16 @@ TEST_F(PreserveDateF, True)
 TEST_F(PreserveDateF, False)
 // test formatting without preserve-date option
 {
-	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setNoBackup(true);
-	g_console->setPreserveDate(false);
+	ASSERT_TRUE(console != nullptr) << "Console object not initialized.";
+	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
+	console->setPreserveDate(false);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// loop thru fileNames vector checking the dates
 	string currMDY = getMDY(time(nullptr));
 	struct stat s;
@@ -956,6 +956,7 @@ TEST_F(PreserveDateF, False)
 struct ChecksumF : public Test
 {
 	ASFormatter formatter;
+	ASConsole* console;
 	string fileName;
 	size_t textChecksum;
 
@@ -977,29 +978,29 @@ struct ChecksumF : public Test
 		    "        x = 0;\n"
 		    "}";
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 		fileName = getTestDirectory() + "/Checksum.cpp";
 		createTestFile(fileName, textIn);
 	}
 
 	~ChecksumF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 };
 
 TEST_F(ChecksumF, NoAdds)
 // test checksum procedure
 {
-	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setNoBackup(true);
+	ASSERT_TRUE(console != nullptr) << "Console object not initialized.";
+	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// verify the checksums
 	size_t checksumIn = formatter.getChecksumIn();
 	size_t checksumOut = formatter.getChecksumOut();
@@ -1016,16 +1017,16 @@ TEST_F(ChecksumF, NoAdds)
 TEST_F(ChecksumF, AddBraces)
 // test checksum procedure with add-braces
 {
-	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setNoBackup(true);
+	ASSERT_TRUE(console != nullptr) << "Console object not initialized.";
+	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back("--add-braces");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// verify the checksums
 	textChecksum += '{' + '}';
 	size_t checksumIn = formatter.getChecksumIn();
@@ -1043,16 +1044,16 @@ TEST_F(ChecksumF, AddBraces)
 TEST_F(ChecksumF, AddOneLineBraces)
 // test checksum procedure with add-one-line-braces
 {
-	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setNoBackup(true);
+	ASSERT_TRUE(console != nullptr) << "Console object not initialized.";
+	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back("--add-one-line-braces");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// verify the checksums
 	textChecksum += '{' + '}';
 	size_t checksumIn = formatter.getChecksumIn();
@@ -1081,13 +1082,13 @@ TEST(Checksum, CheckSumError)
 	    "    fooBar2();\n";
 	// initialization
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setNoBackup(true);
+	auto console = new ASConsole(formatter);
+	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
 	// write test file
 	cleanTestDirectory(getTestDirectory());
 	string fileNames = getTestDirectory() + "/file1.cpp";
-	g_console->standardizePath(fileNames);
+	console->standardizePath(fileNames);
 	createTestFile(fileNames, textIn);
 	// set the formatter options
 	vector<string> astyleOptionsVector;
@@ -1095,11 +1096,11 @@ TEST(Checksum, CheckSumError)
 	astyleOptionsVector.push_back("--break-blocks");
 	astyleOptionsVector.push_back("--delete-empty-lines");
 	// call astyle processFiles()
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// Will actually get an assert error in astyle_main.cpp if this is not true.
 	EXPECT_TRUE(formatter.getChecksumDiff() == 0);
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 //----------------------------------------------------------------------------
@@ -1287,25 +1288,26 @@ TEST(HeaderVectorSequence, BuildPreDefinitionHeaders)
 struct DisableFormattingF : public Test
 {
 	ASFormatter formatter;
+	ASConsole* console;
 
 	DisableFormattingF()
 	{
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 	}
 
 	~DisableFormattingF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 };
 
 TEST_F(DisableFormattingF, Unchanged)
 // test disable formatting with an unchanged file
 {
-	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setNoBackup(true);
+	ASSERT_TRUE(console != nullptr) << "Console object not initialized.";
+	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
 	// create test file
 	char text[] =
 	    "\n// disable formatting unchanged\n"
@@ -1315,24 +1317,24 @@ TEST_F(DisableFormattingF, Unchanged)
 	    "#endif\n"
 	    "/*INDENT-ON*/\n";
 	string fileName = getTestDirectory() + "/DisableFormatting.cpp";
-	g_console->standardizePath(fileName);
+	console->standardizePath(fileName);
 	createTestFile(fileName, text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for file not formatted
-	EXPECT_TRUE(g_console->getFilesAreIdentical());
+	EXPECT_TRUE(console->getFilesAreIdentical());
 }
 
 TEST_F(DisableFormattingF, Formatted)
 // test disable formatting with a formatted file
 {
-	ASSERT_TRUE(g_console != nullptr) << "Console object not initialized.";
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setNoBackup(true);
+	ASSERT_TRUE(console != nullptr) << "Console object not initialized.";
+	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
 	// create test file - the first line will be unindented
 	char text[] =
 	    "\n    // disable formatting formatted\n"
@@ -1342,16 +1344,16 @@ TEST_F(DisableFormattingF, Formatted)
 	    "#endif\n"
 	    "/*INDENT-ON*/\n";
 	string fileName = getTestDirectory() + "/DisableFormatting.cpp";
-	g_console->standardizePath(fileName);
+	console->standardizePath(fileName);
 	createTestFile(fileName, text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for file formatted
-	EXPECT_FALSE(g_console->getFilesAreIdentical());
+	EXPECT_FALSE(console->getFilesAreIdentical());
 }
 
 //----------------------------------------------------------------------------
@@ -1362,7 +1364,7 @@ TEST(RemovedOptions, V202)
 // test that removed options are rejected with a message
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--brackets=horstmann");
@@ -1375,7 +1377,7 @@ TEST(RemovedOptions, V202)
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid command line options
-	EXPECT_EXIT(g_console->processOptions(optionsIn),
+	EXPECT_EXIT(console->processOptions(optionsIn),
 	            ExitedWithCode(EXIT_FAILURE),
 	            "Invalid command line options:\n"
 	            "brackets=horstmann\n"
@@ -1384,14 +1386,14 @@ TEST(RemovedOptions, V202)
 	            "B\n"
 	            "G\n");
 #endif
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 TEST(RemovedOptions, V204)
 // test that removed options are rejected with a message
 {
 	ASFormatter formatter;
-	createConsoleGlobalObject(formatter);
+	auto console = new ASConsole(formatter);
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--brackets=attach");
@@ -1409,7 +1411,7 @@ TEST(RemovedOptions, V204)
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid command line options
-	EXPECT_EXIT(g_console->processOptions(optionsIn),
+	EXPECT_EXIT(console->processOptions(optionsIn),
 	            ExitedWithCode(EXIT_FAILURE),
 	            "brackets=attach\n"
 	            "brackets=break\n"
@@ -1422,7 +1424,7 @@ TEST(RemovedOptions, V204)
 	            "l\n"
 	            "u\n");
 #endif
-	deleteConsoleGlobalObject();
+	delete console;
 }
 
 //----------------------------------------------------------------------------

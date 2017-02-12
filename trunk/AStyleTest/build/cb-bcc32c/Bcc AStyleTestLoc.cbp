@@ -15,6 +15,7 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-tWC" />
+					<Add option="-v" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
 					<Add directory="../../../googletest/include" />

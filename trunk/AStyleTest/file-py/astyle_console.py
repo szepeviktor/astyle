@@ -21,7 +21,7 @@ def main():
     header_variables = []		# variables in astyle.h
     class_variables = []			# variables in the class constructor
     header_path = libastyle.get_astyle_directory() + "/src/astyle_main.h"
-    console_path = libastyle.get_astyle_directory() + "/src/astyle_main.h"
+    console_path = libastyle.get_astyle_directory() + "/src/astyle_main.cpp"
 
     libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
@@ -59,14 +59,12 @@ def find_class_diffs(header_variables, class_variables):
     missing_class = set(header_variables) - set(class_variables)
 
     if len(missing_header) > 0:
-        missing_header = list(missing_header)
-        missing_header.sort()
+        missing_header = sorted(missing_header)
         print(str(len(missing_header)) + " missing header variables:")
         print(missing_header)
 
     if len(missing_class) > 0:
-        missing_class = list(missing_class)
-        missing_class.sort()
+        missing_class = sorted(missing_class)
         print(str(len(missing_class)) + " missing class variables:")
         print(missing_class)
 
@@ -94,6 +92,9 @@ def get_constructor_variables(class_variables, console_path):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # start between the following lines
         if "ASConsole(ASFormatter" in line:
             class_lines[0] = lines + 1
@@ -103,7 +104,7 @@ def get_constructor_variables(class_variables, console_path):
         if (class_lines[0] == 0
                 or class_lines[0] >= lines):
             continue
-        # find ending bracket
+        # find ending brace
         if '}' in line:
             class_lines[1] = lines
             break
@@ -144,15 +145,18 @@ def get_header_variables(header_variables, header_path):
             continue
         if line.startswith("//"):
             continue
-
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # start between the following lines
-        if "class ASConsole" in line:
+        if ("class ASConsole" in line
+                and not line.rstrip().endswith(';')):
             header_lines[0] = lines + 1
             continue
         if (header_lines[0] == 0
                 or header_lines[0] >= lines):
             continue
-        # find ending bracket - should find following initializer instead
+        # find ending brace - should find following initializer instead
         if '}' in line:
             header_lines[1] = lines
             break

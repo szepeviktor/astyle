@@ -86,10 +86,10 @@ def convert_class_functions(line):
         line = "caseIndent"
     elif "setBlockIndent" in line:
         line = "blockIndent"
-    elif "setBracketIndentVtk" in line:  # must preceede "setBracketIndent"
-        line = "bracketIndentVtk"
-    elif "setBracketIndent" in line:
-        line = "bracketIndent"
+    elif "setBraceIndentVtk" in line:  # must preceede "setBraceIndent"
+        line = "braceIndentVtk"
+    elif "setBraceIndent" in line:
+        line = "braceIndent"
     elif "setNamespaceIndent" in line:
         line = "namespaceIndent"
     elif "setLabelIndent" in line:
@@ -118,14 +118,12 @@ def find_class_diffs(header_variables, class_variables):
     missing_class = set(header_variables) - set(class_variables)
 
     if len(missing_header) > 0:
-        missing_header = list(missing_header)
-        missing_header.sort()
+        missing_header = sorted(missing_header)
         print(str(len(missing_header)) + " missing header variables:")
         print(missing_header)
 
     if len(missing_class) > 0:
-        missing_class = list(missing_class)
-        missing_class.sort()
+        missing_class = sorted(missing_class)
         print(str(len(missing_class)) + " missing class variables:")
         print(missing_class)
 
@@ -145,14 +143,12 @@ def find_copy_diffs(header_variables, copy_variables):
     missing_copy = set(header_variables) - set(copy_variables)
 
     if len(missing_header) > 0:
-        missing_header = list(missing_header)
-        missing_header.sort()
+        missing_header = sorted(missing_header)
         print(str(len(missing_header)) + " missing header variables:")
         print(missing_header)
 
     if len(missing_copy) > 0:
-        missing_copy = list(missing_copy)
-        missing_copy.sort()
+        missing_copy = sorted(missing_copy)
         print(str(len(missing_copy)) + " missing copy constructor variables:")
         print(missing_copy)
 
@@ -180,6 +176,9 @@ def get_constructor_variables(class_variables, beautifier_path):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # start between the following lines
         if "ASBeautifier::ASBeautifier" in line:
             class_lines[0] = lines + 1
@@ -187,7 +186,7 @@ def get_constructor_variables(class_variables, beautifier_path):
         if (class_lines[0] == 0
                 or class_lines[0] >= lines):
             continue
-        # find ending bracket
+        # find ending brace
         if '}' in line:
             class_lines[1] = lines
             break
@@ -202,7 +201,7 @@ def get_constructor_variables(class_variables, beautifier_path):
         if len(variable_name) == 0:
             continue
         # omit global variable initialization to avoid a difference
-        if "g_preprocessorCppExternCBracket" in line:
+        if "g_preprocessorCppExternCBrace" in line:
             continue
         class_variables.append(variable_name)
         class_total += 1
@@ -223,14 +222,14 @@ def get_constructor_variables(class_variables, beautifier_path):
 def get_copy_variables(copy_variables, beautifier_path):
     """Read the ASBeautifier file and save the copy constuctor variables."""
 
-    copy_lines = [0, 0]			# line numbers for copy constructor
-    copy_total = 0				# total variables for copy constructor
-    copy_brackets = 0			# unmatched brackets in the copy constructor
-    lines = 0					# current input line number
+    copy_lines = [0, 0]         # line numbers for copy constructor
+    copy_total = 0              # total variables for copy constructor
+    copy_braces = 0             # unmatched braces in the copy constructor
+    lines = 0                   # current input line number
     file_in = open(beautifier_path, 'r')
 
     # add global variable not copied
-    copy_variables.append("g_preprocessorCppExternCBracket")
+    copy_variables.append("g_preprocessorCppExternCBrace")
 
     for line_in in file_in:
         lines += 1
@@ -239,21 +238,23 @@ def get_copy_variables(copy_variables, beautifier_path):
             continue
         if line.startswith("//"):
             continue
-
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # start between the following lines
         if "ASBeautifier(const ASBeautifier" in line:
             copy_lines[0] = lines + 1
-            copy_brackets += 1
+            copy_braces += 1
             continue
         if (copy_lines[0] == 0
                 or copy_lines[0] >= lines):
             continue
-        # count brackets
+        # count braces
         if '{' in line:
-            copy_brackets += 1
+            copy_braces += 1
         if '}' in line:
-            copy_brackets -= 1
-        if  copy_brackets == 0:
+            copy_braces -= 1
+        if copy_braces == 0:
             copy_lines[1] = lines
             break
         # get the variable name
@@ -282,7 +283,7 @@ def get_header_variables(header_variables, header_path):
     file_in = open(header_path, 'r')
 
     # add global variable initialized in the class
-    header_variables.append("g_preprocessorCppExternCBracket")
+    header_variables.append("g_preprocessorCppExternCBrace")
 
     for line_in in file_in:
         lines += 1
@@ -291,7 +292,9 @@ def get_header_variables(header_variables, header_path):
             continue
         if line.startswith("//"):
             continue
-
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # start between the following lines
         if "class ASBeautifier" in line:
             header_lines[0] = lines + 1
@@ -299,7 +302,7 @@ def get_header_variables(header_variables, header_path):
         if (header_lines[0] == 0
                 or header_lines[0] >= lines):
             continue
-        # find ending bracket
+        # find ending brace
         if '}' in line:
             header_lines[1] = lines
             break
@@ -346,6 +349,9 @@ def get_initializer_variables(class_variables, beautifier_path):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # start between the following lines
         if "void ASBeautifier::init(ASSourceIterator* iter)" in line:
             class_lines_init[0] = lines_init + 1
@@ -353,7 +359,7 @@ def get_initializer_variables(class_variables, beautifier_path):
         if (class_lines_init[0] == 0
                 or class_lines_init[0] >= lines_init):
             continue
-        # find ending bracket
+        # find ending brace
         if '}' in line:
             class_lines_init[1] = lines_init
             break

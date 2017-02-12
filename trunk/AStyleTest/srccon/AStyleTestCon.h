@@ -26,16 +26,6 @@
 using namespace astyle;
 using namespace testing;
 
-//-------------------------------------------------------------------------
-// extern global variables in astyle_main.cpp
-//-------------------------------------------------------------------------
-
-// global variables in astyle_main.cpp
-// NOTE: the Embarcadero compiler needs the astyle:: qualifier for some reason
-namespace astyle {
-extern astyle::ASConsole* g_console;
-extern ostream* _err;
-}
 
 //-------------------------------------------------------------------------
 // declarations

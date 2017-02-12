@@ -51,14 +51,12 @@ def find_class_diffs(header_variables, beautifier_variables):
     missing_class = set(header_variables) - set(beautifier_variables)
 
     if len(missing_header) > 0:
-        missing_header = list(missing_header)
-        missing_header.sort()
+        missing_header = sorted(missing_header)
         print(str(len(missing_header)) + " missing protected header variables:")
         print(missing_header)
 
     if len(missing_class) > 0:
-        missing_class = list(missing_class)
-        missing_class.sort()
+        missing_class = sorted(missing_class)
         print(str(len(missing_class)) + " missing activeBeautifierStack beautifier variables:")
         print(missing_class)
 
@@ -85,6 +83,9 @@ def get_beautifier_variables(beautifier_variables, beautifier_path):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # start here for 20 lines
         if (beautifier_lines[0] == 0
                 and line.startswith("activeBeautifierStack->back()->")):
@@ -99,7 +100,7 @@ def get_beautifier_variables(beautifier_variables, beautifier_path):
         if assignment == -1:
             continue
         # get the variable name
-        variable_name = line[assignment+1:-1].strip()
+        variable_name = line[assignment + 1:-1].strip()
         # print variable_name
         beautifier_variables.append(variable_name)
         beautifier_total += 1
@@ -134,6 +135,9 @@ def get_header_variables(header_variables, header_path):
             break
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # remove ending comment
         ending_comment = line.find("//")
         if ending_comment != -1:

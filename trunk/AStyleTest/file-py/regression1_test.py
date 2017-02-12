@@ -41,7 +41,7 @@ __options_x = ""
 __options_x2 = ""
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle26"
+__astyleexe1 = "astyle30a"
 __astyleexe2 = "astyled"
 
 # select one of the following to unarchive files
@@ -282,14 +282,14 @@ def verify_current_exe1(regress1path):
     # check exe1 for most current by bumping the ending letter by 1
     alphas = "abcdefghijklmnopqrstuvwxyz"
     if os.name == "nt":
-        if regress1path[-5].isdigit():	# for first file from last release (AStyle1.exe)
+        if regress1path[-5].isdigit():  # for first file from last release (AStyle1.exe)
             return True
         index = alphas.find(regress1path[-5])
         if index == -1:
             libastyle.system_exit("Bad index for alpha: " + index)
         test1path = regress1path[:-5] + alphas[index + 1] + regress1path[-5 + 1:]
     else:
-        if regress1path[-1].isdigit():	# for first file from last release (astyle1)
+        if regress1path[-1].isdigit():  # for first file from last release (astyle1)
             return True
         index = alphas.find(regress1path[-1])
         if index == -1:

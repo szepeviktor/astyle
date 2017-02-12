@@ -14,6 +14,7 @@
 				<Option parameters="--terse_output" />
 				<Compiler>
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-Wextra" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
@@ -21,8 +22,8 @@
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock-1.7.0/include" />
-					<Add directory="../../../gmock-1.7.0/gtest/include" />
+					<Add directory="../../../googlemock/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add library="iconv" />
@@ -39,6 +40,7 @@
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-Wextra" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add option="-DNDEBUG" />
@@ -46,8 +48,8 @@
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../gmock-1.7.0/include" />
-					<Add directory="../../../gmock-1.7.0/gtest/include" />
+					<Add directory="../../../googlemock/include" />
+					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add library="iconv" />

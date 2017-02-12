@@ -39,8 +39,7 @@ def main():
     print()
 
     # update html files
-    file_list = glob.glob(__html_folder + "/*.html")
-    file_list.sort()
+    file_list = sorted(glob.glob(__html_folder + "/*.html"))
     for file_path in file_list:
         print(correct_path_separators(file_path))
         update_html_files(file_path)
@@ -131,7 +130,7 @@ def write_output_file(file_out_list, file_path):
                 file_out.write(line)
     else:
         new_file = file_path + ".new"
-         # remove an existing .new file
+        # remove an existing .new file
         if os.path.isfile(new_file):
             os.remove(new_file)
         # write the new file

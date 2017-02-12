@@ -7,7 +7,7 @@
 from __future__ import print_function
 
 import time
-#local libraries
+# local libraries
 import libastyle
 import libextract
 

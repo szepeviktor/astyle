@@ -32,6 +32,7 @@ namespace {
 struct GetFilePathsF : public Test
 {
 	ASFormatter formatter;
+	ASConsole* console;
 	vector<string> fileNames;
 
 	// build fileNames vector and write the output files
@@ -43,37 +44,36 @@ struct GetFilePathsF : public Test
 		    "bar();\n"
 		    "}\n";
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 		fileNames.push_back(getTestDirectory() + "/getFilePaths1.cpp");
 		fileNames.push_back(getTestDirectory() + "/getFilePaths2.cpp");
 		fileNames.push_back(getTestDirectory() + "/getFilePaths3.cpp");
 		fileNames.push_back(getTestDirectory() + "/getFilePaths4.cpp");
 		for (size_t i = 0; i < fileNames.size(); i++)
 		{
-			g_console->standardizePath(fileNames[i]);
+			console->standardizePath(fileNames[i]);
 			createTestFile(fileNames[i], textIn);
 		}
 	}
 
 	~GetFilePathsF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 };
 
 TEST_F(GetFilePathsF, FilePaths1)
 // test fileName vector and getFilePaths with *.cpp
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check the files found
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileName.size(); i++)
 		EXPECT_EQ(fileNames[i], fileName[i]);
@@ -82,16 +82,15 @@ TEST_F(GetFilePathsF, FilePaths1)
 TEST_F(GetFilePathsF, FilePaths2)
 // test fileName vector and getFilePaths with *.c??
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.c??");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check the files found
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileName.size(); i++)
 		EXPECT_EQ(fileNames[i], fileName[i]);
@@ -100,16 +99,15 @@ TEST_F(GetFilePathsF, FilePaths2)
 TEST_F(GetFilePathsF, FilePaths3)
 // test fileName vector and getFilePaths with getFilePaths*.cpp
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/getFilePaths*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check the files found
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileName.size(); i++)
 		EXPECT_EQ(fileNames[i], fileName[i]);
@@ -119,16 +117,15 @@ TEST_F(GetFilePathsF, FilePaths4)
 // test fileName vector and getFilePaths with *.c*
 // * at the end WITH remaining data allows complete coverage of wildcmp function
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.c*");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check the files found
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileName.size(); i++)
 		EXPECT_EQ(fileNames[i], fileName[i]);
@@ -138,16 +135,15 @@ TEST_F(GetFilePathsF, FilePaths5)
 // test fileName vector and getFilePaths with *.cpp*
 // * at the end WITHOUT remaining data allows complete coverage of wildcmp function
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp*");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check the files found
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileName.size(); i++)
 		EXPECT_EQ(fileNames[i], fileName[i]);
@@ -156,12 +152,11 @@ TEST_F(GetFilePathsF, FilePaths5)
 TEST_F(GetFilePathsF, FilePathsError)
 // test fileName vector and getFilePaths with bad file path
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/AStyleError*");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// change special chars in filepath to '.' for windows regex comparison
 	size_t i = 0;
 	while (i < astyleOptionsVector.back().length())
@@ -177,7 +172,7 @@ TEST_F(GetFilePathsF, FilePathsError)
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
-	EXPECT_EXIT(g_console->processFiles(),
+	EXPECT_EXIT(console->processFiles(),
 	            ExitedWithCode(EXIT_FAILURE),
 	            regex);
 #endif
@@ -186,13 +181,12 @@ TEST_F(GetFilePathsF, FilePathsError)
 TEST_F(GetFilePathsF, FilePathsErrorRecursive)
 // test fileName vector and getFilePaths with bad file path using recursive option
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/AStyleError*");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// change special chars in filepath to '.' for windows regex comparison
 	size_t i = 0;
 	while (i < astyleOptionsVector.back().length())
@@ -207,7 +201,7 @@ TEST_F(GetFilePathsF, FilePathsErrorRecursive)
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
-	EXPECT_EXIT(g_console->processFiles(),
+	EXPECT_EXIT(console->processFiles(),
 	            ExitedWithCode(EXIT_FAILURE),
 	            regex);
 #endif
@@ -216,11 +210,10 @@ TEST_F(GetFilePathsF, FilePathsErrorRecursive)
 TEST_F(GetFilePathsF, FilePathsErrorSansFilename)
 // test fileName vector and getFilePaths with no filename and no recursive option
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/");	// no file
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// change special chars in filepath to '.' for windows regex comparison
 	size_t i = 0;
 	while (i < astyleOptionsVector.back().length())
@@ -235,7 +228,7 @@ TEST_F(GetFilePathsF, FilePathsErrorSansFilename)
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
-	EXPECT_EXIT(g_console->processFiles(),
+	EXPECT_EXIT(console->processFiles(),
 	            ExitedWithCode(EXIT_FAILURE),
 	            regex);
 #endif
@@ -244,12 +237,11 @@ TEST_F(GetFilePathsF, FilePathsErrorSansFilename)
 TEST_F(GetFilePathsF, FilePathsErrorRecursiveSansWildcard)
 // test fileName vector and getFilePaths with recursive option and no wildcard
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/noWildcard.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// change special chars in filepath to '.' for windows regex comparison
 	size_t i = 0;
 	while (i < astyleOptionsVector.back().length())
@@ -267,7 +259,7 @@ TEST_F(GetFilePathsF, FilePathsErrorRecursiveSansWildcard)
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
-	EXPECT_EXIT(g_console->processFiles(),
+	EXPECT_EXIT(console->processFiles(),
 	            ExitedWithCode(EXIT_FAILURE),
 	            regex);
 #endif
@@ -276,12 +268,11 @@ TEST_F(GetFilePathsF, FilePathsErrorRecursiveSansWildcard)
 TEST_F(GetFilePathsF, FilePathsErrorInDirectoryName)
 // test fileName vector and getFilePaths with a non-existant directory
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/errorInDirectoryName/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// change special chars in filepath to '.' for windows regex comparison
 	size_t i = 0;
 	while (i < astyleOptionsVector.back().length())
@@ -297,7 +288,7 @@ TEST_F(GetFilePathsF, FilePathsErrorInDirectoryName)
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with bad file path
-	EXPECT_EXIT(g_console->processFiles(),
+	EXPECT_EXIT(console->processFiles(),
 	            ExitedWithCode(EXIT_FAILURE),
 	            regex);
 #endif
@@ -310,6 +301,7 @@ TEST_F(GetFilePathsF, FilePathsErrorInDirectoryName)
 struct GetFileTypeF : public Test
 {
 	ASFormatter formatter;
+	ASConsole* console;
 	vector<string> fileNames;
 
 	// build fileNames vector and write the output files
@@ -321,35 +313,34 @@ struct GetFileTypeF : public Test
 		    "    bar();\n"
 		    "}\n";
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 		fileNames.push_back(getTestDirectory() + "/getFileType1.cpp");
 		fileNames.push_back(getTestDirectory() + "/getFileType2.java");
 		fileNames.push_back(getTestDirectory() + "/getFileType3.cs");
 		fileNames.push_back(getTestDirectory() + "/getFileType4.error");
 		for (size_t i = 0; i < fileNames.size(); i++)
 		{
-			g_console->standardizePath(fileNames[i]);
+			console->standardizePath(fileNames[i]);
 			createTestFile(fileNames[i], textIn);
 		}
 	}
 
 	~GetFileTypeF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 };
 
 TEST_F(GetFileTypeF, FileTypeC)
 // test getFileType with *.cpp
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check the file type
 	EXPECT_EQ(C_TYPE, formatter.getFileType());
 }
@@ -357,14 +348,13 @@ TEST_F(GetFileTypeF, FileTypeC)
 TEST_F(GetFileTypeF, FileTypeJava)
 // test getFileType with *.java
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.java");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check the file type
 	EXPECT_EQ(JAVA_TYPE, formatter.getFileType());
 }
@@ -372,14 +362,13 @@ TEST_F(GetFileTypeF, FileTypeJava)
 TEST_F(GetFileTypeF, FileTypeSharp)
 // test getFileType with *.cs
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cs");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check the file type
 	EXPECT_EQ(SHARP_TYPE, formatter.getFileType());
 }
@@ -387,14 +376,13 @@ TEST_F(GetFileTypeF, FileTypeSharp)
 TEST_F(GetFileTypeF, FileTypeError)
 // test getFileType with an invalid type, should return C_TYPE
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.error");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check the file type
 	EXPECT_EQ(C_TYPE, formatter.getFileType());
 }
@@ -406,6 +394,7 @@ TEST_F(GetFileTypeF, FileTypeError)
 struct LanguageVectorsF : public Test
 {
 	ASFormatter formatter;
+	ASConsole* console;
 	vector<string> fileNames;
 
 	// build fileNames vector and write the output files
@@ -417,37 +406,36 @@ struct LanguageVectorsF : public Test
 		    "    bar();\n"
 		    "}\n";
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 		fileNames.push_back(getTestDirectory() + "/getFileType1.cpp");
 		fileNames.push_back(getTestDirectory() + "/getFileType2.java");
 		fileNames.push_back(getTestDirectory() + "/getFileType3.cs");
 		fileNames.push_back(getTestDirectory() + "/getFileType4.error");
 		for (size_t i = 0; i < fileNames.size(); i++)
 		{
-			g_console->standardizePath(fileNames[i]);
+			console->standardizePath(fileNames[i]);
 			createTestFile(fileNames[i], textIn);
 		}
 	}
 
 	~LanguageVectorsF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 };
 
 TEST_F(LanguageVectorsF, FileTypeC)
 // Test the language vector setting with *.cpp.
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// verify initial setting
 	EXPECT_EQ(9, formatter.getFormatterFileType());
 	EXPECT_EQ(9, formatter.getBeautifierFileType());
 	// test language vectors for C++ files
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	EXPECT_EQ(C_TYPE, formatter.getFormatterFileType());
 	EXPECT_EQ(C_TYPE, formatter.getBeautifierFileType());
 }
@@ -455,16 +443,15 @@ TEST_F(LanguageVectorsF, FileTypeC)
 TEST_F(LanguageVectorsF, FileTypeJava)
 // Test the language vector setting with *.java.
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// verify initial setting
 	EXPECT_EQ(9, formatter.getFormatterFileType());
 	EXPECT_EQ(9, formatter.getBeautifierFileType());
 	// test language vectors for Java files
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.java");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	EXPECT_EQ(JAVA_TYPE, formatter.getFormatterFileType());
 	EXPECT_EQ(JAVA_TYPE, formatter.getBeautifierFileType());
 }
@@ -472,16 +459,15 @@ TEST_F(LanguageVectorsF, FileTypeJava)
 TEST_F(LanguageVectorsF, FileTypeSharp)
 // Test the language vector setting with *.cs.
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// verify initial setting
 	EXPECT_EQ(9, formatter.getFormatterFileType());
 	EXPECT_EQ(9, formatter.getBeautifierFileType());
 	// test language vectors for C# files
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cs");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	EXPECT_EQ(SHARP_TYPE, formatter.getFormatterFileType());
 	EXPECT_EQ(SHARP_TYPE, formatter.getBeautifierFileType());
 }
@@ -543,6 +529,7 @@ TEST(LanguageVectors, MultipleObjects)
 struct RecursiveF : public Test
 {
 	ASFormatter formatter;
+	ASConsole* console;
 	vector<string> fileNames;
 
 	// build fileNames vector and write the output files
@@ -554,16 +541,16 @@ struct RecursiveF : public Test
 		    "bar();\n"
 		    "}\n";
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 		// create directories
 		string sub1  = getTestDirectory() + "/subdir1";
 		string sub1a = getTestDirectory() + "/subdir1/subdir1a";
 		string sub1b = getTestDirectory() + "/subdir1/subdir1b";
 		string sub2  = getTestDirectory() + "/subdir2";
-		g_console->standardizePath(sub1);
-		g_console->standardizePath(sub1a);
-		g_console->standardizePath(sub1b);
-		g_console->standardizePath(sub2);
+		console->standardizePath(sub1);
+		console->standardizePath(sub1a);
+		console->standardizePath(sub1b);
+		console->standardizePath(sub2);
 		createTestDirectory(sub1);
 		createTestDirectory(sub1a);
 		createTestDirectory(sub1b);
@@ -581,7 +568,7 @@ struct RecursiveF : public Test
 		fileNames.push_back(sub2 + "/recursive10.cpp");
 		for (size_t i = 0; i < fileNames.size(); i++)
 		{
-			g_console->standardizePath(fileNames[i]);
+			console->standardizePath(fileNames[i]);
 			createTestFile(fileNames[i], textIn);
 		}
 		// sort file names for comparison
@@ -590,24 +577,23 @@ struct RecursiveF : public Test
 
 	~RecursiveF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 };
 
 TEST_F(RecursiveF, Default)
 // test recursive option
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check the fileName vector
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 		EXPECT_EQ(fileNames[i], fileName[i]);
@@ -616,15 +602,14 @@ TEST_F(RecursiveF, Default)
 TEST_F(RecursiveF, Sans)
 // test *.cpp WITHOUT recursive
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(false);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(false);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// delete sub directory files from the fileName vector
 	size_t searchStart = getTestDirectory().length() + 1;
 	for (int i = 0; i < (int) fileNames.size(); i++)
@@ -640,7 +625,7 @@ TEST_F(RecursiveF, Sans)
 	}
 	// check the files
 	EXPECT_TRUE(fileNames.size() > 0);
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 		EXPECT_EQ(fileNames[i], fileName[i]);
@@ -649,9 +634,8 @@ TEST_F(RecursiveF, Sans)
 TEST_F(RecursiveF, Exclude)
 // test recursive option with exclude
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// call astyle processOptions()
 	size_t filesExcluded = 0;
 	vector<string> astyleOptionsVector;
@@ -668,19 +652,18 @@ TEST_F(RecursiveF, Exclude)
 	astyleOptionsVector.push_back("--exclude=/subdir1/subdir1b");
 	filesExcluded += 2;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// verify excludes
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	EXPECT_EQ(fileNames.size() - filesExcluded, fileName.size());
 }
 
 TEST_F(RecursiveF, ExcludeErrors)
 // test recursive option with unmatched excludes
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	// partial match on file
@@ -688,7 +671,7 @@ TEST_F(RecursiveF, ExcludeErrors)
 	// partial match on directory
 	astyleOptionsVector.push_back("--exclude=ubdir1a");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// error message regular expression
 	string regex = "Exclude .unmatched.  ecursive1.cpp\n"
 	               "Exclude .unmatched.  ubdir1a\n"
@@ -696,7 +679,7 @@ TEST_F(RecursiveF, ExcludeErrors)
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with unmatched excludes
-	EXPECT_EXIT(g_console->processFiles(),
+	EXPECT_EXIT(console->processFiles(),
 	            ExitedWithCode(EXIT_FAILURE),
 	            regex);
 #endif
@@ -705,9 +688,8 @@ TEST_F(RecursiveF, ExcludeErrors)
 TEST_F(RecursiveF, ExcludeErrorsRecursive)
 // test recursive option with unmatched excludes and recursive option
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	// partial match on file
@@ -715,14 +697,14 @@ TEST_F(RecursiveF, ExcludeErrorsRecursive)
 	// partial match on directory
 	astyleOptionsVector.push_back("--exclude=ubdir1a");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// error message regular expression
 	string regex = "Exclude .unmatched.  ecursive1.cpp\n"
 	               "Exclude .unmatched.  ubdir1a";
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processFiles with unmatched excludes
-	EXPECT_EXIT(g_console->processFiles(),
+	EXPECT_EXIT(console->processFiles(),
 	            ExitedWithCode(EXIT_FAILURE),
 	            regex);
 #endif
@@ -731,47 +713,46 @@ TEST_F(RecursiveF, ExcludeErrorsRecursive)
 TEST_F(RecursiveF, HiddenFiles)
 // test recursive option with hidden files
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// write the hidden files
 	char textIn[] = "void foo(){}\n";
 	// hidden on Linux and Windows
 	string dirOut1 = getTestDirectory() + "/.hidden";
-	g_console->standardizePath(dirOut1);
+	console->standardizePath(dirOut1);
 	createTestDirectory(dirOut1);
 	string fileOut1 = getTestDirectory() + "/.hidden/hidden1.cpp";
-	g_console->standardizePath(fileOut1);
+	console->standardizePath(fileOut1);
 	createTestFile(fileOut1, textIn);
 	string fileOut2 = getTestDirectory() + "/.hidden2.cpp";
-	g_console->standardizePath(fileOut2);
+	console->standardizePath(fileOut2);
 	createTestFile(fileOut2, textIn);
 	// hidden on Windows only
 #ifdef _WIN32
 	string dirOut1w = getTestDirectory() + "/readonlywin";
-	g_console->standardizePath(dirOut1w);
+	console->standardizePath(dirOut1w);
 	createTestDirectory(dirOut1w);
 	SetFileAttributes(dirOut1w.c_str(), FILE_ATTRIBUTE_READONLY);
 	string fileOut1w = getTestDirectory() + "/readonlywin/readonly1win.cpp";
-	g_console->standardizePath(fileOut1w);
+	console->standardizePath(fileOut1w);
 	createTestFile(fileOut1w, textIn);
 	string fileOut2w = getTestDirectory() + "/hidden2win.cpp";
-	g_console->standardizePath(fileOut2w);
+	console->standardizePath(fileOut2w);
 	createTestFile(fileOut2w, textIn);
 	SetFileAttributes(fileOut2w.c_str(), FILE_ATTRIBUTE_HIDDEN);
 	string fileOut3w = getTestDirectory() + "/readonly2win.cpp";
-	g_console->standardizePath(fileOut3w);
+	console->standardizePath(fileOut3w);
 	createTestFile(fileOut3w, textIn);
 	SetFileAttributes(fileOut3w.c_str(), FILE_ATTRIBUTE_READONLY);
 #endif
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
-	// hidden files should not be in g_console vector
-	vector<string> fileName = g_console->getFileName();
+	console->processFiles();
+	// hidden files should not be in console vector
+	vector<string> fileName = console->getFileName();
 	EXPECT_EQ(fileNames.size(), fileName.size());
 #ifdef _WIN32
 	// reset file attributes
@@ -788,6 +769,7 @@ TEST_F(RecursiveF, HiddenFiles)
 struct DryRunF : public Test
 {
 	ASFormatter formatter;
+	ASConsole* console;
 	vector<string> fileNames;
 
 	// build fileNames vector and write the output files
@@ -799,20 +781,20 @@ struct DryRunF : public Test
 		    "    bar();\n"
 		    "}\n";
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 		// create test files
 		fileNames.push_back(getTestDirectory() + "/dry-run1.cpp");
 		fileNames.push_back(getTestDirectory() + "/dry-run2.cpp");
 		for (size_t i = 0; i < fileNames.size(); i++)
 		{
-			g_console->standardizePath(fileNames[i]);
+			console->standardizePath(fileNames[i]);
 			createTestFile(fileNames[i], textIn);
 		}
 	}
 
 	~DryRunF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 };
 
@@ -820,18 +802,17 @@ TEST_F(DryRunF, DryRunTest)
 // Test dry-run option.
 // Backup files should NOT be created.
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsDryRun(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsDryRun(true);
 	// set the formatter options
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	astyleOptionsVector.push_back("--style=attach");
 	// process the file
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check that no backup files were created
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
@@ -843,24 +824,22 @@ TEST_F(DryRunF, DryRunTest)
 		if (stat(origFileName.c_str(), &stBuf) != -1)
 			EXPECT_STREQ("no .orig file", origFileName.c_str());
 	}
-	deleteConsoleGlobalObject();
 }
 
 TEST_F(DryRunF, DryRunSans)
 // Test without dry-run option.
 // Backup files should be created.
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// set the formatter options
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	astyleOptionsVector.push_back("--style=attach");
 	// process the file
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check that no backup files were created
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
@@ -872,7 +851,6 @@ TEST_F(DryRunF, DryRunSans)
 		if (stat(origFileName.c_str(), &stBuf) == -1)
 			EXPECT_STREQ("expected an .orig file", origFileName.c_str());
 	}
-	deleteConsoleGlobalObject();
 }
 
 //----------------------------------------------------------------------------
@@ -883,6 +861,7 @@ TEST_F(DryRunF, DryRunSans)
 struct LineEndsFormattedF : public Test
 {
 	ASFormatter formatter;
+	ASConsole* console;
 	vector<string> fileNames;
 
 	string textLinuxStr;
@@ -915,41 +894,40 @@ struct LineEndsFormattedF : public Test
 		    "    bar()\r\n"
 		    "}\r\n";
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 		// build text strings
 		textLinux = textLinuxStr.c_str();
 		textWindows = textWindowsStr.c_str();
 		textMacOld = textMacOldStr.c_str();
 		// create test files
 		pathLinux = getTestDirectory() + "/textLinux.cpp";
-		g_console->standardizePath(pathLinux);
+		console->standardizePath(pathLinux);
 		createTestFile(pathLinux, textLinux);
 		pathWindows = getTestDirectory() + "/textWindows.cpp";
-		g_console->standardizePath(pathWindows);
+		console->standardizePath(pathWindows);
 		createTestFile(pathWindows, textWindows);
 		pathMacOld = getTestDirectory() + "/textMac.cpp";
-		g_console->standardizePath(pathMacOld);
+		console->standardizePath(pathMacOld);
 		createTestFile(pathMacOld, textMacOld);
 	}
 
 	~LineEndsFormattedF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 };
 
 TEST_F(LineEndsFormattedF, LineEndWindows)
 // test if lineend=windows formats the file
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back("--lineend=windows");
 	astyleOptionsVector.push_back(pathWindows);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = pathWindows + ".orig";
 	struct stat stBuf;
@@ -961,15 +939,14 @@ TEST_F(LineEndsFormattedF, LineEndWindows)
 TEST_F(LineEndsFormattedF, LineEndLinux)
 // test if lineend=linux formats the file
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back("--lineend=linux");
 	astyleOptionsVector.push_back(pathLinux);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = pathLinux + ".orig";
 	struct stat stBuf;
@@ -981,15 +958,14 @@ TEST_F(LineEndsFormattedF, LineEndLinux)
 TEST_F(LineEndsFormattedF, LineEndMacOld)
 // test if lineend=macold formats the file
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back("--lineend=macold");
 	astyleOptionsVector.push_back(pathMacOld);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = pathMacOld + ".orig";
 	struct stat stBuf;
@@ -1006,6 +982,7 @@ TEST_F(LineEndsFormattedF, LineEndMacOld)
 struct LineEndsUnchangedF : public Test
 {
 	ASFormatter formatter;
+	ASConsole* console;
 	vector<string> fileNames;
 
 	string textLinuxStr;
@@ -1038,41 +1015,40 @@ struct LineEndsUnchangedF : public Test
 		    "    bar()\r"
 		    "}\r";
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 		// build text strings
 		textLinux = textLinuxStr.c_str();
 		textWindows = textWindowsStr.c_str();
 		textMacOld = textMacOldStr.c_str();
 		// create test files
 		pathLinux = getTestDirectory() + "/textLinux.cpp";
-		g_console->standardizePath(pathLinux);
+		console->standardizePath(pathLinux);
 		createTestFile(pathLinux, textLinux);
 		pathWindows = getTestDirectory() + "/textWindows.cpp";
-		g_console->standardizePath(pathWindows);
+		console->standardizePath(pathWindows);
 		createTestFile(pathWindows, textWindows);
 		pathMacOld = getTestDirectory() + "/textMac.cpp";
-		g_console->standardizePath(pathMacOld);
+		console->standardizePath(pathMacOld);
 		createTestFile(pathMacOld, textMacOld);
 	}
 
 	~LineEndsUnchangedF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 };
 
 TEST_F(LineEndsUnchangedF, LineEndWindows)
 // test if lineend=windows leaves the file unchanged
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back("--lineend=windows");
 	astyleOptionsVector.push_back(pathMacOld);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = pathWindows + ".orig";
 	struct stat stBuf;
@@ -1084,15 +1060,14 @@ TEST_F(LineEndsUnchangedF, LineEndWindows)
 TEST_F(LineEndsUnchangedF, LineEndLinux)
 // test if lineend=linux leaves the file unchanged
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back("--lineend=linux");
 	astyleOptionsVector.push_back(pathWindows);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = pathLinux + ".orig";
 	struct stat stBuf;
@@ -1104,15 +1079,14 @@ TEST_F(LineEndsUnchangedF, LineEndLinux)
 TEST_F(LineEndsUnchangedF, LineEndMacOld)
 // test if lineend=macold leaves the file unchanged
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back("--lineend=macold");
 	astyleOptionsVector.push_back(pathLinux);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = pathMacOld + ".orig";
 	struct stat stBuf;
@@ -1129,6 +1103,7 @@ TEST_F(LineEndsUnchangedF, LineEndMacOld)
 struct LineEndsDefaultF : public Test
 {
 	ASFormatter formatter;
+	ASConsole* console;
 	vector<string> fileNames;
 
 	string textLinuxStr;
@@ -1161,40 +1136,39 @@ struct LineEndsDefaultF : public Test
 		    "    bar()\r"
 		    "}\r";
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 		// build text strings
 		textLinux = textLinuxStr.c_str();
 		textWindows = textWindowsStr.c_str();
 		textMacOld = textMacOldStr.c_str();
 		// create test files
 		pathLinux = getTestDirectory() + "/textLinux.cpp";
-		g_console->standardizePath(pathLinux);
+		console->standardizePath(pathLinux);
 		createTestFile(pathLinux, textLinux);
 		pathWindows = getTestDirectory() + "/textWindows.cpp";
-		g_console->standardizePath(pathWindows);
+		console->standardizePath(pathWindows);
 		createTestFile(pathWindows, textWindows);
 		pathMacOld = getTestDirectory() + "/textMac.cpp";
-		g_console->standardizePath(pathMacOld);
+		console->standardizePath(pathMacOld);
 		createTestFile(pathMacOld, textMacOld);
 	}
 
 	~LineEndsDefaultF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 };
 
 TEST_F(LineEndsDefaultF, LineEndWindows)
 // test if default line end leaves a windows file unchanged
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(pathWindows);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = pathWindows + ".orig";
 	struct stat stBuf;
@@ -1206,14 +1180,13 @@ TEST_F(LineEndsDefaultF, LineEndWindows)
 TEST_F(LineEndsDefaultF, LineEndLinux)
 // test if default line end leaves a linux file unchanged
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(pathLinux);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = pathLinux + ".orig";
 	struct stat stBuf;
@@ -1225,14 +1198,13 @@ TEST_F(LineEndsDefaultF, LineEndLinux)
 TEST_F(LineEndsDefaultF, LineEndMacOld)
 // test if default line end leaves a macold file unchanged
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(pathMacOld);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = pathMacOld + ".orig";
 	struct stat stBuf;
@@ -1249,6 +1221,7 @@ TEST_F(LineEndsDefaultF, LineEndMacOld)
 struct LineEndsDefaultMixedF : public Test
 {
 	ASFormatter formatter;
+	ASConsole* console;
 	vector<string> fileNames;
 
 	string textLinuxStr;
@@ -1284,40 +1257,39 @@ struct LineEndsDefaultMixedF : public Test
 		    "    bar2()\r"
 		    "}\r";
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 		// build text strings
 		textLinux = textLinuxStr.c_str();
 		textWindows = textWindowsStr.c_str();
 		textMacOld = textMacOldStr.c_str();
 		// create test files
 		pathLinux = getTestDirectory() + "/textLinux.cpp";
-		g_console->standardizePath(pathLinux);
+		console->standardizePath(pathLinux);
 		createTestFile(pathLinux, textLinux);
 		pathWindows = getTestDirectory() + "/textWindows.cpp";
-		g_console->standardizePath(pathWindows);
+		console->standardizePath(pathWindows);
 		createTestFile(pathWindows, textWindows);
 		pathMacOld = getTestDirectory() + "/textMac.cpp";
-		g_console->standardizePath(pathMacOld);
+		console->standardizePath(pathMacOld);
 		createTestFile(pathMacOld, textMacOld);
 	}
 
 	~LineEndsDefaultMixedF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 };
 
 TEST_F(LineEndsDefaultMixedF, LineEndWindows)
 // test if default line ends outputs windows line ends by calling convertLineEnds()
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(pathWindows);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = pathWindows + ".orig";
 	struct stat stBuf;
@@ -1325,7 +1297,7 @@ TEST_F(LineEndsDefaultMixedF, LineEndWindows)
 	if (stat(origFileName.c_str(), &stBuf) == -1)
 		EXPECT_STREQ("no .orig file", origFileName.c_str());
 	// check that convertLineEnds is called
-	EXPECT_TRUE(g_console->getLineEndsMixed());
+	EXPECT_TRUE(console->getLineEndsMixed());
 	// the line ends must be checked manually
 //	systemPause("Check Windows Line Ends");
 }
@@ -1333,14 +1305,13 @@ TEST_F(LineEndsDefaultMixedF, LineEndWindows)
 TEST_F(LineEndsDefaultMixedF, LineEndLinux)
 // test if default line ends outputs linux line ends by calling convertLineEnds()
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(pathLinux);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = pathLinux + ".orig";
 	struct stat stBuf;
@@ -1348,7 +1319,7 @@ TEST_F(LineEndsDefaultMixedF, LineEndLinux)
 	if (stat(origFileName.c_str(), &stBuf) == -1)
 		EXPECT_STREQ("no .orig file", origFileName.c_str());
 	// check that convertLineEnds is called
-	EXPECT_TRUE(g_console->getLineEndsMixed());
+	EXPECT_TRUE(console->getLineEndsMixed());
 	// the line ends must be checked manually
 //	systemPause("Check Linux Line Ends");
 }
@@ -1356,14 +1327,13 @@ TEST_F(LineEndsDefaultMixedF, LineEndLinux)
 TEST_F(LineEndsDefaultMixedF, LineEndMacOld)
 // test if default line ends outputs linux line ends by calling convertLineEnds()
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(pathMacOld);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = pathMacOld + ".orig";
 	struct stat stBuf;
@@ -1371,7 +1341,7 @@ TEST_F(LineEndsDefaultMixedF, LineEndMacOld)
 	if (stat(origFileName.c_str(), &stBuf) == -1)
 		EXPECT_STREQ("no .orig file", origFileName.c_str());
 	// check that convertLineEnds is called
-	EXPECT_TRUE(g_console->getLineEndsMixed());
+	EXPECT_TRUE(console->getLineEndsMixed());
 	// the line ends must be checked manually
 //	systemPause("Check MacOld Line Ends");
 }
@@ -1384,6 +1354,7 @@ TEST_F(LineEndsDefaultMixedF, LineEndMacOld)
 struct LineEndsDefaultMixedSansF : public Test
 {
 	ASFormatter formatter;
+	ASConsole* console;
 	vector<string> fileNames;
 
 	string textLinuxStr;
@@ -1416,40 +1387,39 @@ struct LineEndsDefaultMixedSansF : public Test
 		    "    bar()\r\n"		// not a macold line end
 		    "}\r";
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 		// build text strings
 		textLinux = textLinuxStr.c_str();
 		textWindows = textWindowsStr.c_str();
 		textMacOld = textMacOldStr.c_str();
 		// create test files
 		pathLinux = getTestDirectory() + "/textLinux.cpp";
-		g_console->standardizePath(pathLinux);
+		console->standardizePath(pathLinux);
 		createTestFile(pathLinux, textLinux);
 		pathWindows = getTestDirectory() + "/textWindows.cpp";
-		g_console->standardizePath(pathWindows);
+		console->standardizePath(pathWindows);
 		createTestFile(pathWindows, textWindows);
 		pathMacOld = getTestDirectory() + "/textMac.cpp";
-		g_console->standardizePath(pathMacOld);
+		console->standardizePath(pathMacOld);
 		createTestFile(pathMacOld, textMacOld);
 	}
 
 	~LineEndsDefaultMixedSansF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 };
 
 TEST_F(LineEndsDefaultMixedSansF, LineEndWindows)
 // test if default line ends outputs windows line ends without calling convertLineEnds()
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(pathWindows);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = pathWindows + ".orig";
 	struct stat stBuf;
@@ -1457,7 +1427,7 @@ TEST_F(LineEndsDefaultMixedSansF, LineEndWindows)
 	if (stat(origFileName.c_str(), &stBuf) == -1)
 		EXPECT_STREQ("no .orig file", origFileName.c_str());
 	// check that convertLineEnds is NOT called
-	EXPECT_FALSE(g_console->getLineEndsMixed());
+	EXPECT_FALSE(console->getLineEndsMixed());
 	// the line ends must be checked manually
 //	systemPause("Check Windows Line Ends");
 }
@@ -1465,14 +1435,13 @@ TEST_F(LineEndsDefaultMixedSansF, LineEndWindows)
 TEST_F(LineEndsDefaultMixedSansF, LineEndLinux)
 // test if default line ends outputs linux line ends without calling convertLineEnds()
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(pathLinux);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = pathLinux + ".orig";
 	struct stat stBuf;
@@ -1480,7 +1449,7 @@ TEST_F(LineEndsDefaultMixedSansF, LineEndLinux)
 	if (stat(origFileName.c_str(), &stBuf) == -1)
 		EXPECT_STREQ("no .orig file", origFileName.c_str());
 	// check that convertLineEnds is NOT called
-	EXPECT_FALSE(g_console->getLineEndsMixed());
+	EXPECT_FALSE(console->getLineEndsMixed());
 	// the line ends must be checked manually
 //	systemPause("Check Linux Line Ends");
 }
@@ -1488,14 +1457,13 @@ TEST_F(LineEndsDefaultMixedSansF, LineEndLinux)
 TEST_F(LineEndsDefaultMixedSansF, LineEndMacOld)
 // test if default line ends outputs linux line ends without calling convertLineEnds()
 {
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
+	console->setIsQuiet(true);		// change this to see results
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(pathMacOld);
-	g_console->processOptions(astyleOptionsVector);
+	console->processOptions(astyleOptionsVector);
 	// call astyle processFiles()
-	g_console->processFiles();
+	console->processFiles();
 	// check for .orig file
 	string origFileName = pathMacOld + ".orig";
 	struct stat stBuf;
@@ -1503,7 +1471,7 @@ TEST_F(LineEndsDefaultMixedSansF, LineEndMacOld)
 	if (stat(origFileName.c_str(), &stBuf) == -1)
 		EXPECT_STREQ("no .orig file", origFileName.c_str());
 	// check that convertLineEnds is NOT called
-	EXPECT_FALSE(g_console->getLineEndsMixed());
+	EXPECT_FALSE(console->getLineEndsMixed());
 	// the line ends must be checked manually
 //	systemPause("Check MacOld Line Ends");
 }

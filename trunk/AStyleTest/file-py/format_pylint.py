@@ -1,11 +1,11 @@
 #! /usr/bin/python
-""" Format a python file using autopep8.
+""" Check a python file using pylint.
     Run from an option in the "Tools" menu of a development environment.
     For Visual Studio:
         Title:       Format Python
         Command:     C:/Program Files/Python 3.5/python.exe
         Arguments:   "format_python.py"  "$(ItemFileName)$(ItemExt)"
-        Init Dir:    %USERPROFILE%/Projects/AStyleTest/file-pyr)
+        Init Dir:    %USERPROFILE%/Projects/AStyleTest/file-py
 """
 
 # to disable the print statement and use the print() function (version 3 format_)
@@ -31,38 +31,27 @@ def main():
         print("Invalid file extension in '" + file_name + "'")
         print()
         os._exit(1)
-    print("Formatting " + file_name)
+    print("Checking " + file_name)
     print()
-    call_autopep8_executable(file_name)
+    call_pylint_executable(file_name)
     print()
 
 # -----------------------------------------------------------------------------
 
-def call_autopep8_executable(file_name):
-    """ Call the autopep8 executable to format the project.
-        Uses the file pyprp8rc for formatting options.
+def call_pylint_executable(file_name):
+    """ Call the pylint executable to format the project.
+        Uses the file pylintrc for formatting options.
     """
     if os.name == "nt":
-        exepath = "C:/Program Files/Python 3.5/Scripts/autopep8.exe"
+        exepath = "C:/Program Files/Python 3.5/Scripts/pylint.exe"
     else:
-        exepath = "autopep8"
+        exepath = os.getenv("HOME") + "/bin/astyle"
 
-    # couldn't get options file to work "--global-config=pypep8rc"
-    # so get them from the file
-    options = []
-    get_options(options)
-    print("options =", options)
-    print()
-
-    # build the autopep8 call list
-    autopep8_call = options
-    autopep8_call.insert(0, exepath)
-    autopep8_call.append("--in-place")
-    autopep8_call.append("--verbose")
-    autopep8_call.append(file_name)
+    # build the pylint call list
+    pylint_call = [exepath, "--rcfile=pylintrc", file_name]
 
     try:
-        retval = subprocess.call(autopep8_call)
+        retval = subprocess.call(pylint_call)
     except FileNotFoundError:
         print("Cannot find '" + exepath + "'")
         os._exit(1)
@@ -71,32 +60,8 @@ def call_autopep8_executable(file_name):
     # other bit values indicate messages that were issued
     # https://docs.pylint.org/en/latest/user_guide/run.html
     if retval and (retval & 1 or retval & 32):
-        print("\nBad autopep8 return: " + str(retval))
+        print("\nBad pylint return: " + str(retval))
         os._exit(1)
-
-# -----------------------------------------------------------------------------
-
-def get_options(options):
-    """ Get options in the options file.
-        Couldn't get the file options to work, so do this.
-    """
-    opt_path = "pypep8rc"
-    options_in = open(opt_path, 'r')
-    # get exceptions
-    for line_in in options_in:
-        line = line_in.strip()
-        if len(line) == 0:
-            continue
-        if line.startswith("#"):
-            continue
-        if line.startswith("[") and "pep8" in line:
-            continue
-        option = line
-        if not line.startswith("-"):
-            line = "--" + line
-        options.append(line)
-
-    options_in.close()
 
 # -----------------------------------------------------------------------------
 

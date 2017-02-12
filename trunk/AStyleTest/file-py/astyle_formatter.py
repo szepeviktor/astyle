@@ -85,14 +85,12 @@ def find_class_diffs(header_variables, class_variables):
     missing_class = set(header_variables) - set(class_variables)
 
     if len(missing_header) > 0:
-        missing_header = list(missing_header)
-        missing_header.sort()
+        missing_header = sorted(missing_header)
         print(str(len(missing_header)) + " missing header variables:")
         print(missing_header)
 
     if len(missing_class) > 0:
-        missing_class = list(missing_class)
-        missing_class.sort()
+        missing_class = sorted(missing_class)
         print(str(len(missing_class)) + " missing class variables:")
         print(missing_class)
 
@@ -120,6 +118,9 @@ def get_constructor_variables(class_variables, formatter_path):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # start between the following lines
         if "ASFormatter::ASFormatter()" in line:
             class_lines[0] = lines + 1
@@ -127,7 +128,7 @@ def get_constructor_variables(class_variables, formatter_path):
         if (class_lines[0] == 0
                 or class_lines[0] >= lines):
             continue
-        # find ending bracket
+        # find ending brace
         if '}' in line:
             class_lines[1] = lines
             break
@@ -161,7 +162,9 @@ def get_header_variables(header_variables, header_path):
             continue
         if line.startswith("//"):
             continue
-
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # start between the following lines
         if "class ASFormatter" in line:
             header_lines[0] = lines + 1
@@ -169,7 +172,7 @@ def get_header_variables(header_variables, header_path):
         if (header_lines[0] == 0
                 or header_lines[0] >= lines):
             continue
-        # find ending bracket - should find following comment instead
+        # find ending brace - should find following comment instead
         if '}' in line:
             header_lines[1] = lines
             break
@@ -227,7 +230,7 @@ def get_initializer_variables(class_variables, formatter_path):
         if (class_lines_init[0] == 0
                 or class_lines_init[0] >= lines_init):
             continue
-        # find ending bracket
+        # find ending brace
         if '}' in line:
             class_lines_init[1] = lines_init
             break
