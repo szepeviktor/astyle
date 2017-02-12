@@ -49,14 +49,12 @@ def find_class_diffs(header_variables, class_variables):
     missing_class = set(header_variables) - set(class_variables)
 
     if len(missing_header) > 0:
-        missing_header = list(missing_header)
-        missing_header.sort()
+        missing_header = sorted(missing_header)
         print(str(len(missing_header)) + " missing header variables:")
         print(missing_header)
 
     if len(missing_class) > 0:
-        missing_class = list(missing_class)
-        missing_class.sort()
+        missing_class = sorted(missing_class)
         print(str(len(missing_class)) + " missing class variables:")
         print(missing_class)
 
@@ -71,9 +69,9 @@ def find_class_diffs(header_variables, class_variables):
 def get_constructor_variables(class_variables, astyleiface_path):
     """Read the AStyleIFace file and save the class constuctor variables."""
 
-    class_lines = [0, 0]	# line numbers for class constructor
+    class_lines = [0, 0]    # line numbers for class constructor
     class_total = 0			# total variables for class constructor
-    lines = 0					# current input line number
+    lines = 0				# current input line number
     file_in = open(astyleiface_path, 'r')
 
     # get class constructor lines
@@ -84,6 +82,9 @@ def get_constructor_variables(class_variables, astyleiface_path):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # start between the following lines
         if line.find("AStyleIFace::AStyleIFace()") != -1:
             class_lines[0] = lines + 1
@@ -127,7 +128,9 @@ def get_header_variables(header_variables, header_path):
             continue
         if line.startswith("//"):
             continue
-
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # start between the following lines
         if line.find("class AStyleIFace") != -1:
             header_lines[0] = lines + 1

@@ -64,8 +64,7 @@ def find_function_diffs(dlggui_functions, dlg_functions):
     missing_functions = set(dlggui_functions) - set(dlg_functions)
 
     if len(missing_functions) > 0:
-        missing_functions = list(missing_functions)
-        missing_functions.sort()
+        missing_functions = sorted(missing_functions)
         print(missing_functions)
 
     diffs = len(missing_functions)
@@ -129,7 +128,7 @@ def get_dlggui_functions(dlggui_functions, dlggui_path):
         if line.startswith("// Virtual event handlers"):
             virtual_start = True
             continue
-        if virtual_start != True:
+        if not virtual_start:
             continue
         # find the virtual functions
         if not line.startswith("virtual void"):

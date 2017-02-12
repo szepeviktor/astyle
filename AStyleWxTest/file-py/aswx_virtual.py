@@ -10,7 +10,7 @@ import libastylewx      # local directory
 
 # global variables ------------------------------------------------------------
 
-__print_detail = False      # print line numbers and total functions
+__print_detail    = False       # print line numbers and total functions
 __print_functions = False       # print the functions in the lists
 
 # -----------------------------------------------------------------------------
@@ -35,9 +35,9 @@ def main():
     find_function_diffs(iface_functions, mtest_functions)
 
     if __print_functions:
-#       iface_functions.sort()
+        # iface_functions.sort()
         print(iface_functions)
-#       mtest_functions.sort()
+        # mtest_functions.sort()
         print(mtest_functions)
 
 # -----------------------------------------------------------------------------
@@ -67,8 +67,7 @@ def find_function_diffs(iface_functions, mtest_functions):
     missing_functions = set(iface_functions) - set(mtest_functions)
 
     if len(missing_functions) > 0:
-        missing_functions = list(missing_functions)
-        missing_functions.sort()
+        missing_functions = sorted(missing_functions)
         print(missing_functions)
 
     diffs = len(missing_functions)
@@ -137,7 +136,7 @@ def get_mtest_functions(mtest_functions, mtest_path):
         if line.startswith("class AStyleIFace_Test"):
             virtual_start = True
             continue
-        if virtual_start != True:
+        if not virtual_start:
             continue
         # end with the following line
         if line.startswith("};"):
@@ -147,6 +146,9 @@ def get_mtest_functions(mtest_functions, mtest_path):
         # find the virtual override functions
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.find(" return ") == -1 and line.find(" = ") == -1:
             continue
         # get the function name

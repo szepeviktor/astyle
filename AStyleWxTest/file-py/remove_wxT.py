@@ -57,7 +57,7 @@ def process_file(file_path):
         count = line.count('wxT(')
         if count > 0:
             line = line.replace('wxT(', '')
-            #if "AStyleDisplay" in file_path:
+            # if "AStyleDisplay" in file_path:
             if "AStyleFormat_Test" in file_path:
                 line = line.replace('")', '"')
             else:
@@ -73,7 +73,7 @@ def process_file(file_path):
         updated_lines.append(line)
     file_in.close()
 
-     # write the new file
+    # write the new file
     file_out = open(file_path, "w")
     for line in updated_lines:
         file_out.write(line)

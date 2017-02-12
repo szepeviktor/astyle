@@ -22,7 +22,7 @@ __new_book = "wxTreebook"
 # short and long page names
 # the "modify" page is added by AStyleDlg
 __short_name = ['"Style"', '"Tabs"', '"Indent"', '"Pad"', '"Format"', '"Other"']
-__long_name = ['"Bracket Style"', '"Tabs/Spaces"', '"Indentation"',
+__long_name  = ['"Brace Style"', '"Tabs/Spaces"', '"Indentation"',
                '"Padding"', '"Formatting"', '"Objective-C"']
 # accums
 __num_cb = 0        # changes to wxChoicebook
@@ -40,7 +40,7 @@ def main():
                   "AStyleDlgBase.cpp",
                   "EditorDlgBase.h",
                   "EditorDlgBase.cpp",
-                 ]
+                  ]
 
     libastylewx.set_text_color("yellow")
     print(libastylewx.get_python_version())
@@ -122,7 +122,7 @@ def change_variables(file_path):
         if "AddPage" in line or "AddSubPage" in line:
             if "AddPage" in line and "NULL" in line:
                 continue
-            if  __new_book == "wxChoicebook":
+            if __new_book == "wxChoicebook":
                 line = process_choicebook_pages(line)
             elif __new_book == "wxListbook":
                 line = process_listbook_pages(line)

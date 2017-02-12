@@ -96,8 +96,7 @@ def find_function_diffs(dlggui_functions, dlg_functions):
     missing_functions = set(dlggui_functions) - set(dlg_functions)
 
     if len(missing_functions) > 0:
-        missing_functions = list(missing_functions)
-        missing_functions.sort()
+        missing_functions = sorted(missing_functions)
         print(missing_functions)
 
     diffs = len(missing_functions)
@@ -115,8 +114,7 @@ def find_identifier_diffs(dlggui_identifiers, dlggui_events):
     missing_identifiers = set(dlggui_identifiers) - set(dlggui_events)
 
     if len(missing_identifiers) > 0:
-        missing_identifiers = list(missing_identifiers)
-        missing_identifiers.sort()
+        missing_identifiers = sorted(missing_identifiers)
         print(missing_identifiers)
 
     diffs = len(missing_identifiers)
@@ -134,8 +132,7 @@ def find_radio_button_diffs(dlggui_radio_buttons, dlg_bind_events):
     missing_identifiers = set(dlggui_radio_buttons) - set(dlg_bind_events)
 
     if len(missing_identifiers) > 0:
-        missing_identifiers = list(missing_identifiers)
-        missing_identifiers.sort()
+        missing_identifiers = sorted(missing_identifiers)
         print(missing_identifiers)
 
     diffs = len(missing_identifiers)
@@ -197,7 +194,7 @@ def get_dlggui_functions(dlggui_functions, dlggui_path):
         if line.startswith("// Virtual event handlers"):
             virtual_start = True
             continue
-        if virtual_start != True:
+        if not virtual_start:
             continue
         # find the virtual functions
         if not line.startswith("virtual void"):
@@ -232,7 +229,7 @@ def get_dlggui_identifiers(dlggui_identifiers, dlggui_path):
         if line.startswith("enum"):
             identifiers_start = True
             continue
-        if identifiers_start != True:
+        if not identifiers_start:
             continue
         # end with the following line
         if line.startswith("};"):
@@ -254,14 +251,14 @@ def get_dlggui_identifiers(dlggui_identifiers, dlggui_path):
         identifier = line[:id_end]
         # radio button idebtifiers that use a bind event (checked separately)
         if (identifier.startswith("ID_INDENT_LENGTH")
-                or  identifier.startswith("ID_TAB_LENGTH")):
+                or identifier.startswith("ID_TAB_LENGTH")):
             continue
         # identifiers without events
         if (identifier.endswith("_PAGE")
-                or  identifier.endswith("_STC")
-                or  identifier == "ID_MIN_CONDITIONAL"
-                or  identifier == "ID_MAX_INSTATEMENT"
-                or  identifier == "ID_ALIGN_POINTER"):
+                or identifier.endswith("_STC")
+                or identifier == "ID_MIN_CONDITIONAL"
+                or identifier == "ID_MAX_INSTATEMENT"
+                or identifier == "ID_ALIGN_POINTER"):
             continue
         dlggui_identifiers.append(identifier)
         identifier_total += 1
@@ -317,7 +314,7 @@ def get_dlgguisrc_event_identifiers(dlggui_events, dlgguisrc_path):
         if line.startswith("BEGIN_EVENT_TABLE"):
             identifiers_start = True
             continue
-        if identifiers_start != True:
+        if not identifiers_start:
             continue
         # end with the following line
         if line.startswith("END_EVENT_TABLE"):
@@ -363,7 +360,7 @@ def get_dlgsrc_conect_events(dlg_bind_events, dlgsrc_path):
         if line.startswith("AStyleDlg::AStyleDlg"):
             bind_start = True
             continue
-        if bind_start != True:
+        if not bind_start:
             continue
         # end with the following line (the destructor)
         if line.startswith("AStyleDlg::~AStyleDlg"):

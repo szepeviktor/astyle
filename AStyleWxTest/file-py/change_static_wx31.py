@@ -32,9 +32,9 @@ import libastylewx
 wx_paths = [
     #"C:/Programs/wxWidgets-3.1.0_vs2010",
     #"C:/Programs/wxWidgets-3.1.0_vs2012",
-    #C:/Programs/wxWidgets-3.1.0_vs2013",
+    #"C:/Programs/wxWidgets-3.1.0_vs2013",
     "C:/Programs/wxWidgets-3.1.0_vs2015",
-    ]
+]
 
 # -----------------------------------------------------------------------------
 
@@ -155,7 +155,7 @@ def process_project_files(wx_path):
 
 # -----------------------------------------------------------------------------
 
-def	process_wxstc_catalogue_file(wx_path):
+def process_wxstc_catalogue_file(wx_path):
     """ Comment out the static build unused lexers in the wxscintilla Catalogue.cxx file.
         This file is in the src/stc/scintilla/src folder, not the build/msw folder.
         A new file named CatalogueStatic.cxx is created with the commented-out lexers.
