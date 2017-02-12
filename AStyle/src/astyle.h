@@ -19,6 +19,7 @@
 
 #include <cctype>
 #include <iostream>		// for cout
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -190,14 +191,40 @@ public:
 };
 
 //-----------------------------------------------------------------------------
+// Class ASPeekStream
+// A small class using RAII to peek ahead in the ASSourceIterator stream
+// and to reset the ASSourceIterator pointer in the destructor.
+// It enables a return from anywhere in the method.
+//-----------------------------------------------------------------------------
+
+class ASPeekStream
+{
+private:
+	ASSourceIterator* sourceIterator;
+	bool needReset;		// reset sourceIterator to the original position
+
+public:
+	explicit ASPeekStream(ASSourceIterator* sourceIterator_)
+	{ sourceIterator = sourceIterator_; needReset = false; }
+
+	~ASPeekStream()
+	{ if (needReset) sourceIterator->peekReset(); }
+
+	bool hasMoreLines() const
+	{ return sourceIterator->hasMoreLines(); }
+
+	string peekNextLine()
+	{ needReset = true; return sourceIterator->peekNextLine(); }
+};
+
+
+//-----------------------------------------------------------------------------
 // Class ASResource
 //-----------------------------------------------------------------------------
 
 class ASResource
 {
 public:
-	ASResource() {}
-	virtual ~ASResource() {}
 	void buildAssignmentOperators(vector<const string*>* assignmentOperators);
 	void buildCastOperators(vector<const string*>* castOperators);
 	void buildHeaders(vector<const string*>* headers, int fileType, bool beautifier = false);
@@ -258,7 +285,7 @@ public:
 // Functions definitions are at the end of ASResource.cpp.
 //-----------------------------------------------------------------------------
 
-class ASBase
+class ASBase : protected ASResource
 {
 private:
 	// all variables should be set by the "init" function
@@ -275,7 +302,11 @@ protected:  // inline functions
 	bool isWhiteSpace(char ch) const { return (ch == ' ' || ch == '\t'); }
 
 protected:  // functions definitions are at the end of ASResource.cpp
+	const string* findHeader(const string& line, int i,
+	                         const vector<const string*>* possibleHeaders) const;
 	bool findKeyword(const string& line, int i, const string& keyword) const;
+	const string* findOperator(const string& line, int i,
+	                           const vector<const string*>* possibleOperators) const;
 	string getCurrentWord(const string& line, size_t index) const;
 	bool isDigit(char ch) const;
 	bool isLegalNameChar(char ch) const;
@@ -290,7 +321,7 @@ protected:  // functions definitions are at the end of ASResource.cpp
 // Class ASBeautifier
 //-----------------------------------------------------------------------------
 
-class ASBeautifier : protected ASResource, protected ASBase
+class ASBeautifier : protected ASBase
 {
 public:
 	ASBeautifier();
@@ -340,10 +371,6 @@ public:
 
 protected:
 	void deleteBeautifierVectors();
-	const string* findHeader(const string& line, int i,
-	                         const vector<const string*>* possibleHeaders) const;
-	const string* findOperator(const string& line, int i,
-	                           const vector<const string*>* possibleOperators) const;
 	int  getNextProgramCharDistance(const string& line, int i) const;
 	int  indexOf(const vector<const string*>& container, const string* element) const;
 	void setBlockIndent(bool state);
@@ -785,7 +812,9 @@ private:  // functions
 	const string* checkForHeaderFollowingComment(const string& firstLine) const;
 	const string* getFollowingOperator() const;
 	string getPreviousWord(const string& line, int currPos) const;
-	string peekNextText(const string& firstLine, bool endOnEmptyLine = false, bool shouldReset = false) const;
+	string peekNextText(const string& firstLine,
+	                    bool endOnEmptyLine = false,
+	                    shared_ptr<ASPeekStream> streamArg = nullptr) const;
 
 private:  // variables
 	int formatterFileType;
@@ -812,7 +841,6 @@ private:  // variables
 	string readyFormattedLine;
 	string verbatimDelimiter;
 	const string* currentHeader;
-	const string* previousOperator;    // used ONLY by pad-oper
 	char currentChar;
 	char previousChar;
 	char previousNonWSChar;
@@ -996,27 +1024,19 @@ private:  // variables
 private:  // inline functions
 	// append the CURRENT character (curentChar) to the current formatted line.
 	void appendCurrentChar(bool canBreakLine = true)
-	{
-		appendChar(currentChar, canBreakLine);
-	}
+	{ appendChar(currentChar, canBreakLine); }
 
 	// check if a specific sequence exists in the current placement of the current line
 	bool isSequenceReached(const char* sequence) const
-	{
-		return currentLine.compare(charNum, strlen(sequence), sequence) == 0;
-	}
+	{ return currentLine.compare(charNum, strlen(sequence), sequence) == 0; }
 
 	// call ASBase::findHeader for the current character
 	const string* findHeader(const vector<const string*>* headers_)
-	{
-		return ASBeautifier::findHeader(currentLine, charNum, headers_);
-	}
+	{ return ASBase::findHeader(currentLine, charNum, headers_); }
 
 	// call ASBase::findOperator for the current character
-	const string* findOperator(const vector<const string*>* headers_)
-	{
-		return ASBeautifier::findOperator(currentLine, charNum, headers_);
-	}
+	const string* findOperator(const vector<const string*>* operators_)
+	{ return ASBase::findOperator(currentLine, charNum, operators_); }
 };  // Class ASFormatter
 
 //-----------------------------------------------------------------------------

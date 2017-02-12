@@ -624,7 +624,7 @@ void ASEnhancer::parseCurrentLine(string& line, bool isInPreprocessor, bool isIn
 		if (isPotentialKeyword && findKeyword(line, i, ASResource::AS_SWITCH))
 		{
 			switchDepth++;
-			switchStack.push_back(sw);                      // save current variables
+			switchStack.emplace_back(sw);                      // save current variables
 			sw.switchBraceCount = 0;
 			sw.unindentCase = false;                        // don't clear case until end of switch
 			i += 5;                                         // bypass switch statement

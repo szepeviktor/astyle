@@ -22,7 +22,7 @@
 	using std::time_t;
 #endif
 
-#if defined(_MSC_VER) || defined(__DMC__)
+#if defined(_MSC_VER)
 	#include <sys/utime.h>
 	#include <sys/stat.h>
 #else
@@ -161,6 +161,7 @@ public:	// inline functions
 
 //----------------------------------------------------------------------------
 // Utf8_16 class for utf8/16 conversions
+// used by both console and library builds
 //----------------------------------------------------------------------------
 
 class Utf8_16
@@ -191,18 +192,20 @@ public:
 // ASOptions class for options processing
 // used by both console and library builds
 //----------------------------------------------------------------------------
+class ASConsole;
 
 class ASOptions
 {
 public:
-	explicit ASOptions(ASFormatter& formatterArg) : formatter(formatterArg) {}
+	ASOptions(ASFormatter& formatterArg, ASConsole* consoleArg = nullptr);
 	string getOptionErrors() const;
 	void importOptions(istream& in, vector<string>& optionsVector);
 	bool parseOptions(vector<string>& optionsVector, const string& errorInfo);
 
 private:
 	// variables
-	ASFormatter& formatter;			// reference to the ASFormatter object
+	ASFormatter& formatter;
+	ASConsole&   console;			// DO NOT USE for ASTYLE_LIB (nullptr)
 	stringstream optionErrors;		// option error messages
 
 	// functions
@@ -229,6 +232,7 @@ class ASConsole
 private:    // variables
 	ASFormatter& formatter;             // reference to the ASFormatter object
 	ASLocalizer localizer;              // ASLocalizer object
+	ostream* errorStream;               // direct error messages to cerr or cout
 	// command line options
 	bool isRecursive;                   // recursive option
 	bool isDryRun;                      // dry-run option
@@ -277,6 +281,7 @@ public:     // functions
 	void formatCinToCout();
 	vector<string> getArgvOptions(int argc, char** argv) const;
 	bool fileNameVectorIsEmpty() const;
+	ostream* getErrorStream() const;
 	bool getFilesAreIdentical() const;
 	int  getFilesFormatted() const;
 	bool getIgnoreExcludeErrors() const;
@@ -297,6 +302,7 @@ public:     // functions
 	void processFiles();
 	void processOptions(const vector<string>& argvOptions);
 	void setBypassBrowserOpen(bool state);
+	void setErrorStream(ostream* errStream);
 	void setIgnoreExcludeErrors(bool state);
 	void setIgnoreExcludeErrorsAndDisplay(bool state);
 	void setIsDryRun(bool state);
