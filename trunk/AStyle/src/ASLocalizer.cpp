@@ -43,12 +43,6 @@
 	#include <windows.h>
 #endif
 
-#ifdef __DMC__
-	// digital mars doesn't have these
-	const size_t SUBLANG_CHINESE_MACAU = 5;
-	const size_t LANG_HINDI = 57;
-#endif
-
 #ifdef __VMS
 	#define __USE_STD_IOSTREAM 1
 	#include <assert>
@@ -319,7 +313,7 @@ void Translation::addPair(const string& english, const wstring& translated)
 // Add a string pair to the translation vector.
 {
 	pair<string, wstring> entry(english, translated);
-	m_translation.push_back(entry);
+	m_translation.emplace_back(entry);
 }
 
 string Translation::convertToMultiByte(const wstring& wideStr) const

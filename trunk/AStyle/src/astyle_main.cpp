@@ -78,8 +78,6 @@ namespace astyle {
 //
 // console build variables
 #ifndef ASTYLE_LIB
-	ASConsole* g_console = nullptr;     // class to encapsulate console variables
-	ostream* _err = &cerr;           // direct error messages to cerr
 	#ifdef _WIN32
 		char g_fileSeparator = '\\';     // Windows file separator
 		bool g_isCaseSensitive = false;  // Windows IS NOT case sensitive
@@ -325,6 +323,7 @@ bool ASStreamIterator<T>::getLineEndChange(int lineEndFormat) const
 
 ASConsole::ASConsole(ASFormatter& formatterArg) : formatter(formatterArg)
 {
+	errorStream = &cerr;
 	// command line options
 	isRecursive = false;
 	isDryRun = false;
@@ -470,14 +469,14 @@ FileEncoding ASConsole::detectEncoding(const char* data, size_t dataSize) const
 // error exit without a message
 void ASConsole::error() const
 {
-	(*_err) << _("\nArtistic Style has terminated") << endl;
+	(*errorStream) << _("\nArtistic Style has terminated") << endl;
 	exit(EXIT_FAILURE);
 }
 
 // error exit with a message
 void ASConsole::error(const char* why, const char* what) const
 {
-	(*_err) << why << ' ' << what << endl;
+	(*errorStream) << why << ' ' << what << endl;
 	error();
 }
 
@@ -646,7 +645,7 @@ vector<string> ASConsole::getArgvOptions(int argc, char** argv) const
 	vector<string> argvOptions;
 	for (int i = 1; i < argc; i++)
 	{
-		argvOptions.push_back(string(argv[i]));
+		argvOptions.emplace_back(string(argv[i]));
 	}
 	return argvOptions;
 }
@@ -738,6 +737,17 @@ bool ASConsole::getPreserveDate() const
 // for unit testing
 void ASConsole::setBypassBrowserOpen(bool state)
 { bypassBrowserOpen = state; }
+
+// for unit testing
+ostream* ASConsole::getErrorStream() const
+{
+	return errorStream;
+}
+
+void ASConsole::setErrorStream(ostream* errStreamPtr)
+{
+	errorStream = errStreamPtr;
+}
 
 string ASConsole::getParam(const string& arg, const char* op)
 {
@@ -885,7 +895,7 @@ void ASConsole::displayLastError()
 	              nullptr
 	             );
 	// Display the string.
-	(*_err) << "Error (" << lastError << ") " << msgBuf << endl;
+	(*errorStream) << "Error (" << lastError << ") " << msgBuf << endl;
 	// Free the buffer.
 	LocalFree(msgBuf);
 }
@@ -951,7 +961,7 @@ void ASConsole::getFileNames(const string& directory, const string& wildcard)
 			if (isPathExclued(subDirectoryPath))
 				printMsg(_("Exclude  %s\n"), subDirectoryPath.substr(mainDirectoryLength));
 			else
-				subDirectory.push_back(subDirectoryPath);
+				subDirectory.emplace_back(subDirectoryPath);
 			continue;
 		}
 
@@ -965,7 +975,7 @@ void ASConsole::getFileNames(const string& directory, const string& wildcard)
 			if (isExcluded)
 				printMsg(_("Exclude  %s\n"), filePathName.substr(mainDirectoryLength));
 			else
-				fileName.push_back(filePathName);
+				fileName.emplace_back(filePathName);
 		}
 	}
 	while (FindNextFile(hFind, &findFileData) != 0);
@@ -1156,7 +1166,7 @@ void ASConsole::getFileNames(const string& directory, const string& wildcard)
 			if (isPathExclued(entryFilepath))
 				printMsg(_("Exclude  %s\n"), entryFilepath.substr(mainDirectoryLength));
 			else
-				subDirectory.push_back(entryFilepath);
+				subDirectory.emplace_back(entryFilepath);
 			continue;
 		}
 
@@ -1171,7 +1181,7 @@ void ASConsole::getFileNames(const string& directory, const string& wildcard)
 				if (isExcluded)
 					printMsg(_("Exclude  %s\n"), entryFilepath.substr(mainDirectoryLength));
 				else
-					fileName.push_back(entryFilepath);
+					fileName.emplace_back(entryFilepath);
 			}
 		}
 	}
@@ -1408,7 +1418,7 @@ void ASConsole::getFilePaths(const string& filePath)
 		string entryFilepath = targetDirectory + g_fileSeparator + targetFilename;
 		struct stat statbuf;
 		if (stat(entryFilepath.c_str(), &statbuf) == 0 && (statbuf.st_mode & S_IFREG))
-			fileName.push_back(entryFilepath);
+			fileName.emplace_back(entryFilepath);
 	}
 
 	// check for unprocessed excludes
@@ -1571,7 +1581,7 @@ void ASConsole::printHelp() const
 	cout << "    the preliminary '--'.\n";
 	cout << endl;
 	cout << "Disable Formatting:\n";
-	cout << "----------------------\n";
+	cout << "-------------------\n";
 	cout << "    Disable Block\n";
 	cout << "    Blocks of code can be disabled with the comment tags *INDENT-OFF*\n";
 	cout << "    and *INDENT-ON*. It must be contained in a one-line comment.\n";
@@ -1581,7 +1591,7 @@ void ASConsole::printHelp() const
 	cout << "    comment tag *NOPAD*. It must be contained in a line-end comment.\n";
 	cout << endl;
 	cout << "Brace Style Options:\n";
-	cout << "----------------------\n";
+	cout << "--------------------\n";
 	cout << "    default brace style\n";
 	cout << "    If no brace style is requested, the opening braces will not be\n";
 	cout << "    changed and closing braces will be broken from the preceding line.\n";
@@ -1676,7 +1686,7 @@ void ASConsole::printHelp() const
 	cout << "    a mix of both spaces and tabs. This option sets the tab length.\n";
 	cout << endl;
 	cout << "Brace Modify Options:\n";
-	cout << "-----------------------\n";
+	cout << "---------------------\n";
 	cout << "    --attach-namespaces  OR  -xn\n";
 	cout << "    Attach braces to a namespace statement.\n";
 	cout << endl;
@@ -2065,12 +2075,12 @@ void ASConsole::processOptions(const vector<string>& argvOptions)
 		}
 		else if (arg[0] == '-')
 		{
-			optionsVector.push_back(arg);
+			optionsVector.emplace_back(arg);
 		}
 		else // file-name
 		{
 			standardizePath(arg);
-			fileNameVector.push_back(arg);
+			fileNameVector.emplace_back(arg);
 		}
 	}
 
@@ -2100,7 +2110,7 @@ void ASConsole::processOptions(const vector<string>& argvOptions)
 	}
 
 	// create the options file vector and parse the options for errors
-	ASOptions options(formatter);
+	ASOptions options(formatter, this);
 	if (!optionsFileName.empty())
 	{
 		ifstream optionsIn(optionsFileName.c_str());
@@ -2120,8 +2130,8 @@ void ASConsole::processOptions(const vector<string>& argvOptions)
 	}
 	if (!ok)
 	{
-		(*_err) << options.getOptionErrors() << endl;
-		(*_err) << _("For help on options type 'astyle -h'") << endl;
+		(*errorStream) << options.getOptionErrors() << endl;
+		(*errorStream) << _("For help on options type 'astyle -h'") << endl;
 		error();
 	}
 
@@ -2130,8 +2140,8 @@ void ASConsole::processOptions(const vector<string>& argvOptions)
 	                          string(_("Invalid command line options:")));
 	if (!ok)
 	{
-		(*_err) << options.getOptionErrors() << endl;
-		(*_err) << _("For help on options type 'astyle -h'") << endl;
+		(*errorStream) << options.getOptionErrors() << endl;
+		(*errorStream) << _("For help on options type 'astyle -h'") << endl;
 		error();
 	}
 }
@@ -2340,9 +2350,9 @@ bool ASConsole::stringEndsWith(const string& str, const string& suffix) const
 
 void ASConsole::updateExcludeVector(const string& suffixParam)
 {
-	excludeVector.push_back(suffixParam);
+	excludeVector.emplace_back(suffixParam);
 	standardizePath(excludeVector.back(), true);
-	excludeHitsVector.push_back(false);
+	excludeHitsVector.emplace_back(false);
 }
 
 int ASConsole::waitForRemove(const char* newFileName) const
@@ -2475,7 +2485,7 @@ void ASConsole::writeFile(const string& fileName_, FileEncoding encoding, ostrin
 		if (statErr)
 		{
 			perror("errno message");
-			(*_err) << "*********  Cannot preserve file date" << endl;
+			(*errorStream) << "*********  Cannot preserve file date" << endl;
 		}
 	}
 }
@@ -2599,6 +2609,17 @@ char* ASLibrary::convertUtf16ToUtf8(const utf16_t* utf16In) const
 // ASOptions class
 // used by both console and library builds
 //-----------------------------------------------------------------------------
+
+ASOptions::ASOptions(ASFormatter& formatterArg, ASConsole* consoleArg)
+	: formatter(formatterArg),
+	  console(*consoleArg)
+{
+#ifdef ASTYLE_LIB
+	assert(consoleArg == nullptr);
+#else
+	assert(consoleArg != nullptr);
+#endif
+}
 
 /**
  * parse the options vector
@@ -3215,57 +3236,57 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	// Options used by only console ///////////////////////////////////////////////////////////////
 	else if ( isOption(arg, "n", "suffix=none") )
 	{
-		g_console->setNoBackup(true);
+		console.setNoBackup(true);
 	}
 	else if ( isParamOption(arg, "suffix=") )
 	{
 		string suffixParam = getParam(arg, "suffix=");
 		if (suffixParam.length() > 0)
 		{
-			g_console->setOrigSuffix(suffixParam);
+			console.setOrigSuffix(suffixParam);
 		}
 	}
 	else if ( isParamOption(arg, "exclude=") )
 	{
 		string suffixParam = getParam(arg, "exclude=");
 		if (suffixParam.length() > 0)
-			g_console->updateExcludeVector(suffixParam);
+			console.updateExcludeVector(suffixParam);
 	}
 	else if ( isOption(arg, "r", "R") || isOption(arg, "recursive") )
 	{
-		g_console->setIsRecursive(true);
+		console.setIsRecursive(true);
 	}
 	else if (isOption(arg, "dry-run"))
 	{
-		g_console->setIsDryRun(true);
+		console.setIsDryRun(true);
 	}
 	else if ( isOption(arg, "Z", "preserve-date") )
 	{
-		g_console->setPreserveDate(true);
+		console.setPreserveDate(true);
 	}
 	else if ( isOption(arg, "v", "verbose") )
 	{
-		g_console->setIsVerbose(true);
+		console.setIsVerbose(true);
 	}
 	else if ( isOption(arg, "Q", "formatted") )
 	{
-		g_console->setIsFormattedOnly(true);
+		console.setIsFormattedOnly(true);
 	}
 	else if ( isOption(arg, "q", "quiet") )
 	{
-		g_console->setIsQuiet(true);
+		console.setIsQuiet(true);
 	}
 	else if ( isOption(arg, "i", "ignore-exclude-errors") )
 	{
-		g_console->setIgnoreExcludeErrors(true);
+		console.setIgnoreExcludeErrors(true);
 	}
 	else if ( isOption(arg, "xi", "ignore-exclude-errors-x") )
 	{
-		g_console->setIgnoreExcludeErrorsAndDisplay(true);
+		console.setIgnoreExcludeErrorsAndDisplay(true);
 	}
 	else if ( isOption(arg, "X", "errors-to-stdout") )
 	{
-		_err = &cout;
+		console.setErrorStream(&cout);
 	}
 	else if ( isOption(arg, "lineend=windows") )
 	{
@@ -3343,7 +3364,7 @@ void ASOptions::importOptions(istream& in, vector<string>& optionsVector)
 		while (in);
 
 		if (currentToken.length() != 0)
-			optionsVector.push_back(currentToken);
+			optionsVector.emplace_back(currentToken);
 		isInQuote = false;
 	}
 }
@@ -3891,25 +3912,20 @@ int main(int argc, char** argv)
 {
 	// create objects
 	ASFormatter formatter;
-	g_console = new ASConsole(formatter);
+	auto console = make_shared<ASConsole>(formatter);
 
 	// process command line and options file
 	// build the vectors fileNameVector, optionsVector, and fileOptionsVector
 	vector<string> argvOptions;
-	argvOptions = g_console->getArgvOptions(argc, argv);
-	g_console->processOptions(argvOptions);
+	argvOptions = console->getArgvOptions(argc, argv);
+	console->processOptions(argvOptions);
 
 	// if no files have been given, use cin for input and cout for output
-	if (g_console->fileNameVectorIsEmpty())
-	{
-		g_console->formatCinToCout();
-		return EXIT_SUCCESS;
-	}
+	if (console->fileNameVectorIsEmpty())
+		console->formatCinToCout();
+	else
+		console->processFiles();
 
-	// process entries in the fileNameVector
-	g_console->processFiles();
-
-	delete g_console;
 	return EXIT_SUCCESS;
 }
 
