@@ -562,6 +562,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_x64_custom.dll"  mklink /H "
     <ClInclude Include="..\..\..\src\Constants.h" />
     <ClInclude Include="..\..\..\src\EditorDlg.h" />
     <ClInclude Include="..\..\..\src\Encoding.h" />
+    <ClInclude Include="..\..\..\src\FileIOThread.h" />
     <ClInclude Include="..\..\..\src\FileManager.h" />
     <ClInclude Include="..\..\..\src\SettingsDlg.h" />
   </ItemGroup>

@@ -209,7 +209,6 @@ ASFrame::ASFrame()
 		m_statusWidth[i]   = 0;
 	m_astyleDlgPage        = 0;
 	m_editorDlgPage        = 0;
-	m_argsProcessed        = false;
 	m_statusBarNeedsUpdate = false;
 	m_checkFileReload      = false;
 }
@@ -297,24 +296,32 @@ void ASFrame::BuildGuiControls(int argc_, wxChar** argv_)
 	                               wxDefaultSize,
 	                               style);
 
+	// build notebook pages
+	FileManager fm;
+	// open the files - argv[0] is the program name
+	for (int i = 1; i < m_argc; i++)
+	{
+		if (m_argv[i][0] == '-')
+		{
+			if (m_argv[i] == wxString("--ldtp_test"))
+				SetLdtpTestSize();
+			continue;
+		}
+		fm.BuildNotebookPageWithFile(m_argv[i], false);
+	}
+	if (m_notebook->GetPageCount() == 0)
+		fm.BuildNotebookPageNew();
 	// initialize the window
+	m_notebook->SetSelection(0);
+	m_editor->SetFocus();
 	this->Center();
 	this->Show();
-
-	// display first notebook page
-	// argc and argv are processed by the OnIdle() event
-	wxString firstArgvFile = GetFirstArgvFile();
-	FileManager fm;
-	fm.BuildNotebookPageNew();
-	if (firstArgvFile != wxEmptyString)
-		fm.BuildNotebookPageWithFile(firstArgvFile, true);
-	m_editor->SetFocus();
 #else
 	m_notebook = nullptr;
 	m_editor = nullptr;
+	this->SetFocus();
 	this->Center();
 	this->Show();
-	this->SetFocus();
 #endif // __WXQT__
 }
 
@@ -815,27 +822,6 @@ int ASFrame::GetFileFilterIndex() const
 	return FileManager::GetFileFilterIndex();
 }
 
-wxString ASFrame::GetFirstArgvFile()
-{
-	// error message will be displayed by OnIdle()
-	wxLogNull noLog;
-	// argv[0] is the program name
-	for (int i = 1; i < m_argc; i++)
-	{
-		// skip non-file options
-		wxString currentArg = m_argv[i];
-		if (currentArg[0] == '-')
-			continue;
-		// skip if not a valid file
-		// error message will be displayed by OnIdle()
-		wxFileName filepath = currentArg;
-		wxFile file(filepath.GetFullPath(), wxFile::read_write);
-		if (file.Exists(filepath.GetFullPath()))
-			return currentArg;
-	}
-	return wxEmptyString;
-}
-
 wxString ASFrame::GetKeyWords(int fileMode) const
 {
 	wxString keyWords;
@@ -1328,34 +1314,6 @@ void ASFrame::OnIdle(wxIdleEvent&)
 		FileManager fm;
 		fm.CheckFileReload();
 	}
-	// __WXQT__ will bypass creating the notebook and stc
-	// can remove the option when these are handled by wxWidgets WXQT
-#ifndef __WXQT__
-	// argc and argc are processed here one time only
-	// wxApp::OnInit must end for the toolbar to be displayed
-	// loading here provides a better appearance
-	if (!m_argsProcessed)
-	{
-		// do this first on Linux!
-		m_argsProcessed = true;
-		// open the files - argv[0] is the program name
-		FileManager fm;
-		for (int i = 1; i < m_argc; i++)
-		{
-			if (m_argv[i][0] == '-')
-			{
-				if (m_argv[i] == wxString("--ldtp_test"))
-					SetLdtpTestSize();
-				continue;
-			}
-			fm.BuildNotebookPageWithFile(m_argv[i], false);
-		}
-		m_notebook->SetSelection(0);
-		m_editor->SetFocus();
-		m_argc = 0;
-		m_argv = nullptr;
-	}
-#endif // __WXQT__
 }
 
 void ASFrame::OnMenuOpen(wxMenuEvent&)

@@ -362,7 +362,6 @@ private:
 	int m_editorDlgPage;                // editor dialog notebook page
 	int m_argc;                         // argc from wxApp
 	wxChar** m_argv;                    // argv from wxApp
-	bool m_argsProcessed;               // argc and argv has been processed
 	bool m_statusBarNeedsUpdate;        // statusbar display needs updating
 	bool m_checkFileReload;             // check if file has changed
 	wxIconBundle m_iconBundle;          // the icon bundle
@@ -378,7 +377,6 @@ private:
 	void CloseFindDialog();
 	void CloseNotebook();
 	wxBitmap CreateStatusBarOptionsBitmap(bool on = false);
-	wxString GetFirstArgvFile();
 	wxSize GetWindowSize() const;
 	void OnApplicationClose(wxCloseEvent& event);
 	void OnAStyleOptions(wxCommandEvent&);
