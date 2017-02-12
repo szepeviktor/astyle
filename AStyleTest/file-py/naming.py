@@ -30,7 +30,7 @@ def main():
     for arg in sys.argv[1:]:
         if not arg[-5:] == '.dump':
             continue
-         # the file will be processed
+        # the file will be processed
         print()
         if not os.path.isfile(arg):
             print('* * * * NOT A VALID FILE PATH \"' + arg + '\"')
@@ -55,8 +55,10 @@ def process_command_line():
     """ Process the command line arguments.
     """
     global RE_VARNAME, RE_FUNCTIONNAME, RE_CLASSNAME
+    count = 0
     dump_file = None
     for arg in sys.argv[1:]:
+        count += 1
         if arg[:6] == '--var=':
             RE_VARNAME = arg[6:]
         elif arg[:11] == '--function=':
@@ -65,6 +67,10 @@ def process_command_line():
             RE_CLASSNAME = arg[8:]
         elif arg[-5:] == '.dump':
             dump_file = arg
+    if count == 0:
+        print('\n* * * * NO INPUT TO PROCESS')
+        print('* * * * This script is usually called from a batch file')
+        os._exit(1)
     if not dump_file:
         print('\n* * * * MISSING .DUMP FILE IN ARGUMENTS')
         os._exit(1)

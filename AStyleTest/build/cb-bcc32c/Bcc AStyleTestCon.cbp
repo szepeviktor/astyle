@@ -15,6 +15,7 @@
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-tWC" />
+					<Add option="-v" />
 					<Add option="-DASTYLECON_LIB" />
 					<Add directory="../../srccon" />
 					<Add directory="../../srcx" />

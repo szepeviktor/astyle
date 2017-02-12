@@ -45,9 +45,9 @@
 //  and then abort the program.
 #define ASTYLE_ABORT(message) \
 	{ \
-		(*_err) << endl << __FILE__ << " (" << __LINE__ << ")" << endl; \
-		(*_err) << (message) << endl; \
-		(*_err) << "\nThe test has terminated!\n" << endl; \
+		cerr << endl << __FILE__ << " (" << __LINE__ << ")" << endl; \
+		cerr << (message) << endl; \
+		cerr << "\nThe test has terminated!\n" << endl; \
 		exit(EXIT_FAILURE); \
 	}
 
@@ -351,17 +351,6 @@ wstring convertToWideChar(const string& mbStr)
 	return returnStr;
 }
 
-void createConsoleGlobalObject(ASFormatter& formatter)
-// creates the g_console object
-{
-	if (g_console)
-	{
-		systemPause("Global object not deleted by previous test.");
-		deleteConsoleGlobalObject();
-	}
-	g_console = new ASConsole(formatter);
-}
-
 void createTestDirectory(const string& dirPath)
 // create a test directory
 {
@@ -401,17 +390,6 @@ void createTestFile(const string& testFilePath, const char* testFileText, int si
 	else
 		fout.write(testFileText, size);
 	fout.close();
-}
-
-void deleteConsoleGlobalObject()
-// deletes the g_console object
-{
-	delete g_console;
-	g_console = nullptr;
-	// check global error display
-	if (_err != &cerr)
-		systemPause("_err ostream not replaced");
-	_err = &cerr;
 }
 
 string getCurrentDirectory()

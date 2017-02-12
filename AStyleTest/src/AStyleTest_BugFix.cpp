@@ -19,6 +19,45 @@ namespace {
 // AStyle version 2.06 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V30, InStatementIndent1)
+{
+	// This CreateThread function wasn't indented as an in-statement.
+	char text[] =
+	    "\n"
+	    "template <typename F>\n"
+	    "auto make_thread(F callback) throw() -> null_handle\n"
+	    "{\n"
+	    "    return null_handle\n"
+	    "    {\n"
+	    "        CreateThread(nullptr,\n"
+	    "                     thread_wrapper,\n"
+	    "                     nullptr)\n"
+	    "    };\n"
+	    "}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V30, InStatementIndent2)
+{
+	// This ClassName paren wasn't indented as an in-statement.
+	char text[] =
+	    "\n"
+	    "ClassName table[] =\n"
+	    "{\n"
+	    "    ClassName(classarg1name, sizeof(some_long_struct_name), 1,\n"
+	    "              ClassName::DESTINATION, 60000, \"0.0.0.0\"),\n"
+	    "    ClassName(classarg1name, sizeof(some_long_struct_name), 1,\n"
+	    "              ClassName::DESTINATION, 60001),\n"
+	    "};";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V30, PreprocDefineMemoryLeak1)
 {
 	// This caused a memory leak in version 2.06.

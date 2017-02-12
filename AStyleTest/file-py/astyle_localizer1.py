@@ -61,14 +61,12 @@ def find_string_diffs(astyle_strings, test_strings):
     missing_astyle = set(test_strings) - set(astyle_strings)
 
     if len(missing_test) > 0:
-        missing_test = list(missing_test)
-        missing_test.sort()
+        missing_test = sorted(missing_test)
         print(str(len(missing_test)) + " missing test strings", end=" ")
         print(missing_test)
 
     if len(missing_astyle) > 0:
-        missing_astyle = list(missing_astyle)
-        missing_astyle.sort()
+        missing_astyle = sorted(missing_astyle)
         print(str(len(missing_astyle)) + " test not in astyle  ", end=" ")
         print(missing_astyle)
 
@@ -118,7 +116,7 @@ def get_test_strings(test_strings, test_path):
 
     test_lines = [0, 0]     # line numbers for TranslationF constructor
     test_total = 0          # total variables for header
-    test_brackets = 0       # unmatched brackets in the header
+    test_braces = 0         # unmatched braces in the header
     lines = 0               # current input line number
     file_in = open(test_path, 'r')
 
@@ -136,12 +134,12 @@ def get_test_strings(test_strings, test_path):
             continue
         if test_lines[0] == 0:
             continue
-        # count brackets
+        # count braces
         if '{' in line:
-            test_brackets += 1
+            test_braces += 1
         if '}' in line:
-            test_brackets -= 1
-        if  test_brackets == 0:
+            test_braces -= 1
+        if test_braces == 0:
             test_lines[1] = lines
             break
         # extract the string

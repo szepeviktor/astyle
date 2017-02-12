@@ -1,12 +1,11 @@
 #! /usr/bin/python
 """ Run the AStyle system test.
-    Tests bracket changes and that changes are
-    completed in one pass.
+    Tests brace changes and that changes are completed in one pass.
     The application should be compiled after the test.
     Change the global variables to the desired values.
     -------------------------------------------------------
-    Runs each bracket type twice to verify there are no changes.
-    Runs brackets=none after each new bracket type to verify
+    Runs each brace type twice to verify there are no changes.
+    Runs braces=none after each new brace type to verify
         there are no changes and to check for consistency.
     Files with undesired changes will be copied to a Test directory
         where they can be checked with a diff program.
@@ -41,7 +40,7 @@ import libtest
 __project = libastyle.JEDIT
 
 # select OPT0 thru OPT3, or use customized options
-# options_x can be a bracket style or any other option
+# options_x can be a brace style or any other option
 #__options = "-tapO"
 __options = libastyle.OPT3
 __options_x = ""
@@ -56,12 +55,12 @@ __all_files_option = True
 # test number to start with (usually 1)
 __start = 1
 
-# bracket options and the order they are tested (start with number 1)
-#__bracketsOLD = "__aa_bb_ll_gg_aa_ll_bb_gg_bb_aa_gg_ll_aa_"
+# brace options and the order they are tested (start with number 1)
+#__bracesOLD = "__aa_bb_ll_gg_aa_ll_bb_gg_bb_aa_gg_ll_aa_"
 
-# bracket options and the order they are tested (start with number 1)
+# brace options and the order they are tested (start with number 1)
 # a = attached (A2), b = broken (A1), h = run-in (A9), p = pico (A11),
-__brackets = "__aa_bb_rr_arbp"
+__braces = "__aa_bb_rr_arbp"
 
 # -----------------------------------------------------------------------------
 
@@ -72,7 +71,7 @@ def main():
     errors = 0
     errtests = []
 
-    #initialization
+    # initialization
     starttime = time.time()
     libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
@@ -89,8 +88,8 @@ def main():
     print("\nExtracting files")
     libextract.extract_project(__project, __all_files_option)
 
-    # process the bracket options
-    while index < len(__brackets):
+    # process the brace options
+    while index < len(__braces):
         print_test_header(index)
         testfile = get_test_file_name(index)
         astyle = set_astyle_args(filepaths, excludes, index)
@@ -132,8 +131,8 @@ def check_formatted_files(testfile, index):
     # check for conditions that are not errors
     if index == 0:
         return []
-    if (__brackets[index] != __brackets[index - 1]
-            and __brackets[index] != '_'):
+    if (__braces[index] != __braces[index - 1]
+            and __braces[index] != '_'):
         return []
     # get formatted files from the astyle report
     files = libtest.get_formatted_files(testfile)
@@ -173,22 +172,22 @@ def get_astyle_config():
 
 # -----------------------------------------------------------------------------
 
-def get_bracket_option(index):
-    """Get the bracket option from the "__brackets" symbol.
+def get_brace_option(index):
+    """Get the brace option from the "__braces" symbol.
        a = attached (A2), b = broken (A1), r = run-in (A9), p = pico (A11),
     """
-    if __brackets[index] == 'a':
+    if __braces[index] == 'a':
         return "A2"
-    elif __brackets[index] == 'b':
+    elif __braces[index] == 'b':
         return "A1"
-    elif __brackets[index] == 'r':
+    elif __braces[index] == 'r':
         return "A9"
-    elif __brackets[index] == 'p':
+    elif __braces[index] == 'p':
         return "A11"
-    elif __brackets[index] == '_':
+    elif __braces[index] == '_':
         return ""
     else:
-        libastyle.system_exit("Bad bracket option: " + str(__brackets[index]))
+        libastyle.system_exit("Bad brace option: " + str(__braces[index]))
 
 # -----------------------------------------------------------------------------
 
@@ -198,13 +197,13 @@ def get_modified_options(index):
        or so the program will compile.
     """
     modified_options = __options
-    # run-in brackets must have indented switches
+    # run-in braces must have indented switches
     if (index > 0
-            and __brackets[index] == '_'
-            and __brackets[index - 1] == 'r'):
+            and __braces[index] == '_'
+            and __braces[index - 1] == 'r'):
         if modified_options.find('S') == -1:
             modified_options = modified_options + "S"
-    # GWorkspace uses multi-line macros and cannot remove brackets (xj)
+    # GWorkspace uses multi-line macros and cannot remove braces (xj)
     if __project == libastyle.GWORKSPACE:
         modified_options = modified_options.replace("xj", "")
     # GENERATE ERRORS FOR TESTING by changing the indent-cases option
@@ -328,11 +327,11 @@ def print_test_header(index):
     """
     test_no = index + 1
     print('\n' + ('-' * 60) + '\n')
-    print("TEST {0} OF {1}".format(test_no, len(__brackets)), end='')
+    print("TEST {0} OF {1}".format(test_no, len(__braces)), end='')
     print(' ' * 12, end='')
     print(libastyle.get_formatted_time())
-    print(__brackets[:test_no])
-    print(__brackets)
+    print(__braces[:test_no])
+    print(__braces)
 
 # -----------------------------------------------------------------------------
 
@@ -364,7 +363,7 @@ def remove_test_files(index):
        If there is an active process using the file it cannot be removed.
        The active process will have to be killed to remove the file.
     """
-    for i in range(index, len(__brackets)):
+    for i in range(index, len(__braces)):
         testfile = get_test_file_name(i)
         if os.path.exists(testfile):
             libextract.remove_test_directory(testfile)
@@ -425,9 +424,9 @@ def set_astyle_args(filepath, excludes, index):
     if len(__options_x) > 0 and __options_x[0] != '-':
         __options_x = '-' + __options_x
         args.append(__options_x)
-    bracket_option = get_bracket_option(index)
-    if bracket_option != '':
-        args.append('-' + bracket_option)
+    brace_option = get_brace_option(index)
+    if brace_option != '':
+        args.append('-' + brace_option)
     # set excludes
     for exclude in excludes:
         args.append(exclude)
@@ -446,10 +445,10 @@ def set_test_start():
     if index > 0:
         print("Start with test {0}".format(index + 1))
         # if needed decrease by one test
-        if __brackets[index] == __brackets[index - 1]:
+        if __braces[index] == __braces[index - 1]:
             index -= 1
             print("Starting with test {0} to avoid diffs".format(index + 1))
-        elif __brackets[index] == '_':
+        elif __braces[index] == '_':
             if index >= 2:
                 index -= 2
             else:

@@ -18,7 +18,7 @@ import libastyle
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-AS_RELEASE = "2.06"
+AS_RELEASE = "2.7"
 
 # inut from AStyle directory
 __astyle_dir = libastyle.get_astyle_directory()
@@ -71,7 +71,7 @@ def build_windows_distribution():
         shutil.copy(astyle_build_directory + "/debug/AStyle.exe", dist_astyle_bin)
     elif vscfg == libastyle.RELEASE:
         shutil.copy(astyle_build_directory + "/bin/AStyle.exe", dist_astyle_bin)
-    elif vscfg == libastyle.STATIC or vscfg == libastyle.STATIC_XP:
+    elif vscfg == libastyle.STATIC_XP:
         shutil.copy(astyle_build_directory + "/binstatic/AStyle.exe", dist_astyle_bin)
     else:
         libastyle.system_exit("Invalid compile configuration: " + vscfg)
@@ -164,8 +164,7 @@ def copy_astyle_doc(dist_doc, to_dos=False):
     """
     print("copying doc")
     deleted = 0
-    docfiles = glob.glob(__astyle_dir + "/doc/*")
-    docfiles.sort()
+    docfiles = sorted(glob.glob(__astyle_dir + "/doc/*"))
     for filepath in docfiles:
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
@@ -197,8 +196,7 @@ def copy_astyle_file(dist_file, to_dos=False):
     """
     print("copying file")
     deleted = 0
-    filefiles = glob.glob(__astyle_dir + "/file/*")
-    filefiles.sort()
+    filefiles = sorted(glob.glob(__astyle_dir + "/file/*"))
     for filepath in filefiles:
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
@@ -225,8 +223,7 @@ def copy_astyle_src(dist_src, to_dos=False):
     """Copy astyle src directory to a distribution directory.
     """
     print("copying src")
-    srcfiles = glob.glob(__astyle_dir + "/src/*")
-    srcfiles.sort()
+    srcfiles = sorted(glob.glob(__astyle_dir + "/src/*"))
     for srcpath in srcfiles:
         shutil.copy(srcpath, dist_src)
     convert_line_ends(dist_src, to_dos)
@@ -248,8 +245,7 @@ def copy_astyle_top(dist_top, to_dos=False):
     """
     print("copying top")
     deleted = 0
-    docfiles = glob.glob(__astyle_dir + "/*")
-    docfiles.sort()
+    docfiles = sorted(glob.glob(__astyle_dir + "/*"))
     for filepath in docfiles:
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
@@ -272,57 +268,89 @@ def copy_astyle_top(dist_top, to_dos=False):
 
 # -----------------------------------------------------------------------------
 
+def copy_build_directories_cb(dist_build, build_dir):
+    """Copy the build/codeblocks directories to the distribution directory.
+    """
+    buildfiles = __astyle_dir + "/build/"
+    dist_astyle_cb = dist_build + '/' + build_dir + '/'
+    os.mkdir(dist_astyle_cb)
+    files_copied = 0
+    workfiles = glob.glob(buildfiles + build_dir + "/*.workspace")
+    for workfile in workfiles:
+        shutil.copy(workfile, dist_astyle_cb)
+        files_copied += 1
+    cbpfiles = glob.glob(buildfiles + build_dir + "/*.cbp")
+    for cbpfile in cbpfiles:
+        shutil.copy(cbpfile, dist_astyle_cb)
+        files_copied += 1
+    if files_copied != 5:
+        libastyle.system_exit("Error in number of build files copied: " + str(files_copied))
+
+# -----------------------------------------------------------------------------
+
+def copy_build_directories_vs(dist_build, build_dir):
+    """Copy the build/visual-studio directories to the distribution directory.
+    """
+    buildfiles = __astyle_dir + "/build/"
+    # copy solution files
+    vsdir = '/' + build_dir + '/'
+    dist_astyle_vs20xx = dist_build + vsdir
+    os.mkdir(dist_astyle_vs20xx)
+    slnfiles = glob.glob(buildfiles + vsdir + "*.sln")
+    for sln in slnfiles:
+        shutil.copy(sln, dist_astyle_vs20xx)
+
+    # build project directories
+    for projdir in ("/AStyle/",
+                    "/AStyle Dll/",
+                    "/AStyle Java/",
+                    "/AStyle Lib/"):
+        dist_astyle_proj = dist_astyle_vs20xx[:-1] + projdir
+        os.mkdir(dist_astyle_proj)
+
+        # copy project files
+        projfiles = glob.glob(buildfiles + vsdir[:-1] + projdir + "*.*proj")
+        files_copied = 0
+        for proj in projfiles:
+            files_copied += 1
+            shutil.copy(proj, dist_astyle_proj)
+        if vsdir[1:-1] >= "vs2010":
+            filtfiles = glob.glob(buildfiles + vsdir[:-1] + projdir + "*.*.filters")
+            for filter_in in filtfiles:
+                files_copied += 1
+                shutil.copy(filter_in, dist_astyle_proj)
+        # verify number of files copied
+        if files_copied != 2 and files_copied != 1:
+            libastyle.system_exit("Error in number of build files copied: " + str(files_copied))
+
+# -----------------------------------------------------------------------------
+
 def copy_windows_build_directories(dist_build):
-    """Copy the build/vs20??-xp directories to the distribution directory.
+    """Copy the build/vs20xx-xp directories to the distribution directory.
     """
     print("copying build")
     buildfiles = __astyle_dir + "/build"
     # get a list of build/vs20xx directories
-    build_dir_list = os.listdir(buildfiles)
-    build_dir_list.sort()
+    build_dir_list = sorted(os.listdir(buildfiles))
     for unused, build_dir in enumerate(build_dir_list):
-        if (build_dir.startswith("vs20")
-            and not build_dir.endswith("-clang")):
+        # build/codeblocks directories
+        if (build_dir.startswith("cb-bcc32c")
+                or build_dir.startswith("cb-mingw")):
             print("    " + build_dir)
+            copy_build_directories_cb(dist_build, build_dir)
 
-            # copy solution files
-            vsdir = '/' + build_dir + '/'
-            dist_astyle_vs20xx = dist_build + vsdir
-            os.mkdir(dist_astyle_vs20xx)
-            slnfiles = glob.glob(buildfiles + vsdir + "*.sln")
-            for sln in slnfiles:
-                shutil.copy(sln, dist_astyle_vs20xx)
-
-            # build project directories
-            for projdir in ("/AStyle/",
-                            "/AStyle Dll/",
-                            "/AStyle Java/",
-                            "/AStyle Lib/"):
-                dist_astyle_proj = dist_astyle_vs20xx[:-1] + projdir
-                os.mkdir(dist_astyle_proj)
-
-                # copy project files
-                projfiles = glob.glob(buildfiles + vsdir[:-1] + projdir + "*.*proj")
-                files_copied = 0
-                for proj in projfiles:
-                    files_copied += 1
-                    shutil.copy(proj, dist_astyle_proj)
-                if vsdir[1:-1] >= "vs2010":
-                    filtfiles = glob.glob(buildfiles + vsdir[:-1] + projdir + "*.*.filters")
-                    for filter_in in filtfiles:
-                        files_copied += 1
-                        shutil.copy(filter_in, dist_astyle_proj)
-                # verify number of files copied
-                if files_copied != 2 and files_copied != 1:
-                    libastyle.system_exit("Error in number of build files copied: " + str(files_copied))
+        # build/vs directories
+        if (build_dir.startswith("vs20")
+                and not build_dir.endswith("-clang")):
+            print("    " + build_dir)
+            copy_build_directories_vs(dist_build, build_dir)
 
 # -----------------------------------------------------------------------------
 
 def remove_dist_directories():
     """Remove directories from a previous run.
     """
-    dirs = glob.glob(__base_dir + "/DistWindowsXP/")
-    dirs.sort()
+    dirs = sorted(glob.glob(__base_dir + "/DistWindowsXP/"))
     for directory in dirs:
         if "wx" in directory.lower():
             continue

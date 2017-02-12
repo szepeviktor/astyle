@@ -117,7 +117,8 @@ namespace {
 
 struct JapaneseF : public Test
 {
-	ASFormatter formatter;		// formatter object
+	ASFormatter formatter;
+	ASConsole* console;
 	string japanese;			// the locale to test
 	bool isValidLocale;			// the locale is set
 	vector<string> fileNames;	// filenames written to disk
@@ -133,6 +134,7 @@ struct JapaneseF : public Test
 	// c'tor - build fileNames vector and write the output files
 	JapaneseF()
 	{
+		console = new ASConsole(formatter);
 #ifdef _WIN32
 		// The language of the system local should be Japanese.
 		// The system default locale is set from the Windows Control Panel,
@@ -164,7 +166,6 @@ struct JapaneseF : public Test
 		    "}\n";
 		textOut = textOutStr.c_str();
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
 		// Japanese symbols are copied from http://www.alanwood.net/unicode/katakana.html
 		// subdir1  = L"/\u30a2\u30a4\u30a6\u30aa";
 		// subdir1a = subdir1 + L"/\u30ab\u30ad\u30af";
@@ -188,7 +189,7 @@ struct JapaneseF : public Test
 		// write the test files
 		for (size_t i = 0; i < fileNames.size(); i++)
 		{
-			g_console->standardizePath(fileNames[i]);
+			console->standardizePath(fileNames[i]);
 			createTestFile(fileNames[i], textOut);
 		}
 		// sort test strings for alpha compare
@@ -197,7 +198,7 @@ struct JapaneseF : public Test
 
 	~JapaneseF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 		setGlobalLocale("C");
 	}
 };
@@ -209,16 +210,15 @@ TEST_F(JapaneseF, Recursive1)
 	if (!isValidLocale)
 		return;
 	// set processing variables
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// run the test
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the fileName vector
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
@@ -231,9 +231,8 @@ TEST_F(JapaneseF, Recursive2)
 	if (!isValidLocale)
 		return;
 	// set processing variables
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// erase the entries that are not in the path
 	for (int i = 0; i < static_cast<int>(fileNames.size()); i++)
 	{
@@ -246,10 +245,10 @@ TEST_F(JapaneseF, Recursive2)
 	vector<string> astyleOptionsVector;
 	// format subdir1 only
 	astyleOptionsVector.push_back(getTestDirectory() + subdir1 + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the fileName vector
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
@@ -262,24 +261,23 @@ TEST_F(JapaneseF, Recursive3)
 	if (!isValidLocale)
 		return;
 	// set processing variables
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// write the multi-byte filename and extension
 	// filenameJ = L"/\u30c4\u30c6\u30cc\u30cd";
 	// fileExt   = L"/\u30db\u30de";
 	string fileNameJ = convertToMultiByte(L"/ツテヌネ");
 	string fileExtJ  = convertToMultiByte(L".ホマ");
 	string testFilePath = getTestDirectory() + subdir1 + fileNameJ + fileExtJ;
-	g_console->standardizePath(testFilePath);
+	console->standardizePath(testFilePath);
 	createTestFile(testFilePath, textOut);
 	// run the test
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*" + fileExtJ);
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the fileName vector
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(1U, fileName.size());
 	EXPECT_EQ(testFilePath, fileName[0]);
 }
@@ -290,9 +288,8 @@ TEST_F(JapaneseF, RecursiveExclude)
 	// check valid locale
 	if (!isValidLocale)
 		return;
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// build the excludeVector
 	vector<string> astyleOptionsVector;
 	// file
@@ -318,10 +315,10 @@ TEST_F(JapaneseF, RecursiveExclude)
 	}
 	// run the test
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the fileName vector
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
@@ -334,9 +331,8 @@ TEST_F(JapaneseF, RecursiveSuffix)
 	if (!isValidLocale)
 		return;
 	// set processing variables
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);			// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);			// change this to see results
+	console->setIsRecursive(true);
 	// build the optionsVector
 	// L"\u30e9\u30eb\u30f0";
 	vector<string> astyleOptionsVector;
@@ -344,11 +340,11 @@ TEST_F(JapaneseF, RecursiveSuffix)
 	astyleOptionsVector.push_back("--suffix=" + fileSuffixJ);
 	// run the test
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the backup file
 	struct stat stBuf;
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
@@ -364,7 +360,8 @@ TEST_F(JapaneseF, RecursiveSuffix)
 
 struct GreekF : public Test
 {
-	ASFormatter formatter;		// formatter object
+	ASFormatter formatter;
+	ASConsole* console;
 	string greek;				// the locale to test
 	bool isValidLocale;			// the locale is set
 	vector<string> fileNames;	// filenames written to disk
@@ -380,6 +377,7 @@ struct GreekF : public Test
 	// c'tor - build fileNames vector and write the output files
 	GreekF()
 	{
+		console = new ASConsole(formatter);
 #ifdef _WIN32
 		// The language of the system local should be Greek.
 		// The system default locale is set from the Windows Control Panel,
@@ -411,7 +409,6 @@ struct GreekF : public Test
 		    "}\n";
 		textOut = textOutStr.c_str();
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
 		// Greek symbols are copied from
 		subdir1  = createLocaleDirectory(L"/ΓΔΘΛ");
 		subdir1a = createLocaleDirectory(L"/ΓΔΘΛ/αβγλ");
@@ -431,7 +428,7 @@ struct GreekF : public Test
 		// write the test files
 		for (size_t i = 0; i < fileNames.size(); i++)
 		{
-			g_console->standardizePath(fileNames[i]);
+			console->standardizePath(fileNames[i]);
 			createTestFile(fileNames[i], textOut);
 		}
 		// sort test strings for alpha compare
@@ -440,7 +437,7 @@ struct GreekF : public Test
 
 	~GreekF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 		setGlobalLocale("C");
 	}
 };
@@ -452,16 +449,15 @@ TEST_F(GreekF, Recursive1)
 	if (!isValidLocale)
 		return;
 	// set processing variables
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// run the test
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the fileName vector
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 #ifdef __BORLANDC__
 	// The Embarcadero FindNextFile() function in Artistic Style
 	// doesn't follow locale sort sequence for Greek.
@@ -479,9 +475,8 @@ TEST_F(GreekF, Recursive2)
 	if (!isValidLocale)
 		return;
 	// set processing variables
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// delete the entries that are not in the path
 	for (int i = 0; i < static_cast<int>(fileNames.size()); i++)
 	{
@@ -494,10 +489,10 @@ TEST_F(GreekF, Recursive2)
 	vector<string> astyleOptionsVector;
 	// format subdir1 only
 	astyleOptionsVector.push_back(getTestDirectory() + subdir1 + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the fileName vector
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
@@ -510,22 +505,21 @@ TEST_F(GreekF, Recursive3)
 	if (!isValidLocale)
 		return;
 	// set processing variables
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// write the single-byte filename and extension
 	string fileNameR = convertToMultiByte(L"/ΠΖΣΧ");
 	string fileExtR  = convertToMultiByte(L".μςφ");
 	string testFilePath = getTestDirectory() + subdir1 + fileNameR + fileExtR;
-	g_console->standardizePath(testFilePath);
+	console->standardizePath(testFilePath);
 	createTestFile(testFilePath, textOut);
 	// run the test
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*" + fileExtR);
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the fileName vector
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(1U, fileName.size());
 	EXPECT_EQ(testFilePath, fileName[0]);
 }
@@ -536,9 +530,8 @@ TEST_F(GreekF, RecursiveExclude)
 	// check valid locale
 	if (!isValidLocale)
 		return;
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// build the excludeVector
 	vector<string> astyleOptionsVector;
 	// file
@@ -564,10 +557,10 @@ TEST_F(GreekF, RecursiveExclude)
 	}
 	// run the test
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the fileName vector
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 #ifdef __BORLANDC__
 	// The Embarcadero FindNextFile() function in Artistic Style
 	// doesn't follow locale sort sequence for Greek.
@@ -585,20 +578,19 @@ TEST_F(GreekF, RecursiveSuffix)
 	if (!isValidLocale)
 		return;
 	// set processing variables
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);			// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);			// change this to see results
+	console->setIsRecursive(true);
 	// build the optionsVector
 	vector<string> astyleOptionsVector;
 	string fileSuffixJ = convertToMultiByte(L".μθτη");
 	astyleOptionsVector.push_back("--suffix=" + fileSuffixJ);
 	// run the test
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the backup file
 	struct stat stBuf;
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
@@ -614,7 +606,8 @@ TEST_F(GreekF, RecursiveSuffix)
 
 struct RussianF : public Test
 {
-	ASFormatter formatter;		// formatter object
+	ASFormatter formatter;
+	ASConsole* console;
 	string russian;				// the locale to test
 	bool isValidLocale;			// the locale is set
 	vector<string> fileNames;	// filenames written to disk
@@ -630,6 +623,7 @@ struct RussianF : public Test
 	// c'tor - build fileNames vector and write the output files
 	RussianF()
 	{
+		console = new ASConsole(formatter);
 #ifdef _WIN32
 		// The language of the system local should be Russian.
 		// The system default locale is set from the Windows Control Panel,
@@ -661,7 +655,6 @@ struct RussianF : public Test
 		    "}\n";
 		textOut = textOutStr.c_str();
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
 		// Russian symbols are copied from http://en.wikipedia.org/wiki/Russian_alphabet
 		subdir1  = createLocaleDirectory(L"/АБВГ");
 		subdir1a = createLocaleDirectory(L"/АБВГ/ДЕЁЖ");
@@ -681,7 +674,7 @@ struct RussianF : public Test
 		// write the test files
 		for (size_t i = 0; i < fileNames.size(); i++)
 		{
-			g_console->standardizePath(fileNames[i]);
+			console->standardizePath(fileNames[i]);
 			createTestFile(fileNames[i], textOut);
 		}
 		// sort test strings for alpha compare
@@ -690,7 +683,7 @@ struct RussianF : public Test
 
 	~RussianF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 		setGlobalLocale("C");
 	}
 };
@@ -707,16 +700,15 @@ struct RussianF : public Test
 	if (!isValidLocale)
 		return;
 	// set processing variables
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// run the test
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the fileName vector
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
@@ -738,9 +730,8 @@ struct RussianF : public Test
 	if (!isValidLocale)
 		return;
 	// set processing variables
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// delete the entries that are not in the path
 	for (int i = 0; i < static_cast<int>(fileNames.size()); i++)
 	{
@@ -753,10 +744,10 @@ struct RussianF : public Test
 	vector<string> astyleOptionsVector;
 	// format subdir1 only
 	astyleOptionsVector.push_back(getTestDirectory() + subdir1 + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the fileName vector
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
@@ -773,22 +764,21 @@ TEST_F(RussianF, Recursive3)
 	if (!isValidLocale)
 		return;
 	// set processing variables
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// write the single-byte filename and extension
 	string fileNameR = convertToMultiByte(L"/ЧШЪЫ");
 	string fileExtR  = convertToMultiByte(L".ЭЮЯ");
 	string testFilePath = getTestDirectory() + subdir1 + fileNameR + fileExtR;
-	g_console->standardizePath(testFilePath);
+	console->standardizePath(testFilePath);
 	createTestFile(testFilePath, textOut);
 	// run the test
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*" + fileExtR);
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the fileName vector
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(1U, fileName.size());
 	EXPECT_EQ(testFilePath, fileName[0]);
 }
@@ -805,9 +795,8 @@ TEST_F(RussianF, Recursive3)
 	// check valid locale
 	if (!isValidLocale)
 		return;
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// build the excludeVector
 	vector<string> astyleOptionsVector;
 	// file
@@ -833,10 +822,10 @@ TEST_F(RussianF, Recursive3)
 	}
 	// run the test
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the fileName vector
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
@@ -849,20 +838,19 @@ TEST_F(RussianF, RecursiveSuffix)
 	if (!isValidLocale)
 		return;
 	// set processing variables
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);			// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);			// change this to see results
+	console->setIsRecursive(true);
 	// build the optionsVector
 	vector<string> astyleOptionsVector;
 	string fileSuffixJ = convertToMultiByte(L".фыюя");
 	astyleOptionsVector.push_back("--suffix=" + fileSuffixJ);
 	// run the test
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the backup file
 	struct stat stBuf;
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
@@ -879,7 +867,8 @@ TEST_F(RussianF, RecursiveSuffix)
 
 struct MultiLanguageF : public Test
 {
-	ASFormatter formatter;		// formatter object
+	ASFormatter formatter;
+	ASConsole* console;
 	bool isValidLocale;			// the locale is set
 	vector<string> fileNames;	// filenames written to disk
 	// text out data
@@ -889,6 +878,7 @@ struct MultiLanguageF : public Test
 	// c'tor - build fileNames vector and write the output files
 	MultiLanguageF()
 	{
+		console = new ASConsole(formatter);
 #ifdef _WIN32
 		// Windows cannot do multi language.
 		// LCID is from https://msdn.microsoft.com/en-us/library/ms912047(WinEmbedded.10).aspx
@@ -912,7 +902,6 @@ struct MultiLanguageF : public Test
 		    "}\n";
 		textOut = textOutStr.c_str();
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
 		// Japanese symbols are copied from http://www.alanwood.net/unicode/katakana.html
 		// subdir1  = L"/\u30a2\u30a4\u30a6\u30aa";
 		string subdir1 = createLocaleDirectory(L"/アイウオ");
@@ -924,14 +913,14 @@ struct MultiLanguageF : public Test
 		// write the Japanese test files
 		for (size_t i = 0; i < fileNames.size(); i++)
 		{
-			g_console->standardizePath(fileNames[i]);
+			console->standardizePath(fileNames[i]);
 			createTestFile(fileNames[i], textOut);
 		}
 		// create a directory and files in Russian
 		// Russian symbols are copied from http://en.wikipedia.org/wiki/Russian_alphabet
 		wstring subdir2 = L"\\ЗИФЫЫЯ";
 		string russianPath = getTestDirectory() + convertToMultiByte(subdir2);
-		g_console->standardizePath(russianPath);
+		console->standardizePath(russianPath);
 		createTestDirectory(russianPath);
 		// files are created for Linux only
 		fileNames.push_back(russianPath + "/recursive4.cpp");
@@ -944,7 +933,7 @@ struct MultiLanguageF : public Test
 
 	~MultiLanguageF()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 		setGlobalLocale("C");
 	}
 };
@@ -956,16 +945,15 @@ TEST_F(MultiLanguageF, Recursive1)
 	if (!isValidLocale)
 		return;
 	// set processing variables
-	assert(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// run the test
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the fileName vector
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
@@ -979,7 +967,8 @@ TEST_F(MultiLanguageF, Recursive1)
 
 struct Codepage1252F : public Test
 {
-	ASFormatter formatter;		// formatter object
+	ASFormatter formatter;
+	ASConsole* console;
 	bool isValidLocale;			// the locale is set
 	vector<string> fileNames;	// filenames written to disk
 	// text out data
@@ -989,6 +978,7 @@ struct Codepage1252F : public Test
 	// c'tor - build fileNames vector and write the output files
 	Codepage1252F()
 	{
+		console = new ASConsole(formatter);
 #ifdef _WIN32
 		// Windows must check for codepage 1252.
 		// get buffer for codepageRecursive1
@@ -1025,7 +1015,6 @@ struct Codepage1252F : public Test
 		    "}\n";
 		textOut = textOutStr.c_str();
 		cleanTestDirectory(getTestDirectory());
-		createConsoleGlobalObject(formatter);
 		// create fileNames vector
 		// create a directory and files in English
 		// German symbols are the same as English
@@ -1062,7 +1051,7 @@ struct Codepage1252F : public Test
 		// write the test files
 		for (size_t i = 0; i < fileNames.size(); i++)
 		{
-			g_console->standardizePath(fileNames[i]);
+			console->standardizePath(fileNames[i]);
 			createTestFile(fileNames[i], textOut);
 		}
 		// sort test strings for alpha compare
@@ -1071,7 +1060,7 @@ struct Codepage1252F : public Test
 
 	~Codepage1252F()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 		setGlobalLocale("C");
 	}
 };
@@ -1088,20 +1077,20 @@ struct Codepage1252F : public Test
 	if (!isValidLocale)
 		return;
 	// set processing variables
-	ASSERT_TRUE(g_console != nullptr);
-	g_console->setIsQuiet(true);		// change this to see results
-	g_console->setIsRecursive(true);
+	ASSERT_TRUE(console != nullptr);
+	console->setIsQuiet(true);		// change this to see results
+	console->setIsRecursive(true);
 	// run the test
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
-	g_console->processOptions(astyleOptionsVector);
-	g_console->processFiles();
+	console->processOptions(astyleOptionsVector);
+	console->processFiles();
 	// check the fileName vector
-	vector<string> fileName = g_console->getFileName();
+	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
-		// comment out g_console->setIsQuiet(true) above to see the results
+		// comment out console->setIsQuiet(true) above to see the results
 		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
 	}
 }
@@ -1112,20 +1101,21 @@ struct Codepage1252F : public Test
 
 struct GetNumberFormat : public Test
 {
-	ASFormatter formatter;		// formatter object
+	ASFormatter formatter;
+	ASConsole* console;
 	string result;              // expected result of getNumberFormat()
 	string number;              // formatted number from getNumberFormat()
 
 	GetNumberFormat()
 	{
-		createConsoleGlobalObject(formatter);
+		console = new ASConsole(formatter);
 		// Make sure the C++ locale is not set.
 		locale::global(locale("C"));
 	}	// end c'tor
 
 	~GetNumberFormat()
 	{
-		deleteConsoleGlobalObject();
+		delete console;
 	}
 };
 
@@ -1136,22 +1126,22 @@ TEST_F(GetNumberFormat, GetNumberFormat)
 {
 	// WINDOWS English locale 0133 - for other formats change the user locale
 	result = "123,456,789";
-	number = g_console->getNumberFormat(123456789, 1033);
+	number = console->getNumberFormat(123456789, 1033);
 	EXPECT_EQ(result, number) << "english locale (assumes default formatting)";
 	// WINDOWS German locale 1031 - for other formats change the user locale
 	result = "123.456.789";
-	number = g_console->getNumberFormat(123456789, 1031);
+	number = console->getNumberFormat(123456789, 1031);
 	EXPECT_EQ(result, number) << "german locale (assumes default formatting)";
 	// WINDOWS French locale 1036 - for other formats change the user locale
 	result = "123 456 789";
-	number = g_console->getNumberFormat(123456789, 1036);
+	number = console->getNumberFormat(123456789, 1036);
 	// check if non-breaking spaces were used
 	if (number[3] == '\xA0')
 		result[3] = result[7] = '\xA0';
 	EXPECT_EQ(result, number) << "french locale (assumes default formatting)";
 	// WINDOWS French Swiss locale 4018 - for other formats change the user locale
 	result = "123'456'789";
-	number = g_console->getNumberFormat(123456789, 4108);
+	number = console->getNumberFormat(123456789, 4108);
 	// check if non-breaking spaces were used
 	if (number[3] == '\xA0')
 		result[3] = result[7] = '\xA0';
@@ -1183,49 +1173,49 @@ TEST_F(GetNumberFormat, GetNumberFormat)
 	grouping  = "\3";
 	separator = ",";
 	result = "1,234,567,890";
-	number = g_console->getNumberFormat(1234567890, grouping, separator);
+	number = console->getNumberFormat(1234567890, grouping, separator);
 	EXPECT_EQ(result, number) << "group 3 (odd) with comma";
 	// LINUX group 3 (even) with dot
 	grouping  = "\3";
 	separator = ".";
 	result = "123.456.789";
-	number = g_console->getNumberFormat(123456789, grouping, separator);
+	number = console->getNumberFormat(123456789, grouping, separator);
 	EXPECT_EQ(result, number) << "group 3 (even) with dot";
 	// LINUX group 3,2 (odd) with space
 	grouping  = "\3\2";
 	separator = " ";
 	result = "1 23 45 67 890";
-	number = g_console->getNumberFormat(1234567890, grouping, separator);
+	number = console->getNumberFormat(1234567890, grouping, separator);
 	EXPECT_EQ(result, number) << "group 3,2 (odd) with space";
 	// LINUX group 3,2 (even) with quote
 	grouping  = "\3\2";
 	separator = "'";
 	result = "12'34'56'789";
-	number = g_console->getNumberFormat(123456789, grouping, separator);
+	number = console->getNumberFormat(123456789, grouping, separator);
 	EXPECT_EQ(result, number) << "group 3,2 (even) with quote";
 	// LINUX group 3,CHAR_MAX
 	grouping  = "\3\127";
 	separator = ",";
 	result = "123456,789";
-	number = g_console->getNumberFormat(123456789, grouping, separator);
+	number = console->getNumberFormat(123456789, grouping, separator);
 	EXPECT_EQ(result, number) << "group 3,CHAR_MAX";
 	// LINUX no grouping
 	grouping  = "";
 	separator = ".";
 	result = "123456789";
-	number = g_console->getNumberFormat(123456789, grouping, separator);
+	number = console->getNumberFormat(123456789, grouping, separator);
 	EXPECT_EQ(result, number) << "no grouping";
 	// LINUX format zero
 	grouping  = "3";
 	separator = ".";
 	result = "0";
-	number = g_console->getNumberFormat(0, grouping, separator);
+	number = console->getNumberFormat(0, grouping, separator);
 	EXPECT_EQ(result, number) << "format zero";
 	// LINUX English locale
 	bool enOk = setGlobalLocale("en_US.UTF-8");
 	ASSERT_TRUE(enOk) << "Cannot set English locale";
 	result = "123,456,789";
-	number = g_console->getNumberFormat(123456789);
+	number = console->getNumberFormat(123456789);
 	EXPECT_EQ(result, number) << "english locale (assumes default formatting)";
 	// LINUX French locale
 	bool frOk = setGlobalLocale("fr_FR.UTF-8");
@@ -1236,7 +1226,7 @@ TEST_F(GetNumberFormat, GetNumberFormat)
 #else
 	result = "123 456 789";
 #endif
-	number = g_console->getNumberFormat(123456789);
+	number = console->getNumberFormat(123456789);
 	// check if non-breaking spaces were used
 	if (number[3] == '\xA0')
 		result[3] = result[7] = '\xA0';
@@ -1250,7 +1240,7 @@ TEST_F(GetNumberFormat, GetNumberFormat)
 #else
 	result = "123.456.789";
 #endif
-	number = g_console->getNumberFormat(123456789);
+	number = console->getNumberFormat(123456789);
 	EXPECT_EQ(result, number) << "german locale (assumes default formatting)";
 	// LINUX French Swiss locale
 	// Linux currently does not have a Swiss locale

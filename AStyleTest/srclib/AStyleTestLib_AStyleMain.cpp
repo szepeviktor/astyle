@@ -384,20 +384,26 @@ struct ASLibrary_Mock16 : public ASLibrary
 
 TEST_F(AStyleMainUtf16F1, NullConvertSource)
 {
+	// mocks cause memory leaks
+#if !(LEAK_DETECTOR || LEAK_FINDER)
 	// Test formatUtf16() error handling for source.
 	ASLibrary_Mock8 library;
 	EXPECT_CALL(library, convertUtf16ToUtf8(_))
-	.WillOnce(Return(static_cast<char*>(nullptr)));
+	.WillOnce(Return(nullptr));
 	// test the error handling
 	int errorsIn = getErrorHandler2Calls();
 	utf16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_EQ(nullptr, textOut);
+	delete[] textOut;	// should not cause a problem with nullptr
+#endif
 }
 
 TEST_F(AStyleMainUtf16F1, NullConvertOptions)
 {
+	// mocks cause memory leaks
+#if !(LEAK_DETECTOR || LEAK_FINDER)
 	// Test formatUtf16() error handling for options.
 	ASLibrary_Mock8 library;
 	// don't use convertUtf16ToUtf8() here, it will be mocked
@@ -407,28 +413,34 @@ TEST_F(AStyleMainUtf16F1, NullConvertOptions)
 	InSequence s;			// the following returns must occur in sequence
 	EXPECT_CALL(library, convertUtf16ToUtf8(_))
 	.WillOnce(Return(utf8Formatted))
-	.WillOnce(Return(static_cast<char*>(nullptr)));
+	.WillOnce(Return(nullptr));
 	// test the error handling
 	int errorsIn = getErrorHandler2Calls();
 	utf16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_EQ(nullptr, textOut);
+	delete[] textOut;	// should not cause a problem with nullptr
+#endif
 }
 
 TEST_F(AStyleMainUtf16F1, NullConvertFormattedText)
 {
+	// mocks cause memory leaks
+#if !(LEAK_DETECTOR || LEAK_FINDER)
 	// Test formatUtf16() error handling for converting formatted text to utf-16.
 	ASLibrary_Mock16 library;
 	// this method returns an error
 	EXPECT_CALL(library, convertUtf8ToUtf16(_, _))
-	.WillOnce(Return(static_cast<utf16_t*>(nullptr)));
+	.WillOnce(Return(nullptr));
 	// test the error handling
 	int errorsIn = getErrorHandler2Calls();
 	utf16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_EQ(nullptr, textOut);
+	delete[] textOut;	// should not cause a problem with nullptr
+#endif
 }
 
 //----------------------------------------------------------------------------

@@ -100,16 +100,16 @@ def get_astyle_totals(filename):
     for line in infile:
         # use regular expressions to search the lines
         # find total line (with following commas)
-        if (re.search("formatted", line) != None
-                and re.search("unchanged", line) != None):
+        if (re.search("formatted", line) is not None
+                and re.search("unchanged", line) is not None):
             totline = line.split()
-             # get the thousands separator from the total number of lines
+            # get the thousands separator from the total number of lines
             sep = get_thousands_sep(totline[-2])
             # cannot extract if the separator is a space (French)
             if sep is None:
                 print("Cannot extract totals from file")
                 return (0, 0, 0, 0)
-            #extract the totals
+            # extract the totals
 #			totline[0] = totline[0].translate(None, sep)		# changed for version 3.2
             totline[0] = totline[0].replace(sep, '')
             formatted = int(totline[0])
@@ -132,7 +132,7 @@ def get_astyle_totals(filename):
 
 # -----------------------------------------------------------------------------
 
-def  get_formatted_files(filename):
+def get_formatted_files(filename):
     """Get a list of formatted files from the astyle output.
        Returns a list of the formatted files.
     """
@@ -143,15 +143,15 @@ def  get_formatted_files(filename):
     for line in infile:
         # use regular expressions to search the lines
         # main directory line (start of line with a following space)
-        if re.match("Directory ", line) != None:
+        if re.match("Directory ", line) is not None:
             directory = extract_directory_from_line(line)
             continue
         # total line (with a following comma)
-        if (re.search("Formatted", line) != None
-                and re.search("Unchanged", line) != None):
+        if (re.search("Formatted", line) is not None
+                and re.search("Unchanged", line) is not None):
             continue
         # formatted file line (start of line with a following space)
-        if re.match("Formatted ", line) != None:
+        if re.match("Formatted ", line) is not None:
             subline = line[:-1].split(None, 1)
             formatted.append(directory + os.sep + subline[1])
 
@@ -160,7 +160,7 @@ def  get_formatted_files(filename):
 
 # -----------------------------------------------------------------------------
 
-def  get_old_filepath(filepath):
+def get_old_filepath(filepath):
     """Build a filepath for the "OLD" directory.
     """
     testdir = libastyle.get_test_directory(True)
@@ -218,11 +218,11 @@ def test_all_functions():
     test_file_write(testfile)
     # begin tests -----------------------------------------
     files = get_formatted_files(testfile)
-        # calls extract_directory_from_line()
+    # calls extract_directory_from_line()
     print("No files will be displayed in the comparison program.")
     diff_formatted_files(files)
-        # calls call_diff_program()
-        # calls strip_test_directory_prefix()
+    # calls call_diff_program()
+    # calls strip_test_directory_prefix()
     get_astyle_totals(testfile)
     # end tests -------------------------------------------
     os.remove(testfile)

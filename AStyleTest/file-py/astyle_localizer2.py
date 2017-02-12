@@ -71,15 +71,13 @@ def find_string_diffs(language_strings, test_functions, test_function_type=""):
     missing_classes = set(test_functions) - set(language_strings)
 
     if len(missing_functions) > 0:
-        missing_functions = list(missing_functions)
-        missing_functions.sort()
+        missing_functions = sorted(missing_functions)
         print("{0} missing test functions in {1}".format(
             str(len(missing_functions)), test_function_type))
         print(missing_functions)
 
     if len(missing_classes) > 0:
-        missing_classes = list(missing_classes)
-        missing_classes.sort()
+        missing_classes = sorted(missing_classes)
         print("{0} missing classes in ASLocalizer.h for test {1}:".format(
             str(len(missing_classes)), test_function_type))
         print(missing_classes)
@@ -207,7 +205,6 @@ def get_name_functions(name_functions, test_path):
 # -----------------------------------------------------------------------------
 
 def get_translate_functions(translate_functions, test_path):
-
     """ Read the AStyleTestLoc.cpp file and save the translate test functions.
     """
     translate_total = 0     # number of name test functions

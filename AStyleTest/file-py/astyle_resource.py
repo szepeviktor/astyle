@@ -76,8 +76,8 @@ def convert_class_functions(line):
         line = "caseIndent"
     elif "setBlockIndent" in line:
         line = "blockIndent"
-    elif "setBracketIndent" in line:
-        line = "bracketIndent"
+    elif "setBraceIndent" in line:
+        line = "braceIndent"
     elif "setNamespaceIndent" in line:
         line = "namespaceIndent"
     elif "setLabelIndent" in line:
@@ -103,8 +103,7 @@ def find_header_diffs(header_variables, np_header_variables):
     missing_header = set(np_header_variables) - set(header_variables)
 
     if len(missing_header) > 0:
-        missing_header = list(missing_header)
-        missing_header.sort()
+        missing_header = sorted(missing_header)
         print(str(len(missing_header)) + " missing header variables:")
         print(missing_header)
 
@@ -125,8 +124,7 @@ def find_pre_block_diffs(header_variables, pre_block_variables):
     duplicate_header = set(pre_block_variables) & set(header_variables)
 
     if len(duplicate_header) != 0:
-        duplicate_header = list(duplicate_header)
-        duplicate_header.sort()
+        duplicate_header = sorted(duplicate_header)
         print()
         print(str(len(duplicate_header)) + " duplicate pre-block variables:")
         print(duplicate_header)
@@ -148,8 +146,7 @@ def find_pre_command_diffs(header_variables, pre_command_variables):
     duplicate_header = set(pre_command_variables) & set(header_variables)
 
     if len(duplicate_header) != 0:
-        duplicate_header = list(duplicate_header)
-        duplicate_header.sort()
+        duplicate_header = sorted(duplicate_header)
         print()
         print(str(len(duplicate_header)) + " duplicate pre-command variables:")
         print(duplicate_header)
@@ -175,7 +172,9 @@ def get_header_variables(header_variables, resource_path):
             continue
         if line.startswith("//"):
             continue
-
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # find the header write commands
         if not "headers->push_back" in line:
             continue
@@ -209,7 +208,9 @@ def get_np_header_variables(np_header_variables, resource_path):
             continue
         if line.startswith("//"):
             continue
-
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # find the non-paren header write commands
         if not "nonParenHeaders->push_back" in line:
             continue
@@ -243,7 +244,9 @@ def get_pre_block_variables(pre_block_variables, resource_path):
             continue
         if line.startswith("//"):
             continue
-
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # find the pre-block statement write commands
         if not "preBlockStatements->push_back" in line:
             continue
@@ -277,7 +280,9 @@ def get_pre_command_variables(pre_command_variables, resource_path):
             continue
         if line.startswith("//"):
             continue
-
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # find the pre-command header write commands
         if not "preCommandHeaders->push_back" in line:
             continue

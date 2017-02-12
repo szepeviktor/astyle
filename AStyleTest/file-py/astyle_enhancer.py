@@ -69,14 +69,12 @@ def find_class_diffs(header_variables, class_variables):
     missing_class = set(header_variables) - set(class_variables)
 
     if len(missing_header) > 0:
-        missing_header = list(missing_header)
-        missing_header.sort()
+        missing_header = sorted(missing_header)
         print(str(len(missing_header)) + " missing header variables:")
         print(missing_header)
 
     if len(missing_class) > 0:
-        missing_class = list(missing_class)
-        missing_class.sort()
+        missing_class = sorted(missing_class)
         print(str(len(missing_class)) + " missing class constructor variables:")
         print(missing_class)
 
@@ -111,7 +109,7 @@ def get_constructor_variables(class_variables, enhancer_path):
         if (class_lines[0] == 0
                 or class_lines[0] >= lines):
             continue
-        # find ending bracket
+        # find ending brace
         if '}' in line:
             class_lines[1] = lines
             break
@@ -139,7 +137,7 @@ def get_header_variables(header_variables, header_path):
 
     header_lines = [0, 0]		# line numbers for header
     header_total = 0			# total variables for header
-    header_brackets = 0			# unmatched brackets in the header
+    header_braces = 0			# unmatched braces in the header
     lines = 0					# current input line number
     file_in = open(header_path, 'r')
 
@@ -154,17 +152,17 @@ def get_header_variables(header_variables, header_path):
         # start between the following lines
         if "class ASEnhancer" in line:
             header_lines[0] = lines + 1
-            header_brackets += 1
+            header_braces += 1
             continue
         if (header_lines[0] == 0
                 or header_lines[0] >= lines):
             continue
-        # count brackets
+        # count braces
         if '{' in line:
-            header_brackets += 1
+            header_braces += 1
         if '}' in line:
-            header_brackets -= 1
-        if  header_brackets == 0:
+            header_braces -= 1
+        if header_braces == 0:
             header_lines[1] = lines
             break
         # end on the following comment
@@ -210,7 +208,7 @@ def get_initializer_variables(class_variables, enhancer_path):
     class_lines_init = [0, 0]		# line numbers for class init() function
     class_total_init = 0			# total variables for class init() function
     lines_init = 0					# current input line number
-    find_init_bracket = False		# looking for bracket after init funcyion
+    find_init_brace = False		    # looking for brace after init funcyion
     file_in_init = open(enhancer_path, 'r')
 
     # get class initializer lines
@@ -221,17 +219,20 @@ def get_initializer_variables(class_variables, enhancer_path):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         # start between the following lines
         if "void ASEnhancer::init(" in line:
-            find_init_bracket = True
+            find_init_brace = True
             continue
-        if find_init_bracket and "{" in line:
+        if find_init_brace and "{" in line:
             class_lines_init[0] = lines_init + 1
-            find_init_bracket = False
+            find_init_brace = False
         if (class_lines_init[0] == 0
                 or class_lines_init[0] >= lines_init):
             continue
-        # find ending bracket
+        # find ending brace
         if '}' in line:
             class_lines_init[1] = lines_init
             break
