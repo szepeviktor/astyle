@@ -7,7 +7,7 @@
 from __future__ import print_function
 
 import os
-#local libraries
+# local libraries
 import libastylewx
 
 # global variables ------------------------------------------------------------
@@ -91,7 +91,7 @@ def process_line(line):
             or line.find("m_attachNamespace") != -1
             or line.find("m_indentClassBlocks") != -1
             or line.find("m_breakHeaderBlocks") != -1
-            or line.find("m_breakClosingBrackets") != -1
+            or line.find("m_breakClosingBraces") != -1
             or line.find("m_padMethodPrefix") != -1):
         line = line.replace("wxALL", "wxTOP|wxLEFT")
     # the last line gets a bottom border

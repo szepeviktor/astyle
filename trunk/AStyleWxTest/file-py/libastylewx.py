@@ -13,16 +13,17 @@ import subprocess
 import sys
 
 if os.name == "nt":
-    import msvcrt			# Windows only for get_ch()
+    import msvcrt		# Windows only for get_ch()
 else:
-    import termios, tty		# Linux only for get_ch()
+    import termios		# Linux only for get_ch()
+    import tty
 
 # global variables ------------------------------------------------------------
 
 # compile configurations
-DEBUG   = "debug"
-RELEASE = "release"
-STATIC  = "static"
+DEBUG     = "debug"
+RELEASE   = "release"
+STATIC    = "static"
 STATIC_XP = "static-xp"
 
 if os.name == "nt":
@@ -255,7 +256,7 @@ def get_file_py_directory(endsep=False):
     else:
         if pydir[0:6] != "/home/":
             system_exit("File executed from " + pydir)
-    return  pydir
+    return pydir
 
 # -----------------------------------------------------------------------------
 
@@ -270,18 +271,18 @@ def get_project_directory(endsep=False):
     #~ projdir = pydir
     #~ tail = pydir
     #~ while len(tail) > 0:
-        #~ head, tail = os.path.split(projdir)
-        #~ if tail == 'Projects':
-            #~ break
-        #~ projdir = head
+    #~ head, tail = os.path.split(projdir)
+    #~ if tail == 'Projects':
+    #~ break
+    #~ projdir = head
     #~ if len(tail) == 0:
-        #~ system_exit("Cannot find project directory " + pydir[0:])
+    #~ system_exit("Cannot find project directory " + pydir[0:])
 
     projdir = os.path.realpath(pydir + "../../../")
     #~ print("project directory = " + projdir)
     if endsep:
         projdir += '/'
-    return  projdir
+    return projdir
 
 # -----------------------------------------------------------------------------
 
@@ -309,7 +310,7 @@ def get_temp_directory():
         tempdir = tempdir.replace('\\', '/')
     else:
         tempdir = "./"
-    return  tempdir
+    return tempdir
 
 # -----------------------------------------------------------------------------
 
@@ -393,19 +394,19 @@ def test_all_functions():
     if os.name == "nt":
         build_astylewx_executable(DEBUG)		# calls compile_astyle_windows()
     get_7zip_path()
-    #get_archive_directory()
+    # get_archive_directory()
     get_astylewx_build_directory(DEBUG)
     get_astylewx_directory()
-    #get_astyleexe_path(DEBUG)
+    # get_astyleexe_path(DEBUG)
     get_astylewxtest_directory()
-    #get_diff_path()
+    # get_diff_path()
     get_file_py_directory()
-    #get_home_directory()
+    # get_home_directory()
     get_project_directory()
     get_python_version()
-    #get_python_version_number()
+    # get_python_version_number()
     get_temp_directory()
-    #get_test_directory()
+    # get_test_directory()
     is_executed_from_console()
     set_text_color("white")
 

@@ -20,10 +20,13 @@ reports=no
 # Good variable names which should always be accepted, separated by a comma
 good-names=i,j,k,ex,Run,_,tm,fd
 
+# Regular expression matching correct constant names
+const-rgx=(([A-Z_][A-Z0-9_]*)|(__.*))$
+
 [FORMAT]
 # Maximum number of characters on a single line.
 # max-line-length=  80 to 120
-max-line-length=120
+max-line-length=110
 
 # Regexp for a line that is allowed to be longer than the limit.
 # Default: ``^\s*(# )?<?https?://\S+>?$``

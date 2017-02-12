@@ -29,82 +29,82 @@ exit 1
 
 echo Win32 DLL Debug
 
-if not exist "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug"  md "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug"
+if not exist "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug"  md "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxbase31ud_vc_custom.dll"     "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxbase31ud_vc_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxbase31ud_vc_custom.pdb"     "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxbase31ud_vc_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxbase31ud_vc_custom.dll"     "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxbase31ud_vc_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxbase31ud_vc_custom.pdb"     "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxbase31ud_vc_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_adv_vc_custom.dll"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_adv_vc_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_adv_vc_custom.pdb"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_adv_vc_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_adv_vc_custom.dll"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_adv_vc_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_adv_vc_custom.pdb"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_adv_vc_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_aui_vc_custom.dll"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_aui_vc_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_aui_vc_custom.pdb"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_aui_vc_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_aui_vc_custom.dll"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_aui_vc_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_aui_vc_custom.pdb"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_aui_vc_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_core_vc_custom.dll" "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_core_vc_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_core_vc_custom.pdb" "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_core_vc_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_core_vc_custom.dll" "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_core_vc_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_core_vc_custom.pdb" "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_core_vc_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_stc_vc_custom.dll"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_stc_vc_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_stc_vc_custom.pdb"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_stc_vc_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_stc_vc_custom.dll"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_stc_vc_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\debug\wxmsw31ud_stc_vc_custom.pdb"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31ud_stc_vc_custom.pdb"
 
 echo.
 echo Win32 DLL Release
 
-if not exist "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin"  md "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin"
+if not exist "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin"  md "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxbase31u_vc_custom.dll"     "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxbase31u_vc_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxbase31u_vc_custom.pdb"     "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxbase31u_vc_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxbase31u_vc_custom.dll"     "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxbase31u_vc_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxbase31u_vc_custom.pdb"     "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxbase31u_vc_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_adv_vc_custom.dll"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_adv_vc_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_adv_vc_custom.pdb"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_adv_vc_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_adv_vc_custom.dll"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_adv_vc_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_adv_vc_custom.pdb"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_adv_vc_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_aui_vc_custom.dll"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_aui_vc_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_aui_vc_custom.pdb"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_aui_vc_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_aui_vc_custom.dll"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_aui_vc_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_aui_vc_custom.pdb"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_aui_vc_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_core_vc_custom.dll" "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_core_vc_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_core_vc_custom.pdb" "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_core_vc_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_core_vc_custom.dll" "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_core_vc_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_core_vc_custom.pdb" "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_core_vc_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_stc_vc_custom.dll"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_stc_vc_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_stc_vc_custom.pdb"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_stc_vc_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_stc_vc_custom.dll"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_stc_vc_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\bin\wxmsw31u_stc_vc_custom.pdb"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_dll\wxmsw31u_stc_vc_custom.pdb"
 
 echo.
 echo x64 DLL Debug
 
-if not exist "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug"  md "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug"
+if not exist "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug"  md "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxbase31ud_vc_x64_custom.dll"     "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxbase31ud_vc_x64_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxbase31ud_vc_x64_custom.pdb"     "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxbase31ud_vc_x64_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxbase31ud_vc_x64_custom.dll"     "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxbase31ud_vc_x64_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxbase31ud_vc_x64_custom.pdb"     "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxbase31ud_vc_x64_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_adv_vc_x64_custom.dll"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_adv_vc_x64_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_adv_vc_x64_custom.pdb"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_adv_vc_x64_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_adv_vc_x64_custom.dll"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_adv_vc_x64_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_adv_vc_x64_custom.pdb"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_adv_vc_x64_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_aui_vc_x64_custom.dll"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_aui_vc_x64_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_aui_vc_x64_custom.pdb"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_aui_vc_x64_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_aui_vc_x64_custom.dll"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_aui_vc_x64_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_aui_vc_x64_custom.pdb"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_aui_vc_x64_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_core_vc_x64_custom.dll" "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_core_vc_x64_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_core_vc_x64_custom.pdb" "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_core_vc_x64_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_core_vc_x64_custom.dll" "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_core_vc_x64_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_core_vc_x64_custom.pdb" "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_core_vc_x64_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_stc_vc_x64_custom.dll"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_stc_vc_x64_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_stc_vc_x64_custom.pdb"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_stc_vc_x64_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_stc_vc_x64_custom.dll"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_stc_vc_x64_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\debug\wxmsw31ud_stc_vc_x64_custom.pdb"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31ud_stc_vc_x64_custom.pdb"
 
 echo.
 echo x64 DLL Release
 
-if not exist "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin"  md "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin"
+if not exist "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin"  md "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxbase31u_vc_x64_custom.dll"     "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxbase31u_vc_x64_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxbase31u_vc_x64_custom.pdb"     "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxbase31u_vc_x64_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxbase31u_vc_x64_custom.dll"     "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxbase31u_vc_x64_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxbase31u_vc_x64_custom.pdb"     "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxbase31u_vc_x64_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_adv_vc_x64_custom.dll"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_adv_vc_x64_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_adv_vc_x64_custom.pdb"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_adv_vc_x64_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_adv_vc_x64_custom.dll"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_adv_vc_x64_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_adv_vc_x64_custom.pdb"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_adv_vc_x64_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_aui_vc_x64_custom.dll"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_aui_vc_x64_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_aui_vc_x64_custom.pdb"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_aui_vc_x64_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_aui_vc_x64_custom.dll"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_aui_vc_x64_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_aui_vc_x64_custom.pdb"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_aui_vc_x64_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_core_vc_x64_custom.dll" "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_core_vc_x64_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_core_vc_x64_custom.pdb" "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_core_vc_x64_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_core_vc_x64_custom.dll" "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_core_vc_x64_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_core_vc_x64_custom.pdb" "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_core_vc_x64_custom.pdb"
 
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_stc_vc_x64_custom.dll"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_stc_vc_x64_custom.dll"
-mklink  "F:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_stc_vc_x64_custom.pdb"  "C:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_stc_vc_x64_custom.pdb"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_stc_vc_x64_custom.dll"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_stc_vc_x64_custom.dll"
+mklink  "C:\Users\%USERNAME%\Projects\AStyleWx\build\vs2015_3.1_New\x64\bin\wxmsw31u_stc_vc_x64_custom.pdb"  "F:\Programs\wxWidgets-3.1.0_vs2015\lib\vc_x64_dll\wxmsw31u_stc_vc_x64_custom.pdb"
 
 echo.
 pause

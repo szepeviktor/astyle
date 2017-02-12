@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{b7b62252-f531-49d3-b6bd-58cb95b21d7e}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile />
+    <SearchPath>C:\Program Files\Python 3.5\Lib\</SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId />
+    <InterpreterVersion />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="aswx_aboutdlg.py" />
+    <Compile Include="aswx_astyledlg.py" />
+    <Compile Include="aswx_astyleiface.py" />
+    <Compile Include="aswx_editordlg.py" />
+    <Compile Include="aswx_virtual.py" />
+    <Compile Include="change_static_wx30.py" />
+    <Compile Include="change_static_wx31.py" />
+    <Compile Include="cppcheck_wx.py" />
+    <Compile Include="dist_copy_wx.py" />
+    <Compile Include="dist_copy_wx_xp.py" />
+    <Compile Include="gendlg_astyledlgbase_lnx.py" />
+    <Compile Include="gendlg_editordlgbase_lnx.py" />
+    <Compile Include="libastylewx OLD.py" />
+    <Compile Include="libastylewx.py" />
+    <Compile Include="remove_wxT.py" />
+    <Compile Include="to_xxbook.py" />
+    <Compile Include="xpm_fix.py" />
+  </ItemGroup>
+  <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
+</Project>

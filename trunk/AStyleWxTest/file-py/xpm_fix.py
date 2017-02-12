@@ -104,7 +104,7 @@ def get_image_directory():
     if not os.path.isdir(imagedir):
         message = "Cannot find image directory: " + imagedir
         libastylewx.system_exit(message)
-    return  imagedir
+    return imagedir
 
 # -----------------------------------------------------------------------------
 

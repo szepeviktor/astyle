@@ -19,11 +19,11 @@ import libastylewx
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-AS_RELEASE = "2.06"
+AS_RELEASE = "2.7"
 
 # extract all platforms for testing (Windows, Linux, Mac)
-EXTRACT_ALL = False
-#EXTRACT_ALL = True
+#EXTRACT_ALL = False
+EXTRACT_ALL = True
 
 # inut from AStyleWx directory
 __astylewx_dir = libastylewx.get_astylewx_directory()
@@ -195,6 +195,12 @@ def build_windows_distribution():
     dist_astylewx_bin = dist_astylewx + "/bin/"
     os.mkdir(dist_astylewx_bin)
     astylewx_build_directory = libastylewx.get_astylewx_build_directory(vscfg)
+    # if vscfg == libastylewx.DEBUG:
+    #    shutil.copy(astylewx_build_directory + "/debug/AStyleWxd.exe", dist_astylewx_bin)
+    # elif vscfg == libastylewx.RELEASE:
+    #    shutil.copy(astylewx_build_directory + "/bin/AStyleWx.exe", dist_astylewx_bin)
+    # elif vscfg == libastylewx.STATIC:
+    #    shutil.copy(astylewx_build_directory + "/binstatic/AStyleWx.exe", dist_astylewx_bin)
     if vscfg == libastylewx.STATIC_XP:
         shutil.copy(astylewx_build_directory + "/binstatic/AStyleWx.exe", dist_astylewx_bin)
     else:
@@ -452,76 +458,134 @@ def copy_astylewx_top(dist_top, to_dos=False):
 
 # -----------------------------------------------------------------------------
 
+def copy_build_directories_cb(dist_build, build_dir):
+    """Copy the build/codeblocks directories to the distribution directory.
+    """
+    buildfiles = __astylewx_dir + "/build/"
+    dist_astyle_cb = dist_build + '/' + build_dir + '/'
+    os.mkdir(dist_astyle_cb)
+    files_copied = 0
+    workfiles = glob.glob(buildfiles + build_dir + "/*.workspace")
+    for workfile in workfiles:
+        shutil.copy(workfile, dist_astyle_cb)
+        files_copied += 1
+    cbpfiles = glob.glob(buildfiles + build_dir + "/*.cbp")
+    for cbpfile in cbpfiles:
+        shutil.copy(cbpfile, dist_astyle_cb)
+        files_copied += 1
+    if files_copied != 6 and files_copied != 10:
+        libastylewx.system_exit("Error in number of build files copied: " + str(files_copied))
+
+# -----------------------------------------------------------------------------
+
+def copy_build_directories_make(dist_build, build_dir):
+    """Copy the build/makefile directories to the distribution directory.
+    """
+    # permissions = read/write by the owner and read only by everyone else
+    mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+    buildfiles = __astylewx_dir + "/build/"
+
+    makedir = '/' + build_dir + '/'
+    dist_astyle_make = dist_build + makedir
+    os.mkdir(dist_astyle_make)
+    files_copied = 0
+    makefiles = glob.glob(buildfiles + makedir + "[Mm]ake*")
+    for makefile in makefiles:
+        shutil.copy(makefile, dist_astyle_make)
+        os.chmod(dist_astyle_make, mode)
+        files_copied += 1
+    if files_copied != 1:
+        libastylewx.system_exit("Error in number of build files copied: " + str(files_copied))
+
+# -----------------------------------------------------------------------------
+
+def copy_build_directories_vs(dist_build, build_dir):
+    """Copy the build/visual-studio directories to the distribution directory.
+    """
+    buildfiles = __astylewx_dir + "/build/"
+    # copy solution files
+    vsdir = '/' + build_dir + '/'
+    dist_astyle_vs20xx = dist_build + vsdir
+    os.mkdir(dist_astyle_vs20xx)
+    slnfiles = glob.glob(buildfiles + vsdir + "*.sln")
+    files_copied = 0
+    for sln in slnfiles:
+        files_copied += 1
+        shutil.copy(sln, dist_astyle_vs20xx)
+    files_copied += 1
+    shutil.copy(buildfiles + vsdir + "wxWidgetsMacros.props", dist_astyle_vs20xx)
+    # verify number of files copied
+    if files_copied != 3:
+        print("Error in number of build files copied: " + str(files_copied))
+
+    # build project directories
+    for projdir in ("/AStyle Dll/",
+                    "/AStyle Lib/",
+                    "/AStyleWx/",
+                    "/AStyleWxDll/"):
+        dist_astyle_proj = dist_astyle_vs20xx[:-1] + projdir
+        os.mkdir(dist_astyle_proj)
+
+        # copy project files
+        projfiles = glob.glob(buildfiles + vsdir[:-1] + projdir + "*.*proj")
+        files_copied = 0
+        for proj in projfiles:
+            files_copied += 1
+        filtfiles = glob.glob(buildfiles + vsdir[:-1] + projdir + "*.*.filters")
+        for filter_in in filtfiles:
+            files_copied += 1
+            shutil.copy(filter_in, dist_astyle_proj)
+        # verify number of files copied
+        if files_copied != 2 and files_copied != 1:
+            print("Error in number of build files copied: " + str(files_copied))
+
+# -----------------------------------------------------------------------------
+
 def copy_linux_build_directories(dist_build):
     """Copy the Linux build directories to the distribution directory.
     """
-    print("copying build")
     # permissions = read/write by the owner and read only by everyone else
     mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 
-    # build/clang directory
-    print("    clang")
-    astylewx_build_clang = __astylewx_dir + "/build/clang/"
-    dist_build_clang = dist_build + "/clang/"
-    os.makedirs(dist_build_clang)
-    files_copied = 0
-    for buildfile in ["Makefile", "deps.mak"]:
-        files_copied += 1
-        make_path_clang = astylewx_build_clang + buildfile
-        shutil.copy(make_path_clang, dist_build_clang)
-        os.chmod(make_path_clang, mode)
-    # verify number of files copied
-    if files_copied != 2:
-        libastylewx.system_exit("Error in number of clang build files copied: " + str(files_copied))
-
-    # build/gcc directory
-    print("    gcc")
-    astylewx_build_gcc = __astylewx_dir + "/build/gcc/"
-    dist_build_gcc = dist_build + "/gcc/"
-    os.makedirs(dist_build_gcc)
-    files_copied = 0
-    for buildfile in ["Makefile", "deps.mak"]:
-        files_copied += 1
-        make_path_gcc = astylewx_build_gcc + buildfile
-        shutil.copy(make_path_gcc, dist_build_gcc)
-        os.chmod(make_path_gcc, mode)
-    # verify number of files copied
-    if files_copied != 2:
-        libastylewx.system_exit("Error in number of gcc build files copied: " + str(files_copied))
-
-    # build/intel directory
-    print("    intel")
-    astylewx_build_intel = __astylewx_dir + "/build/intel/"
-    dist_build_intel = dist_build + "/intel/"
-    os.makedirs(dist_build_intel)
-    files_copied = 0
-    for buildfile in ["Makefile", "deps.mak"]:
-        files_copied += 1
-        make_path_intel = astylewx_build_intel + buildfile
-        shutil.copy(make_path_intel, dist_build_intel)
-        os.chmod(make_path_intel, mode)
-    # verify number of files copied
-    if files_copied != 2:
-        libastylewx.system_exit("Error in number of intel build files copied: " + str(files_copied))
+    print("copying build")
+    buildfiles = __astylewx_dir + "/build/"
+    # get a list of build directories
+    build_dir_list = sorted(os.listdir(buildfiles))
+    for unused, build_dir in enumerate(build_dir_list):
+        # build/codeblocks directories
+        if (build_dir =="cb-clang"
+                or build_dir == "cb-gcc"
+                or build_dir == "cb-intel"):
+            print("    " + build_dir)
+            copy_build_directories_cb(dist_build, build_dir)
+        # build makefile directories
+        if (build_dir == "clang"
+                or build_dir == "gcc"
+                or build_dir == "intel"):
+            print("    " + build_dir)
+            copy_build_directories_make(dist_build, build_dir)
 
 # -----------------------------------------------------------------------------
 
 def copy_mac_build_directories(dist_build):
     """Copy the Mac build directories to the distribution directory.
     """
-    print("copying build")
     # permissions = read/write by the owner and read only by everyone else
     mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 
-    # build/mac directory
-    print("    mac")
-    astylewx_build_mac = __astylewx_dir + "/build/mac/"
-    dist_build_mac = dist_build + "/mac/"
-    os.makedirs(dist_build_mac)
-    for buildfile in ["Makefile", "deps.mak"]:
-        make_path_mac = astylewx_build_mac + buildfile
-        shutil.copy(make_path_mac, dist_build_mac)
-        os.chmod(make_path_mac, mode)
+    print("copying build")
+    buildfiles = __astylewx_dir + "/build/"
+    # get a list of build directories
+    build_dir_list = sorted(os.listdir(buildfiles))
+    for unused, build_dir in enumerate(build_dir_list):
+        # build/codeblocks directories
+        if build_dir == "cb-mac":
+            print("    " + build_dir)
+            copy_build_directories_cb(dist_build, build_dir)
+        # build makefile directories
+        if build_dir == "mac":
+            print("    " + build_dir)
+            copy_build_directories_make(dist_build, build_dir)
 
     # build/xcode directory
     print("    xcode")
@@ -530,13 +594,10 @@ def copy_mac_build_directories(dist_build):
     shutil.copytree(astylewx_build_xcode, dist_build_xcode)
     # permissions = read/write by the owner and read only by everyone else
     mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-    for file_in in ("/AStyleWx.xcodeproj/project.pbxproj",
+    for file_in in ("/AStyleWx",
+                    "/AStyleWx.xcodeproj/project.pbxproj",
                     "/AStyleWxDy.xcodeproj/project.pbxproj"):
         os.chmod(dist_build_xcode + file_in, mode)
-
-#	for file_in in ("/install.sh",
-#			        "/uninstall.sh"):
-#		os.chmod(dist_build_xcode + file_in, mode)
 
 # -----------------------------------------------------------------------------
 
@@ -546,45 +607,19 @@ def copy_windows_build_directories(dist_build):
     print("copying build")
     buildfiles = __astylewx_dir + "/build"
     # get a list of build/vs20xx directories
-    build_dir_list = os.listdir(buildfiles)
-    build_dir_list.sort()
+    build_dir_list = sorted(os.listdir(buildfiles))
     for unused, build_dir in enumerate(build_dir_list):
-        if (build_dir[:4] == "vs20"
-            and not build_dir.endswith("-clang")):
+        # build/codeblocks directories
+        if (build_dir == "cb-bcc32c"
+                or build_dir == "cb-mingw"):
             print("    " + build_dir)
+            copy_build_directories_cb(dist_build, build_dir)
 
-            # copy solution and properties files
-            vsdir = '/' + build_dir + '/'
-            dist_astylewx_vs20xx = dist_build + vsdir
-            os.mkdir(dist_astylewx_vs20xx)
-            slnfiles = glob.glob(buildfiles + vsdir + "*.sln")
-            for sln in slnfiles:
-                shutil.copy(sln, dist_astylewx_vs20xx)
-            propsfiles = glob.glob(buildfiles + vsdir + "*.props")
-            for props in propsfiles:
-                shutil.copy(props, dist_astylewx_vs20xx)
-
-            # build project directories
-            for projdir in ("/AStyle Dll/",
-                            "/AStyle Lib/",
-                            "/AStyleWx/",
-                            "/AStyleWxDll/"):
-                dist_astylewx_proj = dist_astylewx_vs20xx[:-1] + projdir
-                os.mkdir(dist_astylewx_proj)
-
-                # copy project files
-                projfiles = glob.glob(buildfiles + vsdir[:-1] + projdir + "*.*proj")
-                files_copied = 0
-                for proj in projfiles:
-                    files_copied += 1
-                    shutil.copy(proj, dist_astylewx_proj)
-                filtfiles = glob.glob(buildfiles + vsdir[:-1] + projdir + "*.*.filters")
-                for filter_in in filtfiles:
-                    files_copied += 1
-                    shutil.copy(filter_in, dist_astylewx_proj)
-                # verify number of files copied
-                if files_copied != 2:
-                    libastylewx.system_exit("Error in number of build files copied: " + str(files_copied))
+        # build/vs directories
+        if (build_dir.startswith("vs20")
+                and not build_dir.endswith("-clang")):
+            print("    " + build_dir)
+            copy_build_directories_vs(dist_build, build_dir)
 
 # -----------------------------------------------------------------------------
 
@@ -799,8 +834,7 @@ def get_distribution_folder_windows():
 def remove_dist_directories():
     """Remove directories from a previous run.
     """
-    dirs = glob.glob(__base_dir + "/[Dd]ist*/")
-    dirs.sort()
+    dirs = sorted(glob.glob(__base_dir + "/[Dd]ist*/"))
     for directory in dirs:
         if not directory[:-1].lower().endswith("wxxp"):
             continue

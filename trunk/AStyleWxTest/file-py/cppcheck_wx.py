@@ -133,8 +133,12 @@ def process_aboutdlg_header(aboutdlg_header_list):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.startswith("AboutDlg(wxWindow*"):
-            aboutdlg_header_list.append("noExplicitConstructor:" + src_path + ":" + str(lines) + "\t\t// AboutDlg\n")
+            aboutdlg_header_list.append("noExplicitConstructor:" + src_path + ":" + str(lines)
+                                        + "\t\t// AboutDlg\n")
     file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -153,12 +157,17 @@ def process_asapp(asapp_list):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
         if "OnExit" in line:
-            asapp_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t\t\t// OnExit\n")
+            asapp_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                              + "\t\t\t\t// OnExit\n")
         if "OnInit" in line:
-            asapp_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t\t\t// OnInit\n")
+            asapp_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                              + "\t\t\t\t// OnInit\n")
     file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -178,12 +187,16 @@ def process_astyledisplay(astyledisplay_list):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
         if line.startswith("int start"):
             ints_processed += 1
             if ints_processed == 2:
-                astyledisplay_list.append("variableScope:" + src_path + ":" + str(lines) + "\t\t// int start\n")
+                astyledisplay_list.append("variableScope:" + src_path + ":" + str(lines)
+                                          + "\t\t// int start\n")
     file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -202,11 +215,15 @@ def process_astyledisplay_header(astyledisplay_header_list):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
         # for some reason this doesn't work! - false positive?
         if "StcIndent_MaxInStatementDisplay" in line:
-            astyledisplay_header_list.append("functionConst:" + src_path + ":" + str(lines) + "\t\t\t// StcIndent_MaxInStatementDisplay\n")
+            astyledisplay_header_list.append("functionConst:" + src_path + ":" + str(lines)
+                                             + "\t\t// StcIndent_MaxInStatementDisplay\n")
     file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -225,32 +242,47 @@ def process_astyledlg(astyledlg_list):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
         if "OnFormatClick" in line:
-            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t// OnFormatClick\n")
+            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t// OnFormatClick\n")
         if "OnIndentClick" in line:
-            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t// OnIndentClick\n")
+            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t// OnIndentClick\n")
         if "OInit" in line:
-            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t// OInit\n")
+            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t// OInit\n")
         if "OnModifierClick" in line:
-            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t// OnModifierClick\n")
+            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t// OnModifierClick\n")
         if "OnNotebookPageChanged" in line:
-            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t// OnNotebookPageChanged\n")
+            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t// OnNotebookPageChanged\n")
         if "OnOkClick" in line:
-            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t// OnOkClick\n")
+            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t// OnOkClick\n")
         if "OnOtherClick" in line:
-            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t// OnOtherClick\n")
+            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t// OnOtherClick\n")
         if "OnPadClick" in line:
-            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t// OnPadClick\n")
+            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t// OnPadClick\n")
         if "OnResetAllClick" in line:
-            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t// OnResetAllClick\n")
+            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t// OnResetAllClick\n")
         if "OnSettingsClick" in line:
-            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t// OnSettingsClick\n")
+            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t// OnSettingsClick\n")
         if "OnStyleClick" in line:
-            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t// OnStyleClick\n")
+            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t// OnStyleClick\n")
         if "OnTabClick" in line:
-            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t// OnTabClick\n")
+            astyledlg_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t// OnTabClick\n")
     file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -269,6 +301,9 @@ def process_aseditor(aseditor_list):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
     file_in.close()
@@ -289,23 +324,33 @@ def process_astyleformat(astyleformat_list):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
         if line.startswith("minOut"):
-            astyleformat_list.append("redundantAssignment:" + src_path + ":" + str(lines) + "\t\t// MinOut\n")
+            astyleformat_list.append("redundantAssignment:" + src_path + ":" + str(lines)
+                                     + "\t\t// MinOut\n")
         if line.startswith("minSTC"):
-            astyleformat_list.append("redundantAssignment:" + src_path + ":" + str(lines) + "\t\t// MinSTC\n")
+            astyleformat_list.append("redundantAssignment:" + src_path + ":" + str(lines)
+                                     + "\t\t// MinSTC\n")
         if line.startswith("minPosition"):
-            astyleformat_list.append("redundantAssignment:" + src_path + ":" + str(lines) + "\t\t// minPosition\n")
-        # useInitializationList error - false positive
-        if line.startswith("m_firstLineMarker    = \"//]])>0\";"):
-            astyleformat_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// m_firstLineMarker\n")
-        if line.startswith("m_minSelectionMarker = \"//]])>1\";"):
-            astyleformat_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// m_minSelectionMarker\n")
-        if line.startswith("m_maxSelectionMarker = \"//]])>2\";"):
-            astyleformat_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// m_maxSelectionMarker\n")
-        if line.startswith("m_bookmark1Marker	 = \"//]])>3\";"):
-            astyleformat_list.append("useInitializationList:" + src_path + ":" + str(lines) + "\t\t// m_bookmark1Marker\n")
+            astyleformat_list.append("redundantAssignment:" + src_path + ":" + str(lines)
+                                     + "\t\t// minPosition\n")
+        # useInitializationList error
+        if line.startswith("m_firstLineMarker"):
+            astyleformat_list.append("useInitializationList:" + src_path + ":" + str(lines)
+                                     + "\t\t// m_firstLineMarker\n")
+        if line.startswith("m_minSelectionMarker"):
+            astyleformat_list.append("useInitializationList:" + src_path + ":" + str(lines)
+                                     + "\t\t// m_minSelectionMarker\n")
+        if line.startswith("m_maxSelectionMarker"):
+            astyleformat_list.append("useInitializationList:" + src_path + ":" + str(lines)
+                                     + "\t\t// m_maxSelectionMarker\n")
+        if line.startswith("m_bookmark1Marker"):
+            astyleformat_list.append("useInitializationList:" + src_path + ":" + str(lines)
+                                     + "\t\t// m_bookmark1Marker\n")
     file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -324,6 +369,9 @@ def process_astyleiface(astyleiface_list):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
     file_in.close()
@@ -344,6 +392,9 @@ def process_astylewx(astylewx_list):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
         if line.startswith("ID_RECENT_FILE"):  # in EVT_MENU
@@ -366,8 +417,12 @@ def process_astylewx_header(astylews_header_list):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.startswith("ASEditor(wxWindow*"):
-            astylews_header_list.append("noExplicitConstructor:" + src_path + ":" + str(lines) + "\t\t// ASEditor\n")
+            astylews_header_list.append("noExplicitConstructor:" + src_path + ":" + str(lines)
+                                        + "\t\t// ASEditor\n")
     file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -386,6 +441,9 @@ def process_config(config_list):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
     file_in.close()
@@ -406,14 +464,20 @@ def process_editordlg(editordlg_list):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
         if "OnBoldClick" in line:
-            editordlg_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t// OnBoldClick\n")
+            editordlg_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t// OnBoldClick\n")
         if "OnItalicClick" in line:
-            editordlg_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t// OnItalicClick\n")
+            editordlg_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t// OnItalicClick\n")
         if "OnResetClick" in line:
-            editordlg_list.append("unusedFunction:" + src_path + ":" + str(lines) + "\t\t// OnResetClick\n")
+            editordlg_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t// OnResetClick\n")
     file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -432,6 +496,9 @@ def process_encoding(encoding_list):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
     file_in.close()
@@ -441,8 +508,9 @@ def process_encoding(encoding_list):
 def process_file_suppressions(file_suppression_list):
     """ Generate suppressions for an entire file.
     """
-    file_suppression_list.append("// functionStatic is supressed for the entire project in the command line.\n")
-    file_suppression_list.append("// purgedConfiguration is supressed for the entire project in the command line.\n")
+    file_suppression_list.append("// Suppressed on the Command Line\n")
+    file_suppression_list.append("// functionStatic is supressed for the entire project.\n")
+    file_suppression_list.append("// purgedConfiguration is supressed for the entire project.\n")
     file_suppression_list.append("//\n")
 
 # -----------------------------------------------------------------------------
@@ -461,12 +529,17 @@ def process_filemanager(filemanager_list):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
         if line.startswith("reply = AskAboutSave(true)"):
-            filemanager_list.append("redundantAssignment:" + src_path + ":" + str(lines) + "\t\t\t// reply\n")
+            filemanager_list.append("redundantAssignment:" + src_path + ":" + str(lines)
+                                    + "\t// reply\n")
         if line.startswith("reply = dialog.ShowModal"):
-            filemanager_list.append("redundantAssignment:" + src_path + ":" + str(lines) + "\t\t\t// reply\n")
+            filemanager_list.append("redundantAssignment:" + src_path + ":" + str(lines)
+                                    + "\t// reply\n")
     file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -485,10 +558,14 @@ def process_indent(indent_list):
             continue
         if line.startswith("//"):
             continue
+        comment = line.find("//")
+        if comment != -1:
+            line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
         if line.startswith("size_t end"):
-            indent_list.append("variableScope:" + src_path + ":" + str(lines) + "\t\t\t\t// size_t end\n")
+            indent_list.append("variableScope:" + src_path + ":" + str(lines)
+                               + "\t\t\t// size_t end\n")
     file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -521,7 +598,7 @@ def run_cppcheck():
     # -j<jobs> is threads to use for silmutaneous checking
     # runs faster but messages for the files are mixed
     cppcheck.append("-j2")
-    #cppcheck.append("--dump")
+    # cppcheck.append("--dump")
     cppcheck.append("--enable=all")
     cppcheck.append("--xml-version=2")
     cppcheck.append("--force")

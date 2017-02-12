@@ -6,7 +6,7 @@
     <ProjectGuid>29e14032-a2ca-4d15-b95e-485836fc53e6</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>menu_runner.py</StartupFile>
-    <SearchPath>..\..\..\..\..\..\Program Files (x86)\VMware\CobraWinLDTP\</SearchPath>
+    <SearchPath>C:\Program Files\Python 3.5\Lib\;C:\Program Files (x86)\VMware\CobraWinLDTP\</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>AStyleWxTestLdtp</Name>
