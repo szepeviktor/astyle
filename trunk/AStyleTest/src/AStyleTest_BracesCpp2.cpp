@@ -1,7 +1,7 @@
 // AStyleTest_BracesCpp2.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //----------------------------------------------------------------------------
 // headers
@@ -315,7 +315,7 @@ TEST(BracesRunInCpp, EmptyBracesWithComments)
 TEST(BracesRunInCpp, Extern)
 {
 	// extern statement should not change its brace type
-	// and should NOT use in-statement indents
+	// and should NOT use continuation indents
 	char textIn[] =
 	    "\nextern \"C\" {\n"
 	    "	extern void foo1() {\n"

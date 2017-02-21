@@ -1,7 +1,7 @@
 // AStyleTestI18n_Utf_Bom.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 // This module tests the utf-8 and utf-16 file encodings.
 //

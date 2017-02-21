@@ -1,5 +1,5 @@
 #! /usr/bin/python3
-"""Modify the Artistic Style version number in the shared library compiles.
+"""Modify the Artistic Style copyright date in the astyle source.
 """
 
 # to disable the print statement and use the print() function (version 3 format)
@@ -14,8 +14,8 @@ import libastyle
 
 # global variables ------------------------------------------------------------
 
-__old_release = "2.7"
-__new_release = "3.0"
+__old_date = "2016"
+__new_date = "2017"
 
 __file_update = False           # should the files be updated?
 
@@ -25,7 +25,7 @@ def main():
     """Main processing function."""
     libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
-    print("Modify Shared Version from", __old_release, "to", __new_release)
+    print("Modify Copyright Date from", __old_date, "to", __new_date)
     if not __file_update:
         print("\nFILES NOT UPDATED")
     # must use this version for newline option on the file open
@@ -35,18 +35,8 @@ def main():
         libastyle.system_exit("Must use CPython version 3 or greater")
     print()
 
-    # project file directories
-    project_extension_list = ["Makefile", ".cbp", ".vcproj", ".vcxproj", ".pbxproj"]
-    project_directory_list = [libastyle.get_project_directory(True) + "AStyle/build",
-                              libastyle.get_project_directory(True) + "AStyleDev/build",
-                              libastyle.get_project_directory(True) + "AStyleTest/build",
-                              libastyle.get_project_directory(True) + "AStyleWin/build",
-                              libastyle.get_project_directory(True) + "AStyleWx/build",
-                              libastyle.get_project_directory(True) + "AStyleWxTest/build"]
-    update_project_files(project_directory_list, project_extension_list)
-
     # source file directories
-    source_extension_list = [".properties", ".cpp", ".m", ".java", ".py", ".cs"]
+    source_extension_list = [".h", ".cpp", ".m", ".java", ".py", ".cs"]
     source_directory_list = [libastyle.get_project_directory(True) + "AStyle/src",
                              libastyle.get_project_directory(True) + "AStyleDev/src-c",
                              libastyle.get_project_directory(True) + "AStyleDev/src-j",
@@ -73,7 +63,7 @@ def get_requested_files(directory_path, file_extension_list, changeable_files_li
     """Get all files in a directory, including sub directories.
        Check the file extensions to determine if it is a changable file.
        Write qualified files to the changeable files list.
-       The version number is checked by a different procedure.
+       The copyright date is checked by a different procedure.
     """
     for dirpath, unused, filenames in os.walk(directory_path):
         # process each file in the directory
@@ -101,8 +91,7 @@ def get_printble_filepath(absolute_filepath):
 # -----------------------------------------------------------------------------
 
 def modify_input_file(filepath, updated_file_list):
-    """Find and replace the version number in input file_path.
-       Used by both the project files and the source files.
+    """Find and replace the copyright date in input file_path.
        The new file is output to the updated_file_list in the calling function.
        "True" is returned if the file was updated, otherwise "False"
     """
@@ -110,47 +99,15 @@ def modify_input_file(filepath, updated_file_list):
     file_changed = False    # the file has changed
 
     # find and change matching lines
-    pattern = re.compile("[Aa][Ss]tyle-" + __old_release)
+    pattern = re.compile("[Cc]opyright")
     with open(filepath, mode='r', encoding='utf-8', newline='') as file_in:
         for line in file_in:
             lines += 1
-            if pattern.search(line) or ('"' + __old_release + '"' in line):
-                line = line.replace(__old_release, __new_release)
+            if pattern.search(line) and __old_date in line:
+                line = line.replace(__old_date, __new_date)
                 file_changed = True
             updated_file_list.append(line)
     return file_changed
-
-# -----------------------------------------------------------------------------
-
-def update_project_files(project_directory_list, project_extension_list):
-    """Update version number in the project files.
-       The directory list and file extensions are in main().
-    """
-    # get project files in the directory list
-    project_total = 0
-    project_directory_name = "AStyle"
-    for unused, project_directory in enumerate(project_directory_list):
-        project_files_list = []
-        get_requested_files(project_directory, project_extension_list, project_files_list)
-        # update the files with shared object references
-        for unused, project_file in enumerate(project_files_list):
-            updated_file = []
-            file_changed = modify_input_file(project_file, updated_file)
-            if file_changed:
-                filepath = get_printble_filepath(project_file)
-                end = filepath.find('/')
-                main_directory = filepath[:end]
-                if main_directory != project_directory_name:
-                    print(project_directory_name, "Project Files", project_total)
-                    print()
-                    project_directory_name = main_directory
-                    project_total = 0
-                print(filepath)
-                project_total += 1
-                if __file_update:
-                    write_output_file(updated_file, project_file)
-    print(project_directory_name, "Project Files", project_total)
-    print()
 
 # -----------------------------------------------------------------------------
 

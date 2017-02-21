@@ -1,7 +1,7 @@
 // AStyleTestCon_Console1.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 // AStyleTestCon tests the ASConsole class only. This class is used only in
 // the console build. It also tests the parseOption function for options used

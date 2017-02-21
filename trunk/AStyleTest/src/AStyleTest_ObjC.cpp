@@ -1,7 +1,7 @@
 // AStyleTest_ObjC.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //----------------------------------------------------------------------------
 // headers
@@ -3423,10 +3423,10 @@ TEST(ObjCOther, IndentModifiers)
 	delete[] textOut;
 }
 
-TEST(ObjCOther, InStatementIndent1)
+TEST(ObjCOther, ContinuationIndent1)
 {
 	// test method containing a long indent
-	// the in-statement indent must be increased for correct alignment
+	// the continuation indent must be increased for correct alignment
 	char text[] =
 	    "\n-(void) Foo\n"
 	    "{\n"
@@ -3435,13 +3435,13 @@ TEST(ObjCOther, InStatementIndent1)
 	    "                                                         NSDayCalendarUnit)\n"
 	    "                                             fromDate:today];\n"
 	    "}";
-	char options[] = "max-instatement-indent=60";
+	char options[] = "max-continuation-indent=60";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(ObjCOther, InStatementIndent2)
+TEST(ObjCOther, ContinuationIndent2)
 {
 	// The first function has no ending ';' and the ending '}' is followed by a comment.
 	// The next objective statement should NOT be flagged as a 'isNonInStatementArray'.
@@ -3458,7 +3458,7 @@ TEST(ObjCOther, InStatementIndent2)
 	    "                                                         NSDayCalendarUnit)\n"
 	    "                                             fromDate:today];\n"
 	    "}";
-	char options[] = "max-instatement-indent=60";
+	char options[] = "max-continuation-indent=60";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;

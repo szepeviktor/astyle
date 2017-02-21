@@ -1,7 +1,7 @@
 // AStyleTest_BracesCpp1.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //----------------------------------------------------------------------------
 // headers
@@ -249,7 +249,7 @@ TEST(BracesNoneCpp, Extern)
 {
 	// test default braces option (do not change)
 	// extern statement should not change its brace type
-	// and should NOT use in-statement indents
+	// and should NOT use continuation indents
 	char text[] =
 	    "\nextern \"C\" {\n"
 	    "	extern void foo1() {\n"
@@ -1286,7 +1286,7 @@ TEST(BracesBreakCpp, EmptyBracesWithComments)
 TEST(BracesBreakCpp, Extern)
 {
 	// extern statement should not change its brace type
-	// and should NOT use in-statement indents
+	// and should NOT use continuation indents
 	char textIn[] =
 	    "\nextern \"C\" {\n"
 	    "	extern void foo1() {\n"
@@ -2341,7 +2341,7 @@ TEST(BracesAttachCpp, EmptyBracesWithComments)
 TEST(BracesAttachCpp, Extern)
 {
 	// extern statement should not change its brace type
-	// and should NOT use in-statement indents
+	// and should NOT use continuation indents
 	char textIn[] =
 	    "\nextern \"C\" {\n"
 	    "	extern void foo1() {\n"
@@ -3578,7 +3578,7 @@ TEST(BracesLinuxCpp, EmptyBracesWithComments)
 TEST(BracesLinuxCpp, Extern)
 {
 	// extern statement should not change its brace type
-	// and should NOT use in-statement indents
+	// and should NOT use continuation indents
 	char textIn[] =
 	    "\nextern \"C\" {\n"
 	    "	extern void foo1() {\n"

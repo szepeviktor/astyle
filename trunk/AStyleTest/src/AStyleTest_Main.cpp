@@ -1,7 +1,7 @@
 // AStyleTest_Main.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //----------------------------------------------------------------------------
 // headers
@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 	// is missing from the project. The UnitTest reflection API in
 	// example 9 will not work here because of user modifications.
 	// Change the following value to the number of tests (within 20).
-	TersePrinter::PrintTestTotals(2520, __FILE__, __LINE__);
+	TersePrinter::PrintTestTotals(2540, __FILE__, __LINE__);
 
 #ifdef _WIN32
 	printf("%c", '\n');
