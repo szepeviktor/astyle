@@ -7,7 +7,7 @@
 		<Option compiler="icc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/libastyle-2.7d.so" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/libastyle-3.0d.so" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objSo/Debug/" />
 				<Option type="3" />
 				<Option compiler="icc" />
@@ -27,15 +27,15 @@
 					<Add option="-wd10237" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/libastyle-2.7d.so  ../../src-c/" />
-					<Add after="cp  bin/libastyle-2.7d.so  ../../src-o/" />
-					<Add after="cp  bin/libastyle-2.7d.so  ../../src-p/" />
-					<Add after="cp  bin/libastyle-2.7d.so  ../../src-s/" />
-					<Add after="cp  bin/libastyle-2.7d.so  ../../src-s2/" />
+					<Add after="cp  bin/libastyle-3.0d.so  ../../src-c/" />
+					<Add after="cp  bin/libastyle-3.0d.so  ../../src-o/" />
+					<Add after="cp  bin/libastyle-3.0d.so  ../../src-p/" />
+					<Add after="cp  bin/libastyle-3.0d.so  ../../src-s/" />
+					<Add after="cp  bin/libastyle-3.0d.so  ../../src-s2/" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/libastyle-2.7.so" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/libastyle-3.0.so" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objSo/Release/" />
 				<Option type="3" />
 				<Option compiler="icc" />
@@ -58,11 +58,11 @@
 					<Add option="-wd10237" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/libastyle-2.7.so  ../../src-c/" />
-					<Add after="cp  bin/libastyle-2.7.so  ../../src-o/" />
-					<Add after="cp  bin/libastyle-2.7.so  ../../src-p/" />
-					<Add after="cp  bin/libastyle-2.7.so  ../../src-s/" />
-					<Add after="cp  bin/libastyle-2.7.so  ../../src-s2/" />
+					<Add after="cp  bin/libastyle-3.0.so  ../../src-c/" />
+					<Add after="cp  bin/libastyle-3.0.so  ../../src-o/" />
+					<Add after="cp  bin/libastyle-3.0.so  ../../src-p/" />
+					<Add after="cp  bin/libastyle-3.0.so  ../../src-s/" />
+					<Add after="cp  bin/libastyle-3.0.so  ../../src-s2/" />
 				</ExtraCommands>
 			</Target>
 		</Build>
