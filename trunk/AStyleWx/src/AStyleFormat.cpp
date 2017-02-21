@@ -1,7 +1,7 @@
 // AStyleFormat.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //-----------------------------------------------------------------------------
 // headers
@@ -506,9 +506,9 @@ wxString AStyleFormat::GetDynamicLibraryName()
 {
 	wxString libName;
 #ifdef __WXMSW__
-	libName = "AStyle-2.7";
+	libName = "AStyle-3.0";
 #else
-	libName = "astyle-2.7";
+	libName = "astyle-3.0";
 #endif
 #ifndef NDEBUG
 	libName += "d";

@@ -119,9 +119,6 @@
     <ClInclude Include="..\..\..\dialog\SettingsDlgBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\FileIOThread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\..\image\AStyleWx.rc">

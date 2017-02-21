@@ -35,7 +35,7 @@
 					<Add option="`wx-config --version=3.0 --libs --debug`" />
 					<Add library="wx_gtk2u_aui-3.0" />
 					<Add library="wx_gtk2u_stc-3.0" />
-					<Add library="astyle-2.7d" />
+					<Add library="astyle-3.0d" />
 					<Add directory="lib" />
 				</Linker>
 			</Target>
@@ -69,7 +69,7 @@
 					<Add option="-s" />
 					<Add library="wx_gtk2u_aui-3.0" />
 					<Add library="wx_gtk2u_stc-3.0" />
-					<Add library="astyle-2.7" />
+					<Add library="astyle-3.0" />
 					<Add directory="lib" />
 				</Linker>
 			</Target>

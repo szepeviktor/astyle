@@ -1,15 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26206.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DBFA1BC0-70D7-400B-8CEA-5442EC0A4483}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{DBFA1BC0-70D7-400B-8CEA-5442EC0A4483}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\doc\index.html = ..\..\doc\index.html
 		..\..\doc\install.html = ..\..\doc\install.html
 		..\..\doc\notes.html = ..\..\doc\notes.html
 		..\..\doc\static.html = ..\..\doc\static.html
 		..\..\doc\styles.css = ..\..\doc\styles.css
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "markdown", "markdown", "{31013433-FADD-4D3B-8A24-DFAAC4C7BCAB}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\LICENSE.md = ..\..\LICENSE.md
+		..\..\README.md = ..\..\README.md
 	EndProjectSection
 EndProject
 Global

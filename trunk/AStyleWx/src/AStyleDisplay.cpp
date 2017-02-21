@@ -1,7 +1,7 @@
 // AStyleDisplay.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //-----------------------------------------------------------------------------
 // headers
@@ -128,8 +128,50 @@ int AStyleDisplay::AlignGetSpaceEquivalent(wxString& line) const
 	return indent.Length();
 }
 
-wxString AStyleDisplay::AlignMaxInStatement(const wxString& text) const
-// Align the max in-statement text for the styled text control display.
+wxString AStyleDisplay::AlignIndentAfterParens(const wxString& text) const
+// Align the indent after parens text for the styled text control display.
+// Will work for proportional fonts.
+{
+	wxString line0  = AlignGetLine(text, 0);
+	wxString line1  = AlignGetLine(text, 1);
+	wxString line2  = AlignGetLine(text, 2);
+	wxString line3  = AlignGetLine(text, 3);
+	wxString line4  = AlignGetLine(text, 4);
+	wxString line5  = AlignGetLine(text, 5);
+	wxString line6  = AlignGetLine(text, 6);
+	wxString line7  = AlignGetLine(text, 7);
+	wxString line8  = AlignGetLine(text, 8);
+	wxString line9  = AlignGetLine(text, 9);
+	wxString line10 = AlignGetLine(text, 10);
+
+	// align line 2 to line 1
+	int i1 = line1.Find("bool");
+	assert(i1 != wxNOT_FOUND);
+	wxString line1Extent = line1.Mid(0, i1);
+	int line1NumIndents = AlignGetSpaceEquivalent(line1Extent);
+	wxString space1Indent(' ', line1NumIndents);
+	AlignReplaceIndent(line2, space1Indent);
+	// align line 5 to line 4
+	int i4 = line4.Find("bar");
+	assert(i4 != wxNOT_FOUND);
+	wxString line4Extent = line4.Mid(0, i4);
+	int line4NumSpaces = AlignGetSpaceEquivalent(line4Extent);
+	wxString space4Indent(' ', line4NumSpaces);
+	AlignReplaceIndent(line5, space4Indent);
+	// align line 8 to line 7
+	int i7 = line7.Find("foo");
+	assert(i7 != wxNOT_FOUND);
+	wxString line7Extent = line7.Mid(0, i7);
+	int line7NumSpaces = AlignGetSpaceEquivalent(line7Extent);
+	wxString space7Indent(' ', line7NumSpaces);
+	AlignReplaceIndent(line8, space7Indent);
+	// return the text
+	return line0 + line1 + line2 + line3 + line4 + line5 +
+	       line6 + line7 + line8 + line9 + line10;
+}
+
+wxString AStyleDisplay::AlignMaxContinuation(const wxString& text) const
+// Align the max continuation text for the styled text control display.
 // Will work for proportional fonts.
 {
 	wxString line0 = AlignGetLine(text, 0);
@@ -308,6 +350,10 @@ void AStyleDisplay::DisplayIndentOptions(wxCommandEvent& event, wxStyledTextCtrl
 
 	switch (m_event->GetId())
 	{
+		case ID_INDENT_AFTER_PAREN:
+			textOut = StcIndent_IndentAfterParen();
+			break;
+
 		case ID_INDENT_CASE:
 		case ID_INDENT_SWITCH:
 			textOut = StcIndent_IndentCase_IndentSwitch();
@@ -353,8 +399,8 @@ void AStyleDisplay::DisplayIndentOptions(wxCommandEvent& event, wxStyledTextCtrl
 			textOut = StcIndent_MinConditionalDisplay();
 			break;
 
-		case ID_MAX_INSTATEMENT_DISPLAY:
-			textOut = StcIndent_MaxInStatementDisplay();
+		case ID_MAX_CONTINUATION_DISPLAY:
+			textOut = StcIndent_MaxContinuationDisplay();
 			break;
 
 		default:
@@ -1019,6 +1065,34 @@ wxString AStyleDisplay::StcFormat_RemoveCommentPrefix()
 // STC Display for the Indent Tab
 //-----------------------------------------------------------------------------
 
+wxString AStyleDisplay::StcIndent_IndentAfterParen()
+{
+	wxString checked =     "                     \n"
+	                       "void Foo(bool bar1,  \n"
+	                       "	bool bar2)       \n"
+	                       "{                    \n"
+	                       "isLongFunction(bar1, \n"
+	                       "	bar2);           \n"
+	                       "                     \n"
+	                       "isLongVariable = foo1\n"
+	                       "	|| foo2;         \n"
+	                       "};                   ";
+
+	wxString unchecked =   "                     \n"
+	                       "void Foo(bool bar1,  \n"
+	                       "         bool bar2)  \n"
+	                       "{                    \n"
+	                       "isLongFunction(bar1, \n"
+	                       "               bar2);\n"
+	                       "                     \n"
+	                       "isLongVariable = foo1\n"
+	                       "                 || foo2;\n"
+	                       "};                   ";
+
+	// text is aligned for proportional fonts
+	return m_event->IsChecked() ? checked : AlignIndentAfterParens(unchecked);;
+}
+
 wxString AStyleDisplay::StcIndent_IndentCase_IndentSwitch()
 {
 	// indent case and indent switch work together
@@ -1343,10 +1417,10 @@ wxString AStyleDisplay::StcIndent_MinConditionalDisplay()
 	return display == true ? zeroIndents : twoIndents;
 }
 
-wxString AStyleDisplay::StcIndent_MaxInStatementDisplay()
+wxString AStyleDisplay::StcIndent_MaxContinuationDisplay()
 {
 	wxString smaller =     "                             \n"
-	                       "//  max in statement smaller \n"
+	                       "//  max continuation smaller \n"
 	                       "                             \n"
 	                       "fooArray[] = { red,          \n"
 	                       "          green,             \n"
@@ -1357,7 +1431,7 @@ wxString AStyleDisplay::StcIndent_MaxInStatementDisplay()
 	                       "          barArg3 );           ";
 
 	wxString larger =      "                             \n"
-	                       "//  max in statement larger  \n"
+	                       "//  max continuation larger  \n"
 	                       "                             \n"
 	                       "fooArray[] = { red,          \n"
 	                       "               green,        \n"
@@ -1373,7 +1447,7 @@ wxString AStyleDisplay::StcIndent_MaxInStatementDisplay()
 	if (display)
 		return smaller;
 	else
-		return AlignMaxInStatement(larger);
+		return AlignMaxContinuation(larger);
 }
 
 //-----------------------------------------------------------------------------

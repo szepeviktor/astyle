@@ -1,7 +1,7 @@
 // AStyleIFace.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //-----------------------------------------------------------------------------
 // headers
@@ -58,13 +58,14 @@ AStyleIFace::AStyleIFace()
 	switchIndent         = false;              // --indent-switches
 	caseIndent           = false;              // --indent-cases
 	namespaceIndent      = false;              // --indent-namespaces
+	afterParenIndent     = false;              // --indent-after-parens
 	continuationIndent   = 1;                  // --continuation-indent=#
 	labelIndent          = false;              // --indent-labels
 	preprocBlockIndent   = false;              // --indent-preproc-block
 	preprocDefineIndent  = false;              // --indent-preproc-define
 	preprocCondIndent    = false;              // --indent-preproc-cond
 	col1CommentIndent    = false;              // --indent-col1-comments
-	maxInStatementIndent = 40;                 // --max-instatement-indent=#
+	maxContinuationIndent = 40;                // --max-continuation-indent=#
 	minConditionalOption = MINCOND_TWO;        // --min-conditional-indent=#
 
 	// padding options
@@ -112,7 +113,7 @@ AStyleIFace::AStyleIFace()
 	defaultTabLength            = tabLength;
 	defaultContinuationIndent   = continuationIndent;
 	defaultMinConditionalOption = minConditionalOption;
-	defaultMaxInStatementIndent = maxInStatementIndent;
+	defaultMaxContinuationIndent = maxContinuationIndent;
 	defaultMaxCodeLength        = maxCodeLength;
 }
 
@@ -452,6 +453,15 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
+	if (getAfterParenIndent())
+	{
+		if (showShort)
+			options.append("xU");
+		else
+			options.append(INDENT_AFTER_PARENS);
+		if (useSeparator)
+			options.append(separator);
+	}
 	if (getContinuationIndent() != getDefaultContinuationIndent())
 	{
 		if (getContinuationIndent() >= 0 && getContinuationIndent() <= 4)
@@ -528,17 +538,17 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getMaxInStatementIndent() != getDefaultMaxInStatementIndent())
+	if (getMaxContinuationIndent() != getDefaultMaxContinuationIndent())
 	{
-		if (getMaxInStatementIndent() >= 40 && getMaxInStatementIndent() <= 120)
+		if (getMaxContinuationIndent() >= 40 && getMaxContinuationIndent() <= 120)
 		{
 			if (showShort)
-				options.append(wxString::Format("M%d", getMaxInStatementIndent()));
+				options.append(wxString::Format("M%d", getMaxContinuationIndent()));
 			else
-				options.append(MAX_INSTATEMENT_INDENT + wxString::Format("=%d", getMaxInStatementIndent()));
+				options.append(MAX_CONTINUATION_INDENT + wxString::Format("=%d", getMaxContinuationIndent()));
 		}
 		else
-			options.append(wxString::Format("invalid-maxInStatementIndent=%d", getMaxInStatementIndent()));
+			options.append(wxString::Format("invalid-maxContinuationIndent=%d", getMaxContinuationIndent()));
 		if (useSeparator)
 			options.append(separator);
 	}
@@ -1023,14 +1033,14 @@ bool AStyleIFace::SetAStyleOptionFromConfig(const wxString& key, const wxString&
 			return false;
 		minConditionalOption = static_cast<MinConditional>(intValue);
 	}
-	else if (key == MAX_INSTATEMENT_INDENT)
+	else if (key == MAX_CONTINUATION_INDENT)
 	{
 		long intValue;
 		if (!value.ToLong(&intValue))
 			return false;
 		if (intValue < 40 || intValue > 120)
 			return false;
-		maxInStatementIndent = intValue;
+		maxContinuationIndent = intValue;
 	}
 	else if (key == BREAK_BLOCKS)
 	{
@@ -1133,6 +1143,8 @@ bool AStyleIFace::SetAStyleOptionFromConfig_Bool(const wxString& key, bool value
 		caseIndent = value;
 	else if (key == INDENT_NAMESPACES)
 		namespaceIndent = value;
+	else if (key == INDENT_AFTER_PARENS)
+		afterParenIndent = value;
 	else if (key == INDENT_LABELS)
 		labelIndent = value;
 	else if (key == INDENT_PREPROC_BLOCK)
