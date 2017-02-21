@@ -1,7 +1,7 @@
 // AStyleTest_Indent.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //----------------------------------------------------------------------------
 // headers
@@ -2247,6 +2247,266 @@ TEST(IndentNamespaces, CorbaIDLModuleObjCMethod)
 }
 
 //-------------------------------------------------------------------------
+// AStyle Indent After Parens
+//-------------------------------------------------------------------------
+
+TEST(IndentAfterParens, LongOption)
+{
+	// test indent after parens
+	char textIn[] =
+	    "\n"
+	    "void Foo(bool bar1,\n"
+	    "         bool bar2,\n"
+	    "         bool bar3)\n"
+	    "{\n"
+	    "    isLongFunctionOne(bar0,\n"
+	    "                      bar1,\n"
+	    "                      bar2);\n"
+	    "\n"
+	    "    isLongFunctionTwo(\n"
+	    "        bar1,\n"
+	    "        bar2);\n"
+	    "\n"
+	    "    isLongVariable =\n"
+	    "        foo1 ||\n"
+	    "        foo2;\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo(bool bar1,\n"
+	    "    bool bar2,\n"
+	    "    bool bar3)\n"
+	    "{\n"
+	    "    isLongFunctionOne(bar0,\n"
+	    "        bar1,\n"
+	    "        bar2);\n"
+	    "\n"
+	    "    isLongFunctionTwo(\n"
+	    "        bar1,\n"
+	    "        bar2);\n"
+	    "\n"
+	    "    isLongVariable =\n"
+	    "        foo1 ||\n"
+	    "        foo2;\n"
+	    "}";
+	char options[] = "indent-after-parens";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentAfterParens, ShortOption)
+{
+	// test indent after parens
+	char textIn[] =
+	    "\n"
+	    "void Foo(bool bar1,\n"
+	    "         bool bar2,\n"
+	    "         bool bar3)\n"
+	    "{\n"
+	    "    isLongFunctionOne(bar0,\n"
+	    "                      bar1,\n"
+	    "                      bar2);\n"
+	    "\n"
+	    "    isLongFunctionTwo(\n"
+	    "        bar1,\n"
+	    "        bar2);\n"
+	    "\n"
+	    "    isLongVariable =\n"
+	    "        foo1 ||\n"
+	    "        foo2;\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo(bool bar1,\n"
+	    "    bool bar2,\n"
+	    "    bool bar3)\n"
+	    "{\n"
+	    "    isLongFunctionOne(bar0,\n"
+	    "        bar1,\n"
+	    "        bar2);\n"
+	    "\n"
+	    "    isLongFunctionTwo(\n"
+	    "        bar1,\n"
+	    "        bar2);\n"
+	    "\n"
+	    "    isLongVariable =\n"
+	    "        foo1 ||\n"
+	    "        foo2;\n"
+	    "}";
+	char options[] = "-xU";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentAfterParens, IndentContinuation3)
+{
+	// test indent after parens with indent continuation 3
+	char textIn[] =
+	    "\n"
+	    "void Foo(bool bar1,\n"
+	    "         bool bar2,\n"
+	    "         bool bar3)\n"
+	    "{\n"
+	    "    isLongFunctionOne(bar0,\n"
+	    "                      bar1,\n"
+	    "                      bar2);\n"
+	    "\n"
+	    "    isLongFunctionTwo(\n"
+	    "        bar1,\n"
+	    "        bar2);\n"
+	    "\n"
+	    "    isLongVariable =\n"
+	    "        foo1 ||\n"
+	    "        foo2;\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo(bool bar1,\n"
+	    "            bool bar2,\n"
+	    "            bool bar3)\n"
+	    "{\n"
+	    "    isLongFunctionOne(bar0,\n"
+	    "                bar1,\n"
+	    "                bar2);\n"
+	    "\n"
+	    "    isLongFunctionTwo(\n"
+	    "                bar1,\n"
+	    "                bar2);\n"
+	    "\n"
+	    "    isLongVariable =\n"
+	    "                foo1 ||\n"
+	    "                foo2;\n"
+	    "}";
+	char options[] = "indent-after-parens, indent-continuation=3";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentAfterParens, Equal)
+{
+	// test indent after equal
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    indentedLine = preprocFirst\n"
+	    "        + preprocSecond\n"
+	    "        + line;\n"
+	    "}";
+	char options[] = "indent-after-parens";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentAfterParens, EqualParen)
+{
+	// test indent after equal with paren
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    indentedLine = preLineWS(preprocFirst,\n"
+	    "            preprocSecond)\n"
+	    "        + line;\n"
+	    "}";
+	char options[] = "indent-after-parens";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentAfterParens, EqualParen_IndentContinuation3)
+{
+	// test indent after equal with paren and indent continuation 3
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    indentedLine = preLineWS(preprocFirst,\n"
+	    "                            preprocSecond)\n"
+	    "                + line;\n"
+	    "}";
+	char options[] = "indent-after-parens, indent-continuation=3";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentAfterParens, Return)
+{
+	// test return statements
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    return !isInPotentialCalculation\n"
+	    "           || (!isLegalNameChar(previousNonWSChar)\n"
+	    "               && previousNonWSChar != ']')\n"
+	    "           || (!isWhiteSpace(nextChar)\n"
+	    "               && !isLegalNameChar(nextChar));\n"
+	    "\n"
+	    "    return line0 + line1 + line2 +\n"
+	    "           line3 + line4 + line5;\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    return !isInPotentialCalculation\n"
+	    "        || (!isLegalNameChar(previousNonWSChar)\n"
+	    "            && previousNonWSChar != ']')\n"
+	    "        || (!isWhiteSpace(nextChar)\n"
+	    "            && !isLegalNameChar(nextChar));\n"
+	    "\n"
+	    "    return line0 + line1 + line2 +\n"
+	    "        line3 + line4 + line5;\n"
+	    "}";
+	char options[] = "indent-after-parens";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(IndentAfterParens, Return_IndentContinuation3)
+{
+	// test return statements with indent continuation 3
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    return !isInPotentialCalculation\n"
+	    "           || (!isLegalNameChar(previousNonWSChar)\n"
+	    "               && previousNonWSChar != ']')\n"
+	    "           || (!isWhiteSpace(nextChar)\n"
+	    "               && !isLegalNameChar(nextChar));\n"
+	    "\n"
+	    "    return line0 + line1 + line2 +\n"
+	    "           line3 + line4 + line5;\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    return !isInPotentialCalculation\n"
+	    "                || (!isLegalNameChar(previousNonWSChar)\n"
+	    "                            && previousNonWSChar != ']')\n"
+	    "                || (!isWhiteSpace(nextChar)\n"
+	    "                            && !isLegalNameChar(nextChar));\n"
+	    "\n"
+	    "    return line0 + line1 + line2 +\n"
+	    "                line3 + line4 + line5;\n"
+	    "}";
+	char options[] = "indent-after-parens, indent-continuation=3";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
 // AStyle Indent Continuation
 //-------------------------------------------------------------------------
 
@@ -3202,9 +3462,9 @@ TEST(IndentPreprocDefine, ShortOption)
 	delete[] textOut;
 }
 
-TEST(IndentPreprocDefine, InStatement)
+TEST(IndentPreprocDefine, Continuation)
 {
-	// test preprocessor statements with an in-statement indent
+	// test preprocessor statements with a continuation indent
 	char textIn[] =
 	    "\n#define wxFORCED_FLAGS (wxSIMPLE_BORDER| \\\n"
 	    "          wxNO_FULL_REPAINT_ON_RESIZE| \\\n"
@@ -4036,12 +4296,12 @@ TEST(IndentCol1Comment, NamespaceSans2)
 }
 
 //-------------------------------------------------------------------------
-// AStyle Max Instatement Indent
+// AStyle Max Continuation Indent
 //-------------------------------------------------------------------------
 
-TEST(MaxInstatementIndent, LongOption)
+TEST(MaxContinuationIndent, LongOption)
 {
-	// test max instatement indent
+	// test max continuation indent
 	char textIn[] =
 	    "\nvoid Long_40_Byte_Indent_Function_xxxxxxxxxxxxxxxx(bar1,\n"
 	    "          bar2,\n"
@@ -4062,15 +4322,15 @@ TEST(MaxInstatementIndent, LongOption)
 	    "                                                               blue\n"
 	    "                                                             };\n"
 	    "}\n";
-	char options[] = "max-instatement-indent=60";
+	char options[] = "max-continuation-indent=60";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(MaxInstatementIndent, ShortOption)
+TEST(MaxContinuationIndent, ShortOption)
 {
-	// test max instatement indent short option
+	// test max continuation indent short option
 	char textIn[] =
 	    "\nvoid Long_40_Byte_Indent_Function_xxxxxxxxxxxxxxxx(bar1,\n"
 	    "          bar2,\n"
@@ -4097,9 +4357,40 @@ TEST(MaxInstatementIndent, ShortOption)
 	delete[] textOut;
 }
 
-TEST(MaxInstatementIndent, Max)
+TEST(MaxContinuationIndent, TempInStatementOption)
 {
-	// test max instatement indent with the max value
+	// test max instatement indent
+	// retained for compatablilty with release 2.06.
+	// uses the setMaxInStatementIndentLength method
+	char textIn[] =
+	    "\nvoid Long_40_Byte_Indent_Function_xxxxxxxxxxxxxxxx(bar1,\n"
+	    "          bar2,\n"
+	    "          bar3)\n"
+	    "{\n"
+	    "    char Long_40_Byte_Indent_Array_xxxxxxxxxxxxxxxxxxxxx[] = { red,\n"
+	    "            green,\n"
+	    "            blue\n"
+	    "    };\n"
+	    "}\n";
+	char text[] =
+	    "\nvoid Long_40_Byte_Indent_Function_xxxxxxxxxxxxxxxx(bar1,\n"
+	    "                                                   bar2,\n"
+	    "                                                   bar3)\n"
+	    "{\n"
+	    "    char Long_40_Byte_Indent_Array_xxxxxxxxxxxxxxxxxxxxx[] = { red,\n"
+	    "                                                               green,\n"
+	    "                                                               blue\n"
+	    "                                                             };\n"
+	    "}\n";
+	char options[] = "max-instatement-indent=60";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(MaxContinuationIndent, Max)
+{
+	// test max continuation indent with the max value
 	char textIn[] =
 	    "\nvoid Long_80_Byte_Indent_Function_xxxxx12345678901234567890123456789012345678901234567890123456789012345678901234567890(bar1,\n"
 	    "                                        bar2,\n"
@@ -4120,15 +4411,15 @@ TEST(MaxInstatementIndent, Max)
 	    "                                                                                                                            blue\n"
 	    "                                                                                                                          };\n"
 	    "}\n";
-	char options[] = "max-instatement-indent=120";
+	char options[] = "max-continuation-indent=120";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(MaxInstatementIndent, Sans)
+TEST(MaxContinuationIndent, Sans)
 {
-	// test max instatement indent with no value
+	// test max continuation indent with no value
 	// should use the default of 40
 	char text[] =
 	    "\nvoid Long_40_Byte_Indent_Function_xxx(bar1,\n"
@@ -4140,15 +4431,15 @@ TEST(MaxInstatementIndent, Sans)
 	    "                                            blue\n"
 	    "                                          };\n"
 	    "}\n";
-	char options[] = "max-instatement-indent=";
+	char options[] = "max-continuation-indent=";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(MaxInstatementIndent, Misc1)
+TEST(MaxContinuationIndent, Misc1)
 {
-	// test instatement indent greater than max
+	// test continuation indent greater than max
 	// should use 2 * indent (8)
 	char text[] =
 	    "\nvoid InsertClassMethodDlg::DoFillMethodsFor(wxCheckListBox* clb,\n"
@@ -4163,10 +4454,10 @@ TEST(MaxInstatementIndent, Misc1)
 	delete[] textOut;
 }
 
-TEST(MaxInstatementIndent, Misc2)
+TEST(MaxContinuationIndent, Misc2)
 {
 	// Text should align on the paren,
-	// if max-instatement-indent is large enough.
+	// if max-continuation-indent is large enough.
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4181,16 +4472,16 @@ TEST(MaxInstatementIndent, Misc2)
 	    "                                                                    findData.GetMatchWord(),\n"
 	    "                                                                    findData.GetRegEx() );\n"
 	    "}\n";
-	char options[] = "max-instatement-indent=80";
+	char options[] = "max-continuation-indent=80";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(MaxInstatementIndent, Misc3)
+TEST(MaxContinuationIndent, Misc3)
 {
 	// Text should align on the second paren,
-	// if max-instatement-indent is large enough.
+	// if max-continuation-indent is large enough.
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4205,15 +4496,15 @@ TEST(MaxInstatementIndent, Misc3)
 	    "                                                                         words[i].c_str(),\n"
 	    "                                                                         words[i + 1].c_str() ) );\n"
 	    "}\n";
-	char options[] = "max-instatement-indent=80";
+	char options[] = "max-continuation-indent=80";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(MaxInstatementIndent, ErrorMax)
+TEST(MaxContinuationIndent, ErrorMax)
 {
-	// test max instatement indent with an invalid value
+	// test max continuation indent with an invalid value
 	// should call the error handler
 	char text[] =
 	    "\nvoid Long_40_Byte_Indent_Function_xxx(bar1,\n"
@@ -4226,7 +4517,7 @@ TEST(MaxInstatementIndent, ErrorMax)
 	    "                                          };\n"
 	    "}\n";
 	// use errorHandler2 to verify the error
-	char options[] = "max-instatement-indent=121";
+	char options[] = "max-continuation-indent=121";
 	int errorsIn = getErrorHandler2Calls();
 	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();

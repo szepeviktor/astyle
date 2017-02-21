@@ -1,7 +1,7 @@
 // AStyleTest_Other.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //----------------------------------------------------------------------------
 // headers
@@ -930,32 +930,6 @@ TEST(Macro, MfcPropertyPages)
 // AStyle Character Set Tests
 //----------------------------------------------------------------------------
 
-TEST(CharacterSet, ExtendedCharacterSet)
-{
-	// Clang issues a compiler warning for "illegal character encoding".
-#ifndef __clang__
-	// multi-byte characters (c) and ü should not cause assert error with
-	//     Visual Studio isalpha(), isalnum(), ispunct(), etc.
-	// will happen only in the debug build
-	char text[] =
-	    "\n// © is character 169\n"
-	    "\n// ü is character 252\n"
-	    "void foo()\n"
-	    "{\n"
-	    "    ©bar1();\n"
-	    "    barü2();\n"
-	    "    bar3©();\n"
-	    "    ba©r4(ü);\n"
-	    "    cout << \"©ü\" << endl;\n"
-	    "    ©\n"
-	    "}\n";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-#endif
-}
-
 TEST(CharacterSet, UnicodeCharacterSet)
 {
 	// unicode characters should not cause assert error with
@@ -1656,7 +1630,7 @@ TEST(Enum, Namespace1)
 TEST(Enum, Namespace2)
 {
 	// test indent of enum in a namespace
-	// with in-statement indent
+	// with continuation indent
 	char text[] =
 	    "\nnamespace fooName\n"
 	    "{\n"
@@ -1691,7 +1665,7 @@ TEST(Enum, NamespaceIndent1)
 TEST(Enum, NamespaceIndent2)
 {
 	// test indent of enum in an indented namespace
-	// with in-statement indent
+	// with continuation indent
 	char text[] =
 	    "\nnamespace fooName\n"
 	    "{\n"
@@ -1762,7 +1736,7 @@ TEST(Enum, Class2)
 TEST(Enum, Class3)
 {
 	// test indent of enum in a class
-	// with in-statement indent
+	// with continuation indent
 	char text[] =
 	    "\nclass fooClass\n"
 	    "{\n"
@@ -1799,7 +1773,7 @@ TEST(Enum, ClassTab1)
 TEST(Enum, ClassTab2)
 {
 	// test tab indent of enum in a class
-	// with in-statement indent
+	// with continuation indent
 	char text[] =
 	    "\nclass fooClass\n"
 	    "{\n"
@@ -1836,7 +1810,7 @@ TEST(Enum, ClassIndent1)
 TEST(Enum, ClassIndent2)
 {
 	// test indent of enum in an indented class
-	// with in-statement indent
+	// with continuation indent
 	char text[] =
 	    "\nclass fooClass\n"
 	    "{\n"
@@ -1874,9 +1848,9 @@ TEST(Enum, ClassIndent3)
 	delete[] textOut;
 }
 
-TEST(Enum, InStatementIndent1)
+TEST(Enum, ContinuationIndent1)
 {
-	// test in-statement indent of an enum
+	// test continuation indent of an enum
 	char text[] =
 	    "\nenum {\n"
 	    "    A_REMAINDER_OF_LONG_NAME = 0x01,\n"
@@ -1895,9 +1869,9 @@ TEST(Enum, InStatementIndent1)
 	delete[] textOut;
 }
 
-TEST(Enum, InStatementIndent2)
+TEST(Enum, ContinuationIndent2)
 {
-	// test in-statement indent of an enum
+	// test continuation indent of an enum
 	char text[] =
 	    "\nenum { A_REMAINDER_OF_LONG_NAME = 0x01,\n"
 	    "       B_REMAINDER_OF_LONG_NAME = 0x02,\n"
@@ -1915,7 +1889,7 @@ TEST(Enum, InStatementIndent2)
 	delete[] textOut;
 }
 
-TEST(Enum, InStatementIndentTab1)
+TEST(Enum, ContinuationIndentTab1)
 {
 	// test tab indent of an enum
 	char text[] =
@@ -1936,9 +1910,9 @@ TEST(Enum, InStatementIndentTab1)
 	delete[] textOut;
 }
 
-TEST(Enum, InStatementIndentTab2)
+TEST(Enum, ContinuationIndentTab2)
 {
-	// test in-statement tab indent of an enum
+	// test continuation tab indent of an enum
 	char text[] =
 	    "\nenum { A_REMAINDER_OF_LONG_NAME = 0x01,\n"
 	    "       B_REMAINDER_OF_LONG_NAME = 0x02,\n"
@@ -5771,7 +5745,7 @@ TEST(MultipleVariable, ClassInitializerCommaFirst2)
 
 TEST(MultipleVariable, Misc1)
 {
-	// this EXPECT_TRUEs if the inStatementIndentStack is correctly popped
+	// this EXPECT_TRUEs if the continuationIndentStack is correctly popped
 	char text[] =
 	    "\nListBoxImpl::ListBoxImpl()\n"
 	    "    : unicodeMode(false),\n"
@@ -5798,7 +5772,7 @@ TEST(MultipleVariable, Misc1)
 
 TEST(MultipleVariable, Misc2)
 {
-	// this EXPECT_TRUEs for various conditions in getInStatementIndentComma()
+	// this EXPECT_TRUEs for various conditions in getContinuationIndentComma()
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{\n"

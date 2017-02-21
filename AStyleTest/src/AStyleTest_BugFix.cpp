@@ -1,7 +1,7 @@
 // AStyleTest_BugFix.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //----------------------------------------------------------------------------
 // headers
@@ -16,12 +16,29 @@
 namespace {
 //
 //----------------------------------------------------------------------------
-// AStyle version 2.06 TEST functions
+// AStyle version 3.0 TEST functions
 //----------------------------------------------------------------------------
 
-TEST(BugFix_V30, InStatementIndent1)
+TEST(BugFix_V30, MaxCodeLength)
 {
-	// This CreateThread function wasn't indented as an in-statement.
+	// This "ret =" statement sent a "?" to the isInExponent() function
+	// causing an assert error. The statement is on one line.
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    ret = wxString::Format(_T(\"%s %s\"), (peer_info.flags & libtorrent::peer_info::seed)"
+	    " ? _(\"Seed\") : _(\"Peer\"), peer_source_flag[peertype_flag]);\n"
+	    "}";
+	char options[] = "max-code-length=200";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V30, ContinuationIndent1)
+{
+	// This CreateThread function wasn't indented as a continuation.
 	char text[] =
 	    "\n"
 	    "template <typename F>\n"
@@ -40,9 +57,9 @@ TEST(BugFix_V30, InStatementIndent1)
 	delete[] textOut;
 }
 
-TEST(BugFix_V30, InStatementIndent2)
+TEST(BugFix_V30, ContinuationIndent2)
 {
-	// This ClassName paren wasn't indented as an in-statement.
+	// This ClassName paren wasn't indented as a continuation.
 	char text[] =
 	    "\n"
 	    "ClassName table[] =\n"
@@ -98,6 +115,10 @@ TEST(BugFix_V30, PreprocDefineMemoryLeak2)
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
+
+//----------------------------------------------------------------------------
+// AStyle version 2.06 TEST functions
+//----------------------------------------------------------------------------
 
 TEST(BugFix_V206, StripBrokenBraces)
 {

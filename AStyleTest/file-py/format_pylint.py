@@ -3,7 +3,7 @@
     Run from an option in the "Tools" menu of a development environment.
     For Visual Studio:
         Title:       Format Python
-        Command:     C:/Program Files/Python 3.5/python.exe
+        Command:     C:/Program Files/Python35/python.exe
         Arguments:   "format_python.py"  "$(ItemFileName)$(ItemExt)"
         Init Dir:    %USERPROFILE%/Projects/AStyleTest/file-py
 """
@@ -43,7 +43,7 @@ def call_pylint_executable(file_name):
         Uses the file pylintrc for formatting options.
     """
     if os.name == "nt":
-        exepath = "C:/Program Files/Python 3.5/Scripts/pylint.exe"
+        exepath = "C:/Program Files/Python35/Scripts/pylint.exe"
     else:
         exepath = os.getenv("HOME") + "/bin/astyle"
 

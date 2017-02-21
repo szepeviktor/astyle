@@ -19,7 +19,7 @@ import libastyle
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-AS_RELEASE = "2.7"
+AS_RELEASE = "3.0"
 
 # extract all platforms for testing (Windows, Linux, Mac)
 #EXTRACT_ALL = False

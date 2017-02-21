@@ -74,8 +74,8 @@ def convert_class_functions(line):
         line = "continuationIndent"
     elif "setMinConditionalIndentOption" in line:
         line = "minConditionalOption"
-    elif "setMaxInStatementIndentLength" in line:
-        line = "maxInStatementIndent"
+    elif "setMaxContinuationIndentLength" in line:
+        line = "maxContinuationIndent"
     elif "setClassIndent" in line:
         line = "classIndent"
     elif "setModifierIndent" in line:
@@ -92,6 +92,8 @@ def convert_class_functions(line):
         line = "braceIndent"
     elif "setNamespaceIndent" in line:
         line = "namespaceIndent"
+    elif "setAfterParenIndent" in line:
+        line = "shouldIndentAfterParen"
     elif "setLabelIndent" in line:
         line = "labelIndent"
     elif "setEmptyLineFill" in line:

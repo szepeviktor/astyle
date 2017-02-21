@@ -1,7 +1,7 @@
 // TersePrinter.h
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 // TersePrinter class provides alternative output mode
 // which displays only the failed tests but in an enhanced form.

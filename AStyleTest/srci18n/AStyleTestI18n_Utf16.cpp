@@ -1,7 +1,7 @@
 ﻿// AStyleTestI18n_Utf16.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 // This module tests the utf-8 and utf-16 file encodings.
 //
@@ -173,10 +173,10 @@ string utf16LEToUtf8Str(utf16_t* wcIn)
 #endif
 
 //----------------------------------------------------------------------------
-// AStyle test UTF8_16 conversion class
+// AStyle test ASEncoding conversion class
 //----------------------------------------------------------------------------
 
-struct Utf8_16_Class : public Test
+struct ASEncoding_Class : public Test
 // Constructor variables are set using native functions.
 // These will be compared to the values computed by the AStyle functions.
 {
@@ -188,7 +188,7 @@ struct Utf8_16_Class : public Test
 	size_t text16Len;		// 16 bit length in chars (not wchar_t)
 
 	// c'tor - set the variables
-	Utf8_16_Class()
+	ASEncoding_Class()
 	{
 		// initialize variables
 		text8Bit = nullptr;
@@ -235,7 +235,7 @@ struct Utf8_16_Class : public Test
 #endif
 	}	// end c'tor
 
-	~Utf8_16_Class()
+	~ASEncoding_Class()
 	{
 		delete[]text16Bit;
 	}
@@ -244,15 +244,15 @@ struct Utf8_16_Class : public Test
 // MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function utf8ToUtf16().
 #ifdef __APPLE__
-	TEST_F(Utf8_16_Class, DISABLED_Utf8_To_Utf16_LE)
+	TEST_F(ASEncoding_Class, DISABLED_Utf8_To_Utf16_LE)
 #else
-	TEST_F(Utf8_16_Class, Utf8_To_Utf16_LE)
+	TEST_F(ASEncoding_Class, Utf8_To_Utf16_LE)
 #endif
 // test AStyle Utf8 to Utf16 LE conversion functions
 {
 	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
 	int sizeofUtf16 = sizeof(unsigned short);
-	astyle::Utf8_16 utf8_16;
+	astyle::ASEncoding utf8_16;
 	bool isBigEndian = false;
 	// test Astyle Utf16Length() function
 	size_t utf16ComputedSize = utf8_16.utf16LengthFromUtf8(text8Bit, text8Len);
@@ -275,15 +275,15 @@ struct Utf8_16_Class : public Test
 // MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function utf8ToUtf16().
 #ifdef __APPLE__
-	TEST_F(Utf8_16_Class, DISABLED_Utf8_To_Utf16_BE)
+	TEST_F(ASEncoding_Class, DISABLED_Utf8_To_Utf16_BE)
 #else
-	TEST_F(Utf8_16_Class, Utf8_To_Utf16_BE)
+	TEST_F(ASEncoding_Class, Utf8_To_Utf16_BE)
 #endif
 // test AStyle Utf8 to Utf16 BE conversion functions
 {
 	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
 	int sizeofUtf16 = sizeof(unsigned short);
-	astyle::Utf8_16 utf8_16;
+	astyle::ASEncoding utf8_16;
 	bool isBigEndian = true;
 	convertEndian(text16Bit, text16Len);
 	// test Astyle Utf16Length() function
@@ -309,14 +309,14 @@ struct Utf8_16_Class : public Test
 // MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function utf8ToUtf16().
 #ifdef __APPLE__
-	TEST_F(Utf8_16_Class, DISABLED_Utf16_LE_To_Utf8)
+	TEST_F(ASEncoding_Class, DISABLED_Utf16_LE_To_Utf8)
 #else
-	TEST_F(Utf8_16_Class, Utf16_LE_To_Utf8)
+	TEST_F(ASEncoding_Class, Utf16_LE_To_Utf8)
 #endif
 // test AStyle Utf16 LE to Utf8 conversion functions
 {
 	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
-	astyle::Utf8_16 utf8_16;
+	astyle::ASEncoding utf8_16;
 	bool isBigEndian = false;
 	// test Astyle Utf8Length() function
 	size_t utf8ComputedSize = utf8_16.utf8LengthFromUtf16(text16Bit, text16Len, isBigEndian);
@@ -334,14 +334,14 @@ struct Utf8_16_Class : public Test
 // MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
 // It aborts in the function utf8ToUtf16().
 #ifdef __APPLE__
-	TEST_F(Utf8_16_Class, DISABLED_Utf16_BE_To_Utf8)
+	TEST_F(ASEncoding_Class, DISABLED_Utf16_BE_To_Utf8)
 #else
-	TEST_F(Utf8_16_Class, Utf16_BE_To_Utf8)
+	TEST_F(ASEncoding_Class, Utf16_BE_To_Utf8)
 #endif
 // test AStyle Utf16 BE to Utf8 conversion functions
 {
 	ASSERT_TRUE(isLittleEndian()) << "Test assumes a little endian computer.";
-	astyle::Utf8_16 utf8_16;
+	astyle::ASEncoding utf8_16;
 	bool isBigEndian = true;
 	convertEndian(text16Bit, text16Len);
 	// test Astyle Utf8Length() function
