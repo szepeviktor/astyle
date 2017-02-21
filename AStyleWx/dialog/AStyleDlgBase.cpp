@@ -42,6 +42,7 @@ BEGIN_EVENT_TABLE( AStyleDlgBase, wxDialog )
 	EVT_CHECKBOX( ID_INDENT_SWITCH, AStyleDlgBase::_wxFB_OnIndentClick )
 	EVT_CHECKBOX( ID_INDENT_CASE, AStyleDlgBase::_wxFB_OnIndentClick )
 	EVT_CHECKBOX( ID_INDENT_NAMESPACE, AStyleDlgBase::_wxFB_OnIndentClick )
+	EVT_CHECKBOX( ID_INDENT_AFTER_PAREN, AStyleDlgBase::_wxFB_OnIndentClick )
 	EVT_CHECKBOX( ID_INDENT_CONTINUATION, AStyleDlgBase::_wxFB_OnIndentClick )
 	EVT_CHECKBOX( ID_INDENT_GOTO, AStyleDlgBase::_wxFB_OnIndentClick )
 	EVT_CHECKBOX( ID_INDENT_PREPROC_BLOCK, AStyleDlgBase::_wxFB_OnIndentClick )
@@ -49,7 +50,7 @@ BEGIN_EVENT_TABLE( AStyleDlgBase, wxDialog )
 	EVT_CHECKBOX( ID_INDENT_PREPROC_COND, AStyleDlgBase::_wxFB_OnIndentClick )
 	EVT_CHECKBOX( ID_INDENT_COL1_COMMENT, AStyleDlgBase::_wxFB_OnIndentClick )
 	EVT_BUTTON( ID_MIN_CONDITIONAL_DISPLAY, AStyleDlgBase::_wxFB_OnIndentClick )
-	EVT_BUTTON( ID_MAX_INSTATEMENT_DISPLAY, AStyleDlgBase::_wxFB_OnIndentClick )
+	EVT_BUTTON( ID_MAX_CONTINUATION_DISPLAY, AStyleDlgBase::_wxFB_OnIndentClick )
 	EVT_CHECKBOX( ID_BREAK_HEADER, AStyleDlgBase::_wxFB_OnPadClick )
 	EVT_CHECKBOX( ID_BREAK_ALL, AStyleDlgBase::_wxFB_OnPadClick )
 	EVT_CHECKBOX( ID_PAD_OPERATOR, AStyleDlgBase::_wxFB_OnPadClick )
@@ -383,10 +384,13 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_indentNamespaceBlocks = new wxCheckBox( m_indentSizer->GetStaticBox(), ID_INDENT_NAMESPACE, wxT("Indent na&mespace blocks"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_indentSizer->Add( m_indentNamespaceBlocks, 0, wxALL, 5 );
 	
+	m_indentAfterParens = new wxCheckBox( m_indentSizer->GetStaticBox(), ID_INDENT_AFTER_PAREN, wxT("Indent after &parens"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_indentSizer->Add( m_indentAfterParens, 0, wxALL, 5 );
+	
 	wxBoxSizer* bSizer191;
 	bSizer191 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_indentContinuation = new wxCheckBox( m_indentSizer->GetStaticBox(), ID_INDENT_CONTINUATION, wxT("Indent continuation"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_indentContinuation = new wxCheckBox( m_indentSizer->GetStaticBox(), ID_INDENT_CONTINUATION, wxT("Indent contin&uation"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer191->Add( m_indentContinuation, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	m_indentContinuationLength = new wxSpinCtrl( m_indentSizer->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_WRAP, 0, 10, 0 );
@@ -436,23 +440,23 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_indentSizer->Add( bSizer19, 0, wxEXPAND, 5 );
 	
 	wxStaticText* staticText7;
-	staticText7 = new wxStaticText( m_indentSizer->GetStaticBox(), wxID_ANY, wxT("Ma&ximum in-statement indent"), wxDefaultPosition, wxDefaultSize, 0 );
+	staticText7 = new wxStaticText( m_indentSizer->GetStaticBox(), wxID_ANY, wxT("Ma&ximum continuation indent"), wxDefaultPosition, wxDefaultSize, 0 );
 	staticText7->Wrap( -1 );
 	m_indentSizer->Add( staticText7, 0, wxALL, 5 );
 	
 	wxBoxSizer* bSizer22;
 	bSizer22 = new wxBoxSizer( wxHORIZONTAL );
 	
-	wxArrayString m_maxInStatementChoices;
-	m_maxInStatement = new wxChoice( m_indentSizer->GetStaticBox(), ID_MAX_INSTATEMENT, wxDefaultPosition, wxDefaultSize, m_maxInStatementChoices, 0 );
-	m_maxInStatement->SetSelection( 0 );
-	bSizer22->Add( m_maxInStatement, 0, wxBOTTOM|wxLEFT|wxRIGHT, 5 );
+	wxArrayString m_maxContinuationChoices;
+	m_maxContinuation = new wxChoice( m_indentSizer->GetStaticBox(), ID_MAX_CONTINUATION, wxDefaultPosition, wxDefaultSize, m_maxContinuationChoices, 0 );
+	m_maxContinuation->SetSelection( 0 );
+	bSizer22->Add( m_maxContinuation, 0, wxBOTTOM|wxLEFT|wxRIGHT, 5 );
 	
 	
 	bSizer22->Add( 0, 0, 1, wxLEFT, 5 );
 	
-	m_maxInStatementDisplay = new wxButton( m_indentSizer->GetStaticBox(), ID_MAX_INSTATEMENT_DISPLAY, wxEmptyString, wxDefaultPosition, wxSize( 17,18 ), 0 );
-	bSizer22->Add( m_maxInStatementDisplay, 0, wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxRIGHT, 5 );
+	m_maxContinuationDisplay = new wxButton( m_indentSizer->GetStaticBox(), ID_MAX_CONTINUATION_DISPLAY, wxEmptyString, wxDefaultPosition, wxSize( 17,18 ), 0 );
+	bSizer22->Add( m_maxContinuationDisplay, 0, wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxRIGHT, 5 );
 	
 	
 	m_indentSizer->Add( bSizer22, 0, wxEXPAND, 5 );
@@ -503,7 +507,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_indentPage->SetSizer( indentSizer );
 	m_indentPage->Layout();
 	indentSizer->Fit( m_indentPage );
-	m_notebook->AddPage( m_indentPage, wxT("Indent"), false );
+	m_notebook->AddPage( m_indentPage, wxT("Indent"), true );
 	m_padPage = new wxPanel( m_notebook, ID_PAD_PAGE, wxPoint( -1,0 ), wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* padSizer;
 	padSizer = new wxBoxSizer( wxVERTICAL );
@@ -765,7 +769,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_formatPage->SetSizer( formatSizer );
 	m_formatPage->Layout();
 	formatSizer->Fit( m_formatPage );
-	m_notebook->AddPage( m_formatPage, wxT("Format"), true );
+	m_notebook->AddPage( m_formatPage, wxT("Format"), false );
 	m_otherPage = new wxPanel( m_notebook, ID_OTHER_PAGE, wxPoint( -1,0 ), wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* otherSizer;
 	otherSizer = new wxBoxSizer( wxVERTICAL );

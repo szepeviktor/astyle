@@ -1,7 +1,7 @@
 // AStyleWx.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //-----------------------------------------------------------------------------
 // defines for testing
@@ -682,8 +682,8 @@ void ASFrame::BuildToolTips(bool showToolTips)
 		toolBar->SetToolShortHelp(ID_TB_EDIT_SELECTALL, "Select All");
 		toolBar->SetToolShortHelp(ID_TB_EDIT_SELECTTOEND, "Select to End");
 		toolBar->SetToolShortHelp(ID_TB_EDIT_SELECTBLOCK, "Select Block");
-		toolBar->SetToolShortHelp(ID_TB_TOOL_FORMATSELECT, "Format Selection");
-		toolBar->SetToolShortHelp(ID_TB_TOOL_FORMATSOURCE, "Format Source");
+		toolBar->SetToolShortHelp(ID_TB_TOOL_FORMATSELECT, "Format Selected");
+		toolBar->SetToolShortHelp(ID_TB_TOOL_FORMATSOURCE, "Format Document");
 	}
 	else
 	{

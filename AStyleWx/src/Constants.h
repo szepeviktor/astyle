@@ -1,7 +1,7 @@
 //  Constants.h
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 #ifndef ASTYLEWX_CONSTANTS_H
 #define ASTYLEWX_CONSTANTS_H
@@ -216,6 +216,7 @@ struct TextStyle
 #define INDENT_SWITCHES             "indent-switches"
 #define INDENT_CASES                "indent-cases"
 #define INDENT_NAMESPACES           "indent-namespaces"
+#define INDENT_AFTER_PARENS         "indent-after-parens"
 #define INDENT_CONTINUATION         "indent-continuation"
 #define INDENT_LABELS               "indent-labels"
 #define INDENT_PREPROC_BLOCK        "indent-preproc-block"
@@ -223,7 +224,7 @@ struct TextStyle
 #define INDENT_PREPROC_COND         "indent-preproc-cond"
 #define INDENT_COL1_COMMENTS        "indent-col1-comments"
 #define MIN_CONDITIONAL_INDENT      "min-conditional-indent"	// TODO: indent or option?
-#define MAX_INSTATEMENT_INDENT      "max-instatement-indent"
+#define MAX_CONTINUATION_INDENT     "max-continuation-indent"
 // padding options
 #define BREAK_BLOCKS                "break-blocks"
 #define BREAK_BLOCKS_ALL            "break-blocks=all"

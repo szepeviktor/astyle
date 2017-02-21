@@ -1,7 +1,7 @@
 // Config.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //-----------------------------------------------------------------------------
 // headers
@@ -420,6 +420,7 @@ void Config::SaveAStyleOptions(AStyleIFace* astyle)
 	astyle->getSwitchIndent() ? wxConfig::Write(INDENT_SWITCHES, asTRUE) : wxConfig::DeleteEntry(INDENT_SWITCHES, false);
 	astyle->getCaseIndent() ? wxConfig::Write(INDENT_CASES, asTRUE) : wxConfig::DeleteEntry(INDENT_CASES, false);
 	astyle->getNamespaceIndent() ? wxConfig::Write(INDENT_NAMESPACES, asTRUE) : wxConfig::DeleteEntry(INDENT_NAMESPACES, false);
+	astyle->getAfterParenIndent() ? wxConfig::Write(INDENT_AFTER_PARENS, asTRUE) : wxConfig::DeleteEntry(INDENT_AFTER_PARENS, false);
 
 	int continuationIndent = astyle->getContinuationIndent();
 	if (continuationIndent < 0 || continuationIndent >= 5)
@@ -443,15 +444,15 @@ void Config::SaveAStyleOptions(AStyleIFace* astyle)
 	else
 		wxConfig::Write(MIN_CONDITIONAL_INDENT, wxString::Format("%d", minConditionalOption));
 
-	int maxInStatementIndent = astyle->getMaxInStatementIndent();
-	if (maxInStatementIndent < 40)
-		maxInStatementIndent = 40;
-	else if (maxInStatementIndent > 120)
-		maxInStatementIndent = 120;
-	if (maxInStatementIndent == astyle->getDefaultMaxInStatementIndent())
-		wxConfig::DeleteEntry(MAX_INSTATEMENT_INDENT, false);
+	int maxContinuationIndent = astyle->getMaxContinuationIndent();
+	if (maxContinuationIndent < 40)
+		maxContinuationIndent = 40;
+	else if (maxContinuationIndent > 120)
+		maxContinuationIndent = 120;
+	if (maxContinuationIndent == astyle->getDefaultMaxContinuationIndent())
+		wxConfig::DeleteEntry(MAX_CONTINUATION_INDENT, false);
 	else
-		wxConfig::Write(MAX_INSTATEMENT_INDENT, wxString::Format("%d", maxInStatementIndent));
+		wxConfig::Write(MAX_CONTINUATION_INDENT, wxString::Format("%d", maxContinuationIndent));
 
 	if (astyle->getBreakHeaderBlocks() && astyle->getBreakClosingBlocks())
 		wxConfig::Write(BREAK_BLOCKS, "all");

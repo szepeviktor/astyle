@@ -1,7 +1,7 @@
 // AStyleDlg.h
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 #ifndef _ASTYLEDLG_H_
 #define _ASTYLEDLG_H_
@@ -54,7 +54,7 @@ private:
 	void AddAlignPointerData();
 	void AddAlignReferenceData();
 	void AddMaxCodeLengthData();
-	void AddMaxInStatementData();
+	void AddMaxContinuationData();
 	void AddMinConditionalData();
 	void AddPadMethodColonData();
 	void EnableOrDisableTabLength();

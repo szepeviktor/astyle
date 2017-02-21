@@ -1,7 +1,7 @@
 // AStyleDisplay.h
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 #ifndef _ASTYLEDISPLAY_H_
 #define _ASTYLEDISPLAY_H_
@@ -43,7 +43,8 @@ private:
 	wxString AlignGetLine(const wxString& text, int lineNumber) const;
 	wxArrayString AlignGetLineArray(const wxString& text) const;
 	int  AlignGetSpaceEquivalent(wxString& line) const;
-	wxString AlignMaxInStatement(const wxString& text) const;
+	wxString AlignIndentAfterParens(const wxString& text) const;
+	wxString AlignMaxContinuation(const wxString& text) const;
 	wxString AlignMethodColon(const wxString& text) const;
 	void AlignReplaceIndent(wxString& line, wxString& indent) const;
 	void LexStcText(wxString boldChars = wxEmptyString);
@@ -61,6 +62,7 @@ private:
 	wxString StcFormat_RemoveBraces();
 	wxString StcFormat_RemoveCommentPrefix();
 	// Indent Tab
+	wxString StcIndent_IndentAfterParen();
 	wxString StcIndent_IndentCase_IndentSwitch();
 	wxString StcIndent_IndentClass();
 	wxString StcIndent_IndentCol1Comment();
@@ -72,7 +74,7 @@ private:
 	wxString StcIndent_IndentPreprocCond();
 	wxString StcIndent_IndentPreprocDefine();
 	wxString StcIndent_MinConditionalDisplay();
-	wxString StcIndent_MaxInStatementDisplay();
+	wxString StcIndent_MaxContinuationDisplay();
 	// Other Tab
 	wxString StcOther_AlignMethodColon();
 	wxString StcOther_PadMethodColon();

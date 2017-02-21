@@ -458,7 +458,7 @@
 							</object>
 							<object class="notebookpage">
 								<label>Indent</label>
-								<selected>0</selected>
+								<selected>1</selected>
 								<object class="wxPanel" name="m_indentPage">
 									<style>wxCLIP_CHILDREN|wxTAB_TRAVERSAL</style>
 									<pos>-1,0</pos>
@@ -523,6 +523,15 @@
 															</object>
 														</object>
 														<object class="sizeritem">
+															<option>0</option>
+															<flag>wxALL</flag>
+															<border>5</border>
+															<object class="wxCheckBox" name="m_indentAfterParens">
+																<label>Indent after _parens</label>
+																<checked>0</checked>
+															</object>
+														</object>
+														<object class="sizeritem">
 															<option>1</option>
 															<flag></flag>
 															<border>5</border>
@@ -533,7 +542,7 @@
 																	<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
 																	<border>5</border>
 																	<object class="wxCheckBox" name="m_indentContinuation">
-																		<label>Indent continuation</label>
+																		<label>Indent contin_uation</label>
 																		<checked>0</checked>
 																	</object>
 																</object>
@@ -648,7 +657,7 @@
 															<flag>wxALL</flag>
 															<border>5</border>
 															<object class="wxStaticText" name="staticText7">
-																<label>Ma_ximum in-statement indent</label>
+																<label>Ma_ximum continuation indent</label>
 																<wrap>-1</wrap>
 															</object>
 														</object>
@@ -662,7 +671,7 @@
 																	<option>0</option>
 																	<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 																	<border>5</border>
-																	<object class="wxChoice" name="m_maxInStatement">
+																	<object class="wxChoice" name="m_maxContinuation">
 																		<selection>0</selection>
 																		<content />
 																	</object>
@@ -677,7 +686,7 @@
 																	<option>0</option>
 																	<flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxRIGHT</flag>
 																	<border>5</border>
-																	<object class="wxButton" name="m_maxInStatementDisplay">
+																	<object class="wxButton" name="m_maxContinuationDisplay">
 																		<size>17,18</size>
 																		<label></label>
 																		<default>0</default>
@@ -947,7 +956,7 @@
 							</object>
 							<object class="notebookpage">
 								<label>Format</label>
-								<selected>1</selected>
+								<selected>0</selected>
 								<object class="wxPanel" name="m_formatPage">
 									<style>wxCLIP_CHILDREN|wxTAB_TRAVERSAL</style>
 									<pos>-1,0</pos>

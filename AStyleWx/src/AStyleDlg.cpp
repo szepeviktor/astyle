@@ -1,7 +1,7 @@
 // AStyleDlg.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //-----------------------------------------------------------------------------
 // headers
@@ -235,24 +235,24 @@ void AStyleDlg::AddMaxCodeLengthData()
 	m_maxCodeLength->Set(maxCodeLengthItem, maxCodeLengthData);
 }
 
-void AStyleDlg::AddMaxInStatementData()
-// Add selections to the maxInStatement combobox.
+void AStyleDlg::AddMaxContinuationData()
+// Add selections to the maxContinuation combobox.
 {
 	// This method is much faster than appending items one by one.
-	wxArrayString maxInStatementItem;
-	if (maxInStatementItem.GetCount() == 0)
+	wxArrayString maxContinuationItem;
+	if (maxContinuationItem.GetCount() == 0)
 	{
-		maxInStatementItem.Add("  40 spaces");
-		maxInStatementItem.Add("  50 spaces");
-		maxInStatementItem.Add("  60 spaces");
-		maxInStatementItem.Add("  70 spaces");
-		maxInStatementItem.Add("  80 spaces");
-		maxInStatementItem.Add("  90 spaces");
-		maxInStatementItem.Add(" 100 spaces");
-		maxInStatementItem.Add(" 110 spaces");
-		maxInStatementItem.Add(" 120 spaces");
+		maxContinuationItem.Add("  40 spaces");
+		maxContinuationItem.Add("  50 spaces");
+		maxContinuationItem.Add("  60 spaces");
+		maxContinuationItem.Add("  70 spaces");
+		maxContinuationItem.Add("  80 spaces");
+		maxContinuationItem.Add("  90 spaces");
+		maxContinuationItem.Add(" 100 spaces");
+		maxContinuationItem.Add(" 110 spaces");
+		maxContinuationItem.Add(" 120 spaces");
 	}
-	void* maxInStatementData[] =
+	void* maxContinuationData[] =
 	{
 		reinterpret_cast<void*>(40),
 		reinterpret_cast<void*>(50),
@@ -264,9 +264,9 @@ void AStyleDlg::AddMaxInStatementData()
 		reinterpret_cast<void*>(110),
 		reinterpret_cast<void*>(120),
 	};
-	assert(maxInStatementItem.GetCount() ==
-	       sizeof(maxInStatementData) / sizeof(maxInStatementData[0]));
-	m_maxInStatement->Set(maxInStatementItem, maxInStatementData);
+	assert(maxContinuationItem.GetCount() ==
+	       sizeof(maxContinuationData) / sizeof(maxContinuationData[0]));
+	m_maxContinuation->Set(maxContinuationItem, maxContinuationData);
 }
 
 void AStyleDlg::AddMinConditionalData()
@@ -368,6 +368,7 @@ void AStyleDlg::GetIndentOptions(AStyleIFace* astyle)
 	astyle->setSwitchIndent(m_indentSwitchBlocks->GetValue());
 	astyle->setCaseIndent(m_indentCaseBlocks->GetValue());
 	astyle->setNamespaceIndent(m_indentNamespaceBlocks->GetValue());
+	astyle->setAfterParenIndent(m_indentAfterParens->GetValue());
 	if (m_indentContinuation->IsChecked()
 	        && m_indentContinuationLength->GetValue() != astyle->getDefaultContinuationIndent())
 		astyle->setContinuationIndent(m_indentContinuationLength->GetValue());
@@ -383,9 +384,9 @@ void AStyleDlg::GetIndentOptions(AStyleIFace* astyle)
 	int minOption = reinterpret_cast<size_t>(m_minConditional->GetClientData(minIndex));
 	astyle->setMinConditionalOption(static_cast<MinConditional>(minOption));
 	// get max in-statement value
-	int maxIndex = m_maxInStatement->GetCurrentSelection();
-	int maxOption = reinterpret_cast<size_t>(m_maxInStatement->GetClientData(maxIndex));
-	astyle->setMaxInStatementIndent(maxOption);
+	int maxIndex = m_maxContinuation->GetCurrentSelection();
+	int maxOption = reinterpret_cast<size_t>(m_maxContinuation->GetClientData(maxIndex));
+	astyle->setMaxContinuationIndent(maxOption);
 }
 
 void AStyleDlg::GetModifierOptions(AStyleIFace* astyle)
@@ -798,6 +799,7 @@ void AStyleDlg::SetIndentOptions()
 	m_indentSwitchBlocks->SetValue(m_astyle->getSwitchIndent());
 	m_indentCaseBlocks->SetValue(m_astyle->getCaseIndent());
 	m_indentNamespaceBlocks->SetValue(m_astyle->getNamespaceIndent());
+	m_indentAfterParens->SetValue(m_astyle->getAfterParenIndent());
 	m_indentGotoLabels->SetValue(m_astyle->getLabelIndent());
 	m_indentPreprocBlock->SetValue(m_astyle->getPreprocBlockIndent());
 	m_indentPreprocDefine->SetValue(m_astyle->getPreprocDefineIndent());
@@ -833,27 +835,27 @@ void AStyleDlg::SetIndentOptions()
 	}
 	m_minConditional->SetSelection(minConditionalOption);
 	// set max in-statement choice box
-	if (m_maxInStatement->GetCount() == 0)
-		AddMaxInStatementData();
-	// set max in-statement indent
-	int maxInStmtIndent = m_astyle->getMaxInStatementIndent();
+	if (m_maxContinuation->GetCount() == 0)
+		AddMaxContinuationData();
+	// set max continuation indent
+	int maxContinuationIndent = m_astyle->getMaxContinuationIndent();
 	size_t iMax;
-	for (iMax = 0; iMax < m_maxInStatement->GetCount(); iMax++)
+	for (iMax = 0; iMax < m_maxContinuation->GetCount(); iMax++)
 	{
-		int clientData = reinterpret_cast<size_t>(m_maxInStatement->GetClientData(iMax));
-		if (clientData == maxInStmtIndent)
+		int clientData = reinterpret_cast<size_t>(m_maxContinuation->GetClientData(iMax));
+		if (clientData == maxContinuationIndent)
 			break;
 	}
-	m_maxInStatement->SetSelection(iMax);
+	m_maxContinuation->SetSelection(iMax);
 	// set initial size of the wxChoice, make them the same size
 	wxSize szMinCond = GetWxChoiceSize(m_minConditional);
-	wxSize szMaxInSt = GetWxChoiceSize(m_maxInStatement);
-	if (szMinCond.GetWidth() > szMaxInSt.GetWidth())
-		szMaxInSt = szMinCond;
+	wxSize szMaxCont = GetWxChoiceSize(m_maxContinuation);
+	if (szMinCond.GetWidth() > szMaxCont.GetWidth())
+		szMaxCont = szMinCond;
 	else
-		szMinCond = szMaxInSt;
+		szMinCond = szMaxCont;
 	m_minConditional->SetInitialSize(szMinCond);
-	m_maxInStatement->SetInitialSize(szMaxInSt);
+	m_maxContinuation->SetInitialSize(szMaxCont);
 }
 
 void AStyleDlg::SetModifierOptions()

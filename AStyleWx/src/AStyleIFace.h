@@ -1,7 +1,7 @@
 // AStyleIFace.h
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 #ifndef ASTYLE_IFACE_H
 #define ASTYLE_IFACE_H
@@ -42,7 +42,7 @@ public:
 	int  getDefaultTabLength() const             { return defaultTabLength; }
 	int  getDefaultContinuationIndent() const    { return defaultContinuationIndent; }
 	MinConditional getDefaultMinConditionalOption() const  { return defaultMinConditionalOption; }
-	int  getDefaultMaxInStatementIndent() const  { return defaultMaxInStatementIndent; }
+	int  getDefaultMaxContinuationIndent() const { return defaultMaxContinuationIndent; }
 	int  getDefaultMaxCodeLength() const         { return defaultMaxCodeLength; }
 	// getters - brace style
 	int  getBraceStyle() const           { return braceStyle; }
@@ -63,6 +63,7 @@ public:
 	bool getSwitchIndent() const         { return switchIndent; }
 	bool getCaseIndent() const           { return caseIndent; }
 	bool getNamespaceIndent() const      { return namespaceIndent; }
+	bool getAfterParenIndent() const     { return afterParenIndent; }
 	int  getContinuationIndent() const   { return continuationIndent; }
 	bool getLabelIndent() const          { return labelIndent; }
 	bool getPreprocBlockIndent() const   { return preprocBlockIndent; }
@@ -70,7 +71,7 @@ public:
 	bool getPreprocCondIndent() const    { return preprocCondIndent; }
 	bool getCol1CommentIndent() const    { return col1CommentIndent; }
 	int  getMinConditionalOption() const { return minConditionalOption; }
-	int  getMaxInStatementIndent() const { return maxInStatementIndent; }
+	int  getMaxContinuationIndent() const { return maxContinuationIndent; }
 	// getters - padding
 	bool getBreakHeaderBlocks() const    { return breakHeaderBlocks; }
 	bool getBreakClosingBlocks() const   { return breakClosingBlocks; }
@@ -127,6 +128,7 @@ public:
 	void setSwitchIndent(bool state)         { switchIndent = state; }
 	void setCaseIndent(bool state)           { caseIndent = state; }
 	void setNamespaceIndent(bool state)      { namespaceIndent = state; }
+	void setAfterParenIndent(bool state)     { afterParenIndent = state; }
 	void setContinuationIndent(int value)    { continuationIndent = value; }
 	void setLabelIndent(bool state)          { labelIndent = state; }
 	void setPreprocBlockIndent(bool state)   { preprocBlockIndent = state; }
@@ -134,7 +136,7 @@ public:
 	void setPreprocCondIndent(bool state)    { preprocCondIndent = state; }
 	void setCol1CommentIndent(bool state)    { col1CommentIndent = state; }
 	void setMinConditionalOption(MinConditional value)  { minConditionalOption = value; }
-	void setMaxInStatementIndent(int value)  { maxInStatementIndent = value; }
+	void setMaxContinuationIndent(int value) { maxContinuationIndent = value; }
 	// setters - padding
 	void setBreakHeaderBlocks(bool state)    { breakHeaderBlocks = state; }
 	void setBreakClosingBlocks(bool state)   { breakClosingBlocks = state; }
@@ -202,6 +204,7 @@ private:
 	bool switchIndent;                  // --indent-switches
 	bool caseIndent;                    // --indent-cases
 	bool namespaceIndent;               // --indent-namespaces
+	bool afterParenIndent;              // --indent-after-parens
 	int  continuationIndent;            // --indent-continuation=#
 	bool labelIndent;                   // --indent-labels
 	bool preprocBlockIndent;            // --indent-preproc-block
@@ -209,7 +212,7 @@ private:
 	bool preprocCondIndent;             // --indent-preproc-cond
 	bool col1CommentIndent;             // --indent-col1-comments
 	MinConditional minConditionalOption;// --min-conditional-indent=#
-	int  maxInStatementIndent;          // --max-instatement-indent=#
+	int  maxContinuationIndent;         // --max-continuation-indent=#
 
 	// padding options
 	bool breakHeaderBlocks;             // --break-blocks, --break-blocks=all
@@ -256,7 +259,7 @@ private:
 	int defaultTabLength;               // default tabLength
 	int defaultContinuationIndent;      // default continuationIndent
 	MinConditional defaultMinConditionalOption;    // default minConditionalIndent
-	int defaultMaxInStatementIndent;    // default maxInStatementIndent
+	int defaultMaxContinuationIndent;   // default maxContinuationIndent
 	int defaultMaxCodeLength;           // default maxCodeLength
 };  // class AStyleIFace
 
