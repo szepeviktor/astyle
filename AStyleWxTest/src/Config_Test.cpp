@@ -1,7 +1,7 @@
 // AStyleConfig_Test.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //----------------------------------------------------------------------------
 // headers
@@ -622,6 +622,30 @@ TEST(Config_AStyle_Modifier, SaveAStyleOptions_AttachClosingWhile)
 // AStyle Config Tests for Indentation Options
 //-------------------------------------------------------------------------
 
+TEST(Config_AStyle_Indent, SaveAStyleOptions_AfterParenIndent)
+// Test config file writes for astyle afterParenIndent option
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	AStyleIFace_Test astyle;	// uses getters and setters from AStyleIFace
+	wxString key;				// config key
+	wxString value;				// value of config key
+
+	// test true
+	key = INDENT_AFTER_PARENS;
+	astyle.setAfterParenIndent(true);
+	config.SaveAStyleOptions(&astyle);
+	config.SetPath("/AStyle");
+	ASSERT_TRUE(config.Read(key, &value));
+	EXPECT_STREQ(asTRUE, value);
+
+	// test false (delete key)
+	astyle.setAfterParenIndent(false);
+	config.SaveAStyleOptions(&astyle);
+	config.SetPath("/AStyle");
+	ASSERT_FALSE(config.Read(key, &value));
+}
+
 TEST(Config_AStyle_Indent, SaveAStyleOptions_CaseIndent)
 // Test config file writes for astyle caseIndent option
 {
@@ -763,8 +787,8 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_LabelIndent)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Indent, SaveAStyleOptions_MaxInStmtIndent)
-// Test config file writes for astyle max in-statement indent
+TEST(Config_AStyle_Indent, SaveAStyleOptions_MaxContinuation)
+// Test config file writes for astyle max continuation indent
 {
 	// create objects
 	Config_Test config(CONFIG_TEST_NAME);
@@ -773,41 +797,41 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_MaxInStmtIndent)
 	wxString value;				// value of config key
 
 	// test max code length
-	key = MAX_INSTATEMENT_INDENT;
-	astyle.setMaxInStatementIndent(50);
+	key = MAX_CONTINUATION_INDENT;
+	astyle.setMaxContinuationIndent(50);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	config.Read(key, &value);
 	EXPECT_STREQ("50", value)
-	        << "Failure for max in-statement indent";
+	        << "Failure for max continuation indent";
 
-	// test max in-statement default
-	int defaultMaxInStatementIndent = astyle.getDefaultMaxInStatementIndent();
+	// test max continuation default
+	int defaultMaxInStatementIndent = astyle.getDefaultMaxContinuationIndent();
 	EXPECT_TRUE(defaultMaxInStatementIndent == 40);
-	key = MAX_INSTATEMENT_INDENT;
-	astyle.setMaxInStatementIndent(defaultMaxInStatementIndent);
+	key = MAX_CONTINUATION_INDENT;
+	astyle.setMaxContinuationIndent(defaultMaxInStatementIndent);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
-	        << "Failure for default max in-statement indent";
+	        << "Failure for default max continuation indent";
 
-	// test invalid minimum for max in-statement, should use minimum (default)
-	key = MAX_INSTATEMENT_INDENT;
-	astyle.setMaxInStatementIndent(39);
+	// test invalid minimum for max continuation, should use minimum (default)
+	key = MAX_CONTINUATION_INDENT;
+	astyle.setMaxContinuationIndent(39);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
-	        << "Failure for invalid max in-statement indent";
+	        << "Failure for invalid max continuation indent";
 
-	// test invalid maximum for max in-statement, should use maximum
-	key = MAX_INSTATEMENT_INDENT;
-	astyle.setMaxInStatementIndent(121);
+	// test invalid maximum for max continuation, should use maximum
+	key = MAX_CONTINUATION_INDENT;
+	astyle.setMaxContinuationIndent(121);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	config.Read(key, &value);
 	wxString maxIndentEnum = wxString::Format("%d", 120);
 	EXPECT_EQ(maxIndentEnum, value)
-	        << "Failure for invalid max in-statement indent";
+	        << "Failure for invalid max continuation indent";
 }
 
 TEST(Config_AStyle_Indent, SaveAStyleOptions_MinConditionalOpt)
@@ -1594,7 +1618,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_MaxCodeLength)
 	wxString key;				// style key
 	wxString value;				// value of config key
 
-	// test max in-statement indent
+	// test max continuation indent
 	key = MAX_CODE_LENGTH;
 	astyle.setMaxCodeLength(100);
 	config.SaveAStyleOptions(&astyle);

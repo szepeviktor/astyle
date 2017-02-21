@@ -1,7 +1,7 @@
 // AStyleIFace_Test.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //----------------------------------------------------------------------------
 // headers
@@ -286,6 +286,22 @@ TEST(AStyleIFace_ModifierOptions, GetOptions_AttachClosingWhile)
 // AStyleIFace GetOptions Tests for Indentation Options
 //-------------------------------------------------------------------------
 
+TEST(AStyleIFace_IndentOptions, GetOptions_AfterParenIndent)
+// Test AStyleIFace::GetOptions afterParenIndent option
+{
+	// create objects
+	AStyleIFace astyle;
+	wxString options;
+
+	// test the option
+	astyle.setAfterParenIndent(false);
+	options = astyle.GetOptions();
+	EXPECT_TRUE(options == wxEmptyString);
+	astyle.setAfterParenIndent(true);
+	options = astyle.GetOptions();
+	EXPECT_TRUE(options == INDENT_AFTER_PARENS);
+}
+
 TEST(AStyleIFace_IndentOptions, GetOptions_CaseIndent)
 // Test AStyleIFace::GetOptions caseIndent option
 {
@@ -374,27 +390,27 @@ TEST(AStyleIFace_IndentOptions, GetOptions_LabelIndent)
 	EXPECT_TRUE(options == INDENT_LABELS);
 }
 
-TEST(AStyleIFace_IndentOptions, GetOptions_MaxInStatement)
-// Test AStyleIFace::GetOptions maxInStatementIndent option
+TEST(AStyleIFace_IndentOptions, GetOptions_MaxContinuation)
+// Test AStyleIFace::GetOptions maxContinuationIndent option
 {
 	// create objects
 	AStyleIFace astyle;
 	wxString options;
 
 	// test the option
-	astyle.setMaxInStatementIndent(40);
+	astyle.setMaxContinuationIndent(40);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setMaxInStatementIndent(50);
+	astyle.setMaxContinuationIndent(50);
 	options = astyle.GetOptions();
-	EXPECT_STREQ(options, MAX_INSTATEMENT_INDENT "=50");
+	EXPECT_STREQ(options, MAX_CONTINUATION_INDENT "=50");
 	// test invalid max instatement indent
-	astyle.setMaxInStatementIndent(39);
+	astyle.setMaxContinuationIndent(39);
 	options = astyle.GetOptions();
-	EXPECT_STREQ(options, "invalid-maxInStatementIndent=39");
-	astyle.setMaxInStatementIndent(121);
+	EXPECT_STREQ(options, "invalid-maxContinuationIndent=39");
+	astyle.setMaxContinuationIndent(121);
 	options = astyle.GetOptions();
-	EXPECT_STREQ(options, "invalid-maxInStatementIndent=121");
+	EXPECT_STREQ(options, "invalid-maxContinuationIndent=121");
 }
 
 TEST(AStyleIFace_IndentOptions, GetOptions_MinConditional)
@@ -1328,6 +1344,22 @@ TEST(AStyleIFace_ModifierShort, GetOptions_AttachExternC)
 // AStyleIFace GetOptions Tests for Indentation Short Options
 //-------------------------------------------------------------------------
 
+TEST(AStyleIFace_IndentShort, GetOptions_AfterParenIndent)
+// Test AStyleIFace::GetOptions afterParenIndent short option
+{
+	// create objects
+	AStyleIFace astyle;
+	wxString options;
+
+	// test the option
+	astyle.setAfterParenIndent(false);
+	options = astyle.GetOptions(true);
+	EXPECT_TRUE(options == wxEmptyString);
+	astyle.setAfterParenIndent(true);
+	options = astyle.GetOptions(true);
+	EXPECT_TRUE(options == "xU");
+}
+
 TEST(AStyleIFace_IndentShort, GetOptions_CaseIndent)
 // Test AStyleIFace::GetOptions caseIndent short option
 {
@@ -1424,19 +1456,19 @@ TEST(AStyleIFace_IndentShort, GetOptions_MaxInStatement)
 	wxString options;
 
 	// test the option
-	astyle.setMaxInStatementIndent(40);
+	astyle.setMaxContinuationIndent(40);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setMaxInStatementIndent(50);
+	astyle.setMaxContinuationIndent(50);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "M50");
 	// test invalid max instatement indent
-	astyle.setMaxInStatementIndent(39);
+	astyle.setMaxContinuationIndent(39);
 	options = astyle.GetOptions(true);
-	EXPECT_TRUE(options == "invalid-maxInStatementIndent=39");
-	astyle.setMaxInStatementIndent(121);
+	EXPECT_TRUE(options == "invalid-maxContinuationIndent=39");
+	astyle.setMaxContinuationIndent(121);
 	options = astyle.GetOptions(true);
-	EXPECT_TRUE(options == "invalid-maxInStatementIndent=121");
+	EXPECT_TRUE(options == "invalid-maxContinuationIndent=121");
 }
 
 TEST(AStyleIFace_IndentShort, GetOptions_MinConditional)
@@ -2202,6 +2234,8 @@ TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_Boolean)
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ATTACH_CLOSING_WHILE, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getAttachClosingWhile());
 	// indentation
+	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_AFTER_PARENS, asTRUE));
+	EXPECT_TRUE(astyle.AStyleIFace::getAfterParenIndent());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_CLASSES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getClassIndent());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_MODIFIERS, asTRUE));
@@ -2371,15 +2405,15 @@ TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_MaxInStatement)
 	AStyleIFace astyle;
 
 	// test the indent length for error
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_INSTATEMENT_INDENT, asTRUE));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_INSTATEMENT_INDENT, "-1"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_INSTATEMENT_INDENT, "39"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_INSTATEMENT_INDENT, "121"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_INSTATEMENT_INDENT, "X"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_INSTATEMENT_INDENT, wxEmptyString));
+	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CONTINUATION_INDENT, asTRUE));
+	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CONTINUATION_INDENT, "-1"));
+	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CONTINUATION_INDENT, "39"));
+	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CONTINUATION_INDENT, "121"));
+	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CONTINUATION_INDENT, "X"));
+	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CONTINUATION_INDENT, wxEmptyString));
 	// test the indent length
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(MAX_INSTATEMENT_INDENT, "50"));
-	EXPECT_EQ(50, astyle.AStyleIFace::getMaxInStatementIndent());
+	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(MAX_CONTINUATION_INDENT, "50"));
+	EXPECT_EQ(50, astyle.AStyleIFace::getMaxContinuationIndent());
 }
 
 TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_MinConditional)
