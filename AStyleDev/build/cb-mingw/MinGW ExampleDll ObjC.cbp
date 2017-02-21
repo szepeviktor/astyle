@@ -31,7 +31,7 @@
 					<Add option="-Wl,-enable-stdcall-fixup" />
 					<Add library="gnustep-base" />
 					<Add library="objc" />
-					<Add library="AStyle-2.7" />
+					<Add library="AStyle-3.0" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
