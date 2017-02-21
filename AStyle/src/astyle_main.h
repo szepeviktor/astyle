@@ -1,7 +1,7 @@
 // astyle_main.h
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 #ifndef ASTYLE_MAIN_H
 #define ASTYLE_MAIN_H
@@ -160,11 +160,11 @@ public:	// inline functions
 };
 
 //----------------------------------------------------------------------------
-// Utf8_16 class for utf8/16 conversions
+// ASEncoding class for utf8/16 conversions
 // used by both console and library builds
 //----------------------------------------------------------------------------
 
-class Utf8_16
+class ASEncoding
 {
 private:
 	typedef unsigned short utf16; // 16 bits
@@ -197,7 +197,11 @@ class ASConsole;
 class ASOptions
 {
 public:
-	ASOptions(ASFormatter& formatterArg, ASConsole* consoleArg = nullptr);
+#ifdef ASTYLE_LIB
+	ASOptions(ASFormatter& formatterArg);
+#else
+	ASOptions(ASFormatter& formatterArg, ASConsole& consoleArg);
+#endif
 	string getOptionErrors() const;
 	void importOptions(istream& in, vector<string>& optionsVector);
 	bool parseOptions(vector<string>& optionsVector, const string& errorInfo);
@@ -205,8 +209,10 @@ public:
 private:
 	// variables
 	ASFormatter& formatter;
-	ASConsole&   console;			// DO NOT USE for ASTYLE_LIB (nullptr)
 	stringstream optionErrors;		// option error messages
+#ifndef ASTYLE_LIB
+	ASConsole&   console;			// DO NOT USE for ASTYLE_LIB
+#endif
 
 	// functions
 	ASOptions(const ASOptions&);           // copy constructor not to be implemented
@@ -255,7 +261,7 @@ private:    // variables
 	bool lineEndsMixed;                 // output has mixed line ends
 	int  linesOut;                      // number of output lines
 
-	Utf8_16 utf8_16;                    // utf8/16 conversion methods
+	ASEncoding utf8_16;                 // utf8/16 conversion methods
 
 	string outputEOL;                   // current line end
 	string prevEOL;                     // previous line end
@@ -375,7 +381,7 @@ private:
 	static char* STDCALL tempMemoryAllocation(unsigned long memoryNeeded);
 
 private:
-	Utf8_16 utf8_16;            // utf8/16 conversion methods
+	ASEncoding utf8_16;         // utf8/16 conversion methods
 };
 
 #endif	// ASTYLE_LIB

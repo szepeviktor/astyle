@@ -7,7 +7,7 @@
 		<Option compiler="clang" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/libastyle-2.7d.so" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/libastyle-3.0d.so" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objSo/Debug/" />
 				<Option type="3" />
 				<Option compiler="clang" />
@@ -33,7 +33,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/libastyle-2.7.so" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/libastyle-3.0.so" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objSo/Release/" />
 				<Option type="3" />
 				<Option compiler="clang" />

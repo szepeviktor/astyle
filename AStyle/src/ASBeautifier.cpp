@@ -1,7 +1,7 @@
 // ASBeautifier.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //-----------------------------------------------------------------------------
 // headers
@@ -42,8 +42,8 @@ ASBeautifier::ASBeautifier()
 	blockStatementStack = nullptr;
 	parenStatementStack = nullptr;
 	braceBlockStateStack = nullptr;
-	inStatementIndentStack = nullptr;
-	inStatementIndentStackSizeStack = nullptr;
+	continuationIndentStack = nullptr;
+	continuationIndentStackSizeStack = nullptr;
 	parenIndentStack = nullptr;
 	preprocIndentStack = nullptr;
 	sourceIterator = nullptr;
@@ -52,7 +52,7 @@ ASBeautifier::ASBeautifier()
 	setSpaceIndentation(4);
 	setContinuationIndentation(1);
 	setMinConditionalIndentOption(MINCOND_TWO);
-	setMaxInStatementIndentLength(40);
+	setMaxContinuationIndentLength(40);
 	classInitializerIndents = 1;
 	tabLength = 0;
 	setClassIndent(false);
@@ -63,6 +63,7 @@ ASBeautifier::ASBeautifier()
 	setBraceIndent(false);
 	setBraceIndentVtk(false);
 	setNamespaceIndent(false);
+	setAfterParenIndent(false);
 	setLabelIndent(false);
 	setEmptyLineFill(false);
 	setCStyle();
@@ -117,11 +118,11 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	braceBlockStateStack = new vector<bool>;
 	*braceBlockStateStack = *other.braceBlockStateStack;
 
-	inStatementIndentStack = new vector<int>;
-	*inStatementIndentStack = *other.inStatementIndentStack;
+	continuationIndentStack = new vector<int>;
+	*continuationIndentStack = *other.continuationIndentStack;
 
-	inStatementIndentStackSizeStack = new vector<int>;
-	*inStatementIndentStackSizeStack = *other.inStatementIndentStackSizeStack;
+	continuationIndentStackSizeStack = new vector<int>;
+	*continuationIndentStackSizeStack = *other.continuationIndentStackSizeStack;
 
 	parenIndentStack = new vector<int>;
 	*parenIndentStack = *other.parenIndentStack;
@@ -145,7 +146,7 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	// variables set by ASFormatter
 	// must also be updated in activeBeautifierStack
 	inLineNumber = other.inLineNumber;
-	runInIndentInStatement = other.runInIndentInStatement;
+	runInIndentContinuation = other.runInIndentContinuation;
 	nonInStatementBrace = other.nonInStatementBrace;
 	objCColonAlignSubsequent = other.objCColonAlignSubsequent;
 	lineCommentNoBeautify = other.lineCommentNoBeautify;
@@ -178,7 +179,7 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	isInRunInComment = other.isInRunInComment;
 	isInCase = other.isInCase;
 	isInQuestion = other.isInQuestion;
-	isInStatement = other.isInStatement;
+	isContinuation = other.isContinuation;
 	isInHeader = other.isInHeader;
 	isInTemplate = other.isInTemplate;
 	isInDefine = other.isInDefine;
@@ -206,6 +207,7 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	braceIndent = other.braceIndent;
 	braceIndentVtk = other.braceIndentVtk;
 	blockIndent = other.blockIndent;
+	shouldIndentAfterParen = other.shouldIndentAfterParen;
 	labelIndent = other.labelIndent;
 	isInConditional = other.isInConditional;
 	isModeManuallySet = other.isModeManuallySet;
@@ -245,7 +247,7 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	tabLength = other.tabLength;
 	continuationIndent = other.continuationIndent;
 	blockTabCount = other.blockTabCount;
-	maxInStatementIndent = other.maxInStatementIndent;
+	maxContinuationIndent = other.maxContinuationIndent;
 	classInitializerIndents = other.classInitializerIndents;
 	templateDepth = other.templateDepth;
 	squareBracketCount = other.squareBracketCount;
@@ -275,8 +277,8 @@ ASBeautifier::~ASBeautifier()
 	deleteContainer(blockStatementStack);
 	deleteContainer(parenStatementStack);
 	deleteContainer(braceBlockStateStack);
-	deleteContainer(inStatementIndentStack);
-	deleteContainer(inStatementIndentStackSizeStack);
+	deleteContainer(continuationIndentStack);
+	deleteContainer(continuationIndentStackSizeStack);
 	deleteContainer(parenIndentStack);
 	deleteContainer(preprocIndentStack);
 }
@@ -314,10 +316,10 @@ void ASBeautifier::init(ASSourceIterator* iter)
 	initContainer(blockStatementStack, new vector<bool>);
 	initContainer(parenStatementStack, new vector<bool>);
 	initContainer(braceBlockStateStack, new vector<bool>);
-	braceBlockStateStack->emplace_back(true);
-	initContainer(inStatementIndentStack, new vector<int>);
-	initContainer(inStatementIndentStackSizeStack, new vector<int>);
-	inStatementIndentStackSizeStack->emplace_back(0);
+	braceBlockStateStack->push_back(true);
+	initContainer(continuationIndentStack, new vector<int>);
+	initContainer(continuationIndentStackSizeStack, new vector<int>);
+	continuationIndentStackSizeStack->emplace_back(0);
 	initContainer(parenIndentStack, new vector<int>);
 	initContainer(preprocIndentStack, new vector<pair<int, int> >);
 
@@ -333,7 +335,7 @@ void ASBeautifier::init(ASSourceIterator* iter)
 	isInComment = false;
 	isInPreprocessorComment = false;
 	isInRunInComment = false;
-	isInStatement = false;
+	isContinuation = false;
 	isInCase = false;
 	isInQuestion = false;
 	isIndentModeOff = false;
@@ -407,7 +409,7 @@ void ASBeautifier::init(ASSourceIterator* iter)
 	isInIndentableStruct = false;
 	isInIndentablePreproc = false;
 	inLineNumber = 0;
-	runInIndentInStatement = 0;
+	runInIndentContinuation = 0;
 	nonInStatementBrace = 0;
 	objCColonAlignSubsequent = 0;
 }
@@ -531,9 +533,17 @@ void ASBeautifier::setContinuationIndentation(int indent)
  *
  * @param   max     maximum indentation length.
  */
+void ASBeautifier::setMaxContinuationIndentLength(int max)
+{
+	maxContinuationIndent = max;
+}
+
+// retained for compatability with release 2.06
+// "MaxInStatementIndent" has been changed to "MaxContinuationIndent" in 3.0
+// it is referenced only by the old "MaxInStatementIndent" options
 void ASBeautifier::setMaxInStatementIndentLength(int max)
 {
-	maxInStatementIndent = max;
+	setMaxContinuationIndentLength(max);
 }
 
 /**
@@ -651,6 +661,16 @@ void ASBeautifier::setCaseIndent(bool state)
 void ASBeautifier::setNamespaceIndent(bool state)
 {
 	namespaceIndent = state;
+}
+
+/**
+* set the state of the indent after parens option.
+*
+* @param   state             state of option.
+*/
+void ASBeautifier::setAfterParenIndent(bool state)
+{
+	shouldIndentAfterParen = state;
 }
 
 /**
@@ -1127,7 +1147,7 @@ string ASBeautifier::beautify(const string& originalLine)
 	if (!isInDefine && activeBeautifierStack != nullptr && !activeBeautifierStack->empty())
 	{
 		activeBeautifierStack->back()->inLineNumber = inLineNumber;
-		activeBeautifierStack->back()->runInIndentInStatement = runInIndentInStatement;
+		activeBeautifierStack->back()->runInIndentContinuation = runInIndentContinuation;
 		activeBeautifierStack->back()->nonInStatementBrace = nonInStatementBrace;
 		activeBeautifierStack->back()->objCColonAlignSubsequent = objCColonAlignSubsequent;
 		activeBeautifierStack->back()->lineCommentNoBeautify = lineCommentNoBeautify;
@@ -1178,8 +1198,8 @@ string ASBeautifier::beautify(const string& originalLine)
 			string preproc = trim(line.substr(1));
 			if (preproc.compare(0, 6, "define") == 0)
 			{
-				if (!inStatementIndentStack->empty()
-				        && inStatementIndentStack->back() > 0)
+				if (!continuationIndentStack->empty()
+				        && continuationIndentStack->back() > 0)
 				{
 					defineIndentCount = indentCount;
 				}
@@ -1253,32 +1273,32 @@ string ASBeautifier::preLineWS(int lineIndentCount, int lineSpaceIndentCount) co
 }
 
 /**
- * register an in-statement indent.
+ * register a continuation indent.
  */
-void ASBeautifier::registerInStatementIndent(const string& line, int i, int spaceIndentCount_,
-                                             int tabIncrementIn, int minIndent, bool updateParenStack)
+void ASBeautifier::registerContinuationIndent(const string& line, int i, int spaceIndentCount_,
+                                              int tabIncrementIn, int minIndent, bool updateParenStack)
 {
 	int remainingCharNum = line.length() - i;
 	int nextNonWSChar = getNextProgramCharDistance(line, i);
 
-	// if indent is around the last char in the line, indent with the continuation indent
-	if (nextNonWSChar == remainingCharNum)
+	// if indent is around the last char in the line OR indent-after-paren is requested,
+	// indent with the continuation indent
+	if (nextNonWSChar == remainingCharNum || shouldIndentAfterParen)
 	{
 		int previousIndent = spaceIndentCount_;
-		if (!inStatementIndentStack->empty())
-			previousIndent = inStatementIndentStack->back();
+		if (!continuationIndentStack->empty())
+			previousIndent = continuationIndentStack->back();
 		int currIndent = continuationIndent * indentLength + previousIndent;
-		if (currIndent > maxInStatementIndent
-		        && line[i] != '{')
+		if (currIndent > maxContinuationIndent && line[i] != '{')
 			currIndent = indentLength * 2 + spaceIndentCount_;
-		inStatementIndentStack->emplace_back(currIndent);
+		continuationIndentStack->emplace_back(currIndent);
 		if (updateParenStack)
 			parenIndentStack->emplace_back(previousIndent);
 		return;
 	}
 
 	if (updateParenStack)
-		parenIndentStack->emplace_back(i + spaceIndentCount_ - runInIndentInStatement);
+		parenIndentStack->emplace_back(i + spaceIndentCount_ - runInIndentContinuation);
 
 	int tabIncrement = tabIncrementIn;
 
@@ -1289,36 +1309,36 @@ void ASBeautifier::registerInStatementIndent(const string& line, int i, int spac
 			tabIncrement += convertTabToSpaces(j, tabIncrement);
 	}
 
-	int inStatementIndent = i + nextNonWSChar + spaceIndentCount_ + tabIncrement;
+	int continuationIndentCount = i + nextNonWSChar + spaceIndentCount_ + tabIncrement;
 
 	// check for run-in statement
 	if (i > 0 && line[0] == '{')
-		inStatementIndent -= indentLength;
+		continuationIndentCount -= indentLength;
 
-	if (inStatementIndent < minIndent)
-		inStatementIndent = minIndent + spaceIndentCount_;
+	if (continuationIndentCount < minIndent)
+		continuationIndentCount = minIndent + spaceIndentCount_;
 
 	// this is not done for an in-statement array
-	if (inStatementIndent > maxInStatementIndent
+	if (continuationIndentCount > maxContinuationIndent
 	        && !(prevNonLegalCh == '=' && currentNonLegalCh == '{'))
-		inStatementIndent = indentLength * 2 + spaceIndentCount_;
+		continuationIndentCount = indentLength * 2 + spaceIndentCount_;
 
-	if (!inStatementIndentStack->empty()
-	        && inStatementIndent < inStatementIndentStack->back())
-		inStatementIndent = inStatementIndentStack->back();
+	if (!continuationIndentStack->empty()
+	        && continuationIndentCount < continuationIndentStack->back())
+		continuationIndentCount = continuationIndentStack->back();
 
 	// the block opener is not indented for a NonInStatementArray
 	if ((isNonInStatementArray && line[i] == '{')
 	        && !isInEnum && !braceBlockStateStack->empty() && braceBlockStateStack->back())
-		inStatementIndent = 0;
+		continuationIndentCount = 0;
 
-	inStatementIndentStack->emplace_back(inStatementIndent);
+	continuationIndentStack->emplace_back(continuationIndentCount);
 }
 
 /**
-* Register an in-statement indent for a class header or a class initializer colon.
+* Register a continuation indent for a class header or a class initializer colon.
 */
-void ASBeautifier::registerInStatementIndentColon(const string& line, int i, int tabIncrementIn)
+void ASBeautifier::registerContinuationIndentColon(const string& line, int i, int tabIncrementIn)
 {
 	assert(line[i] == ':');
 	assert(isInClassInitializer || isInClassHeaderTab);
@@ -1330,9 +1350,9 @@ void ASBeautifier::registerInStatementIndentColon(const string& line, int i, int
 		size_t firstWord = line.find_first_not_of(" \t", firstChar + 1);
 		if (firstChar != string::npos)
 		{
-			int inStatementIndent = firstWord + spaceIndentCount + tabIncrementIn;
-			inStatementIndentStack->emplace_back(inStatementIndent);
-			isInStatement = true;
+			int continuationIndentCount = firstWord + spaceIndentCount + tabIncrementIn;
+			continuationIndentStack->emplace_back(continuationIndentCount);
+			isContinuation = true;
 		}
 	}
 }
@@ -1700,7 +1720,7 @@ bool ASBeautifier::isLineEndComment(const string& line, int startPos) const
  *
  * @return is the index to the previous word (the in statement indent).
  */
-int ASBeautifier::getInStatementIndentAssign(const string& line, size_t currPos) const
+int ASBeautifier::getContinuationIndentAssign(const string& line, size_t currPos) const
 {
 	assert(line[currPos] == '=');
 
@@ -1728,7 +1748,7 @@ int ASBeautifier::getInStatementIndentAssign(const string& line, size_t currPos)
  *
  * @return is the indent to the second word on the line (the in statement indent).
  */
-int ASBeautifier::getInStatementIndentComma(const string& line, size_t currPos) const
+int ASBeautifier::getContinuationIndentComma(const string& line, size_t currPos) const
 {
 	assert(line[currPos] == ',');
 
@@ -1885,14 +1905,14 @@ bool ASBeautifier::isInPreprocessorUnterminatedComment(const string& line)
 	return true;
 }
 
-void ASBeautifier::popLastInStatementIndent()
+void ASBeautifier::popLastContinuationIndent()
 {
-	assert(!inStatementIndentStackSizeStack->empty());
-	int previousIndentStackSize = inStatementIndentStackSizeStack->back();
-	if (inStatementIndentStackSizeStack->size() > 1)
-		inStatementIndentStackSizeStack->pop_back();
-	while (previousIndentStackSize < (int) inStatementIndentStack->size())
-		inStatementIndentStack->pop_back();
+	assert(!continuationIndentStackSizeStack->empty());
+	int previousIndentStackSize = continuationIndentStackSizeStack->back();
+	if (continuationIndentStackSizeStack->size() > 1)
+		continuationIndentStackSizeStack->pop_back();
+	while (previousIndentStackSize < (int) continuationIndentStack->size())
+		continuationIndentStack->pop_back();
 }
 
 // for unit testing
@@ -1998,11 +2018,11 @@ void ASBeautifier::computePreliminaryIndentation()
 	spaceIndentCount = 0;
 	isInClassHeaderTab = false;
 
-	if (isInObjCMethodDefinition && !inStatementIndentStack->empty())
-		spaceIndentObjCMethodAlignment = inStatementIndentStack->back();
+	if (isInObjCMethodDefinition && !continuationIndentStack->empty())
+		spaceIndentObjCMethodAlignment = continuationIndentStack->back();
 
-	if (!inStatementIndentStack->empty())
-		spaceIndentCount = inStatementIndentStack->back();
+	if (!continuationIndentStack->empty())
+		spaceIndentCount = continuationIndentStack->back();
 
 	for (size_t i = 0; i < headerStack->size(); i++)
 	{
@@ -2059,8 +2079,8 @@ void ASBeautifier::computePreliminaryIndentation()
 		{
 			if (!lineBeginsWithOpenBrace)
 				--indentCount;
-			if (!inStatementIndentStack->empty())
-				spaceIndentCount -= inStatementIndentStack->back();
+			if (!continuationIndentStack->empty())
+				spaceIndentCount -= continuationIndentStack->back();
 		}
 		else if (blockIndent)
 		{
@@ -2074,11 +2094,11 @@ void ASBeautifier::computePreliminaryIndentation()
 		indentCount += classInitializerIndents;
 	}
 
-	if (isInEnum && lineBeginsWithComma && !inStatementIndentStack->empty())
+	if (isInEnum && lineBeginsWithComma && !continuationIndentStack->empty())
 	{
 		// unregister '=' indent from the previous line
-		inStatementIndentStack->pop_back();
-		isInStatement = false;
+		continuationIndentStack->pop_back();
+		isContinuation = false;
 		spaceIndentCount = 0;
 	}
 
@@ -2261,11 +2281,11 @@ void ASBeautifier::adjustObjCMethodDefinitionIndentation(const string& line_)
 			if (objCColonAlignSubsequentIndent > colonIndentObjCMethodAlignment)
 				colonIndentObjCMethodAlignment = objCColonAlignSubsequentIndent;
 		}
-		else if (inStatementIndentStack->empty()
-		         || inStatementIndentStack->back() == 0)
+		else if (continuationIndentStack->empty()
+		         || continuationIndentStack->back() == 0)
 		{
-			inStatementIndentStack->emplace_back(indentLength);
-			isInStatement = true;
+			continuationIndentStack->emplace_back(indentLength);
+			isContinuation = true;
 		}
 	}
 	// set indent for last definition line
@@ -2273,7 +2293,7 @@ void ASBeautifier::adjustObjCMethodDefinitionIndentation(const string& line_)
 	{
 		if (shouldAlignMethodColon)
 			spaceIndentCount = computeObjCColonAlignment(line_, colonIndentObjCMethodAlignment);
-		else if (inStatementIndentStack->empty())
+		else if (continuationIndentStack->empty())
 			spaceIndentCount = spaceIndentObjCMethodAlignment;
 	}
 }
@@ -2347,8 +2367,8 @@ void ASBeautifier::clearObjCMethodDefinitionAlignment()
 	colonIndentObjCMethodAlignment = 0;
 	isInObjCMethodDefinition = false;
 	isImmediatelyPostObjCMethodDefinition = false;
-	if (!inStatementIndentStack->empty())
-		inStatementIndentStack->pop_back();
+	if (!continuationIndentStack->empty())
+		continuationIndentStack->pop_back();
 }
 
 /**
@@ -2537,7 +2557,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			else if (quoteChar == ch)
 			{
 				isInQuote = false;
-				isInStatement = true;
+				isContinuation = true;
 				continue;
 			}
 		}
@@ -2639,7 +2659,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				// handle the specific probation header
 				isInConditional = (probationHeader == &AS_SYNCHRONIZED);
 
-				isInStatement = false;
+				isContinuation = false;
 				// if the probation comes from the previous line, then indent by 1 tab count.
 				if (previousLineProbation
 				        && ch == '{'
@@ -2678,12 +2698,12 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			if (ch == '<')
 			{
 				++templateDepth;
-				inStatementIndentStackSizeStack->push_back(inStatementIndentStack->size());
-				registerInStatementIndent(line, i, spaceIndentCount, tabIncrementIn, 0, true);
+				continuationIndentStackSizeStack->push_back(continuationIndentStack->size());
+				registerContinuationIndent(line, i, spaceIndentCount, tabIncrementIn, 0, true);
 			}
 			else if (ch == '>')
 			{
-				popLastInStatementIndent();
+				popLastContinuationIndent();
 				if (--templateDepth <= 0)
 				{
 					ch = ';';
@@ -2714,8 +2734,8 @@ void ASBeautifier::parseCurrentLine(const string& line)
 
 				if (parenDepth == 0)
 				{
-					parenStatementStack->emplace_back(isInStatement);
-					isInStatement = true;
+					parenStatementStack->push_back(isContinuation);
+					isContinuation = true;
 				}
 				parenDepth++;
 				if (ch == '[')
@@ -2728,12 +2748,12 @@ void ASBeautifier::parseCurrentLine(const string& line)
 					}
 				}
 
-				inStatementIndentStackSizeStack->push_back(inStatementIndentStack->size());
+				continuationIndentStackSizeStack->push_back(continuationIndentStack->size());
 
 				if (currentHeader != nullptr)
-					registerInStatementIndent(line, i, spaceIndentCount, tabIncrementIn, minConditionalIndent/*indentLength*2*/, true);
+					registerContinuationIndent(line, i, spaceIndentCount, tabIncrementIn, minConditionalIndent, true);
 				else
-					registerInStatementIndent(line, i, spaceIndentCount, tabIncrementIn, 0, true);
+					registerContinuationIndent(line, i, spaceIndentCount, tabIncrementIn, 0, true);
 			}
 			else if (ch == ')' || ch == ']')
 			{
@@ -2751,16 +2771,16 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				{
 					if (!parenStatementStack->empty())      // in case of unmatched closing parens
 					{
-						isInStatement = parenStatementStack->back();
+						isContinuation = parenStatementStack->back();
 						parenStatementStack->pop_back();
 					}
 					isInAsm = false;
 					isInConditional = false;
 				}
 
-				if (!inStatementIndentStackSizeStack->empty())
+				if (!continuationIndentStackSizeStack->empty())
 				{
-					popLastInStatementIndent();
+					popLastContinuationIndent();
 
 					if (!parenIndentStack->empty())
 					{
@@ -2807,7 +2827,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 					clearObjCMethodDefinitionAlignment();
 			}
 
-			if (!isBlockOpener && !isInStatement && !isInClassInitializer && !isInEnum)
+			if (!isBlockOpener && !isContinuation && !isInClassInitializer && !isInEnum)
 			{
 				if (headerStack->empty())
 					isBlockOpener = true;
@@ -2841,12 +2861,12 @@ void ASBeautifier::parseCurrentLine(const string& line)
 					}
 			}
 
-			braceBlockStateStack->emplace_back(isBlockOpener);
+			braceBlockStateStack->push_back(isBlockOpener);
 
 			if (!isBlockOpener)
 			{
-				inStatementIndentStackSizeStack->push_back(inStatementIndentStack->size());
-				registerInStatementIndent(line, i, spaceIndentCount, tabIncrementIn, 0, true);
+				continuationIndentStackSizeStack->push_back(continuationIndentStack->size());
+				registerContinuationIndent(line, i, spaceIndentCount, tabIncrementIn, 0, true);
 				parenDepth++;
 				if (i == 0)
 					shouldIndentBracedLine = false;
@@ -2898,13 +2918,13 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				(*headerStack).back() = &AS_CLASS;
 
 			squareBracketDepthStack->emplace_back(parenDepth);
-			blockStatementStack->emplace_back(isInStatement);
+			blockStatementStack->push_back(isContinuation);
 
-			if (!inStatementIndentStack->empty())
+			if (!continuationIndentStack->empty())
 			{
 				// completely purge the inStatementIndentStack
-				while (!inStatementIndentStack->empty())
-					popLastInStatementIndent();
+				while (!continuationIndentStack->empty())
+					popLastContinuationIndent();
 				if (isInClassInitializer || isInClassHeaderTab)
 				{
 					if (lineBeginsWithOpenBrace || lineBeginsWithComma)
@@ -2914,7 +2934,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 					spaceIndentCount = 0;
 			}
 
-			blockTabCount += (isInStatement ? 1 : 0);
+			blockTabCount += (isContinuation ? 1 : 0);
 			if (g_preprocessorCppExternCBrace == 3)
 				++g_preprocessorCppExternCBrace;
 			parenDepth = 0;
@@ -2922,7 +2942,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			isInClassHeaderTab = false;
 			isInClassInitializer = false;
 			isInEnumTypeID = false;
-			isInStatement = false;
+			isContinuation = false;
 			isInQuestion = false;
 			isInLet = false;
 			foundPreCommandHeader = false;
@@ -3085,7 +3105,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				if (isIndentableHeader)
 				{
 					headerStack->emplace_back(newHeader);
-					isInStatement = false;
+					isContinuation = false;
 					if (indexOf(*nonParenHeaders, newHeader) == -1)
 					{
 						isInConditional = true;
@@ -3150,7 +3170,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			{
 				// found a 'class' c'tor initializer
 				isInClassInitializer = true;
-				registerInStatementIndentColon(line, i, tabIncrementIn);
+				registerContinuationIndentColon(line, i, tabIncrementIn);
 				if (i == 0)
 					indentCount += classInitializerIndents;
 			}
@@ -3158,7 +3178,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			{
 				// is in a 'class A : public B' definition
 				isInClassHeaderTab = true;
-				registerInStatementIndentColon(line, i, tabIncrementIn);
+				registerContinuationIndentColon(line, i, tabIncrementIn);
 			}
 			else if (isInAsm || isInAsmOneLine || isInAsmBlock)
 			{
@@ -3209,17 +3229,17 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			}
 		}
 
-		if ((ch == ';' || (parenDepth > 0 && ch == ',')) && !inStatementIndentStackSizeStack->empty())
-			while ((int) inStatementIndentStackSizeStack->back() + (parenDepth > 0 ? 1 : 0)
-			        < (int) inStatementIndentStack->size())
-				inStatementIndentStack->pop_back();
+		if ((ch == ';' || (parenDepth > 0 && ch == ',')) && !continuationIndentStackSizeStack->empty())
+			while ((int) continuationIndentStackSizeStack->back() + (parenDepth > 0 ? 1 : 0)
+			        < (int) continuationIndentStack->size())
+				continuationIndentStack->pop_back();
 
-		else if (ch == ',' && isInEnum && isNonInStatementArray && !inStatementIndentStack->empty())
-			inStatementIndentStack->pop_back();
+		else if (ch == ',' && isInEnum && isNonInStatementArray && !continuationIndentStack->empty())
+			continuationIndentStack->pop_back();
 
 		// handle commas
 		// previous "isInStatement" will be from an assignment operator or class initializer
-		if (ch == ',' && parenDepth == 0 && !isInStatement && !isNonInStatementArray)
+		if (ch == ',' && parenDepth == 0 && !isContinuation && !isNonInStatementArray)
 		{
 			// is comma at end of line
 			size_t nextChar = line.find_first_not_of(" \t", i + 1);
@@ -3240,10 +3260,10 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				// register indent at second word on the line
 				else if (!isInTemplate && !isInClassHeaderTab && !isInClassInitializer)
 				{
-					int prevWord = getInStatementIndentComma(line, i);
-					int inStatementIndent = prevWord + spaceIndentCount + tabIncrementIn;
-					inStatementIndentStack->emplace_back(inStatementIndent);
-					isInStatement = true;
+					int prevWord = getContinuationIndentComma(line, i);
+					int continuationIndentCount = prevWord + spaceIndentCount + tabIncrementIn;
+					continuationIndentStack->emplace_back(continuationIndentCount);
+					isContinuation = true;
 				}
 			}
 		}
@@ -3264,10 +3284,10 @@ void ASBeautifier::parseCurrentLine(const string& line)
 					braceBlockStateStack->pop_back();
 					if (!braceBlockState)
 					{
-						if (!inStatementIndentStackSizeStack->empty())
+						if (!continuationIndentStackSizeStack->empty())
 						{
 							// this brace is a static array
-							popLastInStatementIndent();
+							popLastContinuationIndent();
 							parenDepth--;
 							if (i == 0)
 								shouldIndentBracedLine = false;
@@ -3288,17 +3308,17 @@ void ASBeautifier::parseCurrentLine(const string& line)
 
 				++lineClosingBlocksNum;
 
-				if (!inStatementIndentStackSizeStack->empty())
-					popLastInStatementIndent();
+				if (!continuationIndentStackSizeStack->empty())
+					popLastContinuationIndent();
 
 				if (!squareBracketDepthStack->empty())
 				{
 					parenDepth = squareBracketDepthStack->back();
 					squareBracketDepthStack->pop_back();
-					isInStatement = blockStatementStack->back();
+					isContinuation = blockStatementStack->back();
 					blockStatementStack->pop_back();
 
-					if (isInStatement)
+					if (isContinuation)
 						blockTabCount--;
 				}
 
@@ -3359,7 +3379,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			}
 
 			if (parenDepth == 0 && ch == ';')
-				isInStatement = false;
+				isContinuation = false;
 
 			if (isInObjCMethodDefinition)
 			{
@@ -3419,10 +3439,10 @@ void ASBeautifier::parseCurrentLine(const string& line)
 						else if ((*headerStack).back() == &AS_NAMESPACE
 						         || (*headerStack).back() == &AS_MODULE)
 						{
-							// remove inStatementIndent from namespace
-							if (!inStatementIndentStack->empty())
-								inStatementIndentStack->pop_back();
-							isInStatement = false;
+							// remove continuationIndent from namespace
+							if (!continuationIndentStack->empty())
+								continuationIndentStack->pop_back();
+							isContinuation = false;
 						}
 					}
 
@@ -3438,8 +3458,8 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				i += foundIndentableHeader->length() - 1;
 				if (!isInOperator && !isInTemplate && !isNonInStatementArray)
 				{
-					registerInStatementIndent(line, i, spaceIndentCount, tabIncrementIn, 0, false);
-					isInStatement = true;
+					registerContinuationIndent(line, i, spaceIndentCount, tabIncrementIn, 0, false);
+					isContinuation = true;
 				}
 				continue;
 			}
@@ -3456,8 +3476,8 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			// "new" operator is a pointer, not a calculation
 			if (findKeyword(line, i, AS_NEW))
 			{
-				if (isInStatement && !inStatementIndentStack->empty() && prevNonSpaceCh == '=')
-					inStatementIndentStack->back() = 0;
+				if (isContinuation && !continuationIndentStack->empty() && prevNonSpaceCh == '=')
+					continuationIndentStack->back() = 0;
 			}
 
 			if (isCStyle())
@@ -3520,7 +3540,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			}
 			else if (curWord == AS_END)
 			{
-				popLastInStatementIndent();
+				popLastContinuationIndent();
 				spaceIndentCount = 0;
 				isInObjCMethodDefinition = false;
 				string name = '@' + curWord;
@@ -3579,7 +3599,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				// aligned, if we are not in a statement already and
 				// also not in the "operator<<(...)" header line
 				if (!isInOperator
-				        && inStatementIndentStack->empty()
+				        && continuationIndentStack->empty()
 				        && isCStyle()
 				        && (foundNonAssignmentOp == &AS_GR_GR
 				            || foundNonAssignmentOp == &AS_LS_LS))
@@ -3588,7 +3608,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 					if (i < 2 && spaceIndentCount == 0)
 						spaceIndentCount += 2 * indentLength;
 					// align to the beginning column of the operator
-					registerInStatementIndent(line, i - foundNonAssignmentOp->length(), spaceIndentCount, tabIncrementIn, 0, false);
+					registerContinuationIndent(line, i - foundNonAssignmentOp->length(), spaceIndentCount, tabIncrementIn, 0, false);
 				}
 			}
 
@@ -3611,10 +3631,10 @@ void ASBeautifier::parseCurrentLine(const string& line)
 						{
 							// register indent at previous word
 							haveAssignmentThisLine = true;
-							int prevWordIndex = getInStatementIndentAssign(line, i);
-							int inStatementIndent = prevWordIndex + spaceIndentCount + tabIncrementIn;
-							inStatementIndentStack->emplace_back(inStatementIndent);
-							isInStatement = true;
+							int prevWordIndex = getContinuationIndentAssign(line, i);
+							int continuationIndentCount = prevWordIndex + spaceIndentCount + tabIncrementIn;
+							continuationIndentStack->emplace_back(continuationIndentCount);
+							isContinuation = true;
 						}
 					}
 					// don't indent an assignment if 'let'
@@ -3626,8 +3646,8 @@ void ASBeautifier::parseCurrentLine(const string& line)
 					{
 						if (i == 0 && spaceIndentCount == 0)
 							spaceIndentCount += indentLength;
-						registerInStatementIndent(line, i, spaceIndentCount, tabIncrementIn, 0, false);
-						isInStatement = true;
+						registerContinuationIndent(line, i, spaceIndentCount, tabIncrementIn, 0, false);
+						isContinuation = true;
 					}
 				}
 			}

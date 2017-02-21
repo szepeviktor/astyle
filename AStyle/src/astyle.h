@@ -1,7 +1,7 @@
 // astyle.h
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 #ifndef ASTYLE_H
 #define ASTYLE_H
@@ -335,8 +335,10 @@ public:
 	void setDefaultTabLength();
 	void setEmptyLineFill(bool state);
 	void setForceTabXIndentation(int length);
+	void setAfterParenIndent(bool state);
 	void setJavaStyle();
 	void setLabelIndent(bool state);
+	void setMaxContinuationIndentLength(int max);
 	void setMaxInStatementIndentLength(int max);
 	void setMinConditionalIndentOption(int min);
 	void setMinConditionalIndentLength();
@@ -382,7 +384,7 @@ protected:
 
 	// variables set by ASFormatter - must be updated in activeBeautifierStack
 	int  inLineNumber;
-	int  runInIndentInStatement;
+	int  runInIndentContinuation;
 	int  nonInStatementBrace;
 	int  objCColonAlignSubsequent;		// for subsequent lines not counting indent
 	bool lineCommentNoBeautify;
@@ -405,11 +407,11 @@ private:  // functions
 	void adjustParsedLineIndentation(size_t iPrelim, bool isInExtraHeaderIndent);
 	void computePreliminaryIndentation();
 	void parseCurrentLine(const string& line);
-	void popLastInStatementIndent();
+	void popLastContinuationIndent();
 	void processPreprocessor(const string& preproc, const string& line);
-	void registerInStatementIndent(const string& line, int i, int spaceIndentCount_,
-	                               int tabIncrementIn, int minIndent, bool updateParenStack);
-	void registerInStatementIndentColon(const string& line, int i, int tabIncrementIn);
+	void registerContinuationIndent(const string& line, int i, int spaceIndentCount_,
+	                                int tabIncrementIn, int minIndent, bool updateParenStack);
+	void registerContinuationIndentColon(const string& line, int i, int tabIncrementIn);
 	void initVectors();
 	void initTempStacksContainer(vector<vector<const string*>*>*& container,
 	                             vector<vector<const string*>*>* value);
@@ -419,8 +421,8 @@ private:  // functions
 	int  adjustIndentCountForBreakElseIfComments() const;
 	int  computeObjCColonAlignment(const string& line, int colonAlignPosition) const;
 	int  convertTabToSpaces(int i, int tabIncrementIn) const;
-	int  getInStatementIndentAssign(const string& line, size_t currPos) const;
-	int  getInStatementIndentComma(const string& line, size_t currPos) const;
+	int  getContinuationIndentAssign(const string& line, size_t currPos) const;
+	int  getContinuationIndentComma(const string& line, size_t currPos) const;
 	int  getObjCFollowingKeyword(const string& line, int bracePos) const;
 	bool isIndentedPreprocessor(const string& line, size_t currPos) const;
 	bool isLineEndComment(const string& line, int startPos) const;
@@ -455,8 +457,8 @@ private:  // variables
 	vector<bool>* blockStatementStack;
 	vector<bool>* parenStatementStack;
 	vector<bool>* braceBlockStateStack;
-	vector<int>* inStatementIndentStack;
-	vector<int>* inStatementIndentStackSizeStack;
+	vector<int>* continuationIndentStack;
+	vector<int>* continuationIndentStackSizeStack;
 	vector<int>* parenIndentStack;
 	vector<pair<int, int> >* preprocIndentStack;
 
@@ -478,7 +480,7 @@ private:  // variables
 	bool isInRunInComment;
 	bool isInCase;
 	bool isInQuestion;
-	bool isInStatement;
+	bool isContinuation;
 	bool isInHeader;
 	bool isInTemplate;
 	bool isInDefine;
@@ -503,9 +505,10 @@ private:  // variables
 	bool switchIndent;
 	bool caseIndent;
 	bool namespaceIndent;
+	bool blockIndent;
 	bool braceIndent;
 	bool braceIndentVtk;
-	bool blockIndent;
+	bool shouldIndentAfterParen;
 	bool labelIndent;
 	bool shouldIndentPreprocDefine;
 	bool isInConditional;
@@ -545,7 +548,7 @@ private:  // variables
 	int  tabLength;
 	int  continuationIndent;
 	int  blockTabCount;
-	int  maxInStatementIndent;
+	int  maxContinuationIndent;
 	int  classInitializerIndents;
 	int  templateDepth;
 	int  squareBracketCount;
@@ -696,7 +699,7 @@ public:	// functions
 	int  getChecksumDiff() const;
 	int  getFormatterFileType() const;
 	// retained for compatability with release 2.06
-	// "Brackets" have been changed to "Braces" in 2.7
+	// "Brackets" have been changed to "Braces" in 3.0
 	// they are referenced only by the old "bracket" options
 	void setAddBracketsMode(bool state);
 	void setAddOneLineBracketsMode(bool state);

@@ -7,7 +7,7 @@
 		<Option compiler="embarcadero_compiler_x86_bcc32c" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/AStyle-2.7jd.dll" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/AStyle-3.0jd.dll" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objJava/Debug/" />
 				<Option type="3" />
 				<Option compiler="embarcadero_compiler_x86_bcc32c" />
@@ -28,7 +28,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/AStyle-2.7j.dll" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/AStyle-3.0j.dll" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objJava/Release/" />
 				<Option type="3" />
 				<Option compiler="embarcadero_compiler_x86_bcc32c" />

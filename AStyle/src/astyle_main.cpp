@@ -1,7 +1,7 @@
 // astyle_main.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *   AStyle_main source file map.
@@ -17,7 +17,7 @@
  *      // Windows specific
  *      // Linux specific
  *   ASOptions methods
- *   Utf8_16 methods
+ *   ASEncoding methods
  *   }  // end of astyle namespace
  *   Global Area ---------------------------
  *      Java Native Interface functions
@@ -94,7 +94,7 @@ namespace astyle {
 	jmethodID g_mid;
 #endif
 
-const char* g_version = "2.7 beta";
+const char* g_version = "3.0 beta";
 
 //-----------------------------------------------------------------------------
 // ASStreamIterator class
@@ -1723,6 +1723,10 @@ void ASConsole::printHelp() const
 	cout << "    --indent-namespaces  OR  -N\n";
 	cout << "    Indent the contents of namespace blocks.\n";
 	cout << endl;
+	cout << "    --indent-after-parens  OR  -xU\n";
+	cout << "    Indent continuation lines after a paren instead of aligning.\n";
+	cout << "    after the paren on a previous line.\n";
+	cout << endl;
 	cout << "    --indent-continuation=#  OR  -xt#\n";
 	cout << "    Indent continuation lines an additional # indents.\n";
 	cout << "    The valid values are 0 thru 4 indents.\n";
@@ -1757,8 +1761,8 @@ void ASConsole::printHelp() const
 	cout << "    3 - indent at least one-half an additional indent.\n";
 	cout << "    The default value is 2, two additional indents.\n";
 	cout << endl;
-	cout << "    --max-instatement-indent=#  OR  -M#\n";
-	cout << "    Indent a maximal # spaces in a continuous statement,\n";
+	cout << "    --max-continuation-indent=#  OR  -M#\n";
+	cout << "    Indent a maximal # spaces in a continuation line,\n";
 	cout << "    relative to the previous line.\n";
 	cout << "    The valid values are 40 thru 120.\n";
 	cout << "    The default value is 40.\n";
@@ -2110,7 +2114,7 @@ void ASConsole::processOptions(const vector<string>& argvOptions)
 	}
 
 	// create the options file vector and parse the options for errors
-	ASOptions options(formatter, this);
+	ASOptions options(formatter, *this);
 	if (!optionsFileName.empty())
 	{
 		ifstream optionsIn(optionsFileName.c_str());
@@ -2610,16 +2614,15 @@ char* ASLibrary::convertUtf16ToUtf8(const utf16_t* utf16In) const
 // used by both console and library builds
 //-----------------------------------------------------------------------------
 
-ASOptions::ASOptions(ASFormatter& formatterArg, ASConsole* consoleArg)
-	: formatter(formatterArg),
-	  console(*consoleArg)
-{
 #ifdef ASTYLE_LIB
-	assert(consoleArg == nullptr);
+ASOptions::ASOptions(ASFormatter& formatterArg)
+	: formatter(formatterArg)
+{ }
 #else
-	assert(consoleArg != nullptr);
+ASOptions::ASOptions(ASFormatter& formatterArg, ASConsole& consoleArg)
+	: formatter(formatterArg), console(consoleArg)
+{ }
 #endif
-}
 
 /**
  * parse the options vector
@@ -2880,10 +2883,10 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 		else
 			formatter.setMinConditionalIndentOption(minIndent);
 	}
-	else if ( isParamOption(arg, "M", "max-instatement-indent=") )
+	else if ( isParamOption(arg, "M", "max-continuation-indent=") )
 	{
 		int maxIndent = 40;
-		string maxIndentParam = getParam(arg, "M", "max-instatement-indent=");
+		string maxIndentParam = getParam(arg, "M", "max-continuation-indent=");
 		if (maxIndentParam.length() > 0)
 			maxIndent = atoi(maxIndentParam.c_str());
 		if (maxIndent < 40)
@@ -2891,7 +2894,7 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 		else if (maxIndent > 120)
 			isOptionError(arg, errorInfo);
 		else
-			formatter.setMaxInStatementIndentLength(maxIndent);
+			formatter.setMaxContinuationIndentLength(maxIndent);
 	}
 	else if ( isOption(arg, "N", "indent-namespaces") )
 	{
@@ -2912,6 +2915,10 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	else if ( isOption(arg, "K", "indent-cases") )
 	{
 		formatter.setCaseIndent(true);
+	}
+	else if ( isOption(arg, "xU", "indent-after-parens") )
+	{
+		formatter.setAfterParenIndent(true);
 	}
 	else if ( isOption(arg, "L", "indent-labels") )
 	{
@@ -3189,22 +3196,35 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	{
 		formatter.setFormattingStyle(STYLE_ALLMAN);
 	}
-	// depreciated in release 2.7 /////////////////////////////////////////////////////////////////
-	else if ( isOption(arg, "break-closing-brackets") )		// depreciated release 2.7
+	// depreciated in release 3.0 /////////////////////////////////////////////////////////////////
+	else if ( isOption(arg, "break-closing-brackets") )		// depreciated release 3.0
 	{
 		formatter.setBreakClosingHeaderBracketsMode(true);
 	}
-	else if ( isOption(arg, "add-brackets") )				// depreciated release 2.7
+	else if ( isOption(arg, "add-brackets") )				// depreciated release 3.0
 	{
 		formatter.setAddBracketsMode(true);
 	}
-	else if ( isOption(arg, "add-one-line-brackets") )		// depreciated release 2.7
+	else if ( isOption(arg, "add-one-line-brackets") )		// depreciated release 3.0
 	{
 		formatter.setAddOneLineBracketsMode(true);
 	}
-	else if ( isOption(arg, "remove-brackets") )			// depreciated release 2.7
+	else if ( isOption(arg, "remove-brackets") )			// depreciated release 3.0
 	{
 		formatter.setRemoveBracketsMode(true);
+	}
+	else if ( isParamOption(arg, "max-instatement-indent=") )	// depreciated release 3.0
+	{
+		int maxIndent = 40;
+		string maxIndentParam = getParam(arg, "max-instatement-indent=");
+		if (maxIndentParam.length() > 0)
+			maxIndent = atoi(maxIndentParam.c_str());
+		if (maxIndent < 40)
+			isOptionError(arg, errorInfo);
+		else if (maxIndent > 120)
+			isOptionError(arg, errorInfo);
+		else
+			formatter.setMaxInStatementIndentLength(maxIndent);
 	}
 //  NOTE: Removed in release 2.04.
 //	else if ( isOption(arg, "b", "brackets=break") )
@@ -3417,11 +3437,11 @@ bool ASOptions::isParamOption(const string& arg, const char* option1, const char
 }
 
 //----------------------------------------------------------------------------
-// Utf8_16 class
+// ASEncoding class
 //----------------------------------------------------------------------------
 
 // Return true if an int is big endian.
-bool Utf8_16::getBigEndian() const
+bool ASEncoding::getBigEndian() const
 {
 	short int word = 0x0001;
 	char* byte = (char*) &word;
@@ -3429,14 +3449,14 @@ bool Utf8_16::getBigEndian() const
 }
 
 // Swap the two low order bytes of a 16 bit integer value.
-int Utf8_16::swap16bit(int value) const
+int ASEncoding::swap16bit(int value) const
 {
 	return ( ((value & 0xff) << 8) | ((value & 0xff00) >> 8) );
 }
 
 // Return the length of a utf-16 C string.
 // The length is in number of utf16_t.
-size_t Utf8_16::utf16len(const utf16* utf16In) const
+size_t ASEncoding::utf16len(const utf16* utf16In) const
 {
 	size_t length = 0;
 	while (*utf16In++ != '\0')
@@ -3449,7 +3469,7 @@ size_t Utf8_16::utf16len(const utf16* utf16In) const
 // Modified for Artistic Style by Jim Pattee.
 // Compute the length of an output utf-8 file given a utf-16 file.
 // Input inLen is the size in BYTES (not wchar_t).
-size_t Utf8_16::utf8LengthFromUtf16(const char* utf16In, size_t inLen, bool isBigEndian) const
+size_t ASEncoding::utf8LengthFromUtf16(const char* utf16In, size_t inLen, bool isBigEndian) const
 {
 	size_t len = 0;
 	size_t wcharLen = inLen / 2;
@@ -3477,7 +3497,7 @@ size_t Utf8_16::utf8LengthFromUtf16(const char* utf16In, size_t inLen, bool isBi
 // Copyright (C) 2002 Scott Kirkwood.
 // Modified for Artistic Style by Jim Pattee.
 // Convert a utf-8 file to utf-16.
-size_t Utf8_16::utf8ToUtf16(char* utf8In, size_t inLen, bool isBigEndian, char* utf16Out) const
+size_t ASEncoding::utf8ToUtf16(char* utf8In, size_t inLen, bool isBigEndian, char* utf16Out) const
 {
 	int nCur = 0;
 	ubyte* pRead = reinterpret_cast<ubyte*>(utf8In);
@@ -3553,7 +3573,7 @@ size_t Utf8_16::utf8ToUtf16(char* utf8In, size_t inLen, bool isBigEndian, char* 
 // Modified for Artistic Style by Jim Pattee.
 // Compute the length of an output utf-16 file given a utf-8 file.
 // Return value is the size in BYTES (not wchar_t).
-size_t Utf8_16::utf16LengthFromUtf8(const char* utf8In, size_t len) const
+size_t ASEncoding::utf16LengthFromUtf8(const char* utf8In, size_t len) const
 {
 	size_t ulen = 0;
 	size_t charLen;
@@ -3582,8 +3602,8 @@ size_t Utf8_16::utf16LengthFromUtf8(const char* utf8In, size_t len) const
 // Copyright (C) 2002 Scott Kirkwood.
 // Modified for Artistic Style by Jim Pattee.
 // Convert a utf-16 file to utf-8.
-size_t Utf8_16::utf16ToUtf8(char* utf16In, size_t inLen, bool isBigEndian,
-                            bool firstBlock, char* utf8Out) const
+size_t ASEncoding::utf16ToUtf8(char* utf16In, size_t inLen, bool isBigEndian,
+                               bool firstBlock, char* utf8Out) const
 {
 	int nCur16 = 0;
 	int nCur = 0;

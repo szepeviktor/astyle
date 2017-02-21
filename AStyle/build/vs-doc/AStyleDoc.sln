@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26206.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{9C5D488F-0BFC-40B3-95A4-DB136C6B1202}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,6 +17,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{9C5D488F-0BF
 		..\..\doc\styles.css = ..\..\doc\styles.css
 		..\..\doc\subversion.html = ..\..\doc\subversion.html
 		..\..\doc\vsinstall.html = ..\..\doc\vsinstall.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "markdown", "markdown", "{3A800245-58B1-4870-84F6-1A5AF63F8DE8}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\LICENSE.md = ..\..\LICENSE.md
+		..\..\README.md = ..\..\README.md
 	EndProjectSection
 EndProject
 Global

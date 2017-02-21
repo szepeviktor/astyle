@@ -1,7 +1,7 @@
 // ASLocalizer.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 //
 // File encoding for this file is UTF-8 WITHOUT a byte order mark (BOM).
 //    русский     中文（简体）    日本語     한국의
