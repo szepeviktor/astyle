@@ -1,6 +1,7 @@
 ---
-Language:        Cpp
+# clang-google.yaml
 # clang-format version 3.9
+Language:        Cpp
 # BasedOnStyle:  Google
 AccessModifierOffset: -1
 AlignAfterOpenBracket: Align

@@ -1,9 +1,12 @@
 ---
-Language:        Cpp
+# clang-webkit.yaml
 # clang-format version 3.9
+# NOTE: Continuation lines should not be aligned with parens.
+#       The clang-fornat option is "AlignAfterOpenBracket: DontAlign".
+Language:        Cpp
 # BasedOnStyle:  WebKit
 AccessModifierOffset: -4
-AlignAfterOpenBracket: Align # DontAlign                         ##########
+AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 AlignEscapedNewlinesLeft: false

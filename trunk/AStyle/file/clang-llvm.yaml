@@ -1,6 +1,7 @@
 ---
-Language:        Cpp
+# clang-llvm.yaml
 # clang-format version 3.9
+Language:        Cpp
 # BasedOnStyle:  LLVM
 AccessModifierOffset: -2
 AlignAfterOpenBracket: Align

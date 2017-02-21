@@ -1,4 +1,7 @@
 ---
+# clang-visualstudio.yaml
+# clang-format version 3.9
+# depends on the options used in Visual Studio, Tools, Options, Text Editor
 Language:        Cpp
 # clang-format version 3.9
 # BasedOnStyle:  http://code.visualstudio.com/docs/languages/cpp#_code-formatting

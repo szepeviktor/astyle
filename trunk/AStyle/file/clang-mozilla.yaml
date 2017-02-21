@@ -1,6 +1,13 @@
 ---
-Language:        Cpp
+# clang-mozilla.yaml
 # clang-format version 3.9
+# https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Coding_Style
+# NOTE: Function return types should be on a separate line.
+#       Clang-format options are:
+#               "AlwaysBreakAfterDefinitionReturnType: TopLevel"
+#               "AlwaysBreakAfterReturnType: TopLevelDefinitions"
+
+Language:        Cpp
 # BasedOnStyle:  Mozilla
 AccessModifierOffset: -2
 AlignAfterOpenBracket: Align

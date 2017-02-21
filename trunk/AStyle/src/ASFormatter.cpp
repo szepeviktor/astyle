@@ -1,7 +1,7 @@
 // ASFormatter.cpp
-// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
 // This code is licensed under the MIT License.
-// License.txt describes the conditions under which this software may be distributed.
+// License.md describes the conditions under which this software may be distributed.
 
 //-----------------------------------------------------------------------------
 // headers
@@ -161,7 +161,7 @@ void ASFormatter::init(ASSourceIterator* si)
 	initContainer(questionMarkStack, new vector<bool>);
 	parenStack->emplace_back(0);               // parenStack must contain this default entry
 	initContainer(braceTypeStack, new vector<BraceType>);
-	braceTypeStack->emplace_back(NULL_TYPE); // braceTypeStack must contain this default entry
+	braceTypeStack->emplace_back(NULL_TYPE);   // braceTypeStack must contain this default entry
 	clearFormattedLineSplitPoints();
 
 	currentHeader = nullptr;
@@ -884,7 +884,7 @@ string ASFormatter::nextLine()
 		// handle parens
 		if (currentChar == '(' || currentChar == '[' || (isInTemplate && currentChar == '<'))
 		{
-			questionMarkStack->emplace_back(foundQuestionMark);
+			questionMarkStack->push_back(foundQuestionMark);
 			foundQuestionMark = false;
 			parenStack->back()++;
 			if (currentChar == '[')
@@ -970,7 +970,7 @@ string ASFormatter::nextLine()
 				braceTypeStack->emplace_back(newBraceType);
 				preBraceHeaderStack->emplace_back(currentHeader);
 				currentHeader = nullptr;
-				structStack->emplace_back(isInIndentableStruct);
+				structStack->push_back(isInIndentableStruct);
 				if (isBraceType(newBraceType, STRUCT_TYPE) && isCStyle())
 					isInIndentableStruct = isStructAccessModified(currentLine, charNum);
 				else
@@ -1595,8 +1595,8 @@ string ASFormatter::nextLine()
 				{
 					// must determine if newHeader is an assignment operator
 					// do NOT use findOperator - the length must be exact!!!
-					if (find(assignmentOperators->begin(), assignmentOperators->end(), newHeader)
-					        != assignmentOperators->end())
+					if (find(begin(*assignmentOperators), end(*assignmentOperators), newHeader)
+					        != end(*assignmentOperators))
 					{
 						foundPreCommandHeader = false;
 						char peekedChar = peekNextChar();
@@ -1739,7 +1739,7 @@ string ASFormatter::nextLine()
 	else		// format the current formatted line
 	{
 		isLineReady = false;
-		runInIndentInStatement = runInIndentChars;
+		runInIndentContinuation = runInIndentChars;
 		beautifiedLine = beautify(readyFormattedLine);
 		previousReadyFormattedLineLength = readyFormattedLineLength;
 		// the enhancer is not called for no-indent line comments
@@ -1838,7 +1838,7 @@ void ASFormatter::setRemoveBracesMode(bool state)
 }
 
 // retained for compatability with release 2.06
-// "Brackets" have been changed to "Braces" in 2.7
+// "Brackets" have been changed to "Braces" in 3.0
 // it is referenced only by the old "bracket" options
 void ASFormatter::setAddBracketsMode(bool state)
 {
@@ -1846,7 +1846,7 @@ void ASFormatter::setAddBracketsMode(bool state)
 }
 
 // retained for compatability with release 2.06
-// "Brackets" have been changed to "Braces" in 2.7
+// "Brackets" have been changed to "Braces" in 3.0
 // it is referenced only by the old "bracket" options
 void ASFormatter::setAddOneLineBracketsMode(bool state)
 {
@@ -1854,7 +1854,7 @@ void ASFormatter::setAddOneLineBracketsMode(bool state)
 }
 
 // retained for compatability with release 2.06
-// "Brackets" have been changed to "Braces" in 2.7
+// "Brackets" have been changed to "Braces" in 3.0
 // it is referenced only by the old "bracket" options
 void ASFormatter::setRemoveBracketsMode(bool state)
 {
@@ -1862,7 +1862,7 @@ void ASFormatter::setRemoveBracketsMode(bool state)
 }
 
 // retained for compatability with release 2.06
-// "Brackets" have been changed to "Braces" in 2.7
+// "Brackets" have been changed to "Braces" in 3.0
 // it is referenced only by the old "bracket" options
 void ASFormatter::setBreakClosingHeaderBracketsMode(bool state)
 {
@@ -6961,7 +6961,8 @@ void ASFormatter::updateFormattedLineSplitPointsOperator(const string& sequence)
 	else if (sequence == "+" || sequence == "-" || sequence == "?")
 	{
 		if (charNum > 0
-		        && !isInExponent()
+		        && !(sequence == "+" && isInExponent())
+		        && !(sequence == "-"  && isInExponent())
 		        && (isLegalNameChar(currentLine[charNum - 1])
 		            || currentLine[charNum - 1] == ')'
 		            || currentLine[charNum - 1] == ']'

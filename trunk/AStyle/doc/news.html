@@ -17,7 +17,7 @@
     <p>
         &nbsp;</p>
 
-    <h3>Artistic Style 2.7&nbsp; (Pending)</h3>
+    <h3>Artistic Style 3.0&nbsp; (Pending)</h3>
 
     <p>
         In the Artistic Style documentation, in General Information, Other Considerations, there is a list of
@@ -63,21 +63,25 @@
     <p>
         Parens and angle brackets do not change. Brackets has been changed to braces. Block parens has been changed to
         square brackets. Brackets can now collectively refer to the group containing round brackets (parens), square brackets,
-        and angle brackets. The documentation has been updated and the variable names in the source code have been 
+        and angle brackets. The documentation has been updated and the variable names in the source code have been
         changed. </p>
     <p>
-        There are four options affected by the change, 
-        &quot;break-closing-brackets&quot;, &quot;add-brackets&quot;, &quot;add-one-line-brackets&quot;, and &quot;remove-brackets&quot;.
-        These have been changed to the corresponding &quot;break-closing-braces&quot;, &quot;add-braces&quot;, &quot;add-one-line-braces&quot;,
-        and &quot;remove-braces&quot;. The old options will be depreciated but will continue to be accepted for the next
-        several releases. </p>
+        There are four options affected by the change, &quot;break-closing-brackets&quot;, &quot;add-brackets&quot;, &quot;add-one-line-brackets&quot;,
+        and &quot;remove-brackets&quot;. These have been changed to the corresponding &quot;break-closing-braces&quot;,
+        &quot;add-braces&quot;, &quot;add-one-line-braces&quot;, and &quot;remove-braces&quot;. Also, the option &quot;max-instatement-indent&quot;
+        has been changed to &quot;max-continuation-indent&quot;. The old options and method names have been depreciated,
+        but will continue to be accepted for the next several releases. </p>
     <p>
         The source code now uses the C++11 standard. Compilers that need a standard declared should use C++11. Visual
         Studio 2010 is currently still currently supported. The classes were made independent of the containing
         source code files (the source files contain multiple classes). The dependency on global variables in the console
         build was removed. </p>
     <p>
-        A new option, &quot;attach-closing-while&quot;, will attach the closing &quot;while&quot; of a 
+        A new option, &quot;indent-after-parens&quot;, will indent continuation lines following lines that contain an
+        opening paren &#39;(&#39; or an assignment &#39;=&#39;. This includes function definitions and declarations 
+        and return statements. This option ay be preferred for editors displaying proportional fonts.</p>
+    <p>
+        A new option, &quot;attach-closing-while&quot;, will attach the closing &quot;while&quot; of a
         &quot;do-while&quot; statement to the closing brace. It has precedence over both the brace style and the break
         closing braces option. </p>
     <p>
@@ -85,7 +89,7 @@
     <p>
         The following are additional topics.</p>
 
-    
+
 
     <h3>Artistic Style 2.06&nbsp; (December 2016)</h3>
 

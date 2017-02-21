@@ -148,13 +148,13 @@ astyled:  $(OBJd)
 shared:  libastyle.so
 libastyle.so:  $(OBJs)
 	@ mkdir -p $(bindir)
-	$(CXX) -shared $(LDFLAGSr) -o $(bindir)/libastyle-2.7.so $^
+	$(CXX) -shared $(LDFLAGSr) -o $(bindir)/libastyle-3.0.so $^
 	@ echo
 
 shareddebug:  libastyled.so
 libastyled.so:  $(OBJsd)
 	@ mkdir -p $(bindir)
-	$(CXX) -shared $(LDFLAGSd) -o $(bindir)/libastyle-2.7d.so $^
+	$(CXX) -shared $(LDFLAGSd) -o $(bindir)/libastyle-3.0d.so $^
 	@ echo
 
 static:  libastyle.a
@@ -172,13 +172,13 @@ libastyled.a:  $(OBJad)
 java:  libastylej.so
 libastylej.so:  $(OBJsj)
 	@ mkdir -p $(bindir)
-	$(CXX) -shared $(LDFLAGSr) -o $(bindir)/libastyle-2.7j.so $^
+	$(CXX) -shared $(LDFLAGSr) -o $(bindir)/libastyle-3.0j.so $^
 	@ echo
 
 javadebug:  libastylejd.so
 libastylejd.so:  $(OBJsjd)
 	@ mkdir -p $(bindir)
-	$(CXX) -shared $(LDFLAGSd) -o $(bindir)/libastyle-2.7jd.so $^
+	$(CXX) -shared $(LDFLAGSd) -o $(bindir)/libastyle-3.0jd.so $^
 	@ echo
 
 all:  release debug shared shareddebug static staticdebug
