@@ -4,11 +4,12 @@
 # E203 - Remove extraneous whitespace around colon (libastyle).
 # E221 - Remove extraneous whitespace around equal (libastyle, libastylewx).
 # E302 - Add missing 2 blank lines at end of function.
+# E501 - Try to make lines fit within --max-line-length characters.
 # W503 - Break after a binary operator, issues a warning if break before.
 #        Warning if "if ... \n or ..." instead of "if ... or \n ...".
 
 [pep8]
 aggressive
 aggressive
-ignore=E203,E221,E302,W503
+ignore=E203,E221,E302,E501,W503
 max-line-length=110
