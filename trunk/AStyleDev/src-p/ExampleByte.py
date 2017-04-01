@@ -32,14 +32,13 @@ def main():
     option_bytes = b"-A2tOP"
 
     # initialization
-    print("ExampleByte",
-          platform.python_implementation(),
-          platform.python_version(),
-          platform.architecture()[0])
+    print("ExampleByte {} {} {}".format(platform.python_implementation(),
+                                        platform.python_version(),
+                                        platform.architecture()[0]))
     initialize_platform()
     libc = initialize_library()
     version_bytes = get_astyle_version_bytes(libc)
-    print("Artistic Style Version " + version_bytes.decode('utf-8'))
+    print("Artistic Style Version {}".format(version_bytes.decode('utf-8')))
     # process the input files
     for file_path in files:
         file_path = get_project_directory(file_path)
@@ -51,7 +50,7 @@ def main():
         save_source_code_bytes(formatted_bytes, file_path)
         # allocated memory is deleted here, not in the allocation function
         del formatted_bytes
-        print("Formatted", file_path)
+        print("Formatted {}".format(file_path))
 
 # -----------------------------------------------------------------------------
 
@@ -109,7 +108,7 @@ def get_library_name():
     # IronPython needs the '.'
     for file_name in os.listdir('.'):
         if (os.path.isfile(file_name)
-                and file_name.lower().endswith(libext)
+                and libext in file_name.lower()
                 and (file_name.lower().startswith("astyle")
                      or file_name.lower().startswith("libastyle"))):
             return file_name
@@ -227,9 +226,9 @@ def load_windows_dll():
         # exception for CPython
         except WindowsError as err:
             # print(err)
-            if err.winerror == 126:     #  "The specified module could not be found"
+            if err.winerror == 126:     # "The specified module could not be found"
                 error("Cannot load library " + dll)
-            elif err.winerror == 193:   #  "%1 is not a valid Win32 application"
+            elif err.winerror == 193:   # "%1 is not a valid Win32 application"
                 print("Cannot load library " + dll)
                 error("You may be mixing 32 and 64 bit code")
             else:
@@ -272,7 +271,7 @@ def error_handler(num, err):
         The return error string (err) is always byte type.
         It is converted to unicode for Python 3.
     """
-    print("Error in input {0}".format(num))
+    print("Error in input {}".format(num))
     if __is_unicode__:
         err = err.decode()
     error(err)

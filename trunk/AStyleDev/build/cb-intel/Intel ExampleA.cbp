@@ -18,6 +18,7 @@
 					<Add option="-g" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
+					<Add option="-std=c++11" />
 				</Compiler>
 				<Linker>
 					<Add library="astyled" />
@@ -36,6 +37,7 @@
 					<Add option="-w2" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
+					<Add option="-std=c++11" />
 					<Add option="-DNDEBUG" />
 				</Compiler>
 				<Linker>

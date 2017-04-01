@@ -23,7 +23,7 @@
 				<Linker>
 					<Add library="gnustep-base" />
 					<Add library="objc" />
-					<Add library="astyle-3.0d" />
+					<Add library=":libastyled.so.$(SOLIBVER)" />
 					<Add directory="/usr/lib/GNUstep" />
 					<Add directory="bin" />
 				</Linker>
@@ -46,11 +46,14 @@
 					<Add option="-Wl,-rpath,./bin" />
 					<Add library="gnustep-base" />
 					<Add library="objc" />
-					<Add library="astyle-3.0" />
+					<Add library=":libastyle.so.$(SOLIBVER)" />
 					<Add directory="/usr/lib/GNUstep" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
+			<Environment>
+				<Variable name="SOLIBVER" value="3.0.0" />
+			</Environment>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />

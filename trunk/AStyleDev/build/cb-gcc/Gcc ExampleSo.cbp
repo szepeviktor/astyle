@@ -13,13 +13,14 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-W" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 				</Compiler>
 				<Linker>
-					<Add library="astyle-3.0d" />
+					<Add library=":libastyled.so.$(SOLIBVER)" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -31,6 +32,7 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-W" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
@@ -38,10 +40,13 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="astyle-3.0" />
+					<Add library=":libastyle.so.$(SOLIBVER)" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
+			<Environment>
+				<Variable name="SOLIBVER" value="3.0.0" />
+			</Environment>
 		</Build>
 		<Unit filename="../../src-c/Example.cpp" />
 		<Extensions>

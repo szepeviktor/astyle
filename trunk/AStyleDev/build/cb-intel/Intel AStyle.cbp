@@ -20,6 +20,7 @@
 					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
+					<Add option="-std=c++11" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -35,6 +36,7 @@
 					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
+					<Add option="-std=c++11" />
 					<Add option="-wd11074,11076" />
 					<Add option="-DNDEBUG" />
 				</Compiler>

@@ -330,14 +330,13 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
     options <span class="hl opt">=</span> <span class="hl str">&quot;-A2tOP&quot;</span>
 
     <span class="hl slc"># initialization</span>
-    <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;ExampleUnicode&quot;</span><span class="hl opt">,</span>
-          platform<span class="hl opt">.</span><span class="hl kwd">python_implementation</span><span class="hl opt">(),</span>
-          platform<span class="hl opt">.</span><span class="hl kwd">python_version</span><span class="hl opt">(),</span>
-          platform<span class="hl opt">.</span><span class="hl kwd">architecture</span><span class="hl opt">()[</span><span class="hl num">0</span><span class="hl opt">])</span>
+    <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;ExampleUnicode {} {} {}&quot;</span><span class="hl opt">.</span><span class="hl kwd">format</span><span class="hl opt">(</span>platform<span class="hl opt">.</span><span class="hl kwd">python_implementation</span><span class="hl opt">(),</span>
+                                           platform<span class="hl opt">.</span><span class="hl kwd">python_version</span><span class="hl opt">(),</span>
+                                           platform<span class="hl opt">.</span><span class="hl kwd">architecture</span><span class="hl opt">()[</span><span class="hl num">0</span><span class="hl opt">]))</span>
     <span class="hl kwd">initialize_platform</span><span class="hl opt">()</span>
     libc <span class="hl opt">=</span> <span class="hl kwd">initialize_library</span><span class="hl opt">()</span>
     version <span class="hl opt">=</span> <span class="hl kwd">get_astyle_version</span><span class="hl opt">(</span>libc<span class="hl opt">)</span>
-    <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Artistic Style Version &quot;</span> <span class="hl opt">+</span> version<span class="hl opt">)</span>
+    <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Artistic Style Version {}&quot;</span><span class="hl opt">.</span><span class="hl kwd">format</span><span class="hl opt">(</span>version<span class="hl opt">))</span>
     <span class="hl slc"># process the input files</span>
     <span class="hl kwa">for</span> file_path <span class="hl kwa">in</span> files<span class="hl opt">:</span>
         file_path <span class="hl opt">=</span> <span class="hl kwd">get_project_directory</span><span class="hl opt">(</span>file_path<span class="hl opt">)</span>
@@ -361,7 +360,7 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
         <span class="hl kwd">save_source_code</span><span class="hl opt">(</span>formatted_text<span class="hl opt">,</span> file_path<span class="hl opt">)</span>
         <span class="hl slc"># allocated memory is deleted here, not in the allocation function</span>
         <span class="hl kwa">del</span> formatted_text
-        <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Formatted&quot;</span><span class="hl opt">,</span> file_path<span class="hl opt">)</span>
+        <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Formatted {}&quot;</span><span class="hl opt">.</span><span class="hl kwd">format</span><span class="hl opt">(</span>file_path<span class="hl opt">))</span>
 
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
@@ -370,7 +369,7 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
     <span class="hl kwa">print</span><span class="hl opt">(</span>message<span class="hl opt">)</span>
     <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">)</span>
-    sys<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+    os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
 
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
@@ -423,7 +422,7 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
     <span class="hl slc"># IronPython needs the &apos;.&apos;</span>
     <span class="hl kwa">for</span> file_name <span class="hl kwa">in</span> os<span class="hl opt">.</span><span class="hl kwd">listdir</span><span class="hl opt">(</span><span class="hl str">&apos;.&apos;</span><span class="hl opt">):</span>
         <span class="hl kwa">if</span> <span class="hl opt">(</span>os<span class="hl opt">.</span>path<span class="hl opt">.</span><span class="hl kwd">isfile</span><span class="hl opt">(</span>file_name<span class="hl opt">)</span>
-                <span class="hl kwa">and</span> file_name<span class="hl opt">.</span><span class="hl kwd">lower</span><span class="hl opt">().</span><span class="hl kwd">endswith</span><span class="hl opt">(</span>libext<span class="hl opt">)</span>
+                <span class="hl kwa">and</span> libext <span class="hl kwa">in</span> file_name<span class="hl opt">.</span><span class="hl kwd">lower</span><span class="hl opt">()</span>
                 <span class="hl kwa">and</span> <span class="hl opt">(</span>file_name<span class="hl opt">.</span><span class="hl kwd">lower</span><span class="hl opt">().</span><span class="hl kwd">startswith</span><span class="hl opt">(</span><span class="hl str">&quot;astyle&quot;</span><span class="hl opt">)</span>
                      <span class="hl kwa">or</span> file_name<span class="hl opt">.</span><span class="hl kwd">lower</span><span class="hl opt">().</span><span class="hl kwd">startswith</span><span class="hl opt">(</span><span class="hl str">&quot;libastyle&quot;</span><span class="hl opt">))):</span>
             <span class="hl kwa">return</span> file_name
@@ -451,7 +450,7 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
 <span class="hl str">        Opening the file as non-binary will read it as a unicode string.</span>
 <span class="hl str">        An exception is handled in case the file cannot be decoded using</span>
 <span class="hl str">        the system default codec.</span>
-<span class="hl str">       The return value is a unicode string.</span>
+<span class="hl str">        The return value is a unicode string.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
     <span class="hl slc"># version 3 will read unicode since the file is not declared as binary</span>
     <span class="hl slc"># could also read the file as binary and use an explicit decode</span>
@@ -546,9 +545,9 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
         <span class="hl slc"># exception for CPython</span>
         <span class="hl kwa">except</span> <span class="hl kwc">WindowsError</span> <span class="hl kwa">as</span> err<span class="hl opt">:</span>
             <span class="hl slc"># print(err)</span>
-            <span class="hl kwa">if</span> err<span class="hl opt">.</span>winerror <span class="hl opt">==</span> <span class="hl num">126</span><span class="hl opt">:</span>     <span class="hl slc">#  &quot;The specified module could not be found&quot;</span>
+            <span class="hl kwa">if</span> err<span class="hl opt">.</span>winerror <span class="hl opt">==</span> <span class="hl num">126</span><span class="hl opt">:</span>     <span class="hl slc"># &quot;The specified module could not be found&quot;</span>
                 <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot load library &quot;</span> <span class="hl opt">+</span> dll<span class="hl opt">)</span>
-            <span class="hl kwa">elif</span> err<span class="hl opt">.</span>winerror <span class="hl opt">==</span> <span class="hl num">193</span><span class="hl opt">:</span>   <span class="hl slc">#  &quot;%1 is not a valid Win32 application&quot;</span>
+            <span class="hl kwa">elif</span> err<span class="hl opt">.</span>winerror <span class="hl opt">==</span> <span class="hl num">193</span><span class="hl opt">:</span>   <span class="hl slc"># &quot;%1 is not a valid Win32 application&quot;</span>
                 <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot load library &quot;</span> <span class="hl opt">+</span> dll<span class="hl opt">)</span>
                 <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;You may be mixing 32 and 64 bit code&quot;</span><span class="hl opt">)</span>
             <span class="hl kwa">else</span><span class="hl opt">:</span>
@@ -597,7 +596,7 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
 <span class="hl str">        The return error string (err) is always byte type.</span>
 <span class="hl str">        It is converted to unicode for Python 3.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
-    <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Error in input {0}&quot;</span><span class="hl opt">.</span><span class="hl kwd">format</span><span class="hl opt">(</span>num<span class="hl opt">))</span>
+    <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;Error in input {}&quot;</span><span class="hl opt">.</span><span class="hl kwd">format</span><span class="hl opt">(</span>num<span class="hl opt">))</span>
     <span class="hl kwa">if</span> __is_unicode__<span class="hl opt">:</span>
         err <span class="hl opt">=</span> err<span class="hl opt">.</span><span class="hl kwd">decode</span><span class="hl opt">()</span>
     <span class="hl kwd">error</span><span class="hl opt">(</span>err<span class="hl opt">)</span>
@@ -624,7 +623,6 @@ ALLOCATED <span class="hl opt">=</span> c_char_p
 <span class="hl str">        The size to allocate is always byte type.</span>
 <span class="hl str">        The allocated memory MUST BE FREED by the calling function.</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
-    <span class="hl slc"># ctypes are different for CPython and IronPython</span>
     <span class="hl kwa">global</span> ALLOCATED
     <span class="hl slc"># ctypes for IronPython do NOT seem to be mutable</span>
     <span class="hl slc"># using ctype variables in IronPython results in a</span>
@@ -638,7 +636,7 @@ ALLOCATED <span class="hl opt">=</span> c_char_p
     <span class="hl slc"># &quot;TypeError: string or integer address expected instead of c_char_Array&quot;</span>
     <span class="hl slc"># CPython must use c_char_Array object</span>
     <span class="hl kwa">else</span><span class="hl opt">:</span>
-        arr_type <span class="hl opt">=</span> c_char<span class="hl opt">*</span> size     <span class="hl slc"># create a c_char array</span>
+        arr_type <span class="hl opt">=</span> c_char <span class="hl opt">*</span> size    <span class="hl slc"># create a c_char array</span>
         ALLOCATED <span class="hl opt">=</span> <span class="hl kwd">arr_type</span><span class="hl opt">()</span>      <span class="hl slc"># create an array object</span>
         <span class="hl kwa">return</span> <span class="hl kwd">addressof</span><span class="hl opt">(</span>ALLOCATED<span class="hl opt">)</span>
 
@@ -654,7 +652,7 @@ MEMORY_ALLOCATION <span class="hl opt">=</span> <span class="hl kwd">MEMORY_ALLO
 <span class="hl slc"># make the module executable</span>
 <span class="hl kwa">if</span> __name__ <span class="hl opt">==</span> <span class="hl str">&quot;__main__&quot;</span><span class="hl opt">:</span>
     <span class="hl kwd">main</span><span class="hl opt">()</span>
-    sys<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">0</span><span class="hl opt">)</span>
+    os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">0</span><span class="hl opt">)</span>
 
 </pre>
     </div>

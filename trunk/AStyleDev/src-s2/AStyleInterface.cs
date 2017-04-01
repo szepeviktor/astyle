@@ -195,7 +195,7 @@ public class AStyleInterface
         foreach (string filePath in files)
         {   string fileName = Path.GetFileName(filePath).ToLower();
             if ((fileName.EndsWith(".dll")
-                    || fileName.EndsWith(".so")
+                    || fileName.Contains(".so")
                     || fileName.EndsWith(".dylib"))
                     && (fileName.StartsWith("astyle")
                         || fileName.StartsWith("libastyle")))

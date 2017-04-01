@@ -12,7 +12,6 @@
 				<Option type="1" />
 				<Option compiler="clang" />
 				<Option parameters='&apos;&quot;$HOME/Projects/AStyleDev/test-c/*.cpp&quot;&apos; &apos;&quot;$HOME/Projects/AStyleDev/test-c/*.h&quot;&apos;  -vR' />
-				<Option projectCompilerOptionsRelation="0" />
 				<Option projectLinkerOptionsRelation="0" />
 				<Option projectIncludeDirsRelation="0" />
 				<Option projectResourceIncludeDirsRelation="0" />
@@ -20,10 +19,12 @@
 				<Compiler>
 					<Add option="-Weverything" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-Wextra" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
+					<Add option="-Wno-c++98-compat" />
 					<Add option="-Wno-disabled-macro-expansion" />
 					<Add option="-Wno-exit-time-destructors" />
 					<Add option="-Wno-format-nonliteral" />
@@ -58,9 +59,11 @@
 					<Add option="-O3" />
 					<Add option="-Weverything" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-Wextra" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
+					<Add option="-Wno-c++98-compat" />
 					<Add option="-Wno-disabled-macro-expansion" />
 					<Add option="-Wno-exit-time-destructors" />
 					<Add option="-Wno-format-nonliteral" />

@@ -98,10 +98,10 @@ class AStyleInterface
         for (File filePath : directory.listFiles())
         {   String fileName = filePath.getName().toLowerCase();
             if (filePath.isFile()
-                    && fileName.endsWith(fileExt)
                     && (fileName.startsWith("astyle")
                         || fileName.startsWith("libastyle"))
-                    &&  fileName.contains("j"))
+                    &&  fileName.contains("j")
+                    && fileName.contains(fileExt))
             {   libraryName = filePath.getName();
                 break;
             }

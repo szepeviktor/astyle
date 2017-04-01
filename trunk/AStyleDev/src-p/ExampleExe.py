@@ -23,10 +23,9 @@ def main():
     options = "-A2tOP"
 
     # initialization
-    print("ExampleExe",
-          platform.python_implementation(),
-          platform.python_version(),
-          platform.architecture()[0])
+    print("ExampleExe {} {} {}".format(platform.python_implementation(),
+                                       platform.python_version(),
+                                       platform.architecture()[0]))
     exe = initialize_exe()
     display_astyle_version(exe)
     # process the input files

@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-W" />
 					<Add option="-fno-rtti" />
@@ -31,6 +32,7 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-W" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />

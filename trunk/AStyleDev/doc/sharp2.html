@@ -314,7 +314,8 @@
         <span class="hl kwa">int</span> indexTop <span class="hl opt">=</span> appDirectory<span class="hl opt">.</span><span class="hl kwd">ToLower</span><span class="hl opt">().</span><span class="hl kwd">IndexOf</span><span class="hl opt">(</span>topDirectory<span class="hl opt">);</span>
         <span class="hl kwa">if</span> <span class="hl opt">(</span>indexTop <span class="hl opt">== -</span><span class="hl num">1</span><span class="hl opt">)</span>
             <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find top level folder!&quot;</span><span class="hl opt">);</span>
-        <span class="hl kwa">string</span> testPath <span class="hl opt">=</span> appDirectory<span class="hl opt">.</span><span class="hl kwd">Substring</span><span class="hl opt">(</span><span class="hl num">0</span><span class="hl opt">,</span> indexTop <span class="hl opt">+</span> topDirectory<span class="hl opt">.</span>Length<span class="hl opt">) +</span> <span class="hl str">&quot;/test-data/&quot;</span><span class="hl opt">;</span>
+        <span class="hl kwa">string</span> testPath <span class="hl opt">=</span> appDirectory<span class="hl opt">.</span><span class="hl kwd">Substring</span><span class="hl opt">(</span>
+                              <span class="hl num">0</span><span class="hl opt">,</span> indexTop <span class="hl opt">+</span> topDirectory<span class="hl opt">.</span>Length<span class="hl opt">) +</span> <span class="hl str">&quot;/test-data/&quot;</span><span class="hl opt">;</span>
         <span class="hl kwa">return</span> testPath<span class="hl opt">;</span>
     <span class="hl opt">}</span>
 
@@ -391,7 +392,7 @@
     <p>
         &nbsp;</p>
     <div class="hl">
-        <pre class="hl">   
+        <pre class="hl"> 
 <span class="hl slc">// AStyleInterface.cs</span>
 
 <span class="hl kwa">using</span> System<span class="hl opt">;</span>
@@ -589,7 +590,7 @@
         <span class="hl kwa">foreach</span> <span class="hl opt">(</span><span class="hl kwa">string</span> filePath <span class="hl kwa">in</span> files<span class="hl opt">)</span>
         <span class="hl opt">{</span>   <span class="hl kwa">string</span> fileName <span class="hl opt">=</span> Path<span class="hl opt">.</span><span class="hl kwd">GetFileName</span><span class="hl opt">(</span>filePath<span class="hl opt">).</span><span class="hl kwd">ToLower</span><span class="hl opt">();</span>
             <span class="hl kwa">if</span> <span class="hl opt">((</span>fileName<span class="hl opt">.</span><span class="hl kwd">EndsWith</span><span class="hl opt">(</span><span class="hl str">&quot;.dll&quot;</span><span class="hl opt">)</span>
-                    <span class="hl opt">||</span> fileName<span class="hl opt">.</span><span class="hl kwd">EndsWith</span><span class="hl opt">(</span><span class="hl str">&quot;.so&quot;</span><span class="hl opt">)</span>
+                    <span class="hl opt">||</span> fileName<span class="hl opt">.</span><span class="hl kwd">Contains</span><span class="hl opt">(</span><span class="hl str">&quot;.so&quot;</span><span class="hl opt">)</span>
                     <span class="hl opt">||</span> fileName<span class="hl opt">.</span><span class="hl kwd">EndsWith</span><span class="hl opt">(</span><span class="hl str">&quot;.dylib&quot;</span><span class="hl opt">))</span>
                     <span class="hl opt">&amp;&amp; (</span>fileName<span class="hl opt">.</span><span class="hl kwd">StartsWith</span><span class="hl opt">(</span><span class="hl str">&quot;astyle&quot;</span><span class="hl opt">)</span>
                         <span class="hl opt">||</span> fileName<span class="hl opt">.</span><span class="hl kwd">StartsWith</span><span class="hl opt">(</span><span class="hl str">&quot;libastyle&quot;</span><span class="hl opt">)))</span>

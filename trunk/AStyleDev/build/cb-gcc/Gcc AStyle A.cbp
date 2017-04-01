@@ -16,6 +16,7 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
@@ -33,6 +34,7 @@
 					<Add option="-O3" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-DNDEBUG" />
