@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 
 """ One time script to remove wxT macro from AStyleWx source.
 """

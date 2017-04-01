@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """Generate the suppression file and run cppcheck.
    Input the AStyleWx source files and output the suppression file
    with the current line numbers.

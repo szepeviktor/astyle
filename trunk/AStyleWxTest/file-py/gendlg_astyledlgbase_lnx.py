@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """Create the Linux AStyleDlgBaseLnx.cpp file from the Windows AStyleDlgBase.cpp.
    It removes the borders to compress the dialogs.
    """

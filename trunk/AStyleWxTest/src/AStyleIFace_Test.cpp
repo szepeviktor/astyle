@@ -1321,7 +1321,7 @@ TEST(AStyleIFace_ModifierShort, GetOptions_AttachInline)
 	EXPECT_TRUE(options == wxEmptyString);
 	astyle.setAttachInline(true);
 	options = astyle.GetOptions(true);
-	EXPECT_TRUE(options == "xi");
+	EXPECT_TRUE(options == "xl");
 }
 
 TEST(AStyleIFace_ModifierShort, GetOptions_AttachExternC)
