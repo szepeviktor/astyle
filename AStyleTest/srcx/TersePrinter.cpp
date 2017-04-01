@@ -382,7 +382,7 @@ string TersePrinter::ReplaceSummaryString(const string& summary_) const
 	size_t si = 0;		// summary index
 	while (si < summary.length() - 1)
 	{
-		si = summary.find("\\", si);
+		si = summary.find('\\', si);
 		if (si != string::npos)
 		{
 			if (summary[si + 1] == 'n')

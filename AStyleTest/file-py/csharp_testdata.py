@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Generate test data for the C# Example.cs program.
     Creates a list of files to be used in the program.
     Input is a list of formatted files from regression2-test.py.

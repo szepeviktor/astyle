@@ -2115,7 +2115,7 @@ TEST(Struct, RunIn)
 	    "{   {\"IDM_MRUFILE\", IDM_MRUFILE},\n"
 	    "    {\"IDM_TOOLS\",   IDM_TOOLS},\n"
 	    "};\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3036,7 +3036,7 @@ TEST(Preprocessor, ArrayRunIn_Break)
 	    "    \"2\", \"System Calls\",\n"
 	    "#endif\n"
 	    "};\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3067,7 +3067,7 @@ TEST(Preprocessor, ArrayRunIn_Attach)
 	    "    \"2\", \"System Calls\",\n"
 	    "#endif\n"
 	    "};\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3088,7 +3088,7 @@ TEST(Preprocessor, ArrayRunIn_RunIn)
 	    "    \"2\", \"System Calls\",\n"
 	    "#endif\n"
 	    "};\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3595,7 +3595,7 @@ TEST(Comment, BracesAttach_NamespaceClassIndent_RunIn)
 TEST(Comment, BracesRunIn_NamespaceClassIndent_Break)
 {
 	// comments should indent with namespaces and classes
-	// style=horstmann with broken braces
+	// style=run-in with broken braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3628,7 +3628,7 @@ TEST(Comment, BracesRunIn_NamespaceClassIndent_Break)
 	    "            }\n"
 	    "    };\n"
 	    "}\n";
-	char options[] = "style=horstmann, indent-namespaces, indent-classes";
+	char options[] = "style=run-in, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3637,7 +3637,7 @@ TEST(Comment, BracesRunIn_NamespaceClassIndent_Break)
 TEST(Comment, BracesRunIn_NamespaceClassIndent_Attach)
 {
 	// comments should indent with namespaces and classes
-	// style=horstmann with attached braces
+	// style=run-in with attached braces
 	char textIn[] =
 	    "\nnamespace FooName {\n"
 	    "class FooClass {\n"
@@ -3667,7 +3667,7 @@ TEST(Comment, BracesRunIn_NamespaceClassIndent_Attach)
 	    "            }\n"
 	    "    };\n"
 	    "}\n";
-	char options[] = "style=horstmann, indent-namespaces, indent-classes";
+	char options[] = "style=run-in, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3676,7 +3676,7 @@ TEST(Comment, BracesRunIn_NamespaceClassIndent_Attach)
 TEST(Comment, BracesRunIn_NamespaceClassIndent_RunIn)
 {
 	// comments should indent with namespaces and classes
-	// style=horstmann with run-in braces
+	// style=run-in with run-in braces
 	char textIn[] =
 	    "\nnamespace FooName\n"
 	    "{\n"
@@ -3708,7 +3708,7 @@ TEST(Comment, BracesRunIn_NamespaceClassIndent_RunIn)
 	    "            }\n"
 	    "    };\n"
 	    "}\n";
-	char options[] = "style=horstmann, indent-namespaces, indent-classes";
+	char options[] = "style=run-in, indent-namespaces, indent-classes";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -4332,7 +4332,7 @@ TEST(Continuation, BracesAttach_RunIn)
 TEST(Continuation, BracesRunIn_Break)
 {
 	// continuation lines
-	// style=horstmann and input of broken braces
+	// style=run-in and input of broken braces
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4358,7 +4358,7 @@ TEST(Continuation, BracesRunIn_Break)
 	    "                      Ypos);\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -4367,7 +4367,7 @@ TEST(Continuation, BracesRunIn_Break)
 TEST(Continuation, BracesRunIn_Attach)
 {
 	// continuation lines
-	// style=horstmann and input of attached braces
+	// style=run-in and input of attached braces
 	char textIn[] =
 	    "\nvoid foo() {\n"
 	    "    if (isFoo1()) {\n"
@@ -4390,7 +4390,7 @@ TEST(Continuation, BracesRunIn_Attach)
 	    "                      Ypos);\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -4399,7 +4399,7 @@ TEST(Continuation, BracesRunIn_Attach)
 TEST(Continuation, BracesRunIn_RunIn)
 {
 	// continuation lines
-	// style=horstmann and input of run-in braces
+	// style=run-in and input of run-in braces
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{   if (isFoo1())\n"
@@ -4411,7 +4411,7 @@ TEST(Continuation, BracesRunIn_RunIn)
 	    "                      Ypos);\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -4732,7 +4732,7 @@ TEST(ContinuationTab, BracesAttach_RunIn)
 TEST(ContinuationTab, BracesRunIn_Break)
 {
 	// continuation lines with tabs
-	// style=horstmann and input of broken braces
+	// style=run-in and input of broken braces
 	char textIn[] =
 	    "\nvoid foo()\n"
 	    "{\n"
@@ -4758,7 +4758,7 @@ TEST(ContinuationTab, BracesRunIn_Break)
 	    "		              Ypos);\n"
 	    "	}\n"
 	    "}\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -4767,7 +4767,7 @@ TEST(ContinuationTab, BracesRunIn_Break)
 TEST(ContinuationTab, BracesRunIn_Attach)
 {
 	// continuation lines with tabs
-	// style=horstmann and input of attached braces
+	// style=run-in and input of attached braces
 	char textIn[] =
 	    "\nvoid foo() {\n"
 	    "	if (isFoo1()) {\n"
@@ -4790,7 +4790,7 @@ TEST(ContinuationTab, BracesRunIn_Attach)
 	    "		              Ypos);\n"
 	    "	}\n"
 	    "}\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -4799,7 +4799,7 @@ TEST(ContinuationTab, BracesRunIn_Attach)
 TEST(ContinuationTab, BracesRunIn_RunIn)
 {
 	// continuation lines with tabs
-	// style=horstmann and input of run-in braces
+	// style=run-in and input of run-in braces
 	char text[] =
 	    "\nvoid foo()\n"
 	    "{	if (isFoo1())\n"
@@ -4811,7 +4811,7 @@ TEST(ContinuationTab, BracesRunIn_RunIn)
 	    "		              Ypos);\n"
 	    "	}\n"
 	    "}\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;

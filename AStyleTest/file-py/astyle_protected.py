@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Check ASBeautifier protected variables to verify all variables are
     replaced in the activeBeautifierStack.
 """

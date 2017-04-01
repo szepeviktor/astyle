@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Run the Visual Studio AStyleTestI18n test using AppLocale to test non-ASCII files.
 """
 

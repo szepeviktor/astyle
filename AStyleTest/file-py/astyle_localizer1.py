@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """Check astyle_main.cpp "settext" translation strings to the test variables
    in AStyleTestLoc.cpp.
 """

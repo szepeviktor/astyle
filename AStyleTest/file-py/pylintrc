@@ -11,6 +11,9 @@ persistent=no
 # Access to a protected member _exit of a client class (protected-access)
 #disable=R0801,protected-access
 
+# W0614 - used when an imported module or variable is not used from a `'from X import *'`
+disable=unused-wildcard-import
+
 [REPORTS]
 # Tells whether to display a full report or only the messages
 # reports= yes to no

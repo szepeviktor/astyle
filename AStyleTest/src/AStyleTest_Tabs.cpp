@@ -872,7 +872,7 @@ TEST(AttachExternC, BreakBraces)
 	    "        bar2();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "attach-extern-c, style=allman";
+	char options[] = "attach-extern-c, style=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -966,7 +966,7 @@ TEST(AttachExternC, RunInBraces)
 	    "    {   bar2();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "attach-extern-c, style=horstmann";
+	char options[] = "attach-extern-c, style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1050,7 +1050,7 @@ TEST(AttachNamespaces, BreakBraces)
 	    "\nnamespace FooName {\n"
 	    "\n"
 	    "}";
-	char options[] = "attach-namespaces, style=allman";
+	char options[] = "attach-namespaces, style=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1122,7 +1122,7 @@ TEST(AttachNamespaces, RunInBraces)
 	    "\nnamespace FooName {\n"
 	    "\n"
 	    "}";
-	char options[] = "attach-namespaces, style=horstmann";
+	char options[] = "attach-namespaces, style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1216,7 +1216,7 @@ TEST(AttachClasses, BreakBraces)
 	char text[] =
 	    "\nclass FooClass {\n"
 	    "};";
-	char options[] = "attach-classes, style=allman";
+	char options[] = "attach-classes, style=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1280,7 +1280,7 @@ TEST(AttachClasses, RunInBraces)
 	char text[] =
 	    "\nclass FooClass {\n"
 	    "};";
-	char options[] = "attach-classes, style=horstmann";
+	char options[] = "attach-classes, style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1461,6 +1461,134 @@ TEST(AttachInlines, ShortOption)
 	delete[] textOut;
 }
 
+TEST(AttachInlines, NoneBraces1)
+{
+	// test attach inlines with no brace style
+	// start with broken braces
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "    bool Foo(char ch)\n"
+	    "    {\n"
+	    "        if (isFoo1(ch))\n"
+	    "        {\n"
+	    "            if (isFoo2(ch))\n"
+	    "            {\n"
+	    "                return false;\n"
+	    "            }\n"
+	    "            return true;\n"
+	    "        }\n"
+	    "        return false;\n"
+	    "    }\n"
+	    "};";
+	char text[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "    bool Foo(char ch) {\n"
+	    "        if (isFoo1(ch)) {\n"
+	    "            if (isFoo2(ch)) {\n"
+	    "                return false;\n"
+	    "            }\n"
+	    "            return true;\n"
+	    "        }\n"
+	    "        return false;\n"
+	    "    }\n"
+	    "};";
+	char options[] = "attach-inlines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachInlines, NoneBraces2)
+{
+	// test attach inlines with no brace style
+	// start with run-in braces
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "    bool Foo(char ch)\n"
+	    "    {   if (isFoo1(ch))\n"
+	    "        {   if (isFoo2(ch))\n"
+	    "            {   return false;\n"
+	    "            }\n"
+	    "            return true;\n"
+	    "        }\n"
+	    "        return false;\n"
+	    "    }\n"
+	    "};";
+	char text[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "    bool Foo(char ch) {\n"
+	    "        if (isFoo1(ch)) {\n"
+	    "            if (isFoo2(ch)) {\n"
+	    "                return false;\n"
+	    "            }\n"
+	    "            return true;\n"
+	    "        }\n"
+	    "        return false;\n"
+	    "    }\n"
+	    "};";
+	char options[] = "attach-inlines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachInlines, NoneBraces3)
+{
+	// test attach inlines with no brace style
+	// start with one-line braces
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "    bool Foo(char ch)\n"
+	    "    {   if (isFoo1(ch))\n"
+	    "        { return false; }\n"
+	    "    }\n"
+	    "};";
+	char text[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "    bool Foo(char ch) {\n"
+	    "        if (isFoo1(ch)) {\n"
+	    "            return false;\n"
+	    "        }\n"
+	    "    }\n"
+	    "};";
+	char options[] = "attach-inlines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachInlines, NoneBraces4)
+{
+	// test attach inlines with no brace style
+	// with keep-one-line-blocks
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "    bool Foo(char ch)\n"
+	    "    {   if (isFoo1(ch))\n"
+	    "        { return false; }\n"
+	    "    }\n"
+	    "};";
+	char text[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "    bool Foo(char ch) {\n"
+	    "        if (isFoo1(ch))\n"
+	    "        { return false; }\n"
+	    "    }\n"
+	    "};";
+	char options[] = "attach-inlines, keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(AttachInlines, BreakBraces)
 {
 	// test attach inlines with break braces
@@ -1493,7 +1621,7 @@ TEST(AttachInlines, BreakBraces)
 	    "        return false;\n"
 	    "    }\n"
 	    "};";
-	char options[] = "attach-inlines, style=allman";
+	char options[] = "attach-inlines, style=break";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1643,7 +1771,7 @@ TEST(AttachInlines, RunInBraces)
 	    "        return false;\n"
 	    "    }\n"
 	    "};";
-	char options[] = "attach-inlines, style=horstmann";
+	char options[] = "attach-inlines, style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1734,6 +1862,39 @@ TEST(AttachInlines, SharpClass)
 	delete[] textOut;
 }
 
+TEST(AttachInlines, RunInComment)
+{
+	// test attach inlines followed by a run-in comment
+	// brace should NOT be attached
+	char textIn[] =
+	    "\n"
+	    "class FooClass\n"
+	    "{\n"
+	    "    int Foo () \n"
+	    "    {\n"
+	    "        if (not rc)\n"
+	    "        {   // comment\n"
+	    "            return 0;\n"
+	    "        }\n"
+	    "    }\n"
+	    "};\n";
+	char text[] =
+	    "\n"
+	    "class FooClass\n"
+	    "{\n"
+	    "    int Foo () {\n"
+	    "        if (not rc)\n"
+	    "        {   // comment\n"
+	    "            return 0;\n"
+	    "        }\n"
+	    "    }\n"
+	    "};\n";
+	char options[] = "attach-inlines, remove-braces";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-----------------------------------------------------------------------------
 // AStyle Attach Closing While
 //-----------------------------------------------------------------------------
@@ -1818,7 +1979,7 @@ TEST(AttachClosingWhile, BreakStyle)
 	    "        ++x;\n"
 	    "    } while (x == 1);  // comment\n"
 	    "}";
-	char options[] = "style=allman, attach-closing-while";
+	char options[] = "style=break, attach-closing-while";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1900,7 +2061,7 @@ TEST(AttachClosingWhile, RunInStyle)
 	    "        ++x;\n"
 	    "    } while (x == 1);  // comment\n"
 	    "}";
-	char options[] = "style=horstmann, attach-closing-while";
+	char options[] = "style=run-in, attach-closing-while";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1920,7 +2081,7 @@ TEST(AttachClosingWhile, BreakStyleSans)
 	    "    }\n"
 	    "    while (x == 1);  // comment\n"
 	    "}";
-	char options[] = "style=allman";
+	char options[] = "style=break";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1973,7 +2134,7 @@ TEST(AttachClosingWhile, RunInStyleSans)
 	    "    }\n"
 	    "    while (x == 1);  // comment\n"
 	    "}";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;

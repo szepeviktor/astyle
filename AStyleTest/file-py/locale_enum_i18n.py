@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Enumerate selected locales and sort by codepage to determine
     which  languages the locales support.
 """

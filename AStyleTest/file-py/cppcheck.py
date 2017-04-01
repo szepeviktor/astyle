@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Generate the suppression file and run cppcheck.
     Input the AStyle source files and output the suppression file
     with the current line numbers.
@@ -134,7 +134,7 @@ def process_astyle_main(astyle_main_list):
         if "ASConsole::getIgnoreExcludeErrorsDisplay(" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
                                     + "\t\t\t// getIgnoreExcludeErrorsDisplay\n")
-        if "bool ASConsole::getIsDryRun(" in line:
+        if "ASConsole::getIsDryRun(" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
                                     + "\t\t\t// getIsDryRun\n")
         if "ASConsole::getIsFormattedOnly(" in line:
@@ -167,6 +167,12 @@ def process_astyle_main(astyle_main_list):
         if "ASConsole::getPreserveDate(" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
                                     + "\t\t\t// getPreserveDate\n")
+        if "ASConsole::getStdPathIn(" in line:
+            astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                    + "\t\t\t// getStdPathIn\n")
+        if "ASConsole::getStdPathOut(" in line:
+            astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                    + "\t\t\t// getStdPathOu\n")
         if "ASConsole::setBypassBrowserOpen(" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
                                     + "\t\t\t// setBypassBrowserOpen\n")

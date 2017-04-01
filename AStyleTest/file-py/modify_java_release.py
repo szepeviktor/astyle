@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """Modify the Artistic Style Java JDK release in the java shared library compiles.
 """
 

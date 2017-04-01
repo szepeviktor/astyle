@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Calls libextract to extract files in the TestArchives directory.
     Change the global variables to the desired values.
 """

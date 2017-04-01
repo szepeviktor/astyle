@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Format a project using AStyle.
     Run from an option in the "Tools" menu of a development environment.
     For Visual Studio:

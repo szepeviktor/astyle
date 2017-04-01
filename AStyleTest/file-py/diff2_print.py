@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Use a diff viewer to show diffs in files from the astyle report.
 """
 

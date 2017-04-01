@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Library files for AStyle test modules.
     All directories and filepaths should be in this module.
     Executed as stand-alone it will run a series of tests.
@@ -51,7 +51,7 @@ OPT1 = "-CSKNLwxwxWYM50m0FpPHUEk1yexbjOocxMxQxqxSxP1"
 #     pad-oper (p), delete-empty-lines (xe)
 #     obj-c (xMxRxrxsxP0)
 # WITHOUT: keep-one-line-blocks (O), keep-one-line-statements (o),
-OPT2 = "-xGSKNLwxWM60m3fpdHUxeEk3W1yeJcxMxRxrxsxP0"
+OPT2 = "-xGSKNLwxWM60m3fpdHUxeEk3W1eJcxMxRxrxsxP0"
 
 # OPT3
 # align-pointer=middle (k2), align-reference=name (W3),
@@ -345,8 +345,7 @@ def get_ch():
                 ch_in = sys.stdin.read(1)
         finally:
             termios.tcsetattr(fd_in, termios.TCSADRAIN, old_settings)
-    # convert to unicode for Python 3
-    return ch_in.decode('utf-8')
+    return ch_in
 
 # -----------------------------------------------------------------------------
 
@@ -375,7 +374,7 @@ def get_file_py_directory(endsep=False):
         pydir += '/'
     # verify it is executed from fixed disk and not a USB
     if os.name == "nt":
-        if pydir[0:2] != "C:" and pydir[0:2] != "F:":
+        if pydir[0:2].upper() != "C:" and pydir[0:2].upper() != "F:":
             system_exit("File executed from drive " + pydir[0:2])
     else:
         if pydir[0:6] != "/home/":

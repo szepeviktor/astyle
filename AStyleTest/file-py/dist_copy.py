@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Create the distribution files for Artistic Style.
     Windows distribution is created on Windows.
     Linux distribution is created on Linux.
@@ -10,7 +10,6 @@ from __future__ import print_function
 import glob
 import os
 import shutil
-import stat
 import subprocess
 import time
 # local libraries
@@ -40,7 +39,7 @@ def main():
     os.chdir(libastyle.get_file_py_directory())
     remove_dist_directories()
     verify_localizer_signature()
-    if EXTRACT_ALL:
+    if EXTRACT_ALL and os.name == "nt":
         build_windows_distribution()
         build_linux_distribution()
         build_mac_distribution()
@@ -314,11 +313,6 @@ def copy_astyle_doc(dist_doc, to_dos=False):
                  + glob.glob(dist_doc + "/*.css"))
     if len(distfiles) != len(docfiles) - deleted:
         libastyle.system_exit("Error copying doc: " + str(len(distfiles)))
-    # change file permissions
-    for srcfile in distfiles:
-        # read/write by the owner and read only by everyone else (-rw-r--r--)
-        mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-        os.chmod(srcfile, mode)
 
 # -----------------------------------------------------------------------------
 
@@ -342,11 +336,6 @@ def copy_astyle_file(dist_file, to_dos=False):
     distfiles = glob.glob(dist_file + "/*")
     if len(distfiles) != len(filefiles) - deleted:
         libastyle.system_exit("Error copying file: " + str(len(distfiles)))
-    # change file permissions
-    for filefile in distfiles:
-        # read/write by the owner and read only by everyone else (-rw-r--r--)
-        mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-        os.chmod(filefile, mode)
 
 # -----------------------------------------------------------------------------
 
@@ -363,11 +352,6 @@ def copy_astyle_src(dist_src, to_dos=False):
                  + glob.glob(dist_src + "/*.h"))
     if len(distfiles) != len(srcfiles):
         libastyle.system_exit("Error copying src: " + str(len(distfiles)))
-    # change file permissions
-    for srcfile in distfiles:
-        # read/write by the owner and read only by everyone else (-rw-r--r--)
-        mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-        os.chmod(srcfile, mode)
 
 # -----------------------------------------------------------------------------
 
@@ -380,22 +364,17 @@ def copy_astyle_top(dist_top, to_dos=False):
     for filepath in docfiles:
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
-        if (filename == "LICENSE.txt"
-                or filename == "README.txt"):
+        if (filename == "LICENSE.md"
+                or filename == "README.md"):
             shutil.copy(filepath, dist_top)
             print("    " + filename)
         else:
             deleted += 1
     convert_line_ends(dist_top, to_dos)
     # verify copy - had a problem with bad filenames
-    distfiles = (glob.glob(dist_top + "/*.txt"))
+    distfiles = (glob.glob(dist_top + "/*.md"))
     if len(distfiles) != len(docfiles) - deleted:
         libastyle.system_exit("Error copying top: " + str(len(distfiles)))
-    # change file permissions
-    for srcfile in distfiles:
-        # read/write by the owner and read only by everyone else (-rw-r--r--)
-        mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-        os.chmod(srcfile, mode)
 
 # -----------------------------------------------------------------------------
 
@@ -422,8 +401,6 @@ def copy_build_directories_cb(dist_build, build_dir):
 def copy_build_directories_make(dist_build, build_dir):
     """Copy the build/makefile directories to the distribution directory.
     """
-    # permissions = read/write by the owner and read only by everyone else
-    mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
     buildfiles = __astyle_dir + "/build/"
 
     makedir = '/' + build_dir + '/'
@@ -433,7 +410,6 @@ def copy_build_directories_make(dist_build, build_dir):
     makefiles = glob.glob(buildfiles + makedir + "[Mm]ake*")
     for makefile in makefiles:
         shutil.copy(makefile, dist_astyle_make)
-        os.chmod(dist_astyle_make, mode)
         files_copied += 1
     if files_copied != 1:
         libastyle.system_exit("Error in number of build files copied: " + str(files_copied))
@@ -472,7 +448,7 @@ def copy_build_directories_vs(dist_build, build_dir):
                 files_copied += 1
                 shutil.copy(filter_in, dist_astyle_proj)
         # verify number of files copied
-        if files_copied != 2 and files_copied != 1:
+        if files_copied != 2:
             libastyle.system_exit("Error in number of build files copied: " + str(files_copied))
 
 # -----------------------------------------------------------------------------
@@ -508,12 +484,11 @@ def copy_mac_build_directories(dist_build):
     # get a list of build directories
     build_dir_list = sorted(os.listdir(buildfiles))
     for unused, build_dir in enumerate(build_dir_list):
-        # build/codeblocks directories
-        if build_dir.startswith("cb-mac"):
-            print("    " + build_dir)
-            copy_build_directories_cb(dist_build, build_dir)
+        # do NOT build/codeblocks directories
+        if build_dir == "cb-mac":
+            continue
         # build makefile directories
-        if build_dir.startswith("mac"):
+        if build_dir == "mac":
             print("    " + build_dir)
             copy_build_directories_make(dist_build, build_dir)
 
@@ -522,16 +497,6 @@ def copy_mac_build_directories(dist_build):
     astyle_build_xcode = __astyle_dir + "/build/xcode/"
     dist_build_xcode = dist_build + "/xcode/"
     shutil.copytree(astyle_build_xcode, dist_build_xcode)
-    # permissions = read/write by the owner and read only by everyone else
-    mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-    for file_in in ("/AStyle.xcodeproj/project.pbxproj",
-                    "/AStyleA.xcodeproj/project.pbxproj",
-                    "/AStyleDylib.xcodeproj/project.pbxproj",
-                    "/AStyleJava.xcodeproj/project.pbxproj"):
-        os.chmod(dist_build_xcode + file_in, mode)
-    for file_in in ("/install.sh",
-                    "/uninstall.sh"):
-        os.chmod(dist_build_xcode + file_in, mode)
 
 # -----------------------------------------------------------------------------
 

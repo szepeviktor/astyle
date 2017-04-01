@@ -1,10 +1,10 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Check a python file using pylint.
     Run from an option in the "Tools" menu of a development environment.
     For Visual Studio:
         Title:       Format Python
         Command:     C:/Program Files/Python35/python.exe
-        Arguments:   "format_python.py"  "$(ItemFileName)$(ItemExt)"
+        Arguments:   "format_python.py"  "$(ItemPath)"
         Init Dir:    %USERPROFILE%/Projects/AStyleTest/file-py
 """
 
@@ -25,30 +25,33 @@ def main():
         print("Is script run from CodeBlocks or Visual Studio?")
         print()
         os._exit(1)
-    file_name = sys.argv[1]
-    print("Hello '" + file_name + "'")
+    file_path = sys.argv[1]
+    unused, file_name = os.path.split(file_path)
+    print("Hello " + file_name)
     if not file_name.endswith(".py"):
         print("Invalid file extension in '" + file_name + "'")
         print()
         os._exit(1)
     print("Checking " + file_name)
     print()
-    call_pylint_executable(file_name)
+    call_pylint_executable(file_path)
     print()
 
 # -----------------------------------------------------------------------------
 
-def call_pylint_executable(file_name):
+def call_pylint_executable(file_path):
     """ Call the pylint executable to format the project.
         Uses the file pylintrc for formatting options.
     """
     if os.name == "nt":
         exepath = "C:/Program Files/Python35/Scripts/pylint.exe"
+        pylintrc = os.getenv("USERPROFILE") + "/Projects/AStyleTest/file-py/pylintrc"
     else:
         exepath = os.getenv("HOME") + "/bin/astyle"
+        pylintrc = os.getenv("HOME") + "/Projects/AStyleTest/file-py/pylintrc"
 
     # build the pylint call list
-    pylint_call = [exepath, "--rcfile=pylintrc", file_name]
+    pylint_call = [exepath, "--rcfile={}".format(pylintrc), file_path]
 
     try:
         retval = subprocess.call(pylint_call)
