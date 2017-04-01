@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """Library files for AStyleWx test modules.
    All directories and filepaths should be in this module.
    Executed as stand-alone it will run a series of tests.
@@ -236,8 +236,7 @@ def get_ch():
                 ch_in = sys.stdin.read(1)
         finally:
             termios.tcsetattr(fd_in, termios.TCSADRAIN, old_settings)
-    # convert to unicode for Python 3
-    return ch_in.decode('utf-8')
+    return ch_in
 
 # -----------------------------------------------------------------------------
 
@@ -251,7 +250,7 @@ def get_file_py_directory(endsep=False):
         pydir += '/'
     # verify it is executed from fixed disk and not a USB
     if os.name == "nt":
-        if pydir[0:2] != "C:" and pydir[0:2] != "F:":
+        if pydir[0:2].upper() != "C:" and pydir[0:2].upper() != "F:":
             system_exit("File executed from drive " + pydir[0:2])
     else:
         if pydir[0:6] != "/home/":

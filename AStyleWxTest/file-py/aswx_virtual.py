@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 
 """Check AStyleIFace.h to Main_Test.h to verify that all virtual fuctions are overridden.
 """

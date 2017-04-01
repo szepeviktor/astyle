@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 
 """Check EditorDlgBase.h to EditorDlg.h to verify that all virtual fuctions
    are overridden.

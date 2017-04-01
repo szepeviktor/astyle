@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 
 """Check AStyleDlgBase.h to AstyleDlg.h to verify that all virtual fuctions are overridden.
    Check AStyleDlgBase.h to AstyleDlgBase.cpp to verify that all identifiers have an exent

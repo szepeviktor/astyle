@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """ Change wxWidgets Visual Studio .vcxproj files for the Static configuration.
     The Static configuration should have been created as a copy of the Release

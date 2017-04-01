@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """Change AStyleWxGui files to wxNotebook, wxChoicebook, wxListbook, or wxTreebook.
 """
 
@@ -23,7 +23,7 @@ __new_book = "wxTreebook"
 # the "modify" page is added by AStyleDlg
 __short_name = ['"Style"', '"Tabs"', '"Indent"', '"Pad"', '"Format"', '"Other"']
 __long_name  = ['"Brace Style"', '"Tabs/Spaces"', '"Indentation"',
-               '"Padding"', '"Formatting"', '"Objective-C"']
+                '"Padding"', '"Formatting"', '"Objective-C"']
 # accums
 __num_cb = 0        # changes to wxChoicebook
 __num_lb = 0        # changes to wxListbook

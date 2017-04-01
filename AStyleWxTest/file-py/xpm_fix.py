@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """Convert xpm files from "static char *" to "static const char *".
    to eliminate gcc compiler warnings.
 
