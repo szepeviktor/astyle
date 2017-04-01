@@ -7,7 +7,7 @@
 		<Option compiler="icc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/libastyle-3.0d.so" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/libastyled.so.$(SOLIBVER)" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objSo/Debug/" />
 				<Option type="3" />
 				<Option compiler="icc" />
@@ -24,11 +24,12 @@
 				</Compiler>
 				<Linker>
 					<Add option="-static-intel" />
+					<Add option="-Wl,-soname,libastyled.so.$(MAJORVER)" />
 					<Add option="-wd10237" />
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/libastyle-3.0.so" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/libastyle.so.$(SOLIBVER)" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objSo/Release/" />
 				<Option type="3" />
 				<Option compiler="icc" />
@@ -48,9 +49,16 @@
 				<Linker>
 					<Add option="-s" />
 					<Add option="-static-intel" />
+					<Add option="-Wl,-soname,libastyle.so.$(MAJORVER)" />
 					<Add option="-wd10237" />
 				</Linker>
 			</Target>
+			<Environment>
+				<Variable name="MAJORVER" value="3" />
+				<Variable name="MINORVER" value="0" />
+				<Variable name="PATCHVER" value="0" />
+				<Variable name="SOLIBVER" value="$(MAJORVER).$(MINORVER).$(PATCHVER)" />
+			</Environment>
 		</Build>
 		<Unit filename="../../src/ASBeautifier.cpp" />
 		<Unit filename="../../src/ASEnhancer.cpp" />

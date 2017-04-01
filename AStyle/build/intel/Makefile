@@ -45,11 +45,22 @@ SYSCONF_PATH=$(prefix)/share/doc/astyle
 bindir = bin
 objdir = obj
 ipath=$(prefix)/bin
-
-CBASEFLAGS = -w3 -Wall -fno-rtti -fno-exceptions  -std=c++11
+CBASEFLAGS = -w3 -Wall -fno-rtti -fno-exceptions -std=c++11
 JAVAINCS   = -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
 CXX = icpc
 INSTALL=install -o $(USER) -g $(USER)
+
+# Library's major version number -- Increment in case of incompatible API
+# change.
+MAJORVER = 3
+# Library's minor version number -- Increment when functionnality is added in a
+# backward-compatible manner; reset to 0 when major number changes.
+MINORVER = 0
+# Library's patch version number -- Increment in case of backward-compatible
+# bug fixes or refactoring; reset to 0 when minor number changes.
+PATCHVER = 0
+# Library's full version number.
+SOLIBVER = $(MAJORVER).$(MINORVER).$(PATCHVER)
 
 ##################################################
 
@@ -148,13 +159,13 @@ astyled:  $(OBJd)
 shared:  libastyle.so
 libastyle.so:  $(OBJs)
 	@ mkdir -p $(bindir)
-	$(CXX) -shared $(LDFLAGSr) -o $(bindir)/libastyle-3.0.so $^
+	$(CXX) -shared $(LDFLAGSr) -Wl,-soname,libastyle.so.$(MAJORVER) -o $(bindir)/libastyle.so.$(SOLIBVER) $^
 	@ echo
 
 shareddebug:  libastyled.so
 libastyled.so:  $(OBJsd)
 	@ mkdir -p $(bindir)
-	$(CXX) -shared $(LDFLAGSd) -o $(bindir)/libastyle-3.0d.so $^
+	$(CXX) -shared $(LDFLAGSd) -Wl,-soname,libastyled.so.$(MAJORVER) -o $(bindir)/libastyled.so.$(SOLIBVER) $^
 	@ echo
 
 static:  libastyle.a
@@ -172,13 +183,13 @@ libastyled.a:  $(OBJad)
 java:  libastylej.so
 libastylej.so:  $(OBJsj)
 	@ mkdir -p $(bindir)
-	$(CXX) -shared $(LDFLAGSr) -o $(bindir)/libastyle-3.0j.so $^
+	$(CXX) -shared $(LDFLAGSr) -Wl,-soname,libastylej.so.$(MAJORVER) -o $(bindir)/libastylej.so.$(SOLIBVER) $^
 	@ echo
 
 javadebug:  libastylejd.so
 libastylejd.so:  $(OBJsjd)
 	@ mkdir -p $(bindir)
-	$(CXX) -shared $(LDFLAGSd) -o $(bindir)/libastyle-3.0jd.so $^
+	$(CXX) -shared $(LDFLAGSr) -Wl,-soname,libastylejd.so.$(MAJORVER) -o $(bindir)/libastylejd.so.$(SOLIBVER) $^
 	@ echo
 
 all:  release debug shared shareddebug static staticdebug

@@ -36,8 +36,6 @@
     <p class="contents1">
         <a class="contents" href="#_MacOS_Version">MacOS Version</a></p>
     <p class="contents2">
-        <a class="contents" href="#_CodeBlocks_MacOS">CodeBlocks MacOS</a></p>
-    <p class="contents2">
         <a class="contents" href="#_Xcode">Xcode</a></p>
     <p class="contents2">
         <a class="contents" href="#_MacOS_Makefile">MacOS Makefile</a></p>
@@ -50,7 +48,7 @@
     <p class="contents2">
         <a class="contents" href="#_Visual_Studio">Visual Studio</a></p>
     <p class="contents1">
-        <a class="contents" href="#_Other_Compilers">Other Compilers</a></p>
+        <a class="contents" href="#_Other_Development_Environments">Other Development Environments</a></p>
     <p class="contents1">
         <a class="contents" href="#_Compiler_Options">Compiler Options</a></p>
 
@@ -79,34 +77,33 @@
     <h4 id="_CodeBlocks_Linux">CodeBlocks Linux</h4>
 
     <p>
-        There are workspace and project files for several Linux compilers. Open a workspace file for the appropriate 
-        compiler. All projects have at least Debug and Release configurations. All output will be in the 
-        &quot;bin&quot; directory. The workspace contains the following projects.</p>
-    <ul>
-        <li><strong>AStyle </strong>builds the Artistic Style command line program (AStyle.exe).&nbsp; </li>
-        <li><strong>AStyle Dll </strong>builds the Artistic Style program as a Dynamic Link Library (AStyle.dll). This will
-            also build an export library for linking the dll. </li>
-        <li><strong>AStyle Java </strong>builds the Artistic Style program as a Dynamic Link Library (AStylej.dll) that can
-            be called from a Java program. The Java Development (JDK) is required for the project to compile. The Project
-            Properties must have an include path to the JDK include and include/win32 directories. This is set in &quot;Project
-            &gt; Properties &gt; C/C++ &gt; General &gt; Additional Include Directories&quot;. The default setting
-            is for the JDK to be installed in the default directory, but it may not be the most current release. The output
-            DLL can also be called from a C++ or C# program.</li>
-        <li><strong>AStyle Lib </strong>builds the Artistic Style program as a Static Library (libAStyle.lib). This can be
-            statically linked to a calling program.</li>
-    </ul>
-
-    <p>
-        There are build 
-        folders for the following compilers. All compiler folders are in the &quot;build&quot; directory.
+        There are build folders for the following compilers. All compiler folders are in the &quot;build&quot; directory.
     </p>
     <ul>
         <li><strong>cb-clang</strong> contains the workspace and project files for the Linux Clang Compiler.</li>
-        <li><strong>cb-gcc</strong> contains the workspace and project files for the GCC Compiler.</li>
+        <li><strong>cb-gcc</strong> contains the workspace and project files for the Linux GCC Compiler.</li>
         <li><strong>cb-intel</strong> contains the workspace and project files for the Linux Intel Compiler.</li>
     </ul>
     <p>
-        For other compilers, follow the instructions in <a href="#_Other_Compilers">Other Compilers</a>.</p>
+        There are workspace and project files for each folder. All projects have at least Debug and Release 
+        configurations. All output will be in the &quot;bin&quot; directory. </p>
+    <p>
+        The workspace contains the following projects.</p>
+    <ul>
+        <li><strong>AStyle </strong>builds the Artistic Style command line program (astyle). </li>
+        <li><strong>AStyle So </strong>builds the Artistic Style program as a shared object (libastyle.so). </li>
+        <li><strong>AStyle Java </strong>builds the Artistic Style program as a shared object (libastylej.so) that can
+            be called from a Java program. The Java Development Kit (JDK) is required for the project to compile. The 
+            Project Properties must have an include path to the JDK include directories.</li>
+        <li><strong>AStyle A </strong>builds the Artistic Style program as a Static Library (libastyle.a). This can be
+            statically linked to a user program.</li>
+    </ul>
+
+    <p>
+        For other Linux development environments, follow the instructions in <a href="#_Other_Development_Environments">Other
+            Development
+            Environments</a>.
+    </p>
 
     <h4 id="_GCC_Makefile">GCC Makefile</h4>
 
@@ -123,19 +120,19 @@
         or "make release" will build the command line configuration. Following are the symbolic names and file names (in
         parens) of the various configurations:</p>
     <ul>
-        <li><strong>release </strong>builds the Artistic Style command line program (astyle). This is the default option.
-        </li>
-        <li><strong>shared </strong>builds the Artistic Style program as a shared library (libastyle.so).</li>
-        <li><strong>static </strong>builds the Artistic Style program as a static library (libastyle.a).</li>
-        <li><strong>debug </strong>builds the Artistic Style command line program with debugging information (astyled).
-        </li>
-        <li><strong>shareddebug </strong>builds the Artistic Style program as a shared library with debugging information
-            (libastyled.so).
-        </li>
-        <li><strong>staticdebug </strong>builds the Artistic Style program as a static library with debugging information
-            (libastyled.a).
-        </li>
-        <li><strong>all </strong>builds all the above configurations.
+        <li><strong>release</strong> or <strong>astyle</strong> builds the Artistic Style command line program. This is the
+            default option. </li>
+        <li><strong>shared</strong> or <strong>libastyle.so</strong> builds the Artistic Style program as a shared 
+            library. </li>
+        <li><strong>static</strong> or <strong>libastyle.a</strong> builds the Artistic Style program as a static 
+            library. </li>
+        <li><strong>debug</strong> or <strong>astyled</strong> builds the Artistic Style command line program with debugging
+            information </li>
+        <li><strong>shareddebug</strong> or <strong>libastyled.so</strong> builds the Artistic Style program as a shared library
+            with debugging information. </li>
+        <li><strong>staticdebug</strong> or <strong>libastyled.a</strong> builds the Artistic Style program as a static library
+            with debugging information. </li>
+        <li><strong>all</strong> builds all the above configurations.
             <p>
                 The following Java shared library builds are separate from the above. They include a Java Native Interface (JNI)
                 and require that the Java Development Kit (JDK) be installed. The environment variable JAVA_HOME should be defined.
@@ -148,7 +145,7 @@
         <li><strong>javadebug </strong>builds the Artistic Style program as a shared library which includes the JNI and debugging
             information
             (libastylejd.so).</li>
-        <li><span style="font-weight: bold;">javaall </span>builds all the above java configurations.</li>
+        <li><strong>javaall </strong>builds all the above java configurations.</li>
     </ul>
     <p>
         More than one configuration can be built at the same time. For example, to build all the release configurations
@@ -172,7 +169,7 @@
 </pre>
     <p>
         To build the other astyle configurations, you can enter the file name or a symbolic name. The configurations for
-        Clang are the same as for the <a href="#_GCC_Makefile">GCC compiler</a>. More than one configuration can be
+        Clang are the same as for the <a href="#_GCC_Makefile">GCC Makefile</a>. More than one configuration can be
         built at the same time. For example, to build all the release configurations enter:</p>
     <pre>cd astyle/build/clang<br />make release shared static
 </pre>
@@ -201,7 +198,7 @@
     <pre>cd astyle/build/intel<br />make</pre>
     <p>
         To build the other astyle configurations, you can enter the file name or a symbolic name. The configuration names
-        for Intel are the same as for the <a href="#_GCC_Makefile">GCC compiler</a>. More than one configuration can be
+        for Intel are the same as for the <a href="#_GCC_Makefile">GCC Makefile</a>. More than one configuration can be
         built at the same time. For example, to build the entire debug configurations enter:</p>
     <pre>cd astyle/build/intel<br />make debug shareddebug staticdebug</pre>
     <p>
@@ -265,24 +262,6 @@
         be removed individually for each user.</p>
 
     <h3 id="_MacOS_Version">MacOS Version</h3>
-
-    <h4 id="_CodeBlocks_MacOS">CodeBlocks MacOS</h4>
-
-    <p>
-        There are workspace and project files for the MacOS compiler. Open the workspace file for the MacOS compiler.
-        All projects have at least Debug and Release configurations. All output will be in the &quot;bin&quot;
-        directory. </p>
-    <p>
-        The available projects are the same as in <a href="#_CodeBlocks_Linux">CodeBlocks Linux</a>.</p>
-
-    <p>
-        There is one build folder for the MacOS compiler. The compiler folder is in the &quot;build&quot; 
-        directory. </p>
-    <ul>
-        <li><strong>cb-mac</strong> contains the workspace and project files for the MacOS Compiler.</li>
-    </ul>
-    <p>
-        For other compilers, follow the instructions in <a href="#_Other_Compilers">Other Compilers</a>.</p>
 
     <h4 id="_Xcode">Xcode</h4>
 
@@ -348,7 +327,7 @@ sudo xcodebuild install -project AStyle.xcodeproj
 </pre>
     <p>
         To build the other astyle configurations, you can enter the file name or a symbolic name. The configurations for
-        Mac are the same as for the <a href="#_GCC_Makefile">Linux GCC compiler</a>. More than one configuration can be
+        Mac are the same as for the <a href="#_GCC_Makefile">GCC Makefile</a>. More than one configuration can be
         built at the same time. For example, to build all the release configurations enter:</p>
     <pre>cd astyle/build/mac<br />make release shared static
 </pre>
@@ -367,21 +346,32 @@ sudo xcodebuild install -project AStyle.xcodeproj
     <h4 id="_CodeBlocks_Windows">CodeBlocks Windows</h4>
 
     <p>
-        There are workspace and project files for several Windows compilers. Open a workspace file for the appropriate
-        compiler. All projects have at least Debug and Release configurations. All output will be in the &quot;bin&quot;
-        directory. </p>
-    <p>
-        The available projects are the same as in <a href="#_CodeBlocks_Linux">CodeBlocks Linux</a>.</p>
-
-    <p>
         There are build folders for the following compilers. All compiler folders are in the &quot;build&quot; directory.
     </p>
     <ul>
-        <li><strong>cb-bcc32c</strong>contains the workspace and project files for the Embarcadero BCC32C Compiler.</li>
-        <li><strong>cb-mingw</strong>contains the workspace and project files for the MinGw or TDM_GCC Compilers.</li>
+        <li><strong>cb-bcc32c</strong> contains the workspace and project files for the Embarcadero BCC32C Compiler.</li>
+        <li><strong>cb-mingw</strong> contains the workspace and project files for the MinGw or TDM_GCC Compilers.</li>
+    </ul>
+
+    <p>
+        There are workspace and project files for each folder. All projects have at least Debug and Release configurations.
+        All output
+        will be in the &quot;bin&quot; directory.</p>
+    <p>
+        The workspace contains the following projects.</p>
+    <ul>
+        <li><strong>AStyle </strong>builds the Artistic Style command line program (AStyle.exe). </li>
+        <li><strong>AStyle Dll </strong>builds the Artistic Style program as a shared object (AStyle.dll). </li>
+        <li><strong>AStyle Java </strong>builds the Artistic Style program as a shared object AStylej.dll) that can
+            be called from a Java program. The Java Development Kit (JDK) is required for the project to compile. The 
+            Project Properties must have an include path to the JDK include directories.</li>
+        <li><strong>AStyle Lib </strong>builds the Artistic Style program as a Static Library (astyle.lib). This can be
+            statically linked to a calling program.</li>
     </ul>
     <p>
-        For other compilers, follow the instructions in <a href="#_Other_Compilers">Other Compilers</a>.</p>
+        For other development environments, follow the instructions in <a href="#_Other_Development_Environments">Other Development
+            Environments</a>.
+    </p>
 
     <h4 id="_Visual_Studio">Visual Studio</h4>
 
@@ -410,12 +400,12 @@ sudo xcodebuild install -project AStyle.xcodeproj
             statically linked to a calling program.</li>
     </ul>
 
-    <h3 id="_Other_Compilers">Other Compilers</h3>
+    <h3 id="_Other_Development_Environments">Other Development Environments</h3>
 
     <p>
-        To use other compilers a project file must be built using a development environment.</p>
+        To use other development environments a project file must be built.</p>
     <ul>
-        <li>Create a project using the compiler development environment.</li>
+        <li>Create a project using the development environment.</li>
         <li>Add to the project all the .cpp and .h files in the "src" directory.</li>
         <li>The Compiler Options section discusses the compiler options to use.</li>
         <li>Compile.</li>
@@ -432,10 +422,10 @@ sudo xcodebuild install -project AStyle.xcodeproj
     <p>
         Artistic Style is a small program and it is best to optimize for speed. The debug configurations are not usually
         optimized. To optimize for speed in the release configurations, use the macro NDEBUG to remove asserts. If
-        necessary, use an option to activate the C++11 standards (--std=c++0x on most compilers). Use an option that allows
-        inline function expansion. Runtime Type Information (RTTI) is NOT needed and exceptions are NOT used. Use whole
-        program optimization if your compiler supports it. There may be other options you can use depending on the 
-        compiler. </p>
+        necessary, use an option to activate the C++11 standards (-std=c++11 or -std=c++0x on most compilers). Use an
+        option that allows inline function expansion. Runtime Type Information (RTTI) is NOT needed and exceptions are
+        NOT used. Use whole program optimization if your compiler supports it. There may be other options you can use
+        depending on the compiler. </p>
     <p>
         &nbsp;</p>
 
@@ -444,6 +434,8 @@ sudo xcodebuild install -project AStyle.xcodeproj
             <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=2319&type=16" alt="" />
         </a></p>
 
+    <p>
+        &nbsp;</p>
     <p>
         &nbsp;</p>
 

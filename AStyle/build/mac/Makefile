@@ -39,8 +39,9 @@ dynamiclib = -dynamiclib
 bindir = bin
 objdir = obj
 ipath=$(prefix)/bin
-CBASEFLAGS = -W -Wall -fno-rtti -fno-exceptions
-LDBASEFLAGS =
+CBASEFLAGS = -W -Wall -std=c++11 -stdlib=libc++ -fno-rtti -fno-exceptions  \
+-mmacosx-version-min=10.9
+LDBASEFLAGS = 
 JAVAINCS  = -I/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/include \
 -I/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/include/darwin \
 -I/System/Library/Frameworks/JavaVM.framework/Headers
@@ -154,13 +155,13 @@ astyled:  $(OBJd)
 shared:  libastyle.$(dylib)
 libastyle.$(dylib):  $(OBJs)
 	@ mkdir -p $(bindir)
-	$(CXX) $(dynamiclib) $(LDFLAGSr) -o $(bindir)/libastyle-3.0.$(dylib) $^
+	$(CXX) $(dynamiclib) $(LDFLAGSr) -o $(bindir)/libastyle30.$(dylib) $^
 	@ echo
 
 shareddebug:  libastyled.$(dylib)
 libastyled.$(dylib):  $(OBJsd)
 	@ mkdir -p $(bindir)
-	$(CXX) $(dynamiclib) $(LDFLAGSd) -o $(bindir)/libastyle-3.0d.$(dylib) $^
+	$(CXX) $(dynamiclib) $(LDFLAGSd) -o $(bindir)/libastyle30d.$(dylib) $^
 	@ echo
 
 static:  libastyle.a
@@ -178,13 +179,13 @@ libastyled.a:  $(OBJad)
 java:  libastylej.$(dylib)
 libastylej.$(dylib):  $(OBJsj)
 	@ mkdir -p $(bindir)
-	$(CXX) $(dynamiclib) $(LDFLAGSr) -o $(bindir)/libastyle-3.0j.$(dylib) $^
+	$(CXX) $(dynamiclib) $(LDFLAGSr) -o $(bindir)/libastyle30j.$(dylib) $^
 	@ echo
 
 javadebug:  libastylejd.$(dylib)
 libastylejd.$(dylib):  $(OBJsjd)
 	@ mkdir -p $(bindir)
-	$(CXX) $(dynamiclib) $(LDFLAGSd) -o $(bindir)/libastyle-3.0jd.$(dylib) $^
+	$(CXX) $(dynamiclib) $(LDFLAGSd) -o $(bindir)/libastyle30jd.$(dylib) $^
 	@ echo
 
 all:  release debug shared shareddebug static staticdebug
