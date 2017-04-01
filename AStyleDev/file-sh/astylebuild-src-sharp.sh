@@ -1,10 +1,10 @@
 #!/bin/bash
 # build the AStyle Release Java Configuration using the AStyle makefile
-# copy the output to the AStyleDev\test-s(x) folder
+# copy the output to the AStyleDev\test-s(2) folder
 
 astyle=$HOME/Projects/AStyle/build/gcc
 bindir1=$HOME/Projects/AStyleDev/src-s
-bindir2=$HOME/Projects/AStyleDev/src-sx
+bindir2=$HOME/Projects/AStyleDev/src-s2
 errors=no
 
 #define $result variable here
@@ -22,11 +22,11 @@ unset result
 # don't copy if compile errors
 if [ $errors==no ]; then
 	echo COPYING
-	cp  --verbose  bin/libastyle.so  $bindir1/ 
+	cp  --verbose  bin/libastyle.so.*  $bindir1/
 	result=$?
 	if [ $result -ne 0 ]; then  errors=yes; fi
 	unset result
-	cp  --verbose  bin/libastyle.so $bindir2/
+	cp  --verbose  bin/libastyle.so.*  $bindir2/
 	result=$?
 	if [ $result -ne 0 ]; then  errors=yes; fi
 	unset result
@@ -37,7 +37,7 @@ if [ $errors = yes ]; then
 	echo "* * * *  ERRORS IN PROCESSING SCRIPT  * * * *"
 fi
 
-echo 
+echo
 
 if [ ! $1 ]; then
 	read -sn1 -p "Press Enter to end "

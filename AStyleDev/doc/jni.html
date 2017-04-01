@@ -430,10 +430,10 @@
         <span class="hl kwa">for</span> <span class="hl opt">(</span>File filePath <span class="hl opt">:</span> directory<span class="hl opt">.</span><span class="hl kwd">listFiles</span><span class="hl opt">())</span>
         <span class="hl opt">{</span>   String fileName <span class="hl opt">=</span> filePath<span class="hl opt">.</span><span class="hl kwd">getName</span><span class="hl opt">().</span><span class="hl kwd">toLowerCase</span><span class="hl opt">();</span>
             <span class="hl kwa">if</span> <span class="hl opt">(</span>filePath<span class="hl opt">.</span><span class="hl kwd">isFile</span><span class="hl opt">()</span>
-                    <span class="hl opt">&amp;&amp;</span> fileName<span class="hl opt">.</span><span class="hl kwd">endsWith</span><span class="hl opt">(</span>fileExt<span class="hl opt">)</span>
                     <span class="hl opt">&amp;&amp; (</span>fileName<span class="hl opt">.</span><span class="hl kwd">startsWith</span><span class="hl opt">(</span><span class="hl str">&quot;astyle&quot;</span><span class="hl opt">)</span>
                         <span class="hl opt">||</span> fileName<span class="hl opt">.</span><span class="hl kwd">startsWith</span><span class="hl opt">(</span><span class="hl str">&quot;libastyle&quot;</span><span class="hl opt">))</span>
-                    <span class="hl opt">&amp;&amp;</span>  fileName<span class="hl opt">.</span><span class="hl kwd">contains</span><span class="hl opt">(</span><span class="hl str">&quot;j&quot;</span><span class="hl opt">))</span>
+                    <span class="hl opt">&amp;&amp;</span>  fileName<span class="hl opt">.</span><span class="hl kwd">contains</span><span class="hl opt">(</span><span class="hl str">&quot;j&quot;</span><span class="hl opt">)</span>
+                    <span class="hl opt">&amp;&amp;</span> fileName<span class="hl opt">.</span><span class="hl kwd">contains</span><span class="hl opt">(</span>fileExt<span class="hl opt">))</span>
             <span class="hl opt">{</span>   libraryName <span class="hl opt">=</span> filePath<span class="hl opt">.</span><span class="hl kwd">getName</span><span class="hl opt">();</span>
                 <span class="hl kwa">break</span><span class="hl opt">;</span>
             <span class="hl opt">}</span>

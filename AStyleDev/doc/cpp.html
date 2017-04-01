@@ -173,16 +173,16 @@
 <span class="hl ppc">#include &lt;fstream&gt;</span>
 <span class="hl ppc">#include &lt;iostream&gt;</span>
 <span class="hl ppc">#if defined(__GNUC__)</span>
-<span class="hl ppc">    #include &lt;string.h&gt;</span>     <span class="hl slc">// need both string and string.h for GCC</span>
+    <span class="hl ppc">#include &lt;string.h&gt;</span>     <span class="hl slc">// need both string and string.h for GCC</span>
 <span class="hl ppc"></span><span class="hl ppc">#endif</span>
 
 <span class="hl kwa">using namespace</span> std<span class="hl opt">;</span>
 
 <span class="hl slc">// allow for different calling conventions in Linux and Windows</span>
 <span class="hl ppc">#ifdef _WIN32</span>
-<span class="hl ppc">    #define STDCALL __stdcall</span>
+    <span class="hl ppc">#define STDCALL __stdcall</span>
 <span class="hl ppc">#else</span>
-<span class="hl ppc">    #define STDCALL</span>
+    <span class="hl ppc">#define STDCALL</span>
 <span class="hl ppc">#endif</span>
 
 <span class="hl slc">// functions to call AStyleMain</span>
@@ -254,7 +254,7 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</sp
 <span class="hl slc">// Allocate memory for the Artistic Style formatter.</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> STDCALL <span class="hl kwd">ASMemoryAlloc</span><span class="hl opt">(</span><span class="hl kwb">unsigned long</span> memoryNeeded<span class="hl opt">)</span>
 <span class="hl opt">{</span>   <span class="hl slc">// error condition is checked after return from AStyleMain</span>
-    <span class="hl kwb">char</span><span class="hl opt">*</span> buffer <span class="hl opt">=</span> <span class="hl kwa">new</span><span class="hl opt">(</span>nothrow<span class="hl opt">)</span> <span class="hl kwb">char</span> <span class="hl opt">[</span>memoryNeeded<span class="hl opt">];</span>
+    <span class="hl kwb">char</span><span class="hl opt">*</span> buffer <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl opt">(</span>nothrow<span class="hl opt">)</span> <span class="hl kwb">char</span> <span class="hl opt">[</span>memoryNeeded<span class="hl opt">];</span>
     <span class="hl kwa">return</span> buffer<span class="hl opt">;</span>
 <span class="hl opt">}</span>
 
@@ -292,7 +292,7 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</sp
     <span class="hl kwb">const int</span> bufferSizeIn <span class="hl opt">=</span> <span class="hl num">131072</span><span class="hl opt">;</span>     <span class="hl slc">// 128 KB</span>
 
     <span class="hl slc">// allocate memory</span>
-    <span class="hl kwb">char</span><span class="hl opt">*</span> bufferIn <span class="hl opt">=</span> <span class="hl kwa">new</span><span class="hl opt">(</span>nothrow<span class="hl opt">)</span> <span class="hl kwb">char</span> <span class="hl opt">[</span>bufferSizeIn<span class="hl opt">];</span>
+    <span class="hl kwb">char</span><span class="hl opt">*</span> bufferIn <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl opt">(</span>nothrow<span class="hl opt">)</span> <span class="hl kwb">char</span> <span class="hl opt">[</span>bufferSizeIn<span class="hl opt">];</span>
     <span class="hl kwa">if</span> <span class="hl opt">(</span>bufferIn <span class="hl opt">==</span> NULL<span class="hl opt">)</span>
     <span class="hl opt">{</span>   in<span class="hl opt">.</span><span class="hl kwd">close</span><span class="hl opt">();</span>
         <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Memory allocation failure on input&quot;</span><span class="hl opt">);</span>
@@ -306,7 +306,7 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</sp
     <span class="hl opt">{</span>   in<span class="hl opt">.</span><span class="hl kwd">close</span><span class="hl opt">();</span>
         <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Read buffer is too small&quot;</span><span class="hl opt">);</span>
     <span class="hl opt">}</span>
-    bufferIn<span class="hl opt">[</span>textSizeIn<span class="hl opt">] =</span> <span class="hl str">'\0'</span><span class="hl opt">;</span>
+    bufferIn<span class="hl opt">[</span>textSizeIn<span class="hl opt">] =</span> <span class="hl str">&apos;\0&apos;</span><span class="hl opt">;</span>
     in<span class="hl opt">.</span><span class="hl kwd">close</span><span class="hl opt">();</span>
 
     <span class="hl kwa">return</span> bufferIn<span class="hl opt">;</span>

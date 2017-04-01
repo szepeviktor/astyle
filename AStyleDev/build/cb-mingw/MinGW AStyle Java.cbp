@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="AStyleJ">
-				<Option output="bin/AStyle-3.0j.dll" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/AStyle30j.dll" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objJava" />
 				<Option deps_output="dep" />
 				<Option type="3" />
@@ -21,6 +21,7 @@
 					<Add option="-O3" />
 					<Add option="-Wall" />
 					<Add option="-W" />
+					<Add option="-std=c++11" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-DNDEBUG" />
@@ -33,7 +34,7 @@
 					<Add option="-Wl,--add-stdcall-alias" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cmd /c  copy /y  bin\AStyle-3.0j.dll  ..\..\src-j\  &gt; NUL" />
+					<Add after="cmd /c  copy /y  bin\AStyle30j.dll  ..\..\src-j\  &gt; NUL" />
 				</ExtraCommands>
 			</Target>
 		</Build>

@@ -18,9 +18,10 @@
 					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
+					<Add option="-std=c++11" />
 				</Compiler>
 				<Linker>
-					<Add library="astyle-3.0d" />
+					<Add library=":libastyled.so.$(SOLIBVER)" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -36,14 +37,18 @@
 					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
+					<Add option="-std=c++11" />
 					<Add option="-DNDEBUG" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="astyle-3.0" />
+					<Add library=":libastyle.so.$(SOLIBVER)" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
+			<Environment>
+				<Variable name="SOLIBVER" value="3.0.0" />
+			</Environment>
 		</Build>
 		<Unit filename="../../src-c/Example.cpp" />
 		<Extensions>

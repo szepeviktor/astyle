@@ -7,19 +7,21 @@
 		<Option compiler="clang" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/libastyle-3.0jd.so" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/libastylejd.so.$(SOLIBVER)" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objJ/Debug/" />
 				<Option type="3" />
 				<Option compiler="clang" />
 				<Compiler>
 					<Add option="-Weverything" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-Wextra" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fPIC" />
 					<Add option="-fvisibility=hidden" />
+					<Add option="-Wno-c++98-compat" />
 					<Add option="-Wno-exit-time-destructors" />
 					<Add option="-Wno-global-constructors" />
 					<Add option="-Wno-missing-variable-declarations" />
@@ -34,12 +36,15 @@
 					<Add directory="/usr/lib/jvm/default-java/include" />
 					<Add directory="/usr/lib/jvm/default-java/include/linux" />
 				</Compiler>
+				<Linker>
+					<Add option="-Wl,-soname,libastylejd.so.$(SOLIBVER)" />
+				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/libastyle-3.0jd.so  ../../src-j/" />
+					<Add after="cp  bin/libastylejd.so.$(SOLIBVER)  ../../src-j/" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/libastyle-3.0j.so" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/libastylej.so.$(SOLIBVER)" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objJ/Release/" />
 				<Option type="3" />
 				<Option compiler="clang" />
@@ -47,11 +52,13 @@
 					<Add option="-O3" />
 					<Add option="-Weverything" />
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-Wextra" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fPIC" />
 					<Add option="-fvisibility=hidden" />
+					<Add option="-Wno-c++98-compat" />
 					<Add option="-Wno-exit-time-destructors" />
 					<Add option="-Wno-global-constructors" />
 					<Add option="-Wno-missing-variable-declarations" />
@@ -69,11 +76,15 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-Wl,-soname,libastylej.so.$(SOLIBVER)" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/libastyle-3.0j.so  ../../src-j/" />
+					<Add after="cp  bin/libastylej.so.$(SOLIBVER)  ../../src-j/" />
 				</ExtraCommands>
 			</Target>
+			<Environment>
+				<Variable name="SOLIBVER" value="3.0.0" />
+			</Environment>
 		</Build>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />

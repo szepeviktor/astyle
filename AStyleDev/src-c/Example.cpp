@@ -90,7 +90,7 @@ void  STDCALL ASErrorHandler(int errorNumber, const char* errorMessage)
 // Allocate memory for the Artistic Style formatter.
 char* STDCALL ASMemoryAlloc(unsigned long memoryNeeded)
 {   // error condition is checked after return from AStyleMain
-    char* buffer = new(nothrow) char [memoryNeeded];
+    char* buffer = new (nothrow) char [memoryNeeded];
     return buffer;
 }
 
@@ -128,7 +128,7 @@ char* getText(const string& filePath)
     const int bufferSizeIn = 131072;     // 128 KB
 
     // allocate memory
-    char* bufferIn = new(nothrow) char [bufferSizeIn];
+    char* bufferIn = new (nothrow) char [bufferSizeIn];
     if (bufferIn == NULL)
     {   in.close();
         error("Memory allocation failure on input");

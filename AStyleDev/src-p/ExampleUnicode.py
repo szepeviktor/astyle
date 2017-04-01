@@ -31,14 +31,13 @@ def main():
     options = "-A2tOP"
 
     # initialization
-    print("ExampleUnicode",
-          platform.python_implementation(),
-          platform.python_version(),
-          platform.architecture()[0])
+    print("ExampleUnicode {} {} {}".format(platform.python_implementation(),
+                                           platform.python_version(),
+                                           platform.architecture()[0]))
     initialize_platform()
     libc = initialize_library()
     version = get_astyle_version(libc)
-    print("Artistic Style Version " + version)
+    print("Artistic Style Version {}".format(version))
     # process the input files
     for file_path in files:
         file_path = get_project_directory(file_path)
@@ -62,7 +61,7 @@ def main():
         save_source_code(formatted_text, file_path)
         # allocated memory is deleted here, not in the allocation function
         del formatted_text
-        print("Formatted", file_path)
+        print("Formatted {}".format(file_path))
 
 # -----------------------------------------------------------------------------
 
@@ -124,7 +123,7 @@ def get_library_name():
     # IronPython needs the '.'
     for file_name in os.listdir('.'):
         if (os.path.isfile(file_name)
-                and file_name.lower().endswith(libext)
+                and libext in file_name.lower()
                 and (file_name.lower().startswith("astyle")
                      or file_name.lower().startswith("libastyle"))):
             return file_name
@@ -152,7 +151,7 @@ def get_source_code(file_path):
         Opening the file as non-binary will read it as a unicode string.
         An exception is handled in case the file cannot be decoded using
         the system default codec.
-       The return value is a unicode string.
+        The return value is a unicode string.
     """
     # version 3 will read unicode since the file is not declared as binary
     # could also read the file as binary and use an explicit decode
@@ -247,9 +246,9 @@ def load_windows_dll():
         # exception for CPython
         except WindowsError as err:
             # print(err)
-            if err.winerror == 126:     #  "The specified module could not be found"
+            if err.winerror == 126:     # "The specified module could not be found"
                 error("Cannot load library " + dll)
-            elif err.winerror == 193:   #  "%1 is not a valid Win32 application"
+            elif err.winerror == 193:   # "%1 is not a valid Win32 application"
                 print("Cannot load library " + dll)
                 error("You may be mixing 32 and 64 bit code")
             else:
@@ -298,7 +297,7 @@ def error_handler(num, err):
         The return error string (err) is always byte type.
         It is converted to unicode for Python 3.
     """
-    print("Error in input {0}".format(num))
+    print("Error in input {}".format(num))
     if __is_unicode__:
         err = err.decode()
     error(err)
@@ -338,7 +337,7 @@ def memory_allocation(size):
     # "TypeError: string or integer address expected instead of c_char_Array"
     # CPython must use c_char_Array object
     else:
-        arr_type = c_char* size     # create a c_char array
+        arr_type = c_char * size    # create a c_char array
         ALLOCATED = arr_type()      # create an array object
         return addressof(ALLOCATED)
 
