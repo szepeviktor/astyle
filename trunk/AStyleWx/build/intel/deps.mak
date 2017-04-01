@@ -19,9 +19,8 @@ AStyleDisplay.o: ../../src/AStyleDisplay.cpp \
  ../../src/AStyleDisplay.h \
  /usr/include/wx-3.0/wx/gtk/pen.h
 AStyleDlg.o: ../../src/AStyleDlg.cpp \
- ../../dialog/AStyleDlgBase.h \
- ../../src/AStyleDisplay.h ../../src/AStyleIFace.h ../../src/Constants.h \
- ../../src/AStyleWx.h \
+ ../../src/AStyleDisplay.h \
+ ../../src/Constants.h ../../src/AStyleWx.h \
  ../../src/Config.h \
  ../../dialog/SettingsDlgBase.h
 AStyleFormat.o: ../../src/AStyleFormat.cpp ../../src/AStyleFormat.h \
@@ -31,9 +30,9 @@ AStyleIFace.o: ../../src/AStyleIFace.cpp ../../src/AStyleIFace.h \
  /usr/include/wx-3.0/wx/gtk/colour.h
 AStyleWx.o: ../../src/AStyleWx.cpp \
  ../../dialog/AboutDlgBase.h \
+ ../../src/AStyleDisplay.h \
  ../../dialog/AStyleDlgBase.h \
- ../../src/AStyleDisplay.h ../../src/AStyleIFace.h ../../src/Constants.h \
- ../../src/AStyleWx.h \
+ ../../src/Constants.h ../../src/AStyleWx.h \
  ../../src/Config.h \
  ../../dialog/SettingsDlgBase.h ../../src/EditorDlg.h \
  ../../dialog/EditorDlgBase.h \

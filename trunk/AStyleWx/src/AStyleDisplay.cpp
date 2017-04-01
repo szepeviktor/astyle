@@ -86,7 +86,7 @@ wxArrayString AStyleDisplay::AlignGetLineArray(const wxString& text) const
 	while (end < len - 1)
 	{
 		start = end + 1;
-		end = text.find("\n", start);
+		end = text.find('\n', start);
 		if (end == wxNOT_FOUND)
 			end = text.Length() - 1;
 		wxString line = text.Mid(start, end - start + 1);
@@ -103,7 +103,7 @@ wxString AStyleDisplay::AlignGetLine(const wxString& text, int lineNumber) const
 	for (int i = 0; i <= lineNumber; i++)
 	{
 		start = end + 1;
-		end = text.find("\n", start);
+		end = text.find('\n', start);
 		if (end == wxNOT_FOUND)
 			end = text.Length() - 1;
 	}
@@ -217,7 +217,7 @@ wxString AStyleDisplay::AlignMethodColon(const wxString& text) const
 	// find the first line containing a colon
 	for (i = 0; i < line.Count(); i++)
 	{
-		int colon = line[i].find(":");
+		int colon = line[i].find(':');
 		if (colon == wxNOT_FOUND)
 			continue;
 		wxString lineExtent = line[i].Mid(0, colon);
@@ -229,7 +229,7 @@ wxString AStyleDisplay::AlignMethodColon(const wxString& text) const
 	for (++i; i < line.Count(); i++)
 	{
 		int lineText = line[i].find_first_not_of(" \t");
-		int colon = line[i].find(":");
+		int colon = line[i].find(':');
 		assert(colon != wxNOT_FOUND);
 		wxString lineTextExtent = line[i].Mid(lineText, colon - lineText);
 		int lineTextIndents = AlignGetSpaceEquivalent(lineTextExtent);
@@ -487,7 +487,7 @@ void AStyleDisplay::DisplayOtherOptions(wxCommandEvent& event, wxStyledTextCtrl*
 			break;
 
 		case ID_PAD_METHOD_PREFIX:
-			textOut = textOut = StcOther_PadMethodPrefix();
+			textOut = StcOther_PadMethodPrefix();
 			break;
 
 		case ID_UNPAD_METHOD_PREFIX:
@@ -809,7 +809,7 @@ void AStyleDisplay::LexStcText(wxString boldChars /*wxEmptyString*/)
 // STC Display for the Format Tab
 //-----------------------------------------------------------------------------
 
-wxString AStyleDisplay::StcFormat_AddBraces()
+wxString AStyleDisplay::StcFormat_AddBraces() const
 {
 	wxString checked =     "              \n"
 	                       "if (isFoo) {  \n"
@@ -824,7 +824,7 @@ wxString AStyleDisplay::StcFormat_AddBraces()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcFormat_AddOneLineBraces()
+wxString AStyleDisplay::StcFormat_AddOneLineBraces() const
 {
 	wxString checked =     "             \n"
 	                       "if (isFoo)   \n"
@@ -840,7 +840,7 @@ wxString AStyleDisplay::StcFormat_AddOneLineBraces()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcFormat_BreakClosingBraces()
+wxString AStyleDisplay::StcFormat_BreakClosingBraces() const
 {
 	wxString checked =     "                       \n"
 	                       "void Foo(bool isFoo)   \n"
@@ -866,7 +866,7 @@ wxString AStyleDisplay::StcFormat_BreakClosingBraces()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcFormat_BreakElseIf()
+wxString AStyleDisplay::StcFormat_BreakElseIf() const
 {
 	wxString checked =     "                    \n"
 	                       "if (isFoo) {        \n"
@@ -895,7 +895,7 @@ wxString AStyleDisplay::StcFormat_BreakElseIf()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcFormat_BreakOneLineHeaders()
+wxString AStyleDisplay::StcFormat_BreakOneLineHeaders() const
 {
 	wxString checked =     "                           \n"
 	                       "	if (isFoo1)            \n"
@@ -915,7 +915,7 @@ wxString AStyleDisplay::StcFormat_BreakOneLineHeaders()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcFormat_CloseTemplates()
+wxString AStyleDisplay::StcFormat_CloseTemplates() const
 {
 	wxString checked =     "\n"
 	                       "Stack<int,List<int>> stack1;";
@@ -926,7 +926,7 @@ wxString AStyleDisplay::StcFormat_CloseTemplates()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcFormat_ConvertTabs()
+wxString AStyleDisplay::StcFormat_ConvertTabs() const
 {
 	// this case shows whitespace, cannot have formatting spaces in text
 	wxString checked =     "\n"
@@ -949,7 +949,7 @@ wxString AStyleDisplay::StcFormat_ConvertTabs()
 		return AlignConvertTabs(unchecked);
 }
 
-wxString AStyleDisplay::StcFormat_KeepOneLineBlocks()
+wxString AStyleDisplay::StcFormat_KeepOneLineBlocks() const
 {
 	wxString checked =     "                   \n"
 	                       "if (isFoo)         \n"
@@ -965,7 +965,7 @@ wxString AStyleDisplay::StcFormat_KeepOneLineBlocks()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcFormat_KeepOneLineStatements()
+wxString AStyleDisplay::StcFormat_KeepOneLineStatements() const
 {
 	wxString checked =     "                   \n"
 	                       "if (isFoo)         \n"
@@ -984,7 +984,7 @@ wxString AStyleDisplay::StcFormat_KeepOneLineStatements()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcFormat_MaxCodeLength_BreakAfterLogical()
+wxString AStyleDisplay::StcFormat_MaxCodeLength_BreakAfterLogical() const
 {
 	// flag to alternate the display
 	static bool displayBrokenLine = true;
@@ -1028,7 +1028,7 @@ wxString AStyleDisplay::StcFormat_MaxCodeLength_BreakAfterLogical()
 	return textOut;
 }
 
-wxString AStyleDisplay::StcFormat_RemoveBraces()
+wxString AStyleDisplay::StcFormat_RemoveBraces() const
 {
 	wxString checked   =   "              \n"
 	                       "if (isFoo)    \n"
@@ -1044,7 +1044,7 @@ wxString AStyleDisplay::StcFormat_RemoveBraces()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcFormat_RemoveCommentPrefix()
+wxString AStyleDisplay::StcFormat_RemoveCommentPrefix() const
 {
 	wxString checked   =   "                  \n"
 	                       "/*                \n"
@@ -1065,7 +1065,7 @@ wxString AStyleDisplay::StcFormat_RemoveCommentPrefix()
 // STC Display for the Indent Tab
 //-----------------------------------------------------------------------------
 
-wxString AStyleDisplay::StcIndent_IndentAfterParen()
+wxString AStyleDisplay::StcIndent_IndentAfterParen() const
 {
 	wxString checked =     "                     \n"
 	                       "void Foo(bool bar1,  \n"
@@ -1093,7 +1093,7 @@ wxString AStyleDisplay::StcIndent_IndentAfterParen()
 	return m_event->IsChecked() ? checked : AlignIndentAfterParens(unchecked);;
 }
 
-wxString AStyleDisplay::StcIndent_IndentCase_IndentSwitch()
+wxString AStyleDisplay::StcIndent_IndentCase_IndentSwitch() const
 {
 	// indent case and indent switch work together
 	bool switchChecked = m_indentSwitchBlocks->IsChecked();
@@ -1173,7 +1173,7 @@ wxString AStyleDisplay::StcIndent_IndentCase_IndentSwitch()
 	return display;
 }
 
-wxString AStyleDisplay::StcIndent_IndentClass()
+wxString AStyleDisplay::StcIndent_IndentClass() const
 {
 	wxString checked =     "                   \n"
 	                       "class Foo          \n"
@@ -1194,7 +1194,7 @@ wxString AStyleDisplay::StcIndent_IndentClass()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcIndent_IndentCol1Comment()
+wxString AStyleDisplay::StcIndent_IndentCol1Comment() const
 {
 	wxString checked =     "                    \n"
 	                       "void Foo(bool isFoo)\n"
@@ -1217,7 +1217,7 @@ wxString AStyleDisplay::StcIndent_IndentCol1Comment()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcIndent_IndentContinuation()
+wxString AStyleDisplay::StcIndent_IndentContinuation() const
 {
 	wxString threeIndents = "                  \n"
 	                        "//  three indents \n"
@@ -1246,7 +1246,7 @@ wxString AStyleDisplay::StcIndent_IndentContinuation()
 	return m_event->IsChecked() ? threeIndents : oneIndent;
 }
 
-wxString AStyleDisplay::StcIndent_IndentGoTo()
+wxString AStyleDisplay::StcIndent_IndentGoTo() const
 {
 	wxString checked =     "                   \n"
 	                       "int foospace() {   \n"
@@ -1273,7 +1273,7 @@ wxString AStyleDisplay::StcIndent_IndentGoTo()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcIndent_IndentModifier()
+wxString AStyleDisplay::StcIndent_IndentModifier() const
 {
 	wxString checked =     "                   \n"
 	                       "class Foo          \n"
@@ -1294,7 +1294,7 @@ wxString AStyleDisplay::StcIndent_IndentModifier()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcIndent_IndentNamespace()
+wxString AStyleDisplay::StcIndent_IndentNamespace() const
 {
 	wxString checked =     "                   \n"
 	                       "namespace foospace \n"
@@ -1321,7 +1321,7 @@ wxString AStyleDisplay::StcIndent_IndentNamespace()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcIndent_IndentPreprocBlock()
+wxString AStyleDisplay::StcIndent_IndentPreprocBlock() const
 {
 	wxString checked =   "                       \n"
 	                     "#ifdef _WIN32          \n"
@@ -1342,7 +1342,7 @@ wxString AStyleDisplay::StcIndent_IndentPreprocBlock()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcIndent_IndentPreprocCond()
+wxString AStyleDisplay::StcIndent_IndentPreprocCond() const
 {
 	wxString checked =     "                          \n"
 	                       "          isFoo = true;   \n"
@@ -1363,7 +1363,7 @@ wxString AStyleDisplay::StcIndent_IndentPreprocCond()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcIndent_IndentPreprocDefine()
+wxString AStyleDisplay::StcIndent_IndentPreprocDefine() const
 {
 	wxString checked =     "                           \n"
 	                       "#define Is_Foo(arg,op)  \\ \n"
@@ -1384,7 +1384,7 @@ wxString AStyleDisplay::StcIndent_IndentPreprocDefine()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcIndent_MinConditionalDisplay()
+wxString AStyleDisplay::StcIndent_MinConditionalDisplay() const
 {
 	wxString zeroIndents = "                   \n"
 	                       "//  zero indents   \n"
@@ -1417,7 +1417,7 @@ wxString AStyleDisplay::StcIndent_MinConditionalDisplay()
 	return display == true ? zeroIndents : twoIndents;
 }
 
-wxString AStyleDisplay::StcIndent_MaxContinuationDisplay()
+wxString AStyleDisplay::StcIndent_MaxContinuationDisplay() const
 {
 	wxString smaller =     "                             \n"
 	                       "//  max continuation smaller \n"
@@ -1454,7 +1454,7 @@ wxString AStyleDisplay::StcIndent_MaxContinuationDisplay()
 // STC Display for the Other Tab
 //-----------------------------------------------------------------------------
 
-wxString AStyleDisplay::StcOther_AlignMethodColon()
+wxString AStyleDisplay::StcOther_AlignMethodColon() const
 {
 	wxString checked =     "                            \n"
 	                       "-(void)addKey : (id)key     \n"
@@ -1473,7 +1473,7 @@ wxString AStyleDisplay::StcOther_AlignMethodColon()
 		return unchecked;
 }
 
-wxString AStyleDisplay::StcOther_PadMethodColon()
+wxString AStyleDisplay::StcOther_PadMethodColon() const
 {
 	static int display = COLON_PAD_NO_CHANGE;
 	if (m_event->GetId() == ID_PAD_METHOD_COLON)
@@ -1536,7 +1536,7 @@ wxString AStyleDisplay::StcOther_PadMethodColon()
 		return AlignMethodColon(textOut);
 }
 
-wxString AStyleDisplay::StcOther_PadMethodPrefix()
+wxString AStyleDisplay::StcOther_PadMethodPrefix() const
 {
 	wxString checked =     "             \n"
 	                       "- (void)foo1;\n"
@@ -1549,7 +1549,7 @@ wxString AStyleDisplay::StcOther_PadMethodPrefix()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcOther_UnpadMethodPrefix()
+wxString AStyleDisplay::StcOther_UnpadMethodPrefix() const
 {
 	wxString checked =     "             \n"
 	                       "-(void)foo1; \n"
@@ -1562,7 +1562,7 @@ wxString AStyleDisplay::StcOther_UnpadMethodPrefix()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcOther_PadReturnType()
+wxString AStyleDisplay::StcOther_PadReturnType() const
 {
 	wxString checked =   "             \n"
 	                     "-(void) foo1;\n"
@@ -1575,7 +1575,7 @@ wxString AStyleDisplay::StcOther_PadReturnType()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcOther_UnpadReturnType()
+wxString AStyleDisplay::StcOther_UnpadReturnType() const
 {
 	wxString checked =   "             \n"
 	                     "-(void)foo1; \n"
@@ -1587,7 +1587,7 @@ wxString AStyleDisplay::StcOther_UnpadReturnType()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcOther_PadParamType()
+wxString AStyleDisplay::StcOther_PadParamType() const
 {
 	wxString checked =   "                            \n"
 	                     "-(void)foo1: (bool) barArg1;\n"
@@ -1600,7 +1600,7 @@ wxString AStyleDisplay::StcOther_PadParamType()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcOther_UnpadParamType()
+wxString AStyleDisplay::StcOther_UnpadParamType() const
 {
 	wxString checked =   "                           \n"
 	                     "-(void)foo1:(bool)barArg1;\n"
@@ -1616,7 +1616,7 @@ wxString AStyleDisplay::StcOther_UnpadParamType()
 // STC Display for the Pad Tab
 //-----------------------------------------------------------------------------
 
-wxString AStyleDisplay::StcPad_AlignPointer()
+wxString AStyleDisplay::StcPad_AlignPointer() const
 {
 	static int display = 0;
 	if (m_event->GetId() == ID_ALIGN_POINTER)
@@ -1663,7 +1663,7 @@ wxString AStyleDisplay::StcPad_AlignPointer()
 	return textOut;
 }
 
-wxString AStyleDisplay::StcPad_AlignReference()
+wxString AStyleDisplay::StcPad_AlignReference() const
 {
 	static int display = 0;
 	if (m_event->GetId() == ID_ALIGN_REFERENCE)
@@ -1710,7 +1710,7 @@ wxString AStyleDisplay::StcPad_AlignReference()
 	return textOut;
 }
 
-wxString AStyleDisplay::StcPad_BreakAll()
+wxString AStyleDisplay::StcPad_BreakAll() const
 {
 	wxString checked =     "                   \n"
 	                       "isFoo = true;      \n"
@@ -1736,7 +1736,7 @@ wxString AStyleDisplay::StcPad_BreakAll()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcPad_BreakHeader()
+wxString AStyleDisplay::StcPad_BreakHeader() const
 {
 	wxString checked =     "                   \n"
 	                       "isFoo = true;      \n"
@@ -1761,7 +1761,7 @@ wxString AStyleDisplay::StcPad_BreakHeader()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcPad_DeleteEmptyLine()
+wxString AStyleDisplay::StcPad_DeleteEmptyLine() const
 {
 	// this case shows whitespace, cannot have formatting spaces in text
 	wxString checked =     "\n"
@@ -1784,7 +1784,7 @@ wxString AStyleDisplay::StcPad_DeleteEmptyLine()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcPad_FillEmptyLine()
+wxString AStyleDisplay::StcPad_FillEmptyLine() const
 {
 	// this case shows whitespace, cannot have formatting spaces in text
 	wxString checked =     "\n"
@@ -1811,7 +1811,7 @@ wxString AStyleDisplay::StcPad_FillEmptyLine()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcPad_PadComma()
+wxString AStyleDisplay::StcPad_PadComma() const
 {
 	wxString checked =   "                 \n"
 	                     "                 \n"
@@ -1828,7 +1828,7 @@ wxString AStyleDisplay::StcPad_PadComma()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcPad_PadFirstParenOut()
+wxString AStyleDisplay::StcPad_PadFirstParenOut() const
 {
 	wxString checked =    "                     \n"
 	                      "                     \n"
@@ -1845,7 +1845,7 @@ wxString AStyleDisplay::StcPad_PadFirstParenOut()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcPad_PadHeader()
+wxString AStyleDisplay::StcPad_PadHeader() const
 {
 	wxString checked =    "                    \n"
 	                      "                    \n"
@@ -1862,7 +1862,7 @@ wxString AStyleDisplay::StcPad_PadHeader()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcPad_PadOperator()
+wxString AStyleDisplay::StcPad_PadOperator() const
 {
 	wxString checked =    "                        \n"
 	                      "                        \n"
@@ -1879,7 +1879,7 @@ wxString AStyleDisplay::StcPad_PadOperator()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcPad_PadParenOut()
+wxString AStyleDisplay::StcPad_PadParenOut() const
 {
 	wxString checked =    "                       \n"
 	                      "                       \n"
@@ -1894,7 +1894,7 @@ wxString AStyleDisplay::StcPad_PadParenOut()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcPad_PadParenIn()
+wxString AStyleDisplay::StcPad_PadParenIn() const
 {
 	wxString checked =    "                          \n"
 	                      "                          \n"
@@ -1909,7 +1909,7 @@ wxString AStyleDisplay::StcPad_PadParenIn()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcPad_UnpadParen()
+wxString AStyleDisplay::StcPad_UnpadParen() const
 {
 	wxString checked =    "                           \n"
 	                      "                           \n"
@@ -1934,7 +1934,7 @@ wxString AStyleDisplay::StcPad_UnpadParen()
 // STC Display for the Style Tab
 //-----------------------------------------------------------------------------
 
-wxString AStyleDisplay::StcStyle_Allman()
+wxString AStyleDisplay::StcStyle_Allman() const
 {
 	wxString selected =    "                   \n"
 	                       "//  Allman Style   \n"
@@ -1953,7 +1953,7 @@ wxString AStyleDisplay::StcStyle_Allman()
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_Banner()
+wxString AStyleDisplay::StcStyle_Banner() const
 {
 	wxString selected =    "                     \n"
 	                       "//  Banner Style     \n"
@@ -1970,7 +1970,7 @@ wxString AStyleDisplay::StcStyle_Banner()
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_Gnu()
+wxString AStyleDisplay::StcStyle_Gnu() const
 {
 	wxString selected =    "                     \n"
 	                       "//  GNU Style        \n"
@@ -1989,7 +1989,7 @@ wxString AStyleDisplay::StcStyle_Gnu()
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_Google()
+wxString AStyleDisplay::StcStyle_Google() const
 {
 	wxString selected =    "                     \n"
 	                       "//  Google Style     \n"
@@ -2005,7 +2005,7 @@ wxString AStyleDisplay::StcStyle_Google()
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_Horstmann()
+wxString AStyleDisplay::StcStyle_Horstmann() const
 {
 	wxString selected =    "                    \n"
 	                       "//  Horstmann Style \n"
@@ -2022,7 +2022,7 @@ wxString AStyleDisplay::StcStyle_Horstmann()
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_Java()
+wxString AStyleDisplay::StcStyle_Java() const
 {
 	wxString selected =    "                     \n"
 	                       "//  Java Style       \n"
@@ -2038,7 +2038,7 @@ wxString AStyleDisplay::StcStyle_Java()
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_KR()
+wxString AStyleDisplay::StcStyle_KR() const
 {
 	wxString selected =    "                    \n"
 	                       "//  K & R Style     \n"
@@ -2055,7 +2055,7 @@ wxString AStyleDisplay::StcStyle_KR()
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_Linux()
+wxString AStyleDisplay::StcStyle_Linux() const
 {
 	wxString selected =    "                          \n"
 	                       "//  Linux Style           \n"
@@ -2072,7 +2072,7 @@ wxString AStyleDisplay::StcStyle_Linux()
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_Lisp()
+wxString AStyleDisplay::StcStyle_Lisp() const
 {
 	wxString selected =    "                     \n"
 	                       "//  Lisp Style       \n"
@@ -2087,7 +2087,7 @@ wxString AStyleDisplay::StcStyle_Lisp()
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_Mozilla()
+wxString AStyleDisplay::StcStyle_Mozilla() const
 {
 	wxString selected = "                    \n"
 	                    "//  Mozilla Style     \n"
@@ -2104,14 +2104,14 @@ wxString AStyleDisplay::StcStyle_Mozilla()
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_None()
+wxString AStyleDisplay::StcStyle_None() const
 {
 	wxString selected =  "";
 
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_Pico()
+wxString AStyleDisplay::StcStyle_Pico() const
 {
 	wxString selected =    "                    \n"
 	                       "//  Pico Style      \n"
@@ -2126,7 +2126,7 @@ wxString AStyleDisplay::StcStyle_Pico()
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_Stroustrup()
+wxString AStyleDisplay::StcStyle_Stroustrup() const
 {
 	wxString selected =    "                     \n"
 	                       "//  Stroustrup Style \n"
@@ -2143,7 +2143,7 @@ wxString AStyleDisplay::StcStyle_Stroustrup()
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_Vtk()
+wxString AStyleDisplay::StcStyle_Vtk() const
 {
 	wxString selected =    "                    \n"
 	                       "//  VTK Style       \n"
@@ -2162,7 +2162,7 @@ wxString AStyleDisplay::StcStyle_Vtk()
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_Whitesmith()
+wxString AStyleDisplay::StcStyle_Whitesmith() const
 {
 	wxString selected = "                    \n"
 	                    "//  Whitesmith Style\n"
@@ -2181,7 +2181,7 @@ wxString AStyleDisplay::StcStyle_Whitesmith()
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_1TBS()
+wxString AStyleDisplay::StcStyle_1TBS() const
 {
 	wxString selected =    "                   \n"
 	                       "//  One True Brace Style\n"
@@ -2203,7 +2203,7 @@ wxString AStyleDisplay::StcStyle_1TBS()
 // STC Display for the Tab Tab
 //-----------------------------------------------------------------------------
 
-wxString AStyleDisplay::StcModifier_AttachNamespace()
+wxString AStyleDisplay::StcModifier_AttachNamespace() const
 {
 	wxString checked =     "                    \n"
 	                       "namespace foospace {\n"
@@ -2223,7 +2223,7 @@ wxString AStyleDisplay::StcModifier_AttachNamespace()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcModifier_AttachClass_AttachInline()
+wxString AStyleDisplay::StcModifier_AttachClass_AttachInline() const
 {
 	// attach class and attach inline work together
 	bool classChecked  = m_attachClass->IsChecked();
@@ -2283,7 +2283,7 @@ wxString AStyleDisplay::StcModifier_AttachClass_AttachInline()
 	return display;
 }
 
-wxString AStyleDisplay::StcModifier_AttachClosingWhile()
+wxString AStyleDisplay::StcModifier_AttachClosingWhile() const
 {
 	wxString checked =     "                      \n"
 	                       "void Foo()            \n"
@@ -2309,7 +2309,7 @@ wxString AStyleDisplay::StcModifier_AttachClosingWhile()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcModifier_AttachExternC()
+wxString AStyleDisplay::StcModifier_AttachExternC() const
 {
 	wxString checked =     "                  \n"
 	                       "#ifdef __cplusplus\n"
@@ -2325,7 +2325,7 @@ wxString AStyleDisplay::StcModifier_AttachExternC()
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
-wxString AStyleDisplay::StcTab_IndentLengthDisplay()
+wxString AStyleDisplay::StcTab_IndentLengthDisplay() const
 {
 	wxString selected =    "\n"
 	                       "void Foo(bool isFoo)\n"
@@ -2343,7 +2343,7 @@ wxString AStyleDisplay::StcTab_IndentLengthDisplay()
 	return selected;
 }
 
-wxString AStyleDisplay::StcTab_IndentWithForceTab_UseTabLength()
+wxString AStyleDisplay::StcTab_IndentWithForceTab_UseTabLength() const
 {
 	// this case shows whitespace, cannot have formatting spaces in text
 	wxString checked =     "\n"
@@ -2378,7 +2378,7 @@ wxString AStyleDisplay::StcTab_IndentWithForceTab_UseTabLength()
 		return unchecked;
 }
 
-wxString AStyleDisplay::StcTab_IndentWithSpace()
+wxString AStyleDisplay::StcTab_IndentWithSpace() const
 {
 	// this case shows whitespace, cannot have formatting spaces in text
 	wxString selected =    "\n"
@@ -2397,7 +2397,7 @@ wxString AStyleDisplay::StcTab_IndentWithSpace()
 	return selected;
 }
 
-wxString AStyleDisplay::StcTab_IndentWithTab()
+wxString AStyleDisplay::StcTab_IndentWithTab() const
 {
 	// this case shows whitespace, cannot have formatting spaces in text
 	wxString selected =    "\n"

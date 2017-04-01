@@ -19,6 +19,7 @@
 					<Add option="-g" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
+					<Add option="-std=gnu++11" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>
 			</Target>
@@ -35,6 +36,7 @@
 					<Add option="-Wall" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
+					<Add option="-std=gnu++11" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>

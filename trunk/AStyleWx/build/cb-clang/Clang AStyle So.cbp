@@ -7,7 +7,7 @@
 		<Option compiler="clang" />
 		<Build>
 			<Target title="Debug">
-				<Option output="lib/libastyle-3.0d.so" prefix_auto="0" extension_auto="0" />
+				<Option output="lib/libastyled.so.$(SOLIBVER)" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objSo/Debug/" />
 				<Option type="3" />
 				<Option compiler="clang" />
@@ -33,7 +33,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="lib/libastyle-3.0.so" prefix_auto="0" extension_auto="0" />
+				<Option output="lib/libastyle.so.$(SOLIBVER)" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objSo/Release/" />
 				<Option type="3" />
 				<Option compiler="clang" />
@@ -56,12 +56,15 @@
 					<Add option="-Wno-sign-conversion" />
 					<Add option="-Wno-weak-vtables" />
 					<Add option="-DASTYLE_LIB" />
-					<Add option="-DDNDEBUG" />
+					<Add option="-DNDEBUG" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 				</Linker>
 			</Target>
+			<Environment>
+				<Variable name="SOLIBVER" value="3.0.0" />
+			</Environment>
 		</Build>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />

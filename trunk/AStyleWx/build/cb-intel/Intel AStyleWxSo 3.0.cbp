@@ -25,7 +25,6 @@
 					<Add option="-D_DEBUG" />
 					<Add option="-DWXUSINGDLL" />
 					<Add option="-DHAVE_VARIADIC_MACROS" />
-					<Add option="-DASTYLE_DYLIB" />
 					<Add option="-DTESTMODE1" />
 					<Add directory="../../src" />
 					<Add directory="../../dialog" />
@@ -33,9 +32,12 @@
 				</Compiler>
 				<Linker>
 					<Add option="`wx-config --version=3.0 --libs --debug`" />
+					<Add option="-Wl,-rpath,../../lib" />
+					<Add option="-Wl,-rpath,./" />
+					<Add option="-Wl,-rpath,wx3.0So/bin" />
 					<Add library="wx_gtk2u_aui-3.0" />
 					<Add library="wx_gtk2u_stc-3.0" />
-					<Add library="astyle-3.0d" />
+					<Add library=":libastyled.so.$(SOLIBVER)" />
 					<Add directory="lib" />
 				</Linker>
 			</Target>
@@ -59,20 +61,25 @@
 					<Add option="-DNDEBUG" />
 					<Add option="-DWXUSINGDLL" />
 					<Add option="-DHAVE_VARIADIC_MACROS" />
-					<Add option="-DASTYLE_DYLIB" />
 					<Add directory="../../src" />
 					<Add directory="../../dialog" />
 					<Add directory="../../image" />
 				</Compiler>
 				<Linker>
 					<Add option="`wx-config --version=3.0 --libs`" />
+					<Add option="-Wl,-rpath,../../lib" />
+					<Add option="-Wl,-rpath,./" />
+					<Add option="-Wl,-rpath,wx3.0So/bin" />
 					<Add option="-s" />
 					<Add library="wx_gtk2u_aui-3.0" />
 					<Add library="wx_gtk2u_stc-3.0" />
-					<Add library="astyle-3.0" />
+					<Add library=":libastyle.so.$(SOLIBVER)" />
 					<Add directory="lib" />
 				</Linker>
 			</Target>
+			<Environment>
+				<Variable name="SOLIBVER" value="3.0.0" />
+			</Environment>
 		</Build>
 		<Unit filename="../../dialog/AStyleDlgBase.cpp" />
 		<Unit filename="../../dialog/AStyleDlgBase.h" />

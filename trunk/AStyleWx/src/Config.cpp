@@ -36,7 +36,7 @@ int  ShowMessageDialog(const wxString& message, long style);
 // Config class
 //-----------------------------------------------------------------------------
 
-int Config::FindStyleVectorIndex(wxString groupPath, const vector<TextStyle>& styleVector)
+int Config::FindStyleVectorIndex(const wxString& groupPath, const vector<TextStyle>& styleVector)
 // Get the style vector index from a config path name.
 {
 	// get style ID from the path name
@@ -646,7 +646,7 @@ void Config::ShowInvalidConfig(const wxString& entry)
 	}
 }
 
-bool Config::UpdateStyleEntry(wxString groupPath, vector<TextStyle>& styleVector)
+bool Config::UpdateStyleEntry(const wxString& groupPath, vector<TextStyle>& styleVector)
 // Update a style from the given group path.
 // This is a private function called by GetStcStyleOptions().
 {

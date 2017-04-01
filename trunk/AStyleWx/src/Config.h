@@ -40,9 +40,9 @@ public:
 	void SaveViewMenuOptions(ASFrame* frame);
 
 private:
-	int  FindStyleVectorIndex(wxString groupPath, const vector<TextStyle>& styleVector);
+	int  FindStyleVectorIndex(const wxString& groupPath, const vector<TextStyle>& styleVector);
 	virtual void ShowInvalidConfig(const wxString& entry);								// override for tests
-	bool UpdateStyleEntry(wxString groupPath, vector<TextStyle>& styleVector);
+	bool UpdateStyleEntry(const wxString& groupPath, vector<TextStyle>& styleVector);
 };
 
 #endif  // _CONFIG_H_

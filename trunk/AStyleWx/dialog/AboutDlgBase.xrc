@@ -107,13 +107,13 @@
 					</object>
 					<object class="sizeritem">
 						<option>0</option>
-						<flag>wxEXPAND</flag>
+						<flag>wxBOTTOM|wxEXPAND|wxTOP</flag>
 						<border>5</border>
 						<object class="wxBoxSizer">
 							<orient>wxHORIZONTAL</orient>
 							<object class="sizeritem">
 								<option>0</option>
-								<flag>wxBOTTOM|wxEXPAND|wxRIGHT|wxTOP</flag>
+								<flag>wxEXPAND|wxRIGHT|wxTOP</flag>
 								<border>5</border>
 								<object class="wxStaticText" name="m_astyleWeblabel">
 									<label>Website</label>
@@ -122,11 +122,11 @@
 							</object>
 							<object class="sizeritem">
 								<option>0</option>
-								<flag>wxALL</flag>
+								<flag></flag>
 								<border>5</border>
 								<object class="wxHyperlinkCtrl" name="m_astyleWebsite">
 									<label>website</label>
-									<url>http://www.wxformbuilder.org</url>
+									<url>http://astyle.sourceforge.net/</url>
 									<style>wxHL_DEFAULT_STYLE</style>
 								</object>
 							</object>

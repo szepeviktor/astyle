@@ -144,8 +144,6 @@ enum
 	// status bar items
 	ID_SB_ASTYLE_BITMAP,		// for options dialog
 	ID_SB_ASTYLE_SETTINGS,
-	// caret-position menu, a statusbar popup
-	ID_CARET_POS,
 };
 
 // IDs for the stc margins
@@ -297,7 +295,7 @@ public:
 	wxString GetKeyWords(int fileMode) const;
 	long GetNotebookStyle(bool useBottomTabs) const;
 	bool OnDropFiles(const wxArrayString& filePaths);
-	bool SetEditorOrViewOption(const wxString& entry, const wxString& value);
+	bool SetEditorOrViewOption(const wxString& key, const wxString& value);
 	void SetFileFilterIndex(int fileFilterIndex);
 	void SetLdtpTestSize();
 	void UpdateFrame();

@@ -865,7 +865,7 @@
                         </object>
                         <object class="sizeritem" expanded="1">
                             <property name="border">5</property>
-                            <property name="flag">wxEXPAND</property>
+                            <property name="flag">wxBOTTOM|wxEXPAND|wxTOP</property>
                             <property name="proportion">0</property>
                             <object class="wxBoxSizer" expanded="1">
                                 <property name="minimum_size"></property>
@@ -874,7 +874,7 @@
                                 <property name="permission">none</property>
                                 <object class="sizeritem" expanded="0">
                                     <property name="border">5</property>
-                                    <property name="flag">wxBOTTOM|wxEXPAND|wxRIGHT|wxTOP</property>
+                                    <property name="flag">wxEXPAND|wxRIGHT|wxTOP</property>
                                     <property name="proportion">0</property>
                                     <object class="wxStaticText" expanded="0">
                                         <property name="BottomDockable">1</property>
@@ -957,7 +957,7 @@
                                 </object>
                                 <object class="sizeritem" expanded="0">
                                     <property name="border">5</property>
-                                    <property name="flag">wxALL</property>
+                                    <property name="flag"></property>
                                     <property name="proportion">0</property>
                                     <object class="wxHyperlinkCtrl" expanded="0">
                                         <property name="BottomDockable">1</property>
@@ -1011,7 +1011,7 @@
                                         <property name="subclass"></property>
                                         <property name="toolbar_pane">0</property>
                                         <property name="tooltip"></property>
-                                        <property name="url">http://www.wxformbuilder.org</property>
+                                        <property name="url">http://astyle.sourceforge.net/</property>
                                         <property name="visited_color">0,0,255</property>
                                         <property name="window_extra_style"></property>
                                         <property name="window_name"></property>

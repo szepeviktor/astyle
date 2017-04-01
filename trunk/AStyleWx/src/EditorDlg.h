@@ -78,7 +78,7 @@ private:
 	void GetExcludedFonts(wxArrayString& excludedFonts) const;
 	void SetCommentFontOptions() const;
 	void SetDefaultFontOptions() const;
-	void SetFontNames(wxArrayString& fontNamesAll, wxArrayString& fontName) const;
+	void SetFontNames(wxArrayString& fontNamesAll, wxArrayString& fontNames) const;
 	void SetFontSizes(wxComboBox* fontSizeList) const;
 	void SetResetButton() const;
 	void SetStcStyleOptions(const vector<TextStyle>& styleVector);

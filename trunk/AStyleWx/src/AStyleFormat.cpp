@@ -506,14 +506,20 @@ wxString AStyleFormat::GetDynamicLibraryName()
 {
 	wxString libName;
 #ifdef __WXMSW__
-	libName = "AStyle-3.0";
+	libName = "AStyle30";
+#elif __WXOSX__
+	libName = "astyle30";
 #else
-	libName = "astyle-3.0";
+	libName = "astyle";
 #endif
 #ifndef NDEBUG
 	libName += "d";
 #endif	// NDEBUG
 	libName = aslib.CanonicalizeName(libName);
+#if !defined(__WXMSW__) && !defined(__WXOSX__)
+	const wxString SOLIBVER = "3.0.0";
+	libName = libName + "." + SOLIBVER;
+#endif
 	return libName;
 }
 

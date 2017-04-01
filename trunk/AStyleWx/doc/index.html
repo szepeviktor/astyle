@@ -68,17 +68,17 @@
         <a href="install.html" target="_blank" title="open new window">Install Information</a></p>
     <p class="contents1">
         <a href="static.html" target="_blank" title="open new window">Visual Studio Static Compile</a></p>
-<p class="contents1">
+    <p class="contents1">
         <a href="notes.html" target="_blank" title="open new window">Release Notes</a></p>
 
     <h3>RAD Tools for Dialogs</h3>
 
     <p>
-        The Rapid Application Development (RAD) tool used to design the AStyleWx dialog interfaces is <a href="https://sourceforge.net/projects/wxformbuilder/"
-            target="_blank" title="open new window">wxFormBuilder</a>. It allows separation of the generated and written
-        code by using inheritance. I prefer this to having the code combined in the same source file as it seems like
-        a safer way to do it. The wxFormBuilder files and the generated source code are in the AStyleWx &quot;dialog&quot;
-        folder.</p>
+        The Rapid Application Development (RAD) tool used to design the AStyleWx dialog interfaces is 
+        <a href="https://sourceforge.net/projects/wxformbuilder/" target="_blank" title="open new window">wxFormBuilder</a>.
+        It allows separation of the generated and written code by using inheritance. I prefer this to having the code
+        combined in the same source file as it seems like a safer way to do it. The wxFormBuilder files and the generated
+        source code are in the AStyleWx &quot;dialog&quot; folder.</p>
     <p>
         Windows users can get the release 3.5.1 RC1 executable download from the SourceForge site. It has all the controls
         used by AStyleWx. Linux users may need to compile it from source. The most current version may not be 
@@ -102,9 +102,6 @@ sudo make install</pre>
         manner. It expects the generated code to be used as a base class. But it does not convert the wxStyledTextCtrl,
         which will need to be rebuilt. It is being maintained so it may be a better choice. It can import an XRC file
         from any RAD application that will generate one.</p>
-    <p>
-        The main window for Artistic Style Wx does NOT use a RAD. It is created by written, not generated, code. The notebook
-        control is actually a wxAuiNotebook which allows the user to rearrange the tab order using drag-and-drop.</p>
 
     <h3>Book Classes for Dialogs</h3>
 
@@ -117,6 +114,18 @@ sudo make install</pre>
         control and run the script. When recompiled the dialogs will display the new wxWidgets book control. The main
         window is NOT changed.</p>
 
+    <h3>Main Window</h3>
+
+    <p>
+        The main window for Artistic Style Wx does NOT use a RAD. It is created by written, not generated, code. The notebook
+        control is actually a wxAuiNotebook which allows the user to rearrange the tab order using drag-and-drop.</p>
+    <p>
+        Most status bar fields can be left-clicked for a menu or various other information. This is not documented so
+        try it to see what information is displayed.</p>
+    <p>
+        The Help, About dialog displays the Artistic Style version. This may be helpful when linking with Linux system
+        libraries. The information will also be displayed by clicking on the Encoding status bar field. This field 
+        will be empty if the system encoding is used.</p>
 
     <p>
         &nbsp;</p>

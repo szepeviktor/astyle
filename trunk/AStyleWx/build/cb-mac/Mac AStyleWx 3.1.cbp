@@ -11,16 +11,17 @@
 				<Option object_output="wx3.1/obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="clang" />
-				<Option parameters="../../testdata/AppFrame.cpp" />
+				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Compiler>
 					<Add option="-Wall" />
-					<Add option="-std=c++98" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="`/usr/local/bin/wx-config --version=3.1 --cflags --debug`" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
-					<Add option="-stdlib=libstdc++" />
+					<Add option="-stdlib=libc++" />
 					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-Wno-inconsistent-missing-override" />
 					<Add option="-D_DEBUG" />
 					<Add option="-DwxNO_VARIADIC_MACROS=1" />
 					<Add option="-DTESTMODE1" />
@@ -33,7 +34,7 @@
 					<Add option="-framework Cocoa" />
 					<Add option="-framework IOKit" />
 					<Add option="-framework OpenGL" />
-					<Add option="-stdlib=libstdc++" />
+					<Add option="-stdlib=libc++" />
 					<Add library="wx_baseu-3.1" />
 					<Add library="wx_osx_cocoau_adv-3.1" />
 					<Add library="wx_osx_cocoau_aui-3.1" />
@@ -54,17 +55,18 @@
 				<Option object_output="wx3.1/obj/Release/" />
 				<Option type="0" />
 				<Option compiler="clang" />
-				<Option parameters="../../testdata/AppFrame.cpp" />
+				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-Wall" />
-					<Add option="-std=c++98" />
+					<Add option="-std=c++11" />
 					<Add option="`/usr/local/bin/wx-config --version=3.1 --cflags`" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
-					<Add option="-stdlib=libstdc++" />
+					<Add option="-stdlib=libc++" />
 					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-Wno-inconsistent-missing-override" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DwxNO_VARIADIC_MACROS=1" />
 					<Add directory="../../src" />
@@ -76,7 +78,7 @@
 					<Add option="-framework Cocoa" />
 					<Add option="-framework IOKit" />
 					<Add option="-framework OpenGL" />
-					<Add option="-stdlib=libstdc++" />
+					<Add option="-stdlib=libc++" />
 					<Add option="-dead_strip" />
 					<Add library="wx_baseu-3.1" />
 					<Add library="wx_osx_cocoau_adv-3.1" />
