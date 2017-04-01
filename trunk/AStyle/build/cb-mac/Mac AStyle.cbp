@@ -15,11 +15,12 @@
 				<Compiler>
 					<Add option="-Weverything" />
 					<Add option="-Wall" />
-					<Add option="-std=c++98" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-Wextra" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
+					<Add option="-Wno-c++98-compat" />
 					<Add option="-Wno-disabled-macro-expansion" />
 					<Add option="-Wno-exit-time-destructors" />
 					<Add option="-Wno-format-nonliteral" />
@@ -43,10 +44,11 @@
 					<Add option="-O3" />
 					<Add option="-Weverything" />
 					<Add option="-Wall" />
-					<Add option="-std=c++98" />
+					<Add option="-std=c++11" />
 					<Add option="-Wextra" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
+					<Add option="-Wno-c++98-compat" />
 					<Add option="-Wno-disabled-macro-expansion" />
 					<Add option="-Wno-exit-time-destructors" />
 					<Add option="-Wno-format-nonliteral" />
