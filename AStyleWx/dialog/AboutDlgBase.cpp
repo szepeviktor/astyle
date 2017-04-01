@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Apr 11 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -66,17 +66,17 @@ AboutDlgBase::AboutDlgBase( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	m_astyleWeblabel = new wxStaticText( this, wxID_ANY, wxT("Website"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_astyleWeblabel->Wrap( -1 );
-	bSizer3->Add( m_astyleWeblabel, 0, wxBOTTOM|wxEXPAND|wxRIGHT|wxTOP, 5 );
+	bSizer3->Add( m_astyleWeblabel, 0, wxEXPAND|wxRIGHT|wxTOP, 5 );
 	
-	m_astyleWebsite = new wxHyperlinkCtrl( this, wxID_ANY, wxT("website"), wxT("http://www.wxformbuilder.org"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
+	m_astyleWebsite = new wxHyperlinkCtrl( this, wxID_ANY, wxT("website"), wxT("http://astyle.sourceforge.net/"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
 	
 	m_astyleWebsite->SetHoverColour( wxColour( 255, 0, 0 ) );
 	m_astyleWebsite->SetNormalColour( wxColour( 0, 0, 255 ) );
 	m_astyleWebsite->SetVisitedColour( wxColour( 0, 0, 255 ) );
-	bSizer3->Add( m_astyleWebsite, 0, wxALL, 5 );
+	bSizer3->Add( m_astyleWebsite, 0, 0, 5 );
 	
 	
-	bSizer1->Add( bSizer3, 0, wxEXPAND, 5 );
+	bSizer1->Add( bSizer3, 0, wxBOTTOM|wxEXPAND|wxTOP, 5 );
 	
 	wxStaticLine* staticline2;
 	staticline2 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );

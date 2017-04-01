@@ -31,13 +31,6 @@
 		BF1D8EAD19894BCE004E04B0 /* SettingsDlg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1D8E8F19894BCE004E04B0 /* SettingsDlg.cpp */; };
 		BF2F4B031989526500048A77 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B011989526500048A77 /* libz.dylib */; };
 		BF2F4B041989526500048A77 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B021989526500048A77 /* libiconv.dylib */; };
-		BF2F4B0E198952BF00048A77 /* libwx_baseu-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B07198952BF00048A77 /* libwx_baseu-3.0.a */; };
-		BF2F4B0F198952BF00048A77 /* libwx_osx_cocoau_adv-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B08198952BF00048A77 /* libwx_osx_cocoau_adv-3.0.a */; };
-		BF2F4B10198952BF00048A77 /* libwx_osx_cocoau_aui-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B09198952BF00048A77 /* libwx_osx_cocoau_aui-3.0.a */; };
-		BF2F4B11198952C000048A77 /* libwx_osx_cocoau_core-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B0A198952BF00048A77 /* libwx_osx_cocoau_core-3.0.a */; };
-		BF2F4B12198952C000048A77 /* libwx_osx_cocoau_stc-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B0B198952BF00048A77 /* libwx_osx_cocoau_stc-3.0.a */; };
-		BF2F4B13198952C000048A77 /* libwxpng-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B0C198952BF00048A77 /* libwxpng-3.0.a */; };
-		BF2F4B14198952C000048A77 /* libwxscintilla-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2F4B0D198952BF00048A77 /* libwxscintilla-3.0.a */; };
 		BF95E0BE1992F40E0069145A /* ASBeautifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF95E0AF1992F3A80069145A /* ASBeautifier.cpp */; };
 		BF95E0BF1992F40E0069145A /* ASEnhancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF95E0B01992F3A80069145A /* ASEnhancer.cpp */; };
 		BF95E0C01992F40E0069145A /* ASFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF95E0B11992F3A80069145A /* ASFormatter.cpp */; };
@@ -104,7 +97,7 @@
 		BF2F4B0C198952BF00048A77 /* libwxpng-3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwxpng-3.0.a"; path = "../../../../../../usr/local/lib/libwxpng-3.0.a"; sourceTree = "<group>"; };
 		BF2F4B0D198952BF00048A77 /* libwxscintilla-3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwxscintilla-3.0.a"; path = "../../../../../../usr/local/lib/libwxscintilla-3.0.a"; sourceTree = "<group>"; };
 		BF929A69198C234200700A51 /* AStyleWxDy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AStyleWxDy.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BF929A6E198C29D200700A51 /* libastyle-3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libastyle-3.0.dylib"; path = "Build/Products/Release/libastyle-3.0.dylib"; sourceTree = "<group>"; };
+		BF929A6E198C29D200700A51 /* libastyle30.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libastyle30.dylib; path = Build/Products/Release/libastyle30.dylib; sourceTree = "<group>"; };
 		BF95E0AF1992F3A80069145A /* ASBeautifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASBeautifier.cpp; sourceTree = "<group>"; };
 		BF95E0B01992F3A80069145A /* ASEnhancer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASEnhancer.cpp; sourceTree = "<group>"; };
 		BF95E0B11992F3A80069145A /* ASFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASFormatter.cpp; sourceTree = "<group>"; };
@@ -120,13 +113,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF2F4B041989526500048A77 /* libiconv.dylib in Frameworks */,
-				BF2F4B0E198952BF00048A77 /* libwx_baseu-3.0.a in Frameworks */,
-				BF2F4B0F198952BF00048A77 /* libwx_osx_cocoau_adv-3.0.a in Frameworks */,
-				BF2F4B10198952BF00048A77 /* libwx_osx_cocoau_aui-3.0.a in Frameworks */,
-				BF2F4B11198952C000048A77 /* libwx_osx_cocoau_core-3.0.a in Frameworks */,
-				BF2F4B12198952C000048A77 /* libwx_osx_cocoau_stc-3.0.a in Frameworks */,
-				BF2F4B13198952C000048A77 /* libwxpng-3.0.a in Frameworks */,
-				BF2F4B14198952C000048A77 /* libwxscintilla-3.0.a in Frameworks */,
 				BF2F4B031989526500048A77 /* libz.dylib in Frameworks */,
 				BF1D8DA619894AE0004E04B0 /* Carbon.framework in Frameworks */,
 				BF1D8D70198949F2004E04B0 /* Cocoa.framework in Frameworks */,
@@ -153,7 +139,7 @@
 				BF1D8D6E198949F2004E04B0 /* Frameworks */,
 				BF2F4B001989524800048A77 /* Libraries */,
 				BF929A69198C234200700A51 /* AStyleWxDy.app */,
-				BF929A6E198C29D200700A51 /* libastyle-3.0.dylib */,
+				BF929A6E198C29D200700A51 /* libastyle30.dylib */,
 			);
 			sourceTree = "<group>";
 		};
@@ -335,7 +321,7 @@
 		BF1D8D64198949F2004E04B0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "___FULLUSERNAME___";
 			};
 			buildConfigurationList = BF1D8D67198949F2004E04B0 /* Build configuration list for PBXProject "AStyleWxDy" */;
@@ -420,7 +406,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -429,13 +415,18 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -448,7 +439,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -458,7 +449,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -467,21 +458,25 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -490,11 +485,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++98";
-				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -505,18 +501,29 @@
 					TESTMODE1,
 				);
 				HEADER_SEARCH_PATHS = (
-					"/usr/local/lib/wx/include/osx_cocoa-unicode-static-3.0",
-					"/usr/local/include/wx-3.0",
-					"/usr/include/c++/4.2.1",
+					"/usr/local/lib/wx/include/osx_cocoa-unicode-static-3.1",
+					"/usr/local/include/wx-3.1",
 					../../image,
 				);
 				INFOPLIST_FILE = "AStyleWx/AStyleWx-Info.plist";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OBJROOT = Build/Intermediates;
-				OTHER_LDFLAGS = "-Wl,-rpath,@executable_path/";
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_LDFLAGS = (
+					"-Wl,-rpath,@executable_path/",
+					"-lwx_baseu-3.1",
+					"-lwx_osx_cocoau_adv-3.1",
+					"-lwx_osx_cocoau_aui-3.1",
+					"-lwx_osx_cocoau_core-3.1",
+					"-lwx_osx_cocoau_stc-3.1",
+					"-lwxpng-3.1",
+					"-lwxscintilla-3.1",
+				);
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYMROOT = Build/Products;
+				WARNING_CFLAGS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -525,13 +532,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++98";
-				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -542,19 +550,30 @@
 					ASTYLE_DYLIB,
 				);
 				HEADER_SEARCH_PATHS = (
-					"/usr/local/lib/wx/include/osx_cocoa-unicode-static-3.0",
-					"/usr/local/include/wx-3.0",
-					"/usr/include/c++/4.2.1",
+					"/usr/local/lib/wx/include/osx_cocoa-unicode-static-3.1",
+					"/usr/local/include/wx-3.1",
 					../../image,
 				);
 				INFOPLIST_FILE = "AStyleWx/AStyleWx-Info.plist";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				LLVM_LTO = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OBJROOT = Build/Intermediates;
-				OTHER_LDFLAGS = "-Wl,-rpath,@executable_path/";
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_LDFLAGS = (
+					"-Wl,-rpath,@executable_path/",
+					"-lwx_baseu-3.1",
+					"-lwx_osx_cocoau_adv-3.1",
+					"-lwx_osx_cocoau_aui-3.1",
+					"-lwx_osx_cocoau_core-3.1",
+					"-lwx_osx_cocoau_stc-3.1",
+					"-lwxpng-3.1",
+					"-lwxscintilla-3.1",
+				);
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYMROOT = Build/Products;
+				WARNING_CFLAGS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -562,8 +581,8 @@
 		BF373704198A8B870054BF0B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++98";
-				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(PROJECT).app/Contents/MacOS";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -576,9 +595,10 @@
 					"DEBUG=1",
 					"ASTYLE_LIB=1",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OBJROOT = Build/Intermediates;
-				PRODUCT_NAME = "astyle-3.0d";
+				PRODUCT_NAME = astyle30d;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				SYMROOT = Build/Products;
 			};
 			name = Debug;
@@ -586,8 +606,8 @@
 		BF373705198A8B870054BF0B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++98";
-				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(PROJECT).app/Contents/MacOS";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -602,9 +622,10 @@
 					"NDEBUG=1",
 					"ASTYLE_LIB=1",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OBJROOT = Build/Intermediates;
-				PRODUCT_NAME = "astyle-3.0";
+				PRODUCT_NAME = astyle30;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				SYMROOT = Build/Products;
 			};
 			name = Release;

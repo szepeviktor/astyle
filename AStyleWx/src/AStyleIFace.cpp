@@ -384,7 +384,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 	if (getAttachInline())
 	{
 		if (showShort)
-			options.append("xi");
+			options.append("xl");
 		else
 			options.append(ATTACH_INLINES);
 		if (useSeparator)

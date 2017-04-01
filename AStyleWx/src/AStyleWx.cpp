@@ -209,6 +209,8 @@ ASFrame::ASFrame()
 		m_statusWidth[i]   = 0;
 	m_astyleDlgPage        = 0;
 	m_editorDlgPage        = 0;
+	m_argc                 = 0;
+	m_argv                 = nullptr;
 	m_statusBarNeedsUpdate = false;
 	m_checkFileReload      = false;
 }
@@ -1470,6 +1472,18 @@ void ASFrame::OnStatusBarClick(wxMouseEvent& event)
 			delete lineEndMenu;
 			return;
 		}
+		wxRect encoding;
+		statusBar->GetFieldRect(SB_ENCODING, encoding);
+		if (x >= encoding.GetLeft() && x <= encoding.GetRight()
+		        && y >= encoding.GetTop() && y <= encoding.GetBottom())
+		{
+			wxMenu* versionMenu = new wxMenu();
+			wxString msg = wxString::Format("AStyle  %s", m_editor->GetAStyleVersion());
+			versionMenu->Append(wxID_ANY, msg);
+			PopupMenu(versionMenu);
+			delete versionMenu;
+			return;
+		}
 		// check for status bar caret-position field
 		wxRect caret;
 		statusBar->GetFieldRect(SB_CARET, caret);
@@ -1479,7 +1493,7 @@ void ASFrame::OnStatusBarClick(wxMouseEvent& event)
 			wxMenu* caretMenu = new wxMenu();
 			int currentPos = m_editor->wxStyledTextCtrl::GetCurrentPos();
 			wxString msg = wxString::Format("Position:  %d", currentPos);
-			caretMenu->Append(ID_CARET_POS, msg);
+			caretMenu->Append(wxID_ANY, msg);
 			PopupMenu(caretMenu);
 			delete caretMenu;
 			return;

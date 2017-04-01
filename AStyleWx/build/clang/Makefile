@@ -1,9 +1,15 @@
 # Make file for Clang compiler on Linux or compatible OS
 
-# list of source files without the directory
+# list of astylewx source files without the directory
 # included are files from astyle/src, astylewx/src, and astylewx/dialog
 SRC = astyle_main.cpp ASBeautifier.cpp ASFormatter.cpp ASEnhancer.cpp ASResource.cpp \
 $(shell find ../../src -name "*.cpp" | sed -e 's@../../src/@@') \
+AboutDlgBase.cpp  AStyleDlgBase.cpp  EditorDlgBase.cpp  SettingsDlgBase.cpp
+
+# list of astylewxso source files without the directory
+# included are files from astylewx/src, and astylewx/dialog
+# not included are files from astyle/src,
+SRCs = $(shell find ../../src -name "*.cpp" | sed -e 's@../../src/@@') \
 AboutDlgBase.cpp  AStyleDlgBase.cpp  EditorDlgBase.cpp  SettingsDlgBase.cpp
 
 # source directories
@@ -42,11 +48,14 @@ objdir = obj$(wx)
 idatadir=$(prefix)/share
 ipixmapdir=$(idatadir)/pixmaps
 ibindir=$(prefix)/bin
+rpaths = -Wl,-rpath,./ -Wl,-rpath,../ -Wl,-rpath,./lib -Wl,-rpath,../lib \
+-Wl,-rpath,../../../../AStyle/build/clang/bin  -Wl,-rpath,../../../../astyle/build/clang/bin
+SOLIBVER = 3.0.0
 # c++11 is required for clang wx=3.0, cannot use no-rtti
 CBASEFLAGS = -Wall -Wextra -std=c++11 -fno-exceptions \
 -Wno-potentially-evaluated-expression -Wno-unknown-warning-option \
--DASTYLE_LIB -I../../src -I../../dialog -I../../image
-LDBASEFLAGS = -L../../../AStyle/build/clang/bin  -L../../../astyle/build/clang/bin
+-I../../src -I../../dialog -I../../image
+LDBASEFLAGS = -L../../../AStyle/build/clang/bin  -L../../../astyle/build/clang/bin  -L./  -Lbin$(wx)   -Llib
 CXX = clang++
 INSTALL=install -o $(USER) -g $(USER)
 
@@ -74,20 +83,20 @@ endif
 # a suffix is added for each build
 OBJ   = $(patsubst %.cpp,$(objdir)/%.o,$(SRC))
 OBJd  = $(patsubst %.cpp,$(objdir)/%_d.o,$(SRC))
-OBJs  = $(patsubst %.cpp,$(objdir)/%_s.o,$(SRC))
-OBJsd = $(patsubst %.cpp,$(objdir)/%_sd.o,$(SRC))
+OBJs  = $(patsubst %.cpp,$(objdir)/%_s.o,$(SRCs))
+OBJsd = $(patsubst %.cpp,$(objdir)/%_sd.o,$(SRCs))
 
 # define object file rule (with the suffix) for each build
 
 # OBJ
 $(objdir)/%.o:  %.cpp  deps.mak
 	@ mkdir -p $(objdir)
-	$(CXX) $(CFLAGSr) -c $< -o $@
+	$(CXX) $(CFLAGSr) -DASTYLE_LIB -c $< -o $@
 
 # OBJd
 $(objdir)/%_d.o:  %.cpp  deps.mak
 	@ mkdir -p $(objdir)
-	$(CXX) $(CFLAGSd) -c $< -o $@
+	$(CXX) $(CFLAGSd) -DASTYLE_LIB -c $< -o $@
 
 # OBJs
 $(objdir)/%_s.o:  %.cpp  deps.mak
@@ -112,15 +121,10 @@ astylewx:  $(OBJ)
 
 # the .o files must be before the LDFLAGS containing the wxWidgets libraries
 # wxWidgets libraries missing from wx-config are added here
-# must use the debug version for wx-2.8, but not for wx-3.0
 debug:  astylewxd
 astylewxd:  $(OBJd)
 	@ mkdir -p $(bindir)
-ifeq (2.8,$(wx))
-	$(CXX) -o $(bindir)/$@ $^ $(LDFLAGSd) -lwx_gtk2ud_aui-$(wx) -lwx_gtk2ud_stc-$(wx)
-else
 	$(CXX) -o $(bindir)/$@ $^ $(LDFLAGSd) -lwx_gtk2u_aui-$(wx) -lwx_gtk2u_stc-$(wx)
-endif
 	@ echo
 
 # the .o files must be before the LDFLAGS containing the wxWidgets libraries
@@ -128,20 +132,15 @@ endif
 shared:  astylewxso
 astylewxso:  $(OBJs)
 	@ mkdir -p $(bindir)
-	$(CXX) -o $(bindir)/$@ $^ $(LDFLAGSr) -lwx_gtk2u_aui-$(wx) -lwx_gtk2u_stc-$(wx)
+	$(CXX) -o $(bindir)/$@ $^ $(LDFLAGSr) -lwx_gtk2u_aui-$(wx) -lwx_gtk2u_stc-$(wx) $(rpaths)
 	@ echo
 
 # the .o files must be before the LDFLAGS containing the wxWidgets libraries
 # wxWidgets libraries missing from wx-config are added here
-# must use the debug version for wx-2.8, but not for wx-3.0
 shareddebug:  astylewxsod
 astylewxsod:  $(OBJsd)
 	@ mkdir -p $(bindir)
-ifeq (2.8,$(wx))
-	$(CXX) -o $(bindir)/$@ $^ $(LDFLAGSd) -lwx_gtk2ud_aui-$(wx) -lwx_gtk2ud_stc-$(wx)
-else
-	$(CXX) -o $(bindir)/$@ $^ $(LDFLAGSd) -lwx_gtk2u_aui-$(wx) -lwx_gtk2u_stc-$(wx)
-endif
+	$(CXX) -o $(bindir)/$@ $^ $(LDFLAGSd) -lwx_gtk2u_aui-$(wx) -lwx_gtk2u_stc-$(wx) $(rpaths)
 	@ echo
 
 # used to display variables for debugging

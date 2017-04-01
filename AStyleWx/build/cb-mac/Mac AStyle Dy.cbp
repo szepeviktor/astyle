@@ -7,44 +7,44 @@
 		<Option compiler="clang" />
 		<Build>
 			<Target title="Debug">
-				<Option output="debug/libastyle-3.0d.dylib" prefix_auto="0" extension_auto="0" />
+				<Option output="debug/libastyle30d.dylib" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objDy/Debug" />
 				<Option type="3" />
 				<Option compiler="clang" />
 				<Compiler>
 					<Add option="-Wall" />
-					<Add option="-std=c++98" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-W" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fPIC" />
-					<Add option="-stdlib=libstdc++" />
+					<Add option="-stdlib=libc++" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>
 				<Linker>
-					<Add option="-stdlib=libstdc++" />
+					<Add option="-stdlib=libc++" />
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/libastyle-3.0.dylib" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/libastyle30.dylib" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objDy/Release/" />
 				<Option type="3" />
 				<Option compiler="clang" />
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-Wall" />
-					<Add option="-std=c++98" />
+					<Add option="-std=c++11" />
 					<Add option="-W" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fPIC" />
-					<Add option="-stdlib=libstdc++" />
+					<Add option="-stdlib=libc++" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>
 				<Linker>
-					<Add option="-stdlib=libstdc++" />
+					<Add option="-stdlib=libc++" />
 				</Linker>
 			</Target>
 		</Build>

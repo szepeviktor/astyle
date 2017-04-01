@@ -18,9 +18,11 @@ ASEditor.o: ../../src/ASEditor.cpp \
  ../../src/FileManager.h \
  /usr/include/wx-3.0/wx/filectrl.h
 AStyleDisplay.o: ../../src/AStyleDisplay.cpp \
+ ../../src/AStyleDisplay.h \
  ../../dialog/AStyleDlgBase.h \
- ../../src/AStyleDisplay.h
+ /usr/include/wx-3.0/wx/gtk/pen.h
 AStyleDlg.o: ../../src/AStyleDlg.cpp \
+ ../../src/AStyleDisplay.h \
  ../../dialog/AStyleDlgBase.h \
  ../../src/AStyleIFace.h ../../src/Constants.h ../../src/AStyleWx.h \
  ../../src/Config.h \
@@ -32,6 +34,7 @@ AStyleIFace.o: ../../src/AStyleIFace.cpp ../../src/AStyleIFace.h \
  /usr/include/wx-3.0/wx/gtk/colour.h
 AStyleWx.o: ../../src/AStyleWx.cpp \
  ../../dialog/AboutDlgBase.h \
+ ../../src/AStyleDisplay.h \
  ../../dialog/AStyleDlgBase.h \
  ../../src/AStyleIFace.h ../../src/Constants.h ../../src/AStyleWx.h \
  ../../src/Config.h \

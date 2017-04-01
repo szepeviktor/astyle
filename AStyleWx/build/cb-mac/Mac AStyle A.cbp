@@ -14,11 +14,11 @@
 				<Option compiler="clang" />
 				<Compiler>
 					<Add option="-Wall" />
-					<Add option="-std=c++98" />
+					<Add option="-std=c++11" />
 					<Add option="-W" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
-					<Add option="-stdlib=libstdc++" />
+					<Add option="-stdlib=libc++" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>
 			</Target>
@@ -31,11 +31,11 @@
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-Wall" />
-					<Add option="-std=c++98" />
+					<Add option="-std=c++11" />
 					<Add option="-W" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
-					<Add option="-stdlib=libstdc++" />
+					<Add option="-stdlib=libc++" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>
