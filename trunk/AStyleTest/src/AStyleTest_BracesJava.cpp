@@ -312,7 +312,7 @@ TEST_F(BracesBreakJavaF, LongOption)
 	    "        }\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=allman, mode=java";
+	char options[] = "style=break, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -367,7 +367,7 @@ TEST(BracesBreakJava, EmptyBraces)
 	    "    public FooClass()\n"
 	    "    {}\n"
 	    "}\n";
-	char options[] = "style=allman, mode=java";
+	char options[] = "style=break, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -395,7 +395,7 @@ TEST(BracesBreakJava, EmptyBracesWithComments)
 	    "    public FooClass() // comment\n"
 	    "    {}\n"
 	    "}\n";
-	char options[] = "style=allman, mode=java";
+	char options[] = "style=break, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -416,7 +416,7 @@ TEST(BracesBreakJava, Break)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=allman, mode=java";
+	char options[] = "style=break, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -445,7 +445,7 @@ TEST(BracesBreakJava, Attach)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=allman, mode=java";
+	char options[] = "style=break, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -475,7 +475,7 @@ TEST(BracesBreakJava, Linux)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=allman, mode=java";
+	char options[] = "style=break, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -505,7 +505,7 @@ TEST(BracesBreakJava, RunIn)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=allman, mode=java";
+	char options[] = "style=break, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -545,7 +545,7 @@ TEST(BracesBreakJava, EnumConstructor)
 	    "        return global;\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=allman, mode=java";
+	char options[] = "style=break, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -597,7 +597,7 @@ TEST_F(BracesAttachJavaF, LongOption)
 	    "        }\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=java, mode=java";
+	char options[] = "style=attach, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -642,7 +642,7 @@ TEST_F(BracesAttachJavaF, BreakClosing)
 	    "        }\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=java, break-closing-braces, mode=java";
+	char options[] = "style=attach, break-closing-braces, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -659,7 +659,7 @@ TEST(BracesAttachJava, EmptyBraces)
 	    "    public FooClass()\n"
 	    "    {}\n"
 	    "}\n";
-	char options[] = "style=java, mode=java";
+	char options[] = "style=attach, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -676,7 +676,7 @@ TEST(BracesAttachJava, EmptyBracesWithComments)
 	    "    public FooClass() // comment\n"
 	    "    {}\n"
 	    "}\n";
-	char options[] = "style=java, mode=java";
+	char options[] = "style=attach, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -705,7 +705,7 @@ TEST(BracesAttachJava, Break)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=java, mode=java";
+	char options[] = "style=attach, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -722,7 +722,7 @@ TEST(BracesAttachJava, Attach)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=java, mode=java";
+	char options[] = "style=attach, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -748,7 +748,7 @@ TEST(BracesAttachJava, Linux)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=java, mode=java";
+	char options[] = "style=attach, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -774,7 +774,7 @@ TEST(BracesAttachJava, RunIn)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=java, mode=java";
+	char options[] = "style=attach, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -814,7 +814,7 @@ TEST(BracesAttachJava, EnumConstructor)
 	    "        return global;\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=java, mode=java";
+	char options[] = "style=attach, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1116,201 +1116,6 @@ TEST(BracesLinuxJava, EnumConstructor)
 	    "    }\n"
 	    "}\n";
 	char options[] = "style=kr, mode=java";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-//-------------------------------------------------------------------------
-// AStyle Java Stroustrup Brace Options
-//-------------------------------------------------------------------------
-
-struct BracesStroustrupJavaF : public Test
-{
-	string textStr;
-	const char* textIn;
-
-	BracesStroustrupJavaF()
-	{
-		textStr =
-		    "\npublic class FooClass\n"
-		    "{\n"
-		    "    private bool var1;\n"
-		    "    private bool var2;\n"
-		    "\n"
-		    "    public void foo(bool isFoo)\n"
-		    "    {\n"
-		    "        if (isFoo) {\n"
-		    "            bar();\n"
-		    "        } else {\n"
-		    "            anotherBar();\n"
-		    "        }\n"
-		    "    }\n"
-		    "}\n";
-		textIn = textStr.c_str();
-	}
-};
-
-TEST_F(BracesStroustrupJavaF, LongOption)
-{
-	// test stroustrup braces option
-	char text[] =
-	    "\npublic class FooClass {\n"
-	    "    private bool var1;\n"
-	    "    private bool var2;\n"
-	    "\n"
-	    "    public void foo(bool isFoo)\n"
-	    "    {\n"
-	    "        if (isFoo) {\n"
-	    "            bar();\n"
-	    "        } else {\n"
-	    "            anotherBar();\n"
-	    "        }\n"
-	    "    }\n"
-	    "}\n";
-	char options[] = "style=stroustrup, mode=java";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST_F(BracesStroustrupJavaF, ShortOption)
-{
-	// test stroustrup braces short option
-	char text[] =
-	    "\npublic class FooClass {\n"
-	    "    private bool var1;\n"
-	    "    private bool var2;\n"
-	    "\n"
-	    "    public void foo(bool isFoo)\n"
-	    "    {\n"
-	    "        if (isFoo) {\n"
-	    "            bar();\n"
-	    "        } else {\n"
-	    "            anotherBar();\n"
-	    "        }\n"
-	    "    }\n"
-	    "}\n";
-	char options[] = "-A4, mode=java";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST_F(BracesStroustrupJavaF, BreakClosing)
-{
-	// test stroustrup braces option, with break closing braces
-	char text[] =
-	    "\npublic class FooClass {\n"
-	    "    private bool var1;\n"
-	    "    private bool var2;\n"
-	    "\n"
-	    "    public void foo(bool isFoo)\n"
-	    "    {\n"
-	    "        if (isFoo) {\n"
-	    "            bar();\n"
-	    "        }\n"
-	    "        else {\n"
-	    "            anotherBar();\n"
-	    "        }\n"
-	    "    }\n"
-	    "}\n";
-	char options[] = "style=stroustrup, break-closing-braces, mode=java";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(BracesStroustrupJava, EmptyBraces)
-{
-	// test stroustrup braces option
-	// do not change empty braces
-	char textIn[] =
-	    "\npublic class FooClass {\n"
-	    "    public FooClass() {}\n"
-	    "    public FooClass() {\n"
-	    "    }\n"
-	    "    public FooClass()\n"
-	    "    {}\n"
-	    "}\n";
-	char text[] =
-	    "\npublic class FooClass {\n"
-	    "    public FooClass() {}\n"
-	    "    public FooClass()\n"
-	    "    {\n"
-	    "    }\n"
-	    "    public FooClass()\n"
-	    "    {}\n"
-	    "}\n";
-	char options[] = "style=stroustrup, mode=java";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(BracesStroustrupJava, EmptyBracesWithComments)
-{
-	// test stroustrup braces option with ending comments
-	// do not change empty braces
-	char textIn[] =
-	    "\npublic class FooClass { // comment\n"
-	    "    public FooClass() {} // comment\n"
-	    "    public FooClass() { // comment\n"
-	    "    }\n"
-	    "    public FooClass() // comment\n"
-	    "    {}\n"
-	    "}\n";
-	char text[] =
-	    "\npublic class FooClass { // comment\n"
-	    "    public FooClass() {} // comment\n"
-	    "    public FooClass()   // comment\n"
-	    "    {\n"
-	    "    }\n"
-	    "    public FooClass() // comment\n"
-	    "    {}\n"
-	    "}\n";
-	char options[] = "style=stroustrup, mode=java";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(BracesStroustrupJava, EnumConstructor)
-{
-	// test stroustrup braces option with an enum constructor
-	char textIn[] =
-	    "\npublic enum Scope\n"
-	    "{\n"
-	    "    global, view, editpane;\n"
-	    "\n"
-	    "    public static Scope fromString(String s)\n"
-	    "    {\n"
-	    "        Scope[] scopes = values();\n"
-	    "        for (Scope scope: scopes)\n"
-	    "        {\n"
-	    "            if (scope.toString().equals(s))\n"
-	    "                return scope;\n"
-	    "        }\n"
-	    "\n"
-	    "        return global;\n"
-	    "    }\n"
-	    "}\n";
-	char text[] =
-	    "\npublic enum Scope {\n"
-	    "    global, view, editpane;\n"
-	    "\n"
-	    "    public static Scope fromString(String s)\n"
-	    "    {\n"
-	    "        Scope[] scopes = values();\n"
-	    "        for (Scope scope: scopes) {\n"
-	    "            if (scope.toString().equals(s))\n"
-	    "                return scope;\n"
-	    "        }\n"
-	    "\n"
-	    "        return global;\n"
-	    "    }\n"
-	    "}\n";
-	char options[] = "style=stroustrup, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1905,7 +1710,7 @@ TEST(BracesArrayJava, Break_BraceInParens)
 	    "        t(transferable);\n"
 	    "    }\n"
 	    "}";
-	char options[] = "style=allman, mode=java";
+	char options[] = "style=break, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1923,7 +1728,7 @@ TEST(BracesArrayJava, Break_OneLineBlock2)
 	    "                         {io.toString()});\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=allman, mode=java";
+	char options[] = "style=break, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1939,7 +1744,7 @@ TEST(BracesArrayJava, Attach_BraceInParens)
 	    "        t(transferable);\n"
 	    "    }\n"
 	    "}";
-	char options[] = "style=java, mode=java";
+	char options[] = "style=attach, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1955,7 +1760,7 @@ TEST(BracesArrayJava, Attach_OneLineBlock2)
 	    "                         {io.toString()});\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=java, mode=java";
+	char options[] = "style=attach, mode=java";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;

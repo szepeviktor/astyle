@@ -253,6 +253,43 @@ TEST(BracesNoneSharp, RunIn)
 	delete[] textOut;
 }
 
+TEST(BracesNoneSharp, GetSet)
+{
+	char text[] =
+	    "\n"
+	    "public int Property {\n"
+	    "    get {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "    set {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BracesNoneSharp, AddRemove)
+{
+	char text[] =
+	    "\n"
+	    "public int Property {\n"
+	    "    add {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "    remove {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+
 //-------------------------------------------------------------------------
 // AStyle C# Break Brace Options
 //-------------------------------------------------------------------------
@@ -329,7 +366,7 @@ TEST_F(BracesBreakSharpF, LongOption)
 	    "    }\n"
 	    "}\n"
 	    "}\n";
-	char options[] = "style=allman, mode=cs";
+	char options[] = "style=break, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -411,7 +448,7 @@ TEST_F(BracesBreakSharpF, Namespace)
 	    "        }\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=allman, indent-namespaces, mode=cs";
+	char options[] = "style=break, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -439,7 +476,7 @@ TEST(BracesBreakSharp, EmptyBraces)
 	    "    public FooClass()\n"
 	    "    {}\n"
 	    "}\n";
-	char options[] = "style=allman, mode=cs";
+	char options[] = "style=break, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -467,7 +504,7 @@ TEST(BracesBreakSharp, EmptyBracesWithComments)
 	    "    public FooClass() // comment\n"
 	    "    {}\n"
 	    "}\n";
-	char options[] = "style=allman, mode=cs";
+	char options[] = "style=break, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -488,7 +525,7 @@ TEST(BracesBreakSharp, Break)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=allman, mode=cs";
+	char options[] = "style=break, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -517,7 +554,7 @@ TEST(BracesBreakSharp, Attach)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=allman, mode=cs";
+	char options[] = "style=break, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -547,7 +584,7 @@ TEST(BracesBreakSharp, Linux)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=allman, mode=cs";
+	char options[] = "style=break, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -577,9 +614,51 @@ TEST(BracesBreakSharp, RunIn)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=allman, mode=cs";
+	char options[] = "style=break, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BracesBreakSharp, GetSet)
+{
+	char text[] =
+	    "\n"
+	    "public int Property\n"
+	    "{\n"
+	    "    get\n"
+	    "    {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "    set\n"
+	    "    {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "}";
+	char options[] = "style=break, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BracesBreakSharp, AddRemove)
+{
+	char text[] =
+	    "\n"
+	    "public int Property\n"
+	    "{\n"
+	    "    add\n"
+	    "    {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "    remove\n"
+	    "    {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "}";
+	char options[] = "style=break, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
@@ -651,7 +730,7 @@ TEST_F(BracesAttachSharpF, LongOption)
 	    "    }\n"
 	    "}\n"
 	    "}\n";
-	char options[] = "style=java, mode=cs";
+	char options[] = "style=attach, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -717,7 +796,7 @@ TEST_F(BracesAttachSharpF, Namespace)
 	    "        }\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=java, indent-namespaces, mode=cs";
+	char options[] = "style=attach, indent-namespaces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -751,7 +830,7 @@ TEST_F(BracesAttachSharpF, BreakClosing)
 	    "    }\n"
 	    "}\n"
 	    "}\n";
-	char options[] = "style=java, break-closing-braces, mode=cs";
+	char options[] = "style=attach, break-closing-braces, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -768,7 +847,7 @@ TEST(BracesAttachSharp, EmptyBraces)
 	    "    public FooClass()\n"
 	    "    {}\n"
 	    "}\n";
-	char options[] = "style=java, mode=cs";
+	char options[] = "style=attach, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -785,7 +864,7 @@ TEST(BracesAttachSharp, EmptyBracesWithComments)
 	    "    public FooClass() // comment\n"
 	    "    {}\n"
 	    "}\n";
-	char options[] = "style=java, mode=cs";
+	char options[] = "style=attach, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -814,7 +893,7 @@ TEST(BracesAttachSharp, Break)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=java, mode=cs";
+	char options[] = "style=attach, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -831,7 +910,7 @@ TEST(BracesAttachSharp, Attach)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=java, mode=cs";
+	char options[] = "style=attach, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -857,7 +936,7 @@ TEST(BracesAttachSharp, Linux)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=java, mode=cs";
+	char options[] = "style=attach, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -883,9 +962,47 @@ TEST(BracesAttachSharp, RunIn)
 	    "        anotherBar();\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "style=java, mode=cs";
+	char options[] = "style=attach, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BracesAttachSharp, GetSet)
+{
+	// don't attach 'set' to closing brace for 'get' in C#
+	char text[] =
+	    "\n"
+	    "public int Property {\n"
+	    "    get {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "    set {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "}";
+	char options[] = "style=attach, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BracesAttachSharp, AddRemove)
+{
+	// don't attach 'remove' to closing brace for 'add' in C#
+	char text[] =
+	    "\n"
+	    "public int Property {\n"
+	    "    add {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "    remove {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "}";
+	char options[] = "style=attach, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
@@ -1236,6 +1353,44 @@ TEST(BracesLinuxSharp, RunIn)
 	delete[] textOut;
 }
 
+TEST(BracesLinuxSharp, GetSet)
+{
+	char text[] =
+	    "\n"
+	    "public int Property\n"
+	    "{\n"
+	    "    get {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "    set {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "}";
+	char options[] = "style=kr, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BracesLinuxSharp, AddRemove)
+{
+	char text[] =
+	    "\n"
+	    "public int Property\n"
+	    "{\n"
+	    "    add {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "    remove {\n"
+	    "        // some code\n"
+	    "    }\n"
+	    "}";
+	char options[] = "style=kr, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BracesLinuxSharp, Formatting)
 {
 	// test linux braces option, for non-function top level objects
@@ -1309,306 +1464,6 @@ TEST(BracesLinuxSharp, NestedNamespace)
 	    "}\n"
 	    "}\n";
 	char options[] = "style=kr, mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-//-------------------------------------------------------------------------
-// AStyle C# Stroustrup Brace Options
-//-------------------------------------------------------------------------
-
-struct BracesStroustrupSharpF : public Test
-{
-	string textStr;
-	const char* textIn;
-
-	BracesStroustrupSharpF()
-	{
-		textStr =
-		    "\nnamespace FooName\n"
-		    "{\n"
-		    "\n"
-		    "public interface FooInterface\n"
-		    "{\n"
-		    "    int FooGet {get; set;}\n"
-		    "    void Write(string text);\n"
-		    "}\n"
-		    "\n"
-		    "public class FooClass\n"
-		    "{\n"
-		    "    private bool var1;\n"
-		    "    private bool var2;\n"
-		    "\n"
-		    "    public void foo(bool isFoo)\n"
-		    "    {\n"
-		    "        if (isFoo)\n"
-		    "        {\n"
-		    "            bar();\n"
-		    "        } else {\n"
-		    "            anotherBar();\n"
-		    "        }\n"
-		    "    }\n"
-		    "}\n"
-		    "}\n";
-		textIn = textStr.c_str();
-	}
-};
-
-TEST_F(BracesStroustrupSharpF, LongOption)
-{
-	// test stroustrup braces option
-	char text[] =
-	    "\nnamespace FooName {\n"
-	    "\n"
-	    "public interface FooInterface {\n"
-	    "    int FooGet {\n"
-	    "        get;\n"
-	    "        set;\n"
-	    "    }\n"
-	    "    void Write(string text);\n"
-	    "}\n"
-	    "\n"
-	    "public class FooClass {\n"
-	    "    private bool var1;\n"
-	    "    private bool var2;\n"
-	    "\n"
-	    "    public void foo(bool isFoo)\n"
-	    "    {\n"
-	    "        if (isFoo) {\n"
-	    "            bar();\n"
-	    "        } else {\n"
-	    "            anotherBar();\n"
-	    "        }\n"
-	    "    }\n"
-	    "}\n"
-	    "}\n";
-	char options[] = "style=stroustrup, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST_F(BracesStroustrupSharpF, ShortOption)
-{
-	// test stroustrup braces short option
-	char text[] =
-	    "\nnamespace FooName {\n"
-	    "\n"
-	    "public interface FooInterface {\n"
-	    "    int FooGet {\n"
-	    "        get;\n"
-	    "        set;\n"
-	    "    }\n"
-	    "    void Write(string text);\n"
-	    "}\n"
-	    "\n"
-	    "public class FooClass {\n"
-	    "    private bool var1;\n"
-	    "    private bool var2;\n"
-	    "\n"
-	    "    public void foo(bool isFoo)\n"
-	    "    {\n"
-	    "        if (isFoo) {\n"
-	    "            bar();\n"
-	    "        } else {\n"
-	    "            anotherBar();\n"
-	    "        }\n"
-	    "    }\n"
-	    "}\n"
-	    "}\n";
-	char options[] = "-A4, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST_F(BracesStroustrupSharpF, Namespace)
-{
-	// test stroustrup braces option, with indented namespace
-	char text[] =
-	    "\nnamespace FooName {\n"
-	    "\n"
-	    "    public interface FooInterface {\n"
-	    "        int FooGet {\n"
-	    "            get;\n"
-	    "            set;\n"
-	    "        }\n"
-	    "        void Write(string text);\n"
-	    "    }\n"
-	    "\n"
-	    "    public class FooClass {\n"
-	    "        private bool var1;\n"
-	    "        private bool var2;\n"
-	    "\n"
-	    "        public void foo(bool isFoo)\n"
-	    "        {\n"
-	    "            if (isFoo) {\n"
-	    "                bar();\n"
-	    "            } else {\n"
-	    "                anotherBar();\n"
-	    "            }\n"
-	    "        }\n"
-	    "    }\n"
-	    "}\n";
-	char options[] = "style=stroustrup, indent-namespaces, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST_F(BracesStroustrupSharpF, BreakClosing)
-{
-	// test stroustrup braces option with break closing braces
-	char text[] =
-	    "\nnamespace FooName {\n"
-	    "\n"
-	    "public interface FooInterface {\n"
-	    "    int FooGet {\n"
-	    "        get;\n"
-	    "        set;\n"
-	    "    }\n"
-	    "    void Write(string text);\n"
-	    "}\n"
-	    "\n"
-	    "public class FooClass {\n"
-	    "    private bool var1;\n"
-	    "    private bool var2;\n"
-	    "\n"
-	    "    public void foo(bool isFoo)\n"
-	    "    {\n"
-	    "        if (isFoo) {\n"
-	    "            bar();\n"
-	    "        }\n"
-	    "        else {\n"
-	    "            anotherBar();\n"
-	    "        }\n"
-	    "    }\n"
-	    "}\n"
-	    "}\n";
-	char options[] = "style=stroustrup, break-closing-braces, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(BracesStroustrupSharp, EmptyBraces)
-{
-	// test stroustrup braces option
-	char textIn[] =
-	    "\npublic class FooClass {\n"
-	    "    public FooClass() {}\n"
-	    "    public FooClass() {\n"
-	    "    }\n"
-	    "    public FooClass()\n"
-	    "    {}\n"
-	    "}\n";
-	char text[] =
-	    "\npublic class FooClass {\n"
-	    "    public FooClass() {}\n"
-	    "    public FooClass()\n"
-	    "    {\n"
-	    "    }\n"
-	    "    public FooClass()\n"
-	    "    {}\n"
-	    "}\n";
-	char options[] = "style=stroustrup, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(BracesStroustrupSharp, EmptyBracesWithComments)
-{
-	// test stroustrup braces option with ending comments
-	char textIn[] =
-	    "\npublic class FooClass { //comment\n"
-	    "    public FooClass() {} //comment\n"
-	    "    public FooClass() { // comment\n"
-	    "    }\n"
-	    "    public FooClass() //comment\n"
-	    "    {}\n"
-	    "}\n";
-	char text[] =
-	    "\npublic class FooClass { //comment\n"
-	    "    public FooClass() {} //comment\n"
-	    "    public FooClass()   // comment\n"
-	    "    {\n"
-	    "    }\n"
-	    "    public FooClass() //comment\n"
-	    "    {}\n"
-	    "}\n";
-	char options[] = "style=stroustrup, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(BracesStroustrupSharp, Formatting)
-{
-	// test stroustrup braces option, for non-function top level objects
-	// braces are attached for arrays, structs, and other top level objects
-	//     that are not classes or functions.
-	char textIn[] =
-	    "\nnamespace fooName\n"
-	    "{\n"
-	    "public class fooClass\n"
-	    "{\n"
-	    "    public struct Examination\n"
-	    "    {\n"
-	    "        public void setDetails(string str1, string str2)\n"
-	    "        {\n"
-	    "            ExamCode=str1;\n"
-	    "        }\n"
-	    "\n"
-	    "        public string[] getdetails()\n"
-	    "        {\n"
-	    "            temp=new string[2];\n"
-	    "            return temp;\n"
-	    "        }\n"
-	    "    }\n"
-	    "}\n"
-	    "}\n";
-	char text[] =
-	    "\nnamespace fooName {\n"
-	    "public class fooClass {\n"
-	    "    public struct Examination {\n"
-	    "        public void setDetails(string str1, string str2)\n"
-	    "        {\n"
-	    "            ExamCode=str1;\n"
-	    "        }\n"
-	    "\n"
-	    "        public string[] getdetails()\n"
-	    "        {\n"
-	    "            temp=new string[2];\n"
-	    "            return temp;\n"
-	    "        }\n"
-	    "    }\n"
-	    "}\n"
-	    "}\n";
-	char options[] = "style=stroustrup, mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(BracesStroustrupSharp, NestedNamespace)
-{
-	// test nested namespaces with stroustrup braces
-	char text[] =
-	    "\nnamespace A {\n"
-	    "class A {\n"
-	    "    namespace B {\n"
-	    "    class B {\n"
-	    "        namespace C {\n"
-	    "        class C {\n"
-	    "        }\n"
-	    "        }\n"
-	    "    }\n"
-	    "    }\n"
-	    "}\n"
-	    "}\n";
-	char options[] = "style=stroustrup, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1913,6 +1768,42 @@ TEST(BracesRunInSharp, RunIn)
 	delete[] textOut;
 }
 
+TEST(BracesRunInSharp, GetSet)
+{
+	char text[] =
+	    "\n"
+	    "public int Property\n"
+	    "{   get\n"
+	    "    {   // some code\n"
+	    "    }\n"
+	    "    set\n"
+	    "    {   // some code\n"
+	    "    }\n"
+	    "}";
+	char options[] = "style=run-in, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BracesRunInSharp, AddRemove)
+{
+	char text[] =
+	    "\n"
+	    "public int Property\n"
+	    "{   add\n"
+	    "    {   // some code\n"
+	    "    }\n"
+	    "    remove\n"
+	    "    {   // some code\n"
+	    "    }\n"
+	    "}";
+	char options[] = "style=run-in, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle C# Other Brace Options
 //-------------------------------------------------------------------------
@@ -2199,9 +2090,147 @@ TEST(BracesOtherSharp, NestedNamespace_IndentNamespaces)
 	delete[] textOut;
 }
 
-//-------------------------------------------------------------------------
-// AStyle C# Other Brace Options
-//-------------------------------------------------------------------------
+TEST(BracesOtherSharp, NewOperator)
+{
+	// test new operator ending with })
+	char text[] =
+	    "\npublic ResolveResult ResolveIdentifier(string identifier)\n"
+	    "{\n"
+	    "    return Identifier(new IdentifierExpression(identifier) {\n"
+	    "        StartLocation = position\n"
+	    "    }, context);\n"
+	    "}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	ASSERT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BracesOtherSharp, NewOperatorDelegate)
+{
+	// Test new operator ending with }) that contains a delegate block.
+	// C# does a full indent of braces within a paren.
+	// TODO: doesn't work, should be indented like textIn
+	char textIn[] =
+	    "\nstatic void Parse(string fileName, string fileContent)\n"
+	    "{\n"
+	    "    Module module = BooParser(4, new CompileUnit(), fileName,\n"
+	    "                              new StringReader(fileContent),\n"
+	    "                              delegate(RecognitionException e) {\n"
+	    "                                  AppendLine(e.ToString());\n"
+	    "                              });\n"
+	    "}\n";
+	char text[] =
+	    "\nstatic void Parse(string fileName, string fileContent)\n"
+	    "{\n"
+	    "    Module module = BooParser(4, new CompileUnit(), fileName,\n"
+	    "                              new StringReader(fileContent),\n"
+	    "    delegate(RecognitionException e) {\n"
+	    "        AppendLine(e.ToString());\n"
+	    "    });\n"
+	    "}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	ASSERT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BracesOtherSharp, ReturnStatement)
+{
+	// test return statement ending with };
+	// }; should not have an in-statement indent.
+	char text[] =
+	    "\npublic IViewContent CreateContentForFile(OpenedFile file)\n"
+	    "{\n"
+	    "    return new SimpleViewContent(errorMessage) {\n"
+	    "        TitleName = Path.GetFileName(file.FileName)\n"
+	    "    };\n"
+	    "}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	ASSERT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BracesOtherSharp, GenericConstraints)
+{
+	// test with classes and structs in the same statement
+	char text[] =
+	    "\n"
+	    "public class MyClass<T> where T : struct    // class, struct\n"
+	    "{\n"
+	    "}\n"
+	    "\n"
+	    "public struct MyClass<T> where T : class {  // struct,class\n"
+	    "}\n"
+	    "\n"
+	    "public class MyClass<T> where T : class {   // 2 classes\n"
+	    "}\n"
+	    "\n"
+	    "public struct MyClass<T> where T : struct { // 2 structs\n"
+	    "}\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	ASSERT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BracesOtherSharp, GenericConstraintsWithNamespace)
+{
+	// test with classes and structs in the same statement and indented namespace
+	char text[] =
+	    "\n"
+	    "namespace SampleNamespace\n"
+	    "{\n"
+	    "    public class MyClass<T> where T : struct    // class, struct\n"
+	    "    {\n"
+	    "    }\n"
+	    "\n"
+	    "    public struct MyClass<T> where T : class {  // struct,class\n"
+	    "    }\n"
+	    "\n"
+	    "    public class MyClass<T> where T : class {   // 2 classes\n"
+	    "    }\n"
+	    "\n"
+	    "    public struct MyClass<T> where T : struct { // 2 structs\n"
+	    "    }\n"
+	    "}\n";
+	char options[] = "indent-namespaces, mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	ASSERT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BracesOtherSharp, GenericConstraintsWithMethods)
+{
+	// test with classes and structs in the same statement and include methods
+	char text[] =
+	    "\n"
+	    "public class MyClass<T> where T : struct    // class, struct\n"
+	    "{\n"
+	    "    public void Foo() {\n"
+	    "    }\n"
+	    "}\n"
+	    "\n"
+	    "public struct MyClass<T> where T : class {  // struct, class\n"
+	    "    public void Foo() {\n"
+	    "    }\n"
+	    "}\n"
+	    "\n"
+	    "public class MyClass<T> where T : class {   // 2 classes OK\n"
+	    "    public void Foo() {\n"
+	    "    }\n"
+	    "}\n"
+	    "\n"
+	    "public struct MyClass<T> where T : struct { // 2 structs NOT OK\n"
+	    "    public void Foo() {\n"
+	    "    }\n"
+	    "}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	ASSERT_STREQ(text, textOut);
+	delete[] textOut;
+}
 
 //----------------------------------------------------------------------------
 // C# Lambda Tests
@@ -2478,68 +2507,6 @@ TEST(CsLambda, Set)
 	delete[] textOut;
 }
 
-TEST(BracesOtherSharp, NewOperator)
-{
-	// test new operator ending with })
-	char text[] =
-	    "\npublic ResolveResult ResolveIdentifier(string identifier)\n"
-	    "{\n"
-	    "    return Identifier(new IdentifierExpression(identifier) {\n"
-	    "        StartLocation = position\n"
-	    "    }, context);\n"
-	    "}\n";
-	char options[] = "mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(BracesOtherSharp, NewOperatorDelegate)
-{
-	// Test new operator ending with }) that contains a delegate block.
-	// C# does a full indent of braces within a paren.
-	// TODO: doesn't work, should be indented like textIn
-	char textIn[] =
-	    "\nstatic void Parse(string fileName, string fileContent)\n"
-	    "{\n"
-	    "    Module module = BooParser(4, new CompileUnit(), fileName,\n"
-	    "                              new StringReader(fileContent),\n"
-	    "                              delegate(RecognitionException e) {\n"
-	    "                                  AppendLine(e.ToString());\n"
-	    "                              });\n"
-	    "}\n";
-	char text[] =
-	    "\nstatic void Parse(string fileName, string fileContent)\n"
-	    "{\n"
-	    "    Module module = BooParser(4, new CompileUnit(), fileName,\n"
-	    "                              new StringReader(fileContent),\n"
-	    "    delegate(RecognitionException e) {\n"
-	    "        AppendLine(e.ToString());\n"
-	    "    });\n"
-	    "}\n";
-	char options[] = "mode=cs";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(BracesOtherSharp, ReturnStatement)
-{
-	// test return statement ending with };
-	// }; should not have an in-statement indent.
-	char text[] =
-	    "\npublic IViewContent CreateContentForFile(OpenedFile file)\n"
-	    "{\n"
-	    "    return new SimpleViewContent(errorMessage) {\n"
-	    "        TitleName = Path.GetFileName(file.FileName)\n"
-	    "    };\n"
-	    "}\n";
-	char options[] = "mode=cs";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	ASSERT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
 //-------------------------------------------------------------------------
 // AStyle C# Array Brace Options
 //-------------------------------------------------------------------------
@@ -2607,7 +2574,7 @@ TEST(BracesArraySharp, Break_Comments)
 	    "    /* 1: after quote   */ new int[] { 2,   6,   10,  0,   8 },\n"
 	    "    /* 2: after d-quote */ new int[] { 3,   7,   0,   0,   0 }\n"
 	    "};\n";
-	char options[] = "style=allman, mode=cs";
+	char options[] = "style=break, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2644,7 +2611,7 @@ TEST(BracesArraySharp, Break_Misc1)
 	    "        PwDefs.PasswordField\n"
 	    "    }),\n"
 	    "};";
-	char options[] = "style=allman, mode=cs";
+	char options[] = "style=break, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2660,7 +2627,7 @@ TEST(BracesArraySharp, Attach_Comments)
 	    "    /* 1: after quote   */ new int[] { 2,   6,   10,  0,   8 },\n"
 	    "    /* 2: after d-quote */ new int[] { 3,   7,   0,   0,   0 }\n"
 	    "};\n";
-	char options[] = "style=java, mode=cs";
+	char options[] = "style=attach, mode=cs";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2697,7 +2664,7 @@ TEST(BracesArraySharp, Attach_Misc1)
 	    "        PwDefs.PasswordField\n"
 	    "    }),\n"
 	    "};";
-	char options[] = "style=java, mode=cs";
+	char options[] = "style=attach, mode=cs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;

@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Check ASEnhancer constructor to class variables
     in the header file to verify all variables are initialized.
 """

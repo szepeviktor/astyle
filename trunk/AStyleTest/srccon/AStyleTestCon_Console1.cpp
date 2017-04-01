@@ -245,12 +245,12 @@ TEST(ProcessOptions, ConsoleOptions_Error)
 }
 
 //----------------------------------------------------------------------------
-// AStyle ascii and ignore-exclude-errors options
+// AStyle ascii, stdin, stdout, and ignore-exclude-errors options
 //----------------------------------------------------------------------------
 
 TEST(ProcessOptions, AsciiOption)
 // test processOptions for ascii option
-// For a complete test the user locale should something besides English.
+// For a complete test the user locale should be something besides English.
 {
 	ASFormatter formatter;
 	auto console = new ASConsole(formatter);
@@ -265,7 +265,7 @@ TEST(ProcessOptions, AsciiOption)
 
 TEST(ProcessOptions, AsciiOption_Short)
 // test processOptions for ascii short option -I
-// For a complete test the user locale should something besides English.
+// For a complete test the user locale should be something besides English.
 {
 	ASFormatter formatter;
 	auto console = new ASConsole(formatter);
@@ -276,6 +276,40 @@ TEST(ProcessOptions, AsciiOption_Short)
 	// test the language
 	string langID = console->getLanguageID();
 	EXPECT_EQ(langID, "en");
+	delete console;
+}
+
+TEST(ProcessOptions, StdInOption)
+// test processOptions for stdin= option
+{
+	ASFormatter formatter;
+	auto console = new ASConsole(formatter);
+	// build optionsIn
+	vector<string> optionsIn;
+	string path = "../../folderin/filein.cpp";
+	optionsIn.push_back("--stdin=" + path);
+	console->processOptions(optionsIn);
+	// test the filepath
+	console->standardizePath(path);
+	string filepath = console->getStdPathIn();
+	EXPECT_EQ(filepath, path);
+	delete console;
+}
+
+TEST(ProcessOptions, StdOutOption)
+// test processOptions for stdout= option
+{
+	ASFormatter formatter;
+	auto console = new ASConsole(formatter);
+	// build optionsIn
+	vector<string> optionsIn;
+	string path = "../../folderout/fileout.cpp";
+	optionsIn.push_back("--stdout=" + path);
+	console->processOptions(optionsIn);
+	// test the filepath
+	console->standardizePath(path);
+	string filepath = console->getStdPathOut();
+	EXPECT_EQ(filepath, path);
 	delete console;
 }
 

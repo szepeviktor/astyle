@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Create the Windows XP distribution files for Artistic Style.
     Windows distribution only. No Linux.
 """
@@ -9,7 +9,6 @@ from __future__ import print_function
 import glob
 import os
 import shutil
-import stat
 import subprocess
 import time
 # local libraries
@@ -183,11 +182,6 @@ def copy_astyle_doc(dist_doc, to_dos=False):
                  + glob.glob(dist_doc + "/*.css"))
     if len(distfiles) != len(docfiles) - deleted:
         libastyle.system_exit("Error copying doc: " + str(len(distfiles)))
-    # change file permissions
-    for srcfile in distfiles:
-        # read/write by the owner and read only by everyone else (-rw-r--r--)
-        mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-        os.chmod(srcfile, mode)
 
 # -----------------------------------------------------------------------------
 
@@ -201,7 +195,7 @@ def copy_astyle_file(dist_file, to_dos=False):
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
         unused, ext = os.path.splitext(filename)
-        if ext != ".yaml":
+        if ext != ".yaml" and ext != ".md":
             shutil.copy(filepath, dist_file)
             print("    " + filename)
         else:
@@ -211,11 +205,6 @@ def copy_astyle_file(dist_file, to_dos=False):
     distfiles = glob.glob(dist_file + "/*")
     if len(distfiles) != len(filefiles) - deleted:
         libastyle.system_exit("Error copying file: " + str(len(distfiles)))
-    # change file permissions
-    for filefile in distfiles:
-        # read/write by the owner and read only by everyone else (-rw-r--r--)
-        mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-        os.chmod(filefile, mode)
 
 # -----------------------------------------------------------------------------
 
@@ -232,11 +221,6 @@ def copy_astyle_src(dist_src, to_dos=False):
                  + glob.glob(dist_src + "/*.h"))
     if len(distfiles) != len(srcfiles):
         libastyle.system_exit("Error copying src: " + str(len(distfiles)))
-    # change file permissions
-    for srcfile in distfiles:
-        # read/write by the owner and read only by everyone else (-rw-r--r--)
-        mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-        os.chmod(srcfile, mode)
 
 # -----------------------------------------------------------------------------
 
@@ -249,22 +233,17 @@ def copy_astyle_top(dist_top, to_dos=False):
     for filepath in docfiles:
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
-        if (filename == "LICENSE.txt"
-                or filename == "README.txt"):
+        if (filename == "LICENSE.md"
+                or filename == "README.md"):
             shutil.copy(filepath, dist_top)
             print("    " + filename)
         else:
             deleted += 1
     convert_line_ends(dist_top, to_dos)
     # verify copy - had a problem with bad filenames
-    distfiles = (glob.glob(dist_top + "/*.txt"))
+    distfiles = (glob.glob(dist_top + "/*.md"))
     if len(distfiles) != len(docfiles) - deleted:
         libastyle.system_exit("Error copying top: " + str(len(distfiles)))
-    # change file permissions
-    for srcfile in distfiles:
-        # read/write by the owner and read only by everyone else (-rw-r--r--)
-        mode = (stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-        os.chmod(srcfile, mode)
 
 # -----------------------------------------------------------------------------
 
@@ -320,7 +299,7 @@ def copy_build_directories_vs(dist_build, build_dir):
                 files_copied += 1
                 shutil.copy(filter_in, dist_astyle_proj)
         # verify number of files copied
-        if files_copied != 2 and files_copied != 1:
+        if files_copied != 2:
             libastyle.system_exit("Error in number of build files copied: " + str(files_copied))
 
 # -----------------------------------------------------------------------------

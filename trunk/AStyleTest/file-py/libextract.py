@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Library files for AStyle test modules.
     Extract files in the TestArchives directory to the TestData directory.
     The 7zip program is called to extract the archives.

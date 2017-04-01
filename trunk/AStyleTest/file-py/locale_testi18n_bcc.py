@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Run the Embarcadero AStyleTestI18n test using AppLocale to test non-ASCII files.
 """
 

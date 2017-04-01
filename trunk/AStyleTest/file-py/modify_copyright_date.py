@@ -5,6 +5,7 @@
 # to disable the print statement and use the print() function (version 3 format)
 from __future__ import print_function
 
+import glob
 import os
 import platform
 import re
@@ -14,7 +15,7 @@ import libastyle
 
 # global variables ------------------------------------------------------------
 
-__old_date = "2016"
+__old_date = "2017"
 __new_date = "2017"
 
 __file_update = False           # should the files be updated?
@@ -36,13 +37,16 @@ def main():
     print()
 
     # source file directories
-    source_extension_list = [".h", ".cpp", ".m", ".java", ".py", ".cs"]
-    source_directory_list = [libastyle.get_project_directory(True) + "AStyle/src",
+    source_extension_list = [".h", ".cpp", ".m", ".md", ".java", ".py", ".cs"]
+    source_directory_list = [libastyle.get_project_directory(True) + "AStyle",
+                             libastyle.get_project_directory(True) + "AStyle/src",
+                             libastyle.get_project_directory(True) + "AStyleDev",
                              libastyle.get_project_directory(True) + "AStyleDev/src-c",
                              libastyle.get_project_directory(True) + "AStyleDev/src-j",
                              libastyle.get_project_directory(True) + "AStyleDev/src-o",
                              libastyle.get_project_directory(True) + "AStyleDev/src-p",
                              libastyle.get_project_directory(True) + "AStyleDev/src-s",
+                             libastyle.get_project_directory(True) + "AStyleTest",
                              libastyle.get_project_directory(True) + "AStyleTest/src",
                              libastyle.get_project_directory(True) + "AStyleTest/srccon",
                              libastyle.get_project_directory(True) + "AStyleTest/srci18n",
@@ -50,7 +54,9 @@ def main():
                              libastyle.get_project_directory(True) + "AStyleTest/srcloc",
                              libastyle.get_project_directory(True) + "AStyleTest/srcx",
                              libastyle.get_project_directory(True) + "AStyleWin/src",
+                             libastyle.get_project_directory(True) + "AStyleWx",
                              libastyle.get_project_directory(True) + "AStyleWx/src",
+                             libastyle.get_project_directory(True) + "AStyleWxTest",
                              libastyle.get_project_directory(True) + "AStyleWxTest/src",
                              libastyle.get_project_directory(True) + "AStyleWxTest/srcx"]
     update_source_files(source_directory_list, source_extension_list)
@@ -60,23 +66,19 @@ def main():
 # -----------------------------------------------------------------------------
 
 def get_requested_files(directory_path, file_extension_list, changeable_files_list):
-    """Get all files in a directory, including sub directories.
+    """Get all files in a directory.
        Check the file extensions to determine if it is a changable file.
        Write qualified files to the changeable files list.
        The copyright date is checked by a different procedure.
     """
-    for dirpath, unused, filenames in os.walk(directory_path):
-        # process each file in the directory
-        for filename in filenames:
-            unused, ext = os.path.splitext(filename)
-            # check for the requested files
-            for unused, file_extension in enumerate(file_extension_list):
-                if (ext == file_extension
-                        or (ext == '' and filename == file_extension)):
-                    filepath = os.path.join(dirpath, filename)
-                    filepath = filepath.replace('\\', '/')
-                    changeable_files_list.append(filepath)
-                    break
+    # process each file in the directory
+    filepaths = glob.glob(directory_path + "/*")
+    for filepath in filepaths:
+        unused, ext = os.path.splitext(filepath)
+        # check for the requested files
+        if ext in file_extension_list:
+            filepath = filepath.replace('\\', '/')
+            changeable_files_list.append(filepath)
     changeable_files_list.sort()
 
 # -----------------------------------------------------------------------------
@@ -112,7 +114,7 @@ def modify_input_file(filepath, updated_file_list):
 # -----------------------------------------------------------------------------
 
 def update_source_files(source_directory_list, source_extension_list):
-    """Update version number in the dource files.
+    """Update version number in the source files.
        The directory list and file extensions are in main().
     """
     # get source files in the directory list
@@ -130,7 +132,7 @@ def update_source_files(source_directory_list, source_extension_list):
                 source_total += 1
                 if __file_update:
                     write_output_file(updated_file, source_file)
-    print("Source Files", source_total)
+    print("Total Files", source_total)
     print()
 
 # -----------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Run the AStyle system test.
     Tests brace changes and that changes are completed in one pass.
     The application should be compiled after the test.
@@ -37,7 +37,13 @@ import libtest
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN
 # TESTPROJECT
-__project = libastyle.JEDIT
+__project = libastyle.SHARPDEVELOP
+
+# enumerate thru all the __options
+# otherwise use only the option below
+__enumerate = True
+# total errors for the enumeration
+__total_errors = 0
 
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a brace style or any other option
@@ -46,7 +52,7 @@ __options = libastyle.OPT3
 __options_x = ""
 
 # executable for test
-__astyleexe = "astyle"
+__astyleexe = "astyled"
 
 # extract all files option, use False for speed, use True to compile
 __all_files_option = True
@@ -59,7 +65,7 @@ __start = 1
 #__bracesOLD = "__aa_bb_ll_gg_aa_ll_bb_gg_bb_aa_gg_ll_aa_"
 
 # brace options and the order they are tested (start with number 1)
-# a = attached (A2), b = broken (A1), h = run-in (A9), p = pico (A11),
+# a = attached (A2), b = broken (A1), r = run-in (A9), p = pico (A11),
 __braces = "__aa_bb_rr_arbp"
 
 # -----------------------------------------------------------------------------
@@ -67,6 +73,7 @@ __braces = "__aa_bb_rr_arbp"
 def main():
     """Main processing function.
     """
+    global __total_errors
     # total files formatted in error
     errors = 0
     errtests = []
@@ -107,6 +114,7 @@ def main():
 
     rename_output_file(filepaths)
     print_run_total(errors, errtests, starttime)
+    __total_errors += errors
 
 # -----------------------------------------------------------------------------
 
@@ -167,7 +175,10 @@ def get_astyle_config():
     """
     config = libastyle.DEBUG
     if __astyleexe.lower() == "astyle":
-        config = libastyle.STATIC
+        if os.name == "nt":
+            config = libastyle.STATIC
+        else:
+            config = libastyle.RELEASE
     return config
 
 # -----------------------------------------------------------------------------
@@ -198,11 +209,16 @@ def get_modified_options(index):
     """
     modified_options = __options
     # run-in braces must have indented switches
+    # run-in braces do not atach to inlines
     if (index > 0
             and __braces[index] == '_'
             and __braces[index - 1] == 'r'):
+        # add indent-switchws to options
         if modified_options.find('S') == -1:
             modified_options = modified_options + "S"
+        # remove attach-inlines from options
+        if modified_options.find('xl') != -1:
+            modified_options = modified_options.replace("xl", "")
     # GWorkspace uses multi-line macros and cannot remove braces (xj)
     if __project == libastyle.GWORKSPACE:
         modified_options = modified_options.replace("xj", "")
@@ -480,7 +496,15 @@ def verify_formatted_files(numformat, totformat):
 
 # make the module executable
 if __name__ == "__main__":
-    main()
+    if __enumerate:
+        opts = [ libastyle.OPT0, libastyle.OPT1, libastyle.OPT2, libastyle.OPT3]
+        for unused, opt in enumerate(opts):
+            __options = opt
+            main()
+            print('\n' + ('#' * 60)  + '\n')
+        print(str(__total_errors) + " total errors")
+    else:
+        main()
     libastyle.system_exit()
 
 # -----------------------------------------------------------------------------

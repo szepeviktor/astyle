@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """Check ASLocalizer.h "Translation" classes to the test functions in AStyleTestLoc.cpp.
 """
 

@@ -174,7 +174,7 @@ TEST(IndentClasses, RunIn)
 	    "class fooClass2\n"
 	    "{       bool foo2;\n"
 	    "};\n";
-	char options[] = "indent-classes, style=horstmann";
+	char options[] = "indent-classes, style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -204,7 +204,7 @@ TEST(IndentClasses, RunInTab)
 	    "class fooClass2\n"
 	    "{		bool foo2;\n"
 	    "};\n";
-	char options[] = "indent-classes, style=horstmann, indent=tab";
+	char options[] = "indent-classes, style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -235,7 +235,7 @@ TEST(IndentClasses, RunInSans)
 	    "class fooClass2\n"
 	    "{   bool foo2;\n"
 	    "};\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -266,7 +266,7 @@ TEST(IndentClasses, RunInSansTab)
 	    "class fooClass2\n"
 	    "{	bool foo2;\n"
 	    "};\n";
-	char options[] = "style=horstmann, indent=tab";
+	char options[] = "style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -299,7 +299,7 @@ TEST(IndentClasses, RunInLineComment)
 	    "// comment2\n"
 	    "    public:\n"
 	    "};\n";
-	char options[] = "indent-classes, style=horstmann";
+	char options[] = "indent-classes, style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -332,7 +332,7 @@ TEST(IndentClasses, RunInLineCommentSans)
 	    "// comment2\n"
 	    "public:\n"
 	    "};\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -353,7 +353,7 @@ TEST(IndentClasses, RunInComment)
 	    "{   /* coment1 */\n"
 	    "    public:\n"
 	    "};\n";
-	char options[] = "indent-classes, style=horstmann";
+	char options[] = "indent-classes, style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -374,7 +374,7 @@ TEST(IndentClasses, RunInCommentSans)
 	    "{   /* coment1 */\n"
 	    "public:\n"
 	    "};\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -609,7 +609,7 @@ TEST(IndentClasses, StructRunIn)
 	    "    private:\n"
 	    "        bool var2;\n"
 	    "};\n";
-	char options[] = "indent-classes, style=horstmann";
+	char options[] = "indent-classes, style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -645,7 +645,7 @@ TEST(IndentClasses, StructRunInSans)
 	    "private:\n"
 	    "    bool var2;\n"
 	    "};\n";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1536,7 +1536,7 @@ TEST(IndentSwitches, RunInTab)
 	    "		}\n"
 	    "	}\n"
 	    "}\n";
-	char options[] = "indent-switches, style=horstmann, indent=tab";
+	char options[] = "indent-switches, style=run-in, indent=tab";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2137,7 +2137,7 @@ TEST(IndentNamespaces, RunIn)
 	    "{\n"
 	    "    /* comment2 */\n"
 	    "}\n";
-	char options[] = "indent-namespaces, style=horstmann";
+	char options[] = "indent-namespaces, style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2208,7 +2208,7 @@ TEST(IndentNamespaces, CorbaIDLModuleRunIn)
 	    "{\n"
 	    "    /* comment2 */\n"
 	    "}\n";
-	char options[] = "indent-namespaces, style=horstmann";
+	char options[] = "indent-namespaces, style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;

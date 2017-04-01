@@ -19,6 +19,58 @@ namespace {
 // AStyle version 3.0 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V30, PointerOrReference_length)
+{
+	// formatPointerOrReference with pad-oper should NOT split the '&&' to '& &'
+	char text[] =
+	    "\n"
+	    "template < typename T && !is_integral >\n"
+	    "{}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V30, AddBraces_BreakAfter)
+{
+	// Should braek the line after adding braces to the following.
+	char textIn[] =
+	    "\n"
+	    "main()\n"
+	    "{\n"
+	    "if (1) return 0; *ptr='[';\n"
+	    "if (1) return 1; ++ptr;\n"
+	    "if (1) return 1; --ptr;\n"
+	    "if (1) return 1; (int*)ptr=1;\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "main()\n"
+	    "{\n"
+	    "    if (1) {\n"
+	    "        return 0;\n"
+	    "    }\n"
+	    "    *ptr='[';\n"
+	    "    if (1) {\n"
+	    "        return 1;\n"
+	    "    }\n"
+	    "    ++ptr;\n"
+	    "    if (1) {\n"
+	    "        return 1;\n"
+	    "    }\n"
+	    "    --ptr;\n"
+	    "    if (1) {\n"
+	    "        return 1;\n"
+	    "    }\n"
+	    "    (int*)ptr=1;\n"
+	    "}";
+	char options[] = "add-braces";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V30, MaxCodeLength)
 {
 	// This "ret =" statement sent a "?" to the isInExponent() function

@@ -1,4 +1,4 @@
-#/usr/bin/python
+#/usr/bin/python3
 """ cppcheck addon for naming conventions
     Example usage (variable name must start with lowercase, function name must start with uppercase):
     $ cppcheck --dump path-to-src/

@@ -14,10 +14,15 @@ import libastyle
 
 # global variables ------------------------------------------------------------
 
-__old_release = "2.7"
-__new_release = "3.0"
+# windows
+__old_release = "30"
+__new_release = "41"
 
-__file_update = False           # should the files be updated?
+#linux
+__old_solibver = "3.0.0"
+__new_solibver = "4.1.2"
+
+__file_update = True           # should the files be updated?
 
 # -----------------------------------------------------------------------------
 
@@ -25,7 +30,8 @@ def main():
     """Main processing function."""
     libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
-    print("Modify Shared Version from", __old_release, "to", __new_release)
+    print("Modify AStyle Version from", __old_release,  "to", __new_release)
+    print("Modify Solib  Version from", __old_solibver, "to", __new_solibver)
     if not __file_update:
         print("\nFILES NOT UPDATED")
     # must use this version for newline option on the file open
@@ -46,7 +52,7 @@ def main():
     update_project_files(project_directory_list, project_extension_list)
 
     # source file directories
-    source_extension_list = [".properties", ".cpp", ".m", ".java", ".py", ".cs"]
+    source_extension_list = [".properties", ".cpp", ".m", ".java", ".cs"]
     source_directory_list = [libastyle.get_project_directory(True) + "AStyle/src",
                              libastyle.get_project_directory(True) + "AStyleDev/src-c",
                              libastyle.get_project_directory(True) + "AStyleDev/src-j",
@@ -110,12 +116,24 @@ def modify_input_file(filepath, updated_file_list):
     file_changed = False    # the file has changed
 
     # find and change matching lines
-    pattern = re.compile("[Aa][Ss]tyle-" + __old_release)
+    astyle = re.compile("[Aa][Ss]tyle" + __old_release)
     with open(filepath, mode='r', encoding='utf-8', newline='') as file_in:
         for line in file_in:
             lines += 1
-            if pattern.search(line) or ('"' + __old_release + '"' in line):
+            if astyle.search(line):
                 line = line.replace(__old_release, __new_release)
+                file_changed = True
+            elif "MAJORVER" in line:
+                line = line.replace(__old_solibver[:1], __new_solibver[:1])
+                file_changed = True
+            elif "MINORVER" in line:
+                line = line.replace(__old_solibver[2:3], __new_solibver[2:3])
+                file_changed = True
+            elif "PATCHVER" in line:
+                line = line.replace(__old_solibver[4:5], __new_solibver[4:5])
+                file_changed = True
+            elif "SOLIBVER" in line:
+                line = line.replace(__old_solibver, __new_solibver)
                 file_changed = True
             updated_file_list.append(line)
     return file_changed

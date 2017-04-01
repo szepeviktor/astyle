@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Run the AStyle regression test.
     Tests the output of a new program against an older one.
     Change the global variables to the desired values.
@@ -32,11 +32,11 @@ import libtest
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN         # C# - 1000 files from SharpDevelop
 # TESTPROJECT
-__project = libastyle.CODEBLOCKS
+__project = libastyle. JEDIT
 
 # select OPT0 thru OPT3, or use customized options
 # ADD xV TO LINASTYLE.PY OPTIONS **********************************
-__options = libastyle.OPT0
+__options = libastyle.OPT1
 
 # options_x are for BOTH executables
 __options_x = ""
@@ -47,7 +47,7 @@ __options_x2 = ""
 #__options = "-tapOHUk3"
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle30a"
+__astyleexe1 = "astyle30b"
 __astyleexe2 = "astyled"
 
 # select one of the following to format files in the OLD directory

@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Check ASConsole constructor to class variables
     in the header file to verify all variables are initialized.
 """
@@ -201,11 +201,15 @@ def get_header_variables(header_variables, header_path):
             continue
         if "optionsFileName" in line:
             continue
+        if "stdPathIn" in line:
+            continue
+        if "stdPathOut" in line:
+            continue
         if "targetDirectory" in line:
             continue
         if "targetFilename" in line:
             continue
-        if "Utf8_16" in line:
+        if "ASEncoding" in line:
             continue
         # get the variable name
         semi_colon = line.find(';')

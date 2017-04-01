@@ -87,7 +87,4 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\src\AStyleTest_Format.cpp.orig" />
-  </ItemGroup>
 </Project>

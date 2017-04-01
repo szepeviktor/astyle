@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Test functions to print and parse the astyle report file.
     Test functions to extract the formatted files and call a diff viewer.
 """
@@ -51,6 +51,8 @@ def diff_formatted_files(filepaths, diff_old=False):
         stripfile = strip_test_directory_prefix(filepath)
         print("{0} of {1} {2}".format(numin, len(filepaths), stripfile))
         ch_in = libastyle.get_ch()
+        if libastyle.get_python_version_number() >= 3:
+            ch_in = ch_in.decode('utf-8')
         if ch_in == 'n' or ch_in == 'N' or ch_in == 'm' or ch_in == 'M':
             continue
         if ch_in == 'q' or ch_in == 'Q':

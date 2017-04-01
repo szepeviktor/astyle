@@ -1,10 +1,10 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 """ Format a python file using autopep8.
     Run from an option in the "Tools" menu of a development environment.
     For Visual Studio:
         Title:       Format Python
         Command:     C:/Program Files/Python35/python.exe
-        Arguments:   "format_python.py"  "$(ItemFileName)$(ItemExt)"
+        Arguments:   "format_python.py"  "$(ItemPath)"
         Init Dir:    %USERPROFILE%/Projects/AStyleTest/file-pyr)
 """
 
@@ -25,33 +25,36 @@ def main():
         print("Is script run from CodeBlocks or Visual Studio?")
         print()
         os._exit(1)
-    file_name = sys.argv[1]
-    print("Hello '" + file_name + "'")
+    file_path = sys.argv[1]
+    unused, file_name = os.path.split(file_path)
+    print("Hello " + file_name)
     if not file_name.endswith(".py"):
         print("Invalid file extension in '" + file_name + "'")
         print()
         os._exit(1)
     print("Formatting " + file_name)
     print()
-    call_autopep8_executable(file_name)
+    call_autopep8_executable(file_path)
     print()
 
 # -----------------------------------------------------------------------------
 
-def call_autopep8_executable(file_name):
+def call_autopep8_executable(file_path):
     """ Call the autopep8 executable to format the project.
         Uses the file pyprp8rc for formatting options.
     """
     if os.name == "nt":
         exepath = "C:/Program Files/Python35/Scripts/autopep8.exe"
+        pypep8rc = os.getenv("USERPROFILE") + "/Projects/AStyleTest/file-py/pypep8rc"
     else:
         exepath = "autopep8"
+        pypep8rc = os.getenv("HOME") + "/Projects/AStyleTest/file-py/pypep8rc"
 
     # couldn't get options file to work "--global-config=pypep8rc"
     # so get them from the file
     options = []
-    get_options(options)
-    print("options =", options)
+    get_options(options, pypep8rc)
+    print("options = {}".format(options))
     print()
 
     # build the autopep8 call list
@@ -59,7 +62,7 @@ def call_autopep8_executable(file_name):
     autopep8_call.insert(0, exepath)
     autopep8_call.append("--in-place")
     autopep8_call.append("--verbose")
-    autopep8_call.append(file_name)
+    autopep8_call.append(file_path)
 
     try:
         retval = subprocess.call(autopep8_call)
@@ -76,11 +79,10 @@ def call_autopep8_executable(file_name):
 
 # -----------------------------------------------------------------------------
 
-def get_options(options):
+def get_options(options, opt_path):
     """ Get options in the options file.
         Couldn't get the file options to work, so do this.
     """
-    opt_path = "pypep8rc"
     options_in = open(opt_path, 'r')
     # get exceptions
     for line_in in options_in:

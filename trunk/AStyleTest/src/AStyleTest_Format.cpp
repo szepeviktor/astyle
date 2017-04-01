@@ -244,7 +244,7 @@ TEST(BreakClosingBraces, RunIn)
 	    "    }\n"
 	    "}\n"
 	    "\n";
-	char options[] = "style=horstmann, break-closing-braces";
+	char options[] = "style=run-in, break-closing-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1638,7 +1638,7 @@ TEST(BreakOneLineHeaders, KeepOLBlocksBreakBlocks)
 TEST(BreakOneLineHeaders, KeepOLBlocksBreakBlocksAll)
 {
 	// break one line headers ignores keep one line blocks
-	// -A9 is style=horstmann
+	// -A9 is style=run-in
 	char textIn[] =
 	    "\n"
 	    "void Foo()\n"
@@ -2484,7 +2484,7 @@ TEST(AddBraces, RunIn)
 	    "    {   return true;\n"
 	    "    }\n"
 	    "}\n";
-	char options[] = "add-braces, style=horstmann";
+	char options[] = "add-braces, style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -3181,7 +3181,7 @@ TEST(AddOneLineBraces, RunIn)
 	    "    else\n"
 	    "    { return true; }\n"
 	    "}\n";
-	char options[] = "add-one-line-braces, style=horstmann";
+	char options[] = "add-one-line-braces, style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -4233,7 +4233,7 @@ TEST(KeepOneLineBlocks, RunInBraces)
 	    "    else if (comment) { ++comment_lines; }\n"
 	    "    else if (code) { ++code_lines; }\n"
 	    "}\n";
-	char options[] = "keep-one-line-blocks, style=horstmann";
+	char options[] = "keep-one-line-blocks, style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -4456,7 +4456,7 @@ TEST(KeepOneLineBlocks, RunInRunIn)
 	    "    {/*ok*/;}\n"
 	    "    else {bar();}\n"
 	    "}\n";
-	char options[] = "keep-one-line-blocks, style=horstmann";
+	char options[] = "keep-one-line-blocks, style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
