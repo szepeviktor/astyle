@@ -21,8 +21,8 @@ import libastyle
 AS_RELEASE = "3.0"
 
 # extract all platforms for testing (Windows, Linux, Mac)
-#EXTRACT_ALL = False
-EXTRACT_ALL = True
+EXTRACT_ALL = False
+#EXTRACT_ALL = True
 
 # inut from AStyle directory
 __astyle_dir = libastyle.get_astyle_directory()
@@ -77,6 +77,11 @@ def build_linux_distribution():
     os.mkdir(dist_doc)
     copy_astyle_doc(dist_doc)
 
+     # file directory
+    dist_file = dist_astyle + "/file/"
+    os.mkdir(dist_file)
+    copy_astyle_file(dist_file, True)
+
     # src directory
     dist_src = dist_astyle + "/src/"
     os.mkdir(dist_src)
@@ -116,6 +121,11 @@ def build_mac_distribution():
     os.mkdir(dist_doc)
     copy_astyle_doc(dist_doc)
 
+     # file directory
+    dist_file = dist_astyle + "/file/"
+    os.mkdir(dist_file)
+    copy_astyle_file(dist_file, True)
+
     # src directory
     dist_src = dist_astyle + "/src/"
     os.mkdir(dist_src)
@@ -149,6 +159,11 @@ def build_vms_distribution():
     dist_doc = dist_astyle + "/doc/"
     os.mkdir(dist_doc)
     copy_astyle_doc(dist_doc)
+
+     # file directory
+    dist_file = dist_astyle + "/file/"
+    os.mkdir(dist_file)
+    copy_astyle_file(dist_file, True)
 
     # src directory
     dist_src = dist_astyle + "/src/"
@@ -326,7 +341,7 @@ def copy_astyle_file(dist_file, to_dos=False):
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
         unused, ext = os.path.splitext(filename)
-        if ext != ".yaml":
+        if ext != ".yaml" and ext != ".md":
             shutil.copy(filepath, dist_file)
             print("    " + filename)
         else:
