@@ -1,0 +1,28 @@
+// AStyleTest_NEW_OPTIONS.cpp
+// Copyright (c) 2017 by Jim Pattee <jimp03@email.com>.
+// This code is licensed under the MIT License.
+// License.md describes the conditions under which this software may be distributed.
+
+//----------------------------------------------------------------------------
+// headers
+//----------------------------------------------------------------------------
+
+#include "AStyleTest.h"
+
+//----------------------------------------------------------------------------
+// anonymous namespace
+//----------------------------------------------------------------------------
+
+namespace {
+//
+//-------------------------------------------------------------------------
+// This module is for testing new options.
+// It will compile faster than if the tests were in another module.
+// When the testing is complete move the tests to another module.
+//-------------------------------------------------------------------------
+
+
+
+//----------------------------------------------------------------------------
+
+}  // namespace
