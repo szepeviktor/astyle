@@ -21,8 +21,8 @@ import libastylewx
 AS_RELEASE = "3.0"
 
 # extract all platforms for testing (Windows, Linux, Mac)
-#EXTRACT_ALL = False
-EXTRACT_ALL = True
+EXTRACT_ALL = False
+#EXTRACT_ALL = True
 
 # inut from AStyleWx directory
 __astylewx_dir = libastylewx.get_astylewx_directory()
