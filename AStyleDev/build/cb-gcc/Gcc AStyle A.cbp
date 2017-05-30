@@ -20,6 +20,7 @@
 					<Add option="-g" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
+					<Add option="-fPIC" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>
 			</Target>
@@ -37,6 +38,7 @@
 					<Add option="-std=c++11" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
+					<Add option="-fPIC" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>

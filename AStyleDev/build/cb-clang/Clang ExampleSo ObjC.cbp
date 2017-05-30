@@ -52,7 +52,7 @@
 				</Linker>
 			</Target>
 			<Environment>
-				<Variable name="SOLIBVER" value="3.0.0" />
+				<Variable name="SOLIBVER" value="3.0.1" />
 			</Environment>
 		</Build>
 		<Compiler>

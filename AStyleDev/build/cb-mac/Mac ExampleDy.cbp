@@ -21,7 +21,7 @@
 					<Add option="-Wno-missing-noreturn" />
 				</Compiler>
 				<Linker>
-					<Add library="astyle30" />
+					<Add library="astyle301" />
 					<Add directory="debug" />
 				</Linker>
 			</Target>
@@ -40,7 +40,7 @@
 					<Add option="-Wno-missing-noreturn" />
 				</Compiler>
 				<Linker>
-					<Add library="astyle30" />
+					<Add library="astyle301" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
