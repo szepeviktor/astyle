@@ -183,14 +183,10 @@
         These procedures and the makefile are for recent versions of the compiler. They may not work for earlier versions.
         Instructions for your compiler are in the compiler documentation file "get_started_lc.htm".</p>
     <p>
-        To compile the source there are environment variables that must be set by running the compiler environment script
-        compilervars.sh (or compilervars.csh) with an argument that specifies the target architecture. If this has not
-        been done already enter: "<strong>source &nbsp;&lt;install-dir&gt;/bin/compilervars.sh&nbsp;&lt;arg&gt;</strong>",
-        where &lt;install-dir&gt; is the directory where the compiler is installed and &lt;arg&gt; is <strong>ia32 </strong>
-        or <strong>intel64</strong>. If this is not done "make" will display an error message "*** The compiler environment
-        variables are not set." On an Intel x64 platform installed in the default directory the instruction would 
-        be</p>
-    <pre>source /opt/intel/bin/compilervars.sh intel64</pre>
+        To compile with Intel there are environment variables that must be set by running the compiler environment 
+        script compilervars.sh (or compilervars.csh) with an argument that specifies the target architecture. This
+        should be done before running the make. If it is not done, &quot;make&quot; will display an error message
+        stating that the compiler environment variables are not set.</p>
     <p>
         The build has no autoconf dependency. To build the Artistic Style configurations use the makefile located in the
         astyle/build/intel directory. The output executables will be in the astyle/build/intel/bin directory. To build
