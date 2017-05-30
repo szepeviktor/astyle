@@ -632,6 +632,12 @@ make release debug</pre>
         to prevent compiler error and warning messages. Use the appropriate compiler and linker options to compile the
         static or shared library. Add debug options to compile the debug versions.</p>
     <p>
+        Artistic Style Wx has two compiler options. ASTYLE_DYLIB uses the wxWidgets wxDynamicLibrary Class to load an
+        AStyle dll at runtime. The AStyle library is NOT linked with AStyleWx. It is loaded at runtime and must be 
+        available where expected. The TESTMODE1 option can be used with debug builds of AStyleWx. It removes 
+        confirmation messages for file saves and adds a &quot;Test Options&quot; dialog box to the Tools menu. It cannot
+        be used with release builds.</p>
+    <p>
         Artistic Style is a small program and it is best to optimize for speed. The debug configurations are not usually
         optimized. To optimize for speed in the release configurations, use the macro NDEBUG to remove asserts. If
         necessary, use an option to activate the C++11 standards (--std=c++11 on GCC and MinGW). Use an option that allows

@@ -42,7 +42,7 @@ AStyleFormat::~AStyleFormat()
 char* AStyleFormat::CallAStyleMain(const char* textIn, const char* options) const
 {
 #ifdef ASTYLE_DYLIB
-	// format using dynamic library
+	// format using dll dynamic load
 	if (fpAStyleMain == nullptr)	// cannot use aslib.IsLoaded() after Detach()
 	{
 		ShowMessageDialog(wxString::Format(
@@ -156,6 +156,7 @@ char* AStyleFormat::FormatSTCText(const wxString& options) const
 wxString AStyleFormat::GetAStyleVersion() const
 {
 #ifdef ASTYLE_DYLIB
+	// get version using dll dynamic load
 	if (fpAStyleGetVersion == nullptr)	// cannot use aslib.IsLoaded() after Detach()
 	{
 		ShowMessageDialog(wxString::Format(
@@ -311,7 +312,7 @@ void AStyleFormat::RestoreBookmarks(int bookmarkNumber, std::string& marker) con
 	{
 		markerLine = m_stc->LineFromPosition(markerPosition);
 		// there may be a marker after this
-		int markerEnd = markerPosition + marker.length();
+		int markerEnd = markerPosition + static_cast<int>(marker.length());
 		// trim extra whitespace
 		wxString whitespaceChars = " \t";
 		while ((markerPosition > 0)
@@ -334,12 +335,14 @@ void AStyleFormat::RestoreFirstVisibleLine() const
 {
 	assert(m_stc != nullptr);
 	int firstVisibleLine = 0;
-	int firstVisiblePosition = m_stc->FindText(0, m_stc->GetTextLength(), m_firstLineMarker, wxSTC_FIND_MATCHCASE);
+	int firstVisiblePosition = m_stc->FindText(
+	                               0, m_stc->GetTextLength(), m_firstLineMarker, wxSTC_FIND_MATCHCASE);
 	// TODO: fix this
 	// formatting removes the beginning space in the marker
 	if (firstVisiblePosition < 0)
 	{
-		wxString zeroPosText = ' ' + m_stc->GetTextRange(0, m_firstLineMarker.length() - 1);
+		wxString zeroPosText = ' ' + m_stc->GetTextRange(
+		                           0, static_cast<int>(m_firstLineMarker.length()) - 1);
 		if (zeroPosText == m_firstLineMarker)
 		{
 			firstVisiblePosition = 0;
@@ -351,7 +354,7 @@ void AStyleFormat::RestoreFirstVisibleLine() const
 	{
 		firstVisibleLine = m_stc->LineFromPosition(firstVisiblePosition);
 		// there may be a marker after this
-		int markerEnd = firstVisiblePosition + m_firstLineMarker.length();
+		int markerEnd = firstVisiblePosition + static_cast<int>(m_firstLineMarker.length());
 		// trim extra whitespace
 		wxString whitespaceChars = " \t";
 		while ((firstVisiblePosition > 0)
@@ -398,7 +401,7 @@ bool AStyleFormat::RestoreSelection() const
 	if (maxPosition > 0)
 	{
 		maxLine = m_stc->LineFromPosition(maxPosition);
-		int maxEndPosition = maxPosition + m_maxSelectionMarker.length();
+		int maxEndPosition = maxPosition + static_cast<int>(m_maxSelectionMarker.length());
 		// trim extra whitespace
 		wxString whitespaceChars = " \t";
 		while ((maxPosition > 0)
@@ -413,7 +416,7 @@ bool AStyleFormat::RestoreSelection() const
 	if (minPosition >= 0)
 	{
 		minLine = m_stc->LineFromPosition(minPosition);
-		int minEndPosition = minPosition + m_minSelectionMarker.length();
+		int minEndPosition = minPosition + static_cast<int>(m_minSelectionMarker.length());
 		// if a marker line was inserted, remove the entire line
 		if (m_line0Inserted	&& minLine == 0)
 			minEndPosition = m_stc->LineLength(0);
@@ -485,7 +488,7 @@ void STDCALL AStyleFormat::ErrorHandler(int errorNumber, const char* errorMessag
 
 #ifdef ASTYLE_DYLIB
 //-----------------------------------------------------------------------------
-// variables for dll build of AStyle
+// variables for dll dynamic load build of AStyle
 //-----------------------------------------------------------------------------
 
 // typedefs for AStyle function pointers
@@ -506,9 +509,9 @@ wxString AStyleFormat::GetDynamicLibraryName()
 {
 	wxString libName;
 #ifdef __WXMSW__
-	libName = "AStyle30";
+	libName = "AStyle301";
 #elif __WXOSX__
-	libName = "astyle30";
+	libName = "astyle301";
 #else
 	libName = "astyle";
 #endif
@@ -517,7 +520,7 @@ wxString AStyleFormat::GetDynamicLibraryName()
 #endif	// NDEBUG
 	libName = aslib.CanonicalizeName(libName);
 #if !defined(__WXMSW__) && !defined(__WXOSX__)
-	const wxString SOLIBVER = "3.0.0";
+	const wxString SOLIBVER = "3.0.1";
 	libName = libName + "." + SOLIBVER;
 #endif
 	return libName;

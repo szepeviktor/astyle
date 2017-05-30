@@ -111,21 +111,22 @@ sudo make install</pre>
         class can be converted to wxChoiceBook, wxListBook, or wxTreeBook controls. This is done using the script 
         &quot;to_xxbook.py&quot;. This is a Python script available in the &quot;file-py&quot; folder. You must have Python
         installed to run it. In the script change the variable &quot;__new_book&quot; to the value of the desired book
-        control and run the script. When recompiled the dialogs will display the new wxWidgets book control. The main
+        control and run the script. When recompiled, the dialogs will display the new wxWidgets book control. The main
         window is NOT changed.</p>
 
     <h3>Main Window</h3>
 
     <p>
-        The main window for Artistic Style Wx does NOT use a RAD. It is created by written, not generated, code. The notebook
-        control is actually a wxAuiNotebook which allows the user to rearrange the tab order using drag-and-drop.</p>
+        The main window for Artistic Style Wx does NOT use a RAD. It is created by written, not generated, code. 
+        The controls are sized by the source code, not by wxWidgets sizers. The notebook control is actually a wxAuiNotebook
+        which allows the user to rearrange the tab order using drag-and-drop.</p>
     <p>
         Most status bar fields can be left-clicked for a menu or various other information. This is not documented so
         try it to see what information is displayed.</p>
     <p>
-        The Help, About dialog displays the Artistic Style version. This may be helpful when linking with Linux system
-        libraries. The information will also be displayed by clicking on the Encoding status bar field. This field 
-        will be empty if the system encoding is used.</p>
+        The Help, About, dialog displays the Artistic Style and wxWidgets versions used in the build. The information
+        can also be displayed by clicking on the Encoding status bar field on the main window. This field will be empty
+        if the system encoding is used.</p>
 
     <p>
         &nbsp;</p>

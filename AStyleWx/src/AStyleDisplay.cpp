@@ -52,7 +52,7 @@ wxString AStyleDisplay::AlignConvertTabs(const wxString& text) const
 	// replace all tabs in line 3
 	int tabWidth = m_stc->GetTabWidth();
 	wxString tabSpacing(' ', tabWidth);
-	int numTabs = line3.Replace("\t", tabSpacing);
+	size_t numTabs = line3.Replace("\t", tabSpacing);
 	// get the extent for line 3 code, excluding comment
 	int start3 = line3.Find(';');
 	assert(start3 != wxNOT_FOUND);
@@ -82,13 +82,13 @@ wxArrayString AStyleDisplay::AlignGetLineArray(const wxString& text) const
 	wxArrayString lines;
 	int start = -1;
 	int end = -1;
-	int len = text.length();
+	int len = static_cast<int>(text.length());
 	while (end < len - 1)
 	{
 		start = end + 1;
-		end = text.find('\n', start);
+		end = static_cast<int>(text.find('\n', start));
 		if (end == wxNOT_FOUND)
-			end = text.Length() - 1;
+			end = static_cast<int>(text.Length()) - 1;
 		wxString line = text.Mid(start, end - start + 1);
 		lines.Add(line);
 	}
@@ -103,9 +103,9 @@ wxString AStyleDisplay::AlignGetLine(const wxString& text, int lineNumber) const
 	for (int i = 0; i <= lineNumber; i++)
 	{
 		start = end + 1;
-		end = text.find('\n', start);
+		end = static_cast<int>(text.find('\n', start));
 		if (end == wxNOT_FOUND)
-			end = text.Length() - 1;
+			end = static_cast<int>(text.Length()) - 1;
 	}
 	return text.Mid(start, end - start + 1);
 }
@@ -125,7 +125,7 @@ int AStyleDisplay::AlignGetSpaceEquivalent(wxString& line) const
 		indent.Append(' ');
 		m_stc->GetTextExtent(indent, &spaceExtent, &h);
 	}
-	return indent.Length();
+	return static_cast<int>(indent.Length());
 }
 
 wxString AStyleDisplay::AlignIndentAfterParens(const wxString& text) const
@@ -217,7 +217,7 @@ wxString AStyleDisplay::AlignMethodColon(const wxString& text) const
 	// find the first line containing a colon
 	for (i = 0; i < line.Count(); i++)
 	{
-		int colon = line[i].find(':');
+		int colon = static_cast<int>(line[i].find(':'));
 		if (colon == wxNOT_FOUND)
 			continue;
 		wxString lineExtent = line[i].Mid(0, colon);
@@ -228,8 +228,8 @@ wxString AStyleDisplay::AlignMethodColon(const wxString& text) const
 	// align remaining lines
 	for (++i; i < line.Count(); i++)
 	{
-		int lineText = line[i].find_first_not_of(" \t");
-		int colon = line[i].find(':');
+		int lineText = static_cast<int>(line[i].find_first_not_of(" \t"));
+		int colon = static_cast<int>(line[i].find(':'));
 		assert(colon != wxNOT_FOUND);
 		wxString lineTextExtent = line[i].Mid(lineText, colon - lineText);
 		int lineTextIndents = AlignGetSpaceEquivalent(lineTextExtent);
@@ -766,8 +766,8 @@ void AStyleDisplay::LexStcText(wxString boldChars /*wxEmptyString*/)
 	const int BOLD_CHAR = 20;
 	bool isInComment = false;
 	bool isInLineComment = false;
-	size_t textLength = m_stc->GetTextLength();
-	for (size_t i = 0; i < textLength; i++)
+	int textLength = static_cast<int>(m_stc->GetTextLength());
+	for (int i = 0; i < textLength; i++)
 	{
 		int currentChar = m_stc->GetCharAt(i);
 		int previousChar = m_stc->GetCharAt(i - 1);
@@ -1475,7 +1475,7 @@ wxString AStyleDisplay::StcOther_AlignMethodColon() const
 
 wxString AStyleDisplay::StcOther_PadMethodColon() const
 {
-	static int display = COLON_PAD_NO_CHANGE;
+	static size_t display = COLON_PAD_NO_CHANGE;
 	if (m_event->GetId() == ID_PAD_METHOD_COLON)
 		display = reinterpret_cast<size_t>(m_event->GetClientData());
 	else
@@ -1618,7 +1618,7 @@ wxString AStyleDisplay::StcOther_UnpadParamType() const
 
 wxString AStyleDisplay::StcPad_AlignPointer() const
 {
-	static int display = 0;
+	static size_t display = 0;
 	if (m_event->GetId() == ID_ALIGN_POINTER)
 	{
 		display = reinterpret_cast<size_t>(m_event->GetClientData());
@@ -1665,7 +1665,7 @@ wxString AStyleDisplay::StcPad_AlignPointer() const
 
 wxString AStyleDisplay::StcPad_AlignReference() const
 {
-	static int display = 0;
+	static size_t display = 0;
 	if (m_event->GetId() == ID_ALIGN_REFERENCE)
 	{
 		display = reinterpret_cast<size_t>(m_event->GetClientData());

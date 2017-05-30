@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{8a673f19-1a03-4f09-8338-881d99018a9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{ac48f58f-6388-41a9-ad3b-212558af296b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base Files">
+      <UniqueIdentifier>{d89fe3d6-f2b1-4051-9ab5-e92a39a70ece}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Image Files">
+      <UniqueIdentifier>{6916f009-d174-4a55-bb80-9ef34c98d169}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\AboutDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\AStyleDisplay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\AStyleDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\AStyleFormat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\AStyleIFace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\AStyleWx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\EditorDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Encoding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\FileManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\SettingsDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\dialog\AboutDlgBase.h">
+      <Filter>Base Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\dialog\AStyleDlgBase.h">
+      <Filter>Base Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\dialog\EditorDlgBase.h">
+      <Filter>Base Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\dialog\SettingsDlgBase.h">
+      <Filter>Base Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\AboutDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ASApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ASEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AStyleDisplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AStyleDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AStyleFormat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AStyleIFace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AStyleWx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\EditorDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Encoding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\FileManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Indent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\SettingsDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dialog\AboutDlgBase.cpp">
+      <Filter>Base Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dialog\AStyleDlgBase.cpp">
+      <Filter>Base Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dialog\EditorDlgBase.cpp">
+      <Filter>Base Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dialog\SettingsDlgBase.cpp">
+      <Filter>Base Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\image\All_16.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\All_24.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\AStyle_16.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\AStyle_32.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Block_16.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Block_24.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Close_16.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Close_24.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\New_16.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\New_24.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Open_16.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Open_24.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Redo_16.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Redo_24.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Save_16.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Save_24.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Select_16.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Select_24.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Source_16.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Source_24.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\ToEnd_16.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\ToEnd_24.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Undo_16.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\Undo_24.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\White_16.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+    <None Include="..\..\..\image\White_24.xpm">
+      <Filter>Image Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

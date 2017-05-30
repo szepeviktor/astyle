@@ -52,7 +52,7 @@ int Config::FindStyleVectorIndex(const wxString& groupPath, const vector<TextSty
 	for (size_t i = 0; i < styleVector.size(); i++)
 	{
 		if (styleID == styleVector[i].style)
-			return i;
+			return static_cast<int>(i);
 	}
 	return wxNOT_FOUND;
 }

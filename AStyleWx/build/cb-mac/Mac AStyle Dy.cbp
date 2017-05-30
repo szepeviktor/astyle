@@ -7,7 +7,7 @@
 		<Option compiler="clang" />
 		<Build>
 			<Target title="Debug">
-				<Option output="debug/libastyle30d.dylib" prefix_auto="0" extension_auto="0" />
+				<Option output="debug/libastyle301d.dylib" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objDy/Debug" />
 				<Option type="3" />
 				<Option compiler="clang" />
@@ -27,7 +27,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/libastyle30.dylib" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/libastyle301.dylib" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objDy/Release/" />
 				<Option type="3" />
 				<Option compiler="clang" />
