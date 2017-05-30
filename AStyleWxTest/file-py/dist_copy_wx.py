@@ -18,7 +18,7 @@ import libastylewx
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-AS_RELEASE = "3.0"
+AS_RELEASE = "3.0.1"
 
 # extract all platforms for testing (Windows, Linux, Mac)
 EXTRACT_ALL = False
@@ -183,7 +183,7 @@ def build_windows_distribution():
     wxrel = libastylewx.WX_RELEASE
     vscfg = libastylewx.STATIC
 
-    print("Compiling with {0} wxWidgets {1}".format(vsdir, wxrel))
+    print("Compiling with ({0}) wxWidgets {1}".format(vsdir, wxrel))
     print("Building AStyleWx release", AS_RELEASE)
     dist_base = get_distribution_folder_windows()
     dist_astylewx = dist_base + "/AStyleWx_{0}_windows".format(AS_RELEASE) + "/AStyleWx"
@@ -572,7 +572,8 @@ def copy_windows_build_directories(dist_build):
 
         # build/vs directories
         if (build_dir.startswith("vs20")
-                and not build_dir.endswith("-clang")):
+                and not (build_dir.endswith("-clang")
+                         or build_dir.endswith("-wsl"))):
             print("    " + build_dir)
             copy_build_directories_vs(dist_build, build_dir)
 

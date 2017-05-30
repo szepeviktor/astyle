@@ -82,7 +82,7 @@ public:
 	{
 		long intValue = 0;
 		value.ToLong(&intValue);
-		return intValue;
+		return static_cast<int>(intValue);
 	}
 };
 
@@ -144,7 +144,7 @@ public:
 	{
 		long intValue = 0;
 		value.ToLong(&intValue);
-		return intValue;
+		return static_cast<int>(intValue);
 	}
 	// mocked method
 	MOCK_METHOD2(SetEditorOrViewOption, bool(const wxString&, const wxString&));

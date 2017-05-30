@@ -102,7 +102,7 @@ void SystemPause()
 int ShowMessageDialog(const wxString& message, long)
 //  function from AStyleWx
 {
-	// gtest doesn't like wxMessageDialog with a NULL parent.
+	// gtest doesn't like wxMessageDialog with a nullptr parent.
 	// Remove the message by using gmock for Config::ShowInvalidConfig.
 #ifdef wxUSE_UNICODE
 	std::wcout << message.c_str() << std::endl;
