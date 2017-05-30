@@ -16,10 +16,30 @@
 namespace {
 //
 //----------------------------------------------------------------------------
+// AStyle version 3.1 TEST functions
+//----------------------------------------------------------------------------
+
+TEST(BugFix_V31, ClassInitializerCrash)
+{
+	// this class initializer caused a crash when the wrong variable was checked
+	// in function ASBeautifier::registerContinuationIndentColon
+	char text[] =
+	    "\n"
+	    "Foo::Foo()\n"
+	    "    :\n"
+	    "    c(myArray[0])\n"
+	    "{}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//----------------------------------------------------------------------------
 // AStyle version 3.0 TEST functions
 //----------------------------------------------------------------------------
 
-TEST(BugFix_V30, PointerOrReference_length)
+TEST(BugFix_V30, PointerOrReference_Length)
 {
 	// formatPointerOrReference with pad-oper should NOT split the '&&' to '& &'
 	char text[] =

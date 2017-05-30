@@ -3,7 +3,7 @@
 # Exported symbols are indicated by a T
 
 astyle=$HOME/Projects/AStyle/build
-solibver=3.0.0
+solibver=3.0.1
 
 cd  $astyle
 

@@ -4,11 +4,10 @@ REM change "set rel=" to the current release
 
 REM do NOT use backslashes in the file:/// statement
 REM do NOT use %USERPROFILE% because of the backslashes
-:: set repos=https://astyle.svn.sourceforge.net/svnroot/astyle  OLD repository
 set repos=https://svn.code.sf.net/p/astyle/code
 set svndir=%repos%/tags
 set svnprog=F:\Program Files (x86)\SlikSvn\bin
-set rel=2.06
+set rel=3.0
 
 
 REM do NOT use backslashes in the file:/// statement

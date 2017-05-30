@@ -28,6 +28,18 @@
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add option="-Wswitch" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-Wempty-body" />
+					<Add option="-Wconversion" />
+					<Add option="-Wreturn-type" />
+					<Add option="-Wparentheses" />
+					<Add option="-Wno-format" />
+					<Add option="-Wuninitialized" />
+					<Add option="-Wunreachable-code" />
+					<Add option="-Wunused-function" />
+					<Add option="-Wunused-value" />
+					<Add option="-Wunused-variable" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
 					<Add directory="../../../googletest/include" />
@@ -58,6 +70,18 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
+					<Add option="-Wswitch" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-Wempty-body" />
+					<Add option="-Wconversion" />
+					<Add option="-Wreturn-type" />
+					<Add option="-Wparentheses" />
+					<Add option="-Wno-format" />
+					<Add option="-Wuninitialized" />
+					<Add option="-Wunreachable-code" />
+					<Add option="-Wunused-function" />
+					<Add option="-Wunused-value" />
+					<Add option="-Wunused-variable" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />

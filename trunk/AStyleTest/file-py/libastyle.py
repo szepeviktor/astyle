@@ -75,13 +75,12 @@ STATIC    = "static"
 STATIC_XP = "static-xp"
 
 # Visual Studio release
-#VS_RELEASE = "vs2008"
 #VS_RELEASE = "vs2010"
 #VS_RELEASE = "vs2012"
 #VS_RELEASE = "vs2013"
-VS_RELEASE = "vs2015"
-if not os.path.exists("C:/Program Files (x86)/MSBuild/14.0/"):
-    VS_RELEASE = "vs2013"
+#VS_RELEASE = "vs2015"
+VS_RELEASE = "vs2017"
+# for a new release add a path to compile_windows_executable() below
 
 # test directory name
 TEST_DIRECTORY = "TestData"
@@ -145,8 +144,11 @@ def compile_windows_executable(slnpath, config):
     # call MSBuild
     if VS_RELEASE == "vs2013":
         buildpath = "C:/Program Files (x86)/MSBuild/12.0/Bin/MSBuild.exe"
-    elif VS_RELEASE >= "vs2015":
+    elif VS_RELEASE == "vs2015":
         buildpath = "C:/Program Files (x86)/MSBuild/14.0/Bin/MSBuild.exe"
+    elif VS_RELEASE == "vs2017":
+        buildpath = ("C:/Program Files (x86)/Microsoft Visual Studio/" +
+                     "2017/Community/MSBuild/15.0/Bin/MSBuild.exe")
     else:
         buildpath = (os.getenv("WINDIR")
                      + "/Microsoft.NET/Framework/"
@@ -162,7 +164,7 @@ def compile_windows_executable(slnpath, config):
     else:
         config_prop = "/property:Configuration=Release"
     platform_prop = "/property:Platform=Win32"
-    if VS_RELEASE > "vs2013":
+    if VS_RELEASE >= "vs2015":
         platform_prop = "/property:Platform=x86"
     msbuild = ([buildpath, config_prop, platform_prop, slnpath])
     buildfile = get_temp_directory() + "/build." + config + ".tmp"
