@@ -37,7 +37,7 @@ import libtest
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN
 # TESTPROJECT
-__project = libastyle.SHARPDEVELOP
+__project = libastyle.JEDIT
 
 # enumerate thru all the __options
 # otherwise use only the option below

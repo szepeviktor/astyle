@@ -16,13 +16,13 @@ import libastyle
 
 # windows
 __old_release = "30"
-__new_release = "41"
+__new_release = "301"
 
-#linux
+# linux
 __old_solibver = "3.0.0"
-__new_solibver = "4.1.2"
+__new_solibver = "3.0.1"
 
-__file_update = True           # should the files be updated?
+__file_update = False           # should the files be updated?
 
 # -----------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ def main():
     """Main processing function."""
     libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
-    print("Modify AStyle Version from", __old_release,  "to", __new_release)
+    print("Modify AStyle Version from", __old_release, "to", __new_release)
     print("Modify Solib  Version from", __old_solibver, "to", __new_solibver)
     if not __file_update:
         print("\nFILES NOT UPDATED")
@@ -70,6 +70,11 @@ def main():
                              libastyle.get_project_directory(True) + "AStyleWxTest/src",
                              libastyle.get_project_directory(True) + "AStyleWxTest/srcx"]
     update_source_files(source_directory_list, source_extension_list)
+
+    # change the internal version number in astyle_main source
+    astyle_main_file_path = libastyle.get_project_directory(True) + "AStyle/src/astyle_main.cpp"
+    update_astyle_main(astyle_main_file_path)
+
     if not __file_update:
         print("FILES NOT UPDATED")
 
@@ -140,6 +145,59 @@ def modify_input_file(filepath, updated_file_list):
 
 # -----------------------------------------------------------------------------
 
+def update_astyle_main(filepath):
+    """Update version number in the astyle_main source file.
+       The file path is in main().
+    """
+    lines = 0               # current input line number
+    file_changed = False    # the file has changed
+    updated_file = []
+    source_total = 0
+    new_release_string = ''
+
+    # get release number string
+    old_astyle_release = __old_release[0] + '.' + __old_release[1]
+    if len(__old_release) > 2:
+        old_astyle_release = old_astyle_release + '.' + __old_release[2]
+    new_astyle_release = __new_release[0] + '.' + __new_release[1]
+    if len(__new_release) > 2:
+        new_astyle_release = new_astyle_release + '.' + __new_release[2]
+
+    # find and change matching lines
+    with open(filepath, mode='r', encoding='utf-8', newline='') as source_file:
+        for line in source_file:
+            lines += 1
+            if "g_version =" in line:
+                printable_path = get_printble_filepath(filepath)
+                print(printable_path, '(', "line", lines, ')')
+                # first check for multiple updating runs
+                if not old_astyle_release in line:
+                    libastyle.system_exit("ERROR: cannot find old release in line")
+                line = line.replace(old_astyle_release, new_astyle_release)
+                release_start = line.find(new_astyle_release)
+                if release_start == -1:
+                    libastyle.system_exit("ERROR: cannot find release start in line")
+                release_end = line.rfind('"')
+                if release_end == -1 or release_end <= release_start:
+                    libastyle.system_exit("ERROR: cannot find release end in line")
+                new_release_string = line[release_start:release_end]
+                file_changed = True
+            updated_file.append(line)
+    if file_changed:
+        print("Changed from release", old_astyle_release, "to", new_release_string)
+        # second check for multiple updating runs
+        if not verify_release_number(new_release_string):
+            libastyle.system_exit("ERROR: bad astyle_main release number")
+        source_total += 1
+        if __file_update:
+            write_output_file(updated_file, filepath)
+    else:
+        libastyle.system_exit("ERROR: astyle_main was not changed")
+    print("astyle_main Source File", source_total)
+    print()
+
+# -----------------------------------------------------------------------------
+
 def update_project_files(project_directory_list, project_extension_list):
     """Update version number in the project files.
        The directory list and file extensions are in main().
@@ -173,7 +231,7 @@ def update_project_files(project_directory_list, project_extension_list):
 # -----------------------------------------------------------------------------
 
 def update_source_files(source_directory_list, source_extension_list):
-    """Update version number in the dource files.
+    """Update version number in the source files.
        The directory list and file extensions are in main().
     """
     # get source files in the directory list
@@ -193,6 +251,21 @@ def update_source_files(source_directory_list, source_extension_list):
                     write_output_file(updated_file, source_file)
     print("Source Files", source_total)
     print()
+
+# -----------------------------------------------------------------------------
+
+def verify_release_number(new_release_string):
+    """Verify the new release number string is a valid length.
+    """
+    # check for multiple updating runs
+    new_release_number = new_release_string
+    release_stop = new_release_string.find(' ')
+    if release_stop != -1:
+        new_release_number = new_release_string[:release_stop]
+    if ((len(__new_release) == 2 and len(new_release_number) > 3)
+            or (len(__new_release) == 3 and len(new_release_number) > 5)):
+        return False
+    return True
 
 # -----------------------------------------------------------------------------
 

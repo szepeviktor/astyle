@@ -2308,6 +2308,23 @@ TEST(PadOperator, Sans13)
 	delete[] textOut;
 }
 
+TEST(PadOperator, Sans14)
+{
+	// the following rvalue reference should not be padded
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (auto &&ret = something_that_returns_a_bool_or_pointer) {\n"
+	    "    }\n"
+	    "    auto &&ret = something_that_returns_a_bool_or_pointer;\n"
+	    "}\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(PadOperator, CommaSemiColon)
 {
 	// semi-colons should ALWAYS be padded

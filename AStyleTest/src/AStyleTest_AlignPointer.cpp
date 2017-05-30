@@ -4480,7 +4480,7 @@ TEST(AlignPointerName, SquareBrackets)
 // AStyle Align Pointer Other
 //-------------------------------------------------------------------------
 
-TEST(AlignPointer, ShortLowerLimit)
+TEST(AlignPointerOther, ShortLowerLimit)
 {
 	// test error handling for the short option lower limit
 	// should call the error handler
@@ -4498,7 +4498,7 @@ TEST(AlignPointer, ShortLowerLimit)
 	delete[] textOut;
 }
 
-TEST(AlignPointer, ShortUpperLimit)
+TEST(AlignPointerOther, ShortUpperLimit)
 {
 	// test error handling for the short option upper limit
 	// should call the error handler
@@ -4516,7 +4516,7 @@ TEST(AlignPointer, ShortUpperLimit)
 	delete[] textOut;
 }
 
-TEST(AlignPointer, Java)
+TEST(AlignPointerOther, Java)
 {
 	// align-pointer should have no effect on Java
 	// should pad-oper not align-pointer=type
@@ -4537,6 +4537,33 @@ TEST(AlignPointer, Java)
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
+
+TEST(AlignPointerOther, ConditionalStatementVariable)
+{
+	// align-pointer on variable in a conditional statement
+	// should recognize an rvalue reference
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (auto &&ret = something_that_returns_a_bool_or_pointer) {\n"
+	    "    }\n"
+	    "    auto &&ret = something_that_returns_a_bool_or_pointer;\n"
+	    "}\n";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (auto&& ret = something_that_returns_a_bool_or_pointer) {\n"
+	    "    }\n"
+	    "    auto&& ret = something_that_returns_a_bool_or_pointer;\n"
+	    "}\n";
+	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 
 //-------------------------------------------------------------------------
 // AStyle Align Reference

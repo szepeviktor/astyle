@@ -18,7 +18,7 @@ import libastyle
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-AS_RELEASE = "3.0"
+AS_RELEASE = "3.0.1"
 
 # extract all platforms for testing (Windows, Linux, Mac)
 EXTRACT_ALL = False
@@ -77,7 +77,7 @@ def build_linux_distribution():
     os.mkdir(dist_doc)
     copy_astyle_doc(dist_doc)
 
-     # file directory
+    # file directory
     dist_file = dist_astyle + "/file/"
     os.mkdir(dist_file)
     copy_astyle_file(dist_file, True)
@@ -121,7 +121,7 @@ def build_mac_distribution():
     os.mkdir(dist_doc)
     copy_astyle_doc(dist_doc)
 
-     # file directory
+    # file directory
     dist_file = dist_astyle + "/file/"
     os.mkdir(dist_file)
     copy_astyle_file(dist_file, True)
@@ -160,7 +160,7 @@ def build_vms_distribution():
     os.mkdir(dist_doc)
     copy_astyle_doc(dist_doc)
 
-     # file directory
+    # file directory
     dist_file = dist_astyle + "/file/"
     os.mkdir(dist_file)
     copy_astyle_file(dist_file, True)
@@ -198,9 +198,9 @@ def build_windows_distribution():
     vsdir = libastyle.VS_RELEASE
     vscfg = libastyle.STATIC
 
-    print("Compiling with", vsdir)
+    print("Compiling with ({0})".format(vsdir))
     print("Building AStyle release", AS_RELEASE)
-    if not vsdir >= "vs2013":
+    if vsdir < "vs2013":
         libastyle.system_exit("Must compile with vs2013 or greater in libastyle: " + vsdir)
     dist_base = __base_dir + "/DistWindows"
     dist_astyle = dist_base + "/AStyle"
@@ -531,7 +531,8 @@ def copy_windows_build_directories(dist_build):
 
         # build/vs directories
         if (build_dir.startswith("vs20")
-                and not build_dir.endswith("-clang")):
+                and not (build_dir.endswith("-clang")
+                         or build_dir.endswith("-wsl"))):
             print("    " + build_dir)
             copy_build_directories_vs(dist_build, build_dir)
 

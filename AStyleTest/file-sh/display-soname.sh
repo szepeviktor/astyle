@@ -2,7 +2,7 @@
 # display the soname for astyle shared libraries in the astyle build files
 
 astyle=$HOME/Projects/AStyle/build
-solibver=3.0.0
+solibver=3.0.1
 
 cd  $astyle
 

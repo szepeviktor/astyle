@@ -112,6 +112,20 @@ def format_astyle():
 
 # -----------------------------------------------------------------------------
 
+def format_astyle_fuzz():
+    """ Format the AStyleFuzz source files.
+    """
+    print("Formatting AStyleFuzz")
+    print()
+    call_astyle_executable("AStyleFuzz/src/*.cpp")
+    print()
+    call_astyle_executable("AStyle/src/*.cpp")
+    print()
+    call_astyle_executable("AStyle/src/*.h")
+    print()
+
+# -----------------------------------------------------------------------------
+
 def format_astyle_test():
     """ Format the AStyleTest source files.
     """
@@ -261,7 +275,8 @@ def process_project(proj_name, proj_name2):
        to be processed, and call the required format procedure.
     """
     # AStyle
-    if proj_name == "AStyle" or proj_name == "AStyleCon":
+    if (proj_name == "AStyle" or proj_name == "AStyleCon"
+            or proj_name == "astyle"):
         format_astyle()
     # AStyleDev Examples
     elif (proj_name == "ExampleDll" or proj_name == "ExampleSo"
@@ -274,6 +289,9 @@ def process_project(proj_name, proj_name2):
     elif (proj_name == "ExampleCs"
           or proj_name == "Example2Cs"):
         format_example_sharp()
+    # AStyleFuzz
+    elif proj_name == "AStyleFuzz":
+        format_astyle_fuzz()
     # AStyleTest
     elif proj_name == "AStyleTest":
         format_astyle_test()

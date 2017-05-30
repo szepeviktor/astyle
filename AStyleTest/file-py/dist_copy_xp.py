@@ -17,7 +17,7 @@ import libastyle
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-AS_RELEASE = "3.0"
+AS_RELEASE = "3.0.1"
 
 # inut from AStyle directory
 __astyle_dir = libastyle.get_astyle_directory()
@@ -52,7 +52,7 @@ def build_windows_distribution():
     vsdir = libastyle.VS_RELEASE
     vscfg = libastyle.STATIC_XP
 
-    print("Compiling with", vsdir)
+    print("Compiling with ({})".format(vsdir))
     print("Building AStyle release", AS_RELEASE)
     if not vsdir >= "vs2013":
         libastyle.system_exit("Must compile with vs2013 or greater in libastyle: " + vsdir)
@@ -320,7 +320,8 @@ def copy_windows_build_directories(dist_build):
 
         # build/vs directories
         if (build_dir.startswith("vs20")
-                and not build_dir.endswith("-clang")):
+                and not (build_dir.endswith("-clang")
+                         or build_dir.endswith("-wsl"))):
             print("    " + build_dir)
             copy_build_directories_vs(dist_build, build_dir)
 

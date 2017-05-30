@@ -15,6 +15,7 @@
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-Wextra" />
 					<Add option="-Wno-unused-function" />
@@ -35,6 +36,7 @@
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-Wextra" />
 					<Add option="-Wno-unused-function" />
 					<Add option="-Wno-unused-private-field" />
@@ -52,8 +54,8 @@
 		<VirtualTargets>
 			<Add alias="Coverage" targets="Debug;" />
 		</VirtualTargets>
-		<Unit filename="../../../googletest/src/gtest-all.cc" />
 		<Unit filename="../../../googlemock/src/gmock-all.cc" />
+		<Unit filename="../../../googletest/src/gtest-all.cc" />
 		<Extensions>
 			<code_completion />
 			<envvars />

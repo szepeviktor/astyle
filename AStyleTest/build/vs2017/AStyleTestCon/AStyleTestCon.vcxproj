@@ -30,7 +30,6 @@
     <ProjectGuid>{2DE73B64-E7AC-4B5E-93CA-19587A8EC1E2}</ProjectGuid>
     <RootNamespace>AStyleTestCon</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

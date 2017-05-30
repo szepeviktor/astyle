@@ -2290,6 +2290,37 @@ TEST(PreCommandHeaders, SealedOverride)
 	delete[] textOut;
 }
 
+TEST(PreCommandHeaders, Final)
+{
+	// Precommand header final.
+	char textIn[] =
+	    "\nclass AStyleTest\n"
+	    "{\n"
+	    "    virtual void Foo() final {\n"
+	    "        if ( x )\n"
+	    "        {\n"
+	    "            do1();\n"
+	    "            do2();\n"
+	    "        }\n"
+	    "    }\n"
+	    "};";
+	char text[] =
+	    "\nclass AStyleTest\n"
+	    "{\n"
+	    "    virtual void Foo() final\n"
+	    "    {\n"
+	    "        if ( x ) {\n"
+	    "            do1();\n"
+	    "            do2();\n"
+	    "        }\n"
+	    "    }\n"
+	    "};";
+	char options[] = "style=kr";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(PreCommandHeaders, Interrupt)
 {
 	// Precommand header interrupt.
