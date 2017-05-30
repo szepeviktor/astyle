@@ -99,7 +99,7 @@ int ASEditor::BraceAtCaret()
 
 	// Priority goes to character before caret
 	if (caretPos > 0)
-		charBefore = wxStyledTextCtrl::GetCharAt(caretPos - 1);
+		charBefore = static_cast<char>(wxStyledTextCtrl::GetCharAt(caretPos - 1));
 	if (charBefore && strchr(matchChar, charBefore))
 		braceAtCaret = caretPos - 1;
 	// No brace found so check other side
@@ -179,14 +179,12 @@ void ASEditor::CountLineEnds(wxString& text, int& linesCR, int& linesLF, int& li
 	linesCRLF = 0;
 	int chPrev = ' ';
 	int chNext = ' ';
-	int lengthText = text.Len();
-	if (lengthText > 0)
-		chNext = text[1];
+	int lengthText = static_cast<int>(text.Len());
 
 	for (int i = 0; i < lengthText; i++)
 	{
 		int ch = chNext;
-		if (i < lengthText - 1)
+		if (lengthText > 0 && i < lengthText - 1)
 			chNext = text[i + 1];
 		else
 			chNext = ' ';
@@ -706,8 +704,9 @@ void ASEditor::SetFileVariables(const wxFileName& filepath, wxFontEncoding encod
 bool ASEditor::ShowGotoLineDialog()
 {
 	wxString msg = wxString::Format("Line number : 1...%d", GetLineCount());
-	long line = wxGetNumberFromUser(msg, wxEmptyString, "Go to line",
-	                                GetCurrentLine() + 1, 1, GetLineCount(), this);
+	int line = static_cast<int>(
+	               wxGetNumberFromUser(msg, wxEmptyString, "Go to line",
+	                                   GetCurrentLine() + 1, 1, GetLineCount(), this));
 
 	if (line > 0)
 	{
@@ -789,7 +788,7 @@ void ASEditor::TabsToSpaces()
 			if (line[j] == '\t')
 			{
 				newText.append(line + start, j - start);
-				int numSpaces = tabWidth - ((j - start) % tabWidth);
+				size_t numSpaces = tabWidth - ((j - start) % tabWidth);
 				newText.append(numSpaces, ' ');
 				start = j + 1;
 			}

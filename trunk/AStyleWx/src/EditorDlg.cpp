@@ -48,7 +48,7 @@ EditorDlg::EditorDlg(ASFrame* frame, int page) : EditorDlgBase(frame)
 	SetStcStyleOptions(styleVector);
 	BuildDialogTips();
 	// set selection to the previously selected page
-	int pages = m_notebook->GetPageCount();
+	int pages = static_cast<int>(m_notebook->GetPageCount());
 	if (m_page >= pages)
 		m_page = 0;
 	m_notebook->ChangeSelection(m_page);
@@ -102,7 +102,7 @@ wxFont EditorDlg::GetCommentFont() const
 	wxString size = m_commentSizes->GetValue();
 	long sizeInt = 0;
 	size.ToLong(&sizeInt);
-	commentFont.SetPointSize(sizeInt);
+	commentFont.SetPointSize(static_cast<int>(sizeInt));
 	return commentFont;
 }
 
@@ -115,7 +115,7 @@ wxFont EditorDlg::GetDefaultFont() const
 	wxString size = m_defaultSizes->GetValue();
 	long sizeInt = 0;
 	size.ToLong(&sizeInt);
-	defaultFont.SetPointSize(sizeInt);
+	defaultFont.SetPointSize(static_cast<int>(sizeInt));
 	return defaultFont;
 }
 
@@ -395,7 +395,7 @@ void EditorDlg::SetStcStyleOptions(const vector<TextStyle>& styleVector)
 // Move style vector options to the styles tab dialog.
 {
 	// set list box size
-	const size_t numStyles = styleVector.size();
+	const int numStyles = static_cast<int>(styleVector.size());
 	wxFont stylesFont(*wxNORMAL_FONT);
 	m_styles->SetFont(stylesFont);
 	wxScreenDC dc;
@@ -424,7 +424,7 @@ void EditorDlg::SetStcStyleOptions(const vector<TextStyle>& styleVector)
 	m_newStyleVector = styleVector;
 	// build the array string for list box choices
 	wxArrayString choices;
-	for (unsigned i = 0; i < numStyles; i++)
+	for (int i = 0; i < numStyles; i++)
 		choices.Add(" " + m_newStyleVector[i].name);
 	m_styles->Set(choices);
 	// set to last item selected

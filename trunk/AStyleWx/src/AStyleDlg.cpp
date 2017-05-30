@@ -103,7 +103,7 @@ AStyleDlg::AStyleDlg(ASFrame* frame, AStyleIFace* astyle, int page) : AStyleDlgB
 	m_tabLength->SetSize(size);
 	m_indentContinuationLength->SetSize(size);
 	// set notebook page to the page previously open
-	int pages = m_notebook->GetPageCount();
+	int pages = static_cast<int>(m_notebook->GetPageCount());
 	if (m_page >= pages)
 		m_page = 0;
 	m_notebook->ChangeSelection(m_page);
@@ -352,7 +352,8 @@ void AStyleDlg::GetFormatOptions(AStyleIFace* astyle)
 	astyle->setRemoveCommentPrefix(m_removeCommentPrefix->GetValue());
 	// get max code length option
 	int maxIndex = m_maxCodeLength->GetCurrentSelection();
-	astyle->setMaxCodeLength(reinterpret_cast<size_t>(m_maxCodeLength->GetClientData(maxIndex)));
+	size_t maxCodeLength = reinterpret_cast<size_t>(m_maxCodeLength->GetClientData(maxIndex));
+	astyle->setMaxCodeLength(static_cast<int>(maxCodeLength));
 	if (astyle->getMaxCodeLength() == 0)
 		m_breakAfterLogical->SetValue(false);
 	// end max code length
@@ -380,13 +381,13 @@ void AStyleDlg::GetIndentOptions(AStyleIFace* astyle)
 	astyle->setPreprocCondIndent(m_indentPreprocConditional->GetValue());
 	astyle->setCol1CommentIndent(m_indentCol1comments->GetValue());
 	// get min conditional option
-	int minIndex = m_minConditional->GetCurrentSelection();
-	int minOption = reinterpret_cast<size_t>(m_minConditional->GetClientData(minIndex));
+	int minIndex = static_cast<int>(m_minConditional->GetCurrentSelection());
+	size_t minOption = reinterpret_cast<size_t>(m_minConditional->GetClientData(minIndex));
 	astyle->setMinConditionalOption(static_cast<MinConditional>(minOption));
 	// get max in-statement value
-	int maxIndex = m_maxContinuation->GetCurrentSelection();
-	int maxOption = reinterpret_cast<size_t>(m_maxContinuation->GetClientData(maxIndex));
-	astyle->setMaxContinuationIndent(maxOption);
+	int maxIndex = static_cast<int>(m_maxContinuation->GetCurrentSelection());
+	size_t maxOption = reinterpret_cast<size_t>(m_maxContinuation->GetClientData(maxIndex));
+	astyle->setMaxContinuationIndent(static_cast<int>(maxOption));
 }
 
 void AStyleDlg::GetModifierOptions(AStyleIFace* astyle)
@@ -411,8 +412,10 @@ void AStyleDlg::GetOtherOptions(AStyleIFace* astyle)
 	astyle->setPadParamType(m_padParamType->GetValue());
 	astyle->setUnpadParamType(m_unpadParamType->GetValue());
 	astyle->setAlignMethodColon(m_alignMethodColon->GetValue());
-	int padColonIndex = m_padMethodColon->GetCurrentSelection();
-	astyle->setPadMethodColon(reinterpret_cast<size_t>(m_padMethodColon->GetClientData(padColonIndex)));
+	int padColonIndex = static_cast<int>(m_padMethodColon->GetCurrentSelection());
+	size_t padMethodColon = reinterpret_cast<size_t>(
+	                            m_padMethodColon->GetClientData(padColonIndex));
+	astyle->setPadMethodColon(static_cast<int>(padMethodColon));
 }
 
 void AStyleDlg::GetPadOptions(AStyleIFace* astyle)
@@ -436,12 +439,12 @@ void AStyleDlg::GetPadOptions(AStyleIFace* astyle)
 	astyle->setDeleteEmptyLines(m_deleteEmptyLines->GetValue());
 	astyle->setFillEmptyLines(m_fillEmptyLines->GetValue());
 	// get align pointer option
-	int ptrIndex = m_alignPointer->GetCurrentSelection();
-	int ptrOption = reinterpret_cast<size_t>(m_alignPointer->GetClientData(ptrIndex));
+	int ptrIndex = static_cast<int>(m_alignPointer->GetCurrentSelection());
+	size_t ptrOption = reinterpret_cast<size_t>(m_alignPointer->GetClientData(ptrIndex));
 	astyle->setAlignPointer(static_cast<PointerAlign>(ptrOption));
 	// get align reference option
-	int refIndex = m_alignReference->GetCurrentSelection();
-	int refOption = reinterpret_cast<size_t>(m_alignReference->GetClientData(refIndex));
+	int refIndex = static_cast<int>(m_alignReference->GetCurrentSelection());
+	size_t refOption = reinterpret_cast<size_t>(m_alignReference->GetClientData(refIndex));
 	astyle->setAlignReference(static_cast<ReferenceAlign>(refOption));
 }
 
@@ -514,15 +517,17 @@ wxSize AStyleDlg::GetWxChoiceSize(const wxChoice* choice) const
 	size_t longIndex = 0;
 	for (size_t i = 0; i < choice->GetCount(); i++)
 	{
-		if (choice->GetString(i).Length() > longLabel)
+		wxString currentItem = choice->GetString(static_cast<unsigned int>(i));
+		if (currentItem.Length() > longLabel)
 		{
-			longLabel = choice->GetString(i).Length();
+			longLabel = currentItem.Length();
 			longIndex = i;
 		}
 	}
 	wxSize szText;
 	// the extra characters are for KDE and macOS
-	choice->GetTextExtent(choice->GetString(longIndex) + "XX", &szText.x, &szText.y);
+	wxString longestText = choice->GetString(static_cast<unsigned int>(longIndex)) + "XX";
+	choice->GetTextExtent(longestText, &szText.x, &szText.y);
 	wxSize szReturn = choice->GetSizeFromTextSize(szText);
 	return szReturn;
 }
@@ -779,11 +784,12 @@ void AStyleDlg::SetFormatOptions()
 	size_t iMax;
 	for (iMax = 0; iMax < m_maxCodeLength->GetCount(); iMax++)
 	{
-		size_t clientData = reinterpret_cast<size_t>(m_maxCodeLength->GetClientData(iMax));
+		void* clientDataAsPtr = m_maxCodeLength->GetClientData(static_cast<unsigned int>(iMax));
+		size_t clientData = reinterpret_cast<size_t>(clientDataAsPtr);
 		if (clientData == maxCodeLength)
 			break;
 	}
-	m_maxCodeLength->SetSelection(iMax);
+	m_maxCodeLength->SetSelection(static_cast<int>(iMax));
 	// end max code length
 	m_breakAfterLogical->SetValue(m_astyle->getBreakAfterLogical());
 	// set initial size of the wxChoice
@@ -829,8 +835,9 @@ void AStyleDlg::SetIndentOptions()
 	size_t iMin;
 	for (iMin = 0; iMin < m_minConditional->GetCount(); iMin++)
 	{
-		int clientData = reinterpret_cast<size_t>(m_minConditional->GetClientData(iMin));
-		if (clientData == minConditionalOption)
+		size_t clientData = reinterpret_cast<size_t>(
+		                        m_minConditional->GetClientData(static_cast<unsigned int>(iMin)));
+		if (static_cast<int>(clientData) == minConditionalOption)
 			break;
 	}
 	m_minConditional->SetSelection(minConditionalOption);
@@ -842,11 +849,12 @@ void AStyleDlg::SetIndentOptions()
 	size_t iMax;
 	for (iMax = 0; iMax < m_maxContinuation->GetCount(); iMax++)
 	{
-		int clientData = reinterpret_cast<size_t>(m_maxContinuation->GetClientData(iMax));
-		if (clientData == maxContinuationIndent)
+		size_t clientData = reinterpret_cast<size_t>(
+		                        m_maxContinuation->GetClientData(static_cast<unsigned int>(iMax)));
+		if (static_cast<int>(clientData) == maxContinuationIndent)
 			break;
 	}
-	m_maxContinuation->SetSelection(iMax);
+	m_maxContinuation->SetSelection(static_cast<int>(iMax));
 	// set initial size of the wxChoice, make them the same size
 	wxSize szMinCond = GetWxChoiceSize(m_minConditional);
 	wxSize szMaxCont = GetWxChoiceSize(m_maxContinuation);
@@ -886,11 +894,12 @@ void AStyleDlg::SetOtherOptions()
 	size_t iPadColon;
 	for (iPadColon = 0; iPadColon < m_padMethodColon->GetCount(); iPadColon++)
 	{
-		int clientData = reinterpret_cast<size_t>(m_padMethodColon->GetClientData(iPadColon));
-		if (clientData == padMethodColon)
+		size_t clientData = reinterpret_cast<size_t>(
+		                        m_padMethodColon->GetClientData(static_cast<unsigned int>(iPadColon)));
+		if (static_cast<int>(clientData) == padMethodColon)
 			break;
 	}
-	m_padMethodColon->SetSelection(iPadColon);
+	m_padMethodColon->SetSelection(static_cast<int>(iPadColon));
 	// set initial size of the wxChoice
 	wxSize sz = GetWxChoiceSize(m_padMethodColon);
 	m_padMethodColon->SetInitialSize(sz);
@@ -920,11 +929,12 @@ void AStyleDlg::SetPadOptions()
 	size_t iPtr;
 	for (iPtr = 0; iPtr < m_alignPointer->GetCount(); iPtr++)
 	{
-		int clientData = reinterpret_cast<size_t>(m_alignPointer->GetClientData(iPtr));
-		if (clientData == alignPointer)
+		size_t clientData = reinterpret_cast<size_t>(
+		                        m_alignPointer->GetClientData(static_cast<unsigned int>(iPtr)));
+		if (static_cast<int>(clientData) == alignPointer)
 			break;
 	}
-	m_alignPointer->SetSelection(iPtr);
+	m_alignPointer->SetSelection(static_cast<int>(iPtr));
 	// build align reference choice box
 	if (m_alignReference->GetCount() == 0)
 		AddAlignReferenceData();
@@ -933,11 +943,12 @@ void AStyleDlg::SetPadOptions()
 	size_t iRef;
 	for (iRef = 0; iRef < m_alignReference->GetCount(); iRef++)
 	{
-		int clientData = reinterpret_cast<size_t>(m_alignReference->GetClientData(iRef));
-		if (clientData == alignReference)
+		size_t clientData = reinterpret_cast<size_t>(
+		                        m_alignReference->GetClientData(static_cast<unsigned int>(iRef)));
+		if (static_cast<int>(clientData) == alignReference)
 			break;
 	}
-	m_alignReference->SetSelection(iRef);
+	m_alignReference->SetSelection(static_cast<int>(iRef));
 	// set initial size of the wxChoice, make them the same size
 	wxSize szPtr = GetWxChoiceSize(m_alignPointer);
 	wxSize szRef = GetWxChoiceSize(m_alignReference);

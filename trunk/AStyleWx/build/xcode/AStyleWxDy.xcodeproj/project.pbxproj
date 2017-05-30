@@ -97,7 +97,7 @@
 		BF2F4B0C198952BF00048A77 /* libwxpng-3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwxpng-3.0.a"; path = "../../../../../../usr/local/lib/libwxpng-3.0.a"; sourceTree = "<group>"; };
 		BF2F4B0D198952BF00048A77 /* libwxscintilla-3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwxscintilla-3.0.a"; path = "../../../../../../usr/local/lib/libwxscintilla-3.0.a"; sourceTree = "<group>"; };
 		BF929A69198C234200700A51 /* AStyleWxDy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AStyleWxDy.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BF929A6E198C29D200700A51 /* libastyle30.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libastyle30.dylib; path = Build/Products/Release/libastyle30.dylib; sourceTree = "<group>"; };
+		BF929A6E198C29D200700A51 /* libastyle301.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libastyle301.dylib; path = Build/Products/Release/libastyle301.dylib; sourceTree = "<group>"; };
 		BF95E0AF1992F3A80069145A /* ASBeautifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASBeautifier.cpp; sourceTree = "<group>"; };
 		BF95E0B01992F3A80069145A /* ASEnhancer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASEnhancer.cpp; sourceTree = "<group>"; };
 		BF95E0B11992F3A80069145A /* ASFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASFormatter.cpp; sourceTree = "<group>"; };
@@ -139,7 +139,7 @@
 				BF1D8D6E198949F2004E04B0 /* Frameworks */,
 				BF2F4B001989524800048A77 /* Libraries */,
 				BF929A69198C234200700A51 /* AStyleWxDy.app */,
-				BF929A6E198C29D200700A51 /* libastyle30.dylib */,
+				BF929A6E198C29D200700A51 /* libastyle301.dylib */,
 			);
 			sourceTree = "<group>";
 		};
@@ -597,7 +597,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OBJROOT = Build/Intermediates;
-				PRODUCT_NAME = astyle30d;
+				PRODUCT_NAME = astyle301d;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				SYMROOT = Build/Products;
 			};
@@ -624,7 +624,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OBJROOT = Build/Intermediates;
-				PRODUCT_NAME = astyle30;
+				PRODUCT_NAME = astyle301;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				SYMROOT = Build/Products;
 			};

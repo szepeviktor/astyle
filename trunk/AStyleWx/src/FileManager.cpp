@@ -134,7 +134,7 @@ int FileManager::BuildNotebookPageWithFile(const wxString& filePathStr, bool sel
 	m_notebook->SetPageToolTip(page, pageToolTip);
 	m_editor->SetFocus();
 	// return index of the added page
-	return m_notebook->GetPageCount() - 1;
+	return static_cast<int>(m_notebook->GetPageCount()) - 1;
 }
 
 void FileManager::CheckFileReload()

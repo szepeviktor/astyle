@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Compiler>
+					<Add option="-Wunreachable-code" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
@@ -20,6 +21,17 @@
 					<Add option="`wx-config --version=3.0 --cflags --debug`" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
+					<Add option="-Wswitch" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-Wempty-body" />
+					<Add option="-Wconversion" />
+					<Add option="-Wreturn-type" />
+					<Add option="-Wparentheses" />
+					<Add option="-Wno-format" />
+					<Add option="-Wuninitialized" />
+					<Add option="-Wunused-function" />
+					<Add option="-Wunused-value" />
+					<Add option="-Wunused-variable" />
 					<Add option="-D_DEBUG" />
 					<Add option="-DTESTMODE1" />
 					<Add directory="../../src" />
@@ -43,12 +55,24 @@
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-Wunreachable-code" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="`wx-config --version=3.0 --cflags`" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
+					<Add option="-Wswitch" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-Wempty-body" />
+					<Add option="-Wconversion" />
+					<Add option="-Wreturn-type" />
+					<Add option="-Wparentheses" />
+					<Add option="-Wno-format" />
+					<Add option="-Wuninitialized" />
+					<Add option="-Wunused-function" />
+					<Add option="-Wunused-value" />
+					<Add option="-Wunused-variable" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../src" />
 					<Add directory="../../dialog" />

@@ -993,7 +993,7 @@ bool ASFrame::OnDropFiles(const wxArrayString& filePaths)
 // This is NOT event activated. It is called by the ASDropTarget class.
 {
 	const int MAX_DROP = 9;
-	int numFiles = filePaths.GetCount();
+	int numFiles = static_cast<int>(filePaths.GetCount());
 	if (numFiles > MAX_DROP)
 	{
 		ShowMessageDialog(wxString::Format("Cannot drop more than %d files.", MAX_DROP), wxOK | wxICON_ERROR);
@@ -1711,7 +1711,7 @@ bool ASFrame::SetEditorOrViewOption(const wxString& key, const wxString& value)
 		long intValue;
 		if (!value.ToLong(&intValue))
 			return false;
-		m_defaultFont.SetPointSize(intValue);
+		m_defaultFont.SetPointSize(static_cast<int>(intValue));
 	}
 	else if (key == COMMENT_FONT_FACE)
 		m_commentFont.SetFaceName(value);
@@ -1721,14 +1721,14 @@ bool ASFrame::SetEditorOrViewOption(const wxString& key, const wxString& value)
 		long intValue;
 		if (!value.ToLong(&intValue))
 			return false;
-		m_commentFont.SetPointSize(intValue);
+		m_commentFont.SetPointSize(static_cast<int>(intValue));
 	}
 	else if (key == FILE_FILTER_INDEX)
 	{
 		long intValue;
 		if (!value.ToLong(&intValue))
 			return false;
-		SetFileFilterIndex(intValue);
+		SetFileFilterIndex(static_cast<int>(intValue));
 	}
 	else if (key == FRAME_MAXIMIZED)
 		this->Maximize();
@@ -1737,14 +1737,14 @@ bool ASFrame::SetEditorOrViewOption(const wxString& key, const wxString& value)
 		long intValue;
 		if (!value.ToLong(&intValue))
 			intValue = 0;
-		m_astyleDlgPage = intValue;
+		m_astyleDlgPage = static_cast<int>(intValue);
 	}
 	else if (key == EDITOR_DLG_PAGE)
 	{
 		long intValue;
 		if (!value.ToLong(&intValue))
 			intValue = 0;
-		m_editorDlgPage = intValue;
+		m_editorDlgPage = static_cast<int>(intValue);
 	}
 	else if (key == TEST_OPTIONS)
 #ifdef TESTMODE1

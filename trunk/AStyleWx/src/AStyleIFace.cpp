@@ -1002,7 +1002,7 @@ bool AStyleIFace::SetAStyleOptionFromConfig(const wxString& key, const wxString&
 			return false;
 		if (intValue < 1 || intValue > 20)
 			return false;
-		indentLength = intValue;
+		indentLength = static_cast<int>(intValue);
 	}
 	// TAB_LENGTH also sets useTabLength
 	else if (key == TAB_LENGTH)
@@ -1012,7 +1012,7 @@ bool AStyleIFace::SetAStyleOptionFromConfig(const wxString& key, const wxString&
 			return false;
 		if (intValue < 1 || intValue > 20)
 			return false;
-		tabLength = intValue;
+		tabLength = static_cast<int>(intValue);
 		useTabLength = true;
 	}
 	else if (key == INDENT_CONTINUATION)
@@ -1022,7 +1022,7 @@ bool AStyleIFace::SetAStyleOptionFromConfig(const wxString& key, const wxString&
 			return false;
 		if (intValue < 0 || intValue > 4)
 			return false;
-		continuationIndent = intValue;
+		continuationIndent = static_cast<int>(intValue);
 	}
 	else if (key == MIN_CONDITIONAL_INDENT)
 	{
@@ -1040,7 +1040,7 @@ bool AStyleIFace::SetAStyleOptionFromConfig(const wxString& key, const wxString&
 			return false;
 		if (intValue < 40 || intValue > 120)
 			return false;
-		maxContinuationIndent = intValue;
+		maxContinuationIndent = static_cast<int>(intValue);
 	}
 	else if (key == BREAK_BLOCKS)
 	{
@@ -1097,7 +1097,7 @@ bool AStyleIFace::SetAStyleOptionFromConfig(const wxString& key, const wxString&
 			return false;
 		if (intValue < MAX_CODE_LENGTH_MIN || intValue > MAX_CODE_LENGTH_MAX)
 			return false;
-		maxCodeLength = intValue;
+		maxCodeLength = static_cast<int>(intValue);
 	}
 	else if (key == PAD_METHOD_COLON)
 	{
