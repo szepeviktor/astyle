@@ -25,7 +25,7 @@ class AStyleFormat_Test : public AStyleFormat
 // A friend class of AStyleFormat so private data can be accessed.
 {
 public:
-	AStyleFormat_Test() : m_frame(NULL)
+	AStyleFormat_Test() : m_frame(nullptr)
 		// Need this setup because of wxWidgets IMPLEMENT_APP_NO_MAIN.
 		// It must be done to create a wxFrame object.
 		// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
@@ -33,13 +33,13 @@ public:
 	{
 		// initialize wxWidgets
 		int argc = 0;
-		wxChar** argv = NULL;
+		wxChar** argv = nullptr;
 		wxEntryStart(argc, argv);		// initialize wxWidgets
-		wxASSERT(wxTheApp != NULL);		// check wxApp*
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
 		wxTheApp->CallOnInit();			// call wxApp::OnInit()
 		// now the objects can be created
-		m_frame = new wxFrame(NULL, wxID_ANY, "AStyleWxTest");
-		wxASSERT(m_frame != NULL);
+		m_frame = new wxFrame(nullptr, wxID_ANY, "AStyleWxTest");
+		wxASSERT(m_frame != nullptr);
 	}
 
 	virtual ~AStyleFormat_Test()
@@ -57,7 +57,7 @@ public:
 	// a SEH exception with code 0xc0000005 could be thrown in the test body.
 	{
 		wxStyledTextCtrl* stc = new wxStyledTextCtrl(m_frame, wxID_ANY);
-		wxASSERT(stc != NULL);
+		wxASSERT(stc != nullptr);
 		AStyleFormat::m_stc = stc;	// set the pointer in AStyleFormat
 		return stc;
 	}
@@ -200,7 +200,7 @@ TEST(AStyleFormat_Format, FormatSTCText_AStyleValid)
 
 TEST(AStyleFormat_Format, FormatSTCText_AStyleError)
 // Call AStyle to format a text string with an error return.
-// CallAStyleMain is a mocked function that simply returns a NULL.
+// CallAStyleMain is a mocked function that simply returns a nullptr.
 {
 	// create objects
 	AStyleFormat_Test asf;
@@ -240,12 +240,12 @@ TEST(AStyleFormat_Format, FormatSTCText_AStyleError)
 	// The return value from CallAStyleMain is the Unicode text input as raw text.
 	// This text will be formatted by FormatSTCText and checked below.
 	EXPECT_CALL(asf, CallAStyleMain(StrEq(textUTF8), StrEq(optionsUTF8))).Times(1);
-	ON_CALL(asf, CallAStyleMain(_, _)).WillByDefault(Return(reinterpret_cast<char*>(NULL)));
+	ON_CALL(asf, CallAStyleMain(_, _)).WillByDefault(Return(nullptr));
 
 	// test function
-	// NULL return indicates an error occurred in the AStyle program.
+	// nullptr return indicates an error occurred in the AStyle program.
 	char* textOut = asf.FormatSTCText(optionsWx);
-	EXPECT_EQ(NULL, textOut);
+	EXPECT_EQ(nullptr, textOut);
 }
 
 TEST(AStyleFormat_Insert, InsertBookmarkMarkers_Marker1)

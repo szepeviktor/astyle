@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.4
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "astylewx-python", "..\..\file-py\astylewx-python.pyproj", "{B7B62252-F531-49D3-B6BD-58CB95B21D7E}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "astylewx-python", "..\..\file-py\astylewx-python-13-15.pyproj", "{B7B62252-F531-49D3-B6BD-58CB95B21D7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

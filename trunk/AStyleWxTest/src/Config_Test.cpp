@@ -225,7 +225,7 @@ TEST(Config_AStyle_Styles, SaveAStyleOptions_StylesAll)
 
 	// test invalid style
 	key = STYLE;
-	astyle.setBraceStyle(static_cast<BraceStyle>(99));
+	astyle.setBraceStyle(STYLE_END);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -876,7 +876,7 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_MinConditionalOpt)
 
 	// test invalid min conditional option, should use default
 	key = MIN_CONDITIONAL_INDENT;
-	astyle.setMinConditionalOption(static_cast<MinConditional>(-1));
+	astyle.setMinConditionalOption(MINCOND_END);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -1071,7 +1071,7 @@ TEST(Config_AStyle_Pad, SaveAStyleOptions_AlignPointer)
 
 	// test invalid align pointer, should use default
 	key = ALIGN_POINTER;
-	astyle.setAlignPointer(static_cast<PointerAlign>(-1));
+	astyle.setAlignPointer(PTR_ALIGN_END);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -1127,7 +1127,7 @@ TEST(Config_AStyle_Pad, SaveAStyleOptions_AlignReference)
 
 	// test invalid align reference, should use default
 	key = ALIGN_REFERENCE;
-	astyle.setAlignReference(static_cast<ReferenceAlign>(-1));
+	astyle.setAlignReference(REF_ALIGN_END);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))

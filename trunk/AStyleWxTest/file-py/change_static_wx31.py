@@ -33,7 +33,8 @@ wx_paths = [
     #"C:/Programs/wxWidgets-3.1.0_vs2010",
     #"C:/Programs/wxWidgets-3.1.0_vs2012",
     #"C:/Programs/wxWidgets-3.1.0_vs2013",
-    "C:/Programs/wxWidgets-3.1.0_vs2015",
+    #"C:/Programs/wxWidgets-3.1.0_vs2015",
+    "C:/Programs/wxWidgets-3.1.0_vs2017",
 ]
 
 # -----------------------------------------------------------------------------
@@ -54,6 +55,8 @@ def main():
         process_project_files(wx_path)
         print()
         process_wxstc_vcxproj_file(wx_path)
+        print()
+        process_wxstc_vcxproj_filters_file(wx_path)
         print()
         process_wxstc_catalogue_file(wx_path)
         print()
@@ -187,7 +190,6 @@ def process_wxstc_catalogue_file(wx_path):
         for line in updated_file:
             file_out.write(line)
     print(lines_changed, "lines in", static_file)
-    print()
 
 # -----------------------------------------------------------------------------
 
@@ -242,7 +244,45 @@ def process_wxstc_vcxproj_file(wx_path):
             file_out.write(line)
 
     print(lines_changed, "lines in", project_path)
-    print()
+
+# -----------------------------------------------------------------------------
+
+def process_wxstc_vcxproj_filters_file(wx_path):
+    """ Add CatalogueStatic.cxx file to the wxscintilla project filters file.
+        This file is in the build/msw folder.
+    """
+
+    catalogue_filter = [
+        "    <ClCompile Include=\"..\\..\\src\\stc\\scintilla\\src\\Catalogue.cxx\">",
+        "      <Filter>Source Files</Filter>",
+        "    </ClCompile>",
+        "    <ClCompile Include=\"..\\..\\src\\stc\\scintilla\\src\\CatalogueStatic.cxx\">"]
+    updated_file = []           # undated file save area
+    lines_changed = 0           # number of lines changed
+    project_path = "/build/msw/wx_wxscintilla.vcxproj.filters"
+    orig_path = project_path + ".orig"
+    print(wx_path)
+    file_path = wx_path + orig_path
+    file_path = file_path.replace('\\', '/')
+    if not os.path.isfile(file_path):
+        shutil.copyfile(wx_path + project_path, file_path)
+    # read the .orig file
+    with open(file_path, mode='r') as file_in:
+        for line in file_in:
+            #! check for Catalogue.cxx in wxscintilla
+            if "<ClCompile Include=" in line and "Catalogue.cxx" in line:
+                for entry in catalogue_filter:
+                    updated_file.append(entry + '\n')
+                    lines_changed = 3
+                continue
+            updated_file.append(line)
+
+    # write the new file
+    with open(wx_path + project_path, mode='w') as file_out:
+        for line in updated_file:
+            file_out.write(line)
+
+    print(lines_changed, "lines in", project_path)
 
 # -----------------------------------------------------------------------------
 
@@ -317,7 +357,6 @@ def process_wxsetup_props_file(wx_path):
             file_out.write(line)
 
     print(lines_changed, "lines in", project_path)
-    print()
 
 # -----------------------------------------------------------------------------
 

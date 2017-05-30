@@ -33,17 +33,17 @@ struct AStyleDisplayF_Init : public Test
 	// It must be done to create a wxFrame object.
 	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
 	// See the wxWidgets sample program mfctest.cpp.
-	AStyleDisplayF_Init() : m_frame(NULL)
+	AStyleDisplayF_Init() : m_frame(nullptr)
 	{
 		// initialize wxWidgets
 		int argc = 0;
-		wxChar** argv = NULL;
+		wxChar** argv = nullptr;
 		wxEntryStart(argc, argv);		// initialize wxWidgets
-		wxASSERT(wxTheApp != NULL);		// check wxApp*
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
 		wxTheApp->CallOnInit();			// call wxApp::OnInit()
 		// now the objects can be created
-		m_frame = new wxFrame(NULL, wxID_ANY, "AStyleWxTest");
-		wxASSERT(m_frame != NULL);
+		m_frame = new wxFrame(nullptr, wxID_ANY, "AStyleWxTest");
+		wxASSERT(m_frame != nullptr);
 	}
 	virtual ~AStyleDisplayF_Init()
 	// Need this because of IMPLEMENT_APP_NO_MAIN.
@@ -59,7 +59,7 @@ struct AStyleDisplayF_Init : public Test
 	// a SEH exception with code 0xc0000005 could be thrown in the test body.
 	{
 		wxStyledTextCtrl* stc = new wxStyledTextCtrl(m_frame, wxID_ANY);
-		wxASSERT(stc != NULL);
+		wxASSERT(stc != nullptr);
 		return stc;
 	}
 	wxFrame* m_frame;
@@ -74,8 +74,8 @@ TEST_F(AStyleDisplayF_Init, DisplayFormatOptions)
 	wxCommandEvent event(wxEVT_COMMAND_CHECKBOX_CLICKED, ID_BREAK_CLOSING);
 
 	// test the method
-	EXPECT_EQ(NULL, asd.GetEvent());
-	EXPECT_EQ(NULL, asd.GetSTC());
+	EXPECT_EQ(nullptr, asd.GetEvent());
+	EXPECT_EQ(nullptr, asd.GetSTC());
 	asd.DisplayFormatOptions(event, stc);
 	EXPECT_EQ(&event, asd.GetEvent());
 	EXPECT_EQ(stc, asd.GetSTC());
@@ -90,8 +90,8 @@ TEST_F(AStyleDisplayF_Init, DisplayIndentOptions)
 	wxCommandEvent event(wxEVT_COMMAND_CHECKBOX_CLICKED, ID_INDENT_CLASS);
 
 	// test the method
-	EXPECT_EQ(NULL, asd.GetEvent());
-	EXPECT_EQ(NULL, asd.GetSTC());
+	EXPECT_EQ(nullptr, asd.GetEvent());
+	EXPECT_EQ(nullptr, asd.GetSTC());
 	asd.DisplayIndentOptions(event, stc);
 	EXPECT_EQ(&event, asd.GetEvent());
 	EXPECT_EQ(stc, asd.GetSTC());
@@ -106,8 +106,8 @@ TEST_F(AStyleDisplayF_Init, DisplayModifierOptions)
 	wxCommandEvent event(wxEVT_COMMAND_CHECKBOX_CLICKED, ID_ATTACH_NAMESPACE);
 
 	// test the method
-	EXPECT_EQ(NULL, asd.GetEvent());
-	EXPECT_EQ(NULL, asd.GetSTC());
+	EXPECT_EQ(nullptr, asd.GetEvent());
+	EXPECT_EQ(nullptr, asd.GetSTC());
 	asd.DisplayModifierOptions(event, stc);
 	EXPECT_EQ(&event, asd.GetEvent());
 	EXPECT_EQ(stc, asd.GetSTC());
@@ -122,8 +122,8 @@ TEST_F(AStyleDisplayF_Init, DisplayOtherOptions)
 	wxCommandEvent event(wxEVT_COMMAND_CHECKBOX_CLICKED, ID_ALIGN_METHOD_COLON);
 
 	// test the method
-	EXPECT_EQ(NULL, asd.GetEvent());
-	EXPECT_EQ(NULL, asd.GetSTC());
+	EXPECT_EQ(nullptr, asd.GetEvent());
+	EXPECT_EQ(nullptr, asd.GetSTC());
 	asd.DisplayOtherOptions(event, stc);
 	EXPECT_EQ(&event, asd.GetEvent());
 	EXPECT_EQ(stc, asd.GetSTC());
@@ -138,8 +138,8 @@ TEST_F(AStyleDisplayF_Init, DisplayPadOptions)
 	wxCommandEvent event(wxEVT_COMMAND_CHECKBOX_CLICKED, ID_BREAK_HEADER);
 
 	// test the method
-	EXPECT_EQ(NULL, asd.GetEvent());
-	EXPECT_EQ(NULL, asd.GetSTC());
+	EXPECT_EQ(nullptr, asd.GetEvent());
+	EXPECT_EQ(nullptr, asd.GetSTC());
 	asd.DisplayPadOptions(event, stc);
 	EXPECT_EQ(&event, asd.GetEvent());
 	EXPECT_EQ(stc, asd.GetSTC());
@@ -154,8 +154,8 @@ TEST_F(AStyleDisplayF_Init, DisplayStyleOptions)
 	wxCommandEvent event(wxEVT_COMMAND_CHECKBOX_CLICKED, ID_STYLE_ALLMAN);
 
 	// test the method
-	EXPECT_EQ(NULL, asd.GetEvent());
-	EXPECT_EQ(NULL, asd.GetSTC());
+	EXPECT_EQ(nullptr, asd.GetEvent());
+	EXPECT_EQ(nullptr, asd.GetSTC());
 	asd.DisplayStyleOptions(event, stc);
 	EXPECT_EQ(&event, asd.GetEvent());
 	EXPECT_EQ(stc, asd.GetSTC());
@@ -170,8 +170,8 @@ TEST_F(AStyleDisplayF_Init, DisplayTabOptions)
 	wxCommandEvent event(wxEVT_COMMAND_CHECKBOX_CLICKED, ID_INDENTWITH_SPACE);
 
 	// test the method
-	EXPECT_EQ(NULL, asd.GetEvent());
-	EXPECT_EQ(NULL, asd.GetSTC());
+	EXPECT_EQ(nullptr, asd.GetEvent());
+	EXPECT_EQ(nullptr, asd.GetSTC());
 	asd.DisplayTabOptions(event, stc);
 	EXPECT_EQ(&event, asd.GetEvent());
 	EXPECT_EQ(stc, asd.GetSTC());
@@ -188,17 +188,17 @@ struct AStyleDisplayF_Error : public Test
 	// It must be done to create a wxFrame object.
 	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
 	// See the wxWidgets sample program mfctest.cpp.
-	AStyleDisplayF_Error() : m_frame(NULL)
+	AStyleDisplayF_Error() : m_frame(nullptr)
 	{
 		// initialize wxWidgets
 		int argc = 0;
-		wxChar** argv = NULL;
+		wxChar** argv = nullptr;
 		wxEntryStart(argc, argv);		// initialize wxWidgets
-		wxASSERT(wxTheApp != NULL);		// check wxApp*
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
 		wxTheApp->CallOnInit();			// call wxApp::OnInit()
 		// now the objects can be created
-		m_frame = new wxFrame(NULL, wxID_ANY, "AStyleWxTest");
-		wxASSERT(m_frame != NULL);
+		m_frame = new wxFrame(nullptr, wxID_ANY, "AStyleWxTest");
+		wxASSERT(m_frame != nullptr);
 	}
 	virtual ~AStyleDisplayF_Error()
 	// Need this because of IMPLEMENT_APP_NO_MAIN.
@@ -214,7 +214,7 @@ struct AStyleDisplayF_Error : public Test
 	// a SEH exception with code 0xc0000005 could be thrown in the test body.
 	{
 		wxStyledTextCtrl* stc = new wxStyledTextCtrl(m_frame, wxID_ANY);
-		wxASSERT(stc != NULL);
+		wxASSERT(stc != nullptr);
 		return stc;
 	}
 	wxFrame* m_frame;
