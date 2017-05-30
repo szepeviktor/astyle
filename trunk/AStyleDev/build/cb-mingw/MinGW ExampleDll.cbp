@@ -28,7 +28,7 @@
 					<Add option="-s" />
 					<Add option="-Wl,--enable-auto-import" />
 					<Add option="-Wl,-enable-stdcall-fixup" />
-					<Add library="AStyle30" />
+					<Add library="AStyle301" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>

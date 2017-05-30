@@ -204,9 +204,7 @@ public class AStyleInterface
             }
         }
         if (libraryName == null)
-        {   Error("Cannot find astyle native library in "
-                  + appDirectory
-                  + Path.DirectorySeparatorChar);
+        {   Error("Cannot find astyle native library in " + appDirectory);
         }
         return libraryName;
     }

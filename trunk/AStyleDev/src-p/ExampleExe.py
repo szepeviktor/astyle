@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 
 """ ExampleExe.py
     This program calls the Artistic Style executable to format the AStyle source files.

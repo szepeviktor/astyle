@@ -34,7 +34,7 @@ char* STDCALL ASMemoryAlloc(unsigned long memoryNeeded);
 void error(const string message);
 string getProjectDirectory(const string& subPath);
 char* getText(const string& filePath);
-void  setText(const char* textOut, const string& filePathStr);
+void setText(const char* textOut, const string& filePathStr);
 
 
 // Main function for this example.
@@ -82,7 +82,7 @@ int main(int, char**)
 }
 
 // Error handler for the Artistic Style formatter.
-void  STDCALL ASErrorHandler(int errorNumber, const char* errorMessage)
+void STDCALL ASErrorHandler(int errorNumber, const char* errorMessage)
 {   cout << "astyle error " << errorNumber << "\n"
          << errorMessage << endl;
 }

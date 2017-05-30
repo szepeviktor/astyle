@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 
 """ ExampleUnicode.py
     This program calls the Artistic Style DLL to format the AStyle source files.
