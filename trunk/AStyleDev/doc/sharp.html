@@ -371,15 +371,16 @@
 <span class="hl ppc">#if (WINDOWS)</span>
 <span class="hl slc">// Windows will NOT attach an extension to a filename containing dots (.).</span>
 <span class="hl ppc">#if (DEBUG)</span>
-    <span class="hl kwa">private const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle30d.dll&quot;</span><span class="hl opt">;</span>
+    <span class="hl kwa">private const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle301d.dll&quot;</span><span class="hl opt">;</span>
 <span class="hl ppc">#else</span>
-    <span class="hl kwa">private const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle30.dll&quot;</span><span class="hl opt">;</span>
+    <span class="hl kwa">private const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;astyle301.dll&quot;</span><span class="hl opt">;</span>
 <span class="hl ppc">#endif</span>
 <span class="hl ppc">#else</span>
+    <span class="hl kwa">private const string</span> SOLIBVER <span class="hl opt">=</span> <span class="hl str">&quot;3.0.1&quot;</span><span class="hl opt">;</span>
 <span class="hl ppc">#if (DEBUG)</span>
-    <span class="hl kwa">private const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;libastyled.so.3.0.0&quot;</span><span class="hl opt">;</span>
+    <span class="hl kwa">private const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;libastyled.so.&quot;</span> <span class="hl opt">+</span> SOLIBVER<span class="hl opt">;</span>
 <span class="hl ppc">#else</span>
-    <span class="hl kwa">private const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;libastyle.so.3.0.0&quot;</span><span class="hl opt">;</span>
+    <span class="hl kwa">private const string</span> dllName <span class="hl opt">=</span> <span class="hl str">&quot;libastyle.so.&quot;</span> <span class="hl opt">+</span> SOLIBVER<span class="hl opt">;</span>
 <span class="hl ppc">#endif</span>
 <span class="hl ppc">#endif</span>
     <span class="hl slc">/// AStyleGetVersion DllImport.</span>

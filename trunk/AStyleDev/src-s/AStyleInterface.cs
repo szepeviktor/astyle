@@ -14,11 +14,11 @@ public class AStyleInterface
     private const string dllName = "astyle301.dll";
 #endif
 #else
+    private const string SOLIBVER = "3.0.1";
 #if (DEBUG)
-    const wxString SOLIBVER = "3.0.1";
-    private const string dllName = "libastyled.so. + SOLIBVER;";
+    private const string dllName = "libastyled.so." + SOLIBVER;
 #else
-    private const string dllName = "libastyle.so. + SOLIBVER;";
+    private const string dllName = "libastyle.so." + SOLIBVER;
 #endif
 #endif
     /// AStyleGetVersion DllImport.
