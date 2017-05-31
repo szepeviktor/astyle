@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Bcc AStyleTest All (bcc32c)">
+		<Project filename="Bcc AStyleTest.cbp">
+			<Depends filename="Bcc GMock Lib.cbp" />
+		</Project>
+		<Project filename="Bcc AStyleTestCon.cbp">
+			<Depends filename="Bcc GMock Lib.cbp" />
+		</Project>
+		<Project filename="Bcc AStyleTestI18n.cbp">
+			<Depends filename="Bcc GMock Lib.cbp" />
+		</Project>
+		<Project filename="Bcc AStyleTestLoc.cbp">
+			<Depends filename="Bcc GMock Lib.cbp" />
+		</Project>
+		<Project filename="Bcc GMock Lib.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

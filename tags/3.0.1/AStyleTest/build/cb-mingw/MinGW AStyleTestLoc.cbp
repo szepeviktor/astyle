@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MinGW AStyleTestLoc" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/AStyleTestLocd.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objLoc/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="--terse_output" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=c++11" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyle/src" />
+					<Add directory="../../../googletest/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add library="gmockd" />
+					<Add directory="bin" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/AStyleTestLoc.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objLoc/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-DNDEBUG" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyle/src" />
+					<Add directory="../../../googletest/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add library="gmock" />
+					<Add directory="bin" />
+				</Linker>
+			</Target>
+			<Target title="Coverage">
+				<Option output="bin/AStyleTestLocc.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objLoc/Coverage/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="-std=c++11" />
+					<Add option="-fprofile-arcs" />
+					<Add option="-ftest-coverage" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyle/src" />
+					<Add directory="../../../googletest/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add library="gmockd" />
+					<Add library="gcov" />
+					<Add directory="bin" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../../AStyle/src/ASLocalizer.cpp" />
+		<Unit filename="../../../AStyle/src/ASLocalizer.h" />
+		<Unit filename="../../srcloc/AStyleTestLoc.cpp" />
+		<Unit filename="../../srcloc/AStyleTestLoc_Main.cpp" />
+		<Unit filename="../../srcx/TersePrinter.cpp" />
+		<Unit filename="../../srcx/TersePrinter.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
