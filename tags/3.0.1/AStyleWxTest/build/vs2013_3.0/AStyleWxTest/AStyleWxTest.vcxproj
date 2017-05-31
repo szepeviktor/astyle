@@ -1,0 +1,523 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL Debug|Win32">
+      <Configuration>DLL Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL Debug|x64">
+      <Configuration>DLL Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL LeakDetector|Win32">
+      <Configuration>DLL LeakDetector</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL LeakDetector|x64">
+      <Configuration>DLL LeakDetector</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL Release|Win32">
+      <Configuration>DLL Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL Release|x64">
+      <Configuration>DLL Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{81836994-4DC6-45BD-8C69-633DF214AD3F}</ProjectGuid>
+    <RootNamespace>AStyleWxTest</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL LeakDetector|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL LeakDetector|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\wxWidgetsMacros.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\wxWidgetsMacros.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\wxWidgetsMacros.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\wxWidgetsMacros.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\wxWidgetsMacros.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\wxWidgetsMacros.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DLL LeakDetector|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\wxWidgetsMacros.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\wxWidgetsMacros.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\wxWidgetsMacros.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DLL LeakDetector|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\wxWidgetsMacros.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'">$(SolutionDir)debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DLL LeakDetector|Win32'">$(SolutionDir)debug\</OutDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DLL LeakDetector|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DLL Debug|x64'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DLL LeakDetector|x64'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)bin\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'">$(SolutionDir)bin\</OutDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DLL Release|x64'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AStyleWxTestd</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'">AStyleWxTestd</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DLL LeakDetector|Win32'">AStyleWxTestl</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AStyleWxTestd</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DLL Debug|x64'">AStyleWxTestd</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DLL LeakDetector|x64'">AStyleWxTestd</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AStyleWxTest</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'">AStyleWxTest</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AStyleWxTest</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DLL Release|x64'">AStyleWxTest</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\bin\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\bin\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_lib\mswud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;__WXMSW__;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;wxscintillad.lib;wxpngd.lib;wxzlibd.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_lib;$(OutDir)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'">
+    <PreBuildEvent>
+      <Command>if not exist "$(TargetDir)wxbase$(wxVersion)ud_vc_custom.dll"     mklink /H "$(TargetDir)wxbase$(wxVersion)ud_vc_custom.dll"     "$(WXWIN)\lib\vc_dll\wxbase$(wxVersion)ud_vc_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxbase$(wxVersion)ud_vc_custom.pdb"     mklink /H "$(TargetDir)wxbase$(wxVersion)ud_vc_custom.pdb"     "$(WXWIN)\lib\vc_dll\wxbase$(wxVersion)ud_vc_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_custom.dll"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_adv_vc_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_custom.pdb"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_adv_vc_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_custom.dll"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_aui_vc_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_custom.pdb"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_aui_vc_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_custom.dll" mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_custom.dll" "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_core_vc_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_custom.pdb" mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_custom.pdb" "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_core_vc_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.dll"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_stc_vc_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.pdb"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_stc_vc_custom.pdb" &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_dll\mswud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;__WXMSW__;WXUSINGDLL;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_dll;$(OutDir)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DLL LeakDetector|Win32'">
+    <PreBuildEvent>
+      <Command>if not exist "$(TargetDir)wxbase$(wxVersion)ud_vc_custom.dll"     mklink /H "$(TargetDir)wxbase$(wxVersion)ud_vc_custom.dll"     "$(WXWIN)\lib\vc_dll\wxbase$(wxVersion)ud_vc_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxbase$(wxVersion)ud_vc_custom.pdb"     mklink /H "$(TargetDir)wxbase$(wxVersion)ud_vc_custom.pdb"     "$(WXWIN)\lib\vc_dll\wxbase$(wxVersion)ud_vc_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_custom.dll"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_adv_vc_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_custom.pdb"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_adv_vc_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_custom.dll"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_aui_vc_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_custom.pdb"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_aui_vc_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_custom.dll" mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_custom.dll" "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_core_vc_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_custom.pdb" mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_custom.pdb" "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_core_vc_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.dll"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_stc_vc_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.pdb"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_stc_vc_custom.pdb" &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_dll\mswud;$(ProgramFiles)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;__WXMSW__;WXUSINGDLL;ASTYLEWX_TEST;LEAK_DETECTOR</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_dll;$(OutDir);$(ProgramFiles)\Visual Leak Detector\lib\Win32</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>cmd /c  if not exist "$(OutDir)dbghelp.dll"  xcopy "$(ProgramFiles)\Visual Leak Detector\bin\Win32\*"  "$(OutDir)"  /y/q</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_lib\mswud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;__WXMSW__;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;wxscintillad.lib;wxpngd.lib;wxzlibd.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_x64_lib;$(OutDir)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|x64'">
+    <PreBuildEvent>
+      <Command>if not exist "$(TargetDir)wxbase$(wxVersion)ud_vc_x64_custom.dll"     mklink /H "$(TargetDir)wxbase$(wxVersion)ud_vc_x64_custom.dll"     "$(WXWIN)\lib\vc_x64_dll\wxbase$(wxVersion)ud_vc_x64_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxbase$(wxVersion)ud_vc_x64_custom.pdb"     mklink /H "$(TargetDir)wxbase$(wxVersion)ud_vc_x64_custom.pdb"     "$(WXWIN)\lib\vc_x64_dll\wxbase$(wxVersion)ud_vc_x64_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_x64_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_x64_custom.dll"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_adv_vc_x64_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_x64_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_x64_custom.pdb"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_adv_vc_x64_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_x64_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_x64_custom.dll"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_aui_vc_x64_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_x64_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_x64_custom.pdb"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_aui_vc_x64_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_x64_custom.dll" mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_x64_custom.dll" "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_core_vc_x64_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_x64_custom.pdb" mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_x64_custom.pdb" "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_core_vc_x64_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.dll"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_stc_vc_x64_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb" &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_dll\mswud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;__WXMSW__;WXUSINGDLL;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_x64_dll;$(OutDir)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DLL LeakDetector|x64'">
+    <PreBuildEvent>
+      <Command>if not exist "$(TargetDir)wxbase$(wxVersion)ud_vc_x64_custom.dll"     mklink /H "$(TargetDir)wxbase$(wxVersion)ud_vc_x64_custom.dll"     "$(WXWIN)\lib\vc_x64_dll\wxbase$(wxVersion)ud_vc_x64_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxbase$(wxVersion)ud_vc_x64_custom.pdb"     mklink /H "$(TargetDir)wxbase$(wxVersion)ud_vc_x64_custom.pdb"     "$(WXWIN)\lib\vc_x64_dll\wxbase$(wxVersion)ud_vc_x64_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_x64_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_x64_custom.dll"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_adv_vc_x64_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_x64_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_x64_custom.pdb"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_adv_vc_x64_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_x64_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_x64_custom.dll"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_aui_vc_x64_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_x64_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_x64_custom.pdb"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_aui_vc_x64_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_x64_custom.dll" mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_x64_custom.dll" "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_core_vc_x64_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_x64_custom.pdb" mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_x64_custom.pdb" "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_core_vc_x64_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.dll"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_stc_vc_x64_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb" &gt; NUL
+</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_dll\mswud;$(ProgramFiles)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;__WXMSW__;WXUSINGDLL;ASTYLEWX_TEST;LEAK_DETECTOR</PreprocessorDefinitions>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_x64_dll;$(OutDir);$(ProgramFiles)\Visual Leak Detector\lib\Win64</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <PostBuildEvent>
+      <Command>cmd /c  if not exist "$(OutDir)dbghelp.dll"  xcopy "$(ProgramFiles)\Visual Leak Detector\bin\Win64\*"  "$(OutDir)"  /y/q</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_lib\mswu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;__WXMSW__;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;wxscintilla.lib;wxpng.lib;wxzlib.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_lib;$(OutDir)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_dll\mswu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;__WXMSW__;WXUSINGDLL;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_dll;$(OutDir)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist "$(TargetDir)wxbase$(wxVersion)u_vc_custom.dll"     mklink /H "$(TargetDir)wxbase$(wxVersion)u_vc_custom.dll"     "$(WXWIN)\lib\vc_dll\wxbase$(wxVersion)u_vc_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxbase$(wxVersion)u_vc_custom.pdb"     mklink /H "$(TargetDir)wxbase$(wxVersion)u_vc_custom.pdb"     "$(WXWIN)\lib\vc_dll\wxbase$(wxVersion)u_vc_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_custom.dll"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_adv_vc_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_custom.pdb"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_adv_vc_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_custom.dll"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_aui_vc_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_custom.pdb"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_aui_vc_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_core_vc_custom.dll" mklink /H "$(TargetDir)wxmsw$(wxVersion)u_core_vc_custom.dll" "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_core_vc_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_core_vc_custom.pdb" mklink /H "$(TargetDir)wxmsw$(wxVersion)u_core_vc_custom.pdb" "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_core_vc_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.dll"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_stc_vc_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.pdb"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_stc_vc_custom.pdb" &gt; NUL
+</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_lib\mswu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;__WXMSW__;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;wxscintilla.lib;wxpng.lib;wxzlib.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_x64_lib;$(OutDir)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_dll\mswu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;__WXMSW__;WXUSINGDLL;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_x64_dll;$(OutDir)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+    </Link>
+    <PreBuildEvent>
+      <Command>if not exist "$(TargetDir)wxbase$(wxVersion)u_vc_x64_custom.dll"     mklink /H "$(TargetDir)wxbase$(wxVersion)u_vc_x64_custom.dll"     "$(WXWIN)\lib\vc_x64_dll\wxbase$(wxVersion)u_vc_x64_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxbase$(wxVersion)u_vc_x64_custom.pdb"     mklink /H "$(TargetDir)wxbase$(wxVersion)u_vc_x64_custom.pdb"     "$(WXWIN)\lib\vc_x64_dll\wxbase$(wxVersion)u_vc_x64_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_x64_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_x64_custom.dll"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_adv_vc_x64_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_x64_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_x64_custom.pdb"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_adv_vc_x64_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_x64_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_x64_custom.dll"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_aui_vc_x64_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_x64_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_x64_custom.pdb"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_aui_vc_x64_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_core_vc_x64_custom.dll" mklink /H "$(TargetDir)wxmsw$(wxVersion)u_core_vc_x64_custom.dll" "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_core_vc_x64_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_core_vc_x64_custom.pdb" mklink /H "$(TargetDir)wxmsw$(wxVersion)u_core_vc_x64_custom.pdb" "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_core_vc_x64_custom.pdb" &gt; NUL
+
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_x64_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_x64_custom.dll"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_stc_vc_x64_custom.dll" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_x64_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_x64_custom.pdb"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_stc_vc_x64_custom.pdb" &gt; NUL
+</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\AStyleWx\src\AStyleDisplay.cpp" />
+    <ClCompile Include="..\..\..\..\AStyleWx\src\AStyleFormat.cpp" />
+    <ClCompile Include="..\..\..\..\AStyleWx\src\AStyleIFace.cpp" />
+    <ClCompile Include="..\..\..\srcx\TersePrinter.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleDisplay_Test.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleFormat_Test.cpp" />
+    <ClCompile Include="..\..\..\src\AStyleIFace_Test.cpp" />
+    <ClCompile Include="..\..\..\..\AStyleWx\src\Config.cpp" />
+    <ClCompile Include="..\..\..\src\Config_Test.cpp" />
+    <ClCompile Include="..\..\..\src\Main_Test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\AStyleWx\dialog\AStyleDlgBase.h" />
+    <ClInclude Include="..\..\..\..\AStyleWx\src\AStyleDisplay.h" />
+    <ClInclude Include="..\..\..\..\AStyleWx\src\AStyleFormat.h" />
+    <ClInclude Include="..\..\..\..\AStyleWx\src\AStyleIFace.h" />
+    <ClInclude Include="..\..\..\..\AStyleWx\src\Config.h" />
+    <ClInclude Include="..\..\..\..\AStyleWx\src\Constants.h" />
+    <ClInclude Include="..\..\..\srcx\TersePrinter.h" />
+    <ClInclude Include="..\..\..\src\Config_Test.h" />
+    <ClInclude Include="..\..\..\src\Main_Test.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GMock Lib\GMock Lib.vcxproj">
+      <Project>{d336fe81-2b92-49af-a040-d$(wxVersion)c384c8fd2}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
