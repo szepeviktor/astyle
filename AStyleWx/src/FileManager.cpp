@@ -462,7 +462,7 @@ int FileManager::SaveFileAs()
 	                    " Save File As",
 	                    m_editor->GetCurrentDirectory(),
 	                    m_editor->GetFileName(),
-	                    "*.*",
+	                    "*",
 	                    wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 
 	dialog.SetIcons(m_frame->GetIconBundle());

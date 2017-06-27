@@ -99,7 +99,7 @@ int ASEditor::BraceAtCaret()
 
 	// Priority goes to character before caret
 	if (caretPos > 0)
-		charBefore = static_cast<char>(wxStyledTextCtrl::GetCharAt(caretPos - 1));
+		charBefore = static_cast<wxChar>(wxStyledTextCtrl::GetCharAt(caretPos - 1));
 	if (charBefore && strchr(matchChar, charBefore))
 		braceAtCaret = caretPos - 1;
 	// No brace found so check other side
@@ -177,8 +177,8 @@ void ASEditor::CountLineEnds(wxString& text, int& linesCR, int& linesLF, int& li
 	linesCR = 0;
 	linesLF = 0;
 	linesCRLF = 0;
-	int chPrev = ' ';
-	int chNext = ' ';
+	wxChar chPrev = ' ';
+	wxChar chNext = ' ';
 	int lengthText = static_cast<int>(text.Len());
 
 	for (int i = 0; i < lengthText; i++)
@@ -452,11 +452,13 @@ wxString ASEditor::GetWordAtCaret()
 		wxString nonWordChars = "\t\n\r !\"#$%&'()*+,-./:;<=>?@[\\]^`{|}~";
 		// On the left...
 		while ((selStart > 0)
-		        && (nonWordChars.Find(static_cast<char>(wxStyledTextCtrl::GetCharAt(selStart - 1))) == wxNOT_FOUND))
+		        && (nonWordChars.Find(static_cast<wxChar>(
+		                                  wxStyledTextCtrl::GetCharAt(selStart - 1))) == wxNOT_FOUND))
 			selStart--;
 		// and on the right
 		while ((selEnd < lengthDoc)
-		        && (nonWordChars.Find(static_cast<char>(wxStyledTextCtrl::GetCharAt(selEnd))) == wxNOT_FOUND))
+		        && (nonWordChars.Find(static_cast<wxChar>(
+		                                  wxStyledTextCtrl::GetCharAt(selEnd))) == wxNOT_FOUND))
 			selEnd++;
 		wxString word = wxStyledTextCtrl::GetTextRange(selStart, selEnd);
 		if (!word.IsEmpty() && (word.Length() < 100u))

@@ -11,7 +11,7 @@
 				<Option object_output="wx3.0/obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="clang" />
-				<Option parameters="../../test-data/AppFrame.cpp" />
+				<Option parameters="/home/jimp/Projects/AStyleFuzz/crash/file1.cpp     /home/jimp/Projects/AStyleFuzz/crash/file2.cpp" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />

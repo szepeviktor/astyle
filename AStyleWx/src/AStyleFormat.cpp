@@ -316,7 +316,8 @@ void AStyleFormat::RestoreBookmarks(int bookmarkNumber, std::string& marker) con
 		// trim extra whitespace
 		wxString whitespaceChars = " \t";
 		while ((markerPosition > 0)
-		        && (whitespaceChars.Find(static_cast<char>(m_stc->GetCharAt(markerPosition - 1))) != wxNOT_FOUND))
+		        && (whitespaceChars.Find(static_cast<wxChar>(
+		                                     m_stc->GetCharAt(markerPosition - 1))) != wxNOT_FOUND))
 			--markerPosition;
 		// remove the marker
 		m_stc->SetTargetStart(markerPosition);
@@ -358,7 +359,8 @@ void AStyleFormat::RestoreFirstVisibleLine() const
 		// trim extra whitespace
 		wxString whitespaceChars = " \t";
 		while ((firstVisiblePosition > 0)
-		        && (whitespaceChars.Find(static_cast<char>(m_stc->GetCharAt(firstVisiblePosition - 1))) != wxNOT_FOUND))
+		        && (whitespaceChars.Find(static_cast<wxChar>(
+		                                     m_stc->GetCharAt(firstVisiblePosition - 1))) != wxNOT_FOUND))
 			--firstVisiblePosition;
 		// remove the marker
 		m_stc->SetTargetStart(firstVisiblePosition);
@@ -405,7 +407,8 @@ bool AStyleFormat::RestoreSelection() const
 		// trim extra whitespace
 		wxString whitespaceChars = " \t";
 		while ((maxPosition > 0)
-		        && (whitespaceChars.Find(static_cast<char>(m_stc->GetCharAt(maxPosition - 1))) != wxNOT_FOUND))
+		        && (whitespaceChars.Find(static_cast<wxChar>(
+		                                     m_stc->GetCharAt(maxPosition - 1))) != wxNOT_FOUND))
 			--maxPosition;
 		// remove the marker
 		m_stc->SetTargetStart(maxPosition);
@@ -423,7 +426,8 @@ bool AStyleFormat::RestoreSelection() const
 		// trim extra whitespace
 		wxString whitespaceChars = " \t";
 		while ((minPosition > 0)
-		        && (whitespaceChars.Find(static_cast<char>(m_stc->GetCharAt(minPosition - 1))) != wxNOT_FOUND))
+		        && (whitespaceChars.Find(static_cast<wxChar>(
+		                                     m_stc->GetCharAt(minPosition - 1))) != wxNOT_FOUND))
 			--minPosition;
 		// remove the marker
 		m_stc->SetTargetStart(minPosition);

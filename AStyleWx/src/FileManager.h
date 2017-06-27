@@ -19,7 +19,7 @@
 // -----------------------------------------------------------------------------
 
 const wxString FILE_FILTER =
-    "All Files|*.*|"
+    "All Files|*|"
     "Source Files|*.c;*.cc;*.cpp;*.cxx;*.m;*.mm;*.h;*.hpp;*.hxx;*.cs;*.java;*.jav|"
     "C/C++ Files|*.c;*.cc;*.cpp;*.cxx;*.h;*.hpp;*.hxx|"
     "Obj-C Files|*.m;*.mm;*.h|"
