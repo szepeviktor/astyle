@@ -324,7 +324,7 @@ TEST(Cpp11Initializer, UniformInitializerRunIn)
 	    "{   int j_one{ wrap(j + 1, x.size()) };\n"
 	    "    for (int j{ 0 }; j < x.size(); j++) {}\n"
 	    "}";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -382,181 +382,6 @@ TEST(Cpp11Initializer, UniformInitializerMisc1)
 	    "                   1,\n"
 	    "                   2 }\n"
 	    "}";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(Cpp11Initializer, UniformInitializerClassInitializerNone)
-{
-	// The uniform initializer in a class initializer is an array-type.
-	// The opening command type brace should be correctly identified.
-	// This type is for default braces.
-	char text[] =
-	    "\nFoo::Foo()\n"
-	    "    : bar{0}\n"
-	    "{\n"
-	    "    foo(a,\n"
-	    "        b);\n"
-	    "}";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(Cpp11Initializer, UniformInitializerClassInitializerBreak)
-{
-	// The uniform initializer in a class initializer is an array-type.
-	// The opening command type brace should be correctly identified.
-	// This type is for broken braces.
-	char textIn[] =
-	    "\nFoo::Foo()\n"
-	    "    : bar{0} {\n"
-	    "    foo(a,\n"
-	    "        b);\n"
-	    "}";
-	char text[] =
-	    "\nFoo::Foo()\n"
-	    "    : bar{0}\n"
-	    "{\n"
-	    "    foo(a,\n"
-	    "        b);\n"
-	    "}";
-
-	char options[] = "style=break";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(Cpp11Initializer, UniformInitializerClassInitializerAttach)
-{
-	// The uniform initializer in a class initializer is an array-type.
-	// The opening command type brace should be correctly identified.
-	// This type is for attached braces.
-	char textIn[] =
-	    "\nFoo::Foo()\n"
-	    "    : bar{0}\n"
-	    "{\n"
-	    "    foo(a,\n"
-	    "        b);\n"
-	    "}";
-	char text[] =
-	    "\nFoo::Foo()\n"
-	    "    : bar{0} {\n"
-	    "    foo(a,\n"
-	    "        b);\n"
-	    "}";
-	char options[] = "style=attach";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(Cpp11Initializer, UniformInitializerClassInitializerLinux)
-{
-	// The uniform initializer in a class initializer is an array-type.
-	// The opening command type brace should be correctly identified.
-	// This type is for linux braces.
-	char textIn[] =
-	    "\nFoo::Foo()\n"
-	    "    : bar{0} {\n"
-	    "    foo(a,\n"
-	    "        b);\n"
-	    "}";
-	char text[] =
-	    "\nFoo::Foo()\n"
-	    "    : bar{0}\n"
-	    "{\n"
-	    "    foo(a,\n"
-	    "        b);\n"
-	    "}";
-	char options[] = "style=kr";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(Cpp11Initializer, UniformInitializerClassInitializerRunIn)
-{
-	// The uniform initializer in a class initializer is an array-type.
-	// The opening command type brace should be correctly identified.
-	// This type is for run-in braces.
-	char textIn[] =
-	    "\nFoo::Foo()\n"
-	    "    : bar{0} {\n"
-	    "    foo(a,\n"
-	    "        b);\n"
-	    "}";
-	char text[] =
-	    "\nFoo::Foo()\n"
-	    "    : bar{0}\n"
-	    "{   foo(a,\n"
-	    "        b);\n"
-	    "}";
-	char options[] = "style=horstmann";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(Cpp11Initializer, UniformInitializerClassInitializerOneLine)
-{
-	// The uniform initializer in a class initializer is an array-type.
-	/// The opening command type brace should be correctly identified.
-	char textIn[] =
-	    "\nclass HasPtr\n"
-	    "{\n"
-	    "public:\n"
-	    "    HasPtr(HasPtr && p) noexcept : ps{ p.ps }, i{ p.i }{ p.ps = 0; }\n"
-	    "};";
-	char text[] =
-	    "\nclass HasPtr\n"
-	    "{\n"
-	    "public:\n"
-	    "    HasPtr(HasPtr && p) noexcept : ps{ p.ps }, i{ p.i } {\n"
-	    "        p.ps = 0;\n"
-	    "    }\n"
-	    "};";
-	char options[] = "";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(Cpp11Initializer, UniformInitializerClassInitializerMultiLine1)
-{
-	// The uniform initializer in a class initializer is an array-type.
-	// The opening brace should be left as-is and not automatically space padded.
-	// The closing brace should be left as-is and not automatically broken.
-	char text[] =
-	    "\nMyClass::MyClass()\n"
-	    "    : x{0,\n"
-	    "        1,\n"
-	    "        2},\n"
-	    "      y{0}\n"
-	    "{}";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(Cpp11Initializer, UniformInitializerClassInitializerMultiLine2)
-{
-	// The uniform initializer in a class initializer is an array-type.
-	// The opening brace should be left as-is.
-	// The closing brace should be left as-is.
-	char text[] =
-	    "\nMyClass::MyClass()\n"
-	    "    : x { 0,\n"
-	    "          1,\n"
-	    "          2\n"
-	    "        },\n"
-	    "      y { 0 }\n"
-	    "{}";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -769,6 +594,461 @@ TEST(Cpp11Initializer, UniformInitializerCommaFirst2)
 	    "    ,  m_bar3{0} {}\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//----------------------------------------------------------------------------
+// AStyle C++11 Uniform Class Initializer
+//----------------------------------------------------------------------------
+
+TEST(Cpp11Initializer, UniformClassInitializerNone)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening command type brace should be correctly identified.
+	// This type is for default braces.
+	char text[] =
+	    "\nFoo::Foo()\n"
+	    "    : bar{0}\n"
+	    "{\n"
+	    "    foo(a,\n"
+	    "        b);\n"
+	    "}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Initializer, UniformClassInitializerBreak)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening command type brace should be correctly identified.
+	// This type is for broken braces.
+	char textIn[] =
+	    "\nFoo::Foo()\n"
+	    "    : bar{0} {\n"
+	    "    foo(a,\n"
+	    "        b);\n"
+	    "}";
+	char text[] =
+	    "\nFoo::Foo()\n"
+	    "    : bar{0}\n"
+	    "{\n"
+	    "    foo(a,\n"
+	    "        b);\n"
+	    "}";
+
+	char options[] = "style=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Initializer, UniformClassInitializerAttach)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening command type brace should be correctly identified.
+	// This type is for attached braces.
+	char textIn[] =
+	    "\nFoo::Foo()\n"
+	    "    : bar{0}\n"
+	    "{\n"
+	    "    foo(a,\n"
+	    "        b);\n"
+	    "}";
+	char text[] =
+	    "\nFoo::Foo()\n"
+	    "    : bar{0} {\n"
+	    "    foo(a,\n"
+	    "        b);\n"
+	    "}";
+	char options[] = "style=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Initializer, UniformClassInitializerLinux)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening command type brace should be correctly identified.
+	// This type is for linux braces.
+	char textIn[] =
+	    "\nFoo::Foo()\n"
+	    "    : bar{0} {\n"
+	    "    foo(a,\n"
+	    "        b);\n"
+	    "}";
+	char text[] =
+	    "\nFoo::Foo()\n"
+	    "    : bar{0}\n"
+	    "{\n"
+	    "    foo(a,\n"
+	    "        b);\n"
+	    "}";
+	char options[] = "style=kr";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Initializer, UniformClassInitializerRunIn)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening command type brace should be correctly identified.
+	// This type is for run-in braces.
+	char textIn[] =
+	    "\nFoo::Foo()\n"
+	    "    : bar{0} {\n"
+	    "    foo(a,\n"
+	    "        b);\n"
+	    "}";
+	char text[] =
+	    "\nFoo::Foo()\n"
+	    "    : bar{0}\n"
+	    "{   foo(a,\n"
+	    "        b);\n"
+	    "}";
+	char options[] = "style=run-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Initializer, UniformClassInitializerOneLine)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	/// The opening command type brace should be correctly identified.
+	char textIn[] =
+	    "\nclass HasPtr\n"
+	    "{\n"
+	    "public:\n"
+	    "    HasPtr(HasPtr && p) noexcept : ps{ p.ps }, i{ p.i }{ p.ps = 0; }\n"
+	    "};";
+	char text[] =
+	    "\nclass HasPtr\n"
+	    "{\n"
+	    "public:\n"
+	    "    HasPtr(HasPtr && p) noexcept : ps{ p.ps }, i{ p.i } {\n"
+	    "        p.ps = 0;\n"
+	    "    }\n"
+	    "};";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Initializer, UniformClassInitializerMultiLine1)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening brace should be left as-is and not automatically space padded.
+	// The closing brace should be left as-is and not automatically broken.
+	char text[] =
+	    "\nMyClass::MyClass()\n"
+	    "    : x{0,\n"
+	    "        1,\n"
+	    "        2},\n"
+	    "      y{0}\n"
+	    "{}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Initializer, UniformClassInitializerMultiLine2)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening brace should be left as-is.
+	// The closing brace should be left as-is.
+	char text[] =
+	    "\nMyClass::MyClass()\n"
+	    "    : x { 0,\n"
+	    "          1,\n"
+	    "          2\n"
+	    "        },\n"
+	    "      y { 0 }\n"
+	    "{}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Initializer, UniformClassInitializerInlineNone)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening command type brace should be correctly identified.
+	// This type is for default braces.
+	char textIn[] =
+	    "\n"
+	    "class class_a {\n"
+	    "public:\n"
+	    "    class_a() {var = 0;}\n"
+	    "    class_a(string str) : m_string{ str } {var = 0;}\n"
+	    "    class_a(string str, double dbl) : m_string{ str }, m_double{ dbl } {var = 0;}\n"
+	    "    class_a(): Base{1,2,3} {var = 0;}\n"
+	    "    class_a(int val0, int val1) : Base({val0, val1}) {var = 0;}";
+	char text[] =
+	    "\n"
+	    "class class_a {\n"
+	    "public:\n"
+	    "    class_a() {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(string str) : m_string{ str } {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(string str, double dbl) : m_string{ str }, m_double{ dbl } {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(): Base{1,2,3} {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(int val0, int val1) : Base({val0, val1}) {\n"
+	    "        var = 0;\n"
+	    "    }";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Initializer, UniformClassInitializerInlineBreak)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening command type brace should be correctly identified.
+	// This type is for broken braces.
+	char textIn[] =
+	    "\n"
+	    "class class_a {\n"
+	    "public:\n"
+	    "    class_a() {var = 0;}\n"
+	    "    class_a(string str) : m_string{ str } {var = 0;}\n"
+	    "    class_a(string str, double dbl) : m_string{ str }, m_double{ dbl } {var = 0;}\n"
+	    "    class_a(): Base{1,2,3} {var = 0;}\n"
+	    "    class_a(int val0, int val1) : Base({val0, val1}) {var = 0;}";
+	char text[] =
+	    "\n"
+	    "class class_a\n"
+	    "{\n"
+	    "public:\n"
+	    "    class_a()\n"
+	    "    {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(string str) : m_string{ str }\n"
+	    "    {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(string str, double dbl) : m_string{ str }, m_double{ dbl }\n"
+	    "    {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(): Base{1,2,3}\n"
+	    "    {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(int val0, int val1) : Base({val0, val1})\n"
+	    "    {\n"
+	    "        var = 0;\n"
+	    "    }";
+	char options[] = "style=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Initializer, UniformClassInitializerInlineAttach)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening command type brace should be correctly identified.
+	// This type is for attached braces.
+	char textIn[] =
+	    "\n"
+	    "class class_a {\n"
+	    "public:\n"
+	    "    class_a() {var = 0;}\n"
+	    "    class_a(string str) : m_string{ str } {var = 0;}\n"
+	    "    class_a(string str, double dbl) : m_string{ str }, m_double{ dbl } {var = 0;}\n"
+	    "    class_a(): Base{1,2,3} {var = 0;}\n"
+	    "    class_a(int val0, int val1) : Base({val0, val1}) {var = 0;}";
+	char text[] =
+	    "\n"
+	    "class class_a {\n"
+	    "public:\n"
+	    "    class_a() {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(string str) : m_string{ str } {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(string str, double dbl) : m_string{ str }, m_double{ dbl } {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(): Base{1,2,3} {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(int val0, int val1) : Base({val0, val1}) {\n"
+	    "        var = 0;\n"
+	    "    }";
+	char options[] = "style=attach";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Initializer, UniformClassInitializerInlineLinux)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening command type brace should be correctly identified.
+	// This type is for linux braces.
+	char textIn[] =
+	    "\n"
+	    "class class_a {\n"
+	    "public:\n"
+	    "    class_a() {var = 0;}\n"
+	    "    class_a(string str) : m_string{ str } {var = 0;}\n"
+	    "    class_a(string str, double dbl) : m_string{ str }, m_double{ dbl } {var = 0;}\n"
+	    "    class_a(): Base{1,2,3} {var = 0;}\n"
+	    "    class_a(int val0, int val1) : Base({val0, val1}) {var = 0;}";
+	char text[] =
+	    "\n"
+	    "class class_a\n"
+	    "{\n"
+	    "public:\n"
+	    "    class_a()\n"
+	    "    {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(string str) : m_string{ str }\n"
+	    "    {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(string str, double dbl) : m_string{ str }, m_double{ dbl }\n"
+	    "    {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(): Base{1,2,3}\n"
+	    "    {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(int val0, int val1) : Base({val0, val1})\n"
+	    "    {\n"
+	    "        var = 0;\n"
+	    "    }";
+	char options[] = "style=kr";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Initializer, UniformClassInitializerInlineRunIn)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening command type brace should be correctly identified.
+	// This type is for run-in braces.
+	char textIn[] =
+	    "\n"
+	    "class class_a {\n"
+	    "public:\n"
+	    "    class_a() {var = 0;}\n"
+	    "    class_a(string str) : m_string{ str } {var = 0;}\n"
+	    "    class_a(string str, double dbl) : m_string{ str }, m_double{ dbl } {var = 0;}\n"
+	    "    class_a(): Base{1,2,3} {var = 0;}\n"
+	    "    class_a(int val0, int val1) : Base({val0, val1}) {var = 0;}";
+	char text[] =
+	    "\n"
+	    "class class_a\n"
+	    "{\n"
+	    "public:\n"
+	    "    class_a()\n"
+	    "    {   var = 0;\n"
+	    "    }\n"
+	    "    class_a(string str) : m_string{ str }\n"
+	    "    {   var = 0;\n"
+	    "    }\n"
+	    "    class_a(string str, double dbl) : m_string{ str }, m_double{ dbl }\n"
+	    "    {   var = 0;\n"
+	    "    }\n"
+	    "    class_a(): Base{1,2,3}\n"
+	    "    {   var = 0;\n"
+	    "    }\n"
+	    "    class_a(int val0, int val1) : Base({val0, val1})\n"
+	    "    {   var = 0;\n"
+	    "    }";
+	char options[] = "style=run-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Initializer, UniformClassInitializerInlineAttachInlines)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening command type brace should be correctly identified.
+	// This type is for broken braces with attached inlines.
+	char textIn[] =
+	    "\n"
+	    "class class_a {\n"
+	    "public:\n"
+	    "    class_a() {var = 0;}\n"
+	    "    class_a(string str) : m_string{ str } {var = 0;}\n"
+	    "    class_a(string str, double dbl) : m_string{ str }, m_double{ dbl } {var = 0;}\n"
+	    "    class_a(): Base{1,2,3} {var = 0;}\n"
+	    "    class_a(int val0, int val1) : Base({val0, val1}) {var = 0;}";
+	char text[] =
+	    "\n"
+	    "class class_a\n"
+	    "{\n"
+	    "public:\n"
+	    "    class_a() {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(string str) : m_string{ str } {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(string str, double dbl) : m_string{ str }, m_double{ dbl } {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(): Base{1,2,3} {\n"
+	    "        var = 0;\n"
+	    "    }\n"
+	    "    class_a(int val0, int val1) : Base({val0, val1}) {\n"
+	    "        var = 0;\n"
+	    "    }";
+	char options[] = "style=break, attach-inlines";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(Cpp11Initializer, UniformClassInitializerInlineKeepOneLine)
+{
+	// The uniform initializer in a class initializer is an array-type.
+	// The opening command type brace should be correctly identified.
+	char textIn[] =
+	    "\n"
+	    "class class_a {\n"
+	    "public:\n"
+	    "    class_a() {var = 0;}\n"
+	    "    class_a(string str) : m_string{ str } {var = 0;}\n"
+	    "    class_a(string str, double dbl) : m_string{ str }, m_double{ dbl } {var = 0;}\n"
+	    "    class_a(): Base{1,2,3} {var = 0;}\n"
+	    "    class_a(int val0, int val1) : Base({val0, val1}) {var = 0;}";
+	char text[] =
+	    "\n"
+	    "class class_a {\n"
+	    "public:\n"
+	    "    class_a() {var = 0;}\n"
+	    "    class_a(string str) : m_string{ str } {var = 0;}\n"
+	    "    class_a(string str, double dbl) : m_string{ str }, m_double{ dbl } {var = 0;}\n"
+	    "    class_a(): Base{1,2,3} {var = 0;}\n"
+	    "    class_a(int val0, int val1) : Base({val0, val1}) {var = 0;}";
+	char options[] = "keep-one-line-blocks";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
@@ -1134,7 +1414,7 @@ TEST(Cpp11Function, BracesRunIn_Break)
 	    "        bar();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1157,7 +1437,7 @@ TEST(Cpp11Function, BracesRunIn_Attach)
 	    "        bar();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1181,7 +1461,7 @@ TEST(Cpp11Function, BracesRunIn_Linux)
 	    "        bar();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -1197,7 +1477,7 @@ TEST(Cpp11Function, BracesRunIn_RunIn)
 	    "    {   bar();\n"
 	    "    }\n"
 	    "}";
-	char options[] = "style=horstmann";
+	char options[] = "style=run-in";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;

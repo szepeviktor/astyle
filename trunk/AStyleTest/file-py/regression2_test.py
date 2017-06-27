@@ -32,11 +32,10 @@ import libtest
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN         # C# - 1000 files from SharpDevelop
 # TESTPROJECT
-__project = libastyle.CODEBLOCKS
+__project = libastyle.SHARPMAIN
 
 # select OPT0 thru OPT3, or use customized options
-# ADD xV TO LINASTYLE.PY OPTIONS **********************************
-__options = libastyle.OPT2
+__options = libastyle.OPT3
 
 # options_x are for BOTH executables
 __options_x = ""

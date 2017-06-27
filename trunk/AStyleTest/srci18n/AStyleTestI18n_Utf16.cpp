@@ -71,12 +71,9 @@ string wideCharToUtf8Str(wchar_t* wcIn)
 }
 #else
 
-//  LINUX define utf16_t
-typedef unsigned short utf16_t;
-
-size_t utf16len(const utf16_t* utf16In)
+size_t utf16len(const char16_t* utf16In)
 // LINUX return the length of a utf-16 C string.
-// The length is in number of utf16_t.
+// The length is in number of char16_t.
 {
 	size_t length = 0;
 	while (*utf16In++ != '\0')
@@ -139,10 +136,10 @@ size_t wideCharToUtf16LE(wchar_t* wcIn, size_t wcLen, char* w16Out, size_t w16Bu
 	return w16Buf - w16Left;
 }
 
-string utf16LEToUtf8Str(utf16_t* wcIn)
+string utf16LEToUtf8Str(char16_t* wcIn)
 // LINUX convert utf-16LE text (16 bit) to an 8 bit utf-8 string
 {
-	size_t wcLen = utf16len(wcIn) * sizeof(utf16_t);
+	size_t wcLen = utf16len(wcIn) * sizeof(char16_t);
 	iconv_t iconvh = iconv_open("UTF−8", "UTF−16LE");
 	if (iconvh == reinterpret_cast<iconv_t>(-1))
 	{
@@ -151,7 +148,7 @@ string utf16LEToUtf8Str(utf16_t* wcIn)
 		systemAbort("Bad iconv_open in utf16LEToUtf8Str()");
 	}
 	// allocate memory for output
-	size_t mbLen = wcLen * sizeof(utf16_t);
+	size_t mbLen = wcLen * sizeof(char16_t);
 	char* mbOut = new (nothrow) char[mbLen];
 	if (mbOut == nullptr)
 		systemAbort("Bad allocation in utf16LEToUtf8Str()");
@@ -266,7 +263,7 @@ struct ASEncoding_Class : public Test
 #ifdef _WIN32
 	string text8OutStr = wideCharToUtf8Str(reinterpret_cast<wchar_t*>(utf16Out));
 #else
-	string text8OutStr = utf16LEToUtf8Str(reinterpret_cast<utf16_t*>(utf16Out));
+	string text8OutStr = utf16LEToUtf8Str(reinterpret_cast<char16_t*>(utf16Out));
 #endif
 	EXPECT_STREQ(text8Bit, text8OutStr.c_str());
 	delete[]utf16Out;
@@ -300,7 +297,7 @@ struct ASEncoding_Class : public Test
 	string text8OutStr = wideCharToUtf8Str(reinterpret_cast<wchar_t*>(utf16Out));
 #else
 	convertEndian(utf16Out, text16Len);	// convert back to LE for native function
-	string text8OutStr = utf16LEToUtf8Str(reinterpret_cast<utf16_t*>(utf16Out));
+	string text8OutStr = utf16LEToUtf8Str(reinterpret_cast<char16_t*>(utf16Out));
 #endif
 	EXPECT_STREQ(text8Bit, text8OutStr.c_str());
 	delete[]utf16Out;

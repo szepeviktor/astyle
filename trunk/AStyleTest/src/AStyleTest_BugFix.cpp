@@ -19,6 +19,283 @@ namespace {
 // AStyle version 3.1 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V31, NonInStatementArrayOverMax)
+{
+	// discovered by fuzzing
+	// fix an exception caused by breaking a nonInStatement array.
+	char textIn[] =
+	    "\n"
+	    "isFoo\n"
+	    "{\n"
+	    "    array) { 000000000000000000000000000000000000000"   // line is continued
+	    "000000000000000000000000000000000000000 << endl; }\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "isFoo\n"
+	    "{\n"
+	    "    array) {\n"
+	    "        000000000000000000000000000000000000000"        // line is continued
+	    "000000000000000000000000000000000000000\n"
+	    "                << endl;\n"
+	    "    }\n"
+	    "}";
+	char options[] = "max-code-length=80";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, MoveBraceWithNoFollowingLine)
+{
+	// discovered by fuzzing
+	// fix an exception caused by moving a brace at end of file.
+	char textIn[] =
+	    "void Foo() { // comment";		// no CR or LF at end of line
+	char text[] =
+	    "void Foo(){    // comment";
+	char options[] = "style=break";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, MoveArrayBraceWithNoFollowingLine1)
+{
+	// discovered by fuzzing
+	// fix an exception caused by moving a brace at end of file.
+	// style=break
+	char text[] =
+	    "array = { // comment";		// no CR or LF at end of line
+	char options[] = "style=break";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, MoveArrayBraceWithNoFollowingLine2)
+{
+	// discovered by fuzzing
+	// fix an exception caused by moving a brace at end of file.
+	// style=run-in
+	char text[] =
+	    "array = { // comment";		// no CR or LF at end of line
+	char options[] = "style=run-in";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, PreviousNonWSCharInitialization)
+{
+	// discovered by fuzzing
+	// fix an exception caused by previousNonWSChar initialized with a space.
+	char text[] =
+	    "&*";
+	char options[] = "align-pointer=type, max-code-length=100";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, SplitLineInFormatPointerOrReferenceToName)
+{
+	// discovered by fuzzing
+	// fix an exception caused by inserting a pointer or reference
+	// after a split point in formatPointerOrReferenceToName()
+	char textIn[] =
+	    "\n"
+	    "void foo(char\t\t*\t\t\t\t\t\t\t\t\t\t\t\t\tbar)\n"
+	    "{}";
+	char text[] =
+	    "\n"
+	    "void foo(char\n"
+	    "         *bar)\n"
+	    "{}";
+	char options[] = "align-pointer=name, indent=tab=8, convert-tabs, max-code-length=100";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, VirginLinePreviousNonWSChar)
+{
+	// discovered by fuzzing
+	// fix an exception caused by a whitespace character.
+	char text[] =
+	    "\n"
+	    "(isFoo)\n"
+	    "{}";
+	char options[] = "max-code-length=100";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, RemoveBracesEOF)
+{
+	// discovered by fuzzing
+	// fix an exception caused by an EOF while removing braces.
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo)\n"
+	    "        bar();\n"
+	    "    else {";
+	char options[] = "remove-braces";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, RunInSpaceIndentCount)
+{
+	// discovered by fuzzing
+	// fix an exception caused by calculating a run-in spaceIndentCount
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{   do!\n"
+	    "    {   bar();\n"
+	    "    }[]\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{   do!\n"
+	    "        {   bar();\n"
+	    "        }[]\n"
+	    "    }";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, SansActiveBeautifierStack)
+{
+	// discovered by fuzzing
+	// fix an exception caused by an empty activeBeautifierStack
+	// this MUST have a \n on the last line to fail
+	char text[] =
+	    "\n"
+	    "#ifdef _WIN32\n"
+	    "#define Is_Bar(arg,P,b) \\\n"
+	    "#endif\n";
+	char options[] = "indent-preproc-define, indent-preproc-cond";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, SansDefineMacro)
+{
+	// discovered by fuzzing
+	// fix an exception caused by a define without a macro
+	char text[] =
+	    "\n"
+	    "#ifdefined\n"
+	    "#else\n"
+	    "#endif";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, EmptyHeaderStack)
+{
+	// discovered by fuzzing
+	// fix an exception accessing an empty headerStack
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    ()# else  }  if\n"
+	    "}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, EmptyActiveBeautifierStack)
+{
+	// discovered by fuzzing
+	// fix an assert failure when accessing an empty activeBeautifierStack
+	char text[] =
+	    "\n"
+	    "#ifdef _WIN32\n"
+	    "    endif #ifclude <windows.h>\n"
+	    "    #define Is_Bar(arg,a,b) \\\n"
+	    "    || Is_Foo((arg), (b)))\n"
+	    "#endif\n"
+	    "#define Is_Bar\n";
+	char options[] = "indent-preproc-block, indent-preproc-define";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, PreprocInOneLineBlock)
+{
+	// discovered by fuzzing
+	// fix an assert failure if preprocessor is contained in a one line block
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    { #define }\n"
+	    "    x = 1;\n"
+	    "    y = 2;\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    {\n"
+	    "#define \n"
+	    "    }\n"
+	    "    x = 1;\n"
+	    "    y = 2;\n"
+	    "}";
+	char options[] = "";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, NotCheckingEscapedChar)
+{
+	// discovered by fuzzing
+	// fix not checking for an escape sequence before a character
+	char text[] =
+	    "\n"
+	    "<\\voi Voi";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, AddingExtraAmpersand)
+{
+	// discovered by fuzzing
+	// fix adding a extra ampersand
+	// the "& &" became "&&&"
+	char text[] =
+	    "\n"
+	    "wa & &;\n"
+	    "wa * *;\n"
+	    "wa & *;\n"
+	    "wa * &;";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V31, ClassInitializerCrash)
 {
 	// this class initializer caused a crash when the wrong variable was checked

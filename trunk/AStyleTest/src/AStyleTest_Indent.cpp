@@ -2246,6 +2246,28 @@ TEST(IndentNamespaces, CorbaIDLModuleObjCMethod)
 	delete[] textOut;
 }
 
+TEST(IndentNamespaces, SansCorbaIDLInterface)
+{
+	// CORBA IDL interface recognized only within a module
+	// test for CORBA IDL interface
+	char text[] =
+	    "\n"
+	    "namespace abc\n"
+	    "{\n"
+	    "namespace interface\n"
+	    "{\n"
+	    "namespace xyz\n"
+	    "{\n"
+	    "\n"
+	    "}\n"
+	    "}\n"
+	    "}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Indent After Parens
 //-------------------------------------------------------------------------
@@ -3330,8 +3352,8 @@ TEST(IndentPreprocBlock, UnmatchedParen)
 	    "#define ASTYLE_MAIN_H\n"
 	    "\n"
 	    "#ifdef ASTYLE_LIB\n"
-	    "utf16_t* AStyleMain(const utf16_t* pSourceIn,\n"
-	    "                    const utf16_t* pOptions);\n"
+	    "char16_t* AStyleMain(const char16_t* pSourceIn,\n"
+	    "                     const char16_t* pOptions);\n"
 	    "#endif\n"
 	    "\n"
 	    "#endif";

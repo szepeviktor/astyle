@@ -29,9 +29,9 @@ using namespace astyle;
 // support functions
 //----------------------------------------------------------------------------
 
-size_t utf16len(const utf16_t* utf16In)
+size_t utf16len(const char16_t* utf16In)
 // Return the length of utf-16 text.
-// The length is in number of utf16_t.
+// The length is in number of char16_t.
 {
 	size_t length = 0;
 	while (*utf16In++ != '\0')
@@ -65,7 +65,7 @@ void systemAbort(const string& message)
 
 #ifdef _WIN32
 
-utf16_t* utf8ToWideChar(const char* utf8In)
+char16_t* utf8ToWideChar(const char* utf8In)
 // WINDOWS convert 8 bit utf-8 string to wide char string (16 bit)
 // The calling program must delete the returned allocation.
 {
@@ -74,10 +74,10 @@ utf16_t* utf8ToWideChar(const char* utf8In)
 		systemAbort("Bad MultiByteToWideChar in Utf8ToWideCharStr()");
 	wchar_t* wcOut = new wchar_t[wcLen];
 	MultiByteToWideChar(CP_UTF8, 0, utf8In, -1, wcOut, wcLen);
-	return reinterpret_cast<utf16_t*>(wcOut);
+	return reinterpret_cast<char16_t*>(wcOut);
 }
 
-char* wideCharToUtf8(utf16_t* utf16In)
+char* wideCharToUtf8(char16_t* utf16In)
 // WINDOWS convert wide char text (16 bit) to an 8 bit utf-8 string
 // The calling program must delete the returned allocation.
 {
@@ -92,7 +92,7 @@ char* wideCharToUtf8(utf16_t* utf16In)
 
 #else
 
-utf16_t* utf8ToUtf16(char* utf8In)
+char16_t* utf8ToUtf16(char* utf8In)
 // LINUX convert 8 bit utf-8 text to an 16 bit utf-16 text
 // The calling program must delete the returned allocation.
 {
@@ -101,7 +101,7 @@ utf16_t* utf8ToUtf16(char* utf8In)
 	if (iconvh == reinterpret_cast<iconv_t>(-1))
 		systemAbort("Bad iconv_open in utf8ToUtf16()");
 	// allocate memory for output
-	size_t wcLen = (mbLen * sizeof(utf16_t)) + sizeof(utf16_t);
+	size_t wcLen = (mbLen * sizeof(char16_t)) + sizeof(char16_t);
 	char* wcOut = new (nothrow) char[wcLen];
 	if (wcOut == nullptr)
 		systemAbort("Bad allocation in utf8ToUtf16()");
@@ -119,26 +119,26 @@ utf16_t* utf8ToUtf16(char* utf8In)
 	// Output iconv conversions to UTF-16 will have a BOM if a specific
 	// endianness is not requested (UTF-16LE or UTF-16BE).
 	// This will remove the BOM.
-	utf16_t* wc16Out = reinterpret_cast<utf16_t*>(wcOut);
+	char16_t* wc16Out = reinterpret_cast<char16_t*>(wcOut);
 	if (wc16Out[0] == 0xfeff || wc16Out[0] == 0xfffe)
 	{
 //		cout << "REMOVING UTF-16 BOM" << endl;
-		int wc16OutLen = utf16len(wc16Out) * sizeof(utf16_t);
+		int wc16OutLen = utf16len(wc16Out) * sizeof(char16_t);
 		memmove(wc16Out, wc16Out + 1, wc16OutLen - 1);
 	}
 	return wc16Out;
 }
 
-char* utf16ToUtf8(utf16_t* utf16In)
+char* utf16ToUtf8(char16_t* utf16In)
 // LINUX convert 16 bit utf-16 text to an 8 bit utf-8 string
 // The calling program must delete the returned allocation.
 {
-	size_t wcLen = utf16len(utf16In) * sizeof(utf16_t);
+	size_t wcLen = utf16len(utf16In) * sizeof(char16_t);
 	iconv_t iconvh = iconv_open("UTF−8", "UTF−16");
 	if (iconvh == reinterpret_cast<iconv_t>(-1))
 		systemAbort("Bad iconv_open in utf16ToUtf8()");
 	// allocate memory for output
-	size_t mbLen = wcLen * sizeof(utf16_t);
+	size_t mbLen = wcLen * sizeof(char16_t);
 	char* mbOut = new (nothrow) char[mbLen];
 	if (mbOut == nullptr)
 		systemAbort("Bad allocation in utf16ToUtf8()");
@@ -268,8 +268,8 @@ struct AStyleMainUtf16F1 : public Test
 // These will be compared to the variables computed by the AStyle functions.
 {
 	// variables values
-	utf16_t* text16;		// 16 bit text
-	utf16_t* options16;		// 16 bit options
+	char16_t* text16;		// 16 bit text
+	char16_t* options16;	// 16 bit options
 	char*    text8;			//  8 bit text
 
 	// c'tor - set the variables
@@ -307,7 +307,7 @@ TEST_F(AStyleMainUtf16F1, NullPointerToSource)
 {
 	// test error handling for NULL pointer to source
 	int errorsIn = getErrorHandler2Calls();
-	utf16_t* text16Out = ::AStyleMainUtf16(nullptr, options16, errorHandler2, memoryAlloc);
+	char16_t* text16Out = ::AStyleMainUtf16(nullptr, options16, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_TRUE(text16Out == nullptr);
@@ -317,7 +317,7 @@ TEST_F(AStyleMainUtf16F1, NullPointerToOptions)
 {
 	// test error handling for NULL pointer to options
 	int errorsIn = getErrorHandler2Calls();
-	utf16_t* text16Out = ::AStyleMainUtf16(text16, nullptr, errorHandler2, memoryAlloc);
+	char16_t* text16Out = ::AStyleMainUtf16(text16, nullptr, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_TRUE(text16Out == nullptr);
@@ -327,7 +327,7 @@ TEST_F(AStyleMainUtf16F1, NullPointerToErrorHandler)
 {
 	// test error handling for NULL pointer to error handler pointer
 	// this cannot call the error handler
-	utf16_t* text16Out = ::AStyleMainUtf16(text16, options16, nullptr, memoryAlloc);
+	char16_t* text16Out = ::AStyleMainUtf16(text16, options16, nullptr, memoryAlloc);
 	EXPECT_TRUE(text16Out == nullptr);
 }
 
@@ -335,7 +335,7 @@ TEST_F(AStyleMainUtf16F1, NullPointerToMemoryAlloc)
 {
 	// test error handling for NULL pointer to memory allocator
 	int errorsIn = getErrorHandler2Calls();
-	utf16_t* text16Out = ::AStyleMainUtf16(text16, options16, errorHandler2, nullptr);
+	char16_t* text16Out = ::AStyleMainUtf16(text16, options16, errorHandler2, nullptr);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_TRUE(text16Out == nullptr);
@@ -353,10 +353,10 @@ TEST_F(AStyleMainUtf16F1, InvalidOption)
 	char options[] = "invalid-option, indent=tab";
 	// convert 16 bit options
 	ASLibrary library;
-	utf16_t* options16_ = library.convertUtf8ToUtf16(options, memoryAlloc);
+	char16_t* options16_ = library.convertUtf8ToUtf16(options, memoryAlloc);
 	// test error handling for an invalid option
 	int errorsIn = getErrorHandler2Calls();
-	utf16_t* text16Out = ::AStyleMainUtf16(text16, options16_, errorHandler2, memoryAlloc);
+	char16_t* text16Out = ::AStyleMainUtf16(text16, options16_, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	// convert text16Out to utf-8
@@ -374,12 +374,12 @@ TEST_F(AStyleMainUtf16F1, InvalidOption)
 
 struct ASLibrary_Mock8 : public ASLibrary
 {
-	MOCK_CONST_METHOD1(convertUtf16ToUtf8, char* (const utf16_t*));
+	MOCK_CONST_METHOD1(convertUtf16ToUtf8, char* (const char16_t*));
 };
 
 struct ASLibrary_Mock16 : public ASLibrary
 {
-	MOCK_CONST_METHOD2(convertUtf8ToUtf16, utf16_t* (const char*, fpAlloc));
+	MOCK_CONST_METHOD2(convertUtf8ToUtf16, char16_t* (const char*, fpAlloc));
 };
 
 TEST_F(AStyleMainUtf16F1, NullConvertSource)
@@ -392,7 +392,7 @@ TEST_F(AStyleMainUtf16F1, NullConvertSource)
 	.WillOnce(Return(nullptr));
 	// test the error handling
 	int errorsIn = getErrorHandler2Calls();
-	utf16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
+	char16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_EQ(nullptr, textOut);
@@ -416,7 +416,7 @@ TEST_F(AStyleMainUtf16F1, NullConvertOptions)
 	.WillOnce(Return(nullptr));
 	// test the error handling
 	int errorsIn = getErrorHandler2Calls();
-	utf16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
+	char16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_EQ(nullptr, textOut);
@@ -435,7 +435,7 @@ TEST_F(AStyleMainUtf16F1, NullConvertFormattedText)
 	.WillOnce(Return(nullptr));
 	// test the error handling
 	int errorsIn = getErrorHandler2Calls();
-	utf16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
+	char16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_EQ(nullptr, textOut);
@@ -454,9 +454,9 @@ struct AStyleMainUtf16F2 : public Test
 {
 	// variables values set using native functions
 	char* text8;			//  8 bit text copied from c'tor
-	utf16_t* text16;		// 16 bit text
+	char16_t* text16;		// 16 bit text
 	size_t text16Len;		// 16 bit length
-	utf16_t* options16;	    // 16 bit options
+	char16_t* options16;	// 16 bit options
 	size_t options16Len;	// 16 bit length
 
 	// c'tor - set the variables
@@ -532,7 +532,7 @@ struct AStyleMainUtf16F2 : public Test
 #ifndef __BORLANDC__
 	// Test call AStyleMainUtf16() with utf-16 non-ascii characters.
 	ASLibrary library;
-	utf16_t* text16Out = library.formatUtf16(text16, options16, errorHandler, memoryAlloc);
+	char16_t* text16Out = library.formatUtf16(text16, options16, errorHandler, memoryAlloc);
 	// must convert utf16 to utf8 using native functions for gtest comparison
 #ifdef _WIN32
 	char* text8Out = wideCharToUtf8(text16Out);
