@@ -34,7 +34,8 @@ wx_paths = [
     #"C:/Programs/wxWidgets-3.0.1_vs2010",
     #"C:/Programs/wxWidgets-3.0.1_vs2012",
     #"C:/Programs/wxWidgets-3.0.2_vs2013",
-    "C:/Programs/wxWidgets-3.0.2_vs2015"
+    #"C:/Programs/wxWidgets-3.0.2_vs2015",
+    "C:/Programs/wxWidgets-3.0.3_vs2017"
 ]
 
 # -----------------------------------------------------------------------------
@@ -162,7 +163,7 @@ def check_static_config(wx_path):
         project_path = "/build/msw/wx_vc10_wxscintilla.vcxproj"
     elif "vs2012" in wx_path:
         project_path = "/build/msw/wx_vc11_wxscintilla.vcxproj"
-    elif "vs2013" in wx_path or "vs2015" in wx_path:
+    elif "vs2013" in wx_path or "vs2015" in wx_path or "vs2017" in wx_path:
         project_path = "/build/msw/wx_vc12_wxscintilla.vcxproj"
     else:
         libastylewx.system_exit("Cannot determine Visual Studio Version: " + wx_path)
@@ -196,7 +197,8 @@ def process_project_files(wx_path):
         if not (("vs2010" in wx_path and "_vc10_" in file_path)
                 or ("vs2012" in wx_path and "_vc11_" in file_path)
                 or ("vs2013" in wx_path and "_vc12_" in file_path)
-                or ("vs2015" in wx_path and "_vc12_" in file_path)):
+                or ("vs2015" in wx_path and "_vc12_" in file_path)
+                or ("vs2017" in wx_path and "_vc12_" in file_path)):
             continue
         updated_file = []           # undated file save area
         lines_changed = 0           # number of lines changed
@@ -331,7 +333,7 @@ def process_wxstc_vcxproj_file(wx_path):
         project_path = "/build/msw/wx_vc10_wxscintilla.vcxproj"
     elif "vs2012" in wx_path:
         project_path = "/build/msw/wx_vc11_wxscintilla.vcxproj"
-    elif "vs2013" in wx_path or "vs2015" in wx_path:
+    elif "vs2013" in wx_path or "vs2015" in wx_path or "vs2017" in wx_path:
         project_path = "/build/msw/wx_vc12_wxscintilla.vcxproj"
     else:
         libastylewx.system_exit("Cannot determine Visual Studio Version: " + wx_path)
@@ -409,7 +411,7 @@ def process_wxsetup_props_file(wx_path):
         return
     elif "vs2012" in wx_path:
         project_path = "/build/msw/wx_vc11_wx_setup.props"
-    elif "vs2013" in wx_path or "vs2015" in wx_path:
+    elif "vs2013" in wx_path or "vs2015" in wx_path or "vs2017" in wx_path:
         project_path = "/build/msw/wx_vc12_wx_setup.props"
     else:
         libastylewx.system_exit("Cannot determine Visual Studio Version: " + wx_path)
