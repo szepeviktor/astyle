@@ -62,7 +62,7 @@ OPT2 = "-xGSKNLwxWM60m3fpdHUxeEk3W1eJcxMxRxrxsxP0"
 #     indent-labels (L), indent-preproc-define (w),
 #     add-braces (j,J), break-blocks (f,F),
 #     pad-oper (p), delete-empty-lines (xe)
-OPT3 = "-xwM80m1DyHUEk2W3xbxjxyxpxkxcxlxnxdxgxt2"
+OPT3 = "-xwM80m1DyHUEk2W3xbxjxyxpxkxVxcxlxnxdxgxt2"
 
 # TEST SEPARATELY
 # max-code-length (xC), break-after-logical (xL)

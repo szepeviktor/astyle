@@ -2498,6 +2498,51 @@ TEST(ObjCAlignMethodColonDef, LineContainsTabs)
 	delete[] textOut;
 }
 
+TEST(ObjCAlignMethodColonDef, ExternC1)
+{
+	// Align method definition enclosed in 'extern c'.
+	char text[] =
+	    "\n"
+	    "#if defined(__cplusplus)\n"
+	    "extern \"C\" {\n"
+	    "#endif\n"
+	    "\n"
+	    "@interface A {}\n"
+	    "- (void)method:(NSInteger)parameter;\n"
+	    "@end\n"
+	    "\n"
+	    "#if defined(__cplusplus)\n"
+	    "}\n"
+	    "#endif";
+	char options[] = "align-method-colon";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCAlignMethodColonDef, ExternC2)
+{
+	// Align method definition enclosed in 'extern c'.
+	char text[] =
+	    "\n"
+	    "#if defined(__cplusplus)\n"
+	    "extern \"C\" {\n"
+	    "#endif\n"
+	    "\n"
+	    "- (NSDateComponents *) components: (NSUInteger) unitFlags\n"
+	    "                         fromDate: (NSDate *) startingDate\n"
+	    "                           toDate: (NSDate *) resultDate\n"
+	    "                          options: (NSUInteger) opts;\n"
+	    "\n"
+	    "#if defined(__cplusplus)\n"
+	    "}\n"
+	    "#endif";
+	char options[] = "align-method-colon";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Objective-C Align Method Colon for Method Call
 //-------------------------------------------------------------------------
@@ -2800,6 +2845,32 @@ TEST(ObjCAlignMethodColonCall, InStatementValue)
 	delete[] textOut;
 }
 
+TEST(ObjCAlignMethodColonCall, ExternC)
+{
+	// Test align-method-colon in an 'extern c'.
+	char text[] =
+	    "\n"
+	    "#if defined(__cplusplus)\n"
+	    "extern \"C\" {\n"
+	    "#endif\n"
+	    "\n"
+	    "-(void)Foo\n"
+	    "{\n"
+	    "    [myObj methodCall:arg1\n"
+	    "                 key2:arg2\n"
+	    "             keyword3:arg3\n"
+	    "                error:arg4];\n"
+	    "}\n"
+	    "\n"
+	    "#if defined(__cplusplus)\n"
+	    "}\n"
+	    "#endif";
+	char options[] = "align-method-colon";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Objective-C WITHOUT Align Method Colon for Method Call
 //-------------------------------------------------------------------------
@@ -3011,6 +3082,32 @@ TEST(ObjCSansAlignMethodColonCall, InStatementValue)
 	delete[] textOut;
 }
 
+TEST(ObjCSansAlignMethodColonCall, ExternC)
+{
+	// Align with default in an 'extern c'.
+	char text[] =
+	    "\n"
+	    "#if defined(__cplusplus)\n"
+	    "extern \"C\" {\n"
+	    "#endif\n"
+	    "\n"
+	    "-(void)Foo\n"
+	    "{\n"
+	    "    [myObj methodCall:arg1\n"
+	    "           key2:arg2\n"
+	    "           keyword3:arg3\n"
+	    "           error:arg4];\n"
+	    "}\n"
+	    "\n"
+	    "#if defined(__cplusplus)\n"
+	    "}\n"
+	    "#endif";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Objective-C Other Tests
 //-------------------------------------------------------------------------
@@ -3160,6 +3257,26 @@ TEST(ObjCOther, SpacesBeforeDefinition)
 	    "{ }";
 	char options[] = "align-method-colon";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	ASSERT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCOther, CStyleSubtractBeginsLine)
+{
+	// a c-style subtract that begins a line
+	// cannot be mistaken for an objective-c method.
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    m_Control->SetMarginMask(C_FOLDING_MARGIN,\n"
+	    "                             m_Control->GetMarginMask(C_FOLDING_MARGIN)\n"
+	    "                             | (  wxSCI_MASK_FOLDERS\n"
+	    "                                  - (  (1 << wxSCI_MARKNUM_CHANGEUNSAVED)\n"
+	    "                                       | (1 << wxSCI_MARKNUM_CHANGESAVED))) );\n"
+	    "}";
+	char options[] = "align-method-colon";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	ASSERT_STREQ(text, textOut);
 	delete[] textOut;
 }
