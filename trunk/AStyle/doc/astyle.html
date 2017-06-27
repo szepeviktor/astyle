@@ -32,7 +32,7 @@
 
 <body>
 
-    <h1>Artistic Style 3.0</h1>
+    <h1>Artistic Style 3.1</h1>
 
     <h2>
         A Free, Fast, and Small Automatic Formatter<br />
@@ -1522,12 +1522,12 @@ isBar = false;
         remain in the original column, if possible. Note that there is no option to unpad. Once padded, they
         stay padded.</p>
     <div class="code">
-        <pre>if (isFoo(a,b)
+        <pre>if (isFoo(a,b))
     bar(a,b);
 </pre>
         <p class="code">
             becomes:</p>
-        <pre>if (isFoo(a, b)
+        <pre>if (isFoo(a, b))
     bar(a, b);
 </pre>
     </div>
@@ -1690,32 +1690,32 @@ isBar = false;
     <div class="code">
         <pre>char* foo1;
 char &amp; foo2;
-String ^s1;</pre>
+string ^s1;</pre>
         <p class="code">
             becomes (with align-pointer=type):</p>
         <pre>char* foo1;
 char&amp; foo2;
-String^ s1;</pre>
+string^ s1;</pre>
     </div>
     <div class="code">
         <pre>char* foo1;
 char &amp; foo2;
-String ^s1;</pre>
+string ^s1;</pre>
         <p class="code">
             becomes (with align-pointer=middle):</p>
         <pre>char * foo1;
 char &amp; foo2;
-String ^ s1;</pre>
+string ^ s1;</pre>
     </div>
     <div class="code">
         <pre>char* foo1;
 char &amp; foo2;
-String ^s1;</pre>
+string ^s1;</pre>
         <p class="code">
             becomes (with align-pointer=name):</p>
         <pre>char *foo1;
 char &amp;foo2;
-String ^s1;</pre>
+string ^s1;</pre>
     </div>
     <p>
         &nbsp;</p>
@@ -1991,8 +1991,8 @@ else
             <br />
             --break-after-logical / -xL</code><br />
         The option max&#8209;code&#8209;length will break a line if the code exceeds <span class="option">#</span>
-        characters. The valid values are 50 thru 200. Lines without logical conditionals will break on a logical conditional
-        (||, &amp;&amp;, ...), comma, paren, semicolon, or space.</p>
+        characters. The valid values are <strong>50</strong> thru <strong>200</strong>. Lines without logical conditionals 
+        will break on a logical conditional (||, &amp;&amp;, ...), comma, paren, semicolon, or space.</p>
     <p>
         Some code will not be broken, such as comments, quotes, and arrays. If used with keep&#8209;one&#8209;line&#8209;blocks
         or add-one-line-braces the blocks will NOT be broken. If used with keep&#8209;one&#8209;line&#8209;statements
@@ -2000,9 +2000,9 @@ else
         break point within the max code length, the line will be broken at the first available break point after the max
         code length.</p>
     <p>
-        By default logical conditionals will be placed first in the new line. The option break&#8209;after&#8209;logical
-        will cause the logical conditionals to be placed last on the previous line. This option has no effect without
-        max&#8209;code&#8209;length.</p>
+        By default logical conditionals will be placed first in the new line. The option 
+        <strong>break&#8209;after&#8209;logical</strong> will cause the logical conditionals to be placed last on the 
+        previous line. This option has no effect without max&#8209;code&#8209;length.</p>
     <div class="code">
         <pre>if (thisVariable1 == thatVariable1 || thisVariable2 == thatVariable2 || thisVariable3 == thatVariable3)
     bar();</pre>
@@ -2280,8 +2280,8 @@ else
             --lineend=macold&nbsp;&nbsp;/ -z3
         </code><br />
         Force use of the specified line end style. Valid options are windows (CRLF), linux (LF), and macold (CR). MacOld
-        style is the format for Mac&nbsp;OS&nbsp;9 and earlier. OS&nbsp;X uses the Linux style. If one of these options
-        is not used, the line ends will be determined automatically from the input file.</p>
+        style is the format for Mac&nbsp;OS&nbsp;9 and earlier. MacOS and OS&nbsp;X uses the Linux style. If one of 
+        these options is not used, the line ends will be determined automatically from the input file.</p>
     <p>
         When <strong>redirection</strong> is used on Windows the output will always have Windows line ends. This option
         will be ignored.</p>

@@ -819,12 +819,12 @@ FileEncoding ASConsole::readFile(const string& fileName_, stringstream& in) cons
 		if (encoding == UTF_16LE || encoding == UTF_16BE)
 		{
 			// convert utf-16 to utf-8
-			size_t utf8Size = utf8_16.utf8LengthFromUtf16(data, dataSize, isBigEndian);
+			size_t utf8Size = encode.utf8LengthFromUtf16(data, dataSize, isBigEndian);
 			char* utf8Out = new (nothrow) char[utf8Size];
 			if (utf8Out == nullptr)
 				error("Cannot allocate memory for utf-8 conversion", fileName_.c_str());
-			size_t utf8Len = utf8_16.utf16ToUtf8(data, dataSize, isBigEndian, firstBlock, utf8Out);
-			assert(utf8Len == utf8Size);
+			size_t utf8Len = encode.utf16ToUtf8(data, dataSize, isBigEndian, firstBlock, utf8Out);
+			assert(utf8Len <= utf8Size);
 			in << string(utf8Out, utf8Len);
 			delete[] utf8Out;
 		}
@@ -2485,11 +2485,11 @@ void ASConsole::writeFile(const string& fileName_, FileEncoding encoding, ostrin
 	{
 		// convert utf-8 to utf-16
 		bool isBigEndian = (encoding == UTF_16BE);
-		size_t utf16Size = utf8_16.utf16LengthFromUtf8(out.str().c_str(), out.str().length());
+		size_t utf16Size = encode.utf16LengthFromUtf8(out.str().c_str(), out.str().length());
 		char* utf16Out = new char[utf16Size];
-		size_t utf16Len = utf8_16.utf8ToUtf16(const_cast<char*>(out.str().c_str()),
-		                                      out.str().length(), isBigEndian, utf16Out);
-		assert(utf16Len == utf16Size);
+		size_t utf16Len = encode.utf8ToUtf16(const_cast<char*>(out.str().c_str()),
+		                                     out.str().length(), isBigEndian, utf16Out);
+		assert(utf16Len <= utf16Size);
 		fout << string(utf16Out, utf16Len);
 		delete[] utf16Out;
 	}
@@ -2527,10 +2527,10 @@ void ASConsole::writeFile(const string& fileName_, FileEncoding encoding, ostrin
 // used by shared object (DLL) calls
 //-----------------------------------------------------------------------------
 
-utf16_t* ASLibrary::formatUtf16(const utf16_t* pSourceIn,		// the source to be formatted
-                                const utf16_t* pOptions,		// AStyle options
-                                fpError fpErrorHandler,			// error handler function
-                                fpAlloc fpMemoryAlloc) const	// memory allocation function)
+char16_t* ASLibrary::formatUtf16(const char16_t* pSourceIn,		// the source to be formatted
+                                 const char16_t* pOptions,		// AStyle options
+                                 fpError fpErrorHandler,		// error handler function
+                                 fpAlloc fpMemoryAlloc) const	// memory allocation function)
 {
 	const char* utf8In = convertUtf16ToUtf8(pSourceIn);
 	if (utf8In == nullptr)
@@ -2560,7 +2560,7 @@ utf16_t* ASLibrary::formatUtf16(const utf16_t* pSourceIn,		// the source to be f
 	if (utf8Out == nullptr)
 		return nullptr;
 	// convert text to wide char and return it
-	utf16_t* utf16Out = convertUtf8ToUtf16(utf8Out, fpMemoryAlloc);
+	char16_t* utf16Out = convertUtf8ToUtf16(utf8Out, fpMemoryAlloc);
 	delete[] utf8Out;
 	utf8Out = nullptr;
 	if (utf16Out == nullptr)
@@ -2584,26 +2584,26 @@ char* STDCALL ASLibrary::tempMemoryAllocation(unsigned long memoryNeeded)
  * Memory is allocated by the calling program memory allocation function.
  * The calling function must check for errors.
  */
-utf16_t* ASLibrary::convertUtf8ToUtf16(const char* utf8In, fpAlloc fpMemoryAlloc) const
+char16_t* ASLibrary::convertUtf8ToUtf16(const char* utf8In, fpAlloc fpMemoryAlloc) const
 {
 	if (utf8In == nullptr)
 		return nullptr;
 	char* data = const_cast<char*>(utf8In);
 	size_t dataSize = strlen(utf8In);
-	bool isBigEndian = utf8_16.getBigEndian();
-	// return size is in number of CHARs, not utf16_t
-	size_t utf16Size = (utf8_16.utf16LengthFromUtf8(data, dataSize) + sizeof(utf16_t));
+	bool isBigEndian = encode.getBigEndian();
+	// return size is in number of CHARs, not char16_t
+	size_t utf16Size = (encode.utf16LengthFromUtf8(data, dataSize) + sizeof(char16_t));
 	char* utf16Out = fpMemoryAlloc((long)utf16Size);
 	if (utf16Out == nullptr)
 		return nullptr;
 #ifdef NDEBUG
-	utf8_16.utf8ToUtf16(data, dataSize + 1, isBigEndian, utf16Out);
+	encode.utf8ToUtf16(data, dataSize + 1, isBigEndian, utf16Out);
 #else
-	size_t utf16Len = utf8_16.utf8ToUtf16(data, dataSize + 1, isBigEndian, utf16Out);
+	size_t utf16Len = encode.utf8ToUtf16(data, dataSize + 1, isBigEndian, utf16Out);
 	assert(utf16Len == utf16Size);
 #endif
-	assert(utf16Size == (utf8_16.utf16len(reinterpret_cast<utf16_t*>(utf16Out)) + 1) * sizeof(utf16_t));
-	return reinterpret_cast<utf16_t*>(utf16Out);
+	assert(utf16Size == (encode.utf16len(reinterpret_cast<char16_t*>(utf16Out)) + 1) * sizeof(char16_t));
+	return reinterpret_cast<char16_t*>(utf16Out);
 }
 
 /**
@@ -2611,22 +2611,22 @@ utf16_t* ASLibrary::convertUtf8ToUtf16(const char* utf8In, fpAlloc fpMemoryAlloc
  * The calling function must check for errors and delete the
  * allocated memory.
  */
-char* ASLibrary::convertUtf16ToUtf8(const utf16_t* utf16In) const
+char* ASLibrary::convertUtf16ToUtf8(const char16_t* utf16In) const
 {
 	if (utf16In == nullptr)
 		return nullptr;
-	char* data = reinterpret_cast<char*>(const_cast<utf16_t*>(utf16In));
+	char* data = reinterpret_cast<char*>(const_cast<char16_t*>(utf16In));
 	// size must be in chars
-	size_t dataSize = utf8_16.utf16len(utf16In) * sizeof(utf16_t);
-	bool isBigEndian = utf8_16.getBigEndian();
-	size_t utf8Size = utf8_16.utf8LengthFromUtf16(data, dataSize, isBigEndian) + 1;
+	size_t dataSize = encode.utf16len(utf16In) * sizeof(char16_t);
+	bool isBigEndian = encode.getBigEndian();
+	size_t utf8Size = encode.utf8LengthFromUtf16(data, dataSize, isBigEndian) + 1;
 	char* utf8Out = new (nothrow) char[utf8Size];
 	if (utf8Out == nullptr)
 		return nullptr;
 #ifdef NDEBUG
-	utf8_16.utf16ToUtf8(data, dataSize + 1, isBigEndian, true, utf8Out);
+	encode.utf16ToUtf8(data, dataSize + 1, isBigEndian, true, utf8Out);
 #else
-	size_t utf8Len = utf8_16.utf16ToUtf8(data, dataSize + 1, isBigEndian, true, utf8Out);
+	size_t utf8Len = encode.utf16ToUtf8(data, dataSize + 1, isBigEndian, true, utf8Out);
 	assert(utf8Len == utf8Size);
 #endif
 	assert(utf8Size == strlen(utf8Out) + 1);
@@ -3481,7 +3481,7 @@ bool ASOptions::isParamOption(const string& arg, const char* option1, const char
 // Return true if an int is big endian.
 bool ASEncoding::getBigEndian() const
 {
-	short int word = 0x0001;
+	char16_t word = 0x0001;
 	char* byte = (char*) &word;
 	return (byte[0] ? false : true);
 }
@@ -3493,7 +3493,7 @@ int ASEncoding::swap16bit(int value) const
 }
 
 // Return the length of a utf-16 C string.
-// The length is in number of utf16_t.
+// The length is in number of char16_t.
 size_t ASEncoding::utf16len(const utf16* utf16In) const
 {
 	size_t length = 0;
@@ -3510,16 +3510,16 @@ size_t ASEncoding::utf16len(const utf16* utf16In) const
 size_t ASEncoding::utf8LengthFromUtf16(const char* utf16In, size_t inLen, bool isBigEndian) const
 {
 	size_t len = 0;
-	size_t wcharLen = inLen / 2;
-	const short* uptr = reinterpret_cast<const short*>(utf16In);
-	for (size_t i = 0; i < wcharLen && uptr[i];)
+	size_t wcharLen = (inLen / 2) + (inLen % 2);
+	const char16_t* uptr = reinterpret_cast<const char16_t*>(utf16In);
+	for (size_t i = 0; i < wcharLen;)
 	{
 		size_t uch = isBigEndian ? swap16bit(uptr[i]) : uptr[i];
 		if (uch < 0x80)
 			len++;
 		else if (uch < 0x800)
 			len += 2;
-		else if ((uch >= SURROGATE_LEAD_FIRST) && (uch <= SURROGATE_TRAIL_LAST))
+		else if ((uch >= SURROGATE_LEAD_FIRST) && (uch <= SURROGATE_LEAD_LAST))
 		{
 			len += 4;
 			i++;
@@ -3828,10 +3828,10 @@ char* STDCALL javaMemoryAlloc(unsigned long memoryNeeded)
 *           /EXPORT:AStyleGetVersion=_AStyleGetVersion@0
 * No /EXPORT is required for x64
 */
-extern "C" EXPORT utf16_t* STDCALL AStyleMainUtf16(const utf16_t* pSourceIn,	// the source to be formatted
-                                                   const utf16_t* pOptions,		// AStyle options
-                                                   fpError fpErrorHandler,		// error handler function
-                                                   fpAlloc fpMemoryAlloc)		// memory allocation function
+extern "C" EXPORT char16_t* STDCALL AStyleMainUtf16(const char16_t* pSourceIn,	// the source to be formatted
+                                                    const char16_t* pOptions,	// AStyle options
+                                                    fpError fpErrorHandler,		// error handler function
+                                                    fpAlloc fpMemoryAlloc)		// memory allocation function
 {
 	if (fpErrorHandler == nullptr)         // cannot display a message if no error handler
 		return nullptr;
@@ -3852,17 +3852,17 @@ extern "C" EXPORT utf16_t* STDCALL AStyleMainUtf16(const utf16_t* pSourceIn,	// 
 		return nullptr;
 	}
 #ifndef _WIN32
-	// check size of utf16_t on Linux
+	// check size of char16_t on Linux
 	int sizeCheck = 2;
-	if (sizeof(utf16_t) != sizeCheck)
+	if (sizeof(char16_t) != sizeCheck)
 	{
-		fpErrorHandler(104, "Unsigned short is not the correct size.");
+		fpErrorHandler(104, "char16_t is not the correct size.");
 		return nullptr;
 	}
 #endif
 
 	ASLibrary library;
-	utf16_t* utf16Out = library.formatUtf16(pSourceIn, pOptions, fpErrorHandler, fpMemoryAlloc);
+	char16_t* utf16Out = library.formatUtf16(pSourceIn, pOptions, fpErrorHandler, fpMemoryAlloc);
 	return utf16Out;
 }
 
