@@ -1010,9 +1010,12 @@ string ASBeautifier::beautify(const string& originalLine)
 			if (isInDefineDefinition && !isInDefine)
 			{
 				isInDefineDefinition = false;
-				ASBeautifier* defineBeautifier = activeBeautifierStack->back();
-				activeBeautifierStack->pop_back();
-				delete defineBeautifier;
+				if (!activeBeautifierStack->empty())
+				{
+					ASBeautifier* defineBeautifier = activeBeautifierStack->back();
+					activeBeautifierStack->pop_back();
+					delete defineBeautifier;
+				}
 			}
 		}
 		if (emptyLineFill && !isInQuoteContinuation)
@@ -1128,6 +1131,9 @@ string ASBeautifier::beautify(const string& originalLine)
 		if (!backslashEndsPrevLine && isInDefineDefinition && !isInDefine)
 		{
 			isInDefineDefinition = false;
+			// this could happen with invalid input
+			if (activeBeautifierStack->size() == 0)
+				return originalLine;
 			ASBeautifier* defineBeautifier = activeBeautifierStack->back();
 			activeBeautifierStack->pop_back();
 
@@ -1278,6 +1284,7 @@ string ASBeautifier::preLineWS(int lineIndentCount, int lineSpaceIndentCount) co
 void ASBeautifier::registerContinuationIndent(const string& line, int i, int spaceIndentCount_,
                                               int tabIncrementIn, int minIndent, bool updateParenStack)
 {
+	assert(i >= -1);
 	int remainingCharNum = line.length() - i;
 	int nextNonWSChar = getNextProgramCharDistance(line, i);
 
@@ -1298,7 +1305,11 @@ void ASBeautifier::registerContinuationIndent(const string& line, int i, int spa
 	}
 
 	if (updateParenStack)
+	{
 		parenIndentStack->emplace_back(i + spaceIndentCount_ - runInIndentContinuation);
+		if (parenIndentStack->back() < 0)
+			parenIndentStack->back() = 0;
+	}
 
 	int tabIncrement = tabIncrementIn;
 
@@ -1328,7 +1339,7 @@ void ASBeautifier::registerContinuationIndent(const string& line, int i, int spa
 		continuationIndentCount = continuationIndentStack->back();
 
 	// the block opener is not indented for a NonInStatementArray
-	if ((isNonInStatementArray && line[i] == '{')
+	if ((isNonInStatementArray && i >= 0 && line[i] == '{')
 	        && !isInEnum && !braceBlockStateStack->empty() && braceBlockStateStack->back())
 		continuationIndentCount = 0;
 
@@ -1869,7 +1880,7 @@ bool ASBeautifier::isPreprocessorConditionalCplusplus(const string& line) const
 		{
 			charNum += 7;
 			charNum = preproc.find_first_not_of(" \t", charNum);
-			if (preproc.compare(charNum, 1, "(") == 0)
+			if (charNum != string::npos && preproc.compare(charNum, 1, "(") == 0)
 			{
 				++charNum;
 				charNum = preproc.find_first_not_of(" \t", charNum);
@@ -2991,7 +3002,8 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				// take care of the special case: 'else if (...)'
 				if (newHeader == &AS_IF && lastLineHeader == &AS_ELSE)
 				{
-					headerStack->pop_back();
+					if (!headerStack->empty())
+						headerStack->pop_back();
 				}
 
 				// take care of 'else'
@@ -3408,7 +3420,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			if (!isInTemplate && !(isCStyle() && parenDepth > 0))
 			{
 				const string* newHeader = findHeader(line, i, preBlockStatements);
-				// handle CORBA IDL module
+				// CORBA IDL module
 				if (newHeader == &AS_MODULE)
 				{
 					char nextChar = peekNextChar(line, i + newHeader->length() - 1);
@@ -3416,7 +3428,9 @@ void ASBeautifier::parseCurrentLine(const string& line)
 						newHeader = nullptr;
 				}
 				if (newHeader != nullptr
-				        && !(isCStyle() && newHeader == &AS_CLASS && isInEnum))	// is not 'enum class'
+				        && !(isCStyle() && newHeader == &AS_CLASS && isInEnum)	// is not 'enum class'
+				        && !(isCStyle() && newHeader == &AS_INTERFACE			// CORBA IDL interface
+				             && !(headerStack->back() == &AS_OPEN_BRACE)))
 				{
 					if (!isSharpStyle())
 						headerStack->emplace_back(newHeader);
@@ -3511,7 +3525,9 @@ void ASBeautifier::parseCurrentLine(const string& line)
 
 		// Handle Objective-C statements
 
-		if (ch == '@' && !isWhiteSpace(line[i + 1])
+		if (ch == '@'
+		        && line.length() > i + 1
+		        && !isWhiteSpace(line[i + 1])
 		        && isCharPotentialHeader(line, i + 1))
 		{
 			string curWord = getCurrentWord(line, i + 1);
@@ -3551,7 +3567,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 		}
 		else if ((ch == '-' || ch == '+')
 		         && peekNextChar(line, i) == '('
-		         && headerStack->empty()
+		         && (headerStack->empty() || prevNonSpaceCh == ';' || prevNonSpaceCh == '{')
 		         && line.find_first_not_of(" \t") == i)
 		{
 			if (isInObjCInterface)
@@ -3606,7 +3622,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				            || foundNonAssignmentOp == &AS_LS_LS))
 				{
 					// this will be true if the line begins with the operator
-					if (i < 2 && spaceIndentCount == 0)
+					if (i < foundNonAssignmentOp->length() && spaceIndentCount == 0)
 						spaceIndentCount += 2 * indentLength;
 					// align to the beginning column of the operator
 					registerContinuationIndent(line, i - foundNonAssignmentOp->length(), spaceIndentCount, tabIncrementIn, 0, false);
