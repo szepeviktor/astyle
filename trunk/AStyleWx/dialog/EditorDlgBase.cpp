@@ -35,7 +35,7 @@ EditorDlgBase::EditorDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* optionsSizer2;
 	optionsSizer2 = new wxBoxSizer( wxVERTICAL );
 	
-	m_useBottomTabs = new wxCheckBox( m_optionsPage, ID_USE_BOTTOM_TABS, _("Use bottom tabs for source files"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_useBottomTabs = new wxCheckBox( m_optionsPage, ID_USE_BOTTOM_TABS, _("Use bottom tabs for main window"), wxDefaultPosition, wxDefaultSize, 0 );
 	optionsSizer2->Add( m_useBottomTabs, 0, wxALIGN_LEFT|wxALL, 5 );
 	
 	m_useSmallToolbar = new wxCheckBox( m_optionsPage, ID_USE_SMALL_TOOLBAR, _("Use small toolbar images"), wxDefaultPosition, wxDefaultSize, 0 );

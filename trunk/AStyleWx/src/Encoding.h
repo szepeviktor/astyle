@@ -33,7 +33,6 @@ private:
 	bool m_usesBOM;
 	wxFontEncoding m_encoding;
 	wxString m_convertedText;
-	wxString m_result;
 private:
 	bool DetectEncoding(const wxString& filename);
 	bool DetectEncodingBOM(const wxByte* buffer, size_t size);

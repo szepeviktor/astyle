@@ -24,7 +24,7 @@
 					<Add option="-Wswitch" />
 					<Add option="-Wno-deprecated-declarations" />
 					<Add option="-Wempty-body" />
-					<Add option="-Wconversion" />
+					<Add option="-Wno-conversion" />
 					<Add option="-Wreturn-type" />
 					<Add option="-Wparentheses" />
 					<Add option="-Wno-format" />
@@ -65,7 +65,7 @@
 					<Add option="-Wswitch" />
 					<Add option="-Wno-deprecated-declarations" />
 					<Add option="-Wempty-body" />
-					<Add option="-Wconversion" />
+					<Add option="-Wno-conversion" />
 					<Add option="-Wreturn-type" />
 					<Add option="-Wparentheses" />
 					<Add option="-Wno-format" />
