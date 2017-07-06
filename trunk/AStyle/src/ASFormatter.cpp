@@ -1122,6 +1122,14 @@ string ASFormatter::nextLine()
 		// reset block handling flags
 		isImmediatelyPostEmptyBlock = false;
 
+		// Objective-C method prefix with no return type
+		if (isImmediatelyPostObjCMethodPrefix && currentChar != '(')
+		{
+			if (shouldPadMethodPrefix || shouldUnPadMethodPrefix)
+				padObjCMethodPrefix();
+			isImmediatelyPostObjCMethodPrefix = false;
+		}
+
 		// look for headers
 		bool isPotentialHeader = isCharPotentialHeader(currentLine, charNum);
 
@@ -1581,7 +1589,6 @@ string ASFormatter::nextLine()
 		}
 		else if ((currentChar == '-' || currentChar == '+')
 		         && (int) currentLine.find_first_not_of(" \t") == charNum
-		         && peekNextChar() == '('
 		         && !isInPotentialCalculation
 		         && (isBraceType(braceTypeStack->back(), NULL_TYPE)
 		             || (isBraceType(braceTypeStack->back(), EXTERN_TYPE))))
@@ -3181,7 +3188,7 @@ bool ASFormatter::isDereferenceOrAddressOf() const
 			return true;
 	}
 
-	// check for reference to a pointer *& (cannot have &*)
+	// check for reference to a pointer *&
 	if ((currentChar == '*' && nextChar == '&')
 	        || (previousNonWSChar == '*' && currentChar == '&'))
 		return false;
@@ -4461,22 +4468,23 @@ void ASFormatter::padParens()
 }
 
 /**
-* add or remove space padding to objective-c parens
+* add or remove space padding to objective-c method prefix (- or +)
+* if this is a '(' it begins a return type
 * these options have precedence over the padParens methods
 * the padParens method has already been called, this method adjusts
 */
 void ASFormatter::padObjCMethodPrefix()
 {
-	assert(currentChar == '(' && isImmediatelyPostObjCMethodPrefix);
+	assert(isInObjCMethodDefinition && isImmediatelyPostObjCMethodPrefix);
 	assert(shouldPadMethodPrefix || shouldUnPadMethodPrefix);
 
 	size_t prefix = formattedLine.find_first_of("+-");
 	if (prefix == string::npos)
 		return;
-	size_t paren = formattedLine.find_first_of('(');
-	if (paren == string::npos)
-		return;
-	int spaces = paren - prefix - 1;
+	size_t firstChar = formattedLine.find_first_not_of(" \t", prefix + 1);
+	if (firstChar == string::npos)
+		firstChar = formattedLine.length();
+	int spaces = firstChar - prefix - 1;
 
 	if (shouldPadMethodPrefix)
 	{

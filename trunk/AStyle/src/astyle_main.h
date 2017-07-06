@@ -201,7 +201,7 @@ public:
 	ASOptions(ASFormatter& formatterArg, ASConsole& consoleArg);
 #endif
 	string getOptionErrors() const;
-	void importOptions(istream& in, vector<string>& optionsVector);
+	void importOptions(stringstream& in, vector<string>& optionsVector);
 	bool parseOptions(vector<string>& optionsVector, const string& errorInfo);
 
 private:

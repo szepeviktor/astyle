@@ -454,7 +454,9 @@ FileEncoding ASConsole::detectEncoding(const char* data, size_t dataSize) const
 {
 	FileEncoding encoding = ENCODING_8BIT;
 
-	if (dataSize >= 4 && memcmp(data, "\x00\x00\xFE\xFF", 4) == 0)
+	if (dataSize >= 3 && memcmp(data, "\xEF\xBB\xBF", 3) == 0)
+		encoding = UTF_8BOM;
+	else if (dataSize >= 4 && memcmp(data, "\x00\x00\xFE\xFF", 4) == 0)
 		encoding = UTF_32BE;
 	else if (dataSize >= 4 && memcmp(data, "\xFF\xFE\x00\x00", 4) == 0)
 		encoding = UTF_32LE;
@@ -801,13 +803,13 @@ FileEncoding ASConsole::readFile(const string& fileName_, stringstream& in) cons
 	const int blockSize = 65536;	// 64 KB
 	ifstream fin(fileName_.c_str(), ios::binary);
 	if (!fin)
-		error("Cannot open input file", fileName_.c_str());
+		error("Cannot open file", fileName_.c_str());
 	char* data = new (nothrow) char[blockSize];
 	if (data == nullptr)
-		error("Cannot allocate memory for input file", fileName_.c_str());
+		error("Cannot allocate memory to open file", fileName_.c_str());
 	fin.read(data, blockSize);
 	if (fin.bad())
-		error("Cannot read input file", fileName_.c_str());
+		error("Cannot read file", fileName_.c_str());
 	size_t dataSize = static_cast<size_t>(fin.gcount());
 	FileEncoding encoding = detectEncoding(data, dataSize);
 	if (encoding == UTF_32BE || encoding == UTF_32LE)
@@ -832,7 +834,7 @@ FileEncoding ASConsole::readFile(const string& fileName_, stringstream& in) cons
 			in << string(data, dataSize);
 		fin.read(data, blockSize);
 		if (fin.bad())
-			error("Cannot read input file", fileName_.c_str());
+			error("Cannot read file", fileName_.c_str());
 		dataSize = static_cast<size_t>(fin.gcount());
 		firstBlock = false;
 	}
@@ -1600,7 +1602,7 @@ void ASConsole::printHelp() const
 	cout << "    2. The file called .astylerc in the directory pointed to by the\n";
 	cout << "       HOME environment variable ( i.e. $HOME/.astylerc ).\n";
 	cout << "    3. The file called astylerc in the directory pointed to by the\n";
-	cout << "       USERPROFILE environment variable (i.e. %USERPROFILE%\\astylerc).\n";
+	cout << "       APPDATA environment variable (i.e. %APPDATA%\\astylerc).\n";
 	cout << "    If a default options file is found, the options in this file will\n";
 	cout << "    be parsed BEFORE the command-line options.\n";
 	cout << "    Long options within the default option file may be written without\n";
@@ -2121,43 +2123,71 @@ void ASConsole::processOptions(const vector<string>& argvOptions)
 		{
 			char* env = getenv("ARTISTIC_STYLE_OPTIONS");
 			if (env != nullptr)
+			{
 				setOptionsFileName(env);
+				standardizePath(optionsFileName);
+			}
 		}
+		// for Linux
 		if (optionsFileName.empty())
 		{
 			char* env = getenv("HOME");
 			if (env != nullptr)
-				setOptionsFileName(string(env) + "/.astylerc");
+			{
+				string name = string(env) + "/.astylerc";
+				struct stat buffer;
+				if (stat (name.c_str(), &buffer) == 0)
+					setOptionsFileName(name);
+			}
 		}
+		// for Windows
+		if (optionsFileName.empty())
+		{
+			char* env = getenv("APPDATA");
+			if (env != nullptr)
+			{
+				string name = string(env) + "\\astylerc";
+				struct stat buffer;
+				if (stat (name.c_str(), &buffer) == 0)
+					setOptionsFileName(name);
+			}
+		}
+		// for Windows
+		// NOTE: depreciated with release 3.1, remove when appropriate
+		// there is NO test data for this option
 		if (optionsFileName.empty())
 		{
 			char* env = getenv("USERPROFILE");
 			if (env != nullptr)
-				setOptionsFileName(string(env) + "/astylerc");
+			{
+				string name = string(env) + "\\astylerc";
+				struct stat buffer;
+				if (stat (name.c_str(), &buffer) == 0)
+					setOptionsFileName(name);
+			}
 		}
-		if (!optionsFileName.empty())
-			standardizePath(optionsFileName);
 	}
 
 	// create the options file vector and parse the options for errors
 	ASOptions options(formatter, *this);
 	if (!optionsFileName.empty())
 	{
-		ifstream optionsIn(optionsFileName.c_str());
-		if (optionsIn)
+		stringstream optionsIn;
+		FileEncoding encoding = readFile(optionsFileName, optionsIn);
+		// bypass a BOM, all BOMs have been converted to utf-8
+		if (encoding == UTF_8BOM || encoding == UTF_16LE || encoding == UTF_16BE)
 		{
-			options.importOptions(optionsIn, fileOptionsVector);
-			ok = options.parseOptions(fileOptionsVector,
-			                          string(_("Invalid option file options:")));
+			char buf[4];
+			optionsIn.get(buf, 4);
+			assert(strcmp(buf, "\xEF\xBB\xBF") == 0);
 		}
-		else
-		{
-			if (optionsFileRequired)
-				error(_("Cannot open options file"), optionsFileName.c_str());
-			optionsFileName.clear();
-		}
-		optionsIn.close();
+		options.importOptions(optionsIn, fileOptionsVector);
+		ok = options.parseOptions(fileOptionsVector,
+		                          string(_("Invalid option file options:")));
 	}
+	else if (optionsFileRequired)
+		error(_("Cannot open options file"), optionsFileName.c_str());
+
 	if (!ok)
 	{
 		(*errorStream) << options.getOptionErrors() << endl;
@@ -2313,6 +2343,14 @@ void ASConsole::printVerboseHeader() const
 	// print options file
 	if (!optionsFileName.empty())
 		printf(_("Using default options file %s\n"), optionsFileName.c_str());
+	// NOTE: depreciated with release 3.1, remove when appropriate
+	if (!optionsFileName.empty())
+	{
+		char* env = getenv("USERPROFILE");
+		if (env != nullptr && optionsFileName == string(env) + "\\astylerc")
+			printf("The above options file has been DEPRECIATED\n");
+	}
+	// end depreciated
 }
 
 void ASConsole::printVerboseStats(clock_t startTime) const
@@ -3213,6 +3251,7 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	{
 		formatter.setObjCColonPaddingMode(COLON_PAD_BEFORE);
 	}
+	// NOTE: depreciated options - remove when appropriate
 	// depreciated options ////////////////////////////////////////////////////////////////////////
 	else if ( isOption(arg, "indent-preprocessor") )		// depreciated release 2.04
 	{
@@ -3252,27 +3291,6 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 		else
 			formatter.setMaxInStatementIndentLength(maxIndent);
 	}
-//  NOTE: Removed in release 2.04.
-//	else if ( isOption(arg, "b", "brackets=break") )
-//	{
-//		formatter.setBracketFormatMode(BREAK_MODE);
-//	}
-//	else if ( isOption(arg, "a", "brackets=attach") )
-//	{
-//		formatter.setBracketFormatMode(ATTACH_MODE);
-//	}
-//	else if ( isOption(arg, "l", "brackets=linux") )
-//	{
-//		formatter.setBracketFormatMode(LINUX_MODE);
-//	}
-//	else if ( isOption(arg, "u", "brackets=stroustrup") )
-//	{
-//		formatter.setBracketFormatMode(STROUSTRUP_MODE);
-//	}
-//	else if ( isOption(arg, "g", "brackets=run-in") )
-//	{
-//		formatter.setBracketFormatMode(RUN_IN_MODE);
-//	}
 	// end depreciated options ////////////////////////////////////////////////////////////////////
 #ifdef ASTYLE_LIB
 	// End of options used by GUI /////////////////////////////////////////////////////////////////
@@ -3379,7 +3397,7 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 }	// End of parseOption function
 
 // Parse options from the options file.
-void ASOptions::importOptions(istream& in, vector<string>& optionsVector)
+void ASOptions::importOptions(stringstream& in, vector<string>& optionsVector)
 {
 	char ch;
 	bool isInQuote = false;
@@ -3904,7 +3922,7 @@ extern "C" EXPORT char* STDCALL AStyleMain(const char* pSourceIn,		// the source
 	ASOptions options(formatter);
 
 	vector<string> optionsVector;
-	istringstream opt(pOptions);
+	stringstream opt(pOptions);
 
 	options.importOptions(opt, optionsVector);
 
