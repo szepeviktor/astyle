@@ -31,11 +31,11 @@ import libtest
 
 # select one of the following from libastyle
 # CODEBLOCKS
-# GWORKSPACE        # Objective-C
 # JEDIT             # Java
+# LIBSBASE          # Objective-C
 # SCITE
 # SHARPDEVELOP      # C# - Compile on Windows only
-# SHARPMAIN
+# SHARPMAIN         # C# - 1000 files from SharpDevelop
 # TESTPROJECT
 __project = libastyle.JEDIT
 

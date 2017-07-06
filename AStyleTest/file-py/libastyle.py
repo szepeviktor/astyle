@@ -23,14 +23,16 @@ else:
 
 # test project IDs
 CODEBLOCKS   = "CodeBlocks"
-GWORKSPACE   = "GWorkspace"         # Objective C
 JEDIT        = "jEdit"              # Java
-# KDEVELOP     = "KDevelop"          # C++- To complicated to compile on Windows
-# MONODEVELOP  = "MonoDevelop"       # C# - To complicated to compile on Windows
+LIBSBASE     = "libsBase"           # Objective-C
 SCITE        = "SciTE"
 SHARPDEVELOP = "SharpDevelop"       # C# - Compile on Windows only
 SHARPMAIN    = "SharpDevelopMain"   # C# - 1000 files from SharpDevelop
 TESTPROJECT  = "TestProject"
+# GWORKSPACE   = "GWorkspace"         # Objective C - Old, doesn't have latest changes
+# KDEVELOP     = "KDevelop"           # C++ - To complicated to compile on Windows
+# MONODEVELOP  = "MonoDevelop"        # C# - To complicated to compile on Windows
+
 
 # astyle test options
 
@@ -448,6 +450,7 @@ def get_project_excludes(project):
         # propgrid.cpp is the macro IMPLEMENT_GET_VALUE
         # sqplus.h aborts on verifyBeautifierStacks because of unmatched paren
         # sqvm.cpp doesn't compile because of _RET_SUCCEED macro used with --remove-braces
+        excludes.append("--exclude=wx/pdfpattern.h");
         excludes.append("--exclude=wx/wxscintilla.h")
         excludes.append("--exclude=wx/propgrid/advprops.h")
         excludes.append("--exclude=wx/propgrid/manager.h")
@@ -455,8 +458,8 @@ def get_project_excludes(project):
         excludes.append("--exclude=sqplus/sqplus.h")
         excludes.append("--exclude=squirrel/sqvm.cpp")
         # excludes.append("--exclude=propgrid/propgrid.cpp")
-    elif project == GWORKSPACE:
-        excludes.append("--exclude=GNUstep.h")
+#    elif project == GWORKSPACE:
+#        excludes.append("--exclude=GNUstep.h")
 #	elif project == KDEVELOP:
 #		excludes.append("--exclude=app_templates")
 #		excludes.append("--exclude=autotools/autotools_lex.cpp")
@@ -481,9 +484,9 @@ def get_project_filepaths(project):
         filepaths.append(test_directory + "/CodeBlocks/src/*.cpp")
         # filepath.append(test_directory + "/CodeBlocks/src/*.cxx")
         filepaths.append(test_directory + "/CodeBlocks/src/*.h")
-    elif project == GWORKSPACE:
-        filepaths.append(test_directory + "/GWorkspace/*.m")
-        filepaths.append(test_directory + "/GWorkspace/*.h")
+#    elif project == GWORKSPACE:
+#        filepaths.append(test_directory + "/GWorkspace/*.m")
+#        filepaths.append(test_directory + "/GWorkspace/*.h")
     elif project == JEDIT:
         filepaths.append(test_directory + "/jEdit/*.java")
 #	elif project == KDEVELOP:
@@ -491,6 +494,9 @@ def get_project_filepaths(project):
 #		filepaths.append(test_directory + "/KDevelop/*.h")
 #	elif project == MONODEVELOP:
 #		filepaths.append(test_directory + "/MonoDevelop/src/*.cs")
+    elif project == LIBSBASE:
+        filepaths.append(test_directory + "/libsBase/*.m")
+        filepaths.append(test_directory + "/libsBase/*.h")
     elif project == SCITE:
         filepaths.append(test_directory + "/SciTE/*.cxx")
         filepaths.append(test_directory + "/SciTE/*.h")

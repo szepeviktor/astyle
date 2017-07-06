@@ -412,7 +412,8 @@ string TersePrinter::ReplaceSummaryString(const string& summary_) const
 			}
 			// assume a Windows directory separator
 			else
-				summary.replace(si, 2, 1, '/');
+				++si;
+//				summary.replace(si, 2, 1, '/');   // changed 7/2/2017
 		}
 	}
 	return summary;
