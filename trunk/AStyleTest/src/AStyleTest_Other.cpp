@@ -16,7 +16,7 @@
 namespace {
 //
 //----------------------------------------------------------------------------
-// AStyle indent-off tag
+// AStyle indent-off line tag
 //----------------------------------------------------------------------------
 
 TEST(DisableFormatting, IndentOffTagLineComments)
@@ -368,7 +368,7 @@ TEST(DisableFormatting, MissingIndentOnTag2)
 }
 
 //----------------------------------------------------------------------------
-// AStyle indent-off line tag
+// AStyle no-pad line tag
 //----------------------------------------------------------------------------
 
 TEST(DisableLineFormatting, LineTagOperators)

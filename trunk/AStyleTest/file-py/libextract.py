@@ -34,12 +34,14 @@ def extract_project(project, all_files_option):
         __extract_all_files = True
     if project == libastyle.CODEBLOCKS:
         extract_codeblocks()
-    elif project == libastyle.GWORKSPACE:
-        extract_gworkspace()
+#    elif project == libastyle.GWORKSPACE:
+#        extract_gworkspace()
     elif project == libastyle.JEDIT:
         extract_jedit()
 #	elif project == libastyle.KDEVELOP:
 #		extract_kdevelop()
+    elif project == libastyle.LIBSBASE:
+        extract_libsbase()
 #	elif project == libastyle.MONODEVELOP:
 #		extract_monodevelop()
     elif project == libastyle.SCITE:
@@ -147,6 +149,16 @@ def extract_kdevelop():
     remove_test_directory("[Kk][Dd]evelop")
     extract_test_tar("kdevelop*.gz", "hpO5ya*.tar", ["*.cpp", "*.h"])
     rename_test_directory("kdevelop-*", "KDevelop")
+
+# -----------------------------------------------------------------------------
+
+def  extract_libsbase():
+    """Extract libsBasep files from archive to test directory.
+    """
+    remove_test_directory("libs-base-*")
+    remove_test_directory("[Ll]ibs[Bb]ase")
+    extract_test_zip("libs-base*.zip", "", ["*.m", "*.h"])
+    rename_test_directory("libs-base-*", "libsBase")
 
 # -----------------------------------------------------------------------------
 

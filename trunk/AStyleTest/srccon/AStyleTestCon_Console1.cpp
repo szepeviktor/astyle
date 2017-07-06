@@ -31,7 +31,7 @@ TEST(ProcessOptions, ExcludeVector)
 // test processOptions for excludeVector
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build excludeVector
 	vector<string> excludesIn;
 	excludesIn.push_back("--exclude=../dir1/prog1.cpp");
@@ -59,14 +59,13 @@ TEST(ProcessOptions, ExcludeVector)
 	EXPECT_EQ(excludesIn.size(), excludeVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < excludeVector.size(); i++)
 		EXPECT_EQ(excludes[i], excludeVector[i]);
-	delete console;
 }
 
 TEST(ProcessOptions, ExcludeHitsVector)
 // test processOptions for excludeHitsVector
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build excludeHitsVector
 	vector<string> excludesIn;
 	excludesIn.push_back("--exclude=../dir/prog1.cpp");
@@ -81,14 +80,13 @@ TEST(ProcessOptions, ExcludeHitsVector)
 	EXPECT_EQ(excludesIn.size(), excludeHitsVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < excludeHitsVector.size(); i++)
 		EXPECT_FALSE(excludeHitsVector[i]);
-	delete console;
 }
 
 TEST(ProcessOptions, FileNameVector)
 // test processOptions for fileNameVector
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build fileNameVector
 	vector<string> fileNameIn;
 	fileNameIn.push_back("../..\\..\\srccon/*.cpp");
@@ -101,14 +99,13 @@ TEST(ProcessOptions, FileNameVector)
 	EXPECT_EQ(fileName.size(), fileNameVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < fileNameVector.size(); i++)
 		EXPECT_EQ(fileName[i], fileNameVector[i]);
-	delete console;
 }
 
 TEST(ProcessOptions, OptionsVector)
 // test processOptions for optionsVector
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsVector
 	vector<string> optionsIn;
 	optionsIn.push_back("--style=allman");
@@ -122,14 +119,13 @@ TEST(ProcessOptions, OptionsVector)
 	EXPECT_EQ(optionsIn.size(), optionsVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < optionsVector.size(); i++)
 		EXPECT_EQ(optionsIn[i], optionsVector[i]);
-	delete console;
 }
 
 TEST(ProcessOptions, GetCurrentDirectory)
 // test getCurrentDirectory function
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	console->setNoBackup(true);
 	console->setIsQuiet(true);		// change this to see results
 	char textIn[] = "void foo(){}\n";
@@ -155,7 +151,6 @@ TEST(ProcessOptions, GetCurrentDirectory)
 	vector<string> fileName = console->getFileName();
 	EXPECT_EQ(testFilePath, fileName[0]);
 	removeTestFile(testFilePath);
-	delete console;
 }
 
 TEST(ProcessOptions, OtherOptions)
@@ -163,7 +158,7 @@ TEST(ProcessOptions, OtherOptions)
 // the "lineend" option is tested separately
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// set console options
 	vector<string> optionsIn;
 	optionsIn.push_back("--suffix=none");
@@ -186,14 +181,13 @@ TEST(ProcessOptions, OtherOptions)
 	EXPECT_TRUE(console->getIsQuiet());
 	EXPECT_TRUE(console->getErrorStream() == &cout);
 	EXPECT_TRUE(console->getPreserveDate());
-	delete console;
 }
 
 TEST(ProcessOptions, OtherOptions_Short)
 // test processOptions for short other options
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// set console options
 	vector<string> optionsIn;
 	optionsIn.push_back("-n");	// suffix=none
@@ -213,14 +207,13 @@ TEST(ProcessOptions, OtherOptions_Short)
 	EXPECT_TRUE(console->getIsQuiet());
 	EXPECT_TRUE(console->getErrorStream() == &cout);
 	EXPECT_TRUE(console->getPreserveDate());
-	delete console;
 }
 
 TEST(ProcessOptions, ConsoleOptions_Error)
 // test processOptions for command line options errors
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--style=allman");
@@ -241,7 +234,6 @@ TEST(ProcessOptions, ConsoleOptions_Error)
 	            "invalid3\n\n"
 	            "For help on options type 'astyle -h'");
 #endif
-	delete console;
 }
 
 //----------------------------------------------------------------------------
@@ -253,14 +245,13 @@ TEST(ProcessOptions, AsciiOption)
 // For a complete test the user locale should be something besides English.
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--ascii");
 	console->processOptions(optionsIn);
 	string langID = console->getLanguageID();
 	EXPECT_EQ(langID, "en");
-	delete console;
 }
 
 TEST(ProcessOptions, AsciiOption_Short)
@@ -268,7 +259,7 @@ TEST(ProcessOptions, AsciiOption_Short)
 // For a complete test the user locale should be something besides English.
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("-I");
@@ -276,14 +267,13 @@ TEST(ProcessOptions, AsciiOption_Short)
 	// test the language
 	string langID = console->getLanguageID();
 	EXPECT_EQ(langID, "en");
-	delete console;
 }
 
 TEST(ProcessOptions, StdInOption)
 // test processOptions for stdin= option
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsIn
 	vector<string> optionsIn;
 	string path = "../../folderin/filein.cpp";
@@ -293,14 +283,13 @@ TEST(ProcessOptions, StdInOption)
 	console->standardizePath(path);
 	string filepath = console->getStdPathIn();
 	EXPECT_EQ(filepath, path);
-	delete console;
 }
 
 TEST(ProcessOptions, StdOutOption)
 // test processOptions for stdout= option
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsIn
 	vector<string> optionsIn;
 	string path = "../../folderout/fileout.cpp";
@@ -310,14 +299,13 @@ TEST(ProcessOptions, StdOutOption)
 	console->standardizePath(path);
 	string filepath = console->getStdPathOut();
 	EXPECT_EQ(filepath, path);
-	delete console;
 }
 
 TEST(ProcessOptions, IgnoreExcludeErrorsOption)
 // test processOptions for ignore-exclude-errors option
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// set console options
 	vector<string> optionsIn;
 	optionsIn.push_back("--ignore-exclude-errors");
@@ -325,14 +313,13 @@ TEST(ProcessOptions, IgnoreExcludeErrorsOption)
 	// check console options
 	EXPECT_TRUE(console->getIgnoreExcludeErrors());
 	EXPECT_FALSE(console->getIgnoreExcludeErrorsDisplay());
-	delete console;
 }
 
 TEST(ProcessOptions, IgnoreExcludeErrorsOption_Short)
 // test processOptions for ignore-exclude-errors short option
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// set console options
 	vector<string> optionsIn;
 	optionsIn.push_back("-i");
@@ -340,14 +327,13 @@ TEST(ProcessOptions, IgnoreExcludeErrorsOption_Short)
 	// check console options
 	EXPECT_TRUE(console->getIgnoreExcludeErrors());
 	EXPECT_FALSE(console->getIgnoreExcludeErrorsDisplay());
-	delete console;
 }
 
 TEST(ProcessOptions, IgnoreExcludeErrorsAndDisplayOption)
 // test processOptions for ignore-exclude-errors-x option
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// set console options
 	vector<string> optionsIn;
 	optionsIn.push_back("--ignore-exclude-errors-x");
@@ -355,14 +341,13 @@ TEST(ProcessOptions, IgnoreExcludeErrorsAndDisplayOption)
 	// check console options
 	EXPECT_TRUE(console->getIgnoreExcludeErrors());
 	EXPECT_TRUE(console->getIgnoreExcludeErrorsDisplay());
-	delete console;
 }
 
 TEST(ProcessOptions, IgnoreExcludeErrorsAndDisplayOption_Short)
 // test processOptions for ignore-exclude-errors-x short option
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// set console options
 	vector<string> optionsIn;
 	optionsIn.push_back("-xi");
@@ -370,7 +355,6 @@ TEST(ProcessOptions, IgnoreExcludeErrorsAndDisplayOption_Short)
 	// check console options
 	EXPECT_TRUE(console->getIgnoreExcludeErrors());
 	EXPECT_TRUE(console->getIgnoreExcludeErrorsDisplay());
-	delete console;
 }
 
 //----------------------------------------------------------------------------
@@ -382,7 +366,7 @@ TEST(ProcessFileOptions, OptionsPath)
 // test processOptions for fileOptionsVector with --options=###
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	char fileIn[] =
 	    "# this line is a comment\n"
 	    "--style=attach   # this is a line-end comment\n"
@@ -432,7 +416,6 @@ TEST(ProcessFileOptions, OptionsPath)
 	for (size_t i = 0; i < fileOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
 	removeTestFile(optionsFileName);
-	delete console;
 }
 
 TEST(ProcessFileOptions, AStyleEnvironmentVariable)
@@ -440,7 +423,7 @@ TEST(ProcessFileOptions, AStyleEnvironmentVariable)
 //     with ARTISTIC_STYLE_OPTIONS enviromnent variable
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	char fileIn[] =
 	    "--style=allman\n"
 	    "-OoP\n"
@@ -476,14 +459,13 @@ TEST(ProcessFileOptions, AStyleEnvironmentVariable)
 	putenv(const_cast<char*>(envClear.c_str()));
 	// cleanup
 	removeTestFile(envFilePath);
-	delete console;
 }
 
 TEST(ProcessFileOptions, HomeEnvironmentVariable)
 // test processOptions for fileOptionsVector with $HOME options
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	char fileIn[] =
 	    "--style=allman\n"
 	    "-OoP\n"
@@ -506,7 +488,6 @@ TEST(ProcessFileOptions, HomeEnvironmentVariable)
 	for (size_t i = 0; i < fileOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
 	removeTestFile(optionsFileName);
-	delete console;
 }
 
 TEST(ProcessFileOptions, DisabledOptionsFile)
@@ -514,7 +495,7 @@ TEST(ProcessFileOptions, DisabledOptionsFile)
 // should not process the astylerc file
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	char fileIn[] =
 	    "--style=allman\n"
 	    "-OoP\n"
@@ -532,7 +513,6 @@ TEST(ProcessFileOptions, DisabledOptionsFile)
 	vector<string> fileOptionsVector = console->getFileOptionsVector();
 	EXPECT_TRUE(fileOptionsVector.size() == 0);
 	removeTestFile(optionsFileName);
-	delete console;
 }
 
 TEST(ProcessFileOptions, NoFinalLineEnd)
@@ -540,7 +520,7 @@ TEST(ProcessFileOptions, NoFinalLineEnd)
 //    and NO final line end
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	char fileIn[] =
 	    "--style=allman\n"
 	    "-OoP\n"
@@ -564,14 +544,13 @@ TEST(ProcessFileOptions, NoFinalLineEnd)
 	for (size_t i = 0; i < fileOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
 	removeTestFile(optionsFileName);
-	delete console;
 }
 
 TEST(ProcessFileOptions, OptionErrors)
 // test processOptions for file option errors
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	char fileIn[] =
 	    "--style=allman\n"
 	    "-OoP\n"
@@ -607,7 +586,6 @@ TEST(ProcessFileOptions, OptionErrors)
 	            "For help on options type 'astyle -h'");
 #endif
 	removeTestFile(optionsFileName);
-	delete console;
 }
 
 TEST(ProcessFileOptions, FileError1)
@@ -616,7 +594,7 @@ TEST(ProcessFileOptions, FileError1)
 // invalidrc.txt is not a valid file
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsIn
 	string optionsFileName = "../../srccon/invalidrc.txt";
 	console->standardizePath(optionsFileName);
@@ -628,9 +606,8 @@ TEST(ProcessFileOptions, FileError1)
 	// test processOptions with options file error
 	EXPECT_EXIT(console->processOptions(optionsIn),
 	            ExitedWithCode(EXIT_FAILURE),
-	            "Cannot open options file");
+	            "Cannot open file");
 #endif
-	delete console;
 }
 
 TEST(ProcessFileOptions, FileError2)
@@ -638,7 +615,7 @@ TEST(ProcessFileOptions, FileError2)
 // input with --options= (no filename)
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--options=");
@@ -648,9 +625,8 @@ TEST(ProcessFileOptions, FileError2)
 	// test processOptions with options file error
 	EXPECT_EXIT(console->processOptions(optionsIn),
 	            ExitedWithCode(EXIT_FAILURE),
-	            "Cannot open options file");
+	            "Cannot open file");
 #endif
-	delete console;
 }
 
 TEST(ProcessFileOptions, Excludes)
@@ -659,7 +635,7 @@ TEST(ProcessFileOptions, Excludes)
 // the quotes must be removed from the excludeVector
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	char fileIn[] =
 	    "--exclude=\"prog 1.cpp\"\n"
 	    "exclude=\"\\prog 2.cpp\"\n"
@@ -701,7 +677,134 @@ TEST(ProcessFileOptions, Excludes)
 	for (size_t i = 0; i < excludeVector.size(); i++)
 		EXPECT_EQ(excludesOut[i], excludeVector[i]);
 	removeTestFile(optionsFileName);
-	delete console;
+}
+
+TEST(ProcessFileOptions, Utf8BOM)
+// test processOptions for fileOptionsVector with --options=###
+// and with a UTF-8 BOM
+{
+	ASFormatter formatter;
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
+	char fileIn[] =
+	    "\xEF\xBB\xBF"			// utf-8 bom
+	    "--style=allman\n"
+	    "-OoP\n"
+	    "--indent-classes\n";
+	vector<string> fileOptions;
+	fileOptions.push_back("--style=allman");
+	fileOptions.push_back("-OoP");
+	fileOptions.push_back("--indent-classes");
+	// write the options file
+	string optionsFileName = getTestDirectory() + "/astylerc.txt";
+	console->standardizePath(optionsFileName);
+	if (!writeOptionsFile(optionsFileName, fileIn))
+		return;
+	// build fileOptionsVector
+	vector<string> optionsIn;
+	optionsIn.push_back("--options=" + optionsFileName);
+	console->processOptions(optionsIn);
+	// check fileOptionsVector
+	vector<string> fileOptionsVector = console->getFileOptionsVector();
+	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < fileOptionsVector.size(); i++)
+		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
+	removeTestFile(optionsFileName);
+}
+
+TEST(ProcessFileOptions, Utf16LE)
+// test processOptions for fileOptionsVector with --options=###
+// and with UTF-16LE BOM and encoding
+{
+	ASFormatter formatter;
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
+	char fileIn[] =
+	    "\xEF\xBB\xBF"			// utf-8 bom to be converted
+	    "--style=allman\n"
+	    "-OoP\n"
+	    "--indent-classes\n";
+	vector<string> fileOptions;
+	fileOptions.push_back("--style=allman");
+	fileOptions.push_back("-OoP");
+	fileOptions.push_back("--indent-classes");
+
+	// convert options file to utf-16le
+	ASEncoding encode;         // file encoding conversion from astyle
+	ostringstream out;
+	size_t utf16Size = encode.utf16LengthFromUtf8(fileIn, strlen(fileIn));
+	unique_ptr<char> utf16Out(new char[utf16Size]);
+	size_t utf16Len = encode.utf8ToUtf16(fileIn, strlen(fileIn), false, utf16Out.get());
+	EXPECT_TRUE(utf16Len <= utf16Size) << "Bad conversion length.";
+
+	// write the utf-16le options file
+	string optionsFileName = getTestDirectory() + "/astylerc.txt";
+	console->standardizePath(optionsFileName);
+	ofstream fout(optionsFileName.c_str(), ios::binary | ios::trunc);
+	fout << string(utf16Out.get(), utf16Len);
+	if (!fout)
+	{
+		systemPause("Cannot write options test file: " + optionsFileName);
+		return;
+	}
+	fout.close();
+
+	// build fileOptionsVector
+	vector<string> optionsIn;
+	optionsIn.push_back("--options=" + optionsFileName);
+	console->processOptions(optionsIn);
+	// check fileOptionsVector
+	vector<string> fileOptionsVector = console->getFileOptionsVector();
+	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < fileOptionsVector.size(); i++)
+		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
+	removeTestFile(optionsFileName);
+}
+
+TEST(ProcessFileOptions, Utf16BE)
+// test processOptions for fileOptionsVector with --options=###
+// and with UTF-16BE BOM and encoding
+{
+	ASFormatter formatter;
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
+	char fileIn[] =
+	    "\xEF\xBB\xBF"			// utf-8 bom to be converted
+	    "--style=allman\n"
+	    "-OoP\n"
+	    "--indent-classes\n";
+	vector<string> fileOptions;
+	fileOptions.push_back("--style=allman");
+	fileOptions.push_back("-OoP");
+	fileOptions.push_back("--indent-classes");
+
+	// convert options file to utf-16be
+	ASEncoding encode;         // file encoding conversion from astyle
+	ostringstream out;
+	size_t utf16Size = encode.utf16LengthFromUtf8(fileIn, strlen(fileIn));
+	unique_ptr<char> utf16Out(new char[utf16Size]);
+	size_t utf16Len = encode.utf8ToUtf16(fileIn, strlen(fileIn), true, utf16Out.get());
+	EXPECT_TRUE(utf16Len <= utf16Size) << "Bad conversion length.";
+
+	// write the utf-16be options file
+	string optionsFileName = getTestDirectory() + "/astylerc.txt";
+	console->standardizePath(optionsFileName);
+	ofstream fout(optionsFileName.c_str(), ios::binary | ios::trunc);
+	fout << string(utf16Out.get(), utf16Len);
+	if (!fout)
+	{
+		systemPause("Cannot write options test file: " + optionsFileName);
+		return;
+	}
+	fout.close();
+
+	// build fileOptionsVector
+	vector<string> optionsIn;
+	optionsIn.push_back("--options=" + optionsFileName);
+	console->processOptions(optionsIn);
+	// check fileOptionsVector
+	vector<string> fileOptionsVector = console->getFileOptionsVector();
+	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < fileOptionsVector.size(); i++)
+		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
+	removeTestFile(optionsFileName);
 }
 
 //----------------------------------------------------------------------------
@@ -825,46 +928,41 @@ TEST_F(FileSuffixF, SansDot)
 TEST(StringEndsWith, FileExtension_True)
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	bool result1 = console->stringEndsWith("fileName.cpp", string(".cpp"));
 	EXPECT_TRUE(result1);
-	delete console;
 }
 
 TEST(StringEndsWith, FileExtension_False)
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	bool result2 = console->stringEndsWith("fileName.cpp", string(".xxx"));
 	EXPECT_FALSE(result2);
-	delete console;
 }
 
 TEST(StringEndsWith, SansFileExtension)
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	bool result3 = console->stringEndsWith("fileNamenoextension", string("noextension"));
 	EXPECT_TRUE(result3);
-	delete console;
 }
 
 TEST(StringEndsWith, WholeName)
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	bool result4 = console->stringEndsWith("wholename", string("wholename"));
 	EXPECT_TRUE(result4);
-	delete console;
 }
 
 TEST(StringEndsWith, TestLongerThanName)
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	bool result5 = console->stringEndsWith("long", string("xlong"));
 	EXPECT_FALSE(result5);
-	delete console;
 }
 
 //----------------------------------------------------------------------------
@@ -1116,7 +1214,7 @@ TEST(Checksum, CheckSumError)
 	    "    fooBar2();\n";
 	// initialization
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	console->setIsQuiet(true);		// change this to see results
 	console->setNoBackup(true);
 	// write test file
@@ -1134,7 +1232,6 @@ TEST(Checksum, CheckSumError)
 	console->processFiles();
 	// Will actually get an assert error in astyle_main.cpp if this is not true.
 	EXPECT_TRUE(formatter.getChecksumDiff() == 0);
-	delete console;
 }
 
 //----------------------------------------------------------------------------
@@ -1398,7 +1495,7 @@ TEST(RemovedOptions, V202)
 // test that removed options are rejected with a message
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--brackets=horstmann");
@@ -1420,14 +1517,13 @@ TEST(RemovedOptions, V202)
 	            "B\n"
 	            "G\n");
 #endif
-	delete console;
 }
 
 TEST(RemovedOptions, V204)
 // test that removed options are rejected with a message
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--brackets=attach");
@@ -1458,7 +1554,6 @@ TEST(RemovedOptions, V204)
 	            "l\n"
 	            "u\n");
 #endif
-	delete console;
 }
 
 //----------------------------------------------------------------------------

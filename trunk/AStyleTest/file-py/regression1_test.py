@@ -24,8 +24,8 @@ import libtest
 
 # select one of the following from libastyle
 # CODEBLOCKS
-# GWORKSPACE        # Objective-C
 # JEDIT             # Java
+# LIBSBASE          # Objective-C
 # SCITE
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN         # C# - 1000 files from SharpDevelop
@@ -41,7 +41,7 @@ __options_x = ""
 __options_x2 = ""
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle30"
+__astyleexe1 = "astyle30a"
 __astyleexe2 = "astyled"
 
 # select one of the following to unarchive files

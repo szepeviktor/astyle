@@ -54,7 +54,7 @@ TEST(DetectEncoding, Detect_Utf8)
 	auto console = new ASConsole(formatter);
 	const char text8Bit[] = "\xEF\xBB\xBF";
 	FileEncoding encoding8Bit = console->detectEncoding(text8Bit, strlen(text8Bit));
-	EXPECT_TRUE(encoding8Bit == ENCODING_8BIT);
+	EXPECT_TRUE(encoding8Bit == UTF_8BOM);
 	delete console;
 }
 

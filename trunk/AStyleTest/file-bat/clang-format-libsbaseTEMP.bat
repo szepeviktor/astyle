@@ -1,16 +1,17 @@
-@REM Format GWorkspace using clang-format.
-@REM Then format GWorkspace using AStyle.
+@REM Format libsBase using clang-format.
+@REM Then format libsBase using AStyle.
 @REM Then the two formats can be compared.
 @echo off
 
 REM style options are Chromium, Google, LLVM, Mozilla, WebKit
-set styleopt=google
+set styleopt=gnu-test
 set progdir=%USERPROFILE%\.vscode\extensions\ms-vscode.cpptools-0.12.0\LLVM\bin
 ::set comp=C:\Program Files (x86)\WinMerge\WinMergeU
 set comp=C:\Program Files (x86)\Diffinity\Diffinity
-set testdir=%USERPROFILE%\Projects\TestData\GWorkspace
+set basename=libs-base-release-0_6_6
+set testdir=%USERPROFILE%\Projects\TestData\libsBase
 set astyle=%USERPROFILE%\Projects\AStyle\build\vs2017\debug\AStyled.exe
-::set astyle=%USERPROFILE%\Projects\AStyle\build\vs2015\bin\AStyle.exe
+::set astyle=%USERPROFILE%\Projects\AStyle\build\vs2017\bin\AStyle.exe
 
 
 REM check that the programs are available
@@ -26,17 +27,17 @@ pause
 exit 1
 )
 
-if exist %testdir% (
+if exist "%testdir%" (
 echo.
-echo Removing TestData\GWorkspace
-rd  /s /q  %testdir%
-timeout 1
+echo Removing TestData\libsBase
+rd  /s /q  "%testdir%"
+timeout 2
 )
 
 echo.
-echo Extracting TestData\GWorkspace
-"C:/Program Files/7-Zip/7z.exe"  x  -r  -y  -x!Testing  -o"%USERPROFILE%\Projects\TestData\"  "%USERPROFILE%\Projects\TestArchives\gworkspace-0.8.6.tar" *m *h  > NUL
-move  %testdir%-0.8.6  %testdir%
+echo Extracting TestData\libsBase
+"C:/Program Files/7-Zip/7z.exe"  x  -r  -y  -o"%USERPROFILE%\Projects\TestData\"  "%USERPROFILE%\Projects\TestArchives\%basename%.zip" *m *h  > NUL
+move  "%USERPROFILE%\Projects\TestData\%basename%"  %testdir%
 
 echo.
 cd  %testdir%
@@ -46,6 +47,7 @@ echo Copying clang-%styleopt%.yaml configurating file
 copy ..\..\AStyle\file\clang-%styleopt%.yaml  _clang-format
 echo.
 
+REM NOTE: THE -clang IN THE REDIRECTION CAUSES A WARNING
 echo Formatting with clang-format
 if exist *-clang  del /s /q  *-clang > NUL
 for /R %%v in (*.m) do (
@@ -54,16 +56,16 @@ for /R %%v in (*.m) do (
 )
 
 echo.
-"%astyle%"  --options=..\..\AStyle\file\%styleopt%.ini  -vRQ  *.m
+"%astyle%"  --options=..\..\AStyle\file\gnu.ini  -vRQ  *.m
 :: echo.
 :: "%astyle%"  --options=..\..\AStyle\file\%styleopt%.ini  -vRQ  *.h
 
-echo.
-echo Displaying files
-cd  %testdir%
-for /R %%v in (*.m) do (
-"%comp%"  %%v  %%v-clang
-)
+REM ~ echo.
+REM ~ echo Displaying files
+REM ~ cd  %testdir%
+REM ~ for /R %%v in (*.m) do (
+REM ~ "%comp%"  %%v  %%v-clang
+REM ~ )
 
 REM ~ echo.
 REM ~ echo Displaying specific files
@@ -73,5 +75,5 @@ REM ~ "%comp%\WinMergeU"  %%v  %%v-clang
 REM ~ )
 
 echo.
-echo * * * *   end of clang-format-gworkspace   * * * *
+echo * * * *   end of clang-format-libsbase   * * * *
 pause

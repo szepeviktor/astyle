@@ -719,6 +719,32 @@ TEST(ObjCPadMethodPrefix, PadParenOutComments)
 	delete[] textOut;
 }
 
+TEST(ObjCPadMethodPrefix, SansReturnType)
+{
+	// Test pad method prefix without a return type.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-Foo1;       // comment\n"
+	    "+ Foo2;      // comment\n"
+	    "-    Foo3;   /* comment */\n"
+	    "\n"
+	    "-Foo4        // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "- Foo1;      // comment\n"
+	    "+ Foo2;      // comment\n"
+	    "- Foo3;      /* comment */\n"
+	    "\n"
+	    "- Foo4       // comment\n"
+	    "{ }";
+	char options[] = "pad-method-prefix";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Objective-C UnPad Method Prefix
 //-------------------------------------------------------------------------
@@ -792,6 +818,32 @@ TEST(ObjCUnPadMethodPrefix, Comments)
 	    "-(void)Foo3;       /* comment */\n"
 	    "\n"
 	    "-(void)Foo4        // comment\n"
+	    "{ }";
+	char options[] = "unpad-method-prefix";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCUnPadMethodPrefix, SansReturnType)
+{
+	// Test unpad-method-prefix without a return type.
+	// The comment alignment should be maintained.
+	char textIn[] =
+	    "\n"
+	    "-Foo1;       // comment\n"
+	    "+ Foo2;      // comment\n"
+	    "-    Foo3;   /* comment */\n"
+	    "\n"
+	    "-Foo4        // comment\n"
+	    "{ }";
+	char text[] =
+	    "\n"
+	    "-Foo1;       // comment\n"
+	    "+Foo2;       // comment\n"
+	    "-Foo3;       /* comment */\n"
+	    "\n"
+	    "-Foo4        // comment\n"
 	    "{ }";
 	char options[] = "unpad-method-prefix";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
@@ -1354,6 +1406,48 @@ TEST(ObjCPadParamType, PadMethodColonAll_Comments)
 	delete[] textOut;
 }
 
+TEST(ObjCPadParamType, MultipleParams)
+{
+	// Test pad param type with multiple params.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;\n"
+	    "-(void)foo2 : (int)row1 : (int)row2 : (int)row3;\n"
+	    "-(void)foo3: (int)row1: (int)row2: (int)row3;\n"
+	    "-(void)foo4 :(int)row1 :(int)row2 :(int)row3;";
+	char text[] =
+	    "\n"
+	    "-(void)foo1: (int) row1: (int) row2: (int) row3;\n"
+	    "-(void)foo2 : (int) row1 : (int) row2 : (int) row3;\n"
+	    "-(void)foo3: (int) row1: (int) row2: (int) row3;\n"
+	    "-(void)foo4 : (int) row1 : (int) row2 : (int) row3;";
+	char options[] = "pad-param-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadParamType, MultipleParams_Comments)
+{
+	// Test pad param type with multiple params and comments.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;          // comment\n"
+	    "-(void)foo2 : (int)row1 : (int)row2 : (int)row3;    // comment\n"
+	    "-(void)foo3: (int)row1: (int)row2: (int)row3;       /* comment */\n"
+	    "-(void)foo4 :(int)row1 :(int)row2 :(int)row3;       // comment";
+	char text[] =
+	    "\n"
+	    "-(void)foo1: (int) row1: (int) row2: (int) row3;    // comment\n"
+	    "-(void)foo2 : (int) row1 : (int) row2 : (int) row3; // comment\n"
+	    "-(void)foo3: (int) row1: (int) row2: (int) row3;    /* comment */\n"
+	    "-(void)foo4 : (int) row1 : (int) row2 : (int) row3; // comment";
+	char options[] = "pad-param-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Objective-C UnPad Parameter Type
 //-------------------------------------------------------------------------
@@ -1552,27 +1646,53 @@ TEST(ObjCUnPadParamType, PadMethodColonAll_Comments)
 	delete[] textOut;
 }
 
-//-------------------------------------------------------------------------
-// AStyle Objective-C Pad Method Colon
-//-------------------------------------------------------------------------
-
-TEST(ObjCPadMethodColon, NoOption)
+TEST(ObjCUnPadParamType, MultipleParams)
 {
-	// Test without pad-method-colon option.
-	// Statements should not change.
+	// Test unpad param type with multiple params.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;\n"
+	    "-(void)foo2 : (int) row1 : (int) row2 : (int) row3;\n"
+	    "-(void)foo3:  (int)  row1:  (int)  row2: (int) row3;\n"
+	    "-(void)foo4 :(int) row1 :(int) row2 :(int) row3;";
 	char text[] =
 	    "\n"
-	    "-(void)foo1:(int)row;\n"
-	    "-(void)foo2 : (int)row;\n"
-	    "-(void)foo3: (int)row;\n"
-	    "-(void)foo4 :(int)row;";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;\n"
+	    "-(void)foo2 :(int)row1 :(int)row2 :(int)row3;\n"
+	    "-(void)foo3:(int)row1:(int)row2:(int)row3;\n"
+	    "-(void)foo4 :(int)row1 :(int)row2 :(int)row3;";
+	char options[] = "unpad-param-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
 
-TEST(ObjCPadMethodColon, LongOptionNone)
+TEST(ObjCUnPadParamType, MultipleParams_Comments)
+{
+	// Test unpad param type with multiple params and comments.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;          // comment\n"
+	    "-(void)foo2 : (int) row1 : (int) row2 : (int) row3; // comment\n"
+	    "-(void)foo3: (int)  row1: (int) row2: (int)  row3;  /* comment */\n"
+	    "-(void)foo4 :(int) row1 :(int)row2 :(int)row3;      // comment";
+	char text[] =
+	    "\n"
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;          // comment\n"
+	    "-(void)foo2 :(int)row1 :(int)row2 :(int)row3;       // comment\n"
+	    "-(void)foo3:(int)row1:(int)row2:(int)row3;          /* comment */\n"
+	    "-(void)foo4 :(int)row1 :(int)row2 :(int)row3;       // comment";
+	char options[] = "unpad-param-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Objective-C Pad Method Colon None
+//-------------------------------------------------------------------------
+
+TEST(ObjCPadMethodColonNone, LongOption)
 {
 	// Test pad-method-colon=none long option.
 	char textIn[] =
@@ -1593,70 +1713,7 @@ TEST(ObjCPadMethodColon, LongOptionNone)
 	delete[] textOut;
 }
 
-TEST(ObjCPadMethodColon, LongOptionAll)
-{
-	// Test pad-method-colon=all long option.
-	char textIn[] =
-	    "\n"
-	    "-(void)foo1:(int)row;\n"
-	    "-(void)foo2 : (int)row;\n"
-	    "-(void)foo3: (int)row;\n"
-	    "-(void)foo4 :(int)row;";
-	char text[] =
-	    "\n"
-	    "-(void)foo1 : (int)row;\n"
-	    "-(void)foo2 : (int)row;\n"
-	    "-(void)foo3 : (int)row;\n"
-	    "-(void)foo4 : (int)row;";
-	char options[] = "pad-method-colon=all";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(ObjCPadMethodColon, LongOptionAfter)
-{
-	// Test pad-method-colon=after long option.
-	char textIn[] =
-	    "\n"
-	    "-(void)foo1:(int)row;\n"
-	    "-(void)foo2 : (int)row;\n"
-	    "-(void)foo3: (int)row;\n"
-	    "-(void)foo4 :(int)row;";
-	char text[] =
-	    "\n"
-	    "-(void)foo1: (int)row;\n"
-	    "-(void)foo2: (int)row;\n"
-	    "-(void)foo3: (int)row;\n"
-	    "-(void)foo4: (int)row;";
-	char options[] = "pad-method-colon=after";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(ObjCPadMethodColon, LongOptionBefore)
-{
-	// Test pad-method-colon=before long option.
-	char textIn[] =
-	    "\n"
-	    "-(void)foo1:(int)row;\n"
-	    "-(void)foo2 : (int)row;\n"
-	    "-(void)foo3: (int)row;\n"
-	    "-(void)foo4 :(int)row;";
-	char text[] =
-	    "\n"
-	    "-(void)foo1 :(int)row;\n"
-	    "-(void)foo2 :(int)row;\n"
-	    "-(void)foo3 :(int)row;\n"
-	    "-(void)foo4 :(int)row;";
-	char options[] = "pad-method-colon=before";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(ObjCPadMethodColon, ShortOptionNone)
+TEST(ObjCPadMethodColonNone, ShortOption)
 {
 	// Test pad-method-colon=none short option.
 	char textIn[] =
@@ -1677,70 +1734,7 @@ TEST(ObjCPadMethodColon, ShortOptionNone)
 	delete[] textOut;
 }
 
-TEST(ObjCPadMethodColon, ShortOptionAll)
-{
-	// Test pad-method-colon=all short option.
-	char textIn[] =
-	    "\n"
-	    "-(void)foo1:(int)row;\n"
-	    "-(void)foo2 : (int)row;\n"
-	    "-(void)foo3: (int)row;\n"
-	    "-(void)foo4 :(int)row;";
-	char text[] =
-	    "\n"
-	    "-(void)foo1 : (int)row;\n"
-	    "-(void)foo2 : (int)row;\n"
-	    "-(void)foo3 : (int)row;\n"
-	    "-(void)foo4 : (int)row;";
-	char options[] = "-xP1";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(ObjCPadMethodColon, ShortOptionAfter)
-{
-	// Test pad-method-colon=after short option.
-	char textIn[] =
-	    "\n"
-	    "-(void)foo1:(int)row;\n"
-	    "-(void)foo2 : (int)row;\n"
-	    "-(void)foo3: (int)row;\n"
-	    "-(void)foo4 :(int)row;";
-	char text[] =
-	    "\n"
-	    "-(void)foo1: (int)row;\n"
-	    "-(void)foo2: (int)row;\n"
-	    "-(void)foo3: (int)row;\n"
-	    "-(void)foo4: (int)row;";
-	char options[] = "-xP2";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(ObjCPadMethodColon, ShortOptionBefore)
-{
-	// Test pad-method-colon=before short option.
-	char textIn[] =
-	    "\n"
-	    "-(void)foo1:(int)row;\n"
-	    "-(void)foo2 : (int)row;\n"
-	    "-(void)foo3: (int)row;\n"
-	    "-(void)foo4 :(int)row;";
-	char text[] =
-	    "\n"
-	    "-(void)foo1 :(int)row;\n"
-	    "-(void)foo2 :(int)row;\n"
-	    "-(void)foo3 :(int)row;\n"
-	    "-(void)foo4 :(int)row;";
-	char options[] = "-xP3";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(ObjCPadMethodColon, MultipleSpacesNone)
+TEST(ObjCPadMethodColonNone, MultipleSpaces)
 {
 	// Test pad-method-colon=none with multiple spaces.
 	// This and pad-method-colon=all will test all options.
@@ -1756,23 +1750,7 @@ TEST(ObjCPadMethodColon, MultipleSpacesNone)
 	delete[] textOut;
 }
 
-TEST(ObjCPadMethodColon, MultipleSpacesAll)
-{
-	// Test pad-method-colon=all with multiple spaces.
-	// This and pad-method-colon=none will test all options.
-	char textIn[] =
-	    "\n"
-	    "-(void)foo  :   (int)row;";
-	char text[] =
-	    "\n"
-	    "-(void)foo : (int)row;";
-	char options[] = "pad-method-colon=all";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(ObjCPadMethodColon, LimitsNone)
+TEST(ObjCPadMethodColonNone, Limits)
 {
 	// Test pad-method-colon=none with 'for' and 'while' loop limits.
 	// This should not cause an exception.
@@ -1803,7 +1781,201 @@ TEST(ObjCPadMethodColon, LimitsNone)
 	delete[] textOut;
 }
 
-TEST(ObjCPadMethodColon, LimitsAll)
+TEST(ObjCPadMethodColonNone, SingleCharFollows)
+{
+	// Test pad-method-colon=none 'for' and 'while' loop limits.
+	// The single char following the colon should be recognized.
+	// This and pad-method-colon=all will test all options.
+	char textIn[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    [[matrix cellAtRow:0 column:0] setTitle: NSLocalizedString(@\"Name\")];\n"
+	    "    [[matrix cellAtRow: 1 column: 0] setTitle : NSLocalizedString(@\"Type\")];\n"
+	    "    [[matrix cellAtRow:   2 column:   0] setTitle: NSLocalizedString(@\"Date\")];\n"
+	    "    [[matrix cellAtRow   :3 column   :0] setTitle :NSLocalizedString(@\"Size\")];\n"
+	    "}";
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    [[matrix cellAtRow:0 column:0] setTitle:NSLocalizedString(@\"Name\")];\n"
+	    "    [[matrix cellAtRow:1 column:0] setTitle:NSLocalizedString(@\"Type\")];\n"
+	    "    [[matrix cellAtRow:2 column:0] setTitle:NSLocalizedString(@\"Date\")];\n"
+	    "    [[matrix cellAtRow:3 column:0] setTitle:NSLocalizedString(@\"Size\")];\n"
+	    "}";
+	char options[] = "pad-method-colon=none";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonNone, EndOfLineFollows)
+{
+	// The colon is at end-of-line.
+	// This and pad-method-colon=all will test all options.
+	char textIn[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    [(NSMutableData *)data appendData :\n"
+	    "     [handle readDataOfLength : nbytes]];\n"
+	    "}";
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    [(NSMutableData *)data appendData:\n"
+	    "                           [handle readDataOfLength:nbytes]];\n"
+	    "}";
+	char options[] = "pad-method-colon=none";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonNone, Comment)
+{
+	// Test pad-method-colon=none with following comments.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row;     // comment\n"
+	    "-(void)foo2 : (int)row;   // comment\n"
+	    "-(void)foo3: (int)row;    /* comment */\n"
+	    "-(void)foo4 :(int)row;    // comment\n";
+	char text[] =
+	    "\n"
+	    "-(void)foo1:(int)row;     // comment\n"
+	    "-(void)foo2:(int)row;     // comment\n"
+	    "-(void)foo3:(int)row;     /* comment */\n"
+	    "-(void)foo4:(int)row;     // comment\n";
+	char options[] = "pad-method-colon=none";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonNone, ParenFollows)
+{
+	// Test pad-method-colon=none with a following ')'.
+	// The ending colon should not be padded.
+	char textIn[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    [panel setAction:@selector(colorChoosen : )];\n"
+	    "}";
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    [panel setAction:@selector(colorChoosen:)];\n"
+	    "}";
+	char options[] = "pad-method-colon=none";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonNone, MultipleParams)
+{
+	// Test pad-method-colon=none with multiple params.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;\n"
+	    "-(void)foo2 : (int)row1 :(int)row2: (int)row3;\n"
+	    "-(void)foo3:   (int)row1   :(int)row2:   (int)row3;\n"
+	    "-(void)foo4 :(int)row1:(int)row2   :   (int)row3;";
+	char text[] =
+	    "\n"
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;\n"
+	    "-(void)foo2:(int)row1:(int)row2:(int)row3;\n"
+	    "-(void)foo3:(int)row1:(int)row2:(int)row3;\n"
+	    "-(void)foo4:(int)row1:(int)row2:(int)row3;";
+	char options[] = "pad-method-colon=none";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonNone, MultipleParams_Comments)
+{
+	// Test pad-method-colon=none with multiple params and comments.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;          // comment\n"
+	    "-(void)foo2 : (int)row1 :(int)row2: (int)row3;      // comment\n"
+	    "-(void)foo3:   (int)row1   :(int)row2:   (int)row3; /* coment */\n"
+	    "-(void)foo4 :(int)row1:(int)row2   :   (int)row3;   // comment";
+	char text[] =
+	    "\n"
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;          // comment\n"
+	    "-(void)foo2:(int)row1:(int)row2:(int)row3;          // comment\n"
+	    "-(void)foo3:(int)row1:(int)row2:(int)row3;          /* coment */\n"
+	    "-(void)foo4:(int)row1:(int)row2:(int)row3;          // comment";
+	char options[] = "pad-method-colon=none";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Objective-C Pad Method Colon All
+//-------------------------------------------------------------------------
+
+TEST(ObjCPadMethodColonAll, LongOption)
+{
+	// Test pad-method-colon=all long option.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row;\n"
+	    "-(void)foo2 : (int)row;\n"
+	    "-(void)foo3: (int)row;\n"
+	    "-(void)foo4 :(int)row;";
+	char text[] =
+	    "\n"
+	    "-(void)foo1 : (int)row;\n"
+	    "-(void)foo2 : (int)row;\n"
+	    "-(void)foo3 : (int)row;\n"
+	    "-(void)foo4 : (int)row;";
+	char options[] = "pad-method-colon=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonAll, ShortOption)
+{
+	// Test pad-method-colon=all short option.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row;\n"
+	    "-(void)foo2 : (int)row;\n"
+	    "-(void)foo3: (int)row;\n"
+	    "-(void)foo4 :(int)row;";
+	char text[] =
+	    "\n"
+	    "-(void)foo1 : (int)row;\n"
+	    "-(void)foo2 : (int)row;\n"
+	    "-(void)foo3 : (int)row;\n"
+	    "-(void)foo4 : (int)row;";
+	char options[] = "-xP1";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonAll, MultipleSpaces)
+{
+	// Test pad-method-colon=all with multiple spaces.
+	// This and pad-method-colon=none will test all options.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo  :   (int)row;";
+	char text[] =
+	    "\n"
+	    "-(void)foo : (int)row;";
+	char options[] = "pad-method-colon=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonAll, Limits)
 {
 	// Test pad-method-colon=all with 'for' and 'while' loop limits.
 	// This should not cause an exception.
@@ -1834,34 +2006,7 @@ TEST(ObjCPadMethodColon, LimitsAll)
 	delete[] textOut;
 }
 
-TEST(ObjCPadMethodColon, SingleCharFollowsNone)
-{
-	// Test pad-method-colon=none 'for' and 'while' loop limits.
-	// The single char following the colon should be recognized.
-	// This and pad-method-colon=all will test all options.
-	char textIn[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    [[matrix cellAtRow:0 column:0] setTitle: NSLocalizedString(@\"Name\")];\n"
-	    "    [[matrix cellAtRow: 1 column: 0] setTitle : NSLocalizedString(@\"Type\")];\n"
-	    "    [[matrix cellAtRow:   2 column:   0] setTitle: NSLocalizedString(@\"Date\")];\n"
-	    "    [[matrix cellAtRow   :3 column   :0] setTitle :NSLocalizedString(@\"Size\")];\n"
-	    "}";
-	char text[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    [[matrix cellAtRow:0 column:0] setTitle:NSLocalizedString(@\"Name\")];\n"
-	    "    [[matrix cellAtRow:1 column:0] setTitle:NSLocalizedString(@\"Type\")];\n"
-	    "    [[matrix cellAtRow:2 column:0] setTitle:NSLocalizedString(@\"Date\")];\n"
-	    "    [[matrix cellAtRow:3 column:0] setTitle:NSLocalizedString(@\"Size\")];\n"
-	    "}";
-	char options[] = "pad-method-colon=none";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(ObjCPadMethodColon, SingleCharFollowsAll)
+TEST(ObjCPadMethodColonAll, SingleCharFollows)
 {
 	// Test pad-method-colon=all 'for' and 'while' loop limits.
 	// The single char following the colon should be recognized.
@@ -1888,29 +2033,7 @@ TEST(ObjCPadMethodColon, SingleCharFollowsAll)
 	delete[] textOut;
 }
 
-TEST(ObjCPadMethodColon, EndOfLineFollowsNone)
-{
-	// The colon is at end-of-line.
-	// This and pad-method-colon=all will test all options.
-	char textIn[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    [(NSMutableData *)data appendData :\n"
-	    "     [handle readDataOfLength : nbytes]];\n"
-	    "}";
-	char text[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    [(NSMutableData *)data appendData:\n"
-	    "                           [handle readDataOfLength:nbytes]];\n"
-	    "}";
-	char options[] = "pad-method-colon=none";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(ObjCPadMethodColon, EndOfLineFollowsAll)
+TEST(ObjCPadMethodColonAll, EndOfLineFollows)
 {
 	// The colon is at end-of-line.
 	// This and pad-method-colon=none will test all options.
@@ -1932,28 +2055,7 @@ TEST(ObjCPadMethodColon, EndOfLineFollowsAll)
 	delete[] textOut;
 }
 
-TEST(ObjCPadMethodColon, NoneComment)
-{
-	// Test pad-method-colon=none with following comments.
-	char textIn[] =
-	    "\n"
-	    "-(void)foo1:(int)row;     // comment\n"
-	    "-(void)foo2 : (int)row;   // comment\n"
-	    "-(void)foo3: (int)row;    /* comment */\n"
-	    "-(void)foo4 :(int)row;    // comment\n";
-	char text[] =
-	    "\n"
-	    "-(void)foo1:(int)row;     // comment\n"
-	    "-(void)foo2:(int)row;     // comment\n"
-	    "-(void)foo3:(int)row;     /* comment */\n"
-	    "-(void)foo4:(int)row;     // comment\n";
-	char options[] = "pad-method-colon=none";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(ObjCPadMethodColon, AllComment)
+TEST(ObjCPadMethodColonAll, Comment)
 {
 	// Test pad-method-colon=none with following comments.
 	char textIn[] =
@@ -1974,7 +2076,115 @@ TEST(ObjCPadMethodColon, AllComment)
 	delete[] textOut;
 }
 
-TEST(ObjCPadMethodColon, AfterComment)
+TEST(ObjCPadMethodColonAll, ParenFollows)
+{
+	// Test pad-method-colon=all with a following ')'.
+	// The ending colon should not be padded.
+	char textIn[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    [panel setAction : @selector(colorChoosen : )];\n"
+	    "}";
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    [panel setAction : @selector(colorChoosen:)];\n"
+	    "}";
+	char options[] = "pad-method-colon=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonAll, MultipleParams)
+{
+	// Test pad-method-colon=all with multiple params.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;\n"
+	    "-(void)foo2 : (int)row1 :(int)row2: (int)row3;\n"
+	    "-(void)foo3:   (int)row1   :(int)row2:   (int)row3;\n"
+	    "-(void)foo4 :(int)row1:(int)row2   :   (int)row3;";
+	char text[] =
+	    "\n"
+	    "-(void)foo1 : (int)row1 : (int)row2 : (int)row3;\n"
+	    "-(void)foo2 : (int)row1 : (int)row2 : (int)row3;\n"
+	    "-(void)foo3 : (int)row1 : (int)row2 : (int)row3;\n"
+	    "-(void)foo4 : (int)row1 : (int)row2 : (int)row3;";
+	char options[] = "pad-method-colon=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonAll, MultipleParams_Comments)
+{
+	// Test pad-method-colon=all with multiple params and comments.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;          // comment\n"
+	    "-(void)foo2 : (int)row1 :(int)row2: (int)row3;      // comment\n"
+	    "-(void)foo3:   (int)row1   :(int)row2:   (int)row3; /* coment */\n"
+	    "-(void)foo4 :(int)row1:(int)row2   :   (int)row3;   // comment";
+	char text[] =
+	    "\n"
+	    "-(void)foo1 : (int)row1 : (int)row2 : (int)row3;    // comment\n"
+	    "-(void)foo2 : (int)row1 : (int)row2 : (int)row3;    // comment\n"
+	    "-(void)foo3 : (int)row1 : (int)row2 : (int)row3;    /* coment */\n"
+	    "-(void)foo4 : (int)row1 : (int)row2 : (int)row3;    // comment";
+	char options[] = "pad-method-colon=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Objective-C Pad Method Colon After
+//-------------------------------------------------------------------------
+
+TEST(ObjCPadMethodColonAfter, LongOption)
+{
+	// Test pad-method-colon=after long option.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row;\n"
+	    "-(void)foo2 : (int)row;\n"
+	    "-(void)foo3: (int)row;\n"
+	    "-(void)foo4 :(int)row;";
+	char text[] =
+	    "\n"
+	    "-(void)foo1: (int)row;\n"
+	    "-(void)foo2: (int)row;\n"
+	    "-(void)foo3: (int)row;\n"
+	    "-(void)foo4: (int)row;";
+	char options[] = "pad-method-colon=after";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonAfter, ShortOption)
+{
+	// Test pad-method-colon=after short option.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row;\n"
+	    "-(void)foo2 : (int)row;\n"
+	    "-(void)foo3: (int)row;\n"
+	    "-(void)foo4 :(int)row;";
+	char text[] =
+	    "\n"
+	    "-(void)foo1: (int)row;\n"
+	    "-(void)foo2: (int)row;\n"
+	    "-(void)foo3: (int)row;\n"
+	    "-(void)foo4: (int)row;";
+	char options[] = "-xP2";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonAfter, Comment)
 {
 	// Test pad-method-colon=none with following comments.
 	char textIn[] =
@@ -1995,7 +2205,115 @@ TEST(ObjCPadMethodColon, AfterComment)
 	delete[] textOut;
 }
 
-TEST(ObjCPadMethodColon, BeforeComment)
+TEST(ObjCPadMethodColonAfter, ParenFollows)
+{
+	// Test pad-method-colon=after with a following ')'.
+	// The ending colon should not be padded.
+	char textIn[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    [panel setAction : @selector(colorChoosen : )];\n"
+	    "}";
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    [panel setAction: @selector(colorChoosen:)];\n"
+	    "}";
+	char options[] = "pad-method-colon=after";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonAfter, MultipleParams)
+{
+	// Test pad-method-colon=after with multiple params.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;\n"
+	    "-(void)foo2 : (int)row1 :(int)row2: (int)row3;\n"
+	    "-(void)foo3:   (int)row1   :(int)row2:   (int)row3;\n"
+	    "-(void)foo4 :(int)row1:(int)row2   :   (int)row3;";
+	char text[] =
+	    "\n"
+	    "-(void)foo1: (int)row1: (int)row2: (int)row3;\n"
+	    "-(void)foo2: (int)row1: (int)row2: (int)row3;\n"
+	    "-(void)foo3: (int)row1: (int)row2: (int)row3;\n"
+	    "-(void)foo4: (int)row1: (int)row2: (int)row3;";
+	char options[] = "pad-method-colon=after";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonAfter, MultipleParams_Comments)
+{
+	// Test pad-method-colon=after with multiple params and comments.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;          // comment\n"
+	    "-(void)foo2 : (int)row1 :(int)row2: (int)row3;      // comment\n"
+	    "-(void)foo3:   (int)row1   :(int)row2:   (int)row3; /* coment */\n"
+	    "-(void)foo4 :(int)row1:(int)row2   :   (int)row3;   // comment";
+	char text[] =
+	    "\n"
+	    "-(void)foo1: (int)row1: (int)row2: (int)row3;       // comment\n"
+	    "-(void)foo2: (int)row1: (int)row2: (int)row3;       // comment\n"
+	    "-(void)foo3: (int)row1: (int)row2: (int)row3;       /* coment */\n"
+	    "-(void)foo4: (int)row1: (int)row2: (int)row3;       // comment";
+	char options[] = "pad-method-colon=after";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Objective-C Pad Method Colon Before
+//-------------------------------------------------------------------------
+
+TEST(ObjCPadMethodColonBefore, LongOption)
+{
+	// Test pad-method-colon=before long option.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row;\n"
+	    "-(void)foo2 : (int)row;\n"
+	    "-(void)foo3: (int)row;\n"
+	    "-(void)foo4 :(int)row;";
+	char text[] =
+	    "\n"
+	    "-(void)foo1 :(int)row;\n"
+	    "-(void)foo2 :(int)row;\n"
+	    "-(void)foo3 :(int)row;\n"
+	    "-(void)foo4 :(int)row;";
+	char options[] = "pad-method-colon=before";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonBefore, ShortOption)
+{
+	// Test pad-method-colon=before short option.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row;\n"
+	    "-(void)foo2 : (int)row;\n"
+	    "-(void)foo3: (int)row;\n"
+	    "-(void)foo4 :(int)row;";
+	char text[] =
+	    "\n"
+	    "-(void)foo1 :(int)row;\n"
+	    "-(void)foo2 :(int)row;\n"
+	    "-(void)foo3 :(int)row;\n"
+	    "-(void)foo4 :(int)row;";
+	char options[] = "-xP3";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonBefore, Comment)
 {
 	// Test pad-method-colon=none with following comments.
 	char textIn[] =
@@ -2016,87 +2334,7 @@ TEST(ObjCPadMethodColon, BeforeComment)
 	delete[] textOut;
 }
 
-TEST(ObjCPadMethodColon, Selector)
-{
-	// Test pad-method-colon=all within a @selector.
-	// The ending colon should not be padded.
-	char textIn[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    cutTitleSel = @selector(cutTitle:toFitWidth:);\n"
-	    "}";
-	char text[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    cutTitleSel = @selector(cutTitle : toFitWidth:);\n"
-	    "}";
-	char options[] = "pad-method-colon=all";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(ObjCPadMethodColon, ParenFollowsNone)
-{
-	// Test pad-method-colon=none with a following ')'.
-	// The ending colon should not be padded.
-	char textIn[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    [panel setAction:@selector(colorChoosen : )];\n"
-	    "}";
-	char text[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    [panel setAction:@selector(colorChoosen:)];\n"
-	    "}";
-	char options[] = "pad-method-colon=none";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(ObjCPadMethodColon, ParenFollowsAll)
-{
-	// Test pad-method-colon=all with a following ')'.
-	// The ending colon should not be padded.
-	char textIn[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    [panel setAction : @selector(colorChoosen : )];\n"
-	    "}";
-	char text[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    [panel setAction : @selector(colorChoosen:)];\n"
-	    "}";
-	char options[] = "pad-method-colon=all";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(ObjCPadMethodColon, ParenFollowsAfter)
-{
-	// Test pad-method-colon=after with a following ')'.
-	// The ending colon should not be padded.
-	char textIn[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    [panel setAction : @selector(colorChoosen : )];\n"
-	    "}";
-	char text[] =
-	    "\nvoid Foo()\n"
-	    "{\n"
-	    "    [panel setAction: @selector(colorChoosen:)];\n"
-	    "}";
-	char options[] = "pad-method-colon=after";
-	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(ObjCPadMethodColon, ParenFollowsBefore)
+TEST(ObjCPadMethodColonBefore, ParenFollows)
 {
 	// Test pad-method-colon=before with a following ')'.
 	// The ending colon should not be padded.
@@ -2116,7 +2354,107 @@ TEST(ObjCPadMethodColon, ParenFollowsBefore)
 	delete[] textOut;
 }
 
-TEST(ObjCPadMethodColon, QuestionColon1)
+TEST(ObjCPadMethodColonBefore, MultipleParams)
+{
+	// Test pad-method-colon=before with multiple params.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;\n"
+	    "-(void)foo2 : (int)row1 :(int)row2: (int)row3;\n"
+	    "-(void)foo3:   (int)row1   :(int)row2:   (int)row3;\n"
+	    "-(void)foo4 :(int)row1:(int)row2   :   (int)row3;";
+	char text[] =
+	    "\n"
+	    "-(void)foo1 :(int)row1 :(int)row2 :(int)row3;\n"
+	    "-(void)foo2 :(int)row1 :(int)row2 :(int)row3;\n"
+	    "-(void)foo3 :(int)row1 :(int)row2 :(int)row3;\n"
+	    "-(void)foo4 :(int)row1 :(int)row2 :(int)row3;";
+	char options[] = "pad-method-colon=before";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonBefore, MultipleParams_Comments)
+{
+	// Test pad-method-colon=before with multiple paramsand comments.
+	char textIn[] =
+	    "\n"
+	    "-(void)foo1:(int)row1:(int)row2:(int)row3;          // comment\n"
+	    "-(void)foo2 : (int)row1 :(int)row2: (int)row3;      // comment\n"
+	    "-(void)foo3:   (int)row1   :(int)row2:   (int)row3; /* coment */\n"
+	    "-(void)foo4 :(int)row1:(int)row2   :   (int)row3;   // comment";
+	char text[] =
+	    "\n"
+	    "-(void)foo1 :(int)row1 :(int)row2 :(int)row3;       // comment\n"
+	    "-(void)foo2 :(int)row1 :(int)row2 :(int)row3;       // comment\n"
+	    "-(void)foo3 :(int)row1 :(int)row2 :(int)row3;       /* coment */\n"
+	    "-(void)foo4 :(int)row1 :(int)row2 :(int)row3;       // comment";
+	char options[] = "pad-method-colon=before";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Objective-C Pad Method Colon Other
+//-------------------------------------------------------------------------
+
+TEST(ObjCPadMethodColonOther, NoOption)
+{
+	// Test without pad-method-colon option.
+	// Statements should not change.
+	char text[] =
+	    "\n"
+	    "-(void)foo1:(int)row;\n"
+	    "-(void)foo2 : (int)row;\n"
+	    "-(void)foo3: (int)row;\n"
+	    "-(void)foo4 :(int)row;";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonOther, Selector)
+{
+	// Test pad-method-colon=all within a @selector.
+	// The ending colon should not be padded.
+	char textIn[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    cutTitleSel = @selector(cutTitle:toFitWidth:);\n"
+	    "}";
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    cutTitleSel = @selector(cutTitle : toFitWidth:);\n"
+	    "}";
+	char options[] = "pad-method-colon=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonOther, ScopeResolution)
+{
+	// pad-method-colon should not pad a scope resolution operator.
+	char text[] =
+	    "\nconst char* TiXmlBase::errorString[TiXmlBase::TIXML_ERROR_STRING_COUNT] =\n"
+	    "{\n"
+	    "};\n"
+	    "\n"
+	    "void GetDetectorState(DetectorState[nsUniversalDetector::NumDetectors], PRUint32& offset )\n"
+	    "{\n"
+	    "    ListStyles style[Logger::num_levels];\n"
+	    "}";
+	char options[] = "pad-method-colon=all";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonOther, QuestionColon1)
 {
 	// Test pad-method-colon=none with '?' and ':'.
 	// This should not remove the padding.
@@ -2136,7 +2474,7 @@ TEST(ObjCPadMethodColon, QuestionColon1)
 	delete[] textOut;
 }
 
-TEST(ObjCPadMethodColon, QuestionColon2)
+TEST(ObjCPadMethodColonOther, QuestionColon2)
 {
 	// Test pad-method-colon=none with '?' and ':'.
 	// This should not remove the padding for '? :'.
@@ -2157,7 +2495,7 @@ TEST(ObjCPadMethodColon, QuestionColon2)
 	delete[] textOut;
 }
 
-TEST(ObjCPadMethodColon, QuestionColon3)
+TEST(ObjCPadMethodColonOther, QuestionColon3)
 {
 	// Test pad-method-colon=none with '?' and ':'.
 	// This should not remove the padding for '? :'.
@@ -2178,25 +2516,7 @@ TEST(ObjCPadMethodColon, QuestionColon3)
 	delete[] textOut;
 }
 
-TEST(ObjCPadMethodColon, ScopeResolution)
-{
-	// pad-method-colon should not pad a scope resolution operator.
-	char text[] =
-	    "\nconst char* TiXmlBase::errorString[TiXmlBase::TIXML_ERROR_STRING_COUNT] =\n"
-	    "{\n"
-	    "};\n"
-	    "\n"
-	    "void GetDetectorState(DetectorState[nsUniversalDetector::NumDetectors], PRUint32& offset )\n"
-	    "{\n"
-	    "    ListStyles style[Logger::num_levels];\n"
-	    "}";
-	char options[] = "pad-method-colon=all";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
-TEST(ObjCPadMethodColon, CSharpFile)
+TEST(ObjCPadMethodColonOther, CSharpFile)
 {
 	// pad-method-colon should not pad in a C# file.
 	char text[] =
@@ -3758,6 +4078,77 @@ TEST(ObjCOther, PadOperator6)
 	    "    port[1] = [portArray objectAtIndex:-1];\n"
 	    "}";
 	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCOther, SansReturnValue)
+{
+	// Test method without a return type (assumes an Id).
+	char textIn[] =
+	    "\n"
+	    "@interface A\n"
+	    "-aLongMethodTitle:(NSInteger)parameter\n"
+	    "anotherParam:(NSInteger)lmao\n"
+	    "yetAnotherParam:(NSObject *)obj;\n"
+	    "@end\n"
+	    "\n"
+	    "-aLongMethodTitle:(NSInteger)parameter\n"
+	    "anotherParam:(NSInteger)lmao\n"
+	    "yetAnotherParam:(NSObject *)obj;\n";
+	char text[] =
+	    "\n"
+	    "@interface A\n"
+	    "-aLongMethodTitle:(NSInteger)parameter\n"
+	    "       anotherParam:(NSInteger)lmao\n"
+	    "    yetAnotherParam:(NSObject *)obj;\n"
+	    "@end\n"
+	    "\n"
+	    "-aLongMethodTitle:(NSInteger)parameter\n"
+	    "       anotherParam:(NSInteger)lmao\n"
+	    "    yetAnotherParam:(NSObject *)obj;\n";
+	char options[] = "align-method-colon";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCOther, ExternCInsideAnInterface)
+{
+	// Test method with "extern C" inside an interface.
+	char text[] =
+	    "\n"
+	    "#if defined(__cplusplus)\n"
+	    "extern \"C\" {\n"
+	    "#endif\n"
+	    "\n"
+	    "@interface A (X)\n"
+	    "- (void)method: (NSInteger)parameter;\n"
+	    "@end\n"
+	    "\n"
+	    "#if defined(__cplusplus)\n"
+	    "}\n"
+	    "#endif\n";
+	char options[] = "align-method-colon";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCOther, MethodPrefixIncrement)
+{
+	// '++' and '--' are not a method prefix.
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    for (x = 0;\n"
+	    "            x < end;\n"
+	    "            ++x)\n"
+	    "        manager(x);\n"
+	    "}\n";
+	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;

@@ -169,7 +169,7 @@ TEST_F(ProcessOptions3F, HelpOption)
 // test processOptions for the long help option display
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--help");
@@ -192,14 +192,13 @@ TEST_F(ProcessOptions3F, HelpOption)
 #else
 	restoreStream();
 #endif
-	delete console;
 }
 
 TEST_F(ProcessOptions3F, HelpOption_Short1)
 // test processOptions for the short help option display
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("-h");
@@ -222,14 +221,13 @@ TEST_F(ProcessOptions3F, HelpOption_Short1)
 #else
 	restoreStream();
 #endif
-	delete console;
 }
 
 TEST_F(ProcessOptions3F, HelpOption_Short2)
 // test processOptions for short help option display
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("-?");
@@ -252,14 +250,13 @@ TEST_F(ProcessOptions3F, HelpOption_Short2)
 #else
 	restoreStream();
 #endif
-	delete console;
 }
 
 TEST_F(ProcessOptions3F, VersionOption)
 // test processOptions for version option display
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--version");
@@ -278,14 +275,13 @@ TEST_F(ProcessOptions3F, VersionOption)
 #else
 	restoreStream();
 #endif
-	delete console;
 }
 
 TEST_F(ProcessOptions3F, VersionOption_Short)
 // test processOptions for version short option display
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("-V");
@@ -304,7 +300,6 @@ TEST_F(ProcessOptions3F, VersionOption_Short)
 #else
 	restoreStream();
 #endif
-	delete console;
 }
 
 //----------------------------------------------------------------------------
@@ -315,7 +310,7 @@ TEST_F(ProcessOptions3F, HtmlOption)
 // Test processOptions for html option.
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	console->setBypassBrowserOpen(true);	// don't open the file
 	// build optionsIn
 	vector<string> optionsIn;
@@ -337,14 +332,13 @@ TEST_F(ProcessOptions3F, HtmlOption)
 #else
 	restoreStream();
 #endif
-	delete console;
 }
 
 TEST_F(ProcessOptions3F, HtmlOption_Short)
 // Test processOptions for html option.
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	console->setBypassBrowserOpen(true);	// don't open the file
 	// build optionsIn
 	vector<string> optionsIn;
@@ -366,7 +360,6 @@ TEST_F(ProcessOptions3F, HtmlOption_Short)
 #else
 	restoreStream();
 #endif
-	delete console;
 }
 
 TEST_F(ProcessOptions3F, HtmlOption_ValidFileName)
@@ -374,7 +367,7 @@ TEST_F(ProcessOptions3F, HtmlOption_ValidFileName)
 // Should be able to open a valid file.
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	console->setBypassBrowserOpen(true);	// don't open the file
 	// build optionsIn
 	vector<string> optionsIn;
@@ -404,7 +397,6 @@ TEST_F(ProcessOptions3F, HtmlOption_ValidFileName)
 #else
 	restoreStream();
 #endif
-	delete console;
 }
 
 TEST_F(ProcessOptions3F, HtmlOption_InvalidFileName)
@@ -412,7 +404,7 @@ TEST_F(ProcessOptions3F, HtmlOption_InvalidFileName)
 // Should get an error message for an invalid file.
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	console->setBypassBrowserOpen(true);	// don't open the file
 	// build optionsIn
 	vector<string> optionsIn;
@@ -431,7 +423,6 @@ TEST_F(ProcessOptions3F, HtmlOption_InvalidFileName)
 #else
 	restoreStream();
 #endif
-	delete console;
 }
 
 //----------------------------------------------------------------------------
@@ -453,7 +444,7 @@ TEST(Other, GlobalPreprocessorExternBracket)
 	// must be cleared in the "init" method instead of the constructor.
 	// If not cleared, the "int a;" will not be indented
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	vector<string> astyleOptionsVector;
 	console->setIsQuiet(true);		// change this to see results
 	// test files
@@ -482,14 +473,13 @@ TEST(Other, GlobalPreprocessorExternBracket)
 	// "int a;" line will not be indented.
 	EXPECT_TRUE(console->getFilesAreIdentical())
 	        << "Global variable has not been reset";
-	delete console;
 }
 
 TEST(Other, ErrorExit)
 // test the error exit without message
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// death test without error message
@@ -497,14 +487,13 @@ TEST(Other, ErrorExit)
 	            ExitedWithCode(EXIT_FAILURE),
 	            "\nArtistic Style ");	// "Artistic Style has terminated!"
 #endif
-	delete console;
 }
 
 TEST(Other, ErrorExitWihMessage)
 // test the error exit with message
 {
 	ASFormatter formatter;
-	auto console = new ASConsole(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// death test with error message
@@ -512,7 +501,6 @@ TEST(Other, ErrorExitWihMessage)
 	            ExitedWithCode(EXIT_FAILURE),
 	            "why what\n\nArtistic Style ");	// "Artistic Style has terminated!"
 #endif
-	delete console;
 }
 
 //----------------------------------------------------------------------------

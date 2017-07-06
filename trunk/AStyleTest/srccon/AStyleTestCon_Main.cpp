@@ -420,7 +420,7 @@ string getDefaultOptionsFilePath()
 // Return the path of the default options file for the platform.
 {
 #ifdef _WIN32
-	char* env = getenv("USERPROFILE");
+	char* env = getenv("APPDATA");
 	char name[] = "/astylerc";
 #else
 	char* env = getenv("HOME");

@@ -5194,7 +5194,6 @@ TEST(AlignReferenceName, PointerType_Rvalue)
 
 //-------------------------------------------------------------------------
 // AStyle Align Pointer and Align Reference for special case of Reference to a Pointer (*&)
-// Cannot have a Pointer to a Reference (&*)
 //-------------------------------------------------------------------------
 
 TEST(AlignReferenceToPointer, PointerType_ReferenceDefault)
