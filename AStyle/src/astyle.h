@@ -155,9 +155,10 @@ enum ReferenceAlign
 
 enum FileEncoding
 {
-	ENCODING_8BIT,
+	ENCODING_8BIT,  // includes UTF-8 without BOM
+	UTF_8BOM,       // UTF-8 with BOM
 	UTF_16BE,
-	UTF_16LE,     // Windows default
+	UTF_16LE,       // Windows default
 	UTF_32BE,
 	UTF_32LE
 };

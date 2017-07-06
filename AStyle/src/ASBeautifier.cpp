@@ -3531,7 +3531,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 		        && isCharPotentialHeader(line, i + 1))
 		{
 			string curWord = getCurrentWord(line, i + 1);
-			if (curWord == AS_INTERFACE	&& headerStack->empty())
+			if (curWord == AS_INTERFACE)
 			{
 				isInObjCInterface = true;
 				string name = '@' + curWord;
@@ -3566,8 +3566,10 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			}
 		}
 		else if ((ch == '-' || ch == '+')
-		         && peekNextChar(line, i) == '('
-		         && (headerStack->empty() || prevNonSpaceCh == ';' || prevNonSpaceCh == '{')
+		         && (prevNonSpaceCh == ';' || prevNonSpaceCh == '{'
+		             || headerStack->empty() || isInObjCInterface)
+		         && ASBase::peekNextChar(line, i) != '-'
+		         && ASBase::peekNextChar(line, i) != '+'
 		         && line.find_first_not_of(" \t") == i)
 		{
 			if (isInObjCInterface)
