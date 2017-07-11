@@ -972,6 +972,7 @@ private:  // variables
 	bool isInObjCMethodDefinition;
 	bool isInObjCInterface;
 	bool isInObjCReturnType;
+	bool isInObjCParam;
 	bool isInObjCSelector;
 	bool breakCurrentOneLineBlock;
 	bool shouldRemoveNextClosingBrace;

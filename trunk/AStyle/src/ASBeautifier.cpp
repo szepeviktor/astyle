@@ -2763,7 +2763,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 
 				if (currentHeader != nullptr)
 					registerContinuationIndent(line, i, spaceIndentCount, tabIncrementIn, minConditionalIndent, true);
-				else
+				else if (!isInObjCMethodDefinition)
 					registerContinuationIndent(line, i, spaceIndentCount, tabIncrementIn, 0, true);
 			}
 			else if (ch == ')' || ch == ']')

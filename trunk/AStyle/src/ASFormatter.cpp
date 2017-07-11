@@ -273,6 +273,7 @@ void ASFormatter::init(ASSourceIterator* si)
 	isInObjCInterface = false;
 	isInObjCMethodDefinition = false;
 	isInObjCReturnType = false;
+	isInObjCParam = false;
 	isInObjCSelector = false;
 	breakCurrentOneLineBlock = false;
 	shouldRemoveNextClosingBrace = false;
@@ -732,6 +733,7 @@ string ASFormatter::nextLine()
 			// should braces be added
 			if (currentChar != '{'
 			        && shouldAddBraces
+			        && currentChar != '#'	// don't add to preprocessor
 			        && (shouldBreakOneLineStatements || !isHeaderInMultiStatementLine)
 			        && isOkToBreakBlock(braceTypeStack->back()))
 			{
@@ -959,6 +961,7 @@ string ASFormatter::nextLine()
 				foundTrailingReturnType = false;
 				isInPotentialCalculation = false;
 				isInObjCMethodDefinition = false;
+				isImmediatelyPostObjCMethodPrefix = false;
 				isInObjCInterface = false;
 				isInEnum = false;
 				isJavaStaticConstructor = false;
@@ -1412,7 +1415,7 @@ string ASFormatter::nextLine()
 			         && !foundPreDefinitionHeader   // not in a definition block
 			         && previousCommandChar != ')'  // not after closing paren of a method header
 			         && !foundPreCommandHeader      // not after a 'noexcept'
-			         && squareBracketCount == 0        // not in objC method call
+			         && squareBracketCount == 0     // not in objC method call
 			         && !isInObjCMethodDefinition   // not objC '-' or '+' method
 			         && !isInObjCInterface          // not objC @interface
 			         && !isInObjCSelector           // not objC @selector
@@ -1426,10 +1429,15 @@ string ASFormatter::nextLine()
 			}
 
 			if (isCStyle()
-			        && shouldPadMethodColon
 			        && (squareBracketCount > 0 || isInObjCMethodDefinition || isInObjCSelector)
 			        && !foundQuestionMark)			// not in a ?: sequence
-				padObjCMethodColon();
+			{
+				isImmediatelyPostObjCMethodPrefix = false;
+				isInObjCReturnType = false;
+				isInObjCParam = true;
+				if (shouldPadMethodColon)
+					padObjCMethodColon();
+			}
 
 			if (isInObjCInterface)
 			{
@@ -1590,6 +1598,7 @@ string ASFormatter::nextLine()
 		else if ((currentChar == '-' || currentChar == '+')
 		         && (int) currentLine.find_first_not_of(" \t") == charNum
 		         && !isInPotentialCalculation
+		         && !isInObjCMethodDefinition
 		         && (isBraceType(braceTypeStack->back(), NULL_TYPE)
 		             || (isBraceType(braceTypeStack->back(), EXTERN_TYPE))))
 		{
@@ -1738,7 +1747,8 @@ string ASFormatter::nextLine()
 						padObjCReturnType();
 					isInObjCReturnType = false;
 				}
-				else if (shouldPadParamType || shouldUnPadParamType)
+				else if (isInObjCParam
+				         && (shouldPadParamType || shouldUnPadParamType))
 					padObjCParamType();
 			}
 			continue;
@@ -1904,7 +1914,6 @@ void ASFormatter::setBreakClosingHeaderBracketsMode(bool state)
 {
 	setBreakClosingHeaderBracesMode(state);
 }
-
 
 /**
  * set the brace formatting mode.
@@ -4069,7 +4078,10 @@ void ASFormatter::formatPointerOrReferenceToMiddle()
 		// insert the pointer or reference char
 		size_t padAfter = (wsBefore + wsAfter) / 2;
 		size_t index = formattedLine.length() - padAfter;
-		formattedLine.insert(index, sequenceToInsert);
+		if (index < formattedLine.length())
+			formattedLine.insert(index, sequenceToInsert);
+		else
+			formattedLine.append(sequenceToInsert);
 	}
 	else	// formattedLine.length() == 0
 	{
@@ -7439,6 +7451,9 @@ void ASFormatter::resetEndOfStatement()
 	isSharpAccessor = false;
 	isSharpDelegate = false;
 	isInObjCMethodDefinition = false;
+	isImmediatelyPostObjCMethodPrefix = false;
+	isInObjCReturnType = false;
+	isInObjCParam = false;
 	isInObjCInterface = false;
 	isInObjCSelector = false;
 	isInEnum = false;
