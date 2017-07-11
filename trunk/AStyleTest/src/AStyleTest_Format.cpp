@@ -2234,6 +2234,31 @@ TEST(AddBraces, SemiFollows)
 	delete[] textOut;
 }
 
+TEST(AddBraces, PreprocessorFollows)
+{
+	// test add braces when a preprocessor follows the statement
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo(a,b))\n"
+	    "    # bar(a,b);\n"
+	    "        isFoo = false;\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo(a,b))\n"
+	    "# bar(a,b);\n"
+	    "        isFoo = false;\n"
+	    "}";
+	char options[] = "add-braces";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(AddBraces, Sharp)
 {
 	// test add braces to C# headers
@@ -3005,6 +3030,31 @@ TEST(AddOneLineBraces, SemiFollows)
 	    "        ;\n"
 	    "    while (isFoo); // comment\n"
 	    "}\n";
+	char options[] = "add-one-line-braces";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AddOneLineBraces, PreprocessorFollows)
+{
+	// test add one line braces when a preprocessor follows the statement
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo(a,b))\n"
+	    "    # bar(a,b);\n"
+	    "        isFoo = false;\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    if (isFoo(a,b))\n"
+	    "# bar(a,b);\n"
+	    "        isFoo = false;\n"
+	    "}";
 	char options[] = "add-one-line-braces";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
