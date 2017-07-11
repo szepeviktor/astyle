@@ -19,6 +19,62 @@ namespace {
 // AStyle version 3.1 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V31, AlignPointerMiddleCalculation)
+{
+	// discovered by fuzzing
+	// fix an exception caused by index > linelength.
+	char textIn[] =
+	    "\n"
+	    "fooArray[] = { red,\n"
+	    "               green:\n"
+	    "    ^          *blue\n"
+	    "             };";
+	char text[] =
+	    "\n"
+	    "fooArray[] = { red,\n"
+	    "               green:\n"
+	    "               ^ *blue\n"
+	    "             };";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, ObjCAlreadyInMethodDefinition)
+{
+	// discovered by fuzzing
+	// fix an exception caused by entering a method definition twice.
+	char text[] =
+	    "\n"
+	    "-(Id)Foo: (int) bar1\n"
+	    "    - (int (bar2\n"
+	    "{}";
+	char options[] = "pad-param-type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, BraceBeginsReturnType)
+{
+	// discovered by fuzzing
+	// fix an exception caused by a brace beginning the return type.
+	char textIn[] =
+	    "\n"
+	    "-{void)Foo \n"
+	    "{}";
+	char text[] =
+	    "\n"
+	    "- {\n"
+	    "    void)Foo\n"
+	    "    {}";
+	char options[] = "pad-method-prefix";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V31, NonInStatementArrayOverMax)
 {
 	// discovered by fuzzing
