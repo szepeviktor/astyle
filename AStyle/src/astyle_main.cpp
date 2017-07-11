@@ -206,6 +206,16 @@ string ASStreamIterator<T>::nextLine(bool emptyLineWasDeleted)
 		inStream->clear();
 	}
 
+	// has not detected an input end of line
+	if (!eolWindows && !eolLinux && !eolMacOld)
+	{
+#ifdef _WIN32
+		eolWindows++;
+#else
+		eolLinux++;
+#endif
+	}
+
 	// set output end of line characters
 	if (eolWindows >= eolLinux)
 	{
