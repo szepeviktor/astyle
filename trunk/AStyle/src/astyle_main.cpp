@@ -98,7 +98,8 @@ const char* g_version = "3.0.1";
 
 //-----------------------------------------------------------------------------
 // ASStreamIterator class
-// typename will be istringstream for GUI and istream otherwise
+// typename will be stringstream for AStyle
+// it could be istream or wxChar for plug-ins
 //-----------------------------------------------------------------------------
 
 template<typename T>
@@ -3940,8 +3941,8 @@ extern "C" EXPORT char* STDCALL AStyleMain(const char* pSourceIn,		// the source
 	if (!ok)
 		fpErrorHandler(130, options.getOptionErrors().c_str());
 
-	istringstream in(pSourceIn);
-	ASStreamIterator<istringstream> streamIterator(&in);
+	stringstream in(pSourceIn);
+	ASStreamIterator<stringstream> streamIterator(&in);
 	ostringstream out;
 	formatter.init(&streamIterator);
 
@@ -3998,7 +3999,7 @@ int main(int argc, char** argv)
 {
 	// create objects
 	ASFormatter formatter;
-	auto console = make_shared<ASConsole>(formatter);
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
 
 	// process command line and options file
 	// build the vectors fileNameVector, optionsVector, and fileOptionsVector

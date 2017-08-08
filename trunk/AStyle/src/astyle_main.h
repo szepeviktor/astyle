@@ -115,8 +115,9 @@ namespace astyle {
 //
 //----------------------------------------------------------------------------
 // ASStreamIterator class
-// typename will be istringstream for GUI and istream otherwise
-// ASSourceIterator is an abstract class defined in astyle.h
+// typename will be stringstream for AStyle
+// it could be istream or wxChar for plug-ins
+// ASSourceIterator is an inherited abstract class defined in astyle.h
 //----------------------------------------------------------------------------
 
 template<typename T>
