@@ -1332,7 +1332,7 @@ string ASFormatter::nextLine()
 			}
 			else if ((newHeader = findHeader(preCommandHeaders)) != nullptr)
 			{
-				// a 'const' variable is not a preCommandHeader
+				// must be after function arguments
 				if (previousNonWSChar == ')')
 					foundPreCommandHeader = true;
 			}
@@ -3998,15 +3998,18 @@ void ASFormatter::formatPointerOrReferenceToMiddle()
 	else
 		wsBefore = charNum - wsBefore - 1;
 	string sequenceToInsert(1, currentChar);
-	if (isSequenceReached("**"))
+	if (currentChar == peekNextChar())
 	{
-		sequenceToInsert = "**";
-		goForward(1);
-	}
-	else if (isSequenceReached("&&"))
-	{
-		sequenceToInsert = "&&";
-		goForward(1);
+		for (size_t i = charNum + 1; currentLine.length() > i; i++)
+		{
+			if (currentLine[i] == sequenceToInsert[0])
+			{
+				sequenceToInsert.append(1, currentLine[i]);
+				goForward(1);
+				continue;
+			}
+			break;
+		}
 	}
 	// if reference to a pointer check for conflicting alignment
 	else if (currentChar == '*' && peekNextChar() == '&'
@@ -4119,15 +4122,18 @@ void ASFormatter::formatPointerOrReferenceToName()
 	if (startNum == string::npos)
 		startNum = 0;
 	string sequenceToInsert(1, currentChar);
-	if (isSequenceReached("**"))
+	if (currentChar == peekNextChar())
 	{
-		sequenceToInsert = "**";
-		goForward(1);
-	}
-	else if (isSequenceReached("&&"))
-	{
-		sequenceToInsert = "&&";
-		goForward(1);
+		for (size_t i = charNum + 1; currentLine.length() > i; i++)
+		{
+			if (currentLine[i] == sequenceToInsert[0])
+			{
+				sequenceToInsert.append(1, currentLine[i]);
+				goForward(1);
+				continue;
+			}
+			break;
+		}
 	}
 	// if reference to a pointer align both to name
 	else if (currentChar == '*' && peekNextChar() == '&')
@@ -6537,7 +6543,7 @@ bool ASFormatter::isIndentablePreprocessorBlock(const string& firstLine, size_t 
 			else if (nextLine_[i] == ':')
 			{
 				// check for '::'
-				if (nextLine_.length() > i && nextLine_[i + 1] == ':')
+				if (nextLine_.length() > i + 1 && nextLine_[i + 1] == ':')
 					++i;
 				else
 					isInClassConstructor = true;

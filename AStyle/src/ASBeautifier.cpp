@@ -1132,7 +1132,7 @@ string ASBeautifier::beautify(const string& originalLine)
 		{
 			isInDefineDefinition = false;
 			// this could happen with invalid input
-			if (activeBeautifierStack->size() == 0)
+			if (activeBeautifierStack->empty())
 				return originalLine;
 			ASBeautifier* defineBeautifier = activeBeautifierStack->back();
 			activeBeautifierStack->pop_back();
@@ -1884,7 +1884,7 @@ bool ASBeautifier::isPreprocessorConditionalCplusplus(const string& line) const
 			{
 				++charNum;
 				charNum = preproc.find_first_not_of(" \t", charNum);
-				if (preproc.compare(charNum, 11, "__cplusplus") == 0)
+				if (charNum != string::npos && preproc.compare(charNum, 11, "__cplusplus") == 0)
 					return true;
 			}
 		}
@@ -3133,7 +3133,9 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			}  // newHeader != nullptr
 
 			if (findHeader(line, i, preCommandHeaders) != nullptr)
-				foundPreCommandHeader = true;
+				// must be after function arguments
+				if (prevNonSpaceCh == ')')
+					foundPreCommandHeader = true;
 
 			// Objective-C NSException macros are preCommandHeaders
 			if (isCStyle() && findKeyword(line, i, AS_NS_DURING))
@@ -3430,7 +3432,8 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				if (newHeader != nullptr
 				        && !(isCStyle() && newHeader == &AS_CLASS && isInEnum)	// is not 'enum class'
 				        && !(isCStyle() && newHeader == &AS_INTERFACE			// CORBA IDL interface
-				             && !(headerStack->back() == &AS_OPEN_BRACE)))
+				             && (headerStack->empty()
+				                 || headerStack->back() != &AS_OPEN_BRACE)))
 				{
 					if (!isSharpStyle())
 						headerStack->emplace_back(newHeader);
