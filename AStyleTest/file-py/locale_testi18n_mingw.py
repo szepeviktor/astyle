@@ -6,6 +6,7 @@
 from __future__ import print_function
 
 import os
+import platform
 import subprocess
 import time
 # local libraries
@@ -62,6 +63,8 @@ def build_testi18n_executable():
     print("Building MinGW AStyleTestI18n Debug")
     # Compile the astyle executable for Windows.
     buildpath = "C:/Program Files (x86)/CodeBlocks/codeblocks.exe"
+    if platform.architecture()[0] == "32bit":        # if running on a 32-bit system
+        buildpath = buildpath.replace("Program Files (x86)",  "Program Files")
     if not os.path.isfile(buildpath):
         message = "Cannot find CodeBlocks executable: " + buildpath
         libastyle.system_exit(message)

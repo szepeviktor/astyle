@@ -2205,6 +2205,29 @@ TEST(PreCommandHeaders, VolatileOnly2)
 	delete[] textOut;
 }
 
+TEST(PreCommandHeaders, VolatileSans)
+{
+	// Test with "volatile" used as a variable modifier.
+	// The keyword "Volatile" used as a variable modifiercaused the second
+	// line to receive 1 more indent than needed.
+	char text[] =
+	    "\"\n"
+		"typedef struct _InterruptStatusReg\n"
+		"{\n"
+		"    volatile unsigned vdma0_int : 1;\n"
+		"    volatile unsigned vdma1_int : 1;\n"
+		"    volatile unsigned uart0_int : 1;\n"
+		"    volatile unsigned uart1_int : 1;\n"
+		"    volatile unsigned reserved  : 4;\n"
+		"    _fillbits( 24 );\n"
+		"} INTERRUPT_STATUS_REG;\n"
+		"\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(PreCommandHeaders, ConstSealedOverride1)
 {
 	// Precommand headers const, sealed, and override, with const first.
@@ -2317,6 +2340,28 @@ TEST(PreCommandHeaders, Final)
 	    "};";
 	char options[] = "style=kr";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(PreCommandHeaders, FinalSans)
+{
+	// Final is not a precommand header.
+	char text[] =
+	    "\n"
+	"void Foo()\n"
+	"{\n"
+	"    failcode = reboot ? EXIT_REBOOT : EXIT_OK;\n"
+	"\n"
+	"final:\n"
+	"\n"
+	"    if( newdevMod )\n"
+	"    {\n"
+	"        FreeLibrary( newdevMod );\n"
+	"    }\n"
+	"}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
