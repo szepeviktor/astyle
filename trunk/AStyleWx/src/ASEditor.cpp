@@ -96,6 +96,7 @@ int ASEditor::BraceAtCaret()
 	// remove existing highlighting, if any
 	wxStyledTextCtrl::BraceHighlight(wxSTC_INVALID_POSITION, wxSTC_INVALID_POSITION);
 	wxStyledTextCtrl::BraceBadLight(wxSTC_INVALID_POSITION);
+	wxStyledTextCtrl::SetHighlightGuide(0);
 
 	// Priority goes to character before caret
 	if (caretPos > 0)
@@ -116,10 +117,12 @@ int ASEditor::BraceAtCaret()
 		int styleEnd = wxStyledTextCtrl::GetEndStyled();
 		wxStyledTextCtrl::Colourise(styleEnd, -1);
 		// match the brace
-		// In release 2.9.4 the brace matching sometimes doesn't highlight both braces.
 		int braceOpposite = wxStyledTextCtrl::BraceMatch(braceAtCaret);
 		if (braceOpposite > -1)
+		{
 			wxStyledTextCtrl::BraceHighlight(braceAtCaret, braceOpposite);
+			wxStyledTextCtrl::SetHighlightGuide(wxStyledTextCtrl::GetColumn(braceAtCaret));
+		}
 		else
 			wxStyledTextCtrl::BraceBadLight(braceAtCaret);
 	}
@@ -252,8 +255,7 @@ void ASEditor::FindMatchingBrace(bool select)
 		{
 			if (select)
 			{
-				// wxWidgets version 2.9.4 must select in low to high order.
-				// Previous versions did not. Don't know if it is a bug or a change.
+				// must select in low to high order.
 				if (braceAtCaret < braceOpposite)
 					wxStyledTextCtrl::SetSelection(braceAtCaret, braceOpposite);
 				else
@@ -571,20 +573,7 @@ void ASEditor::OnSTCContextMenu(wxContextMenuEvent&)
 
 void ASEditor::OnSTCDoubleClick(wxStyledTextEvent&)
 {
-	int  charPos = -1;              // position of the matched symbol
-	wxString text = "{}()[]<>";  // symbols to match
-
-	int cpMin = wxStyledTextCtrl::GetSelectionStart();
-	int cpMax = wxStyledTextCtrl::GetSelectionEnd();
-	// check for pair character
-	for (size_t i = 0; i < text.Len(); i++)
-	{
-		char buf = text[i];
-		charPos = wxStyledTextCtrl::FindText(cpMin, cpMax, buf);
-		if (charPos >= 0)
-			break;
-	}
-	// have a match
+	int  charPos = BraceAtCaret();
 	if (charPos >= 0)
 	{
 		wxStyledTextCtrl::GotoPos(charPos);
@@ -912,7 +901,8 @@ void ASEditor::UpdateEditorFromViewMenuOptions()
 	isChecked = menuBar->IsChecked(ID_VIEW_ACTIVELINE);
 	wxStyledTextCtrl::SetCaretLineVisible(isChecked);
 	isChecked = menuBar->IsChecked(ID_VIEW_INDENTGUIDES);
-	wxStyledTextCtrl::SetIndentationGuides(isChecked);
+	int indentView = isChecked ? wxSTC_IV_LOOKBOTH : wxSTC_IV_NONE;
+	wxStyledTextCtrl::SetIndentationGuides(indentView);
 	isChecked = menuBar->IsChecked(ID_VIEW_ENDLINE);
 	wxStyledTextCtrl::SetViewEOL(isChecked);
 	// should use wxSTC_WRAP_CHAR for Asian languages
@@ -1084,4 +1074,6 @@ void ASEditor::UpdateStcStyleOptions()
 	wxStyledTextCtrl::SetCaretLineBackground(wxColour(0xD0, 0xF0, 0xB0));	// light green
 	wxStyledTextCtrl::StyleSetForeground(wxSTC_STYLE_LINENUMBER, wxColour(0, 0, 0));
 	wxStyledTextCtrl::StyleSetBackground(wxSTC_STYLE_LINENUMBER, wxColour(0xD9, 0xD9, 0xD9));
+	wxStyledTextCtrl::StyleSetForeground(wxSTC_STYLE_INDENTGUIDE, wxColour(0xA0, 0xA0, 0xA0));
+	wxStyledTextCtrl::StyleSetBackground(wxSTC_STYLE_INDENTGUIDE, wxColour(0xFF, 0xFF, 0xFF));
 }
