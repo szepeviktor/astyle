@@ -1,4 +1,4 @@
-﻿// AStyleInterface.cs
+// AStyleInterface.cs
 
 using System;
 using System.IO;
