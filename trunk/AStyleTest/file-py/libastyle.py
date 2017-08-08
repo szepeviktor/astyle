@@ -156,6 +156,8 @@ def compile_windows_executable(slnpath, config):
                      + "/Microsoft.NET/Framework/"
                      + sdk
                      + "/MSBuild.exe")
+    if platform.architecture()[0] == "32bit":        # if running on a 32-bit system
+        buildpath = buildpath.replace("Program Files (x86)",  "Program Files")
     if not os.path.isfile(buildpath):
         message = "Cannot find build path: " + buildpath
         system_exit(message)

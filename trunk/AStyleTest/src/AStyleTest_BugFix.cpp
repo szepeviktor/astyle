@@ -19,9 +19,35 @@ namespace {
 // AStyle version 3.1 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V31, preprocessorDefineWithNoObject)
+{
+	// discovered by clang fuzzer
+	// fix an exception caused by a define with the object on the next line.
+	char text[] =
+	    "\n"
+	    "#ifdefined (";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, CorbaIdlInterfaceCheck)
+{
+	// discovered by clang address sanitizer
+	// fix an exception caused by CORBA IDL interface check.
+	char text[] =
+	    "\n"
+	    "interface;";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V31, AlignPointerMiddleCalculation)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an exception caused by index > linelength.
 	char textIn[] =
 	    "\n"
@@ -43,7 +69,7 @@ TEST(BugFix_V31, AlignPointerMiddleCalculation)
 
 TEST(BugFix_V31, ObjCAlreadyInMethodDefinition)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an exception caused by entering a method definition twice.
 	char text[] =
 	    "\n"
@@ -58,7 +84,7 @@ TEST(BugFix_V31, ObjCAlreadyInMethodDefinition)
 
 TEST(BugFix_V31, BraceBeginsReturnType)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an exception caused by a brace beginning the return type.
 	char textIn[] =
 	    "\n"
@@ -77,7 +103,7 @@ TEST(BugFix_V31, BraceBeginsReturnType)
 
 TEST(BugFix_V31, NonInStatementArrayOverMax)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an exception caused by breaking a nonInStatement array.
 	char textIn[] =
 	    "\n"
@@ -104,7 +130,7 @@ TEST(BugFix_V31, NonInStatementArrayOverMax)
 
 TEST(BugFix_V31, MoveBraceWithNoFollowingLine)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an exception caused by moving a brace at end of file.
 	char textIn[] =
 	    "void Foo() { // comment";		// no CR or LF at end of line
@@ -118,7 +144,7 @@ TEST(BugFix_V31, MoveBraceWithNoFollowingLine)
 
 TEST(BugFix_V31, MoveArrayBraceWithNoFollowingLine1)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an exception caused by moving a brace at end of file.
 	// style=break
 	char text[] =
@@ -131,7 +157,7 @@ TEST(BugFix_V31, MoveArrayBraceWithNoFollowingLine1)
 
 TEST(BugFix_V31, MoveArrayBraceWithNoFollowingLine2)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an exception caused by moving a brace at end of file.
 	// style=run-in
 	char text[] =
@@ -144,7 +170,7 @@ TEST(BugFix_V31, MoveArrayBraceWithNoFollowingLine2)
 
 TEST(BugFix_V31, PreviousNonWSCharInitialization)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an exception caused by previousNonWSChar initialized with a space.
 	char text[] =
 	    "&*";
@@ -156,7 +182,7 @@ TEST(BugFix_V31, PreviousNonWSCharInitialization)
 
 TEST(BugFix_V31, SplitLineInFormatPointerOrReferenceToName)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an exception caused by inserting a pointer or reference
 	// after a split point in formatPointerOrReferenceToName()
 	char textIn[] =
@@ -176,7 +202,7 @@ TEST(BugFix_V31, SplitLineInFormatPointerOrReferenceToName)
 
 TEST(BugFix_V31, VirginLinePreviousNonWSChar)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an exception caused by a whitespace character.
 	char text[] =
 	    "\n"
@@ -190,7 +216,7 @@ TEST(BugFix_V31, VirginLinePreviousNonWSChar)
 
 TEST(BugFix_V31, RemoveBracesEOF)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an exception caused by an EOF while removing braces.
 	char text[] =
 	    "\n"
@@ -207,7 +233,7 @@ TEST(BugFix_V31, RemoveBracesEOF)
 
 TEST(BugFix_V31, RunInSpaceIndentCount)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an exception caused by calculating a run-in spaceIndentCount
 	char textIn[] =
 	    "\n"
@@ -231,7 +257,7 @@ TEST(BugFix_V31, RunInSpaceIndentCount)
 
 TEST(BugFix_V31, SansActiveBeautifierStack)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an exception caused by an empty activeBeautifierStack
 	// this MUST have a \n on the last line to fail
 	char text[] =
@@ -247,7 +273,7 @@ TEST(BugFix_V31, SansActiveBeautifierStack)
 
 TEST(BugFix_V31, SansDefineMacro)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an exception caused by a define without a macro
 	char text[] =
 	    "\n"
@@ -262,7 +288,7 @@ TEST(BugFix_V31, SansDefineMacro)
 
 TEST(BugFix_V31, EmptyHeaderStack)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an exception accessing an empty headerStack
 	char text[] =
 	    "\n"
@@ -278,7 +304,7 @@ TEST(BugFix_V31, EmptyHeaderStack)
 
 TEST(BugFix_V31, EmptyActiveBeautifierStack)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an assert failure when accessing an empty activeBeautifierStack
 	char text[] =
 	    "\n"
@@ -296,7 +322,7 @@ TEST(BugFix_V31, EmptyActiveBeautifierStack)
 
 TEST(BugFix_V31, PreprocInOneLineBlock)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix an assert failure if preprocessor is contained in a one line block
 	char textIn[] =
 	    "\n"
@@ -324,7 +350,7 @@ TEST(BugFix_V31, PreprocInOneLineBlock)
 
 TEST(BugFix_V31, NotCheckingEscapedChar)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix not checking for an escape sequence before a character
 	char text[] =
 	    "\n"
@@ -337,7 +363,7 @@ TEST(BugFix_V31, NotCheckingEscapedChar)
 
 TEST(BugFix_V31, AddingExtraAmpersand)
 {
-	// discovered by fuzzing
+	// discovered by afl fuzzing
 	// fix adding a extra ampersand
 	// the "& &" became "&&&"
 	char text[] =
