@@ -213,11 +213,14 @@ void ASEditor::DiscoverEOLSetting(wxString& text)
 	int linesLF;
 	int linesCRLF;
 	CountLineEnds(text, linesCR, linesLF, linesCRLF);
-	if (((linesLF >= linesCR) && (linesLF > linesCRLF)) || ((linesLF > linesCR) && (linesLF >= linesCRLF)))
+	if (((linesLF >= linesCR) && (linesLF > linesCRLF))
+	        || ((linesLF > linesCR) && (linesLF >= linesCRLF)))
 		wxStyledTextCtrl::SetEOLMode(wxSTC_EOL_LF);
-	else if (((linesCR >= linesLF) && (linesCR > linesCRLF)) || ((linesCR > linesLF) && (linesCR >= linesCRLF)))
+	else if (((linesCR >= linesLF) && (linesCR > linesCRLF))
+	         || ((linesCR > linesLF) && (linesCR >= linesCRLF)))
 		wxStyledTextCtrl::SetEOLMode(wxSTC_EOL_CR);
-	else if (((linesCRLF >= linesLF) && (linesCRLF > linesCR)) || ((linesCRLF > linesLF) && (linesCRLF >= linesCR)))
+	else if (((linesCRLF >= linesLF) && (linesCRLF > linesCR))
+	         || ((linesCRLF > linesLF) && (linesCRLF >= linesCR)))
 		wxStyledTextCtrl::SetEOLMode(wxSTC_EOL_CRLF);
 }
 
