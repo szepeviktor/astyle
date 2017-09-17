@@ -2268,7 +2268,7 @@ void ASConsole::standardizePath(string& path, bool removeBeginningSeparator /*fa
 	// If we are on a VMS system, translate VMS style filenames to unix
 	// style.
 	fab = cc$rms_fab;
-	fab.fab$l_fna = (char*) -1;        // *NOPAD*
+	fab.fab$l_fna = (char*) -1;
 	fab.fab$b_fns = 0;
 	fab.fab$l_naml = &naml;
 	naml = cc$rms_naml;

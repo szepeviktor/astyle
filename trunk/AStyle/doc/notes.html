@@ -20,6 +20,7 @@
     <h3>Artistic Style 3.1&nbsp; (pending)</h3>
 
     <ul>
+        <li>Improve recognition of unary + and - when using pad-oper.</li>
         <li>Change the Windows default options file location from USERPROFILE to APPDATA.</li>
         <li>Change options file input to accept UTF-16, or UTF-8 with a BOM (or signature).</li>
         <li>Change &quot;unsigned short&quot; data type to c++11 &quot;char16_t&quot;.</li>
@@ -32,8 +33,14 @@
         <li>Fix Objective-C to allow for method definitions without a specified return type (#447).</li>
         <li>Fix Objective-C to allow for method definitions with multiple param types.</li>
         <li>Fix C/C++ to allow &quot;interface&quot; as a non-keyword (#445).</li>
-        <li>Fix line ends initialization when no line end has been read.</li>
+        <li>Fix line ends initialization if no line end has been read.</li>
+        <li>Fix Java build from including ASLocalizer in the shared library.</li>
         <li>Fix boundary conditions and other errors discovered by fuzzing.</li>
+        <li>Refactoring:
+            <ul>
+                <li>Extract method isNumericVariable() in ASFormatter.</li>
+            </ul>
+        </li>
     </ul>
 
     <h3>Artistic Style 3.0.1&nbsp; (May 2017)</h3>

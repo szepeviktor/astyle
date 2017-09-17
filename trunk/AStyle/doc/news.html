@@ -28,11 +28,19 @@
     <p>
         The console build now accepts options file input encoded in UTF-16, or UTF-8 with a BOM (or signature).</p>
     <p>
+        CMake can now be used to compile AStyle. It can be run from the top level folder, instead of the &quot;build&quot;
+        folder, and builds a Release configuration by default. The &quot;Install Information&quot; conains additional
+        information. </p>
+    <p>
         The Artistic Style source code has been <a href="https://en.wikipedia.org/wiki/Fuzzing" target="_blank" title="open new window">
             fuzz tested</a> with american fuzzy lop (AFL) and libFuzzer from Clang. This will help prevent crashes caused
         by invalid input. There were 20-25 corrections made to the source code. Most of the crashes were caused
         by asserts which would not be present in a release varsion. There were a couple of corrections that required logic
         changes. The changes should not affect the way the code is formatted.</p>
+    <p>
+        The documentation file, astyle.html, now has a sticky button in the lower right corner. It appears after you 
+        have scrolled past the Contents section. It is labeled &quot;Top&quot; but actually takes you back to the Contents.
+        The purpose is to speed up navigation thru the document. </p>
 
     <h3>Artistic Style 3.0&nbsp; (April 2017)</h3>
 
