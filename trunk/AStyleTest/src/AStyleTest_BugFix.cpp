@@ -19,7 +19,32 @@ namespace {
 // AStyle version 3.1 TEST functions
 //----------------------------------------------------------------------------
 
-TEST(BugFix_V31, preprocessorDefineWithNoObject)
+TEST(BugFix_V31, CSharpSetUsedAsVariable)
+{
+	// Fix indentation of 'set' used as a variable in C#.
+	char text[] =
+	    "\n"
+	    "void SetRequested(SettingSet set)\n"
+	    "{\n"
+	    "    AsyncInvoke(() =>\n"
+	    "    {\n"
+	    "        if (set is Iec62388)\n"
+	    "        {\n"
+	    "            DisplayFilter = FILTER_MASK;\n"
+	    "        }\n"
+	    "        else if (set is Iec61174)\n"
+	    "        {\n"
+	    "            tempFilter &= ~(int)ClassA;\n"
+	    "        }\n"
+	    "    });\n"
+	    "}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, PreprocessorDefineWithNoObject)
 {
 	// discovered by clang fuzzer
 	// fix an exception caused by a define with the object on the next line.

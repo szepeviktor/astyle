@@ -412,8 +412,8 @@ TEST(DisableLineFormatting, LineTagOperators)
 	    "    if (age<3.0f&&age>0.0f)     // *NOPAD*\n"
 	    "        setValue(age/3.0f);     // *NOPAD*\n"
 	    "\n"
-	    "    x = (int) - 1;\n"
-	    "    x = (char*) - 1;\n"
+	    "    x = (int) -1;\n"
+	    "    x = (char*) -1;\n"
 	    "    x = a * b - ((c * d) / e);\n"
 	    "    x = a & b;\n"
 	    "    x = (a & b);\n"
@@ -2212,16 +2212,16 @@ TEST(PreCommandHeaders, VolatileSans)
 	// line to receive 1 more indent than needed.
 	char text[] =
 	    "\"\n"
-		"typedef struct _InterruptStatusReg\n"
-		"{\n"
-		"    volatile unsigned vdma0_int : 1;\n"
-		"    volatile unsigned vdma1_int : 1;\n"
-		"    volatile unsigned uart0_int : 1;\n"
-		"    volatile unsigned uart1_int : 1;\n"
-		"    volatile unsigned reserved  : 4;\n"
-		"    _fillbits( 24 );\n"
-		"} INTERRUPT_STATUS_REG;\n"
-		"\n";
+	    "typedef struct _InterruptStatusReg\n"
+	    "{\n"
+	    "    volatile unsigned vdma0_int : 1;\n"
+	    "    volatile unsigned vdma1_int : 1;\n"
+	    "    volatile unsigned uart0_int : 1;\n"
+	    "    volatile unsigned uart1_int : 1;\n"
+	    "    volatile unsigned reserved  : 4;\n"
+	    "    _fillbits( 24 );\n"
+	    "} INTERRUPT_STATUS_REG;\n"
+	    "\n";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -2349,17 +2349,17 @@ TEST(PreCommandHeaders, FinalSans)
 	// Final is not a precommand header.
 	char text[] =
 	    "\n"
-	"void Foo()\n"
-	"{\n"
-	"    failcode = reboot ? EXIT_REBOOT : EXIT_OK;\n"
-	"\n"
-	"final:\n"
-	"\n"
-	"    if( newdevMod )\n"
-	"    {\n"
-	"        FreeLibrary( newdevMod );\n"
-	"    }\n"
-	"}";
+	    "void Foo()\n"
+	    "{\n"
+	    "    failcode = reboot ? EXIT_REBOOT : EXIT_OK;\n"
+	    "\n"
+	    "final:\n"
+	    "\n"
+	    "    if( newdevMod )\n"
+	    "    {\n"
+	    "        FreeLibrary( newdevMod );\n"
+	    "    }\n"
+	    "}";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);

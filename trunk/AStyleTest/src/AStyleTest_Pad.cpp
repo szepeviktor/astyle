@@ -2383,6 +2383,64 @@ TEST(PadOperator, Comments)
 	delete[] textOut;
 }
 
+TEST(PadOperator, Unary)
+{
+	// these unary operators should NOT be padded
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar1 = (char*) -1;\n"
+	    "    bar2 = (int) -1;\n"
+	    "    bar3 = (size_t)-1;\n"
+	    "    bar4 = (unsigned int)-1;\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar1 = (char*) -1;\n"
+	    "    bar2 = (int) -1;\n"
+	    "    bar3 = (size_t) -1;\n"
+	    "    bar4 = (unsigned int) -1;\n"
+	    "}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(PadOperator, UnarySans)
+{
+	// these non-unary operators should be padded
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar5 = (2*2)-1;\n"
+	    "    bar6 = (a*b)-1;\n"
+	    "    int x = line.length()+1;\n"
+	    "    if (x < line.length()-1) foobar();\n"
+	    "    int z = GetSystemMetrics(SM_CXSCREEN)-1;\n"
+	    "    int z = 4*(sqrt(2.)-1.);\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    bar5 = (2 * 2) - 1;\n"
+	    "    bar6 = (a * b) - 1;\n"
+	    "    int x = line.length() + 1;\n"
+	    "    if (x < line.length() - 1) foobar();\n"
+	    "    int z = GetSystemMetrics(SM_CXSCREEN) - 1;\n"
+	    "    int z = 4 * (sqrt(2.) - 1.);\n"
+	    "}";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(PadOperator, SquareBrackets)
 {
 	// operators in square bracket should be padded

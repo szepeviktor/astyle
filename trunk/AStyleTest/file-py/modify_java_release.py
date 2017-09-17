@@ -1,5 +1,6 @@
 #! /usr/bin/python3
 """Modify the Artistic Style Java JDK release in the java shared library compiles.
+   NOTE: NO LONGER USED. THE RELEASE HAS CHANGED TO %JAVA_HOME%.
 """
 
 # to disable the print statement and use the print() function (version 3 format)
