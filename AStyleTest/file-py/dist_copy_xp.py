@@ -54,7 +54,7 @@ def build_windows_distribution():
 
     print("Compiling with ({})".format(vsdir))
     print("Building AStyle release", AS_RELEASE)
-    if not vsdir >= "vs2013":
+    if vsdir < "vs2013":
         libastyle.system_exit("Must compile with vs2013 or greater in libastyle: " + vsdir)
     dist_base = __base_dir + "/DistWindowsXP"
     dist_astyle = dist_base + "/AStyleXP"
@@ -234,14 +234,16 @@ def copy_astyle_top(dist_top, to_dos=False):
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
         if (filename == "LICENSE.md"
-                or filename == "README.md"):
+                or filename == "README.md"
+                or filename == "CMakeLists.txt"):
             shutil.copy(filepath, dist_top)
             print("    " + filename)
         else:
             deleted += 1
     convert_line_ends(dist_top, to_dos)
     # verify copy - had a problem with bad filenames
-    distfiles = (glob.glob(dist_top + "/*.md"))
+    distfiles = (glob.glob(dist_top + "/*.md")
+                 + glob.glob(dist_top + "CMakeLists.txt"))
     if len(distfiles) != len(docfiles) - deleted:
         libastyle.system_exit("Error copying top: " + str(len(distfiles)))
 

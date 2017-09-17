@@ -71,6 +71,10 @@ def main():
                              libastyle.get_project_directory(True) + "AStyleWxTest/srcx"]
     update_source_files(source_directory_list, source_extension_list)
 
+    # change the internal version number in cmake
+    cmakelists_file_path = libastyle.get_project_directory(True) + "AStyle/CMakeLists.txt"
+    update_cmakelists(cmakelists_file_path)
+
     # change the internal version number in astyle_main source
     astyle_main_file_path = libastyle.get_project_directory(True) + "AStyle/src/astyle_main.cpp"
     update_astyle_main(astyle_main_file_path)
@@ -171,8 +175,11 @@ def update_astyle_main(filepath):
                 printable_path = get_printble_filepath(filepath)
                 print(printable_path, '(', "line", lines, ')')
                 # first check for multiple updating runs
-                if not old_astyle_release in line:
+                if old_astyle_release not in line:
                     libastyle.system_exit("ERROR: cannot find old release in line")
+                if new_astyle_release in line:
+                    libastyle.system_exit("ERROR: release is already changed to "
+                                          + str(new_astyle_release))
                 line = line.replace(old_astyle_release, new_astyle_release)
                 release_start = line.find(new_astyle_release)
                 if release_start == -1:
@@ -195,6 +202,22 @@ def update_astyle_main(filepath):
         libastyle.system_exit("ERROR: astyle_main was not changed")
     print("astyle_main Source File", source_total)
     print()
+
+# -----------------------------------------------------------------------------
+
+def update_cmakelists(cmakelists_file_path):
+    """Update version number in the CMakeLists.txt file.
+       The directory list and file extensions are in main().
+    """
+    updated_file = []
+    # find and change matching lines
+    with open(cmakelists_file_path, mode='r', encoding='utf-8', newline='') as cmakelists_file:
+        file_changed = modify_input_file(cmakelists_file_path, updated_file)
+        if file_changed:
+            cmakelists_file = get_printble_filepath(cmakelists_file_path)
+            print(cmakelists_file)
+    if __file_update:
+        write_output_file(updated_file, cmakelists_file_path)
 
 # -----------------------------------------------------------------------------
 

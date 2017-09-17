@@ -1,19 +1,35 @@
 # analyze powershell scripts using PSScript Analyzer
+# the PSScript Analyzer is installed separately from powershell
 # PSAvoidUsingWriteHost is excluded because Write-Host can display color
 
-$loc = Set-Location -Path "$Env:USERPROFILE\Batch" -PassThru
-Write-Host("`nDirectory $loc")
+# restart powershell ----------------------------------------------------------
 
-$psfiles = @("clean.ps1", "dump.ps1", "load.ps1", "load-svn.ps1", "setvars.ps1")
+# restart powershell with -noexit 
+param($Show)
+if (!$Show)
+{
+    PowerShell -NoExit -NoLogo -File $MyInvocation.MyCommand.Path 1
+    return
+}
+
+# -----------------------------------------------------------------------------
+
+#clear
+Write-Host "Powershell Version $($Host.version.major) $($PSVersionTable.PSVersion)"
+$batdir = "$Env:USERPROFILE/Batch"
+Write-Host("Directory $batdir")
+
+$psfiles = Get-ChildItem "$batdir/*.ps1" | foreach { $_.Name }
 ForEach ($psfile in $psfiles)
 {
     $str = "* " * 25
-    Write-Host("`nAnalyzing $psfile $str")
-	Invoke-ScriptAnalyzer  -Path $psfile `
-            -ExcludeRule PSAvoidUsingWriteHost, PSAvoidUsingCmdletAliases
+    Write-Host "`nAnalyzing "$psfile   " $str"
+    Invoke-ScriptAnalyzer  -Path $batdir/$psfile `
+        -ExcludeRule PSAvoidUsingWriteHost, PSAvoidUsingCmdletAliases
 }
 
 Write-Host
-Write-Host
-Write-Host "Press any key to end . . ."
-cmd /c pause | Out-Null
+# not needed with -noexit
+#Write-Host
+#Pause_Host
+ 
