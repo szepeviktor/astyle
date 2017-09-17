@@ -2981,8 +2981,14 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				if (line.find_first_of("=;", i) != string::npos)
 					newHeader = nullptr;
 			}
+			else if (isSharpStyle()
+			         && (newHeader == &AS_GET || newHeader == &AS_SET))
+			{
+				if (getNextWord(line, i + (*newHeader).length()) == "is")
+					newHeader = nullptr;
+			}
 			else if (newHeader == &AS_USING
-			         && ASBeautifier::peekNextChar(line, i + (*newHeader).length() - 1) != '(')
+			         && peekNextChar(line, i + (*newHeader).length() - 1) != '(')
 				newHeader = nullptr;
 
 			if (newHeader != nullptr)

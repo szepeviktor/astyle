@@ -35,9 +35,9 @@ img { border: none; }
 
 pre { margin-left: 0.3in; color: navy; font-weight: bold; }
 
-/*- the following styles are for the 'top' button 
-    the corresponding javascript is in the html document 
-    from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_scroll_to_top
+/*- the following styles are for the 'top' button
+    the corresponding javascript is in the html document from
+    https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_scroll_to_top
 */
 #topBtn {
     display: none;          /* Hidden by default */

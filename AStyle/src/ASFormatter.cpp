@@ -2916,6 +2916,36 @@ BraceType ASFormatter::getBraceType()
 	return returnVal;
 }
 
+bool ASFormatter::isNumericVariable(string word) const
+{
+	if (word == "bool"
+	        || word == "int"
+	        || word == "void"
+	        || word == "char"
+	        || word == "long"
+	        || word == "short"
+	        || word == "double"
+	        || word == "float"
+	        || (word.length() >= 4     // check end of word for _t
+	            && word.compare(word.length() - 2, 2, "_t") == 0)
+// removed release 3.1
+//	        || word == "Int32"
+//	        || word == "UInt32"
+//	        || word == "Int64"
+//	        || word == "UInt64"
+	        || word == "BOOL"
+	        || word == "DWORD"
+	        || word == "HWND"
+	        || word == "INT"
+	        || word == "LPSTR"
+	        || word == "VOID"
+	        || word == "LPVOID"
+	        || word == "wxFontEncoding"
+	   )
+		return true;
+	return false;
+}
+
 /**
 * check if a colon is a class initializer separator
 *
@@ -3295,11 +3325,31 @@ bool ASFormatter::isUnaryOperator() const
 {
 	assert(currentChar == '+' || currentChar == '-');
 
+	// does a digit follow a c-style cast
+	if (previousCommandChar == ')')
+	{
+		if (!isdigit(peekNextChar()))
+			return false;
+		size_t end = currentLine.rfind(')', charNum);
+		if (end == string::npos)
+			return false;
+		size_t lastChar = currentLine.find_last_not_of(" \t", end - 1);
+		if (lastChar == string::npos)
+			return false;
+		if (currentLine[lastChar] == '*')
+			end = lastChar;
+		string prevWord = getPreviousWord(currentLine, end);
+		if (prevWord.empty())
+			return false;
+		if (!isNumericVariable(prevWord))
+			return false;
+		return true;
+	}
+
 	return ((isCharImmediatelyPostReturn || !isLegalNameChar(previousCommandChar))
 	        && previousCommandChar != '.'
 	        && previousCommandChar != '\"'
 	        && previousCommandChar != '\''
-	        && previousCommandChar != ')'
 	        && previousCommandChar != ']');
 }
 
@@ -4323,43 +4373,19 @@ void ASFormatter::padParens()
 					        && isCharPotentialHeader(prevWord, 0))
 						prevWordH = ASBase::findHeader(prevWord, 0, headers);
 					if (prevWordH != nullptr)
-						prevIsParenHeader = true;
-					else if (prevWord == AS_RETURN)  // don't unpad
-						prevIsParenHeader = true;
+						prevIsParenHeader = true;    // don't unpad
+					else if (prevWord == AS_RETURN)
+						prevIsParenHeader = true;    // don't unpad
 					else if ((prevWord == AS_NEW || prevWord == AS_DELETE)
-					         && shouldPadHeader)  // don't unpad
-						prevIsParenHeader = true;
-					else if (isCStyle() && prevWord == AS_THROW && shouldPadHeader) // don't unpad
-						prevIsParenHeader = true;
-					else if (prevWord == "and" || prevWord == "or" || prevWord == "in")  // don't unpad
-						prevIsParenHeader = true;
+					         && shouldPadHeader)
+						prevIsParenHeader = true;    // don't unpad
+					else if (isCStyle() && prevWord == AS_THROW && shouldPadHeader)
+						prevIsParenHeader = true;    // don't unpad
+					else if (prevWord == "and" || prevWord == "or" || prevWord == "in")
+						prevIsParenHeader = true;    // don't unpad
 					// don't unpad variables
-					else if (prevWord == "bool"
-					         || prevWord == "int"
-					         || prevWord == "void"
-					         || prevWord == "void*"
-					         || prevWord == "char"
-					         || prevWord == "char*"
-					         || prevWord == "long"
-					         || prevWord == "double"
-					         || prevWord == "float"
-					         || (prevWord.length() >= 4     // check end of word for _t
-					             && prevWord.compare(prevWord.length() - 2, 2, "_t") == 0)
-					         || prevWord == "Int32"
-					         || prevWord == "UInt32"
-					         || prevWord == "Int64"
-					         || prevWord == "UInt64"
-					         || prevWord == "BOOL"
-					         || prevWord == "DWORD"
-					         || prevWord == "HWND"
-					         || prevWord == "INT"
-					         || prevWord == "LPSTR"
-					         || prevWord == "VOID"
-					         || prevWord == "LPVOID"
-					        )
-					{
-						prevIsParenHeader = true;
-					}
+					else if (isNumericVariable(prevWord))
+						prevIsParenHeader = true;    // don't unpad
 				}
 			}
 			// do not unpad operators, but leave them if already padded
