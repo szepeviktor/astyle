@@ -25,7 +25,7 @@ public:
 
 	static size_t EncodeText(wxFontEncoding encoding, const wxString& textIn, wxCharBuffer& mbBuff);
 	wxFontEncoding GetFileEncoding() const;
-	wxString GetConvertedText() const;
+	wxString& GetConvertedText();
 	bool IsOK() const;
 	bool UsesBOM() const;
 private:

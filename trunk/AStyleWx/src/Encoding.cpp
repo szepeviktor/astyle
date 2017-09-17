@@ -50,7 +50,7 @@ wxFontEncoding Encoding::GetFileEncoding() const
 	return m_encoding;
 }
 
-wxString Encoding::GetConvertedText() const
+wxString& Encoding::GetConvertedText()
 {
 	return m_convertedText;
 }
@@ -77,6 +77,7 @@ bool Encoding::DetectEncoding(const wxString& filename)
 	buffer[size + 3] = 0;
 
 	size_t readBytes = file.Read((void*)buffer, size);
+	assert(readBytes == size);
 
 	if (readBytes == 0)
 	{
@@ -85,10 +86,10 @@ bool Encoding::DetectEncoding(const wxString& filename)
 	}
 
 	// detect UTF encodings with a BOM
-	bool isConverted = DetectEncodingBOM(buffer, size + 4);
+	bool isConverted = DetectEncodingBOM(buffer, size);
 	// use 8-bit encoding
 	if (!isConverted && !m_usesBOM)
-		isConverted = DetectEncoding8Bit(buffer, size + 4);
+		isConverted = DetectEncoding8Bit(buffer, size);
 
 	file.Close();
 	free(buffer);
@@ -160,8 +161,8 @@ bool Encoding::DetectEncodingBOM(const wxByte* buffer, size_t size)
 	else
 		return false;
 
+	assert(outlen < size);
 	m_convertedText = wideBuff;
-
 	return true;
 }
 

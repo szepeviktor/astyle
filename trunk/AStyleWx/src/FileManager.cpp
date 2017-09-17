@@ -263,8 +263,7 @@ bool FileManager::LoadEditFile(const wxFileName& filepath)
 		return false;
 	}
 
-	// encoding detector reads the file and detects the encoding
-	// do not use wxStyledTextCtrl::LoadFile, it doesn't handle encoding
+	// read the file and detect the encoding
 	Encoding encoding(filepath.GetFullPath());
 
 	if (!encoding.IsOK())
@@ -281,7 +280,7 @@ bool FileManager::LoadEditFile(const wxFileName& filepath)
 	wxStatusBar* statusBar = m_frame->GetStatusBar();
 	if (statusBar)
 		statusBar->Freeze();
-	wxString fileText = encoding.GetConvertedText();
+	wxString& fileText = encoding.GetConvertedText();
 	m_editor->DiscoverEOLSetting(fileText);
 	m_editor->wxStyledTextCtrl::SetText(fileText);
 	InitializeEditor();
