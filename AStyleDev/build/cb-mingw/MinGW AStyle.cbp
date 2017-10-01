@@ -11,7 +11,7 @@
 				<Option object_output="obj" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-atOP  ..\..\test-c\*.cpp  ..\..\test-c\*.h" />
+				<Option parameters="-A2tOP  ..\..\test-data\*.cpp  ..\..\test-data\*.h" />
 				<Option projectCompilerOptionsRelation="1" />
 				<Option projectLinkerOptionsRelation="1" />
 				<Option projectIncludeDirsRelation="1" />

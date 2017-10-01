@@ -31,7 +31,7 @@
 					<Add option="-x" />
 					<Add library="cw32mt" />
 					<Add library="import32" />
-					<Add library="bin/AStyle301.lib" />
+					<Add library="bin/AStyle31.lib" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
