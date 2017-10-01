@@ -50,7 +50,7 @@ ipixmapdir=$(idatadir)/pixmaps
 ibindir=$(prefix)/bin
 rpaths = -Wl,-rpath,./ -Wl,-rpath,../ -Wl,-rpath,./lib -Wl,-rpath,../lib \
 -Wl,-rpath,../../../../AStyle/build/gcc/bin  -Wl,-rpath,../../../../astyle/build/gcc/bin
-SOLIBVER = 3.0.1
+SOLIBVER = 3.1.0
 # -Wno-unused-local-typedefs is for wxWidgets 2.8 and gcc 4.9 compiler
 # wxWidgets 3.0 does not need it, gcc < 4.9 does not need it
 CBASEFLAGS = -Wall -Wextra -std=c++11 -Wno-unused-local-typedefs -fno-rtti -fno-exceptions \

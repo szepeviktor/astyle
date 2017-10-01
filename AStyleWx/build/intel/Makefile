@@ -55,7 +55,7 @@ ipixmapdir=$(idatadir)/pixmaps
 ibindir=$(prefix)/bin
 rpaths = -Wl,-rpath,./ -Wl,-rpath,../ -Wl,-rpath,./lib -Wl,-rpath,../lib \
 -Wl,-rpath,../../../../AStyle/build/intel/bin  -Wl,-rpath,../../../../astyle/build/intel/bin
-SOLIBVER = 3.0.1
+SOLIBVER = 3.1.0
 # c++11 is required for intel wx=3.0
 CBASEFLAGS = -w3 -Wall -std=c++11 -fno-rtti -fno-exceptions \
 -I../../src -I../../dialog -I../../image
