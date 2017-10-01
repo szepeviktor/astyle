@@ -4787,7 +4787,7 @@ struct StyleBannerCppF : public Test
 	}
 };
 
-TEST_F(StyleBannerCppF, LongOption)
+TEST_F(StyleBannerCppF, BannerOption)
 {
 	// test banner style option
 	char text[] =
@@ -4812,6 +4812,36 @@ TEST_F(StyleBannerCppF, LongOption)
 	    "\n"
 	    "}   // end FooName\n";
 	char options[] = "style=banner";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST_F(StyleBannerCppF, RatliffOption)
+{
+	// test ratliff style option
+	char text[] =
+	    "\nnamespace FooName {\n"
+	    "\n"
+	    "class FooClass {\n"
+	    "    private:\n"
+	    "        bool var1;\n"
+	    "        void func1();\n"
+	    "    protected:\n"
+	    "        bool var2;\n"
+	    "        void func2();\n"
+	    "    };\n"
+	    "\n"
+	    "void FooClass::Foo(bool isFoo) {\n"
+	    "    if (isFoo) {\n"
+	    "        bar();\n"
+	    "        }\n"
+	    "    else\n"
+	    "        anotherBar();\n"
+	    "    }\n"
+	    "\n"
+	    "}   // end FooName\n";
+	char options[] = "style=ratliff";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;

@@ -469,29 +469,101 @@ TEST_F(PrintF, FormattedWildcard)
 	EXPECT_EQ(text, textOut);
 }
 
-TEST_F(PrintF, VerboseWildcard_OptionsFile)
-// test print with "verbose" wildcard
+TEST_F(PrintF, VerboseWildcard_DefaultOptionFile)
+// test print with "verbose" wildcard and default option file
 {
 	console->setIsVerbose(true);		// test variable
 	// expected text
 	string text =
 	    "Artistic Style <version>                            <date>\n"
-	    "Using default options file <test_directory>/astylerc.txt\n"
+	    "Default option file  <test_directory>/astylerc.txt\n"
 	    "------------------------------------------------------------\n"
 	    "Directory  <test_directory>/*.cpp\n"
 	    "------------------------------------------------------------\n"
 	    "Formatted  fileFormatted.cpp\n"
 	    "Unchanged  fileUnchanged.cpp\n"
 	    "------------------------------------------------------------\n"
-	    " 1 formatted   1 unchanged   0 seconds   12 lines\n";
+	    " 1 formatted   1 unchanged   0 seconds   12 lines\n\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back("--ascii");	// output in English
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(astyleOptionsVector);
-	// add options file
-	console->setOptionsFileName(getTestDirectory() + "/astylerc.txt");
+	// add option file
+	console->setOptionFileName(getTestDirectory() + "/astylerc.txt");
+	// redirect stdout and get the report
+	redirectStream();
+	console->processFiles();
+	string textOut = restoreStream();
+	adjustTextOut(textOut);
+	// check entries in the fileNameVector
+	vector<string> fileName = console->getFileName();
+	ASSERT_EQ(fileNames.size() - filesExcluded, fileName.size()) << "Print format was not checked.";
+	// check the report content
+	EXPECT_EQ(text, textOut);
+}
+
+TEST_F(PrintF, VerboseWildcard_ProjectOptionFile)
+// test print with "verbose" wildcard and project option file
+{
+	console->setIsVerbose(true);		// test variable
+	// expected text
+	string text =
+	    "Artistic Style <version>                            <date>\n"
+	    "Project option file  <test_directory>/astylerc.txt\n"
+	    "------------------------------------------------------------\n"
+	    "Directory  <test_directory>/*.cpp\n"
+	    "------------------------------------------------------------\n"
+	    "Formatted  fileFormatted.cpp\n"
+	    "Unchanged  fileUnchanged.cpp\n"
+	    "------------------------------------------------------------\n"
+	    " 1 formatted   1 unchanged   0 seconds   12 lines\n\n";
+	adjustText(text);
+	// call astyle processOptions()
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
+	console->processOptions(astyleOptionsVector);
+	// add project option file
+	console->setProjectOptionFileName(getTestDirectory() + "/astylerc.txt");
+	// redirect stdout and get the report
+	redirectStream();
+	console->processFiles();
+	string textOut = restoreStream();
+	adjustTextOut(textOut);
+	// check entries in the fileNameVector
+	vector<string> fileName = console->getFileName();
+	ASSERT_EQ(fileNames.size() - filesExcluded, fileName.size()) << "Print format was not checked.";
+	// check the report content
+	EXPECT_EQ(text, textOut);
+}
+
+TEST_F(PrintF, VerboseWildcard_DefaultAndProjectOptionFiles)
+// test print with "verbose" wildcard and default and project option files
+{
+	console->setIsVerbose(true);		// test variable
+	// expected text
+	string text =
+	    "Artistic Style <version>                            <date>\n"
+	    "Default option file  <test_directory>/astylerc.txt\n"
+	    "Project option file  <test_directory>/astylerc.txt\n"
+	    "------------------------------------------------------------\n"
+	    "Directory  <test_directory>/*.cpp\n"
+	    "------------------------------------------------------------\n"
+	    "Formatted  fileFormatted.cpp\n"
+	    "Unchanged  fileUnchanged.cpp\n"
+	    "------------------------------------------------------------\n"
+	    " 1 formatted   1 unchanged   0 seconds   12 lines\n\n";
+	adjustText(text);
+	// call astyle processOptions()
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
+	console->processOptions(astyleOptionsVector);
+	// add option files
+	console->setOptionFileName(getTestDirectory() + "/astylerc.txt");
+	console->setProjectOptionFileName(getTestDirectory() + "/astylerc.txt");
 	// redirect stdout and get the report
 	redirectStream();
 	console->processFiles();
@@ -517,7 +589,7 @@ TEST_F(PrintF, VerboseFormattedWildcard)
 	    "------------------------------------------------------------\n"
 	    "Formatted  fileFormatted.cpp\n"
 	    "------------------------------------------------------------\n"
-	    " 1 formatted   1 unchanged   0 seconds   12 lines\n";
+	    " 1 formatted   1 unchanged   0 seconds   12 lines\n\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -590,9 +662,9 @@ TEST_F(PrintF, VerboseSingleFile_OptionsFile)
 	// expected text
 	string text =
 	    "Artistic Style <version>                            <date>\n"
-	    "Using default options file <test_directory>/astylerc.txt\n"
+	    "Default option file  <test_directory>/astylerc.txt\n"
 	    "Formatted  <test_directory>/fileFormatted.cpp\n"
-	    " 1 formatted   0 unchanged   0 seconds   6 lines\n";
+	    " 1 formatted   0 unchanged   0 seconds   6 lines\n\n";
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
@@ -600,7 +672,7 @@ TEST_F(PrintF, VerboseSingleFile_OptionsFile)
 	astyleOptionsVector.push_back(getTestDirectory() + "/fileFormatted.cpp");
 	console->processOptions(astyleOptionsVector);
 	// add options file
-	console->setOptionsFileName(getTestDirectory() + "/astylerc.txt");
+	console->setOptionFileName(getTestDirectory() + "/astylerc.txt");
 	// redirect stdout and get the report
 	redirectStream();
 	console->processFiles();
@@ -627,7 +699,7 @@ TEST_F(PrintF, Quiet_AllOptions)
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(astyleOptionsVector);
 	// add options and exclude files
-	console->setOptionsFileName(getTestDirectory() + "/astylerc.txt");
+	console->setOptionFileName(getTestDirectory() + "/astylerc.txt");
 	buildExcludeVector();
 	// redirect stdout and get the report
 	redirectStream();

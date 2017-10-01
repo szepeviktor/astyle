@@ -61,12 +61,6 @@ extern "C" const char* STDCALL AStyleGetVersion(void);
 #endif
 
 //-----------------------------------------------------------------------------
-// declarations for AStyleMainUtf16 library build
-//-----------------------------------------------------------------------------
-
-extern "C" wchar_t* STDCALL AStyleMainUtf16(const wchar_t*, const wchar_t*, fpError, fpAlloc);
-
-//-----------------------------------------------------------------------------
 // declarations for AStyleTest callback functions
 //-----------------------------------------------------------------------------
 

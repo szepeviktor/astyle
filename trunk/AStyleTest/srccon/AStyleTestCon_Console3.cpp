@@ -36,11 +36,11 @@ extern int _CRT_glob;
 namespace {
 //
 //----------------------------------------------------------------------------
-// AStyle ProcessOptions3F Class
+// AStyle ProcessMiscOptions3F Class
 //----------------------------------------------------------------------------
 
-class ProcessOptions3F : public Test
-// The ProcessOptions3F class captures the stdout output stream and redirects it to
+class ProcessMiscOptions3F : public Test
+// The ProcessMiscOptions3F class captures the stdout output stream and redirects it to
 // a file. The file is used to verify the Artistic Style console build print format.
 // The functions were "borrowed" from the CapturedStream class in gtest-port.cc of
 // Google Test (gtest).
@@ -52,9 +52,9 @@ public:
 	string filename_;			// temporary file holding the stdout output
 
 public:
-	ProcessOptions3F();
+	ProcessMiscOptions3F();
 
-	~ProcessOptions3F();
+	~ProcessMiscOptions3F();
 
 	// redirect the stdout stream to a temporary file
 	void redirectStream();
@@ -68,7 +68,7 @@ private:
 	string readEntireFile(FILE* file);
 };
 
-ProcessOptions3F::ProcessOptions3F()
+ProcessMiscOptions3F::ProcessMiscOptions3F()
 // c'tor
 {
 #if defined(_MSC_VER) || defined(__BORLANDC__)
@@ -84,7 +84,7 @@ ProcessOptions3F::ProcessOptions3F()
 	setlocale(LC_ALL, "C");
 }
 
-ProcessOptions3F::~ProcessOptions3F()
+ProcessMiscOptions3F::~ProcessMiscOptions3F()
 // d'tor
 {
 	if (uncaptured_fd_ != -1)
@@ -96,7 +96,7 @@ ProcessOptions3F::~ProcessOptions3F()
 	removeTestFile(filename_);
 }
 
-string ProcessOptions3F::readEntireFile(FILE* file)
+string ProcessMiscOptions3F::readEntireFile(FILE* file)
 // called by restoreStream() to read the entire content of a file as a string
 {
 	fseek(file, 0, SEEK_END);
@@ -118,7 +118,7 @@ string ProcessOptions3F::readEntireFile(FILE* file)
 	return textOut;
 }
 
-void ProcessOptions3F::redirectStream()
+void ProcessMiscOptions3F::redirectStream()
 // redirect the stdout stream to a temporary file
 {
 #ifdef _WIN32
@@ -143,7 +143,7 @@ void ProcessOptions3F::redirectStream()
 	close(captured_fd);
 }
 
-string ProcessOptions3F::restoreStream()
+string ProcessMiscOptions3F::restoreStream()
 // restore the stdout stream and return the captured text
 {
 	if (uncaptured_fd_ != -1)
@@ -165,7 +165,7 @@ string ProcessOptions3F::restoreStream()
 // The print on these needs to be redirected to a file.
 //----------------------------------------------------------------------------
 
-TEST_F(ProcessOptions3F, HelpOption)
+TEST_F(ProcessMiscOptions3F, HelpOption)
 // test processOptions for the long help option display
 {
 	ASFormatter formatter;
@@ -194,7 +194,7 @@ TEST_F(ProcessOptions3F, HelpOption)
 #endif
 }
 
-TEST_F(ProcessOptions3F, HelpOption_Short1)
+TEST_F(ProcessMiscOptions3F, HelpOption_Short1)
 // test processOptions for the short help option display
 {
 	ASFormatter formatter;
@@ -223,7 +223,7 @@ TEST_F(ProcessOptions3F, HelpOption_Short1)
 #endif
 }
 
-TEST_F(ProcessOptions3F, HelpOption_Short2)
+TEST_F(ProcessMiscOptions3F, HelpOption_Short2)
 // test processOptions for short help option display
 {
 	ASFormatter formatter;
@@ -252,7 +252,7 @@ TEST_F(ProcessOptions3F, HelpOption_Short2)
 #endif
 }
 
-TEST_F(ProcessOptions3F, VersionOption)
+TEST_F(ProcessMiscOptions3F, VersionOption)
 // test processOptions for version option display
 {
 	ASFormatter formatter;
@@ -277,7 +277,7 @@ TEST_F(ProcessOptions3F, VersionOption)
 #endif
 }
 
-TEST_F(ProcessOptions3F, VersionOption_Short)
+TEST_F(ProcessMiscOptions3F, VersionOption_Short)
 // test processOptions for version short option display
 {
 	ASFormatter formatter;
@@ -306,7 +306,7 @@ TEST_F(ProcessOptions3F, VersionOption_Short)
 // AStyle html options
 //----------------------------------------------------------------------------
 
-TEST_F(ProcessOptions3F, HtmlOption)
+TEST_F(ProcessMiscOptions3F, HtmlOption)
 // Test processOptions for html option.
 {
 	ASFormatter formatter;
@@ -334,7 +334,7 @@ TEST_F(ProcessOptions3F, HtmlOption)
 #endif
 }
 
-TEST_F(ProcessOptions3F, HtmlOption_Short)
+TEST_F(ProcessMiscOptions3F, HtmlOption_Short)
 // Test processOptions for html option.
 {
 	ASFormatter formatter;
@@ -362,7 +362,7 @@ TEST_F(ProcessOptions3F, HtmlOption_Short)
 #endif
 }
 
-TEST_F(ProcessOptions3F, HtmlOption_ValidFileName)
+TEST_F(ProcessMiscOptions3F, HtmlOption_ValidFileName)
 // Test processOptions for html option.
 // Should be able to open a valid file.
 {
@@ -399,7 +399,7 @@ TEST_F(ProcessOptions3F, HtmlOption_ValidFileName)
 #endif
 }
 
-TEST_F(ProcessOptions3F, HtmlOption_InvalidFileName)
+TEST_F(ProcessMiscOptions3F, HtmlOption_InvalidFileName)
 // Test processOptions for html= option with invalid file name.
 // Should get an error message for an invalid file.
 {
@@ -485,7 +485,7 @@ TEST(Other, ErrorExit)
 	// death test without error message
 	EXPECT_EXIT(console->error(),
 	            ExitedWithCode(EXIT_FAILURE),
-	            "\nArtistic Style ");	// "Artistic Style has terminated!"
+	            "Artistic Style has terminated");
 #endif
 }
 
@@ -499,7 +499,7 @@ TEST(Other, ErrorExitWihMessage)
 	// death test with error message
 	EXPECT_EXIT(console->error("why", "what"),
 	            ExitedWithCode(EXIT_FAILURE),
-	            "why what\n\nArtistic Style ");	// "Artistic Style has terminated!"
+	            "why what\nArtistic Style has terminated");
 #endif
 }
 

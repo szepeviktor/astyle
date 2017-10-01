@@ -903,18 +903,21 @@ struct TranslationF : public Test
 		m_ascii.push_back("Formatted  %s\n");		// should align with unchanged
 		m_ascii.push_back("Unchanged  %s\n");		// should align with formatted
 		m_ascii.push_back("Directory  %s\n");
+		m_ascii.push_back("Default option file  %s\n");
+		m_ascii.push_back("Project option file  %s\n");
 		m_ascii.push_back("Exclude  %s\n");
 		m_ascii.push_back("Exclude (unmatched)  %s\n");
 		m_ascii.push_back(" %s formatted   %s unchanged   ");
 		m_ascii.push_back(" seconds   ");
 		m_ascii.push_back("%d min %d sec   ");
 		m_ascii.push_back("%s lines\n");
-		m_ascii.push_back("Using default options file %s\n");
 		m_ascii.push_back("Opening HTML documentation %s\n");
-		m_ascii.push_back("Invalid option file options:");
+		m_ascii.push_back("Invalid default options:");
+		m_ascii.push_back("Invalid project options:");
 		m_ascii.push_back("Invalid command line options:");
 		m_ascii.push_back("For help on options type 'astyle -h'");
-		m_ascii.push_back("Cannot open options file");
+		m_ascii.push_back("Cannot open default option file");
+		m_ascii.push_back("Cannot open project option file");
 		m_ascii.push_back("Cannot open directory");
 		m_ascii.push_back("Cannot open HTML file %s\n");
 		m_ascii.push_back("Command execute failure");
@@ -925,7 +928,7 @@ struct TranslationF : public Test
 		m_ascii.push_back("No file to process %s\n");
 		m_ascii.push_back("Did you intend to use --recursive");
 		m_ascii.push_back("Cannot process UTF-32 encoding");
-		m_ascii.push_back("\nArtistic Style has terminated");
+		m_ascii.push_back("Artistic Style has terminated\n");
 	}
 	void getPrintSpecifiers(string& stringIn, vector<string>& specifiers)
 	// Extract the print specifiers from a string.
@@ -1033,10 +1036,11 @@ struct TranslationF : public Test
 		{
 			// remove the line end for printing
 			string asciiPrt = removeLineEnd(m_ascii[i]);
-			// test that the string is found
+			// test that the correct string is found
+			string ascii = language.getTranslationString(i);
+			ASSERT_EQ(m_ascii[i], ascii) << "strings not equal or out of sequence";
 			wstring translation;
 			bool stringOk = language.getWideTranslation(m_ascii[i], translation);
-//			stringOk = false;
 			if (!stringOk)
 			{
 				EXPECT_TRUE(stringOk) << "string not found \"" << asciiPrt << "\"";
@@ -1076,7 +1080,7 @@ struct TranslationF : public Test
 		wstring total3Translation;
 		wstring total4Translation;
 		// get the translation strings
-		for (size_t i = 0; i < 10; i++)
+		for (size_t i = 0; i < m_ascii.size(); i++)
 		{
 			// remove the line end for printing
 			string asciiPrt = removeLineEnd(m_ascii[i]);
@@ -1106,30 +1110,40 @@ struct TranslationF : public Test
 			}
 			if (i == 3)
 			{
-				EXPECT_TRUE(m_ascii[i].substr(0, 7) == "Exclude") << "Missing exclude 1 keyword";
+				EXPECT_TRUE(m_ascii[i].substr(0, 14) == "Default option") << "Missing \"Default option\" keyword";
 				exclude1Translation = translation;
 			}
 			if (i == 4)
 			{
-				EXPECT_TRUE(m_ascii[i].substr(0, 7) == "Exclude") << "Missing exclude 2 keyword";
+				EXPECT_TRUE(m_ascii[i].substr(0, 14) == "Project option") << "Missing \"Project option\" keyword";
 				exclude2Translation = translation;
 			}
 			if (i == 5)
 			{
+				EXPECT_TRUE(m_ascii[i].substr(0, 7) == "Exclude") << "Missing exclude 1 keyword";
+				exclude1Translation = translation;
+			}
+			if (i == 6)
+			{
+				EXPECT_TRUE(m_ascii[i].substr(0, 7) == "Exclude") << "Missing exclude 2 keyword";
+				exclude2Translation = translation;
+			}
+			if (i == 7)
+			{
 				EXPECT_TRUE(m_ascii[i].substr(4, 9) == "formatted") << "Missing total 1 keyword";
 				total1Translation = translation;
 			}
-			if (i == 6)
+			if (i == 8)
 			{
 				EXPECT_TRUE(m_ascii[i].substr(1, 7) == "seconds") << "Missing total 2 keyword";
 				total2Translation = translation;
 			}
-			if (i == 7)
+			if (i == 9)
 			{
 				EXPECT_TRUE(m_ascii[i].substr(3, 3) == "min") << "Missing total 3 keyword";
 				total3Translation = translation;
 			}
-			if (i == 8)
+			if (i == 10)
 			{
 				EXPECT_TRUE(m_ascii[i].substr(3, 5) == "lines") << "Missing total 4 keyword";
 				total4Translation = translation;
