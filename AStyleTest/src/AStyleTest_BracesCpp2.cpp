@@ -58,7 +58,7 @@ struct BracesRunInCppF : public Test
 	}
 };
 
-TEST_F(BracesRunInCppF, LongOption)
+TEST_F(BracesRunInCppF, RunInOption)
 {
 	// test run-in braces option
 	char text[] =
@@ -86,6 +86,39 @@ TEST_F(BracesRunInCppF, LongOption)
 	    "\n"
 	    "}   // end FooName\n";
 	char options[] = "style=run-in";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST_F(BracesRunInCppF, HorstmannOption)
+{
+	// test horstmann braces option
+	char text[] =
+	    "\nnamespace FooName\n"
+	    "{\n"
+	    "\n"
+	    "class FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n"
+	    "\n"
+	    "void FooClass::Foo(bool isFoo)\n"
+	    "{   if (isFoo)\n"
+	    "    {   bar();\n"
+	    "    }\n"
+	    "    else\n"
+	    "    {   anotherBar();\n"
+	    "    }\n"
+	    "}\n"
+	    "\n"
+	    "}   // end FooName\n";
+	char options[] = "style=horstmann";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;

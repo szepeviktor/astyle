@@ -15,12 +15,12 @@ import libastyle
 # global variables ------------------------------------------------------------
 
 # windows
-__old_release = "30"
-__new_release = "301"
+__old_release = "301"
+__new_release = "31"
 
 # linux
-__old_solibver = "3.0.0"
-__new_solibver = "3.0.1"
+__old_solibver = "3.0.1"
+__new_solibver = "3.1.0"
 
 __file_update = False           # should the files be updated?
 

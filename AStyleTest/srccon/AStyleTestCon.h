@@ -34,10 +34,8 @@ using namespace testing;
 // functions in AStyleTestCon_Main.cpp
 void cleanTestDirectory(const string& directory);
 wstring convertToWideChar(const string& mbStr);
-void createConsoleGlobalObject(ASFormatter& formatter);
 void createTestDirectory(const string& dirName);
 void createTestFile(const string& testFilePath, const char* testFileText, int size = 0);
-void deleteConsoleGlobalObject();
 string getCurrentDirectory();
 string getDefaultOptionsFilePath();
 string& getTestDirectory();
