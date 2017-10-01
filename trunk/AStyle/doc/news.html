@@ -26,21 +26,51 @@
         options file, Artistic Style will not change it. If the options file is in both locations, the new APPDATA 
         location will be used.</p>
     <p>
-        The console build now accepts options file input encoded in UTF-16, or UTF-8 with a BOM (or signature).</p>
+        The console build now accepts options file input encoded in UTF-16, or UTF-8 with a Byte Order Mark (BOM or signature).</p>
     <p>
-        CMake can now be used to compile AStyle. It can be run from the top level folder, instead of the &quot;build&quot;
-        folder, and builds a Release configuration by default. The &quot;Install Information&quot; conains additional
-        information. </p>
+        A new option, &quot;style=ratliff&quot;, has been added as an alternate for banner style.</p>
     <p>
-        The Artistic Style source code has been <a href="https://en.wikipedia.org/wiki/Fuzzing" target="_blank" title="open new window">
-            fuzz tested</a> with american fuzzy lop (AFL) and libFuzzer from Clang. This will help prevent crashes caused
-        by invalid input. There were 20-25 corrections made to the source code. Most of the crashes were caused
-        by asserts which would not be present in a release varsion. There were a couple of corrections that required logic
-        changes. The changes should not affect the way the code is formatted.</p>
+        New options &quot;project&quot;, &quot;project=####&quot;, and &quot;project=none&quot;will allow the use of an
+        optional project option file. This may be used to supplement or replace the command line options and the default
+        option file. The file is identified by a file name only, and resides in the top level folder of a project. The
+        default project option file names are .astylerc or _astylerc. A file name may also be specified. Instead of an
+        option, the environment variable ARTISTIC_STYLE_PROJECT_OPTION may be used. When formatting individual files in
+        a project, the project option file will be obtained from a parent directory. The documentation has the details
+        in the &quot;Option&nbsp;Files&quot; section. The format of the option is described in the 
+        &quot;Command&nbsp;Line&nbsp;Only&quot; section.</p>
+    <p>
+        Allowing both option files to be used allows them to be used for different options. For example the default 
+        options could contain the file formatting options and the project options could contain the excludes for the 
+        given project. The order of precedence, highest to lowest,&nbsp; is command line, project options, default 
+        options. Options with a value (e.g. style=kr, indent=spaces) may be replaced by an option with a higher precedence.
+        The binary options (indent-classes, pad-oper) cannot be changed. Once they are set they stay set. Both the 
+        default and project option files may be disabled if they are present and not required.</p>
+    <p>
+        When making changes to a project it may be desirable to format an entire folder. Wildcards 
+        may be used in a single folder (without recursive). The current directory is used if a path is not given. So,
+        for example, to format all changed files in the current directory using the project options, use the command:
+        &quot;astyle&nbsp;--project&nbsp;-A9s&nbsp;*.cpp&quot;. This example uses the project option file .astylerc
+        or _astylerc and overrides the project options with the command line -A9s options.</p>
+    <p>
+        Language translations have been added for the new project option file. A few of the other messages were changed
+        as well. If there is a better translation available report the change as a bug report. Be sure to include the
+        new translation. Translations are in the ASLocalizer.cpp file.</p>
+    <p>
+        CMake can now be used to compile the AStyle builds. It can be run from the top level folder, instead of the 
+        &quot;build&quot; folder, and builds a Release configuration by default. The &quot;Install&nbsp;Information&quot;
+        contains additional information. </p>
+    <p>
+        The Artistic Style source code has been <a href="https://en.wikipedia.org/wiki/Fuzzing" target="_blank"
+            title="open new window">fuzz tested</a> with American Fuzzy Lop (AFL) and libFuzzer from Clang. This will
+        help prevent crashes caused by invalid input. There were 20-25 corrections made to the source code. Most of the
+        crashes were caused by asserts which would not be present in a release version. There were a couple of corrections
+        that required logic changes. The changes should not affect the way the code is formatted.</p>
     <p>
         The documentation file, astyle.html, now has a sticky button in the lower right corner. It appears after you 
         have scrolled past the Contents section. It is labeled &quot;Top&quot; but actually takes you back to the Contents.
         The purpose is to speed up navigation thru the document. </p>
+    <p>
+        Thanks to Rian Quinn and David Haney for their contributions.</p>
 
     <h3>Artistic Style 3.0&nbsp; (April 2017)</h3>
 

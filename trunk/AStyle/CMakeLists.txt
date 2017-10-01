@@ -8,8 +8,8 @@ option(BUILD_STATIC_LIBS "Build static library" OFF)
 
 # Linux Soname Version
 set(MAJORVER 3)
-set(MINORVER 0)
-set(PATCHVER 1)
+set(MINORVER 1)
+set(PATCHVER 0)
 set(SOLIBVER ${MAJORVER}.${MINORVER}.${PATCHVER})
 
 # AStyle Sources
@@ -100,14 +100,14 @@ endif()
 # Set file names if different than 'astyle'
 if(BUILD_JAVA_LIBS)
     if(WIN32)
-        set_property(TARGET astyle PROPERTY OUTPUT_NAME AStyle301j)
+        set_property(TARGET astyle PROPERTY OUTPUT_NAME AStyle31j)
         set_property(TARGET astyle PROPERTY PREFIX "")
     else()
         set_property(TARGET astyle PROPERTY OUTPUT_NAME astylej)
     endif()
 elseif(BUILD_SHARED_LIBS)
     if(WIN32)
-        set_property(TARGET astyle PROPERTY OUTPUT_NAME AStyle301)
+        set_property(TARGET astyle PROPERTY OUTPUT_NAME AStyle31)
         set_property(TARGET astyle PROPERTY PREFIX "")
     endif()
 elseif(BUILD_STATIC_LIBS)

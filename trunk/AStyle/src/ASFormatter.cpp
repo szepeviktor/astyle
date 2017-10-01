@@ -361,7 +361,7 @@ void ASFormatter::fixOptionVariableConflicts()
 		setBraceIndentVtk(true);		// sets both braceIndent and braceIndentVtk
 		setSwitchIndent(true);			// avoid hanging indent with case statements
 	}
-	else if (formattingStyle == STYLE_BANNER)
+	else if (formattingStyle == STYLE_RATLIFF)
 	{
 		// attached braces can have hanging indents with the closing brace
 		setBraceFormatMode(ATTACH_MODE);
@@ -516,7 +516,7 @@ string ASFormatter::nextLine()
 			if (isInLineBreak)			// is true if not the first line
 				breakLine();
 			formattedLine = currentLine;
-			charNum = (int)currentLine.length() - 1;
+			charNum = (int) currentLine.length() - 1;
 			continue;
 		}
 
@@ -7644,7 +7644,7 @@ void ASFormatter::padObjCMethodColon()
 	{
 		// remove spaces after
 		int nextText = currentLine.find_first_not_of(" \t", charNum + 1);
-		if (nextText == (int)string::npos)
+		if (nextText == (int) string::npos)
 			nextText = currentLine.length();
 		int spaces = nextText - charNum - 1;
 		if (spaces > 0)
@@ -7658,7 +7658,7 @@ void ASFormatter::padObjCMethodColon()
 	{
 		// pad space after
 		int nextText = currentLine.find_first_not_of(" \t", charNum + 1);
-		if (nextText == (int)string::npos)
+		if (nextText == (int) string::npos)
 			nextText = currentLine.length();
 		int spaces = nextText - charNum - 1;
 		if (spaces == 0)
