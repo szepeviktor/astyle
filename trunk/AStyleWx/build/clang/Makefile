@@ -50,7 +50,7 @@ ipixmapdir=$(idatadir)/pixmaps
 ibindir=$(prefix)/bin
 rpaths = -Wl,-rpath,./ -Wl,-rpath,../ -Wl,-rpath,./lib -Wl,-rpath,../lib \
 -Wl,-rpath,../../../../AStyle/build/clang/bin  -Wl,-rpath,../../../../astyle/build/clang/bin
-SOLIBVER = 3.0.1
+SOLIBVER = 3.1.0
 # c++11 is required for clang wx=3.0, cannot use no-rtti
 CBASEFLAGS = -Wall -Wextra -std=c++11 -fno-exceptions \
 -Wno-potentially-evaluated-expression -Wno-unknown-warning-option \
