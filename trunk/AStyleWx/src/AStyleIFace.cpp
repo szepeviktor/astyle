@@ -203,12 +203,12 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 			else
 				options.append(STYLE + EQ + VTK);
 		}
-		else if (getBraceStyle() == STYLE_BANNER)
+		else if (getBraceStyle() == STYLE_RATLIFF)
 		{
 			if (showShort)
 				options.append("A6");
 			else
-				options.append(STYLE + EQ + BANNER);
+				options.append(STYLE + EQ + RATLIFF);
 		}
 		else if (getBraceStyle() == STYLE_GNU)
 		{
@@ -963,8 +963,8 @@ bool AStyleIFace::SetAStyleOptionFromConfig(const wxString& key, const wxString&
 			braceStyle = STYLE_WHITESMITH;
 		else if (value == VTK)
 			braceStyle = STYLE_VTK;
-		else if (value == BANNER)
-			braceStyle = STYLE_BANNER;
+		else if (value == RATLIFF)
+			braceStyle = STYLE_RATLIFF;
 		else if (value == GNU)
 			braceStyle = STYLE_GNU;
 		else if (value == LINUXX)

@@ -343,8 +343,8 @@ void Config::SaveAStyleOptions(AStyleIFace* astyle)
 		wxConfig::Write(STYLE, WHITESMITH);
 	else if (braceStyle == STYLE_VTK)
 		wxConfig::Write(STYLE, VTK);
-	else if (braceStyle == STYLE_BANNER)
-		wxConfig::Write(STYLE,  BANNER);
+	else if (braceStyle == STYLE_RATLIFF)
+		wxConfig::Write(STYLE,  RATLIFF);
 	else if (braceStyle == STYLE_GNU)
 		wxConfig::Write(STYLE, GNU);
 	else if (braceStyle == STYLE_LINUX)

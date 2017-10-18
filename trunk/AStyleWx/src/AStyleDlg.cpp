@@ -75,7 +75,7 @@ AStyleDlg::AStyleDlg(ASFrame* frame, AStyleIFace* astyle, int page) : AStyleDlgB
 	m_styleStroustrup->Bind(wxEVT_LEFT_UP, &AStyleDlg::OnStyleMouseUp, this);
 	m_styleWhitesmith->Bind(wxEVT_LEFT_UP, &AStyleDlg::OnStyleMouseUp, this);
 	m_styleVtk->Bind(wxEVT_LEFT_UP, &AStyleDlg::OnStyleMouseUp, this);
-	m_styleBanner->Bind(wxEVT_LEFT_UP, &AStyleDlg::OnStyleMouseUp, this);
+	m_styleRatliff->Bind(wxEVT_LEFT_UP, &AStyleDlg::OnStyleMouseUp, this);
 	m_styleGnu->Bind(wxEVT_LEFT_UP, &AStyleDlg::OnStyleMouseUp, this);
 	m_styleLinux->Bind(wxEVT_LEFT_UP, &AStyleDlg::OnStyleMouseUp, this);
 	m_styleHorstmann->Bind(wxEVT_LEFT_UP, &AStyleDlg::OnStyleMouseUp, this);
@@ -471,8 +471,8 @@ void AStyleDlg::GetStyleOptions(AStyleIFace* astyle)
 		astyle->setBraceStyle(STYLE_WHITESMITH);
 	else if (m_styleVtk->GetValue())
 		astyle->setBraceStyle(STYLE_VTK);
-	else if (m_styleBanner->GetValue())
-		astyle->setBraceStyle(STYLE_BANNER);
+	else if (m_styleRatliff->GetValue())
+		astyle->setBraceStyle(STYLE_RATLIFF);
 	else if (m_styleGnu->GetValue())
 		astyle->setBraceStyle(STYLE_GNU);
 	else if (m_styleLinux->GetValue())
@@ -978,8 +978,8 @@ void AStyleDlg::SetStyleOptions()
 		m_styleWhitesmith->SetValue(true);
 	else if (braceType == STYLE_VTK)
 		m_styleVtk->SetValue(true);
-	else if (braceType == STYLE_BANNER)
-		m_styleBanner->SetValue(true);
+	else if (braceType == STYLE_RATLIFF)
+		m_styleRatliff->SetValue(true);
 	else if (braceType == STYLE_GNU)
 		m_styleGnu->SetValue(true);
 	else if (braceType == STYLE_LINUX)

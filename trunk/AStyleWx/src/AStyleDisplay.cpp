@@ -629,10 +629,6 @@ void AStyleDisplay::DisplayStyleOptions(wxCommandEvent& event, wxStyledTextCtrl*
 			textOut = StcStyle_Allman();
 			break;
 
-		case ID_STYLE_BANNER:
-			textOut = StcStyle_Banner();
-			break;
-
 		case ID_STYLE_GNU:
 			textOut = StcStyle_Gnu();
 			break;
@@ -671,6 +667,10 @@ void AStyleDisplay::DisplayStyleOptions(wxCommandEvent& event, wxStyledTextCtrl*
 
 		case ID_STYLE_PICO:
 			textOut = StcStyle_Pico();
+			break;
+
+		case ID_STYLE_RATLIFF:
+			textOut = StcStyle_Ratliff();
 			break;
 
 		case ID_STYLE_STROUSTRUP:
@@ -1953,23 +1953,6 @@ wxString AStyleDisplay::StcStyle_Allman() const
 	return selected;
 }
 
-wxString AStyleDisplay::StcStyle_Banner() const
-{
-	wxString selected =    "                     \n"
-	                       "//  Banner Style     \n"
-	                       "                     \n"
-	                       "int Foo(bool isFoo) {\n"
-	                       "	if (isFoo) {     \n"
-	                       "		bar();       \n"
-	                       "		return 1;    \n"
-	                       "		}            \n"
-	                       "	else             \n"
-	                       "		return 0;    \n"
-	                       "	}                ";
-
-	return selected;
-}
-
 wxString AStyleDisplay::StcStyle_Gnu() const
 {
 	wxString selected =    "                     \n"
@@ -2122,6 +2105,23 @@ wxString AStyleDisplay::StcStyle_Pico() const
 	                       "		return 1; } \n"
 	                       "	else            \n"
 	                       "		return 0; } ";
+
+	return selected;
+}
+
+wxString AStyleDisplay::StcStyle_Ratliff() const
+{
+	wxString selected =    "                     \n"
+	                       "//  Ratliff Style    \n"
+	                       "                     \n"
+	                       "int Foo(bool isFoo) {\n"
+	                       "	if (isFoo) {     \n"
+	                       "		bar();       \n"
+	                       "		return 1;    \n"
+	                       "		}            \n"
+	                       "	else             \n"
+	                       "		return 0;    \n"
+	                       "	}                ";
 
 	return selected;
 }

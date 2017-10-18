@@ -18,7 +18,7 @@ BEGIN_EVENT_TABLE( AStyleDlgBase, wxDialog )
 	EVT_RADIOBUTTON( ID_STYLE_STROUSTRUP, AStyleDlgBase::_wxFB_OnStyleClick )
 	EVT_RADIOBUTTON( ID_STYLE_WHITESMITH, AStyleDlgBase::_wxFB_OnStyleClick )
 	EVT_RADIOBUTTON( ID_STYLE_VTK, AStyleDlgBase::_wxFB_OnStyleClick )
-	EVT_RADIOBUTTON( ID_STYLE_BANNER, AStyleDlgBase::_wxFB_OnStyleClick )
+	EVT_RADIOBUTTON( ID_STYLE_RATLIFF, AStyleDlgBase::_wxFB_OnStyleClick )
 	EVT_RADIOBUTTON( ID_STYLE_GNU, AStyleDlgBase::_wxFB_OnStyleClick )
 	EVT_RADIOBUTTON( ID_STYLE_LINUX, AStyleDlgBase::_wxFB_OnStyleClick )
 	EVT_RADIOBUTTON( ID_STYLE_HORSTMANN, AStyleDlgBase::_wxFB_OnStyleClick )
@@ -142,8 +142,8 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_styleVtk = new wxRadioButton( m_styleSizer->GetStaticBox(), ID_STYLE_VTK, wxT("&VTK"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_styleSizer->Add( m_styleVtk, 0, wxALL, 5 );
 	
-	m_styleBanner = new wxRadioButton( m_styleSizer->GetStaticBox(), ID_STYLE_BANNER, wxT("&Banner"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_styleSizer->Add( m_styleBanner, 0, wxALL, 5 );
+	m_styleRatliff = new wxRadioButton( m_styleSizer->GetStaticBox(), ID_STYLE_RATLIFF, wxT("&Ratliff"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_styleSizer->Add( m_styleRatliff, 0, wxALL, 5 );
 	
 	m_styleGnu = new wxRadioButton( m_styleSizer->GetStaticBox(), ID_STYLE_GNU, wxT("&GNU"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_styleSizer->Add( m_styleGnu, 0, wxALL, 5 );
