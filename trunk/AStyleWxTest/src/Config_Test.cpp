@@ -191,7 +191,7 @@ TEST(Config_AStyle_Styles, SaveAStyleOptions_StylesAll)
 		{ STYLE_KR,         KandR      },
 		{ STYLE_STROUSTRUP, STROUSTRUP },
 		{ STYLE_WHITESMITH, WHITESMITH },
-		{ STYLE_BANNER,     BANNER     },
+		{ STYLE_RATLIFF,    RATLIFF    },
 		{ STYLE_GNU,        GNU        },
 		{ STYLE_LINUX,      LINUXX     },
 		{ STYLE_HORSTMANN,  HORSTMANN  },

@@ -77,7 +77,7 @@ def change_static_configs(line, file_path):
         line = line.replace(">Speed<", ">Size<")
     if "<Optimization>" in line:
         line = line.replace(">MaxSpeed<", ">MinSpace<")
-    if "<PreprocessorDefinitions>" in line and not "wxNO_EXCEPTIONS" in line:
+    if "<PreprocessorDefinitions>" in line and "wxNO_EXCEPTIONS" not in line:
         line = line.replace("_CRT_SECURE_NO_DEPRECATE=1",
                             "wxNO_EXCEPTIONS;_CRT_SECURE_NO_DEPRECATE=1")
     if "<RuntimeLibrary>" in line and "MultiThreadedDLL" in line:
@@ -174,7 +174,7 @@ def process_wxstc_catalogue_file(wx_path):
     with open(file_path, mode='r') as file_in:
         for line in file_in:
             #! remove the link lexer statement in CatalogueStatic
-            if line.strip().startswith("LINK_LEXER") and not "(lmCPP)" in line:
+            if line.strip().startswith("LINK_LEXER") and "(lmCPP)" not in line:
                 line = line.replace("LINK_LEXER", "//LINK_LEXER")
                 lines_changed += 1
             updated_file.append(line)
@@ -228,7 +228,7 @@ def process_wxstc_vcxproj_file(wx_path):
                 continue
             #! check for unused static build lexers in wxscintilla
             if "<ClCompile Include=" in line:
-                if "\\lexers\\Lex" in line and not "\\lexers\\LexCPP" in line:
+                if "\\lexers\\Lex" in line and "\\lexers\\LexCPP" not in line:
                     end = line.find(" />")
                     if end != -1:
                         lines_changed += 1
