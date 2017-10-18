@@ -30,7 +30,7 @@ import libtest
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN         # C# - 1000 files from SharpDevelop
 # TESTPROJECT
-__project = libastyle.SHARPMAIN
+__project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
 __options = libastyle.OPT0
@@ -42,7 +42,7 @@ __options_x2 = ""
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
 __astyleexe1 = "astyle30b"
-__astyleexe2 = "astyled"
+__astyleexe2 = "astyle"
 
 # select one of the following to unarchive files
 __extract_files = True
@@ -142,7 +142,7 @@ def print_astyle_totals(filename):
     else:
         printline = "{0:n} formatted; {1:n} files; {2} min {3} seconds"
         print(printline.format(formatted, totfiles, minute, sec))
-    return (formatted, totfiles)
+    return formatted, totfiles
 
 # -----------------------------------------------------------------------------
 
@@ -286,14 +286,14 @@ def verify_current_exe1(regress1path):
             return True
         index = alphas.find(regress1path[-5])
         if index == -1:
-            libastyle.system_exit("Bad index for alpha: " + index)
+            libastyle.system_exit("Bad index for alpha: " + str(index))
         test1path = regress1path[:-5] + alphas[index + 1] + regress1path[-5 + 1:]
     else:
         if regress1path[-1].isdigit():  # for first file from last release (astyle1)
             return True
         index = alphas.find(regress1path[-1])
         if index == -1:
-            libastyle.system_exit("Bad index for alpha: " + index)
+            libastyle.system_exit("Bad index for alpha: " + str(index))
         test1path = regress1path[:-1] + alphas[index + 1]
     # is NOT most current if the next version exista
     if os.path.exists(test1path):

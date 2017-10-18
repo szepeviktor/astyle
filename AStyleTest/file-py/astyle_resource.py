@@ -176,7 +176,7 @@ def get_header_variables(header_variables, resource_path):
         if comment != -1:
             line = line[:comment].rstrip()
         # find the header write commands
-        if not "headers->push_back" in line:
+        if "headers->push_back" not in line:
             continue
         # get the variable name
         start = line.find("AS_")
@@ -212,7 +212,7 @@ def get_np_header_variables(np_header_variables, resource_path):
         if comment != -1:
             line = line[:comment].rstrip()
         # find the non-paren header write commands
-        if not "nonParenHeaders->push_back" in line:
+        if "nonParenHeaders->push_back" not in line:
             continue
         # get the variable name
         start = line.find("AS_")
@@ -248,7 +248,7 @@ def get_pre_block_variables(pre_block_variables, resource_path):
         if comment != -1:
             line = line[:comment].rstrip()
         # find the pre-block statement write commands
-        if not "preBlockStatements->push_back" in line:
+        if "preBlockStatements->push_back" not in line:
             continue
         # get the variable name
         start = line.find("AS_")
@@ -284,7 +284,7 @@ def get_pre_command_variables(pre_command_variables, resource_path):
         if comment != -1:
             line = line[:comment].rstrip()
         # find the pre-command header write commands
-        if not "preCommandHeaders->push_back" in line:
+        if "preCommandHeaders->push_back" not in line:
             continue
         # get the variable name
         start = line.find("AS_")

@@ -105,9 +105,7 @@ def format_astyle():
     """
     print("Formatting AStyle")
     print()
-    call_astyle_executable("AStyle/src/*.cpp")
-    print()
-    call_astyle_executable("AStyle/src/*.h")
+    call_astyle_executable("AStyle/src/*.cpp,*.h")
     print()
 
 # -----------------------------------------------------------------------------
@@ -117,9 +115,7 @@ def format_astyle_test():
     """
     print("Formatting AStyleTest")
     print()
-    call_astyle_executable("AStyleTest/src/*.cpp")
-    print()
-    call_astyle_executable("AStyleTest/src/*.h")
+    call_astyle_executable("AStyleTest/src/*.cpp,*.h")
     print()
 
 # -----------------------------------------------------------------------------
@@ -129,9 +125,7 @@ def format_astyle_test_con():
     """
     print("Formatting AStyleTestCon")
     print()
-    call_astyle_executable("AStyleTest/srccon/*.cpp")
-    print()
-    call_astyle_executable("AStyleTest/srccon/*.h")
+    call_astyle_executable("AStyleTest/srccon/*.cpp,*.h")
     print()
 
 # -----------------------------------------------------------------------------
@@ -141,7 +135,7 @@ def format_astyle_test_i18n():
     """
     print("Formatting AStyleTestI18n")
     print()
-    call_astyle_executable("AStyleTest/srci18n/*.cpp")
+    call_astyle_executable("AStyleTest/srci18n/*.cpp,*.h")
     print()
     # uses a header from the srccon directory
     call_astyle_executable("AStyleTest/srccon/*.h")
@@ -154,9 +148,7 @@ def format_astyle_test_lib():
     """
     print("Formatting AStyleTestLib")
     print()
-    call_astyle_executable("AStyleTest/srclib/*.cpp")
-    print()
-    call_astyle_executable("AStyleTest/srclib/*.h")
+    call_astyle_executable("AStyleTest/srclib/*.cpp,*.h")
     print()
 
 # -----------------------------------------------------------------------------
@@ -166,7 +158,7 @@ def format_astyle_test_loc():
     """
     print("Formatting AStyleTestLoc")
     print()
-    call_astyle_executable("AStyleTest/srcloc/*.cpp")
+    call_astyle_executable("AStyleTest/srcloc/*.cpp,*.h")
     print()
 
 # -----------------------------------------------------------------------------
@@ -176,9 +168,7 @@ def format_astylewx():
     """
     print("Formatting AStyleWx")
     print()
-    call_astyle_executable("AStyleWx/src/*.cpp")
-    print()
-    call_astyle_executable("AStyleWx/src/*.h")
+    call_astyle_executable("AStyleWx/src/*.cpp,*.h")
     print()
 
 # -----------------------------------------------------------------------------
@@ -190,14 +180,10 @@ def format_astylewx_test():
     """
     print("Formatting AStyleWxTest")
     print()
-    call_astyle_executable("AStyleWxTest/src/*.cpp")
-    print()
-    call_astyle_executable("AStyleWxTest/src/*.h")
+    call_astyle_executable("AStyleWxTest/src/*.cpp,*.h")
     print()
     # uses source files from AStyleWx
-    call_astyle_executable("AStyleWx/src/*.cpp")
-    print()
-    call_astyle_executable("AStyleWx/src/*.h")
+    call_astyle_executable("AStyleWx/src/*.cpp,*.h")
     print()
 
 # -----------------------------------------------------------------------------
@@ -245,13 +231,9 @@ def format_terseprinter_test():
     """
     print("Formatting TersePrinter")
     print()
-    call_astyle_executable("AStyleTest/srcx/*.cpp")
+    call_astyle_executable("AStyleTest/srcx/*.cpp,*.h")
     print()
-    call_astyle_executable("AStyleTest/srcx/*.h")
-    print()
-    call_astyle_executable("AStyleWxTest/srcx/*.cpp")
-    print()
-    call_astyle_executable("AStyleWxTest/srcx/*.h")
+    call_astyle_executable("AStyleWxTest/srcx/*.cpp,*.h")
     print()
 
 # -----------------------------------------------------------------------------

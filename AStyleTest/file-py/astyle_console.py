@@ -179,37 +179,25 @@ def get_header_variables(header_variables, header_path):
         # bypass static variables
         if line[:6] == "static":
             continue
-        # bypass embedded ASLocalizer object
-        if "ASLocalizer" in line:
+        # bypass embedded objects
+        if "ASLocalizer" in line or "ASEncoding" in line:
             continue
-        # bypass vectors, strings, and classes
-        if "excludeVector" in line:
-            continue
-        if "excludeHitsVector" in line:
-            continue
-        if "fileNameVector" in line:
-            continue
-        if "optionsVector" in line:
-            continue
-        if "fileOptionsVector" in line:
-            continue
-        if "fileName" in line:
-            continue
-        if "outputEOL" in line:
-            continue
-        if "prevEOL" in line:
-            continue
-        if "optionsFileName" in line:
-            continue
-        if "stdPathIn" in line:
-            continue
-        if "stdPathOut" in line:
-            continue
-        if "targetDirectory" in line:
-            continue
-        if "targetFilename" in line:
-            continue
-        if "ASEncoding" in line:
+        # bypass strings and vectors
+        if ("excludeVector" in line
+                or "excludeHitsVector" in line
+                or "fileNameVector" in line
+                or "fileOptionsVector" in line
+                or "fileName" in line
+                or "optionFileName" in line
+                or "optionsVector" in line
+                or "outputEOL" in line
+                or "prevEOL" in line
+                or "projectOptionFileName" in line
+                or "projectOptionsVector" in line
+                or "stdPathIn" in line
+                or "stdPathOut" in line
+                or "targetDirectory" in line
+                or "targetFilename" in line):
             continue
         # get the variable name
         semi_colon = line.find(';')

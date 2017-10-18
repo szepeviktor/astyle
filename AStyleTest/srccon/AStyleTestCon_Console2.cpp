@@ -66,6 +66,7 @@ TEST_F(GetFilePathsF, FilePaths1)
 // test fileName vector and getFilePaths with *.cpp
 {
 	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
@@ -83,6 +84,7 @@ TEST_F(GetFilePathsF, FilePaths2)
 // test fileName vector and getFilePaths with *.c??
 {
 	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.c??");
@@ -100,6 +102,7 @@ TEST_F(GetFilePathsF, FilePaths3)
 // test fileName vector and getFilePaths with getFilePaths*.cpp
 {
 	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/getFilePaths*.cpp");
@@ -118,6 +121,7 @@ TEST_F(GetFilePathsF, FilePaths4)
 // * at the end WITH remaining data allows complete coverage of wildcmp function
 {
 	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.c*");
@@ -136,6 +140,7 @@ TEST_F(GetFilePathsF, FilePaths5)
 // * at the end WITHOUT remaining data allows complete coverage of wildcmp function
 {
 	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp*");
@@ -291,6 +296,143 @@ TEST_F(GetFilePathsF, FilePathsErrorInDirectoryName)
 	EXPECT_EXIT(console->processFiles(),
 	            ExitedWithCode(EXIT_FAILURE),
 	            regex);
+#endif
+}
+
+//----------------------------------------------------------------------------
+// AStyle test multiple file paths from the command line
+//----------------------------------------------------------------------------
+
+struct GetMultipleFilePathsF : public Test
+{
+	ASFormatter formatter;
+	ASConsole* console;
+	vector<string> fileNames;
+
+	// build fileNames vector and write the output files
+	GetMultipleFilePathsF()
+	{
+		char textIn[] =
+		    "\nvoid foo()\n"
+		    "{\n"
+		    "bar();\n"
+		    "}\n";
+		cleanTestDirectory(getTestDirectory());
+		console = new ASConsole(formatter);
+		fileNames.push_back(getTestDirectory() + "/getFilePaths1.cpp");
+		fileNames.push_back(getTestDirectory() + "/getFilePaths2.cpp");
+		fileNames.push_back(getTestDirectory() + "/getFilePaths3.h");
+		fileNames.push_back(getTestDirectory() + "/getFilePaths4.h");
+		fileNames.push_back(getTestDirectory() + "/getFilePaths5.cxx");
+		fileNames.push_back(getTestDirectory() + "/getFilePaths6.cxx");
+		for (size_t i = 0; i < fileNames.size(); i++)
+		{
+			console->standardizePath(fileNames[i]);
+			createTestFile(fileNames[i], textIn);
+		}
+	}
+
+	~GetMultipleFilePathsF()
+	{
+		delete console;
+	}
+};
+
+TEST_F(GetMultipleFilePathsF, MultipleFilePaths1)
+// test fileName vector with multiple paths and * wildcard
+{
+	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
+	// call astyle processOptions()
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp,*.h,*.cxx");
+	console->processOptions(astyleOptionsVector);
+	// call astyle processFiles()
+	console->processFiles();
+	// check the files found
+	vector<string> fileName = console->getFileName();
+	ASSERT_EQ(fileNames.size(), fileName.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < fileName.size(); i++)
+		EXPECT_EQ(fileNames[i], fileName[i]);
+}
+
+TEST_F(GetMultipleFilePathsF, MultipleFilePaths2)
+// test fileName vector with multiple paths and ? wildcard
+{
+	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
+	// call astyle processOptions()
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.c??, *.h");
+	console->processOptions(astyleOptionsVector);
+	// call astyle processFiles()
+	console->processFiles();
+	// check the files found
+	vector<string> fileName = console->getFileName();
+	ASSERT_EQ(fileNames.size(), fileName.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < fileName.size(); i++)
+		EXPECT_EQ(fileNames[i], fileName[i]);
+}
+
+TEST_F(GetMultipleFilePathsF, MultipleFilePaths4)
+// test fileName vector and getFilePaths with *.c* and *.h*
+// * at the end WITH remaining data allows complete coverage of wildcmp function
+{
+	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
+	// call astyle processOptions()
+	vector<string> astyleOptionsVector;
+	astyleOptionsVector.push_back(getTestDirectory() + "/*.c*,*.h*");
+	console->processOptions(astyleOptionsVector);
+	// call astyle processFiles()
+	console->processFiles();
+	// check the files found
+	vector<string> fileName = console->getFileName();
+	ASSERT_EQ(fileNames.size(), fileName.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < fileName.size(); i++)
+		EXPECT_EQ(fileNames[i], fileName[i]);
+}
+
+TEST_F(GetMultipleFilePathsF, MultipleFilePaths)
+// test fileName vector and getFilePaths with multiple filenames
+{
+	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
+	// call astyle processOptions() for argv options
+	vector<string> argvOptionsVector;
+	argvOptionsVector.push_back("--ascii");
+	argvOptionsVector.push_back(getTestDirectory()
+	                            + "/getFilePaths1.cpp, getFilePaths2.cpp");
+	console->processOptions(argvOptionsVector);
+	// call astyle processFiles()
+	console->processFiles();
+	// check the files found for the two requested
+	vector<string> fileName = console->getFileName();
+	ASSERT_EQ(2U, fileName.size()) << "Vector sizes not equal.";
+	// this checks only the first two files
+	for (size_t i = 0; i < fileName.size(); i++)
+		EXPECT_EQ(fileNames[i], fileName[i]);
+}
+
+TEST_F(GetMultipleFilePathsF, MultipleFilePathsStdin)
+// test redirection with multiple filenames
+{
+	console->setIsQuiet(true);		// change this to see results
+	console->setNoBackup(true);
+	// call astyle processOptions() for argv options
+	vector<string> argvOptionsVector;
+	argvOptionsVector.push_back("--ascii");
+	argvOptionsVector.push_back("--stdin=" + getTestDirectory()
+	                            + "/getFilePaths1.cpp, getFilePaths2.cpp");
+	console->processOptions(argvOptionsVector);
+	// call astyle processFiles()
+	ASSERT_TRUE(console->fileNameVectorIsEmpty()) << "Vector not empty";
+	// cannot use death test with leak finder
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	// test processOptions with invalid command line options
+	EXPECT_EXIT(console->formatCinToCout(),
+	            ExitedWithCode(EXIT_FAILURE),
+	            "Cannot open input file");
 #endif
 }
 

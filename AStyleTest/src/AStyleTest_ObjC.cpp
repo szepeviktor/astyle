@@ -745,6 +745,21 @@ TEST(ObjCPadMethodPrefix, SansReturnType)
 	delete[] textOut;
 }
 
+TEST(ObjCPadMethodPrefix, ReplacingTabs)
+{
+	// Test pad method prefix replacing tabs.
+	char textIn[] =
+	    "\n"
+	    "-\t\t\t(void) URLHandle : (NSURLHandle*)sender;\n";
+	char text[] =
+	    "\n"
+	    "- (void) URLHandle : (NSURLHandle*)sender;\n";
+	char options[] = "pad-method-prefix";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Objective-C UnPad Method Prefix
 //-------------------------------------------------------------------------
@@ -1017,6 +1032,21 @@ TEST(ObjCPadReturnType, PadParenOutComments)
 	delete[] textOut;
 }
 
+TEST(ObjCPadReturnType, ReplacingTabs)
+{
+	// Test pad return type replacing tabs.
+	char textIn[] =
+	    "\n"
+	    "- (void)\t\t\tURLHandle : (NSURLHandle*)sender;\n";
+	char text[] =
+	    "\n"
+	    "- (void) URLHandle : (NSURLHandle*)sender;\n";
+	char options[] = "pad-return-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Objective-C UnPad Return Type
 //-------------------------------------------------------------------------
@@ -1091,7 +1121,7 @@ TEST(ObjCUnPadReturnType, Comments)
 	delete[] textOut;
 }
 
-TEST(ObjCUnPadReturnType, PadParenOutComments)
+TEST(ObjCUnPadReturnType, PadParenOutComments1)
 {
 	// Test unpad return type with pad-paren-out.
 	// Unpad return type has precedence over pad-paren-out.
@@ -1112,6 +1142,37 @@ TEST(ObjCUnPadReturnType, PadParenOutComments)
 	    "{ }";
 	char options[] = "unpad-return-type, pad-paren-out";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCUnPadReturnType, PadParenOutComments2)
+{
+	// Test unpad return type with pad-paren-out and unpad method prefix.
+	// Unpad return type and unpad method prefix has precedence over pad-paren-out.
+	// The comment alignment should be maintained.
+	char text[] =
+	    "\n"
+	    "-(NSString *)string;        // comment\n"
+	    "+(NSHost *)localHost;       /* comment */\n";
+	char options[] = "unpad-return-type, unpad-method-prefix, pad-paren-out";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCUnPadReturnType, PadParenOutComments3)
+{
+	// Test unpad return type with pad-paren-out.
+	// The method prefix is padded in the input.
+	// Unpad return type has precedence over pad-paren-out.
+	// The comment alignment should be maintained.
+	char text[] =
+	    "\n"
+	    "- (NSString *)string;       // comment\n"
+	    "+ (NSHost *)localHost;      /* comment */\n";
+	char options[] = "unpad-return-type, pad-paren-out";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
 }
@@ -1442,6 +1503,21 @@ TEST(ObjCPadParamType, MultipleParams_Comments)
 	    "-(void)foo2 : (int) row1 : (int) row2 : (int) row3; // comment\n"
 	    "-(void)foo3: (int) row1: (int) row2: (int) row3;    /* comment */\n"
 	    "-(void)foo4 : (int) row1 : (int) row2 : (int) row3; // comment";
+	char options[] = "pad-param-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadParamType, ReplacingTabs)
+{
+	// Test pad param type replacing tabs.
+	char textIn[] =
+	    "\n"
+	    "- (void) URLHandle :\t\t\t(NSURLHandle*)\t\t\tsender :\t\t(int)\t\trow;\n";
+	char text[] =
+	    "\n"
+	    "- (void) URLHandle : (NSURLHandle*) sender : (int) row;\n";
 	char options[] = "pad-param-type";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -1913,6 +1989,21 @@ TEST(ObjCPadMethodColonNone, MultipleParams_Comments)
 	delete[] textOut;
 }
 
+TEST(ObjCPadMethodColonNone, ReplacingTabs)
+{
+	// Test pad-method-colon=none replacing tabs.
+	char textIn[] =
+	    "\n"
+	    "- (void) URLHandle:(NSURLHandle*) sender\t\t\t:\t\t\t(int) row;\n";
+	char text[] =
+	    "\n"
+	    "- (void) URLHandle:(NSURLHandle*) sender:(int) row;\n";
+	char options[] = "pad-method-colon=none";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Objective-C Pad Method Colon All
 //-------------------------------------------------------------------------
@@ -2138,6 +2229,21 @@ TEST(ObjCPadMethodColonAll, MultipleParams_Comments)
 	delete[] textOut;
 }
 
+TEST(ObjCPadMethodColonAll, ReplacingTabs)
+{
+	// Test pad-method-colon=all replacing tabs.
+	char textIn[] =
+	    "\n"
+	    "- (void) URLHandle:(NSURLHandle*) sender\t\t\t:\t\t\t(int) row;\n";
+	char text[] =
+	    "\n"
+	    "- (void) URLHandle : (NSURLHandle*) sender : (int) row;\n";
+	char options[] = "pad-method-colon=all";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Objective-C Pad Method Colon After
 //-------------------------------------------------------------------------
@@ -2267,6 +2373,21 @@ TEST(ObjCPadMethodColonAfter, MultipleParams_Comments)
 	delete[] textOut;
 }
 
+TEST(ObjCPadMethodColonAfter, ReplacingTabs)
+{
+	// Test pad-method-colon=after replacing tabs.
+	char textIn[] =
+	    "\n"
+	    "- (void) URLHandle:(NSURLHandle*) sender\t\t\t:\t\t\t(int) row;\n";
+	char text[] =
+	    "\n"
+	    "- (void) URLHandle: (NSURLHandle*) sender: (int) row;\n";
+	char options[] = "pad-method-colon=after";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Objective-C Pad Method Colon Before
 //-------------------------------------------------------------------------
@@ -2390,6 +2511,21 @@ TEST(ObjCPadMethodColonBefore, MultipleParams_Comments)
 	    "-(void)foo2 :(int)row1 :(int)row2 :(int)row3;       // comment\n"
 	    "-(void)foo3 :(int)row1 :(int)row2 :(int)row3;       /* coment */\n"
 	    "-(void)foo4 :(int)row1 :(int)row2 :(int)row3;       // comment";
+	char options[] = "pad-method-colon=before";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCPadMethodColonBefore, ReplacingTabs)
+{
+	// Test pad-method-colon=before replacing tabs.
+	char textIn[] =
+	    "\n"
+	    "- (void) URLHandle:(NSURLHandle*) sender\t\t\t:\t\t\t(int) row;\n";
+	char text[] =
+	    "\n"
+	    "- (void) URLHandle :(NSURLHandle*) sender :(int) row;\n";
 	char options[] = "pad-method-colon=before";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -3422,6 +3558,26 @@ TEST(ObjCSansAlignMethodColonCall, ExternC)
 	    "#if defined(__cplusplus)\n"
 	    "}\n"
 	    "#endif";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(ObjCSansAlignMethodColonCall, Misc)
+{
+	// Align with default in a non-standard call call.
+	// The "timeout" should actually be aligned with the "sendPacket".
+	// But for now, this alignment will be used.
+	// The method that computes alignment is getObjCFollowingKeyword in ASBeautifier.
+	// Most programmers will probably use align-method-colon anyway.
+	char text[] =
+	    "\n"
+	    "- (void) dismiss\n"
+	    "{\n"
+	    "    [(OutPort*)[connection sendPort] sendPacket: packet\n"
+	    "                           timeout: [connection requestTimeout]];\n"
+	    "}";
 	char options[] = "";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);

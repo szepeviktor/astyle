@@ -19,6 +19,21 @@ namespace {
 // AStyle version 3.1 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V31, CSharpBaseClass)
+{
+	// Fix indentation of Base class in C#.
+	char text[] =
+	    "\n"
+	    "class X : Y {\n"
+	    "    public X()\n"
+	    "        : base() {}\n"
+	    "}";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V31, CSharpSetUsedAsVariable)
 {
 	// Fix indentation of 'set' used as a variable in C#.
@@ -39,6 +54,54 @@ TEST(BugFix_V31, CSharpSetUsedAsVariable)
 	    "    });\n"
 	    "}";
 	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, ObjCIsInObjCParamError1)
+{
+	// discovered by afl fuzzing
+	// fix an exception caused by isInObjCParam not being cleared.
+	// unpad-param-type
+	char text[] =
+	    "\n"
+	    "t[N:U]\n"
+	    "-((void))foo :(int)icon\n"
+	    "{}";
+	char options[] = "unpad-param-type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, ObjCIsInObjCParamError2)
+{
+	// discovered by afl fuzzing
+	// fix an exception caused by isInObjCParam not being cleared.
+	// unpad-param-type
+	char text[] =
+	    "\n"
+	    "t[N:U\n"
+	    "  -((void))foo:(int)icon\n"
+	    "{}";
+	char options[] = "unpad-param-type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, PointerToPointer)
+{
+	// discovered by afl fuzzing
+	// fix an exception caused by pointer to pointer in separate lines.
+	// align-pointer=type
+	char text[] =
+	    "\n"
+	    "- (id) tableView : (NSTableView *\n"
+	    "    * data) aTableView\n"
+	    "{}";
+	char options[] = "align-pointer=type";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;

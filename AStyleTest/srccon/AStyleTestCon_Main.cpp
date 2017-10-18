@@ -121,7 +121,7 @@ int main(int argc, char** argv)
 		TersePrinter::PrintTestTotals(40, __FILE__, __LINE__);
 	else
 		// Change the following value to the number of tests (within 20).
-		TersePrinter::PrintTestTotals(120, __FILE__, __LINE__);
+		TersePrinter::PrintTestTotals(140, __FILE__, __LINE__);
 	if (g_isI18nTest)
 		printI18nMessage();
 #ifdef _WIN32

@@ -222,7 +222,7 @@ TEST(ProcessOptions, ConsoleOptions_Error)
 	optionsIn.push_back("--invalid2");
 	optionsIn.push_back("--invalid3");
 	optionsIn.push_back("--indent-classes");
-	optionsIn.push_back("--ascii");		// output in English
+	optionsIn.push_back("--ascii");
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid command line options
@@ -418,7 +418,7 @@ TEST(ProcessDefaultOptions, OptionsPath)
 	removeTestFile(optionFileName);
 }
 
-TEST(ProcessDefaultOptions, AStyleEnvironmentVariable)
+TEST(ProcessDefaultOptions, EnvironmentVariable)
 // test processOptions for fileOptionsVector
 //     with ARTISTIC_STYLE_OPTIONS enviromnent variable
 {
@@ -515,6 +515,49 @@ TEST(ProcessDefaultOptions, DisabledOptionsFile)
 	removeTestFile(optionFileName);
 }
 
+TEST(ProcessDefaultOptions, DisableEnvironmentVariable)
+// test processOptions for fileOptionsVector with --options=none
+{
+	ASFormatter formatter;
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
+	char fileIn[] =
+	    "--style=allman\n"
+	    "-OoP\n"
+	    "--indent-classes\n";
+	vector<string> fileOptions;
+	fileOptions.push_back("--style=allman");
+	fileOptions.push_back("-OoP");
+	fileOptions.push_back("--indent-classes");
+	// set the new environment variable
+	string envValue = "ARTISTIC_STYLE_OPTIONS=astyle.ini";;
+	int isError = putenv(const_cast<char*>(envValue.c_str()));
+	if (isError)
+	{
+		systemPause("Cannot set ARTISTIC_STYLE_OPTIONS environment variable");
+		return;
+	}
+	// write the options file
+	string optionFileName = getTestDirectory() + "/astyle.ini";
+	console->standardizePath(optionFileName);
+	if (!writeOptionsFile(optionFileName, fileIn))
+		return;
+	// build argvOptionsVector
+	// test that 'none' will override command line and environment
+	vector<string> optionsIn;
+	optionsIn.push_back("--options=" + optionFileName);
+	optionsIn.push_back("--options=none");
+	optionsIn.push_back(getTestDirectory() + "/*.cpp");
+	console->processOptions(optionsIn);
+	// fileOptionsVector should be empty
+	vector<string> fileOptionsVector = console->getFileOptionsVector();
+	EXPECT_EQ(0U, fileOptionsVector.size()) << "Vector should be empty.";
+	// clear the environment variable
+	string envClear = "ARTISTIC_STYLE_OPTIONS=";
+	putenv(const_cast<char*>(envClear.c_str()));
+	// cleanup
+	removeTestFile(optionFileName);
+}
+
 TEST(ProcessDefaultOptions, NoFinalLineEnd)
 // test processOptions for fileOptionsVector with --options=###
 //    and NO final line end
@@ -573,7 +616,7 @@ TEST(ProcessDefaultOptions, DefaultOptionErrors)
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--options=" + optionFileName);
-	optionsIn.push_back("--ascii");		// output in English
+	optionsIn.push_back("--ascii");
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid file options
@@ -600,7 +643,7 @@ TEST(ProcessDefaultOptions, FileError1)
 	console->standardizePath(optionFileName);
 	vector<string> optionsIn;
 	optionsIn.push_back("--options=" + optionFileName);
-	optionsIn.push_back("--ascii");		// output in English
+	optionsIn.push_back("--ascii");
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with options file error
@@ -619,7 +662,7 @@ TEST(ProcessDefaultOptions, FileError2)
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--options=");
-	optionsIn.push_back("--ascii");		// output in English
+	optionsIn.push_back("--ascii");
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with options file error
@@ -637,7 +680,7 @@ TEST(ProcessDefaultOptions, FileError3)
 	unique_ptr<ASConsole> console(new ASConsole(formatter));
 	// build optionsIn
 	vector<string> optionsIn;
-	optionsIn.push_back("--ascii");		// output in English
+	optionsIn.push_back("--ascii");
 	// set the new environment variable
 	string envFilePath = getTestDirectory() + "/astylerc";
 	console->standardizePath(envFilePath);
@@ -893,11 +936,11 @@ TEST(ProcessProjectOptions, OptionsPath1)
 	optionsIn.push_back("--project");
 	optionsIn.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(optionsIn);
-	// check fileOptionsVector for project options
-	vector<string> fileOptionsVector = console->getProjectOptionsVector();
-	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
-	for (size_t i = 0; i < fileOptionsVector.size(); i++)
-		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
+	// check projectOptionsVector for project options
+	vector<string> projectOptionsVector = console->getProjectOptionsVector();
+	EXPECT_EQ(fileOptions.size(), projectOptionsVector.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < projectOptionsVector.size(); i++)
+		EXPECT_EQ(fileOptions[i], projectOptionsVector[i]);
 	removeTestFile(optionFileName);
 }
 
@@ -929,11 +972,11 @@ TEST(ProcessProjectOptions, OptionsPath2)
 	optionsIn.push_back("--project");
 	optionsIn.push_back(sub1 + "/*.cpp");
 	console->processOptions(optionsIn);
-	// check fileOptionsVector for project options
-	vector<string> fileOptionsVector = console->getProjectOptionsVector();
-	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
-	for (size_t i = 0; i < fileOptionsVector.size(); i++)
-		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
+	// check projectOptionsVector for project options
+	vector<string> projectOptionsVector = console->getProjectOptionsVector();
+	EXPECT_EQ(fileOptions.size(), projectOptionsVector.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < projectOptionsVector.size(); i++)
+		EXPECT_EQ(fileOptions[i], projectOptionsVector[i]);
 	removeTestFile(optionFileName);
 	cleanTestDirectory(getTestDirectory());
 }
@@ -1018,7 +1061,7 @@ TEST(ProcessProjectOptions, OptionsStdIn)
 	cleanTestDirectory(getTestDirectory());
 }
 
-TEST(ProcessProjectOptions, AStyleEnvironmentVariable)
+TEST(ProcessProjectOptions, EnvironmentVariable)
 // test processOptions for projectOptionsVector
 // use the ARTISTIC_STYLE_PROJECT_OPTIONS enviromnent variable
 {
@@ -1049,11 +1092,11 @@ TEST(ProcessProjectOptions, AStyleEnvironmentVariable)
 	vector<string> optionsIn;
 	optionsIn.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(optionsIn);
-	// check fileOptionsVector
-	vector<string> fileOptionsVector = console->getProjectOptionsVector();
-	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
-	for (size_t i = 0; i < fileOptionsVector.size(); i++)
-		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
+	// check projectOptionsVector
+	vector<string> projectOptionsVector = console->getProjectOptionsVector();
+	EXPECT_EQ(fileOptions.size(), projectOptionsVector.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < projectOptionsVector.size(); i++)
+		EXPECT_EQ(fileOptions[i], projectOptionsVector[i]);
 	// clear the environment variable
 	string envClear = "ARTISTIC_STYLE_PROJECT_OPTIONS=";
 	putenv(const_cast<char*>(envClear.c_str()));
@@ -1061,7 +1104,7 @@ TEST(ProcessProjectOptions, AStyleEnvironmentVariable)
 	removeTestFile(optionFileName);
 }
 
-TEST(ProcessProjectOptions, DisabledOptionsFile)
+TEST(ProcessProjectOptions, DisableEnvironmentVariable)
 // test processOptions for projectOptionsVector with --project=none
 {
 	ASFormatter formatter;
@@ -1094,9 +1137,52 @@ TEST(ProcessProjectOptions, DisabledOptionsFile)
 	optionsIn.push_back("--project=none");
 	optionsIn.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(optionsIn);
-	// fileOptionsVector for project options should be empty
-	vector<string> fileOptionsVector = console->getProjectOptionsVector();
-	EXPECT_EQ(0U, fileOptionsVector.size()) << "Vector should be empty.";
+	// projectOptionsVector should be empty
+	vector<string> projectOptionsVector = console->getProjectOptionsVector();
+	EXPECT_EQ(0U, projectOptionsVector.size()) << "Vector should be empty.";
+	// clear the environment variable
+	string envClear = "ARTISTIC_STYLE_PROJECT_OPTIONS=";
+	putenv(const_cast<char*>(envClear.c_str()));
+	// cleanup
+	removeTestFile(optionFileName);
+}
+
+TEST(ProcessProjectOptions, OverrideEnvironmentVariable)
+// test processOptions for projectOptionsVector with --project=filename
+// filename should override the environment variable
+{
+	ASFormatter formatter;
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
+	char fileIn[] =
+	    "--style=allman\n"
+	    "-OoP\n"
+	    "--indent-classes\n";
+	vector<string> fileOptions;
+	fileOptions.push_back("--style=allman");
+	fileOptions.push_back("-OoP");
+	fileOptions.push_back("--indent-classes");
+	// set the new environment variable
+	string envValue = "ARTISTIC_STYLE_PROJECT_OPTIONS=astyle-env.ini";;
+	int isError = putenv(const_cast<char*>(envValue.c_str()));
+	if (isError)
+	{
+		systemPause("Cannot set ARTISTIC_STYLE_PROJECT_OPTIONS environment variable");
+		return;
+	}
+	// write the options file
+	string optionFileName = getTestDirectory() + "/astyle.ini";
+	console->standardizePath(optionFileName);
+	if (!writeOptionsFile(optionFileName, fileIn))
+		return;
+	// build argvOptionsVector
+	// test that 'project=' will override the environment variable
+	vector<string> optionsIn;
+	optionsIn.push_back("--project=astyle.ini");
+	optionsIn.push_back(getTestDirectory() + "/*.cpp");
+	console->processOptions(optionsIn);
+	// check projectOptionFileName
+	string projectOptionFileName = console->getProjectOptionFileName();
+	EXPECT_EQ("astyle.ini", projectOptionFileName);
 	// clear the environment variable
 	string envClear = "ARTISTIC_STYLE_PROJECT_OPTIONS=";
 	putenv(const_cast<char*>(envClear.c_str()));
@@ -1131,7 +1217,7 @@ TEST(ProcessProjectOptions, ProjectOptionErrors)
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--project");
-	optionsIn.push_back("--ascii");		// output in English
+	optionsIn.push_back("--ascii");
 	optionsIn.push_back(getTestDirectory() + "/*.cpp");
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
@@ -1156,7 +1242,7 @@ TEST(ProcessProjectOptions, FileError1)
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--project=astylerc.txt");
-	optionsIn.push_back("--ascii");		// output in English
+	optionsIn.push_back("--ascii");
 	optionsIn.push_back(getTestDirectory() + "/*.cpp");
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
@@ -1176,7 +1262,7 @@ TEST(ProcessProjectOptions, FileError2)
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--project=");
-	optionsIn.push_back("--ascii");		// output in English
+	optionsIn.push_back("--ascii");
 	optionsIn.push_back(getTestDirectory() + "/*.cpp");
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
@@ -1196,7 +1282,7 @@ TEST(ProcessProjectOptions, FileError3)
 	// build optionsIn
 	vector<string> optionsIn;
 	optionsIn.push_back("--project");
-	optionsIn.push_back("--ascii");		// output in English
+	optionsIn.push_back("--ascii");
 	optionsIn.push_back(getTestDirectory() + "/*.cpp");
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
@@ -1284,11 +1370,11 @@ TEST(ProcessProjectOptions, Utf8BOM)
 	optionsIn.push_back("--project=astylerc.txt");
 	optionsIn.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(optionsIn);
-	// check fileOptionsVector
-	vector<string> fileOptionsVector = console->getProjectOptionsVector();
-	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
-	for (size_t i = 0; i < fileOptionsVector.size(); i++)
-		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
+	// check projectOptionsVector
+	vector<string> projectOptionsVector = console->getProjectOptionsVector();
+	EXPECT_EQ(fileOptions.size(), projectOptionsVector.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < projectOptionsVector.size(); i++)
+		EXPECT_EQ(fileOptions[i], projectOptionsVector[i]);
 	removeTestFile(optionFileName);
 }
 
@@ -1333,11 +1419,11 @@ TEST(ProcessProjectOptions, Utf16LE)
 	optionsIn.push_back("--project=astylerc.txt");
 	optionsIn.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(optionsIn);
-	// check fileOptionsVector
-	vector<string> fileOptionsVector = console->getProjectOptionsVector();
-	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
-	for (size_t i = 0; i < fileOptionsVector.size(); i++)
-		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
+	// check projectOptionsVector
+	vector<string> projectOptionsVector = console->getProjectOptionsVector();
+	EXPECT_EQ(fileOptions.size(), projectOptionsVector.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < projectOptionsVector.size(); i++)
+		EXPECT_EQ(fileOptions[i], projectOptionsVector[i]);
 	removeTestFile(optionFileName);
 }
 
@@ -1382,12 +1468,69 @@ TEST(ProcessProjectOptions, Utf16BE)
 	optionsIn.push_back("--project=astylerc.txt");
 	optionsIn.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(optionsIn);
-	// check fileOptionsVector
-	vector<string> fileOptionsVector = console->getProjectOptionsVector();
-	EXPECT_EQ(fileOptions.size(), fileOptionsVector.size()) << "Vector sizes not equal.";
-	for (size_t i = 0; i < fileOptionsVector.size(); i++)
-		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
+	// check projectOptionsVector
+	vector<string> projectOptionsVector = console->getProjectOptionsVector();
+	EXPECT_EQ(fileOptions.size(), projectOptionsVector.size()) << "Vector sizes not equal.";
+	for (size_t i = 0; i < projectOptionsVector.size(); i++)
+		EXPECT_EQ(fileOptions[i], projectOptionsVector[i]);
 	removeTestFile(optionFileName);
+}
+
+//----------------------------------------------------------------------------
+// AStyle getTargetFilenames for recursive and wildcard processing
+//----------------------------------------------------------------------------
+
+TEST(GetTargetFilenames, One)
+{
+	// test getTargetFilenames with one file
+	ASFormatter formatter;
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
+	vector<string> targetFilenameVector;
+	string targetFilename = "*.cpp";
+	console->getTargetFilenames(targetFilename, targetFilenameVector);
+	ASSERT_EQ(1U, targetFilenameVector.size());
+	EXPECT_EQ("*.cpp", targetFilenameVector[0]);
+}
+
+TEST(GetTargetFilenames, OneWithSpaces)
+{
+	// test getTargetFilenames with one file and spaces
+	ASFormatter formatter;
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
+	vector<string> targetFilenameVector;
+	string targetFilename = "  *.cpp  ";
+	console->getTargetFilenames(targetFilename, targetFilenameVector);
+	ASSERT_EQ(1U, targetFilenameVector.size());
+	EXPECT_EQ("*.cpp", targetFilenameVector[0]);
+}
+
+TEST(GetTargetFilenames, ThreeWithSpaces)
+{
+	// test getTargetFilenames with three files and spaces
+	ASFormatter formatter;
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
+	vector<string> targetFilenameVector;
+	string targetFilename = " *.cpp,*.h  ,  *.cs ";
+	console->getTargetFilenames(targetFilename, targetFilenameVector);
+	ASSERT_EQ(3U, targetFilenameVector.size());
+	EXPECT_EQ("*.cpp", targetFilenameVector[0]);
+	EXPECT_EQ("*.h",   targetFilenameVector[1]);
+	EXPECT_EQ("*.cs",  targetFilenameVector[2]);
+}
+
+TEST(GetTargetFilenames, None)
+{
+	ASFormatter formatter;
+	unique_ptr<ASConsole> console(new ASConsole(formatter));
+	vector<string> targetFilenameVector;
+	string targetFilename = " , ,, ";
+	// cannot use death test with leak finder
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
+	string regex = "Missing filename in  , ,, ";
+	EXPECT_EXIT(console->getTargetFilenames(targetFilename, targetFilenameVector),
+	            ExitedWithCode(EXIT_FAILURE),
+	            regex);
+#endif
 }
 
 //----------------------------------------------------------------------------
@@ -2087,7 +2230,7 @@ TEST(RemovedOptions, V202)
 	optionsIn.push_back("-B");
 	optionsIn.push_back("-G");
 	// this is NOT a removed option
-	optionsIn.push_back("--ascii");		// output in English
+	optionsIn.push_back("--ascii");
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid command line options
@@ -2120,7 +2263,7 @@ TEST(RemovedOptions, V204)
 	optionsIn.push_back("-l");
 	optionsIn.push_back("-u");
 	// this is NOT a removed option
-	optionsIn.push_back("--ascii");		// output in English
+	optionsIn.push_back("--ascii");
 	// cannot use death test with leak finder
 #if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions with invalid command line options

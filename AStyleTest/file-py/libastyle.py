@@ -87,6 +87,9 @@ VS_RELEASE = "vs2017"
 # test directory name
 TEST_DIRECTORY = "TestData"
 
+# multiple extensions in single directory
+USE_MULTIPLE_EXTENSIONS = False
+
 # -----------------------------------------------------------------------------
 
 def build_astyle_executable(config):
@@ -157,7 +160,7 @@ def compile_windows_executable(slnpath, config):
                      + sdk
                      + "/MSBuild.exe")
     if platform.architecture()[0] == "32bit":        # if running on a 32-bit system
-        buildpath = buildpath.replace("Program Files (x86)",  "Program Files")
+        buildpath = buildpath.replace("Program Files (x86)", "Program Files")
     if not os.path.isfile(buildpath):
         message = "Cannot find build path: " + buildpath
         system_exit(message)
@@ -233,8 +236,8 @@ def get_astyle_directory(endsep=False):
     """Get the AStyle directory for the os environment.
        endsep = True will add an ending separator.
     """
-    if endsep != True and endsep != False:
-        system_exit("Bad arg in get_astyle_directory(): " + endsep)
+    if endsep is not True and endsep is not False:
+        system_exit("Bad arg in get_astyle_directory(): " + str(endsep))
     if os.name == "nt":
         astyledir = get_project_directory() + "/AStyle"
     else:
@@ -306,8 +309,8 @@ def get_astyletest_directory(endsep=False):
     """Get the AStyleTest directory for the os environment.
        endsep = True will add an ending separator.
     """
-    if endsep != True and endsep != False:
-        system_exit("Bad arg in get_astyletest_directory(): " + endsep)
+    if endsep is not True and endsep is not False:
+        system_exit("Bad arg in get_astyletest_directory(): " + str(endsep))
     if os.name == "nt":
         astyletestdir = get_project_directory() + "/AStyleTest"
     else:
@@ -380,7 +383,7 @@ def get_file_py_directory(endsep=False):
         pydir += '/'
     # verify it is executed from fixed disk and not a USB
     if os.name == "nt":
-        if pydir[0:2].upper() != "C:" and pydir[0:2].upper() != "F:":
+        if pydir[0:2].upper() != "C:":
             system_exit("File executed from drive " + pydir[0:2])
     else:
         if pydir[0:6] != "/home/":
@@ -452,7 +455,7 @@ def get_project_excludes(project):
         # propgrid.cpp is the macro IMPLEMENT_GET_VALUE
         # sqplus.h aborts on verifyBeautifierStacks because of unmatched paren
         # sqvm.cpp doesn't compile because of _RET_SUCCEED macro used with --remove-braces
-        excludes.append("--exclude=wx/pdfpattern.h");
+        excludes.append("--exclude=wx/pdfpattern.h")
         excludes.append("--exclude=wx/wxscintilla.h")
         excludes.append("--exclude=wx/propgrid/advprops.h")
         excludes.append("--exclude=wx/propgrid/manager.h")
@@ -483,9 +486,12 @@ def get_project_filepaths(project):
     filepaths = []
     test_directory = get_test_directory()
     if project == CODEBLOCKS:
-        filepaths.append(test_directory + "/CodeBlocks/src/*.cpp")
-        # filepath.append(test_directory + "/CodeBlocks/src/*.cxx")
-        filepaths.append(test_directory + "/CodeBlocks/src/*.h")
+        if USE_MULTIPLE_EXTENSIONS:
+            filepaths.append(test_directory + "/CodeBlocks/src/*.cpp,*.h")
+        else:
+            filepaths.append(test_directory + "/CodeBlocks/src/*.cpp")
+            # filepath.append(test_directory + "/CodeBlocks/src/*.cxx")
+            filepaths.append(test_directory + "/CodeBlocks/src/*.h")
 #    elif project == GWORKSPACE:
 #        filepaths.append(test_directory + "/GWorkspace/*.m")
 #        filepaths.append(test_directory + "/GWorkspace/*.h")
@@ -497,11 +503,17 @@ def get_project_filepaths(project):
 #	elif project == MONODEVELOP:
 #		filepaths.append(test_directory + "/MonoDevelop/src/*.cs")
     elif project == LIBSBASE:
-        filepaths.append(test_directory + "/libsBase/*.m")
-        filepaths.append(test_directory + "/libsBase/*.h")
+        if USE_MULTIPLE_EXTENSIONS:
+            filepaths.append(test_directory + "/libsBase/*.m,*.h")
+        else:
+            filepaths.append(test_directory + "/libsBase/*.m")
+            filepaths.append(test_directory + "/libsBase/*.h")
     elif project == SCITE:
-        filepaths.append(test_directory + "/SciTE/*.cxx")
-        filepaths.append(test_directory + "/SciTE/*.h")
+        if USE_MULTIPLE_EXTENSIONS:
+            filepaths.append(test_directory + "/SciTE/*.cxx,*.h")
+        else:
+            filepaths.append(test_directory + "/SciTE/*.cxx")
+            filepaths.append(test_directory + "/SciTE/*.h")
     elif project == SHARPDEVELOP:
         filepaths.append(test_directory + "/SharpDevelop/src/*.cs")
     elif project == SHARPMAIN:
@@ -512,8 +524,11 @@ def get_project_filepaths(project):
     elif project == TESTPROJECT:
         # the test file paths can be changed depending n the circumstances
         # if the test is not CodeBlocks change extract_testproject() in libextract.py
-        filepaths.append(test_directory + "/TestProject/scite/gtk/*.cxx")
-        filepaths.append(test_directory + "/TestProject/scite/gtk/*.h")
+        if USE_MULTIPLE_EXTENSIONS:
+            filepaths.append(test_directory + "/TestProject/scite/gtk/*.cxx,*.h")
+        else:
+            filepaths.append(test_directory + "/TestProject/scite/gtk/*.cxx")
+            filepaths.append(test_directory + "/TestProject/scite/gtk/*.h")
     else:
         system_exit("Bad get_project_filepaths() project id: " + project)
     return filepaths

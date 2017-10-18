@@ -103,6 +103,12 @@ def process_astyle_main(astyle_main_list):
         if line.startswith("if (sizeof(utf16_t) != sizeCheck)"):
             astyle_main_list.append("knownConditionTrueFalse:" + src_path + ":" + str(lines)
                                     + "\t// utf16_t sizeCheck\n")
+        if line.startswith("if (sizeof(char16_t) != sizeCheck)"):
+            astyle_main_list.append("knownConditionTrueFalse:" + src_path + ":" + str(lines)
+                                    + "\t// char16_t sizeCheck\n")
+        if line.startswith("size_t sep = 0"):
+            astyle_main_list.append("variableScope:" + src_path + ":" + str(lines)
+                                    + "\t\t\t\t// sep\n")
         # unusedFunction warnings
         if "ASConsole::getErrorStream(" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)

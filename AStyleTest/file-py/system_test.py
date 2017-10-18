@@ -37,7 +37,7 @@ import libtest
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN         # C# - 1000 files from SharpDevelop
 # TESTPROJECT
-__project = libastyle.JEDIT
+__project = libastyle.LIBSBASE
 
 # enumerate thru all the __options
 # otherwise use only the option below
@@ -48,11 +48,11 @@ __total_errors = 0
 # select OPT0 thru OPT3, or use customized options
 # options_x can be a brace style or any other option
 #__options = "-tapO"
-__options = libastyle.OPT3
+__options = libastyle.OPT1
 __options_x = ""
 
 # executable for test
-__astyleexe = "astyled"
+__astyleexe = "astyle"
 
 # extract all files option, use False for speed, use True to compile
 __all_files_option = True
@@ -164,7 +164,7 @@ def copy_formatted_files(files, testfile, index):
         except IOError as err:
             print()
             print(err)
-            message = ("This must be corrected to continue")
+            message = "This must be corrected to continue"
             libastyle.system_exit(message)
 
 # -----------------------------------------------------------------------------
@@ -220,8 +220,8 @@ def get_modified_options(index):
         if modified_options.find('xl') != -1:
             modified_options = modified_options.replace("xl", "")
     # GWorkspace uses multi-line macros and cannot remove braces (xj)
-    if __project == libastyle.GWORKSPACE:
-        modified_options = modified_options.replace("xj", "")
+#    if __project == libastyle.GWORKSPACE:
+#        modified_options = modified_options.replace("xj", "")
     # GENERATE ERRORS FOR TESTING by changing the indent-cases option
 #	if index == 1 or index == 3 or index == 6 or index == 9:
 #		if modified_options.find('K') == -1:
@@ -279,7 +279,7 @@ def print_astyle_totals(filename):
     else:
         printline = "{0:n} formatted; {1:n} files; {2} min {3} seconds"
         print(printline.format(formatted, totfiles, minute, sec))
-    return (formatted, totfiles)
+    return formatted, totfiles
 
 # -----------------------------------------------------------------------------
 
@@ -497,7 +497,7 @@ def verify_formatted_files(numformat, totformat):
 # make the module executable
 if __name__ == "__main__":
     if __enumerate:
-        opts = [ libastyle.OPT0, libastyle.OPT1, libastyle.OPT2, libastyle.OPT3]
+        opts = [libastyle.OPT0, libastyle.OPT1, libastyle.OPT2, libastyle.OPT3]
         for unused, opt in enumerate(opts):
             __options = opt
             main()

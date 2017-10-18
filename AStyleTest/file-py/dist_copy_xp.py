@@ -17,7 +17,7 @@ import libastyle
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-AS_RELEASE = "3.0.1"
+AS_RELEASE = "3.1"
 
 # inut from AStyle directory
 __astyle_dir = libastyle.get_astyle_directory()

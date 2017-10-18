@@ -303,6 +303,36 @@ TEST(AlignPointerNone, PointerToPointer3)
 	delete[] textOut;
 }
 
+TEST(AlignPointerNone, PointerToPointer4)
+{
+	// test pointer to pointer with space separation
+	// the first * is NOT padded because of pad-oper
+	char textIn[] =
+	    "\n- (void) decodeValueOfCType: (int)type\n"
+	    "    withName: (NSString*   *)namePtr\n"
+	    "{ }\n";
+	char text[] =
+	    "\n- (void) decodeValueOfCType: (int)type\n"
+	    "    withName: (NSString*   *)namePtr\n"
+	    "{ }\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AlignPointerNone, PointerToPointer5)
+{
+	// test pointer ***
+	// the first * is NOT padded because of pad-oper
+	char text[] =
+	    "\nvoid expandargv(int*, char  ***);   // comment\n";
+	char options[] = "pad-oper";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(AlignPointerNone, EndOfLine1)
 {
 	// test pointer at end of line
@@ -1179,6 +1209,38 @@ TEST(AlignPointerType, PointerToPointer3)
 	    "    char* *bar1;\n"
 	    "}\n";
 	char options[] = "align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AlignPointerType, PointerToPointer4)
+{
+	// test pointer to pointer with space separation
+	// the first * is NOT padded because of pad-oper
+	char textIn[] =
+	    "\n- (void) decodeValueOfCType: (int)type\n"
+	    "    withName: (NSString *   *)namePtr\n"
+	    "{ }\n";
+	char text[] =
+	    "\n- (void) decodeValueOfCType: (int)type\n"
+	    "    withName: (NSString* *)namePtr\n"
+	    "{ }\n";
+	char options[] = "align-pointer=type, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AlignPointerType, PointerToPointer5)
+{
+	// test pointer ***
+	// the first * is NOT padded because of pad-oper
+	char textIn[] =
+	    "\nvoid expandargv(int  *    , char  ***);   // comment\n";
+	char text[] =
+	    "\nvoid expandargv(int*, char***);           // comment\n";
+	char options[] = "align-pointer=type, pad-oper";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -2367,6 +2429,37 @@ TEST(AlignPointerMiddle, PointerToPointer3)
 	    "    char		*	*		bar1;\n"
 	    "    char* *bar1;\n"
 	    "}\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AlignPointerMiddle, PointerToPointer4)
+{
+	// test pointer to pointer with space separation
+	// the first * is padded because of align-pointer=middle
+	char textIn[] =
+	    "\n- (void) decodeValueOfCType: (int)type\n"
+	    "    withName: (NSString*   *)namePtr\n"
+	    "{ }\n";
+	char text[] =
+	    "\n- (void) decodeValueOfCType: (int)type\n"
+	    "    withName: (NSString  * *)namePtr\n"
+	    "{ }\n";
+	char options[] = "align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AlignPointerMiddle, PointerToPointer5)
+{
+	// test pointer ***
+	char textIn[] =
+	    "\nvoid expandargv(int  *    , char  ***);   // comment\n";
+	char text[] =
+	    "\nvoid expandargv(int *, char *** );        // comment\n";
 	char options[] = "align-pointer=middle";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
@@ -3645,6 +3738,37 @@ TEST(AlignPointerName, PointerToPointer3)
 	    "    char		*	*		bar1;\n"
 	    "    char* *bar1;\n"
 	    "}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AlignPointerName, PointerToPointer4)
+{
+	// test pointer to pointer with space separation
+	// the first * is padded because of align-pointer=name
+	char textIn[] =
+	    "\n- (void) decodeValueOfCType: (int)type\n"
+	    "    withName: (NSString*   *)namePtr\n"
+	    "{ }\n";
+	char text[] =
+	    "\n- (void) decodeValueOfCType: (int)type\n"
+	    "    withName: (NSString * *)namePtr\n"
+	    "{ }\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AlignPointerName, PointerToPointer5)
+{
+	// test pointer ***
+	char textIn[] =
+	    "\nvoid expandargv(int  *    , char  ***);   // comment\n";
+	char text[] =
+	    "\nvoid expandargv(int *, char  ***);        // comment\n";
 	char options[] = "align-pointer=name";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);

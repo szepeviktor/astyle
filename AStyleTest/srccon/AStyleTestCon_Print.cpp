@@ -325,7 +325,7 @@ TEST_F(PrintF, DefaultWildcard)
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back("--ascii");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(astyleOptionsVector);
 	// redirect stdout and get the report
@@ -354,7 +354,7 @@ TEST_F(PrintF, DefaultWildcard_Exclude)
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back("--ascii");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(astyleOptionsVector);
 	// add exclude files
@@ -387,7 +387,7 @@ TEST_F(PrintF, DefaultWildcard_ExcludeError)
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back("--ascii");
 	astyleOptionsVector.push_back("--ignore-exclude-errors");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(astyleOptionsVector);
@@ -421,7 +421,7 @@ TEST_F(PrintF, DefaultWildcard_ExcludeErrorNoPrint)
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back("--ascii");
 	astyleOptionsVector.push_back("--ignore-exclude-errors-x");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(astyleOptionsVector);
@@ -454,7 +454,7 @@ TEST_F(PrintF, FormattedWildcard)
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back("--ascii");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(astyleOptionsVector);
 	// redirect stdout and get the report
@@ -487,7 +487,7 @@ TEST_F(PrintF, VerboseWildcard_DefaultOptionFile)
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back("--ascii");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(astyleOptionsVector);
 	// add option file
@@ -522,7 +522,7 @@ TEST_F(PrintF, VerboseWildcard_ProjectOptionFile)
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back("--ascii");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(astyleOptionsVector);
 	// add project option file
@@ -558,7 +558,7 @@ TEST_F(PrintF, VerboseWildcard_DefaultAndProjectOptionFiles)
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back("--ascii");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(astyleOptionsVector);
 	// add option files
@@ -593,7 +593,7 @@ TEST_F(PrintF, VerboseFormattedWildcard)
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back("--ascii");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(astyleOptionsVector);
 	// redirect stdout and get the report
@@ -616,7 +616,7 @@ TEST_F(PrintF, DefaultSingleFile)
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back("--ascii");
 	astyleOptionsVector.push_back(getTestDirectory() + "/fileFormatted.cpp");
 	console->processOptions(astyleOptionsVector);
 	// redirect stdout and get the report
@@ -640,7 +640,7 @@ TEST_F(PrintF, FormattedSingleFile)
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back("--ascii");
 	astyleOptionsVector.push_back(getTestDirectory() + "/fileFormatted.cpp");
 	console->processOptions(astyleOptionsVector);
 	// redirect stdout and get the report
@@ -668,7 +668,7 @@ TEST_F(PrintF, VerboseSingleFile_OptionsFile)
 	adjustText(text);
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back("--ascii");
 	astyleOptionsVector.push_back(getTestDirectory() + "/fileFormatted.cpp");
 	console->processOptions(astyleOptionsVector);
 	// add options file
@@ -695,7 +695,7 @@ TEST_F(PrintF, Quiet_AllOptions)
 	string text = "\n";
 	// call astyle processOptions()
 	vector<string> astyleOptionsVector;
-	astyleOptionsVector.push_back("--ascii");	// output in English
+	astyleOptionsVector.push_back("--ascii");
 	astyleOptionsVector.push_back(getTestDirectory() + "/*.cpp");
 	console->processOptions(astyleOptionsVector);
 	// add options and exclude files
