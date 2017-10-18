@@ -21,6 +21,7 @@
 					<Add option="-fno-exceptions" />
 					<Add option="-fPIC" />
 					<Add option="-Wno-c++98-compat" />
+					<Add option="-Wno-c++98-compat-pedantic" />
 					<Add option="-Wno-exit-time-destructors" />
 					<Add option="-Wno-global-constructors" />
 					<Add option="-Wno-missing-variable-declarations" />
@@ -54,6 +55,7 @@
 					<Add option="-fno-exceptions" />
 					<Add option="-fPIC" />
 					<Add option="-Wno-c++98-compat" />
+					<Add option="-Wno-c++98-compat-pedantic" />
 					<Add option="-Wno-exit-time-destructors" />
 					<Add option="-Wno-global-constructors" />
 					<Add option="-Wno-missing-variable-declarations" />

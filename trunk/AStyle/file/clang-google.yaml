@@ -1,13 +1,13 @@
 ---
 # clang-google.yaml
-# clang-format version 3.9
+# clang-format version 5.0
 Language:        Cpp
 # BasedOnStyle:  Google
 AccessModifierOffset: -1
 AlignAfterOpenBracket: Align
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
-AlignEscapedNewlinesLeft: true
+#AlignEscapedNewlines: Left                      # Version 5.0
 AlignOperands:   true
 AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: true
@@ -34,22 +34,32 @@ BraceWrapping:
   BeforeCatch:     false
   BeforeElse:      false
   IndentBraces:    false
-BreakBeforeBinaryOperators: All # None                     ##########
+#  SplitEmptyFunction: true                      # Version 5.0
+#  SplitEmptyRecord: true                        # Version 5.0
+#  SplitEmptyNamespace: true                     # Version 5.0
+BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Attach
+#BreakBeforeInheritanceComma: false              # Version 5.0
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: false
+#BreakConstructorInitializers: BeforeColon       # Version 5.0
 BreakAfterJavaFieldAnnotations: false
 BreakStringLiterals: true
-ColumnLimit:     0 # 80                                    ##########
+ColumnLimit:     0 # 80                          ##########
 CommentPragmas:  '^ IWYU pragma:'
+#CompactNamespaces: false                        # Version 5.0
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
 Cpp11BracedListStyle: true
-DerivePointerAlignment: false # true                       ##########
+DerivePointerAlignment: true
 DisableFormat:   false
 ExperimentalAutoDetectBinPacking: false
-ForEachMacros:   [ foreach, Q_FOREACH, BOOST_FOREACH ]
+#FixNamespaceComments: true                      # Version 5.0
+ForEachMacros:
+  - foreach
+  - Q_FOREACH
+  - BOOST_FOREACH
 IncludeCategories:
   - Regex:           '^<.*\.h>'
     Priority:        1
@@ -66,11 +76,12 @@ JavaScriptWrapImports: true
 KeepEmptyLinesAtTheStartOfBlocks: false
 MacroBlockBegin: ''
 MacroBlockEnd:   ''
-MaxEmptyLinesToKeep: 2 # 1                                 ##########
+MaxEmptyLinesToKeep: 1
 NamespaceIndentation: None
 ObjCBlockIndentWidth: 2
 ObjCSpaceAfterProperty: false
 ObjCSpaceBeforeProtocolList: false
+#PenaltyBreakAssignment: 2                       # Version 5.0
 PenaltyBreakBeforeFirstCallParameter: 1
 PenaltyBreakComment: 300
 PenaltyBreakFirstLessLess: 120
@@ -79,9 +90,10 @@ PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 200
 PointerAlignment: Left
 ReflowComments:  true
-SortIncludes:    false # true                              ##########
+SortIncludes:    false # true                    ##########
+#SortUsingDeclarations: true                     # Version 5.0
 SpaceAfterCStyleCast: false
-#SpaceAfterTemplateKeyword: true                           Version 4.0
+SpaceAfterTemplateKeyword: true
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeParens: ControlStatements
 SpaceInEmptyParentheses: false

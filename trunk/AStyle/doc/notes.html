@@ -23,27 +23,34 @@
         <li>Add new options "project", "project=####", and "project=none" (#11).</li>
         <li>Add new option "style=ratliff", as an alternate name for banner style.</li>
         <li>Add new environment variable ARTISTIC_STYLE_PROJECT_OPTIONS (#11).</li>
+        <li>Add multiple extensions to the command line file paths option.</li>
         <li>Improve recognition of unary + and - when using pad-oper.</li>
         <li>Change the Windows default options file location from USERPROFILE to APPDATA.</li>
         <li>Change options file input to accept UTF-16, or UTF-8 with a BOM (or signature).</li>
         <li>Change &quot;unsigned short&quot; data type to c++11 &quot;char16_t&quot;.</li>
-        <li>Change ASEncoding variable name from &quot;utf8_16&quot; to &quot;encode&quot;.</li>
         <li>Change translations for new project options file.</li>
         <li>Fix utf8LengthFromUtf16() calculation being less than the actual length.</li>
+        <li>Fix multiply followed by a dereference for &quot;align-pointer=type&quot;.</li>
         <li>Fix recognition of a uniform class initializer in a base class initialization (#441).</li>
         <li>Fix indentation of "volatile" keyword not used in a method definition (#450).</li>
         <li>Fix indentation of "final" keyword not used in a method definition (#450).</li>
         <li>Fix Objective-C to allow for &quot;Extern C&quot; statements in the source files (#443, 444, 446).</li>
         <li>Fix Objective-C to allow for method definitions without a specified return type (#447).</li>
         <li>Fix Objective-C to allow for method definitions with multiple param types.</li>
+        <li>Fix Objective-C to replace tabbed padding with a space.</li>
+        <li>Fix Objective-C formatting of line-end comments with &quot;unpad-return-type&quot;.</li>
+        <li>Fix Objective-C &quot;align-method-colon&quot; to ignore ternary (?) operators.</li>
+        <li>Fix C# base class constructor indentation (#459).</li>
         <li>Fix C/C++ to allow &quot;interface&quot; as a non-keyword (#445).</li>
         <li>Fix line ends initialization if no line end has been read.</li>
         <li>Fix Java build from including ASLocalizer in the shared library.</li>
+        <li>Fix to check for AStyleWx line tags after C style comments.</li>
         <li>Fix boundary conditions and other errors discovered by fuzzing.</li>
         <li>Refactoring:
             <ul>
                 <li>Extract method isNumericVariable() in ASFormatter class.</li>
                 <li>Extract method fileExists() in Console class.</li>
+                <li>Rename ASEncoding variable from &quot;utf8_16&quot; to &quot;encode&quot;.</li>
             </ul>
         </li>
     </ul>

@@ -1,19 +1,13 @@
 ---
 # clang-mozilla.yaml
-# clang-format version 3.9
-# https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Coding_Style
-# NOTE: Function return types should be on a separate line.
-#       Clang-format options are:
-#               "AlwaysBreakAfterDefinitionReturnType: TopLevel"
-#               "AlwaysBreakAfterReturnType: TopLevelDefinitions"
-
+# clang-format version 5.0
 Language:        Cpp
 # BasedOnStyle:  Mozilla
 AccessModifierOffset: -2
 AlignAfterOpenBracket: Align
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
-AlignEscapedNewlinesLeft: false
+#AlignEscapedNewlines: Right                      # Version 5.0
 AlignOperands:   true
 AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: false
@@ -22,13 +16,13 @@ AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Inline
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
-AlwaysBreakAfterDefinitionReturnType: None # TopLevel      ##########
-AlwaysBreakAfterReturnType: None # TopLevelDefinitions     ##########
+AlwaysBreakAfterDefinitionReturnType: TopLevel
+AlwaysBreakAfterReturnType: TopLevel
 AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: true
-BinPackArguments: true # false                             #?????????
-BinPackParameters: true # false                            #?????????
-BraceWrapping:
+BinPackArguments: false
+BinPackParameters: false
+BraceWrapping:   
   AfterClass:      true
   AfterControlStatement: false
   AfterEnum:       true
@@ -40,14 +34,20 @@ BraceWrapping:
   BeforeCatch:     false
   BeforeElse:      false
   IndentBraces:    false
-BreakBeforeBinaryOperators: All # None                     ##########
+#  SplitEmptyFunction: false                     # Version 5.0
+#  SplitEmptyRecord: false                       # Version 5.0
+#  SplitEmptyNamespace: true                     # Version 5.0
+BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Mozilla
+#BreakBeforeInheritanceComma: true               # Version 5.0
 BreakBeforeTernaryOperators: true
-BreakConstructorInitializersBeforeComma: true
+BreakConstructorInitializersBeforeComma: false
+#BreakConstructorInitializers: BeforeComma       # Version 5.0
 BreakAfterJavaFieldAnnotations: false
 BreakStringLiterals: true
-ColumnLimit:     0 # 80                                    ##########
+ColumnLimit:     0 # 80                          ##########
 CommentPragmas:  '^ IWYU pragma:'
+#CompactNamespaces: false                        # Version 5.0
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
 ConstructorInitializerIndentWidth: 2
 ContinuationIndentWidth: 2
@@ -55,15 +55,19 @@ Cpp11BracedListStyle: false
 DerivePointerAlignment: false
 DisableFormat:   false
 ExperimentalAutoDetectBinPacking: false
-ForEachMacros:   [ foreach, Q_FOREACH, BOOST_FOREACH ]
-IncludeCategories:
+#FixNamespaceComments: false                     # Version 5.0
+ForEachMacros:   
+  - foreach
+  - Q_FOREACH
+  - BOOST_FOREACH
+IncludeCategories: 
   - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
     Priority:        2
-  - Regex:           '^(<|"(gtest|isl|json)/)'
+  - Regex:           '^(<|"(gtest|gmock|isl|json)/)'
     Priority:        3
   - Regex:           '.*'
     Priority:        1
-IncludeIsMainRegex: '$'
+IncludeIsMainRegex: '(Test)?$'
 IndentCaseLabels: true
 IndentWidth:     2
 IndentWrappedFunctionNames: false
@@ -72,11 +76,12 @@ JavaScriptWrapImports: true
 KeepEmptyLinesAtTheStartOfBlocks: true
 MacroBlockBegin: ''
 MacroBlockEnd:   ''
-MaxEmptyLinesToKeep: 2 # 1                                 ##########
+MaxEmptyLinesToKeep: 2 # 1                       ##########
 NamespaceIndentation: None
 ObjCBlockIndentWidth: 2
 ObjCSpaceAfterProperty: true
 ObjCSpaceBeforeProtocolList: false
+#PenaltyBreakAssignment: 2                       # Version 5.0
 PenaltyBreakBeforeFirstCallParameter: 19
 PenaltyBreakComment: 300
 PenaltyBreakFirstLessLess: 120
@@ -85,9 +90,10 @@ PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 200
 PointerAlignment: Left
 ReflowComments:  true
-SortIncludes:    false # true                              ##########
+SortIncludes:    false # true                    ##########
+#SortUsingDeclarations: true                     # Version 5.0
 SpaceAfterCStyleCast: false
-#SpaceAfterTemplateKeyword: true                           Version 4.0
+SpaceAfterTemplateKeyword: false
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeParens: ControlStatements
 SpaceInEmptyParentheses: false

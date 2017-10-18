@@ -350,6 +350,8 @@
 
     <h3 id="_Usage">Usage</h3>
 
+    <h4>Command Line</h4>
+
     <p>
         Artistic style is a console program that receives information from the command line.</p>
     <div class="code">
@@ -363,13 +365,29 @@
     <div class="code">
         <p class="code">
             Example to format a single file:</p>
-        <pre>astyle  --style=allman  /home/user/project/foo.cpp
+        <pre>astyle&nbsp; --style=allman&nbsp; /home/project/foo.cpp
 </pre>
         <p class="code">
-            Example to format all .cpp and .h files recursively:</p>
-        <pre>astyle  --style=allman --recursive  /home/user/project/*.cpp  /home/user/project/*.h
+            Example to format C# files recursively:</p>
+        <pre>astyle&nbsp; --style=allman&nbsp; --recursive&nbsp; /home/project/*.cs
 </pre>
     </div>
+
+    <h4>File Extensions</h4>
+
+    <p>
+        Multiple file extensions may be used if separated by commas or semicolons. An optional space may follow if the
+        entire file path is enclosed in double quotes. There is no limit to the number of extensions used.
+    </p>
+    <div class="code">
+        <p class="code">
+            Example to format C++ files recursively using multiple file extensions:</p>
+        <pre>astyle&nbsp; --style=allman&nbsp; --recursive&nbsp; /home/project/*.cpp,*.h
+</pre>
+    </div>
+
+    <h4>Redirection</h4>
+
     <p>
         The < and > characters may be used to redirect the files into standard input (stdin) and out of standard output
         (stdout) - don't forget them! With this option only one file at a time can be formatted. Wildcards are not
@@ -430,7 +448,8 @@
     <p>
         Options may be set apart by new-lines, tabs, commas, or spaces. Long options in the options file may be written
         without the preceding '--'. Lines within the options file that begin with '#' are considered line-comments.
-    </p>
+        The option files used in formatting and their location can be displayed by using the --verbose 
+        option. </p>
     <ol>
         <li>The <strong>command line options</strong> have precedence. If there is a conflict between a command line option
             and an option in a default or project file, the command line option will be used.
@@ -442,8 +461,18 @@
             <ul>
                 <li>the file name indicated by the --project= command line option.</li>
                 <li>the file named .astylerc or _ astylerc. </li>
-                <li>the file name identified by the environment variable ARTISTIC_STYLE_PROJECT_OPTIONS if it exists. </li>
-                <li>the file can be disabled by specifying --project=none on the command line.</li>
+                <li>the file name identified by the environment variable ARTISTIC_STYLE_PROJECT_OPTIONS if it exists.</li>
+                <li>the file or environment variable can be disabled by specifying --project=none on the command line.</li>
+            </ul>
+            The file is expected to be in the top directory of the project being formatted. Only one file will be used per
+            execution and all files to be formatted are assumed to be in the same project. Artistic Style will search 
+            backward in the directory path to find the file. The initial directory path for the search is obtained from one
+            of the following locations in the following order.
+            <ul>
+                <li>The first <em>SourceFilePath</em> entered on the command line.</li>
+                <li>The value of "--stdin=" if it is used for redirection.</li>
+                <li>The current directory if "<" is used for rediredction. If the file to be formatted is not in the current 
+                    directory, use the "--stdin=" option instead.</li>
             </ul>
         </li>
         <li>The <strong>default option file</strong> that can be used for all projects. The file is identified by a file name
@@ -455,18 +484,7 @@
                     (e.g. "$HOME<strong>/.</strong>astylerc" on Linux); </li>
                 <li>the file named astylerc in the directory pointed to by the APPDATA environment variable 
                     (e.g. "%APPDATA%<strong>\</strong>astylerc" on Windows). </li>
-                <li>the file can be disabled by specifying --options=none on the command line.</li>
-            </ul>
-            The file is expected to be in the top directory of the project being formatted. 
-            Only one file will be used per execution and all files to be formatted are assumed to be in the same project.
-            Artistic Style will search backward in the directory path to find the file. 
-            Further information is available in the <a href="#_Usage">Usage</a> section above. The initial directory path
-            for the search is obtained from one of the following locations in the following order.
-            <ul>
-                <li>The first <em>SourceFilePath</em> entered on the command line.</li>
-                <li>The value of "--stdin=" if it is used for redirection.</li>
-                <li>The current directory if "<" is used for rediredction. If the file to be formatted is not in the current 
-                    directory, use the "--stdin=" option instead.</li>
+                <li>the file or environment variable can be disabled by specifying --options=none on the command line.</li>
             </ul>
         </li>
     </ol>
@@ -2308,7 +2326,8 @@ else
         file.</p>
     <p id="_verbose">
         <code class="title">--verbose / -v</code><br />
-        Verbose display mode. Display optional information, such as release number, date, and statistical data.</p>
+        Verbose display mode. Display optional information, such as release number, date, 
+        option file locations, and statistical data.</p>
     <p id="_formatted">
         <code class="title">--formatted / -Q</code><br />
         Formatted files display mode. Display only the files that have been formatted. Do not display files that
