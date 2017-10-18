@@ -28,7 +28,7 @@ enum BraceStyle
 	STYLE_STROUSTRUP,
 	STYLE_WHITESMITH,
 	STYLE_VTK,
-	STYLE_BANNER,
+	STYLE_RATLIFF,
 	STYLE_GNU,
 	STYLE_LINUX,
 	STYLE_HORSTMANN,
@@ -182,7 +182,7 @@ struct TextStyle
 #define STROUSTRUP                  "stroustrup"
 #define WHITESMITH                  "whitesmith"
 #define VTK                         "vtk"
-#define BANNER                      "banner"
+#define RATLIFF                     "ratliff"
 #define GNU                         "gnu"
 #define LINUXX                      "linux"     // LINUX is defined by Intel compiler
 #define HORSTMANN                   "horstmann"

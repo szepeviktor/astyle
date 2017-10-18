@@ -100,7 +100,6 @@ private:
 	wxString StcPad_UnpadParen() const;
 	// Style Tab
 	wxString StcStyle_Allman() const;
-	wxString StcStyle_Banner() const;
 	wxString StcStyle_Gnu() const;
 	wxString StcStyle_Google() const;
 	wxString StcStyle_Horstmann() const;
@@ -111,6 +110,7 @@ private:
 	wxString StcStyle_Mozilla() const;
 	wxString StcStyle_None() const;
 	wxString StcStyle_Pico() const;
+	wxString StcStyle_Ratliff() const;
 	wxString StcStyle_Stroustrup() const;
 	wxString StcStyle_Vtk() const;
 	wxString StcStyle_Whitesmith() const;

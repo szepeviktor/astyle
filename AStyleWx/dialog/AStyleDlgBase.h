@@ -43,7 +43,7 @@
 #define ID_STYLE_STROUSTRUP 1007
 #define ID_STYLE_WHITESMITH 1008
 #define ID_STYLE_VTK 1009
-#define ID_STYLE_BANNER 1010
+#define ID_STYLE_RATLIFF 1010
 #define ID_STYLE_GNU 1011
 #define ID_STYLE_LINUX 1012
 #define ID_STYLE_HORSTMANN 1013
@@ -166,7 +166,7 @@ class AStyleDlgBase : public wxDialog
 		wxRadioButton* m_styleStroustrup;
 		wxRadioButton* m_styleWhitesmith;
 		wxRadioButton* m_styleVtk;
-		wxRadioButton* m_styleBanner;
+		wxRadioButton* m_styleRatliff;
 		wxRadioButton* m_styleGnu;
 		wxRadioButton* m_styleLinux;
 		wxRadioButton* m_styleHorstmann;

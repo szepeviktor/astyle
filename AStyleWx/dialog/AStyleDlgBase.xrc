@@ -118,8 +118,8 @@
 															<option>0</option>
 															<flag>wxALL</flag>
 															<border>5</border>
-															<object class="wxRadioButton" name="m_styleBanner">
-																<label>_Banner</label>
+															<object class="wxRadioButton" name="m_styleRatliff">
+																<label>_Ratliff</label>
 																<value>0</value>
 															</object>
 														</object>
