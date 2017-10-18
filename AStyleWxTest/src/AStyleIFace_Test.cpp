@@ -55,9 +55,9 @@ TEST(AStyleIFace_StyleOptions, GetOptions_StylesAll)
 	astyle.setBraceStyle(STYLE_WHITESMITH);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + WHITESMITH);
-	astyle.setBraceStyle(STYLE_BANNER);
+	astyle.setBraceStyle(STYLE_RATLIFF);
 	options = astyle.GetOptions();
-	EXPECT_TRUE(options == STYLE_EQ + BANNER);
+	EXPECT_TRUE(options == STYLE_EQ + RATLIFF);
 	astyle.setBraceStyle(STYLE_GNU);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + GNU);
@@ -1128,9 +1128,9 @@ TEST(AStyleIFace_StyleShort, GetOptions_All)
 	astyle.setBraceStyle(STYLE_WHITESMITH);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A5") << (STYLE_EQ + WHITESMITH);
-	astyle.setBraceStyle(STYLE_BANNER);
+	astyle.setBraceStyle(STYLE_RATLIFF);
 	options = astyle.GetOptions(true);
-	EXPECT_TRUE(options == "A6") << (STYLE_EQ + BANNER);
+	EXPECT_TRUE(options == "A6") << (STYLE_EQ + RATLIFF);
 	astyle.setBraceStyle(STYLE_GNU);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A7") << (STYLE_EQ + GNU);
@@ -2509,8 +2509,8 @@ TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_Styles)
 	EXPECT_EQ(STYLE_STROUSTRUP, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, WHITESMITH));
 	EXPECT_EQ(STYLE_WHITESMITH, astyle.AStyleIFace::getBraceStyle());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, BANNER));
-	EXPECT_EQ(STYLE_BANNER, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, RATLIFF));
+	EXPECT_EQ(STYLE_RATLIFF, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, GNU));
 	EXPECT_EQ(STYLE_GNU, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, LINUXX));

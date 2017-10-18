@@ -129,8 +129,8 @@ def get_astyle_directory(endsep=False):
     """Get the AStyle directory for the os environment.
        endsep = True will add an ending separator.
     """
-    if endsep != True and endsep != False:
-        system_exit("Bad arg in get_astyle_directory(): " + endsep)
+    if endsep is not True and endsep is not False:
+        system_exit("Bad arg in get_astyle_directory(): " + str(endsep))
     if os.name == "nt":
         astyledir = get_project_directory() + "/AStyle"
     else:
@@ -171,8 +171,8 @@ def get_astylewx_directory(endsep=False):
     """Get the AStyleWx directory for the os environment.
        endsep = True will add an ending separator.
     """
-    if endsep != True and endsep != False:
-        system_exit("Bad arg in get_astylewx_directory(): " + endsep)
+    if endsep is not True and endsep is not False:
+        system_exit("Bad arg in get_astylewx_directory(): " + str(endsep))
     if os.name == "nt":
         astylewxdir = get_project_directory() + "/AStyleWx"
     else:
@@ -192,8 +192,8 @@ def get_astylewxtest_directory(endsep=False):
     """Get the AStyleWxTest directory for the os environment.
        endsep = True will add an ending separator.
     """
-    if endsep != True and endsep != False:
-        system_exit("Bad arg in get_astylewx_directory(): " + endsep)
+    if endsep is not True and endsep is not False:
+        system_exit("Bad arg in get_astylewx_directory(): " + str(endsep))
     if os.name == "nt":
         astylewxtestdir = get_project_directory() + "/AStyleWxTest"
     else:
