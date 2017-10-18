@@ -2287,7 +2287,7 @@ void ASBeautifier::adjustObjCMethodDefinitionIndentation(const string& line_)
 		if (shouldAlignMethodColon && objCColonAlignSubsequent != -1)
 		{
 			string convertedLine = getIndentedSpaceEquivalent(line_);
-			colonIndentObjCMethodAlignment = convertedLine.find(':');
+			colonIndentObjCMethodAlignment = findObjCColonAlignment(convertedLine);
 			int objCColonAlignSubsequentIndent = objCColonAlignSubsequent + indentLength;
 			if (objCColonAlignSubsequentIndent > colonIndentObjCMethodAlignment)
 				colonIndentObjCMethodAlignment = objCColonAlignSubsequentIndent;
@@ -2321,7 +2321,7 @@ void ASBeautifier::adjustObjCMethodCallIndentation(const string& line_)
 			bracePosObjCMethodAlignment = convertedLine.find('[');
 			keywordIndentObjCMethodAlignment =
 			    getObjCFollowingKeyword(convertedLine, bracePosObjCMethodAlignment);
-			colonIndentObjCMethodAlignment = convertedLine.find(':');
+			colonIndentObjCMethodAlignment = findObjCColonAlignment(convertedLine);
 			if (colonIndentObjCMethodAlignment >= 0)
 			{
 				int objCColonAlignSubsequentIndent = objCColonAlignSubsequent + indentLength;
@@ -2333,7 +2333,7 @@ void ASBeautifier::adjustObjCMethodCallIndentation(const string& line_)
 		}
 		else
 		{
-			if (line_.find(':') != string::npos)
+			if (findObjCColonAlignment(line_) != -1)
 			{
 				if (colonIndentObjCMethodAlignment < 0)
 					spaceIndentCount += computeObjCColonAlignment(line_, objCColonAlignSubsequent);
@@ -2383,6 +2383,34 @@ void ASBeautifier::clearObjCMethodDefinitionAlignment()
 }
 
 /**
+ * Find the first alignment colon on a line.
+ * Ternary operators (?) are bypassed.
+ */
+int ASBeautifier::findObjCColonAlignment(const string& line) const
+{
+	bool haveTernary = false;
+	for (size_t i = 0; i < line.length(); i++)
+	{
+		i = line.find_first_of(":?", i);
+		if (i == string::npos)
+			break;
+
+		if (line[i] == '?')
+		{
+			haveTernary = true;
+			continue;
+		}
+		if (haveTernary)
+		{
+			haveTernary = false;
+			continue;
+		}
+		return i;
+	}
+	return -1;
+}
+
+/**
  * Compute the spaceIndentCount necessary to align the current line colon
  * with the colon position in the argument.
  * If it cannot be aligned indentLength is returned and a new colon
@@ -2390,7 +2418,7 @@ void ASBeautifier::clearObjCMethodDefinitionAlignment()
  */
 int ASBeautifier::computeObjCColonAlignment(const string& line, int colonAlignPosition) const
 {
-	int colonPosition = line.find(':');
+	int colonPosition = findObjCColonAlignment(line);
 	if (colonPosition < 0 || colonPosition > colonAlignPosition)
 		return indentLength;
 	return (colonAlignPosition - colonPosition);
@@ -2398,6 +2426,9 @@ int ASBeautifier::computeObjCColonAlignment(const string& line, int colonAlignPo
 
 /*
  * Compute postition of the keyword following the method call object.
+ * This is oversimplified to find unusual method calls.
+ * Use for now and see what happens.
+ * Most programmers will probably use align-method-colon anyway.
  */
 int ASBeautifier::getObjCFollowingKeyword(const string& line, int bracePos) const
 {
@@ -3184,7 +3215,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				if (i == 0)
 					indentCount += classInitializerIndents;
 			}
-			else if (isCStyle()
+			else if ((isCStyle() || isSharpStyle())
 			         && !isInCase
 			         && (prevNonSpaceCh == ')' || foundPreCommandHeader))
 			{

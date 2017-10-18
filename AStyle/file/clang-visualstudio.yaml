@@ -1,6 +1,6 @@
 ---
 # clang-visualstudio.yaml
-# clang-format version 3.9
+# clang-format version 5.0
 # depends on the options used in Visual Studio, Tools, Options, Text Editor
 Language:        Cpp
 # BasedOnStyle:  http://code.visualstudio.com/docs/languages/cpp#_code-formatting
@@ -35,14 +35,20 @@ BraceWrapping:
   BeforeCatch:     true
   BeforeElse:      true
   IndentBraces:    false
-BreakBeforeBinaryOperators: All # None                     ##########
-BreakBeforeBraces: Allman
+#  SplitEmptyFunction: true                      # Version 5.0
+#  SplitEmptyRecord: true                        # Version 5.0
+#  SplitEmptyNamespace: true                     # Version 5.0
+BreakBeforeBinaryOperators: None
+BreakBeforeBraces: Attach
+#BreakBeforeInheritanceComma: false              # Version 5.0
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: false
+#BreakConstructorInitializers: BeforeColon       # Version 5.0
 BreakAfterJavaFieldAnnotations: false
 BreakStringLiterals: true
-ColumnLimit:     0
+ColumnLimit:     0 # 80                          ##########
 CommentPragmas:  '^ IWYU pragma:'
+#CompactNamespaces: false                        # Version 5.0
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
@@ -50,7 +56,11 @@ Cpp11BracedListStyle: true
 DerivePointerAlignment: false
 DisableFormat:   false
 ExperimentalAutoDetectBinPacking: false
-ForEachMacros:   [ foreach, Q_FOREACH, BOOST_FOREACH ]
+#FixNamespaceComments: true                      # Version 5.0
+ForEachMacros:
+  - foreach
+  - Q_FOREACH
+  - BOOST_FOREACH
 IncludeCategories:
   - Regex:           '^<.*\.h>'
     Priority:        1
@@ -72,6 +82,7 @@ NamespaceIndentation: None
 ObjCBlockIndentWidth: 2
 ObjCSpaceAfterProperty: false
 ObjCSpaceBeforeProtocolList: false
+#PenaltyBreakAssignment: 2                       # Version 5.0
 PenaltyBreakBeforeFirstCallParameter: 1
 PenaltyBreakComment: 300
 PenaltyBreakFirstLessLess: 120
@@ -80,7 +91,8 @@ PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 200
 PointerAlignment:  Right
 ReflowComments:  true
-SortIncludes:    false
+SortIncludes:    false # true                    ##########
+#SortUsingDeclarations: true                     # Version 5.0
 SpaceAfterCStyleCast: false
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeParens: ControlStatements

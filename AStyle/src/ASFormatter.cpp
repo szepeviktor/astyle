@@ -933,6 +933,7 @@ string ASFormatter::nextLine()
 				{
 					squareBracketCount = 0;
 					objCColonAlign = 0;
+					isInObjCParam = false;
 				}
 			}
 			if (currentChar == ')')
@@ -1604,6 +1605,7 @@ string ASFormatter::nextLine()
 		{
 			isInObjCMethodDefinition = true;
 			isImmediatelyPostObjCMethodPrefix = true;
+			isInObjCParam = false;
 			isInObjCInterface = false;
 			if (getAlignMethodColon())
 				objCColonAlign = findObjCColonAlignment();
@@ -3040,18 +3042,17 @@ bool ASFormatter::isPointerOrReference() const
 	string nextText = peekNextText(currentLine.substr(charNum + 1));
 	if (nextText.length() == 0)
 		nextText = " ";
-	char nextChar = nextText[0];
 	if (isDigit(lastWord[0])
-	        || isDigit(nextChar)
-	        || nextChar == '!'
-	        || nextChar == '~')
+	        || isDigit(nextText[0])
+	        || nextText[0] == '!'
+	        || nextText[0] == '~')
 		return false;
 
 	// check for multiply then a dereference (a * *b)
+	char nextChar = peekNextChar();
 	if (currentChar == '*'
-	        && charNum < (int) currentLine.length() - 1
-	        && isWhiteSpace(currentLine[charNum + 1])
-	        && nextChar == '*')
+	        && nextChar == '*'
+	        && !isPointerToPointer(currentLine, charNum))
 		return false;
 
 	if ((foundCastOperator && nextChar == '>')
@@ -3312,6 +3313,27 @@ bool ASFormatter::isPointerOrReferenceVariable(const string& word) const
 	            && word.compare(word.length() - 2, 2, "_t") == 0)
 	        || word == "INT"
 	        || word == "VOID");
+}
+
+/**
+ * Check if * * is a pointer to a pointer or a multiply then a dereference.
+ *
+ * @return        true if a pointer *.
+ */
+bool ASFormatter::isPointerToPointer(const string& line, int currPos) const
+{
+	assert(line[currPos] == '*' && peekNextChar() == '*');
+	if ((int) line.length() > currPos + 1 && line[currPos + 1] == '*')
+		return true;
+	size_t nextText = line.find_first_not_of(" \t", currPos + 1);
+	if (nextText == string::npos || line[nextText] != '*')
+		return false;
+	size_t nextText2 = line.find_first_not_of(" \t", nextText + 1);
+	if (nextText == string::npos)
+		return false;
+	if (line[nextText2] == ')' || line[nextText2] == '*')
+		return true;
+	return false;
 }
 
 /**
@@ -3753,7 +3775,10 @@ void ASFormatter::adjustComments()
 		size_t endNum = currentLine.find("*/", charNum + 2);
 		if (endNum == string::npos)
 			return;
-		if (currentLine.find_first_not_of(" \t", endNum + 2) != string::npos)
+		// following line comments may be a tag from AStyleWx //[[)>
+		size_t nextNum = currentLine.find_first_not_of(" \t", endNum + 2);
+		if (nextNum != string::npos
+		        && currentLine.compare(nextNum, 2, "//") != 0)
 			return;
 	}
 
@@ -3987,28 +4012,34 @@ void ASFormatter::formatPointerOrReferenceToType()
 
 	// do this before bumping charNum
 	bool isOldPRCentered = isPointerOrReferenceCentered();
-
+	string sequenceToInsert(1, currentChar);
+	// get the sequence
+	if (currentChar == peekNextChar())
+	{
+		for (size_t i = charNum + 1; currentLine.length() > i; i++)
+		{
+			if (currentLine[i] == sequenceToInsert[0])
+			{
+				sequenceToInsert.append(1, currentLine[i]);
+				goForward(1);
+				continue;
+			}
+			break;
+		}
+	}
+	// append the seqence
+	string charSave;
 	size_t prevCh = formattedLine.find_last_not_of(" \t");
-	if (prevCh == string::npos)
-		prevCh = 0;
-	if (formattedLine.length() == 0 || prevCh == formattedLine.length() - 1)
-		formattedLine.append(1, currentChar);
-	else
+	if (prevCh < formattedLine.length())
 	{
-		// exchange * or & with character following the type
-		// this may not work every time with a tab character
-		string charSave = formattedLine.substr(prevCh + 1, 1);
-		formattedLine[prevCh + 1] = currentChar;
+		charSave = formattedLine.substr(prevCh + 1);
+		formattedLine.resize(prevCh + 1);
+	}
+	formattedLine.append(sequenceToInsert);
+	if (peekNextChar() != ')')
 		formattedLine.append(charSave);
-	}
-	if (isSequenceReached("**") || isSequenceReached("&&"))
-	{
-		if (formattedLine.length() == 1)
-			formattedLine.append(1, currentChar);
-		else
-			formattedLine.insert(prevCh + 2, 1, currentChar);
-		goForward(1);
-	}
+	else
+		spacePadNum -= charSave.length();
 	// if no space after then add one
 	if (charNum < (int) currentLine.length() - 1
 	        && !isWhiteSpace(currentLine[charNum + 1])
@@ -4307,9 +4338,19 @@ void ASFormatter::formatPointerOrReferenceCast()
 	if (prevNum != string::npos)
 	{
 		prevCh = formattedLine[prevNum];
-		if (prevNum + 1 < formattedLine.length()
-		        && isWhiteSpace(formattedLine[prevNum + 1])
-		        && prevCh != '(')
+		if (itemAlignment == PTR_ALIGN_TYPE && currentChar == '*' && prevCh == '*')
+		{
+			// '* *' may be a multiply followed by a dereference
+			if (prevNum + 2 < formattedLine.length()
+			        && isWhiteSpace(formattedLine[prevNum + 2]))
+			{
+				spacePadNum -= (formattedLine.length() - 2 - prevNum);
+				formattedLine.erase(prevNum + 2);
+			}
+		}
+		else if (prevNum + 1 < formattedLine.length()
+		         && isWhiteSpace(formattedLine[prevNum + 1])
+		         && prevCh != '(')
 		{
 			spacePadNum -= (formattedLine.length() - 1 - prevNum);
 			formattedLine.erase(prevNum + 1);
@@ -4540,6 +4581,7 @@ void ASFormatter::padObjCMethodPrefix()
 		else if (spaces > 1)
 		{
 			formattedLine.erase(prefix + 1, spaces - 1);
+			formattedLine[prefix + 1] = ' ';  // convert any tab to space
 			spacePadNum -= spaces - 1;
 		}
 	}
@@ -4584,6 +4626,7 @@ void ASFormatter::padObjCReturnType()
 		{
 			// do not use goForward here
 			currentLine.erase(charNum + 1, spaces - 1);
+			currentLine[charNum + 1] = ' ';  // convert any tab to space
 			spacePadNum -= spaces - 1;
 		}
 	}
@@ -4593,16 +4636,13 @@ void ASFormatter::padObjCReturnType()
 		// this will already be padded if pad-paren is used
 		if (formattedLine[formattedLine.length() - 1] == ' ')
 		{
-			spacePadNum -= formattedLine.length() - 1 - nextText;
 			int lastText = formattedLine.find_last_not_of(" \t");
+			spacePadNum -= formattedLine.length() - lastText - 1;
 			formattedLine.resize(lastText + 1);
 		}
-		if (spaces > 0)
-		{
-			// do not use goForward here
-			currentLine.erase(charNum + 1, spaces);
-			spacePadNum -= spaces;
-		}
+		// do not use goForward here
+		currentLine.erase(charNum + 1, spaces);
+		spacePadNum -= spaces;
 	}
 }
 
@@ -4639,6 +4679,7 @@ void ASFormatter::padObjCParamType()
 			if (spaces > 1)
 			{
 				formattedLine.erase(prevText + 1, spaces - 1);
+				formattedLine[prevText + 1] = ' ';  // convert any tab to space
 				spacePadNum -= spaces - 1;
 			}
 		}
@@ -4676,6 +4717,7 @@ void ASFormatter::padObjCParamType()
 			{
 				// do not use goForward here
 				currentLine.erase(charNum + 1, spaces - 1);
+				currentLine[charNum + 1] = ' ';  // convert any tab to space
 				spacePadNum -= spaces - 1;
 			}
 		}
@@ -7507,6 +7549,7 @@ int ASFormatter::findObjCColonAlignment() const
 	bool foundMethodColon = false;
 	bool isInComment_ = false;
 	bool isInQuote_ = false;
+	bool haveTernary = false;
 	char quoteChar_ = ' ';
 	int  sqBracketCount = 0;
 	int  colonAdjust = 0;
@@ -7579,9 +7622,19 @@ int ASFormatter::findObjCColonAlignment() const
 				continue;
 			if (haveFirstColon)  // multiple colons per line
 				continue;
+			if (nextLine_[i] == '?')
+			{
+				haveTernary = true;
+				continue;
+			}
 			// compute colon adjustment
 			if (nextLine_[i] == ':')
 			{
+				if (haveTernary)
+				{
+					haveTernary = false;
+					continue;
+				}
 				haveFirstColon = true;
 				foundMethodColon = true;
 				if (shouldPadMethodColon)
@@ -7636,7 +7689,11 @@ void ASFormatter::padObjCMethodColon()
 				formattedLine.erase(i);
 				--commentAdjust;
 			}
-		appendSpacePad();
+		if (formattedLine.length() > 0)
+		{
+			appendSpacePad();
+			formattedLine.back() = ' ';  // convert any tab to space
+		}
 	}
 	if (objCColonPadMode == COLON_PAD_NONE
 	        || objCColonPadMode == COLON_PAD_BEFORE
@@ -7670,6 +7727,7 @@ void ASFormatter::padObjCMethodColon()
 		{
 			// do not use goForward here
 			currentLine.erase(charNum + 1, spaces - 1);
+			currentLine[charNum + 1] = ' ';  // convert any tab to space
 			spacePadNum -= spaces - 1;
 		}
 	}

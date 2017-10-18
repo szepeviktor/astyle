@@ -427,6 +427,7 @@ private:  // functions
 	int  adjustIndentCountForBreakElseIfComments() const;
 	int  computeObjCColonAlignment(const string& line, int colonAlignPosition) const;
 	int  convertTabToSpaces(int i, int tabIncrementIn) const;
+	int  findObjCColonAlignment(const string& line) const;
 	int  getContinuationIndentAssign(const string& line, size_t currPos) const;
 	int  getContinuationIndentComma(const string& line, size_t currPos) const;
 	int  getObjCFollowingKeyword(const string& line, int bracePos) const;
@@ -749,6 +750,7 @@ private:  // functions
 	bool isPointerOrReference() const;
 	bool isPointerOrReferenceCentered() const;
 	bool isPointerOrReferenceVariable(const string& word) const;
+	bool isPointerToPointer(const string& line, int currPos) const;
 	bool isSharpStyleWithParen(const string* header) const;
 	bool isStructAccessModified(const string& firstLine, size_t index) const;
 	bool isIndentablePreprocessorBlock(const string& firstLine, size_t index);

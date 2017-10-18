@@ -1,6 +1,7 @@
 ---
 # clang-visualstudio-min.yaml
-# clang-format version 3.9
+# clang-format version 5.0
+# depends on the options used in Visual Studio, Tools, Options, Text Editor
 Language:        Cpp
 # BasedOnStyle:  http://code.visualstudio.com/docs/languages/cpp#_code-formatting
 UseTab:      4 # (editor current setting)
