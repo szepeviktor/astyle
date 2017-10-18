@@ -142,10 +142,10 @@ def get_lcid_functions(lcid_functions, test_path):
         if line[:2] == "//":
             continue
 
-       # extract the translation names
+        # extract the translation names
         if (line.startswith("TEST")
                 and "ASLocalizerLCID" in line
-                and not "Unrecognized" in line):
+                and "Unrecognized" not in line):
             start = line.find(',')
             if start == -1:
                 continue
@@ -181,10 +181,10 @@ def get_name_functions(name_functions, test_path):
         if line[:2] == "//":
             continue
 
-       # extract the translation names
+        # extract the translation names
         if (line.startswith("TEST")
                 and "ASLocalizerName" in line
-                and not "Unrecognized" in line):
+                and "Unrecognized" not in line):
             start = line.find(',')
             if start == -1:
                 continue
@@ -219,7 +219,7 @@ def get_translate_functions(translate_functions, test_path):
         if line[:2] == "//":
             continue
 
-       # extract the translation names
+        # extract the translation names
         if (line.startswith("TEST_F")
                 and "TranslationF" in line):
             start = line.find(',')

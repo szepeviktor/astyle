@@ -110,7 +110,7 @@ def get_astyle_totals(filename):
             # cannot extract if the separator is a space (French)
             if sep is None:
                 print("Cannot extract totals from file")
-                return (0, 0, 0, 0)
+                return 0, 0, 0, 0
             # extract the totals
 #			totline[0] = totline[0].translate(None, sep)		# changed for version 3.2
             totline[0] = totline[0].replace(sep, '')
@@ -128,7 +128,7 @@ def get_astyle_totals(filename):
                     seconds = int(totline[4])
                 else:
                     seconds = float(totline[4])
-            return (formatted, totfiles, minutes, seconds)
+            return formatted, totfiles, minutes, seconds
 
     libastyle.system_exit("Cannot find total line in libtest.py")
 

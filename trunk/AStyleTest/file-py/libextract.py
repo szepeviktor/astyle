@@ -152,7 +152,7 @@ def extract_kdevelop():
 
 # -----------------------------------------------------------------------------
 
-def  extract_libsbase():
+def extract_libsbase():
     """Extract libsBasep files from archive to test directory.
     """
     remove_test_directory("libs-base-*")
@@ -333,7 +333,7 @@ def test_all_compressed():
     print()
     extract_project(libastyle.CODEBLOCKS, False)
     print()
-    extract_project(libastyle.GWORKSPACE, False)
+    extract_project(libastyle.LIBSBASE, False)
     print()
     extract_project(libastyle.JEDIT, False)
     # print()
@@ -361,7 +361,7 @@ def test_all_tarballs():
     print("TEST TARBALLS\n")
     extract_project(libastyle.CODEBLOCKS, False)
     print()
-    extract_project(libastyle.GWORKSPACE, False)
+    extract_project(libastyle.LIBSBASE, False)
     print()
     extract_project(libastyle.JEDIT, False)
     # print()

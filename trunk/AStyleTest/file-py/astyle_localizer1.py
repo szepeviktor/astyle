@@ -143,7 +143,7 @@ def get_test_strings(test_strings, test_path):
             test_lines[1] = lines
             break
         # extract the string
-        if not 'm_ascii.push_back("' in line:
+        if 'm_ascii.push_back("' not in line:
             continue
         start = line.find('("')
         if start == -1:

@@ -101,7 +101,7 @@ def update_html_files(file_path):
             file_out_list[prev_line_index] = file_out_list[prev_line_index].rstrip('\n')
             file_out_list[prev_line_index] += line + '\n'
             continue
-        if prev_line.startswith("<h") and prev_line[2:3].isdigit() and not "</h" in prev_line:
+        if prev_line.startswith("<h") and prev_line[2:3].isdigit() and "</h" not in prev_line:
             file_out_list[prev_line_index] = file_out_list[prev_line_index].rstrip('\n')
             file_out_list[prev_line_index] += line + '\n'
             continue

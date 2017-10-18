@@ -32,10 +32,10 @@ import libtest
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN         # C# - 1000 files from SharpDevelop
 # TESTPROJECT
-__project = libastyle.SHARPMAIN
+__project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
-__options = libastyle.OPT3
+__options = libastyle.OPT1
 
 # options_x are for BOTH executables
 __options_x = ""
@@ -47,7 +47,7 @@ __options_x2 = ""
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
 __astyleexe1 = "astyle30b"
-__astyleexe2 = "astyled"
+__astyleexe2 = "astyle"
 
 # select one of the following to format files in the OLD directory
 __formatOLD = True
@@ -161,7 +161,13 @@ def compare_formatted_files(filepaths, num_excludes):
         testdir = libastyle.get_test_directory(True)
         print("Compare " + filepath[len(testdir):])
         dirname, unused = os.path.split(filepath)
-        unused, pathext = os.path.splitext(filepath)
+        # get the extensions as a list (os.path.splitext doesn't work)
+        sep = filepath.rfind('/')
+        ext_text = filepath[sep + 1:]
+        ext_text = ext_text.replace(';', ',')
+        ext_text = ext_text.replace('*', '')
+        ext_text = ext_text.replace(' ', '')
+        extensions = ext_text.split(',')
         # walk thru the directory tree
         for dirpath, dirnames, filenames in os.walk(dirname):
             # Linux needs to be sorted to compare to Windows
@@ -170,17 +176,19 @@ def compare_formatted_files(filepaths, num_excludes):
             # process each file in the directory
             for filename in filenames:
                 unused, ext = os.path.splitext(filename)
-                # compare only for the file extension requested
-                if ext == pathext:
-                    totfiles += 1
-                    filepath = os.path.join(dirpath, filename)
-                    filepath = filepath.replace('\\', '/')
-                    retval = call_file_compare_program(filepath, testout, fcout)
-                    if retval:
-                        diffs.append(filepath)
-                        totdiffs += 1
-                    if totfiles % 100 == 0:
-                        print("{0} files  {1} diffs".format(totfiles, totdiffs))
+                for pathext in extensions:
+                    # compare only for the file extension requested
+                    if ext == pathext:
+                        totfiles += 1
+                        filepath = os.path.join(dirpath, filename)
+                        filepath = filepath.replace('\\', '/')
+                        retval = call_file_compare_program(filepath, testout, fcout)
+                        if retval:
+                            diffs.append(filepath)
+                            totdiffs += 1
+                        if totfiles % 100 == 0:
+                            print("{0} files  {1} diffs".format(totfiles, totdiffs))
+                        break
         # print a total for each filepath
         print("{0} files  {1} diffs".format(totfiles, totdiffs))
     fcout.close()
@@ -239,7 +247,7 @@ def print_astyle_totals(filename):
     else:
         printline = "{0:n} formatted; {1:n} files; {2} min {3} seconds"
         print(printline.format(formatted, totfiles, minute, sec))
-    return (formatted, totfiles)
+    return formatted, totfiles
 
 # -----------------------------------------------------------------------------
 
@@ -380,12 +388,12 @@ def verify_current_exe1(regress1path):
     if os.name == "nt":
         index = alphas.find(regress1path[-5])
         if index == -1:
-            libastyle.system_exit("Bad index for alpha: " + index)
+            libastyle.system_exit("Bad index for alpha: " + str(index))
         test1path = regress1path[:-5] + alphas[index + 1] + regress1path[-5 + 1:]
     else:
         index = alphas.find(regress1path[-1])
         if index == -1:
-            libastyle.system_exit("Bad index for alpha: " + index)
+            libastyle.system_exit("Bad index for alpha: " + str(index))
         test1path = regress1path[:-1] + alphas[index + 1]
     # is NOT most current if the next version exists
     if os.path.exists(test1path):

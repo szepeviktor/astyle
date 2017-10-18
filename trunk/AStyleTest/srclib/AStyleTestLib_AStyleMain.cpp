@@ -102,7 +102,7 @@ char16_t* utf8ToUtf16(char* utf8In)
 		systemAbort("Bad iconv_open in utf8ToUtf16()");
 	// allocate memory for output
 	size_t wcLen = (mbLen * sizeof(char16_t)) + sizeof(char16_t);
-	char* wcOut = new (nothrow) char[wcLen + 1]; 
+	char* wcOut = new (nothrow) char[wcLen + 1];
 	if (wcOut == nullptr)
 		systemAbort("Bad allocation in utf8ToUtf16()");
 	// convert to utf-8

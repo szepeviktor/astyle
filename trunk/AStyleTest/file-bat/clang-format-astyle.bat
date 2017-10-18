@@ -1,9 +1,9 @@
 @echo off
 REM Format astyle using _clang-format in the src directory
 
-set progdir=%USERPROFILE%\.vscode\extensions\ms-vscode.cpptools-0.9.2\LLVM\bin
-set astyle=..\..\AStyle\build\vs2015\debug\AStyled
-:: set astyle=..\..\AStyle\build\vs2015\bin\AStyle
+set progdir=%USERPROFILE%\.vscode\extensions\ms-vscode.cpptools-0.13.1\LLVM\bin
+set astyle=..\..\AStyle\build\vs2017\debug\AStyled
+:: set astyle=..\..\AStyle\build\vs2017\bin\AStyle
 
 set srcdir=..\..\AStyle\test-data
 
@@ -25,8 +25,8 @@ echo.
 
 REM copy clang format file and rename
 REM style options are Chromium, Google, LLVM, Mozilla, WebKit
-echo Copying clang configurating file
-copy ..\file\clang-chromium.yaml  _clang-format
+::echo Copying clang configurating file
+::copy ..\file\clang-chromium.yaml  _clang-format
 echo.
 
 echo "ASBeautifier.cpp"
