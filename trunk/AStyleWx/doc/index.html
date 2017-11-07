@@ -74,21 +74,17 @@
     <h3>RAD Tools for Dialogs</h3>
 
     <p>
-        The Rapid Application Development (RAD) tool used to design the AStyleWx dialog interfaces is 
-        <a href="https://sourceforge.net/projects/wxformbuilder/" target="_blank" title="open new window">wxFormBuilder</a>.
+        The Rapid Application Development (RAD) tool used to design the AStyleWx dialog interfaces is wxFormBuilder.
         It allows separation of the generated and written code by using inheritance. I prefer this to having the code
         combined in the same source file as it seems like a safer way to do it. The wxFormBuilder files and the generated
         source code are in the AStyleWx &quot;dialog&quot; folder.</p>
     <p>
-        Windows users can get the release 3.5.1 RC1 executable download from the SourceForge site. It has all the controls
-        used by AStyleWx. Linux users may need to compile it from source. The most current version may not be 
-        available as an install package. The most current <a href="https://github.com/marekr/wxFormBuilder"
-            target="_blank" title="open new window">wxFormBuilder repository</a> is at GitHub instead of SourceForge.
-        The wxFB3.5-RC1 GitHub branch is compatible with the wxFormBuilder 3.5 RC1 release. There are more up to date
-        builds available in the repository if you want to use them.</p>
+        The most current <a href="https://github.com/wxFormBuilder/wxFormBuilder" target="_blank" title="open new window">
+            wxFormBuilder repository</a> is available at GitHub. The version at SourceForge is an older version.
+        Linux users may need to compile it from source. There are more up to date builds available in the Git repository
+        if you want to use them.</p>
     <p>
-        To compile 
-        the Linux build, open a terminal in the top wxFormBuilder directory.</p>
+        To compile the Linux build, open a terminal in the top wxFormBuilder directory.</p>
 
     <pre>cmake CMakeLists.txt 
 make 
@@ -99,7 +95,7 @@ sudo make install</pre>
     <p>
         Another RAD tool that will work, with modifications, is <a href="http://wxcrafter.codelite.org/" target="_blank"
             title="open new window">wxCrafter</a>. It has a GUI similar to wxFormBuilder and generates code in similar
-        manner. It expects the generated code to be used as a base class. But it does not convert the wxStyledTextCtrl,
+        manner. It expects the generated code to be used as a base class. It does not convert the wxStyledTextCtrl,
         which will need to be rebuilt. It is being maintained so it may be a better choice. It can import an XRC file
         from any RAD application that will generate one.</p>
 

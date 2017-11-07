@@ -286,6 +286,7 @@
                                                             <property name="minimum_size"></property>
                                                             <property name="name">m_styleSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
+                                                            <property name="parent">1</property>
                                                             <property name="permission">protected</property>
                                                             <event name="OnUpdateUI"></event>
                                                             <object class="sizeritem" expanded="0">
@@ -1874,6 +1875,7 @@
                                                             <property name="minimum_size"></property>
                                                             <property name="name">m_stylePreviewSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
+                                                            <property name="parent">1</property>
                                                             <property name="permission">protected</property>
                                                             <event name="OnUpdateUI"></event>
                                                             <object class="sizeritem" expanded="0">
@@ -2083,6 +2085,7 @@
                                                                     <property name="minimum_size"></property>
                                                                     <property name="name">m_tabSizer</property>
                                                                     <property name="orient">wxVERTICAL</property>
+                                                                    <property name="parent">1</property>
                                                                     <property name="permission">protected</property>
                                                                     <event name="OnUpdateUI"></event>
                                                                     <object class="sizeritem" expanded="0">
@@ -2931,6 +2934,7 @@
                                                                     <property name="minimum_size">-1,-1</property>
                                                                     <property name="name">m_modifySizer</property>
                                                                     <property name="orient">wxVERTICAL</property>
+                                                                    <property name="parent">1</property>
                                                                     <property name="permission">protected</property>
                                                                     <event name="OnUpdateUI"></event>
                                                                     <object class="sizeritem" expanded="0">
@@ -3387,6 +3391,7 @@
                                                             <property name="minimum_size"></property>
                                                             <property name="name">m_tabPreviewSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
+                                                            <property name="parent">1</property>
                                                             <property name="permission">protected</property>
                                                             <event name="OnUpdateUI"></event>
                                                             <object class="sizeritem" expanded="0">
@@ -3587,6 +3592,7 @@
                                                             <property name="minimum_size"></property>
                                                             <property name="name">m_indentSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
+                                                            <property name="parent">1</property>
                                                             <property name="permission">protected</property>
                                                             <event name="OnUpdateUI"></event>
                                                             <object class="sizeritem" expanded="0">
@@ -5326,6 +5332,7 @@
                                                             <property name="minimum_size"></property>
                                                             <property name="name">m_indentPreviewSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
+                                                            <property name="parent">1</property>
                                                             <property name="permission">protected</property>
                                                             <event name="OnUpdateUI"></event>
                                                             <object class="sizeritem" expanded="0">
@@ -5526,6 +5533,7 @@
                                                             <property name="minimum_size"></property>
                                                             <property name="name">m_padSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
+                                                            <property name="parent">1</property>
                                                             <property name="permission">protected</property>
                                                             <event name="OnUpdateUI"></event>
                                                             <object class="sizeritem" expanded="0">
@@ -7088,6 +7096,7 @@
                                                             <property name="minimum_size"></property>
                                                             <property name="name">m_padPreviewSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
+                                                            <property name="parent">1</property>
                                                             <property name="permission">protected</property>
                                                             <event name="OnUpdateUI"></event>
                                                             <object class="sizeritem" expanded="0">
@@ -7288,6 +7297,7 @@
                                                             <property name="minimum_size"></property>
                                                             <property name="name">m_formatSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
+                                                            <property name="parent">1</property>
                                                             <property name="permission">protected</property>
                                                             <event name="OnUpdateUI"></event>
                                                             <object class="sizeritem" expanded="0">
@@ -8659,6 +8669,7 @@
                                                             <property name="minimum_size"></property>
                                                             <property name="name">m_formatPreviewSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
+                                                            <property name="parent">1</property>
                                                             <property name="permission">protected</property>
                                                             <event name="OnUpdateUI"></event>
                                                             <object class="sizeritem" expanded="0">
@@ -8859,6 +8870,7 @@
                                                             <property name="minimum_size"></property>
                                                             <property name="name">m_otherSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
+                                                            <property name="parent">1</property>
                                                             <property name="permission">protected</property>
                                                             <event name="OnUpdateUI"></event>
                                                             <object class="sizeritem" expanded="0">
@@ -9779,6 +9791,7 @@
                                                             <property name="minimum_size"></property>
                                                             <property name="name">m_otherPreviewSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
+                                                            <property name="parent">1</property>
                                                             <property name="permission">protected</property>
                                                             <event name="OnUpdateUI"></event>
                                                             <object class="sizeritem" expanded="0">
