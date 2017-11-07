@@ -34,6 +34,8 @@
         <li>Fix recognition of a uniform class initializer in a base class initialization (#441).</li>
         <li>Fix indentation of "volatile" keyword not used in a method definition (#450).</li>
         <li>Fix indentation of "final" keyword not used in a method definition (#450).</li>
+        <li>Fix indentation of compound literals in an argument list (#456).</li>
+        <li>Fix indentation of trailing return type method following a constructor (#463).</li>
         <li>Fix Objective-C to allow for &quot;Extern C&quot; statements in the source files (#443, 444, 446).</li>
         <li>Fix Objective-C to allow for method definitions without a specified return type (#447).</li>
         <li>Fix Objective-C to allow for method definitions with multiple param types.</li>
@@ -41,6 +43,7 @@
         <li>Fix Objective-C formatting of line-end comments with &quot;unpad-return-type&quot;.</li>
         <li>Fix Objective-C &quot;align-method-colon&quot; to ignore ternary (?) operators.</li>
         <li>Fix C# base class constructor indentation (#459).</li>
+        <li>Fix C# indentation of method declaration containing a colon (#465)</li>
         <li>Fix C/C++ to allow &quot;interface&quot; as a non-keyword (#445).</li>
         <li>Fix line ends initialization if no line end has been read.</li>
         <li>Fix Java build from including ASLocalizer in the shared library.</li>
@@ -49,8 +52,11 @@
         <li>Refactoring:
             <ul>
                 <li>Extract method isNumericVariable() in ASFormatter class.</li>
+                <li>Extract method isTopLevel() in ASBeautifier class.</li>
                 <li>Extract method fileExists() in Console class.</li>
                 <li>Rename ASEncoding variable from &quot;utf8_16&quot; to &quot;encode&quot;.</li>
+                <li>Rename ASBeautifier vector from squareBracketDepthStack to parenDepthStack.</li>
+                <li>Combine style options in ASOptions class to avoid compiler limits.</li>
             </ul>
         </li>
     </ul>

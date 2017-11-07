@@ -3064,104 +3064,65 @@ bool ASOptions::parseOptions(vector<string>& optionsVector, const string& errorI
 
 void ASOptions::parseOption(const string& arg, const string& errorInfo)
 {
-	if (isOption(arg, "style=allman") || isOption(arg, "style=bsd") || isOption(arg, "style=break"))
+	if (isOption(arg, "A1", "style=allman") || isOption(arg, "style=bsd") || isOption(arg, "style=break"))
 	{
 		formatter.setFormattingStyle(STYLE_ALLMAN);
 	}
-	else if (isOption(arg, "style=java") || isOption(arg, "style=attach"))
+	else if (isOption(arg, "A2", "style=java") || isOption(arg, "style=attach"))
 	{
 		formatter.setFormattingStyle(STYLE_JAVA);
 	}
-	else if (isOption(arg, "style=k&r") || isOption(arg, "style=kr") || isOption(arg, "style=k/r"))
+	else if (isOption(arg, "A3", "style=k&r") || isOption(arg, "style=kr") || isOption(arg, "style=k/r"))
 	{
 		formatter.setFormattingStyle(STYLE_KR);
 	}
-	else if (isOption(arg, "style=stroustrup"))
+	else if (isOption(arg, "A4", "style=stroustrup"))
 	{
 		formatter.setFormattingStyle(STYLE_STROUSTRUP);
 	}
-	else if (isOption(arg, "style=whitesmith"))
+	else if (isOption(arg, "A5", "style=whitesmith"))
 	{
 		formatter.setFormattingStyle(STYLE_WHITESMITH);
 	}
-	else if (isOption(arg, "style=vtk"))
+	else if (isOption(arg, "A15", "style=vtk"))
 	{
 		formatter.setFormattingStyle(STYLE_VTK);
 	}
-	else if (isOption(arg, "style=ratliff") || isOption(arg, "style=banner"))
+	else if (isOption(arg, "A6", "style=ratliff") || isOption(arg, "style=banner"))
 	{
 		formatter.setFormattingStyle(STYLE_RATLIFF);
 	}
-	else if (isOption(arg, "style=gnu"))
+	else if (isOption(arg, "A7", "style=gnu"))
 	{
 		formatter.setFormattingStyle(STYLE_GNU);
 	}
-	else if (isOption(arg, "style=linux") || isOption(arg, "style=knf"))
+	else if (isOption(arg, "A8", "style=linux") || isOption(arg, "style=knf"))
 	{
 		formatter.setFormattingStyle(STYLE_LINUX);
 	}
-	else if (isOption(arg, "style=horstmann") || isOption(arg, "style=run-in"))
+	else if (isOption(arg, "A9", "style=horstmann") || isOption(arg, "style=run-in"))
 	{
 		formatter.setFormattingStyle(STYLE_HORSTMANN);
 	}
-	else if (isOption(arg, "style=1tbs") || isOption(arg, "style=otbs"))
+	else if (isOption(arg, "A10", "style=1tbs") || isOption(arg, "style=otbs"))
 	{
 		formatter.setFormattingStyle(STYLE_1TBS);
 	}
-	else if (isOption(arg, "style=google"))
+	else if (isOption(arg, "A14", "style=google"))
 	{
 		formatter.setFormattingStyle(STYLE_GOOGLE);
 	}
-	else if (isOption(arg, "style=mozilla"))
+	else if (isOption(arg, "A16", "style=mozilla"))
 	{
 		formatter.setFormattingStyle(STYLE_MOZILLA);
 	}
-	else if (isOption(arg, "style=pico"))
+	else if (isOption(arg, "A11", "style=pico"))
 	{
 		formatter.setFormattingStyle(STYLE_PICO);
 	}
-	else if (isOption(arg, "style=lisp") || isOption(arg, "style=python"))
+	else if (isOption(arg, "A12", "style=lisp") || isOption(arg, "style=python"))
 	{
 		formatter.setFormattingStyle(STYLE_LISP);
-	}
-	else if (isParamOption(arg, "A"))
-	{
-		int style = 0;
-		string styleParam = getParam(arg, "A");
-		if (styleParam.length() > 0)
-			style = atoi(styleParam.c_str());
-		if (style == 1)
-			formatter.setFormattingStyle(STYLE_ALLMAN);
-		else if (style == 2)
-			formatter.setFormattingStyle(STYLE_JAVA);
-		else if (style == 3)
-			formatter.setFormattingStyle(STYLE_KR);
-		else if (style == 4)
-			formatter.setFormattingStyle(STYLE_STROUSTRUP);
-		else if (style == 5)
-			formatter.setFormattingStyle(STYLE_WHITESMITH);
-		else if (style == 6)
-			formatter.setFormattingStyle(STYLE_RATLIFF);
-		else if (style == 7)
-			formatter.setFormattingStyle(STYLE_GNU);
-		else if (style == 8)
-			formatter.setFormattingStyle(STYLE_LINUX);
-		else if (style == 9)
-			formatter.setFormattingStyle(STYLE_HORSTMANN);
-		else if (style == 10)
-			formatter.setFormattingStyle(STYLE_1TBS);
-		else if (style == 11)
-			formatter.setFormattingStyle(STYLE_PICO);
-		else if (style == 12)
-			formatter.setFormattingStyle(STYLE_LISP);
-		else if (style == 14)
-			formatter.setFormattingStyle(STYLE_GOOGLE);
-		else if (style == 15)
-			formatter.setFormattingStyle(STYLE_VTK);
-		else if (style == 16)
-			formatter.setFormattingStyle(STYLE_MOZILLA);
-		else
-			isOptionError(arg, errorInfo);
 	}
 	// must check for mode=cs before mode=c !!!
 	else if (isOption(arg, "mode=cs"))
@@ -3529,6 +3490,22 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	else if (isOption(arg, "xp", "remove-comment-prefix"))
 	{
 		formatter.setStripCommentPrefix(true);
+	}
+	else if (isOption(arg, "xB", "break-return-type"))
+	{
+		formatter.setBreakReturnType(true);
+	}
+	else if (isOption(arg, "xD", "break-return-type-decl"))
+	{
+		formatter.setBreakReturnTypeDecl(true);
+	}
+	else if (isOption(arg, "xf", "attach-return-type"))
+	{
+		formatter.setAttachReturnType(true);
+	}
+	else if (isOption(arg, "xh", "attach-return-type-decl"))
+	{
+		formatter.setAttachReturnTypeDecl(true);
 	}
 	// Objective-C options
 	else if (isOption(arg, "xQ", "pad-method-prefix"))

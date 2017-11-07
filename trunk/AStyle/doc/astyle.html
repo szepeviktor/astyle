@@ -92,7 +92,7 @@
         <a class="contents" href="#_style=stroustrup">style=stroustrup</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_style=whitesmith">style=whitesmith</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_style=vtk">style=vtk</a>&nbsp;&nbsp;&nbsp;
-        <a class="contents" href="#_style=banner">style=banner</a>&nbsp;&nbsp;&nbsp;
+        <a class="contents" href="#_style=ratliff">style=ratliff</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_style=gnu">style=gnu</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_style=linux">style=linux</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_style=horstmann">style=horstmann</a>&nbsp;&nbsp;&nbsp;
@@ -704,8 +704,9 @@ indent-switches     <span class="comment"># cannot do this on the command line</
         &nbsp;</p>
     <p id="_style=vtk">
         <code class="title">--style=vtk / -A15</code><br />
-        VTK (Visualization Toolkit) style uses broken, indented braces, except for the opening brace. Switch blocks
-        are indented to prevent a 'hanging indent' with following case statements. </p>
+        VTK (Visualization Toolkit) style uses broken, indented braces, except for the opening brace of classes, 
+        arrays, structs, enums, and function definitions.. Switch blocks are indented to prevent a 'hanging
+        indent' with following case statements. </p>
     <div class="code">
         <pre>int Foo(bool isBar)
 <span class="brace">{</span>
@@ -721,7 +722,7 @@ indent-switches     <span class="comment"># cannot do this on the command line</
     </div>
     <p>
         &nbsp;</p>
-    <p id="_style=banner">
+    <p id="_style=ratliff">
         <code class="title">--style=ratliff / --style=banner / -A6</code><br />
         Ratliff style uses attached, indented braces. Switch blocks and class blocks are indented to prevent a 'hanging
         indent' with following case statements and C++ class modifiers (public, private, protected).&nbsp;</p>
@@ -740,9 +741,9 @@ indent-switches     <span class="comment"># cannot do this on the command line</
         &nbsp;</p>
     <p id="_style=gnu">
         <code class="title">--style=gnu / -A7</code><br />
-        GNU style uses broken braces and indented blocks. Extra indentation is added to blocks <strong>within a
-            function</strong> only. Other braces and blocks are broken, but NOT indented. This style frequently is
-        used with an indent of 2 spaces.</p>
+        GNU style uses broken braces. Extra indentation is added to blocks <strong>within a function</strong>
+        only. The entire block is indented, not just the brace. This style frequently is used with an indent of 2 
+        spaces. </p>
     <div class="code">
         <pre>int Foo(bool isBar)
 <span class="brace">{</span>
@@ -2164,7 +2165,7 @@ else
         &nbsp;</p>
     <p id="_pad-param-type">
         <code class="title">--pad-param-type / -xS</code><br />
-        Insert space padding around an Objective?C parameter type. This will add exactly
+        Insert space padding around an Objective&#8209;C parameter type. This will add exactly
         one space. Any additional spaces will be deleted. This has precedence over the pad method colon option and
         will always cause space padding after a method colon.</p>
     <div class="code">
