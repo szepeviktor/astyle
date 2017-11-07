@@ -22,12 +22,11 @@
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../googlemock/include" />
 					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add library="iconv" />
-					<Add library="gmock" />
+					<Add library="gtestd" />
 					<Add directory="debug" />
 				</Linker>
 			</Target>
@@ -48,12 +47,11 @@
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
-					<Add directory="../../../googlemock/include" />
 					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
 					<Add library="iconv" />
-					<Add library="gmock" />
+					<Add library="gtest" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>

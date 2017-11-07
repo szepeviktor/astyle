@@ -2,17 +2,17 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Bcc AStyleTest All (bcc32c)">
 		<Project filename="Bcc AStyleTest.cbp">
-			<Depends filename="Bcc GMock Lib.cbp" />
+			<Depends filename="Bcc GTest Lib.cbp" />
 		</Project>
 		<Project filename="Bcc AStyleTestCon.cbp">
-			<Depends filename="Bcc GMock Lib.cbp" />
+			<Depends filename="Bcc GTest Lib.cbp" />
 		</Project>
 		<Project filename="Bcc AStyleTestI18n.cbp">
-			<Depends filename="Bcc GMock Lib.cbp" />
+			<Depends filename="Bcc GTest Lib.cbp" />
 		</Project>
 		<Project filename="Bcc AStyleTestLoc.cbp">
-			<Depends filename="Bcc GMock Lib.cbp" />
+			<Depends filename="Bcc GTest Lib.cbp" />
 		</Project>
-		<Project filename="Bcc GMock Lib.cbp" />
+		<Project filename="Bcc GTest Lib.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

@@ -107,22 +107,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)$(Platform)\debug\</OutDir>
-    <TargetName>AStyleTestI18nd</TargetName>
+    <TargetName>AStyleTestLocd</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LeakDetector|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)$(Platform)\debug\</OutDir>
-    <TargetName>AStyleTestI18nd</TargetName>
+    <TargetName>AStyleTestLocd</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin\</OutDir>
-    <TargetName>AStyleTestI18n</TargetName>
+    <TargetName>AStyleTestLoc</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)$(Platform)\bin\</OutDir>
-    <TargetName>AStyleTestI18n</TargetName>
+    <TargetName>AStyleTestLoc</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

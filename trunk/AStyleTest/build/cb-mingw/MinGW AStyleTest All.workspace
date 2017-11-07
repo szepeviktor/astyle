@@ -2,20 +2,20 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="MinGW AStyleTest All">
 		<Project filename="MinGW AStyleTest.cbp">
-			<Depends filename="MinGW GMock Lib.cbp" />
+			<Depends filename="MinGW GTest Lib.cbp" />
 		</Project>
 		<Project filename="MinGW AStyleTestCon.cbp">
-			<Depends filename="MinGW GMock Lib.cbp" />
+			<Depends filename="MinGW GTest Lib.cbp" />
 		</Project>
 		<Project filename="MinGW AStyleTestI18n.cbp">
-			<Depends filename="MinGW GMock Lib.cbp" />
+			<Depends filename="MinGW GTest Lib.cbp" />
 		</Project>
 		<Project filename="MinGW AStyleTestLib.cbp">
-			<Depends filename="MinGW GMock Lib.cbp" />
+			<Depends filename="MinGW GTest Lib.cbp" />
 		</Project>
 		<Project filename="MinGW AStyleTestLoc.cbp">
-			<Depends filename="MinGW GMock Lib.cbp" />
+			<Depends filename="MinGW GTest Lib.cbp" />
 		</Project>
-		<Project filename="MinGW GMock Lib.cbp" />
+		<Project filename="MinGW GTest Lib.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

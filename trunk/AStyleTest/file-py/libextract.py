@@ -118,7 +118,7 @@ def extract_codeblocks():
     """
     remove_test_directory("codeblocks-*")
     remove_test_directory("[Cc]ode[Bb]locks")
-    extract_test_tar("codeblocks*.gz", "codeblocks*.tar", ["*.cpp", "*.h"])
+    extract_test_tar("codeblocks*.gz", "codeblocks*.tar", ["*.cpp", "*.cxx", "*.h"])
     rename_test_directory("codeblocks-*", "CodeBlocks")
 
 # -----------------------------------------------------------------------------

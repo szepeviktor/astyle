@@ -23,11 +23,10 @@
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
 					<Add directory="../../../googletest/include" />
-					<Add directory="../../../googlemock/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-import" />
-					<Add library="gmockd" />
+					<Add library="gtestd" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -47,12 +46,11 @@
 					<Add directory="../../srcx" />
 					<Add directory="../../../AStyle/src" />
 					<Add directory="../../../googletest/include" />
-					<Add directory="../../../googlemock/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add option="-Wl,--enable-auto-import" />
-					<Add library="gmock" />
+					<Add library="gtest" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -80,7 +78,7 @@
 				<Linker>
 					<Add option="-pg -lgmon" />
 					<Add option="-Wl,--enable-auto-import" />
-					<Add library="gmockd" />
+					<Add library="gtestd" />
 					<Add library="gcov" />
 					<Add directory="bin" />
 				</Linker>

@@ -2,17 +2,17 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Mac AStyleTest All">
 		<Project filename="Mac AStyleTest.cbp">
-			<Depends filename="Mac GMock A.cbp" />
+			<Depends filename="Mac GTest A.cbp" />
 		</Project>
 		<Project filename="Mac AStyleTestCon.cbp">
-			<Depends filename="Mac GMock A.cbp" />
+			<Depends filename="Mac GTest A.cbp" />
 		</Project>
 		<Project filename="Mac AStyleTestI18n.cbp">
-			<Depends filename="Mac GMock A.cbp" />
+			<Depends filename="Mac GTest A.cbp" />
 		</Project>
 		<Project filename="Mac AStyleTestLib.cbp">
-			<Depends filename="Mac GMock A.cbp" />
+			<Depends filename="Mac GTest A.cbp" />
 		</Project>
-		<Project filename="Mac GMock A.cbp" />
+		<Project filename="Mac GTest A.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

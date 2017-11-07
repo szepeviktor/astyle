@@ -369,78 +369,35 @@ TEST_F(AStyleMainUtf16F1, InvalidOption)
 
 //----------------------------------------------------------------------------
 // Test FormatUtf16 in ASLibrary
-// This uses mocks and fixtures.
+// This uses the test fixture from above.
 //----------------------------------------------------------------------------
-
-struct ASLibrary_Mock8 : public ASLibrary
-{
-	MOCK_CONST_METHOD1(convertUtf16ToUtf8, char* (const char16_t*));
-};
-
-struct ASLibrary_Mock16 : public ASLibrary
-{
-	MOCK_CONST_METHOD2(convertUtf8ToUtf16, char16_t* (const char*, fpAlloc));
-};
 
 TEST_F(AStyleMainUtf16F1, NullConvertSource)
 {
-	// mocks cause memory leaks
-#if !(LEAK_DETECTOR || LEAK_FINDER)
 	// Test formatUtf16() error handling for source.
-	ASLibrary_Mock8 library;
-	EXPECT_CALL(library, convertUtf16ToUtf8(_))
-	.WillOnce(Return(nullptr));
-	// test the error handling
+	ASLibrary library;
 	int errorsIn = getErrorHandler2Calls();
-	char16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
+	char16_t* textOut = library.formatUtf16(nullptr, options16, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_EQ(nullptr, textOut);
 	delete[] textOut;	// should not cause a problem with nullptr
-#endif
 }
 
 TEST_F(AStyleMainUtf16F1, NullConvertOptions)
 {
-	// mocks cause memory leaks
-#if !(LEAK_DETECTOR || LEAK_FINDER)
 	// Test formatUtf16() error handling for options.
-	ASLibrary_Mock8 library;
-	// don't use convertUtf16ToUtf8() here, it will be mocked
+	ASLibrary library;
 	// deleted by the error procedure in formatUtf16()
 	char* utf8Formatted = new char[strlen(text8) + 1];
 	strcpy(utf8Formatted, text8);
-	InSequence s;			// the following returns must occur in sequence
-	EXPECT_CALL(library, convertUtf16ToUtf8(_))
-	.WillOnce(Return(utf8Formatted))
-	.WillOnce(Return(nullptr));
 	// test the error handling
 	int errorsIn = getErrorHandler2Calls();
-	char16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
+	char16_t* textOut = library.formatUtf16(text16, nullptr, errorHandler2, memoryAlloc);
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_EQ(nullptr, textOut);
 	delete[] textOut;	// should not cause a problem with nullptr
-#endif
-}
-
-TEST_F(AStyleMainUtf16F1, NullConvertFormattedText)
-{
-	// mocks cause memory leaks
-#if !(LEAK_DETECTOR || LEAK_FINDER)
-	// Test formatUtf16() error handling for converting formatted text to utf-16.
-	ASLibrary_Mock16 library;
-	// this method returns an error
-	EXPECT_CALL(library, convertUtf8ToUtf16(_, _))
-	.WillOnce(Return(nullptr));
-	// test the error handling
-	int errorsIn = getErrorHandler2Calls();
-	char16_t* textOut = library.formatUtf16(text16, options16, errorHandler2, memoryAlloc);
-	int errorsOut = getErrorHandler2Calls();
-	EXPECT_EQ(errorsIn + 1, errorsOut);
-	EXPECT_EQ(nullptr, textOut);
-	delete[] textOut;	// should not cause a problem with nullptr
-#endif
 }
 
 //----------------------------------------------------------------------------

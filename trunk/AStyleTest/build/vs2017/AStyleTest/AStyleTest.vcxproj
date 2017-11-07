@@ -165,7 +165,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>AStyleLibd.lib;gtestd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -184,7 +184,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>$(OutDir);$(ProgramFiles)\Visual Leak Detector\lib\Win32</AdditionalLibraryDirectories>
-      <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>AStyleLibd.lib;gtestd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
@@ -206,7 +206,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>AStyleLibd.lib;gtestd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -225,7 +225,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>$(OutDir);$(ProgramFiles)\Visual Leak Detector\lib\Win64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>AStyleLibd.lib;gmockd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>AStyleLibd.lib;gtestd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
@@ -248,7 +248,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>AStyleLib.lib;gmock.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>AStyleLib.lib;gtest.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -267,7 +267,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>AStyleLib.lib;gmock.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>AStyleLib.lib;gtest.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,20 +2,20 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Intel AStyleTest All">
 		<Project filename="Intel AStyleTest.cbp">
-			<Depends filename="Intel GMock A.cbp" />
+			<Depends filename="Intel GTest A.cbp" />
 		</Project>
 		<Project filename="Intel AStyleTestCon.cbp">
-			<Depends filename="Intel GMock A.cbp" />
+			<Depends filename="Intel GTest A.cbp" />
 		</Project>
 		<Project filename="Intel AStyleTestI18n.cbp">
-			<Depends filename="Intel GMock A.cbp" />
+			<Depends filename="Intel GTest A.cbp" />
 		</Project>
 		<Project filename="Intel AStyleTestLib.cbp">
-			<Depends filename="Intel GMock A.cbp" />
+			<Depends filename="Intel GTest A.cbp" />
 		</Project>
 		<Project filename="Intel AStyleTestLoc.cbp">
-			<Depends filename="Intel GMock A.cbp" />
+			<Depends filename="Intel GTest A.cbp" />
 		</Project>
-		<Project filename="Intel GMock A.cbp" />
+		<Project filename="Intel GTest A.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

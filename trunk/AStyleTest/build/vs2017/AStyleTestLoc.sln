@@ -1,19 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTestLoc", "AStyleTestLoc\AStyleTestLoc.vcxproj", "{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}"
 	ProjectSection(ProjectDependencies) = postProject
-		{D336FE81-2B92-49AF-A040-D30C384C8FD2} = {D336FE81-2B92-49AF-A040-D30C384C8FD2}
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF} = {45FFCDB2-173B-49DC-9D35-D059626F78EF}
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMock Lib", "GMock Lib\GMock Lib.vcxproj", "{D336FE81-2B92-49AF-A040-D30C384C8FD2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8A927682-5C3B-4DD1-940C-2B2BF0E52AFD}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\srcx\gtest-options.lst = ..\..\srcx\gtest-options.lst
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GTest Lib", "GTest Lib\GTest Lib.vcxproj", "{45FFCDB2-173B-49DC-9D35-D059626F78EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,20 +37,23 @@ Global
 		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.Release|x64.Build.0 = Release|x64
 		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.Release|x86.ActiveCfg = Release|Win32
 		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.Release|x86.Build.0 = Release|Win32
-		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x64.ActiveCfg = Debug|x64
-		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x64.Build.0 = Debug|x64
-		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x86.ActiveCfg = Debug|Win32
-		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Debug|x86.Build.0 = Debug|Win32
-		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.LeakDetector|x64.ActiveCfg = Debug|x64
-		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.LeakDetector|x64.Build.0 = Debug|x64
-		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.LeakDetector|x86.ActiveCfg = Debug|Win32
-		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.LeakDetector|x86.Build.0 = Debug|Win32
-		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x64.ActiveCfg = Release|x64
-		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x64.Build.0 = Release|x64
-		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x86.ActiveCfg = Release|Win32
-		{D336FE81-2B92-49AF-A040-D30C384C8FD2}.Release|x86.Build.0 = Release|Win32
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Debug|x64.ActiveCfg = Debug|x64
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Debug|x64.Build.0 = Debug|x64
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Debug|x86.ActiveCfg = Debug|Win32
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Debug|x86.Build.0 = Debug|Win32
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x64.ActiveCfg = Release|x64
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x64.Build.0 = Release|x64
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x86.ActiveCfg = Release|Win32
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x86.Build.0 = Release|Win32
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Release|x64.ActiveCfg = Release|x64
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Release|x64.Build.0 = Release|x64
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Release|x86.ActiveCfg = Release|Win32
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A8EAFC91-D46D-453B-8739-CA8B00001BD4}
 	EndGlobalSection
 EndGlobal

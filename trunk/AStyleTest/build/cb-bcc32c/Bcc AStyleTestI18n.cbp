@@ -28,7 +28,7 @@
 					<Add option="-x" />
 					<Add library="cw32mt" />
 					<Add library="import32" />
-					<Add library="gmockd" />
+					<Add library="gtestd" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -53,7 +53,7 @@
 					<Add option="-x" />
 					<Add library="cw32mt" />
 					<Add library="import32" />
-					<Add library="gmock" />
+					<Add library="gtest" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>

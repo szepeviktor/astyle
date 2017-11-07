@@ -26,7 +26,7 @@
 					<Add option="-x" />
 					<Add library="import64" />
 					<Add library="cw64mt" />
-					<Add library="gmockd" />
+					<Add library="gtestd" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -49,7 +49,7 @@
 					<Add option="-x" />
 					<Add library="import64" />
 					<Add library="cw64mt" />
-					<Add library="gmock" />
+					<Add library="gtest" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>

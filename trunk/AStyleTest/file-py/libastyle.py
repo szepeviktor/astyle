@@ -88,7 +88,7 @@ VS_RELEASE = "vs2017"
 TEST_DIRECTORY = "TestData"
 
 # multiple extensions in single directory
-USE_MULTIPLE_EXTENSIONS = False
+USE_MULTIPLE_EXTENSIONS = True
 
 # -----------------------------------------------------------------------------
 
@@ -487,7 +487,7 @@ def get_project_filepaths(project):
     test_directory = get_test_directory()
     if project == CODEBLOCKS:
         if USE_MULTIPLE_EXTENSIONS:
-            filepaths.append(test_directory + "/CodeBlocks/src/*.cpp,*.h")
+            filepaths.append(test_directory + "/CodeBlocks/src/*.cpp,*.cxx,*.h")
         else:
             filepaths.append(test_directory + "/CodeBlocks/src/*.cpp")
             # filepath.append(test_directory + "/CodeBlocks/src/*.cxx")

@@ -19,6 +19,41 @@ namespace {
 // AStyle version 3.1 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V31, SharpTemplateDeclaration)
+{
+	// Fix template declaration with a colon.
+	// The alignment should not change.
+	char text[] =
+	    "\n"
+	    "T Func<T>(string name) where T : Object;\n"
+	    "T Func<T>(string prefix, string name) where T : Object;\n";
+	char options[] = "mode=cs";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, CompoundLiterals)
+{
+	// Fix compound literals in an argument list.
+	// The alignment should not change.
+	char text[] =
+	    "\n"
+	    "long var = func(&(test_t)\n"
+	    "{\n"
+	    "    .var1 = 1,\n"
+	    "    .var2 = 1,\n"
+	    "    .var3 = 1,\n"
+	    "    .var4 = 1,\n"
+	    "    .var5 = 1,\n"
+	    "    .var6 = 1,\n"
+	    "});\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V31, CSharpBaseClass)
 {
 	// Fix indentation of Base class in C#.

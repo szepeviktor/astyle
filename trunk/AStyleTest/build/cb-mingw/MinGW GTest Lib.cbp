@@ -7,9 +7,9 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\libgtestd" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/gtestd" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="objGTd\" />
+				<Option object_output="objGTd/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -18,14 +18,14 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-Wno-unused-function" />
-					<Add directory="..\..\..\gmock\gtest\include" />
-					<Add directory="..\..\..\gmock\gtest" />
+					<Add directory="../../../googletest/include" />
+					<Add directory="../../../googletest" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\libgtest" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/gtest" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="objGT\" />
+				<Option object_output="objGT/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -34,15 +34,15 @@
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-Wno-unused-function" />
-					<Add directory="..\..\..\gmock\gtest\include" />
-					<Add directory="..\..\..\gmock\gtest" />
+					<Add directory="../../../googletest/include" />
+					<Add directory="../../../googletest" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="..\..\..\gmock\gtest\src\gtest-all.cc" />
+		<Unit filename="../../../googletest/src/gtest-all.cc" />
 		<Extensions>
 			<code_completion />
 			<envvars />

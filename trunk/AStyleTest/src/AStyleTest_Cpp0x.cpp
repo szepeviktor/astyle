@@ -1647,6 +1647,29 @@ TEST(Cpp11Function, NestedNamespaceClass)
 	delete[] textOut;
 }
 
+TEST(Cpp11Function, AfterInitializer)
+{
+	// test a function after an initializer on a separate line
+	// ASBeautifier didn't identify the function brace as a block opener.
+	char text[] =
+	    "\n"
+	    "dummydummy()\n"
+	    "    : someVar(0)\n"
+	    "{}\n"
+	    "\n"
+	    "auto dummy::someFunc()->void\n"
+	    "{\n"
+	    "    if (true)\n"
+	    "    {\n"
+	    "        someVar = 0;\n"
+	    "    }\n"
+	    "}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle C++11 Raw String Literals
 //----------------------------------------------------------------------------

@@ -972,6 +972,65 @@ TEST(CharacterSet, UTF8WithBOM)
 }
 
 //----------------------------------------------------------------------------
+// AStyle short options for styles.
+// This tests the error conditions.
+//----------------------------------------------------------------------------
+
+TEST(StyleShortOption, ErrorA0)
+{
+	// test the A0 short option
+	// should get an error
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    bar();\n"
+	    "}\n";
+	char options[] = "-A0";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != nullptr);
+	delete[] textOut;
+}
+
+TEST(StyleShortOption, ErrorA99)
+{
+	// test the A99 short option
+	// should get an error
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    bar();\n"
+	    "}\n";
+	char options[] = "-A99";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != nullptr);
+	delete[] textOut;
+}
+
+TEST(StyleShortOption, ErrorA111)
+{
+	// test the A111 short option
+	// should get an error
+	char text[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    bar();\n"
+	    "}\n";
+	char options[] = "-A111";
+	int errorsIn = getErrorHandler2Calls();
+	char* textOut = AStyleMain(text, options, errorHandler2, memoryAlloc);
+	int errorsOut = getErrorHandler2Calls();
+	EXPECT_EQ(errorsIn + 1, errorsOut);
+	EXPECT_TRUE(textOut != nullptr);
+	delete[] textOut;
+}
+
+//----------------------------------------------------------------------------
 // AStyle short options beginning with x for errors.
 // This tests the error conditions.
 //----------------------------------------------------------------------------
