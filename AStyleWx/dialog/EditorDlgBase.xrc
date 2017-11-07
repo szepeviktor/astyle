@@ -36,7 +36,7 @@
 													<flag>wxALIGN_LEFT|wxALL</flag>
 													<border>5</border>
 													<object class="wxCheckBox" name="m_useBottomTabs">
-														<label>Use bottom tabs for source files</label>
+														<label>Use bottom tabs for main window</label>
 														<checked>0</checked>
 													</object>
 												</object>
