@@ -435,6 +435,7 @@ private:  // functions
 	bool isLineEndComment(const string& line, int startPos) const;
 	bool isPreprocessorConditionalCplusplus(const string& line) const;
 	bool isInPreprocessorUnterminatedComment(const string& line);
+	bool isTopLevel() const;
 	bool statementEndsWithComma(const string& line, int index) const;
 	const string& getIndentedLineReturn(const string& newLine, const string& originalLine) const;
 	string getIndentedSpaceEquivalent(const string& line_) const;
@@ -460,7 +461,7 @@ private:  // variables
 	vector<int>* activeBeautifierStackLengthStack;
 	vector<const string*>* headerStack;
 	vector<vector<const string*>* >* tempStacks;
-	vector<int>* squareBracketDepthStack;
+	vector<int>* parenDepthStack;
 	vector<bool>* blockStatementStack;
 	vector<bool>* parenStatementStack;
 	vector<bool>* braceBlockStateStack;
@@ -508,6 +509,7 @@ private:  // variables
 	bool isInEnum;
 	bool isInEnumTypeID;
 	bool isInLet;
+	bool isInTrailingReturnType;
 	bool modifierIndent;
 	bool switchIndent;
 	bool caseIndent;
@@ -686,6 +688,10 @@ public:	// functions
 	void setCloseTemplatesMode(bool state);
 	void setCommaPaddingMode(bool state);
 	void setDeleteEmptyLinesMode(bool state);
+	void setBreakReturnType(bool state);
+	void setBreakReturnTypeDecl(bool state);
+	void setAttachReturnType(bool state);
+	void setAttachReturnTypeDecl(bool state);
 	void setIndentCol1CommentsMode(bool state);
 	void setLineEndFormat(LineEndFormat fmt);
 	void setMaxCodeLength(int max);
@@ -784,6 +790,7 @@ private:  // functions
 	void clearFormattedLineSplitPoints();
 	void convertTabToSpaces();
 	void deleteContainer(vector<BraceType>*& container);
+	void findReturnTypeSplitPoint();
 	void formatArrayRunIn();
 	void formatRunIn();
 	void formatArrayBraces(BraceType braceType, bool isOpeningArrayBrace);
@@ -1000,6 +1007,10 @@ private:  // variables
 	bool shouldPadParamType;
 	bool shouldUnPadParamType;
 	bool shouldDeleteEmptyLines;
+	bool shouldBreakReturnType;
+	bool shouldBreakReturnTypeDecl;
+	bool shouldAttachReturnType;
+	bool shouldAttachReturnTypeDecl;
 	bool needHeaderOpeningBrace;
 	bool shouldBreakLineAtNextChar;
 	bool shouldKeepLineUnbroken;

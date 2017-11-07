@@ -67,6 +67,10 @@ ASFormatter::ASFormatter()
 	shouldBreakClosingHeaderBlocks = false;
 	shouldBreakClosingHeaderBraces = false;
 	shouldDeleteEmptyLines = false;
+	shouldBreakReturnType = false;
+	shouldBreakReturnTypeDecl = false;
+	shouldAttachReturnType = false;
+	shouldAttachReturnTypeDecl = false;
 	shouldBreakElseIfs = false;
 	shouldBreakLineAfterLogical = false;
 	shouldAddBraces = false;
@@ -933,7 +937,6 @@ string ASFormatter::nextLine()
 				{
 					squareBracketCount = 0;
 					objCColonAlign = 0;
-					isInObjCParam = false;
 				}
 			}
 			if (currentChar == ')')
@@ -1493,9 +1496,22 @@ string ASFormatter::nextLine()
 
 			if (isCStyle() && findKeyword(currentLine, charNum, AS_AUTO)
 			        && (isBraceType(braceTypeStack->back(), NULL_TYPE)
-			            || isBraceType(braceTypeStack->back(), NAMESPACE_TYPE)
-			            || isBraceType(braceTypeStack->back(), CLASS_TYPE)))
+			            || isBraceType(braceTypeStack->back(), DEFINITION_TYPE)))
 				foundTrailingReturnType = true;
+
+			// is this a function definition or declaration?
+			if ((isBraceType(braceTypeStack->back(), NULL_TYPE)
+			        || isBraceType(braceTypeStack->back(), DEFINITION_TYPE))
+			        && (previousCommandChar == '}'
+			            || previousCommandChar == ';'
+			            || previousCommandChar == '{'
+			            || previousCommandChar == ']')
+			        && !foundTrailingReturnType
+			        && (shouldBreakReturnType
+			            || shouldBreakReturnTypeDecl
+			            || shouldAttachReturnType
+			            || shouldAttachReturnTypeDecl))
+				findReturnTypeSplitPoint();
 
 			// Objective-C NSException macros are preCommandHeaders
 			if (isCStyle() && findKeyword(currentLine, charNum, AS_NS_DURING))
@@ -2299,6 +2315,26 @@ void ASFormatter::setDeleteEmptyLinesMode(bool state)
 	shouldDeleteEmptyLines = state;
 }
 
+void ASFormatter::setBreakReturnType(bool state)
+{
+	shouldBreakReturnType = state;
+}
+
+void ASFormatter::setBreakReturnTypeDecl(bool state)
+{
+	shouldBreakReturnTypeDecl = state;
+}
+
+void ASFormatter::setAttachReturnType(bool state)
+{
+	shouldAttachReturnType = state;
+}
+
+void ASFormatter::setAttachReturnTypeDecl(bool state)
+{
+	shouldAttachReturnTypeDecl = state;
+}
+
 /**
  * set the pointer alignment.
  *
@@ -3070,7 +3106,7 @@ bool ASFormatter::isPointerOrReference() const
 	//check for rvalue reference
 	if (currentChar == '&' && nextChar == '&')
 	{
-		if (lastWord == "auto")
+		if (lastWord == AS_AUTO)
 			return true;
 		if (previousNonWSChar == '>')
 			return true;
@@ -6399,6 +6435,19 @@ size_t ASFormatter::findNextChar(const string& line, char searchChar, int search
 		return string::npos;
 
 	return i;
+}
+
+/**
+ * Find the split point for a method definition or declaration.
+ */
+void ASFormatter::findReturnTypeSplitPoint()
+{
+	assert((isBraceType(braceTypeStack->back(), NULL_TYPE)
+	        || isBraceType(braceTypeStack->back(), DEFINITION_TYPE)));
+	assert(shouldBreakReturnType
+	       || shouldBreakReturnTypeDecl
+	       || shouldAttachReturnType
+	       || shouldAttachReturnTypeDecl);
 }
 
 /**
