@@ -1764,6 +1764,21 @@ TEST(ObjCUnPadParamType, MultipleParams_Comments)
 	delete[] textOut;
 }
 
+TEST(ObjCUnPadParamType, MethodDefinition_SquareBrackets)
+{
+	// Test unpad param type with square brackets in the method definition.
+	char textIn[] =
+	    "\n"
+	    "-sendArray: (int[3]) a;\n";
+	char text[] =
+	    "\n"
+	    "-sendArray:(int[3])a;\n";
+	char options[] = "unpad-param-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Objective-C Pad Method Colon None
 //-------------------------------------------------------------------------

@@ -10,16 +10,9 @@
 // headers
 //-------------------------------------------------------------------------
 
-#include "gmock/gmock.h"
 #include "gtest/gtest.h"
-// for gmock macros
+// for gtest macros
 using namespace testing;
-
-// must be AFTER gmock.h
-// use this to test the Linux compile with MinGW
-#ifdef MINGW_LINUX
-	#undef _WIN32
-#endif
 
 #include <stdlib.h>
 #include <iostream>		// for cout

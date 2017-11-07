@@ -1618,6 +1618,37 @@ TEST(BracesOtherJava, NewOperator2)
 	delete[] textOut;
 }
 
+TEST(BracesOtherJava, BraceWithinParen)
+{
+	// test new operator containing braces within a paren.
+	// Tests the ASBeautifier vector parenDepthStack.
+	// The brace after the "else" should be correctly indented.
+	char text[] =
+	    "\n"
+	    "public boolean verify(JComponent input)\n"
+	    "{\n"
+	    "    if(input instanceof JTextComponent)\n"
+	    "    {\n"
+	    "        if(message.getParent()==null)\n"
+	    "        {\n"
+	    "            SwingUtilities.invokeLater(new Runnable()\n"
+	    "            {\n"
+	    "                public void run()\n"
+	    "                {\n"
+	    "                    parent.revalidate();\n"
+	    "                    parent.repaint();\n"
+	    "                }\n"
+	    "            });\n"
+	    "        }\n"
+	    "        else message.repaint();\n"
+	    "    }\n"
+	    "}\n";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //-------------------------------------------------------------------------
 // AStyle Java Array Brace Options
 //-------------------------------------------------------------------------

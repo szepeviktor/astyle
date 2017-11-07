@@ -26,7 +26,7 @@
 					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
-					<Add library="gmockd" />
+					<Add library="gtestd" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>
@@ -52,7 +52,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="gmock" />
+					<Add library="gtest" />
 					<Add directory="bin" />
 				</Linker>
 			</Target>

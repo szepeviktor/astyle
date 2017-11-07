@@ -10,14 +10,19 @@ REM cmd /c echo RUN TLIB.BAT TO LINK GTEST.LIB
 set binpath=C:\Programs\Embarcadero\BCC101\bin
 
 if not exist "obj\Release\googletest\src\gtest-all.obj" (
-echo Must compile GMock Lib Release before running
+echo Must compile gtest Lib Release before running
 pause
 exit 1
 )
-if exist bin\gmock.lib  del bin\gmock.lib
+if exist bin\gtest.lib  del bin\gtest.lib
 
-echo Linking gmock.lib
-%binpath%\tlib.exe /C /P64 bin\gmock.lib /a "obj\Release\googlemock\src\gmock-all.obj" "obj\Release\googletest\src\gtest-all.obj"
+echo Linking static library: bin\gtest.lib
+%binpath%\tlib.exe /C /P64 bin\gtest.lib /a "obj\Release\googletest\src\gtest-all.obj"
+if errorlevel 0 (
+echo Output file is bin\gtest.lib
+) else (
+echo ERROR: unable to link bin\gtest.lib
+)
 
 echo.
 ::pause
