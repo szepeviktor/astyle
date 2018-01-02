@@ -51,6 +51,8 @@ private:
 	// Format Tab
 	wxString StcFormat_AddBraces() const;
 	wxString StcFormat_AddOneLineBraces() const;
+	wxString StcFormat_AttachReturnType() const;
+	wxString StcFormat_AttachReturnTypeDecl() const;
 	wxString StcFormat_BreakClosingBraces() const;
 	wxString StcFormat_BreakElseIf() const;
 	wxString StcFormat_BreakOneLineHeaders() const;
@@ -61,6 +63,8 @@ private:
 	wxString StcFormat_MaxCodeLength_BreakAfterLogical() const;
 	wxString StcFormat_RemoveBraces() const;
 	wxString StcFormat_RemoveCommentPrefix() const;
+	wxString StcFormat_BreakReturnType() const;
+	wxString StcFormat_BreakReturnTypeDecl() const;
 	// Indent Tab
 	wxString StcIndent_IndentAfterParen() const;
 	wxString StcIndent_IndentCase_IndentSwitch() const;

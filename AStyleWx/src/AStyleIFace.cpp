@@ -3,12 +3,6 @@
 // This code is licensed under the MIT License.
 // License.md describes the conditions under which this software may be distributed.
 
-//-----------------------------------------------------------------------------
-// headers
-//-----------------------------------------------------------------------------
-
-#include "AStyleIFace.h"
-
 /* ----------------------------------------------------------------------------
 TO ADD A NEW OPTION
 
@@ -21,13 +15,19 @@ Add the string constant to Constants.h.
 Add the option to "AStyleIFace::GetOptions".
 
 If the option is boolean:
-Add new option to "AStyleIFace::SetAStyleOptionFromConfig_Bool".
+Add new option to "AStyleIFace::SetAStyleOptionBool".
 
 If the option is non-boolean:
-Add new option to "AStyleIFace::SetAStyleOptionFromConfig".
+Add new option to "AStyleIFace::SetAStyleOption".
 
 Update AStyleDlg.cpp and AStyleDlg.h.
 ---------------------------------------------------------------------------- */
+
+//-----------------------------------------------------------------------------
+// headers
+//-----------------------------------------------------------------------------
+
+#include "AStyleIFace.h"
 
 //-----------------------------------------------------------------------------
 // AStyleIFace class
@@ -90,6 +90,10 @@ AStyleIFace::AStyleIFace()
 	addBraces            = false;              // --add-braces
 	addOneLineBraces     = false;              // --add-one-line-braces
 	removeBraces         = false;              // --remove-braces
+	breakReturnType      = false;              // --break-return-type
+	breakReturnTypeDecl  = false;              // --break-return-type-decl
+	attachReturnType     = false;              // --attach-return-type
+	attachReturnTypeDecl = false;              // --attach-return-type-decl
 	breakOneLineBlocks   = true;               // --one-line=keep-blocks
 	breakOneLineStmts    = true;               // --one-line=keep-statements
 	convertTabs          = false;              // --convert-tabs
@@ -790,6 +794,42 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
+	if (getBreakReturnType())
+	{
+		if (showShort)
+			options.append("xB");
+		else
+			options.append(BREAK_RETURN_TYPE);
+		if (useSeparator)
+			options.append(separator);
+	}
+	if (getBreakReturnTypeDecl())
+	{
+		if (showShort)
+			options.append("xD");
+		else
+			options.append(BREAK_RETURN_TYPE_DECL);
+		if (useSeparator)
+			options.append(separator);
+	}
+	if (getAttachReturnType())
+	{
+		if (showShort)
+			options.append("xf");
+		else
+			options.append(ATTACH_RETURN_TYPE);
+		if (useSeparator)
+			options.append(separator);
+	}
+	if (getAttachReturnTypeDecl())
+	{
+		if (showShort)
+			options.append("xh");
+		else
+			options.append(ATTACH_RETURN_TYPE_DECL);
+		if (useSeparator)
+			options.append(separator);
+	}
 	if (! getBreakOneLineBlocks())               // default = true
 	{
 		if (showShort)
@@ -942,12 +982,12 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 	return options;
 }
 
-bool AStyleIFace::SetAStyleOptionFromConfig(const wxString& key, const wxString& value)
+bool AStyleIFace::SetAStyleOption(const wxString& key, const wxString& value)
 // Set an astyle option from a config file key (wxString value).
 {
 	// all values from the config file should be true
 	if (value == asTRUE)
-		return SetAStyleOptionFromConfig_Bool(key, true);
+		return SetAStyleOptionBool(key, true);
 	// check non-boolean options
 	if (key == STYLE)
 	{
@@ -1115,9 +1155,9 @@ bool AStyleIFace::SetAStyleOptionFromConfig(const wxString& key, const wxString&
 	return true;
 }
 
-bool AStyleIFace::SetAStyleOptionFromConfig_Bool(const wxString& key, bool value)
+bool AStyleIFace::SetAStyleOptionBool(const wxString& key, bool value)
 // Set an astyle boolean option (bool value).
-// This private function is accessed from SetAStyleOptionFromConfig();
+// This private function is accessed from SetAStyleOption();
 {
 	if (key == USE_TAB_LENGTH)
 		useTabLength = value;
@@ -1181,6 +1221,14 @@ bool AStyleIFace::SetAStyleOptionFromConfig_Bool(const wxString& key, bool value
 		addOneLineBraces = value;
 	else if (key == REMOVE_BRACES)
 		removeBraces = value;
+	else if (key == BREAK_RETURN_TYPE)
+		breakReturnType = value;
+	else if (key == BREAK_RETURN_TYPE_DECL)
+		breakReturnTypeDecl = value;
+	else if (key == ATTACH_RETURN_TYPE)
+		attachReturnType = value;
+	else if (key == ATTACH_RETURN_TYPE_DECL)
+		attachReturnTypeDecl = value;
 	else if (key == CLOSE_TEMPLATES)
 		closeTemplates = value;
 	else if (key == REMOVE_COMMENT_PREFIX)

@@ -276,6 +276,14 @@ void AStyleDisplay::DisplayFormatOptions(wxCommandEvent& event, wxStyledTextCtrl
 			textOut = StcFormat_AddOneLineBraces();
 			break;
 
+		case ID_ATTACH_RETURN_TYPE:
+			textOut = StcFormat_AttachReturnType();
+			break;
+
+		case ID_ATTACH_RETURN_TYPE_DECL:
+			textOut = StcFormat_AttachReturnTypeDecl();
+			break;
+
 		case ID_BREAK_CLOSING:
 			textOut = StcFormat_BreakClosingBraces();
 			break;
@@ -286,6 +294,14 @@ void AStyleDisplay::DisplayFormatOptions(wxCommandEvent& event, wxStyledTextCtrl
 
 		case ID_BREAK_OL_HEADERS:
 			textOut = StcFormat_BreakOneLineHeaders();
+			break;
+
+		case ID_BREAK_RETURN_TYPE:
+			textOut = StcFormat_BreakReturnType();
+			break;
+
+		case ID_BREAK_RETURN_TYPE_DECL:
+			textOut = StcFormat_BreakReturnTypeDecl();
 			break;
 
 		case ID_CLOSE_TEMPLATES:
@@ -840,6 +856,32 @@ wxString AStyleDisplay::StcFormat_AddOneLineBraces() const
 	return m_event->IsChecked() ? checked : unchecked;
 }
 
+wxString AStyleDisplay::StcFormat_AttachReturnType() const
+{
+	wxString checked =     "                     \n"
+	                       "void Foo(bool isFoo) \n"
+	                       "{ ... }              \n";
+
+	wxString unchecked =   "                     \n"
+	                       "void                 \n"
+	                       "Foo(bool isFoo)      \n"
+	                       "{ ... }                ";
+
+	return m_event->IsChecked() ? checked : unchecked;
+}
+
+wxString AStyleDisplay::StcFormat_AttachReturnTypeDecl() const
+{
+	wxString checked =     "                     \n"
+	                       "void Foo(bool isFoo);\n";
+
+	wxString unchecked =   "                     \n"
+	                       "void                 \n"
+	                       "Foo(bool isFoo);       ";
+
+	return m_event->IsChecked() ? checked : unchecked;
+}
+
 wxString AStyleDisplay::StcFormat_BreakClosingBraces() const
 {
 	wxString checked =     "                       \n"
@@ -911,6 +953,32 @@ wxString AStyleDisplay::StcFormat_BreakOneLineHeaders() const
 	                       "                           \n"
 	                       "	if (isFoo2) { bar2(); }\n"
 	                       "                            ";
+
+	return m_event->IsChecked() ? checked : unchecked;
+}
+
+wxString AStyleDisplay::StcFormat_BreakReturnType() const
+{
+	wxString checked =     "                     \n"
+	                       "void                 \n"
+	                       "Foo(bool isFoo)      \n"
+	                       "{ ... }                ";
+
+	wxString unchecked =   "                     \n"
+	                       "void Foo(bool isFoo) \n"
+	                       "{ ... }              \n";
+
+	return m_event->IsChecked() ? checked : unchecked;
+}
+
+wxString AStyleDisplay::StcFormat_BreakReturnTypeDecl() const
+{
+	wxString checked =     "                     \n"
+	                       "void                 \n"
+	                       "Foo(bool isFoo);       ";
+
+	wxString unchecked =   "                     \n"
+	                       "void Foo(bool isFoo);\n";
 
 	return m_event->IsChecked() ? checked : unchecked;
 }

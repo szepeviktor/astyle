@@ -109,28 +109,32 @@
 #define ID_ADD_BRACES 1073
 #define ID_ADD_OL_BRACES 1074
 #define ID_REMOVE_BRACES 1075
-#define ID_KEEP_OL_BLOCKS 1076
-#define ID_KEEP_OL_STATEMENTS 1077
-#define ID_CONVERT_TABS 1078
-#define ID_CLOSE_TEMPLATES 1079
-#define ID_REMOVE_COMMENT_PREFIX 1080
-#define ID_MAX_CODE_LENGTH 1081
-#define ID_MAX_CODE_LENGTH_DISPLAY 1082
-#define ID_BREAK_AFTER_LOGICAL 1083
-#define ID_FORMAT_PREVIEW_STC 1084
-#define ID_OTHER_PAGE 1085
-#define ID_PAD_METHOD_PREFIX 1086
-#define ID_UNPAD_METHOD_PREFIX 1087
-#define ID_PAD_RETURN_TYPE 1088
-#define ID_UNPAD_RETURN_TYPE 1089
-#define ID_PAD_PARAM_TYPE 1090
-#define ID_UNPAD_PARAM_TYPE 1091
-#define ID_ALIGN_METHOD_COLON 1092
-#define ID_PAD_METHOD_COLON 1093
-#define ID_PAD_METHOD_COLON_DISPLAY 1094
-#define ID_OTHER_PREVIEW_STC 1095
-#define ID_RESET_ALL 1096
-#define ID_NEW_SETTINGS 1097
+#define ID_BREAK_RETURN_TYPE 1076
+#define ID_BREAK_RETURN_TYPE_DECL 1077
+#define ID_ATTACH_RETURN_TYPE 1078
+#define ID_ATTACH_RETURN_TYPE_DECL 1079
+#define ID_KEEP_OL_BLOCKS 1080
+#define ID_KEEP_OL_STATEMENTS 1081
+#define ID_CONVERT_TABS 1082
+#define ID_CLOSE_TEMPLATES 1083
+#define ID_REMOVE_COMMENT_PREFIX 1084
+#define ID_MAX_CODE_LENGTH 1085
+#define ID_MAX_CODE_LENGTH_DISPLAY 1086
+#define ID_BREAK_AFTER_LOGICAL 1087
+#define ID_FORMAT_PREVIEW_STC 1088
+#define ID_OTHER_PAGE 1089
+#define ID_PAD_METHOD_PREFIX 1090
+#define ID_UNPAD_METHOD_PREFIX 1091
+#define ID_PAD_RETURN_TYPE 1092
+#define ID_UNPAD_RETURN_TYPE 1093
+#define ID_PAD_PARAM_TYPE 1094
+#define ID_UNPAD_PARAM_TYPE 1095
+#define ID_ALIGN_METHOD_COLON 1096
+#define ID_PAD_METHOD_COLON 1097
+#define ID_PAD_METHOD_COLON_DISPLAY 1098
+#define ID_OTHER_PREVIEW_STC 1099
+#define ID_RESET_ALL 1100
+#define ID_NEW_SETTINGS 1101
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class AStyleDlgBase
@@ -243,6 +247,10 @@ class AStyleDlgBase : public wxDialog
 		wxCheckBox* m_addBraces;
 		wxCheckBox* m_addOneLineBraces;
 		wxCheckBox* m_removeBraces;
+		wxCheckBox* m_breakReturnType;
+		wxCheckBox* m_breakReturnTypeDecl;
+		wxCheckBox* m_attachReturnType;
+		wxCheckBox* m_attachReturnTypeDecl;
 		wxCheckBox* m_keepOneLineBlocks;
 		wxCheckBox* m_keepOneLineStatements;
 		wxCheckBox* m_convertTabs;

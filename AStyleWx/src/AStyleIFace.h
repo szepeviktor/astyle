@@ -31,7 +31,7 @@ public:
 	virtual ~AStyleIFace();
 	void AppendFileModeOption(FileMode fileMode, wxString& options) const;
 	wxString GetOptions(bool showShort = false, bool useSeparator = true) const;
-	virtual bool SetAStyleOptionFromConfig(const wxString& key, const wxString& value);	// mocked in tests
+	virtual bool SetAStyleOption(const wxString& key, const wxString& value);	// mocked in tests
 	int TranslatePadMethodColonString(wxString padMethodColonArg) const;
 	wxString TranslatePadMethodColonValue(int padMethodColonArg) const;
 	wxString TranslatePadMethodColonValueShort(int padMethodColonArg) const;
@@ -93,6 +93,10 @@ public:
 	bool getAddBraces() const            { return addBraces; }
 	bool getAddOneLineBraces() const     { return addOneLineBraces; }
 	bool getRemoveBraces() const         { return removeBraces; }
+	bool getBreakReturnType() const      { return breakReturnType; }
+	bool getBreakReturnTypeDecl() const  { return breakReturnTypeDecl; }
+	bool getAttachReturnType() const     { return attachReturnType; }
+	bool getAttachReturnTypeDecl() const { return attachReturnTypeDecl; }
 	bool getBreakOneLineBlocks() const   { return breakOneLineBlocks; }
 	bool getBreakOneLineStmts() const    { return breakOneLineStmts; }
 	bool getConvertTabs() const          { return convertTabs; }
@@ -158,6 +162,10 @@ public:
 	void setAddBraces(bool state)            { addBraces = state; }
 	void setAddOneLineBraces(bool state)     { addOneLineBraces = state; }
 	void setRemoveBraces(bool state)         { removeBraces = state; }
+	void setBreakReturnType(bool state)      { breakReturnType = state; }
+	void setBreakReturnTypeDecl(bool state)  { breakReturnTypeDecl = state; }
+	void setAttachReturnType(bool state)     { attachReturnType = state; }
+	void setAttachReturnTypeDecl(bool state) { attachReturnTypeDecl = state; }
 	void setBreakOneLineBlocks(bool state)   { breakOneLineBlocks = state; }
 	void setBreakOneLineStmts(bool state)    { breakOneLineStmts = state; }
 	void setConvertTabs(bool state)          { convertTabs = state; }
@@ -176,7 +184,7 @@ public:
 	void setPadMethodColon(int value)        { padMethodColon = value; }
 
 private:
-	bool SetAStyleOptionFromConfig_Bool(const wxString& key, bool value);
+	bool SetAStyleOptionBool(const wxString& key, bool value);
 
 private:
 	// the initial value is the default value in Artistic Style
@@ -236,6 +244,10 @@ private:
 	bool addBraces;                     // --add-braces
 	bool addOneLineBraces;              // --add-one-line-braces
 	bool removeBraces;                  // --remove-braces
+	bool breakReturnType;               // --break-return-type
+	bool breakReturnTypeDecl;           // --break-return-type-decl
+	bool attachReturnType;              // --attach-return-type
+	bool attachReturnTypeDecl;          // --attach-return-type-decl
 	bool breakOneLineBlocks;            // --keep-one-line-blocks
 	bool breakOneLineStmts;             // --keep-one-line-statements
 	bool convertTabs;                   // --convert-tabs
