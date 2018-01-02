@@ -53,10 +53,10 @@ make
 
 set copy=true
 if %copy% ==true (
-	echo
-	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-	echo "*                            Copying Files                            *"
-	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+	echo.
+    echo * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	echo *          Copy Files to AStyleDev for Testing          *
+    echo * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	cd ../
 	xcopy /y /q  as-bcc32c-exe\AStyle.exe     ..\AStyleDev\src-p\
 	xcopy /y /q  as-bcc32c-dll\AStyle*.dll    ..\AStyleDev\src-o\

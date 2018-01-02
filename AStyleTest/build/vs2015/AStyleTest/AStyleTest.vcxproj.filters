@@ -39,9 +39,6 @@
     <ClCompile Include="..\..\..\src\AStyleTest_MaxCodeLen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\AStyleTest_NEW_OPTIONS.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\AStyleTest_ObjC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -76,6 +73,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\AStyleTest_Cpp0x.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AStyleTest_NEW_OPTIONS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

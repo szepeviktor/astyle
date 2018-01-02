@@ -39,6 +39,16 @@ size_t utf16len(const char16_t* utf16In)
 	return length;
 }
 
+size_t utf32len(const char32_t* utf32In)
+// Return the length of utf-32 text.
+// The length is in number of char32_t.
+{
+	size_t length = 0;
+	while (*utf32In++ != '\0')
+		length++;
+	return length;
+}
+
 int swap16Bit(int value)
 // Swap the two low order bytes of a 16 bit integer value.
 {
@@ -150,6 +160,32 @@ char* utf16ToUtf8(char16_t* utf16In)
 	int iconvval = iconv(iconvh, &wcConv, &wcLeft, &mbConv, &mbLeft);
 	if (iconvval == -1)
 		systemAbort("Bad iconv in utf16ToUtf8()");
+	*mbConv = '\0';
+	iconv_close(iconvh);
+	return mbOut;
+}
+
+char* utf32ToUtf8(char32_t* utf32In)
+// LINUX convert 32 bit utf-32 text to an 8 bit utf-8 string
+// The calling program must delete the returned allocation.
+{
+	size_t wcLen = utf32len(utf32In) * sizeof(char32_t);
+	iconv_t iconvh = iconv_open("UTF−8", "UTF−32");
+	if (iconvh == reinterpret_cast<iconv_t>(-1))
+		systemAbort("Bad iconv_open in utf32ToUtf8()");
+	// allocate memory for output
+	size_t mbLen = wcLen * sizeof(char32_t);
+	char* mbOut = new (nothrow) char[mbLen];
+	if (mbOut == nullptr)
+		systemAbort("Bad allocation in utf32ToUtf8()");
+	// convert to utf-8
+	char* mbConv = mbOut;
+	size_t mbLeft = mbLen;
+	char* wcConv = reinterpret_cast<char*>(utf32In);
+	size_t wcLeft = wcLen;
+	int iconvval = iconv(iconvh, &wcConv, &wcLeft, &mbConv, &mbLeft);
+	if (iconvval == -1)
+		systemAbort("Bad iconv in utf32ToUtf8()");
 	*mbConv = '\0';
 	iconv_close(iconvh);
 	return mbOut;
@@ -410,11 +446,9 @@ struct AStyleMainUtf16F2 : public Test
 // These will be compared to the variables computed by the AStyle functions.
 {
 	// variables values set using native functions
-	char* text8;			//  8 bit text copied from c'tor
+	char* text8;			//  8 bit converted text
 	char16_t* text16;		// 16 bit text
-	size_t text16Len;		// 16 bit length
 	char16_t* options16;	// 16 bit options
-	size_t options16Len;	// 16 bit length
 
 	// c'tor - set the variables
 	AStyleMainUtf16F2()
@@ -422,55 +456,49 @@ struct AStyleMainUtf16F2 : public Test
 		// initialize variables
 		text8 = nullptr;
 		text16 = nullptr;
-		text16Len = 0;
 		options16 = nullptr;
-		options16Len = 0;
-		// set textOut variables
-		char textIn[] =
-		    "\nprivate void foo()\n"
-		    "{\n"
-		    "    // 文件已经 被修改\n"		// Chinese
-		    "    Chinese(\"导出结束\");\n"
-		    "\n"
-		    "    // アイウオ カキク\n"		// Japanese
-		    "    Japanese(\"スセタチ\");\n"
-		    "\n"
-		    "    // 선택된 컨트롤\n"		// Korean
-		    "    Korean(\"비트맵 에디터\");\n"
-		    "\n"
-		    "    // ΓΔΘΛ αβγλ\n"			// Greek
-		    "    Greek(\"ξπρσ ΞΦΨΩ\");\n"
-		    "\n"
-		    "    // АБВГ ДЕЁЖ\n"			// Russian
-		    "    Russian(\"ЗИЙК ЛПФЦ\");\n"
-		    "\n"
-		    "    // ÄÄ ÖÖ ÜÜ ßßßß\n"		// German (ß can cause problem with conversions)
-		    "    German(\"ää öö üü\");\n"
-		    "}\n";
+		// textIn is wchar_t to avoid a warning when source-charset:utf-8
+		// is used as a Visual Studio compiler option
+		wchar_t textIn[] =
+		    L"\nprivate void foo()\n"
+		    L"{\n"
+		    L"    // 文件已经 被修改\n"		// Chinese
+		    L"    Chinese(\"导出结束\");\n"
+		    L"\n"
+		    L"    // アイウオ カキク\n"		// Japanese
+		    L"    Japanese(\"スセタチ\");\n"
+		    L"\n"
+		    L"    // 선택된 컨트롤\n"			// Korean
+		    L"    Korean(\"비트맵 에디터\");\n"
+		    L"\n"
+		    L"    // ΓΔΘΛ αβγλ\n"			// Greek
+		    L"    Greek(\"ξπρσ ΞΦΨΩ\");\n"
+		    L"\n"
+		    L"    // АБВГ ДЕЁЖ\n"			// Russian
+		    L"    Russian(\"ЗИЙК ЛПФЦ\");\n"
+		    L"\n"
+		    L"    // ÄÄ ÖÖ ÜÜ ßßßß\n"		// German (ß can cause problem with conversions)
+		    L"    German(\"ää öö üü\");\n"
+		    L"}\n";
 		char optionsIn[] = "style=allman, mode=cs";
-		// create text8 values
-		size_t text8Len = strlen(textIn);
-		text8 = new char[text8Len + 1];
-		strcpy(text8, textIn);
+
 		// compute 16 bit values using native functions
 #ifdef _WIN32
-		text16 = utf8ToWideChar(textIn);
-		text16Len = utf16len(text16);
-		options16 = utf8ToWideChar(optionsIn);
-		options16Len = utf16len(options16);
+		text8 = wideCharToUtf8(reinterpret_cast<char16_t*>(textIn));
+		text16 = utf8ToWideChar(text8);
+		options16  = utf8ToWideChar(optionsIn);
 #else
-		text16 = utf8ToUtf16(textIn);
-		text16Len = utf16len(text16);
-		options16 = utf8ToUtf16(optionsIn);
-		options16Len = utf16len(options16);
+		text8 = utf32ToUtf8(reinterpret_cast<char32_t*>(textIn));
+		text16 = utf8ToUtf16(text8);
+		options16  = utf8ToUtf16(optionsIn);
 #endif
 	}	// end c'tor
 
 	~AStyleMainUtf16F2()
 	{
+		delete[] text8;
 		delete[] text16;
 		delete[] options16;
-		delete[] text8;
 	}
 };
 
@@ -497,6 +525,8 @@ struct AStyleMainUtf16F2 : public Test
 	char* text8Out = utf16ToUtf8(text16Out);
 #endif
 	EXPECT_STREQ(text8, text8Out);
+//	cout << text8 << endl;
+//	cout << text8Out << endl;
 	delete[] text8Out;
 	delete[] text16Out;
 #endif // __BORLANDC__

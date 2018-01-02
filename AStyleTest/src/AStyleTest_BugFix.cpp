@@ -409,22 +409,6 @@ TEST(BugFix_V31, SansDefineMacro)
 	delete[] textOut;
 }
 
-TEST(BugFix_V31, EmptyHeaderStack)
-{
-	// discovered by afl fuzzing
-	// fix an exception accessing an empty headerStack
-	char text[] =
-	    "\n"
-	    "void Foo()\n"
-	    "{\n"
-	    "    ()# else  }  if\n"
-	    "}";
-	char options[] = "";
-	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
-	EXPECT_STREQ(text, textOut);
-	delete[] textOut;
-}
-
 TEST(BugFix_V31, EmptyActiveBeautifierStack)
 {
 	// discovered by afl fuzzing

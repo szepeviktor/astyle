@@ -455,11 +455,16 @@ def get_project_excludes(project):
         # propgrid.cpp is the macro IMPLEMENT_GET_VALUE
         # sqplus.h aborts on verifyBeautifierStacks because of unmatched paren
         # sqvm.cpp doesn't compile because of _RET_SUCCEED macro used with --remove-braces
+        excludes.append("--exclude=resources/plugins/templates")
+        excludes.append("--exclude=resources/wxwidgets/common/main.cpp")
+        excludes.append("--exclude=resources/wxwidgets/wxsmith/main.cpp")
+        excludes.append("--exclude=resources/wxwidgets/wxsmith/main.h")
         excludes.append("--exclude=wx/pdfpattern.h")
         excludes.append("--exclude=wx/wxscintilla.h")
         excludes.append("--exclude=wx/propgrid/advprops.h")
         excludes.append("--exclude=wx/propgrid/manager.h")
         excludes.append("--exclude=wx/propgrid/propgrid.h")
+        excludes.append("--exclude=wxwidgets/common/main.h")
         excludes.append("--exclude=sqplus/sqplus.h")
         excludes.append("--exclude=squirrel/sqvm.cpp")
         # excludes.append("--exclude=propgrid/propgrid.cpp")
