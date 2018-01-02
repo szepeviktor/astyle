@@ -458,7 +458,7 @@
 							</object>
 							<object class="notebookpage">
 								<label>Indent</label>
-								<selected>1</selected>
+								<selected>0</selected>
 								<object class="wxPanel" name="m_indentPage">
 									<style>wxCLIP_CHILDREN|wxTAB_TRAVERSAL</style>
 									<pos>-1,0</pos>
@@ -532,7 +532,7 @@
 															</object>
 														</object>
 														<object class="sizeritem">
-															<option>1</option>
+															<option>0</option>
 															<flag></flag>
 															<border>5</border>
 															<object class="wxBoxSizer">
@@ -956,7 +956,7 @@
 							</object>
 							<object class="notebookpage">
 								<label>Format</label>
-								<selected>0</selected>
+								<selected>1</selected>
 								<object class="wxPanel" name="m_formatPage">
 									<style>wxCLIP_CHILDREN|wxTAB_TRAVERSAL</style>
 									<pos>-1,0</pos>
@@ -1033,6 +1033,42 @@
 															<option>0</option>
 															<flag>wxALL</flag>
 															<border>5</border>
+															<object class="wxCheckBox" name="m_breakReturnType">
+																<label>Break ret_urn type</label>
+																<checked>0</checked>
+															</object>
+														</object>
+														<object class="sizeritem">
+															<option>0</option>
+															<flag>wxALL</flag>
+															<border>5</border>
+															<object class="wxCheckBox" name="m_breakReturnTypeDecl">
+																<label>Break return type _decl</label>
+																<checked>0</checked>
+															</object>
+														</object>
+														<object class="sizeritem">
+															<option>0</option>
+															<flag>wxALL</flag>
+															<border>5</border>
+															<object class="wxCheckBox" name="m_attachReturnType">
+																<label>Attach retur_n type</label>
+																<checked>0</checked>
+															</object>
+														</object>
+														<object class="sizeritem">
+															<option>0</option>
+															<flag>wxALL</flag>
+															<border>5</border>
+															<object class="wxCheckBox" name="m_attachReturnTypeDecl">
+																<label>Attach return type dec_l</label>
+																<checked>0</checked>
+															</object>
+														</object>
+														<object class="sizeritem">
+															<option>0</option>
+															<flag>wxALL</flag>
+															<border>5</border>
 															<object class="wxCheckBox" name="m_keepOneLineBlocks">
 																<label>Keep one line _blocks</label>
 																<checked>0</checked>
@@ -1085,7 +1121,7 @@
 															<flag>wxALL</flag>
 															<border>5</border>
 															<object class="wxStaticText" name="staticText12">
-																<label>_Maximum code length</label>
+																<label>Ma_ximum code length</label>
 																<wrap>-1</wrap>
 															</object>
 														</object>

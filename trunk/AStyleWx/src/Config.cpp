@@ -76,7 +76,7 @@ void Config::GetAStyleOptions(AStyleIFace* astyle)
 		if (wxConfig::GetEntryType(key) == wxConfig::Type_String)
 		{
 			wxConfig::Read(key, &value);
-			ok = astyle->SetAStyleOptionFromConfig(key, value);
+			ok = astyle->SetAStyleOption(key, value);
 		}
 		else
 			ok = false;
@@ -503,6 +503,10 @@ void Config::SaveAStyleOptions(AStyleIFace* astyle)
 	astyle->getAddBraces() ? wxConfig::Write(ADD_BRACES, asTRUE) : wxConfig::DeleteEntry(ADD_BRACES, false);
 	astyle->getAddOneLineBraces() ? wxConfig::Write(ADD_ONE_LINE_BRACES, asTRUE) : wxConfig::DeleteEntry(ADD_ONE_LINE_BRACES, false);
 	astyle->getRemoveBraces() ? wxConfig::Write(REMOVE_BRACES, asTRUE) : wxConfig::DeleteEntry(REMOVE_BRACES, false);
+	astyle->getBreakReturnType() ? wxConfig::Write(BREAK_RETURN_TYPE, asTRUE) : wxConfig::DeleteEntry(BREAK_RETURN_TYPE, false);
+	astyle->getBreakReturnTypeDecl() ? wxConfig::Write(BREAK_RETURN_TYPE_DECL, asTRUE) : wxConfig::DeleteEntry(BREAK_RETURN_TYPE_DECL, false);
+	astyle->getAttachReturnType() ? wxConfig::Write(ATTACH_RETURN_TYPE, asTRUE) : wxConfig::DeleteEntry(ATTACH_RETURN_TYPE, false);
+	astyle->getAttachReturnTypeDecl() ? wxConfig::Write(ATTACH_RETURN_TYPE_DECL, asTRUE) : wxConfig::DeleteEntry(ATTACH_RETURN_TYPE_DECL, false);
 	astyle->getBreakOneLineBlocks()  ? wxConfig::DeleteEntry(KEEP_ONE_LINE_BLOCKS, false) : wxConfig::Write(KEEP_ONE_LINE_BLOCKS, asTRUE);
 	astyle->getBreakOneLineStmts() ? wxConfig::DeleteEntry(KEEP_ONE_LINE_STATEMENTS, false) : wxConfig::Write(KEEP_ONE_LINE_STATEMENTS, asTRUE);
 	astyle->getConvertTabs() ? wxConfig::Write(CONVERT_TABS, asTRUE) : wxConfig::DeleteEntry(CONVERT_TABS, false);

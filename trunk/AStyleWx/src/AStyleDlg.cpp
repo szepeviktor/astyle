@@ -345,6 +345,10 @@ void AStyleDlg::GetFormatOptions(AStyleIFace* astyle)
 	astyle->setAddBraces(m_addBraces->GetValue());
 	astyle->setAddOneLineBraces(m_addOneLineBraces->GetValue());
 	astyle->setRemoveBraces(m_removeBraces->GetValue());
+	astyle->setBreakReturnType(m_breakReturnType->GetValue());
+	astyle->setBreakReturnTypeDecl(m_breakReturnTypeDecl->GetValue());
+	astyle->setAttachReturnType(m_attachReturnType->GetValue());
+	astyle->setAttachReturnTypeDecl(m_attachReturnTypeDecl->GetValue());
 	astyle->setBreakOneLineBlocks(!m_keepOneLineBlocks->GetValue());      // break == ! keep
 	astyle->setBreakOneLineStmts(!m_keepOneLineStatements->GetValue());   // break == ! keep
 	astyle->setConvertTabs(m_convertTabs->GetValue());
@@ -771,6 +775,10 @@ void AStyleDlg::SetFormatOptions()
 	m_addBraces->SetValue(m_astyle->getAddBraces());
 	m_addOneLineBraces->SetValue(m_astyle->getAddOneLineBraces());
 	m_removeBraces->SetValue(m_astyle->getRemoveBraces());
+	m_breakReturnType->SetValue(m_astyle->getBreakReturnType());
+	m_breakReturnTypeDecl->SetValue(m_astyle->getBreakReturnTypeDecl());
+	m_attachReturnType->SetValue(m_astyle->getAttachReturnType());
+	m_attachReturnTypeDecl->SetValue(m_astyle->getAttachReturnTypeDecl());
 	m_keepOneLineBlocks->SetValue(!m_astyle->getBreakOneLineBlocks());		// keep == ! break
 	m_keepOneLineStatements->SetValue(!m_astyle->getBreakOneLineStmts());	// keep == ! break
 	m_convertTabs->SetValue(m_astyle->getConvertTabs());

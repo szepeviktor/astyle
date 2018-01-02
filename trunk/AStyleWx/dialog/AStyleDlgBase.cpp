@@ -72,6 +72,10 @@ BEGIN_EVENT_TABLE( AStyleDlgBase, wxDialog )
 	EVT_CHECKBOX( ID_ADD_BRACES, AStyleDlgBase::_wxFB_OnFormatClick )
 	EVT_CHECKBOX( ID_ADD_OL_BRACES, AStyleDlgBase::_wxFB_OnFormatClick )
 	EVT_CHECKBOX( ID_REMOVE_BRACES, AStyleDlgBase::_wxFB_OnFormatClick )
+	EVT_CHECKBOX( ID_BREAK_RETURN_TYPE, AStyleDlgBase::_wxFB_OnFormatClick )
+	EVT_CHECKBOX( ID_BREAK_RETURN_TYPE_DECL, AStyleDlgBase::_wxFB_OnFormatClick )
+	EVT_CHECKBOX( ID_ATTACH_RETURN_TYPE, AStyleDlgBase::_wxFB_OnFormatClick )
+	EVT_CHECKBOX( ID_ATTACH_RETURN_TYPE_DECL, AStyleDlgBase::_wxFB_OnFormatClick )
 	EVT_CHECKBOX( ID_KEEP_OL_BLOCKS, AStyleDlgBase::_wxFB_OnFormatClick )
 	EVT_CHECKBOX( ID_KEEP_OL_STATEMENTS, AStyleDlgBase::_wxFB_OnFormatClick )
 	EVT_CHECKBOX( ID_CONVERT_TABS, AStyleDlgBase::_wxFB_OnFormatClick )
@@ -398,7 +402,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer191->Add( m_indentContinuationLength, 0, wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
-	m_indentSizer->Add( bSizer191, 1, 0, 5 );
+	m_indentSizer->Add( bSizer191, 0, 0, 5 );
 	
 	m_indentGotoLabels = new wxCheckBox( m_indentSizer->GetStaticBox(), ID_INDENT_GOTO, wxT("Indent &goto labels"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_indentSizer->Add( m_indentGotoLabels, 0, wxALL, 5 );
@@ -508,7 +512,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_indentPage->SetSizer( indentSizer );
 	m_indentPage->Layout();
 	indentSizer->Fit( m_indentPage );
-	m_notebook->AddSubPage( m_indentPage, wxT("Indentation"), true );
+	m_notebook->AddSubPage( m_indentPage, wxT("Indentation"), false );
 	m_padPage = new wxPanel( m_notebook, ID_PAD_PAGE, wxPoint( -1,0 ), wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* padSizer;
 	padSizer = new wxBoxSizer( wxVERTICAL );
@@ -675,6 +679,18 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_removeBraces = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_REMOVE_BRACES, wxT("&Remove braces"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_formatSizer->Add( m_removeBraces, 0, wxALL, 5 );
 	
+	m_breakReturnType = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_BREAK_RETURN_TYPE, wxT("Break ret&urn type"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_formatSizer->Add( m_breakReturnType, 0, wxALL, 5 );
+	
+	m_breakReturnTypeDecl = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_BREAK_RETURN_TYPE_DECL, wxT("Break return type &decl"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_formatSizer->Add( m_breakReturnTypeDecl, 0, wxALL, 5 );
+	
+	m_attachReturnType = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_ATTACH_RETURN_TYPE, wxT("Attach retur&n type"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_formatSizer->Add( m_attachReturnType, 0, wxALL, 5 );
+	
+	m_attachReturnTypeDecl = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_ATTACH_RETURN_TYPE_DECL, wxT("Attach return type dec&l"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_formatSizer->Add( m_attachReturnTypeDecl, 0, wxALL, 5 );
+	
 	m_keepOneLineBlocks = new wxCheckBox( m_formatSizer->GetStaticBox(), ID_KEEP_OL_BLOCKS, wxT("Keep one line &blocks"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_formatSizer->Add( m_keepOneLineBlocks, 0, wxALL, 5 );
 	
@@ -694,7 +710,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_formatSizer->Add( 0, 0, 0, wxTOP, 5 );
 	
 	wxStaticText* staticText12;
-	staticText12 = new wxStaticText( m_formatSizer->GetStaticBox(), wxID_ANY, wxT("&Maximum code length"), wxDefaultPosition, wxDefaultSize, 0 );
+	staticText12 = new wxStaticText( m_formatSizer->GetStaticBox(), wxID_ANY, wxT("Ma&ximum code length"), wxDefaultPosition, wxDefaultSize, 0 );
 	staticText12->Wrap( -1 );
 	m_formatSizer->Add( staticText12, 0, wxALL, 5 );
 	
@@ -770,7 +786,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_formatPage->SetSizer( formatSizer );
 	m_formatPage->Layout();
 	formatSizer->Fit( m_formatPage );
-	m_notebook->AddSubPage( m_formatPage, wxT("Formatting"), false );
+	m_notebook->AddSubPage( m_formatPage, wxT("Formatting"), true );
 	m_otherPage = new wxPanel( m_notebook, ID_OTHER_PAGE, wxPoint( -1,0 ), wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* otherSizer;
 	otherSizer = new wxBoxSizer( wxVERTICAL );
