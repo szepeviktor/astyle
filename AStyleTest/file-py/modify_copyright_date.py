@@ -16,7 +16,7 @@ import libastyle
 # global variables ------------------------------------------------------------
 
 __old_date = "2017"
-__new_date = "2017"
+__new_date = "2018"
 
 __file_update = False           # should the files be updated?
 
