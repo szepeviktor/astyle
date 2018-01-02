@@ -1,7 +1,12 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 project(astyle CXX)
 
-# Options
+# Release Build - release by default (except for Borland)
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+
+# Build Options - executable by default, libraries on request
 option(BUILD_JAVA_LIBS   "Build java library"   OFF)
 option(BUILD_SHARED_LIBS "Build shared library" OFF)
 option(BUILD_STATIC_LIBS "Build static library" OFF)
@@ -12,7 +17,7 @@ set(MINORVER 1)
 set(PATCHVER 0)
 set(SOLIBVER ${MAJORVER}.${MINORVER}.${PATCHVER})
 
-# AStyle Sources
+# AStyle Source
 list(APPEND SRCS
     src/ASBeautifier.cpp
     src/ASEnhancer.cpp
@@ -48,13 +53,8 @@ if(BUILD_JAVA_LIBS)
     endif()
 endif()
 
-# Release build by default (except for Borland)
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release")
-endif()
-
 # Define the output type and install directories
-# to uninstall 'xargs rm < install_manifest.txt'
+# To uninstall 'xargs rm < install_manifest.txt'
 if(BUILD_SHARED_LIBS OR BUILD_STATIC_LIBS)
     add_library(astyle ${SRCS})
     if(NOT WIN32)
@@ -148,14 +148,14 @@ if(APPLE)
     target_compile_options(
         astyle PRIVATE -W -Wall -fno-rtti -fno-exceptions -std=c++11 -stdlib=libc++)
     set_linker_options("")
-elseif(NOT WIN32)
+elseif(NOT WIN32)   # Linux
     target_compile_options(astyle PRIVATE -Wall -fno-rtti -fno-exceptions -std=c++11)
     set_linker_options("-s")
 elseif(BORLAND)     # Release must be explicitely requested for Borland
     target_compile_options(astyle PRIVATE -w -x-)   # Cannot use no-rtti (-RT-)
     set_linker_options("")
 elseif(MINGW)
-    target_compile_options(astyle PRIVATE -Wall -Wextra -fno-rtti -fno-exceptions -std=c++11)
+    target_compile_options(astyle PRIVATE -Wall -Wextra -fno-rtti -fno-exceptions -std=c++0x)
     set_linker_options("-s")
 endif()
 

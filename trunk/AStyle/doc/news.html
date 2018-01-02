@@ -26,7 +26,13 @@
         options file, Artistic Style will not change it. If the options file is in both locations, the new APPDATA 
         location will be used.</p>
     <p>
-        The console build now accepts options file input encoded in UTF-16, or UTF-8 with a Byte Order Mark (BOM or signature).
+        The console build now accepts option file input encoded in UTF-16, or UTF-8 with a Byte Order Mark (BOM or signature).
+    </p>
+    <p>
+        New options, &quot;break-return-type&quot; and &quot;break-return-type-decl&quot;, will break the return type
+        from function definitions and function declarations. Additional new options, &quot;attach-return-type&quot; and
+        &quot;attach-return-type-decl&quot;, will attach the broken return types to function definitions and function
+        declarations. There is more information in the &quot;Formatting Options&quot; section of the documentation.
     </p>
     <p>
         A new option, &quot;style=ratliff&quot;, has been added as an alternate for banner style.</p>
@@ -37,8 +43,8 @@
         &quot;build&quot; folder, and builds a Release configuration by default. The &quot;Install&nbsp;Information&quot;
         contains additional information. </p>
     <p>
-        When formatting files from the command line, multiple file extensions may now be used. The extensions should be
-        separated by commas or semicolons. For example, to format C++ files, use &quot;astyle -A1 /home/project/*.cpp,*.h&quot;.
+        When formatting files from the command line, multiple file extensions may now be used. The file extensions should
+        be separated by commas or semicolons. For example, to format C++ files, use &quot;astyle -A1 /home/project/*.cpp,*.h&quot;.
         This will change the processing sequence to format all requested files in a directory rather than formatting a
         directory once for each extension. There is additional information in the &quot;Usage&quot; section of the documentation.
     </p>
@@ -53,13 +59,13 @@
         in the &quot;Option Files&quot; section. The &quot;project&quot; option is described in the 
         &quot;Command Line Only&quot; section.</p>
     <p>
-        Allowing both option files to be used allows them to be used for different options. For example the default 
+        Allowing both option files to be used allows them to be used for different purposes. For example the default 
         options could contain the file formatting options and the project options could contain the excludes for the 
         given project. The order of precedence, highest to lowest, is command line options, project options, and default
         options. Options with a value (e.g. style=kr, indent=spaces) may be replaced by an option with a higher precedence.
         The binary options (indent-classes, pad-oper) cannot be changed. Once they are set they stay set. Both the 
         default and project option files may be disabled if they are present and not required. When testing the 
-        option files, the options &quot;verbose&quot; and &quot;dry-run&quot; can be used. The option files used
+        option files, the options &quot;verbose&quot; and &quot;dry-run&quot; may be used. The option files used
         will be displayed by the "verbose" option.</p>
     <p>
         When making changes to more than one file in a project, it may be desirable to format an entire folder. Wildcards
@@ -71,6 +77,10 @@
         Language translations have been added for the new project option file. A few of the other messages were changed
         as well. If there is a better translation available report the change as a bug report. Be sure to include the
         new translation. Translations are in the ASLocalizer.cpp file.</p>
+    <p>
+        A new virtual method, getPeekStart(), has been added to the pure virtual class ASSourceIterator. If you have 
+        inherited this class to access the formatter, you will need to add a method smilar to getPeekStart() in the 
+        ASStreamIterator class in astyle_main.h.</p>
     <p>
         The Artistic Style source code has been <a href="https://en.wikipedia.org/wiki/Fuzzing" target="_blank"
             title="open new window">fuzz tested</a> with American Fuzzy Lop (AFL) and libFuzzer from Clang. This will
