@@ -53,10 +53,10 @@ mingw32-make
 
 set copy=true
 if %copy% ==true (
-	echo
-	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-	echo "*                            Copying Files                            *"
-	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+	echo.
+	echo * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	echo *          Copy Files to AStyleDev for Testing          *
+    echo * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	cd ../
 	xcopy /y /q  as-mingw-exe\AStyle.exe     ..\AStyleDev\src-p\
 	xcopy /y /q  as-mingw-dll\AStyle*.dll    ..\AStyleDev\src-o\

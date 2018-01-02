@@ -48,7 +48,7 @@ copy=true
 if [ "$copy" = "true" ]; then
 	echo
 	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-	echo "*                            Copying Files                            *"
+	echo "*                 Copy Files to AStyleDev for Testing                 *"
 	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 	cd ../
 	cp --verbose --force  as-clang-exe/astyle                ../AStyleDev/src-p/

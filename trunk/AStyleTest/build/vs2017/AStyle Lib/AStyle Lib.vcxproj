@@ -94,6 +94,7 @@
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -111,6 +112,7 @@
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -132,6 +134,7 @@
       <OmitFramePointers>true</OmitFramePointers>
       <ExceptionHandling>false</ExceptionHandling>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -155,6 +158,7 @@
       <OmitFramePointers>true</OmitFramePointers>
       <ExceptionHandling>false</ExceptionHandling>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

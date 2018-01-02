@@ -77,7 +77,7 @@ def call_astyle_executable(subdir):
         projdir = os.getenv("USERPROFILE") + "/Projects/"
         options = "--options=" + projdir + "/AStyle/file/astyle.ini"
     else:
-        exepath = os.getenv("HOME") + "/bin/astyle"
+        exepath = os.getenv("HOME") + "/.local/bin/astyle"
         projdir = os.getenv("HOME") + "/Projects/"
         options = "--options=" + projdir + "/AStyle/file/astyle.ini"
 

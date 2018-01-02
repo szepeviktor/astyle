@@ -127,7 +127,7 @@
       <PreprocessorDefinitions>_DEBUG;ASTYLECON_LIB;ASTYLE_NO_EXPORT</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -145,7 +145,7 @@
       <PreprocessorDefinitions>_DEBUG;ASTYLECON_LIB;ASTYLE_NO_EXPORT</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -169,7 +169,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <ExceptionHandling>false</ExceptionHandling>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -194,7 +194,7 @@
       <OmitFramePointers>true</OmitFramePointers>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <ExceptionHandling>false</ExceptionHandling>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -218,7 +218,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <ExceptionHandling>false</ExceptionHandling>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -243,7 +243,7 @@
       <OmitFramePointers>true</OmitFramePointers>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <ExceptionHandling>false</ExceptionHandling>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>

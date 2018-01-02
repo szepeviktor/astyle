@@ -130,11 +130,11 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FunctionLevelLinking>false</FunctionLevelLinking>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -152,11 +152,11 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;LEAK_DETECTOR</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;LEAK_DETECTOR;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FunctionLevelLinking>false</FunctionLevelLinking>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
@@ -175,11 +175,11 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FunctionLevelLinking>false</FunctionLevelLinking>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -197,11 +197,11 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;LEAK_DETECTOR</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;LEAK_DETECTOR;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FunctionLevelLinking>false</FunctionLevelLinking>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
@@ -223,9 +223,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -244,9 +244,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx</AdditionalIncludeDirectories>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>

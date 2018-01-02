@@ -115,14 +115,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srccon;..\..\..\srcx</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>Disabled</Optimization>
     </ClCompile>
@@ -136,14 +136,14 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srccon;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;LEAK_DETECTOR</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;LEAK_DETECTOR;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -161,14 +161,14 @@
     </Midl>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srccon;..\..\..\srcx</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>Disabled</Optimization>
     </ClCompile>
@@ -185,14 +185,14 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srccon;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;LEAK_DETECTOR</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;LEAK_DETECTOR;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -207,7 +207,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srccon;..\..\..\srcx</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>false</FunctionLevelLinking>
@@ -215,7 +215,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -232,7 +232,7 @@
     </Midl>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srccon;..\..\..\srcx</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>false</FunctionLevelLinking>
@@ -240,7 +240,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>

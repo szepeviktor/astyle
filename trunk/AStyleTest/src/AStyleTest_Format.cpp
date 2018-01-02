@@ -4164,6 +4164,995 @@ TEST(RemoveBraces, HorstmannBraceWithComment)
 }
 
 //-------------------------------------------------------------------------
+// AStyle Break Return Type
+//-------------------------------------------------------------------------
+
+TEST(BreakReturnType, LongOption)
+{
+	// break return type
+	char textIn[] =
+	    "\nvoid foo(bool isFoo)\n"
+	    "{ }\n";
+	char text[] =
+	    "\nvoid\n"
+	    "foo(bool isFoo)\n"
+	    "{ }\n";
+	char options[] = "break-return-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnType, ShortOption)
+{
+	// break return type short option
+	char textIn[] =
+	    "\nvoid foo(bool isFoo)\n"
+	    "{ }\n";
+	char text[] =
+	    "\nvoid\n"
+	    "foo(bool isFoo)\n"
+	    "{ }\n";
+	char options[] = "-xB";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnType, SansDeclaration)
+{
+	// return type declarations should not be broken
+	char text[] =
+	    "\nvoid foo(bool isFoo);";
+	char options[] = "break-return-type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnType, ClassInitializer1)
+{
+	// test break return type in class initializer
+	char textIn[] =
+	    "\n"
+	    "inline cbThreadPool::cbThreadPool(int owner)\n"
+	    "    : m_pOwner(owner)\n"
+	    "{}\n"
+	    "\n"
+	    "template <typename T>\n"
+	    "inline cbThreadPool::CountedPtr<T>::CountedPtr(T *p)\n"
+	    "    : ptr(p)\n"
+	    "{}\n"
+	    "\n"
+	    "explicit ID(const ID& cpy) : p__id(cpy.id()) {};\n";
+	char text[] =
+	    "\n"
+	    "inline\n"
+	    "cbThreadPool::cbThreadPool(int owner)\n"
+	    "    : m_pOwner(owner)\n"
+	    "{}\n"
+	    "\n"
+	    "template <typename T>\n"
+	    "inline\n"
+	    "cbThreadPool::CountedPtr<T>::CountedPtr(T *p)\n"
+	    "    : ptr(p)\n"
+	    "{}\n"
+	    "\n"
+	    "explicit\n"
+	    "ID(const ID& cpy) : p__id(cpy.id()) {};\n";
+	char options[] = "break-return-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnType, ClassInitializer2)
+{
+	// should not break the ':' from the following statement
+	char textIn[] =
+	    "\n"
+	    "class wxFNBDropTarget\n"
+	    "{\n"
+	    "    wxFNBDropTarget(T* pParent)\n"
+	    "\t\t: m_pParent(pParent)\n"
+	    "\t{}\n"
+	    "};";
+	char text[] =
+	    "\n"
+	    "class wxFNBDropTarget\n"
+	    "{\n"
+	    "    wxFNBDropTarget(T* pParent)\n"
+	    "        : m_pParent(pParent)\n"
+	    "    {}\n"
+	    "};";
+	char options[] = "break-return-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnType, KeepOneLineBlocks)
+{
+	// should not break a one-line block
+	// the block will have to be broken before the return type can be broken
+	char text[] =
+	    "\n"
+	    "struct Agony { inline void operator()(BackgroundThread* t) {t->MarkDying();}; };"
+	    "\n"
+	    "template<> struct CompileTimeAssertion<true> { static inline void Assert() {}; };";
+	char options[] = "break-return-type, keep-one-line-blocks";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+// BreakReturnTypeDecl Misc tests also test this option
+
+//-------------------------------------------------------------------------
+// AStyle Break Return Type in Declarations
+//-------------------------------------------------------------------------
+
+TEST(BreakReturnTypeDecl, LongOption)
+{
+	// test break return type in a declaration
+	char textIn[] =
+	    "\nvoid foo(bool isFoo);";
+	char text[] =
+	    "\nvoid\n"
+	    "foo(bool isFoo);";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, ShortOption)
+{
+	// test break return type short option in a declaration
+	char textIn[] =
+	    "\nvoid foo(bool isFoo);";
+	char text[] =
+	    "\nvoid\n"
+	    "foo(bool isFoo);";
+	char options[] = "-xD";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, SansDefinition)
+{
+	// return type definitions should not be broken by this option
+	char text[] =
+	    "\nvoid foo(bool isFoo)\n"
+	    "{ }";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, AlreadyBroken)
+{
+	// test break return type for a line that is already broken
+	// should take an early exit from findReturnTypeSplitPoint
+	char text[] =
+	    "\n"
+	    "int\n"
+	    "GetSelection(int x, char* y);\n"
+	    "\n"
+	    "static int\n"
+	    "crcbuf(int crc);\n"
+	    "\n"
+	    "class Foo\n"
+	    "{\n"
+	    "    int\n"
+	    "    GetSelection(int x, char* y);\n"
+	    "};";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, Operator)
+{
+	// test break return type in an operator declaration
+	char textIn[] =
+	    "\n"
+	    "CountedPtr<T> &operator = (const CountedPtr<T> &p) throw();\n"
+	    "\n"
+	    "TiXmlString operator + (string& a, string& b);"
+	    "\n"
+	    "template <typename T>\n"
+	    "inline T &cbThreadPool::CountedPtr<T>::operator * () const throw();\n"
+	    "\n"
+	    "TiXmlString operator () (string& a, string& b);"
+	    "\n"
+	    "TiXmlString instr::operator () (string& a, string& b);";
+	char text[] =
+	    "\n"
+	    "CountedPtr<T> &\n"
+	    "operator = (const CountedPtr<T> &p) throw();\n"
+	    "\n"
+	    "TiXmlString\n"
+	    "operator + (string& a, string& b);"
+	    "\n"
+	    "template <typename T>\n"
+	    "inline T &\n"
+	    "cbThreadPool::CountedPtr<T>::operator * () const throw();\n"
+	    "\n"
+	    "TiXmlString\n"
+	    "operator () (string& a, string& b);"
+	    "\n"
+	    "TiXmlString\n"
+	    "instr::operator () (string& a, string& b);";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, Namespace)
+{
+	// test break return type in namespace
+	char textIn[] =
+	    "\n"
+	    "namespace std\n"
+	    "{\n"
+	    "    void FooFunction1();\n"
+	    "    void FooFunction2();\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "namespace std\n"
+	    "{\n"
+	    "    void\n"
+	    "    FooFunction1();\n"
+	    "    void\n"
+	    "    FooFunction2();\n"
+	    "}";
+	char options[] = "break-return-type-decl, indent-namespaces";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, Class)
+{
+	// test break return type in class
+	char textIn[] =
+	    "\n"
+	    "class ScintillaWX\n"
+	    "{\n"
+	    "    ScintillaWX();\n"
+	    "    ~ScintillaWX();\n"
+	    "    void FooFunction1();\n"
+	    "    void FooFunction2();\n"
+	    "};\n";
+	char text[] =
+	    "\n"
+	    "class ScintillaWX\n"
+	    "{\n"
+	    "    ScintillaWX();\n"
+	    "    ~ScintillaWX();\n"
+	    "    void\n"
+	    "    FooFunction1();\n"
+	    "    void\n"
+	    "    FooFunction2();\n"
+	    "};\n";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, PureVirtual)
+{
+	// test break return type in pure virtual methods
+	char textIn[] =
+	    "\n"
+	    "class FooClass\n"
+	    "{\n"
+	    "    virtual void Reload() = 0;\n"
+	    "    virtual void EnableWindow(bool enable) = 0;\n"
+	    "};\n";
+	char text[] =
+	    "\n"
+	    "class FooClass\n"
+	    "{\n"
+	    "    virtual void\n"
+	    "    Reload() = 0;\n"
+	    "    virtual void\n"
+	    "    EnableWindow(bool enable) = 0;\n"
+	    "};\n";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, Assignment)
+{
+	// test break return type in an assignment
+	char textIn[] =
+	    "\n"
+	    "void SetModified(bool modified = true);";
+	char text[] =
+	    "\n"
+	    "void\n"
+	    "SetModified(bool modified = true);";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, Proprocessor)
+{
+	// test break return type in preprocessor
+	char textIn[] =
+	    "\n"
+	    "class wxPreviewFrameEx\n"
+	    "{\n"
+	    "protected:\n"
+	    "#if (wxVERSION_NUMBER < 2900)\n"
+	    "    void OnKeyDown(wxKeyEvent&);\n"
+	    "#endif\n"
+	    "};";
+	char text[] =
+	    "\n"
+	    "class wxPreviewFrameEx\n"
+	    "{\n"
+	    "protected:\n"
+	    "#if (wxVERSION_NUMBER < 2900)\n"
+	    "    void\n"
+	    "    OnKeyDown(wxKeyEvent&);\n"
+	    "#endif\n"
+	    "};";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, ObjectiveC1)
+{
+	// should not break return type with objective-c
+	char text[] =
+	    "\n"
+	    "@protocol ConstantKeyedCollecting <ConstantCollecting>\n"
+	    "\n"
+	    "- initWithObjects: (id*)objects forKeys: (id*)keys count: c;";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, ObjectiveC2)
+{
+	// should not break return type with objective-c
+	char text[] =
+	    "\n"
+	    "@end\n"
+	    "\n"
+	    "@interface	NSArchiver (GNUstep)\n"
+	    "\n"
+	    "- (void) resetArchiver;";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, Comment)
+{
+	// test break return type with a comment
+	char textIn[] =
+	    "\n"
+	    "class TiXmlParsingData\n"
+	    "{\n"
+	    "private:\n"
+	    "    // Only used by the document!\n"
+	    "    int cursor();\n"
+	    "};\n";
+	char text[] =
+	    "\n"
+	    "class TiXmlParsingData\n"
+	    "{\n"
+	    "private:\n"
+	    "    // Only used by the document!\n"
+	    "    int\n"
+	    "    cursor();\n"
+	    "};\n";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, Misc1)
+{
+	// misc return type declaration tests, also tests definitions
+	char textIn[] =
+	    "\n"
+	    "ASConsole::ASConsole();\n"
+	    "\n"
+	    "ASConsole::~ASConsole();\n"
+	    "\n"
+	    "vector<string>ASConsole::getArgvOptions(int argc, char** argv) const;\n"
+	    "\n"
+	    "vector<string>*ASConsole::getArgvOptions(int argc, char** argv) const;\n"
+	    "\n"
+	    "string ASConsole::getNumberFormat(int num, size_t /*lcid*/) const;\n"
+	    "\n"
+	    "void ASConsole  ::  standardizePath ( bool removeSeparator /*false*/ );\n"
+	    "\n"
+	    "void ASConsole:: standardizePath (bool removeSeparator/*false*/);\n"
+	    "\n"
+	    "void ASConsole ::standardizePath(bool removeSeparator/*false*/);\n";
+	char text[] =
+	    "\n"
+	    "ASConsole::ASConsole();\n"
+	    "\n"
+	    "ASConsole::~ASConsole();\n"
+	    "\n"
+	    "vector<string>\n"
+	    "ASConsole::getArgvOptions(int argc, char** argv) const;\n"
+	    "\n"
+	    "vector<string>*\n"
+	    "ASConsole::getArgvOptions(int argc, char** argv) const;\n"
+	    "\n"
+	    "string\n"
+	    "ASConsole::getNumberFormat(int num, size_t /*lcid*/) const;\n"
+	    "\n"
+	    "void\n"
+	    "ASConsole  ::  standardizePath ( bool removeSeparator /*false*/ );\n"
+	    "\n"
+	    "void\n"
+	    "ASConsole:: standardizePath (bool removeSeparator/*false*/);\n"
+	    "\n"
+	    "void\n"
+	    "ASConsole ::standardizePath(bool removeSeparator/*false*/);\n";;
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, Misc2)
+{
+	// misc return type declaration tests, also tests definitions
+	char textIn[] =
+	    "\n"
+	    "extern \"C\" EXPORT const char* STDCALL AStyleGetVersion(void);\n"
+	    "\n"
+	    "extern \"C\" EXPORT\n"
+	    "const char* STDCALL AStyleGetVersion(void);\n"
+	    "\n"
+	    "template<typename T>ASStreamIterator<T>::ASStreamIterator(T* in);\n";
+	char text[] =
+	    "\n"
+	    "extern \"C\" EXPORT const char* STDCALL\n"
+	    "AStyleGetVersion(void);\n"
+	    "\n"
+	    "extern \"C\" EXPORT\n"
+	    "const char* STDCALL\n"
+	    "AStyleGetVersion(void);\n"
+	    "\n"
+	    "template<typename T>\n"
+	    "ASStreamIterator<T>::ASStreamIterator(T* in);\n";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, Misc3)
+{
+	// misc return type declaration tests, also tests definitions
+	char text[] =
+	    "\n"
+	    "using namespace astyle;\n"
+	    "int g_isNumber = bar * (1 + 2);\n"
+	    "JNIEnv* g_env;\n";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, Misc4)
+{
+	// misc return type declaration tests, also tests definitions
+	// should not cause an assert failure for split at start of data
+	char text[] =
+	    "\n"
+	    "typedef struct pe_tdata\n"
+	    "{\n"
+	    "    bfd_boolean (*in_reloc) (bfd *);\n"
+	    "}";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, Misc5)
+{
+	// misc return type declaration tests, also tests definitions
+	// pointer or reference should stay with the type
+	char textIn[] =
+	    "\n"
+	    "char*TinyXML::Load(wxString& filename);\n"
+	    "\n"
+	    "char *TinyXML::Load(wxString& filename);\n"
+	    "\n"
+	    "char **TinyXML::Load(wxString& filename);\n"
+	    "\n"
+	    "char&TinyXML::Load(wxString& filename);\n"
+	    "\n"
+	    "char &TinyXML::Load(wxString& filename);\n";
+	char text[] =
+	    "\n"
+	    "char*\n"
+	    "TinyXML::Load(wxString& filename);\n"
+	    "\n"
+	    "char *\n"
+	    "TinyXML::Load(wxString& filename);\n"
+	    "\n"
+	    "char **\n"
+	    "TinyXML::Load(wxString& filename);\n"
+	    "\n"
+	    "char&\n"
+	    "TinyXML::Load(wxString& filename);\n"
+	    "\n"
+	    "char &\n"
+	    "TinyXML::Load(wxString& filename);\n";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, Misc6)
+{
+	// debug configuration should not abort on the struct name declaration
+	// it can be mistaken for a function declaration
+	char text[] =
+	    "\n"
+	    "struct Header\n"
+	    "{\n"
+	    "    char name[100];\n"
+	    "} __attribute__((__packed__));";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, Misc7)
+{
+	// misc return type declaration tests, also tests definitions
+	char textIn[] =
+	    "\n"
+	    "virtual ~AnnoyingDialog();\n"
+	    "\n"
+	    "LinkedBlock<U> *next;\n"
+	    "\n"
+	    "char data[sizeof(U)];\n"
+	    "\n"
+	    "class FooClass\n"
+	    "{\n"
+	    "protected:\n"
+	    "    bool bar1();\n"
+	    "};";
+	char text[] =
+	    "\n"
+	    "virtual\n"
+	    "~AnnoyingDialog();\n"
+	    "\n"
+	    "LinkedBlock<U> *next;\n"
+	    "\n"
+	    "char data[sizeof(U)];\n"
+	    "\n"
+	    "class FooClass\n"
+	    "{\n"
+	    "protected:\n"
+	    "    bool\n"
+	    "    bar1();\n"
+	    "};";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, Misc8)
+{
+	// misc return type declaration tests, also tests definitions
+	char textIn[] =
+	    "\n"
+	    "template <typename T>\n"
+	    "inline void cbThreadPool::CountedPtr<T>::dispose();\n"
+	    "\n"
+	    "template<class T1>\n"
+	    "void construct(const T1& t1);\n";
+	char text[] =
+	    "\n"
+	    "template <typename T>\n"
+	    "inline void\n"
+	    "cbThreadPool::CountedPtr<T>::dispose();\n"
+	    "\n"
+	    "template<class T1>\n"
+	    "void\n"
+	    "construct(const T1& t1);\n";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, SansSemicolon)
+{
+	// statement without a semi-colon, don't break the next line
+	char text[] =
+	    "\n"
+	    "class Valgrind\n"
+	    "{\n"
+	    "\tint m_Index;\n"
+	    "\tDECLARE_EVENT_TABLE()\n"
+	    "};\n";
+	char options[] = "break-return-type-decl, indent=tab";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, FunctionPointer)
+{
+	// function pointer should not change
+	char text[] =
+	    "\n"
+	    "void *(*_bfd_coff_mkobject_hook)\n"
+	    "(bfd *, void *, void *);\n"
+	    "\n"
+	    "unsigned int (*_bfd_coff)\n"
+	    "(bfd *, void *, int);\n"
+	    "\n"
+	    "enum coff_symbol (*_bfd_coff)\n"
+	    "(bfd *, struct internal_syment *);\n";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, SansFunctionPointer)
+{
+	// this is not a function pointer, it should be broken
+	char textIn[] =
+	    "\n"
+	    "static void FoldBasic(int(*FoldPoint)(char*, int &));\n";
+	char text[] =
+	    "\n"
+	    "static void\n"
+	    "FoldBasic(int(*FoldPoint)(char*, int &));\n";
+	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
+// AStyle Attach Return Type
+//-------------------------------------------------------------------------
+
+TEST(AttachReturnType, LongOption)
+{
+	// test attach return type
+	char textIn[] =
+	    "\nvoid\n"
+	    "foo(bool isFoo)\n"
+	    "{ }\n";
+	char text[] =
+	    "\nvoid foo(bool isFoo)\n"
+	    "{ }\n";
+	char options[] = "attach-return-type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnType, ShortOption)
+{
+	// test attach return type short option
+	char textIn[] =
+	    "\nvoid\n"
+	    "foo(bool isFoo)\n"
+	    "{ }\n";
+	char text[] =
+	    "\nvoid foo(bool isFoo)\n"
+	    "{ }\n";
+	char options[] = "-xf";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnType, SansDeclaration)
+{
+	// return type declarations should not be attached by this option
+	char text[] =
+	    "\nvoid\n"
+	    "foo(bool isFoo);\n";
+	char options[] = "attach-return-type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnType, Preprocessor)
+{
+	// should not attach to a preprocessor
+	char text[] =
+	    "\n"
+	    "static inline nls_uint32\n"
+	    "# ifdef __cplusplus\n"
+	    "SWAP (nls_uint32 i)\n"
+	    "# else\n"
+	    "SWAP (i)\n"
+	    "nls_uint3 {}";
+	char options[] = "attach-return-type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+// AttachReturnTypeDecl Misc tests also test this option
+
+//-------------------------------------------------------------------------
+// AStyle Attach Return Type in Declarations
+//-------------------------------------------------------------------------
+
+TEST(AttachReturnTypeDecl, LongOption)
+{
+	// test attach return type in a declaration
+	char textIn[] =
+	    "\nvoid\n"
+	    "foo(bool isFoo);";
+	char text[] =
+	    "\nvoid foo(bool isFoo);";
+	char options[] = "attach-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnTypeDecl, ShortOption)
+{
+	// test attach return type short option in a declaration
+	char textIn[] =
+	    "\nvoid\n"
+	    "foo(bool isFoo);";
+	char text[] =
+	    "\nvoid foo(bool isFoo);";
+	char options[] = "-xh";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnTypeDecl, SansDefinition)
+{
+	// return type definitions should not be attached by this option
+	char text[] =
+	    "\nvoid\n"
+	    "foo(bool isFoo)\n"
+	    "{ }";
+	char options[] = "attach-return-type-decl";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnTypeDecl, AccessModifier)
+{
+	// return type definitions should not be attached by an access modifier
+	char text[] =
+	    "\n"
+	    "class TiXml\n"
+	    "{\n"
+	    "public:\n"
+	    "    TiXml(char* now);\n"
+	    "};";
+	char options[] = "attach-return-type-decl";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnTypeDecl, Destructor)
+{
+	// return type destructors should be attached
+	char textIn[] =
+	    "\n"
+	    "virtual\n"
+	    "~AnnoyingDialog();\n";
+	char text[] =
+	    "\n"
+	    "virtual ~AnnoyingDialog();\n";
+	char options[] = "attach-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnTypeDecl, Template)
+{
+	// test attach return type in a template declaration
+	char textIn[] =
+	    "\n"
+	    "template <typename T>\n"
+	    "inline T &\n"
+	    "cbThreadPool::CountedPtr<T>::operator * () const throw();"
+	    "\n"
+	    "template<class T1, class T2,\n"
+	    "         class T3, class T4>\n"
+	    "void\n"
+	    "construct();";
+	char text[] =
+	    "\n"
+	    "template <typename T>\n"
+	    "inline T &cbThreadPool::CountedPtr<T>::operator * () const throw();"
+	    "\n"
+	    "template<class T1, class T2,\n"
+	    "         class T3, class T4>\n"
+	    "void construct();";
+	char options[] = "attach-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnTypeDecl, ObjectiveC)
+{
+	// don't attach objective-c following lines
+	char text[] =
+	    "\n"
+	    "- (void) performSelector: (SEL)aSelector\n"
+	    "                  target: target\n"
+	    "                   modes: (NSArray*)modes;\n";
+	char options[] = "attach-return-type-decl, align-method-colon";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnTypeDecl, Comment1)
+{
+	// don't attach return type to a comment
+	char text[] =
+	    "\n"
+	    "class FooClass\n"
+	    "{\n"
+	    "public:\n"
+	    "    // constructor\n"
+	    "    TiXmlParsingData();\n"
+	    "\n"
+	    "private:\n"
+	    "    /** constructor\n"
+	    "    */\n"
+	    "    cbAuiNotebook ();\n"
+	    "}\n";
+	char options[] = "attach-return-type-decl";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnTypeDecl, Comment2)
+{
+	// don't add or delete spaces before a line comment
+	char textIn[] =
+	    "\n"
+	    "void\n"
+	    "OnContextMenu();    // comment";
+	char text[] =
+	    "\n"
+	    "void OnContextMenu();    // comment";
+	char options[] = "attach-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnTypeDecl, AttachPointerNone)
+{
+	// test padding with pointers and PTR_ALIGN_NONE
+	char textIn[] =
+	    "\n"
+	    "Logger*\n"
+	    "GetLogger();"
+	    "\n"
+	    "Logger *\n"
+	    "GetLogger();";
+	char text[] =
+	    "\n"
+	    "Logger* GetLogger();"
+	    "\n"
+	    "Logger *GetLogger();";
+	char options[] = "attach-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnTypeDecl, AttachPointerType)
+{
+	// test padding with pointers and PTR_ALIGN_TYPE
+	char textIn[] =
+	    "\n"
+	    "Logger*\n"
+	    "GetLogger();"
+	    "\n"
+	    "Logger *\n"
+	    "GetLogger();";
+	char text[] =
+	    "\n"
+	    "Logger* GetLogger();"
+	    "\n"
+	    "Logger* GetLogger();";
+	char options[] = "attach-return-type-decl, align-pointer=type";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnTypeDecl, AttachPointerMiddle)
+{
+	// test padding with pointers and PTR_ALIGN_MIDDLE
+	char textIn[] =
+	    "\n"
+	    "Logger*\n"
+	    "GetLogger();"
+	    "\n"
+	    "Logger *\n"
+	    "GetLogger();";
+	char text[] =
+	    "\n"
+	    "Logger * GetLogger();"
+	    "\n"
+	    "Logger * GetLogger();";
+	char options[] = "attach-return-type-decl, align-pointer=middle";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnTypeDecl, AttachPointerName)
+{
+	// test padding with pointers and PTR_ALIGN_NAME
+	char textIn[] =
+	    "\n"
+	    "Logger*\n"
+	    "GetLogger();"
+	    "\n"
+	    "Logger *\n"
+	    "GetLogger();";
+	char text[] =
+	    "\n"
+	    "Logger *GetLogger();"
+	    "\n"
+	    "Logger *GetLogger();";
+	char options[] = "attach-return-type-decl, align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//-------------------------------------------------------------------------
 // AStyle Keep One Line Blocks
 //-------------------------------------------------------------------------
 

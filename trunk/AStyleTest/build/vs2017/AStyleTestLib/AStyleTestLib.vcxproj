@@ -115,13 +115,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level4</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>Disabled</Optimization>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gtestd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -140,12 +141,13 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;LEAK_DETECTOR</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;LEAK_DETECTOR;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level4</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gtestd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -165,7 +167,7 @@
     </Midl>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -174,6 +176,7 @@
       <WarningLevel>Level4</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>Disabled</Optimization>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gtestd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -195,7 +198,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx;$(ProgramFiles)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;LEAK_DETECTOR</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;LEAK_DETECTOR;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -203,6 +206,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLibd.lib;gtestd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -219,13 +223,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLib.lib;gtest.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -248,7 +253,7 @@
     </Midl>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\AStyle\src;..\..\..\..\googletest\include;..\..\..\srclib;..\..\..\srcx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;ASTYLE_LIB;ASTYLE_NO_EXPORT;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>false</FunctionLevelLinking>
@@ -257,6 +262,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AStyleLib.lib;gtest.lib;%(AdditionalDependencies)</AdditionalDependencies>
