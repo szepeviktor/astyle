@@ -38,15 +38,15 @@
 #define ASTYLE_DLG_VALUE  "1"
 #define EDITOR_DLG_VALUE  "1"
 
+//-----------------------------------------------------------------------------
+// Constants
+//-----------------------------------------------------------------------------
+
 #ifdef __WXMSW__
 	#define CONFIG_TEST_NAME  "AStyleWxTest"
 #else
 	#define CONFIG_TEST_NAME  "astylewxtest"
 #endif
-
-//-----------------------------------------------------------------------------
-// Constants
-//-----------------------------------------------------------------------------
 
 // IDs for the controls and the menu commands
 enum
@@ -158,7 +158,7 @@ private:
 
 //-------------------------------------------------------------------------
 // AStyleIFace_Test Class
-// There is one mocked method for Config::SetAStyleOptionFromConfig calls.
+// There is one mocked method for Config::SetAStyleOption calls.
 // Getters and setters are used from AStyleIFace to avoid duplication in the test class.
 //-------------------------------------------------------------------------
 
@@ -166,7 +166,7 @@ class AStyleIFace_Test : public AStyleIFace
 {
 public:
 	// mocked method
-	MOCK_METHOD2(SetAStyleOptionFromConfig, bool(const wxString&, const wxString&));
+	MOCK_METHOD2(SetAStyleOption, bool(const wxString&, const wxString&));
 };
 
 //-------------------------------------------------------------------------

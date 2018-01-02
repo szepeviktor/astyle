@@ -3,15 +3,6 @@
 // This code is licensed under the MIT License.
 // License.md describes the conditions under which this software may be distributed.
 
-//----------------------------------------------------------------------------
-// headers
-//----------------------------------------------------------------------------
-
-#include "Config_Test.h"
-
-// for gmock macros
-using namespace testing;
-
 /* ----------------------------------------------------------------------------
 TO ADD A NEW ASTYLE OPTION
 Add new test function to "Config_AStyle_*, SaveAStyleOptions_*".
@@ -24,6 +15,25 @@ If an entry is always written in the config file add a test to
 If an entry is NOT always written in the config file add a test to
     the appropriate "Get" and "Save" options for Editor or Styles.
 ---------------------------------------------------------------------------- */
+
+//----------------------------------------------------------------------------
+// headers
+//----------------------------------------------------------------------------
+
+#include "Config_Test.h"
+
+// for gmock macros
+using namespace testing;
+
+//----------------------------------------------------------------------------
+// Constants
+//----------------------------------------------------------------------------
+
+#ifdef __WXMSW__
+	#define CONFIG_TEST_NAME  "AStyleWxTest"
+#else
+	#define CONFIG_TEST_NAME  "astylewxtest"
+#endif
 
 //----------------------------------------------------------------------------
 // anonymous namespace
@@ -57,14 +67,14 @@ TEST(Config_AStyle, GetAStyleOptions_InvalidKeys)
 	ASSERT_EQ(keys.GetCount(), config.GetNumberOfEntries());
 
 	// Expect ShowInvalidConfig to be called once for each config file key.
-	// Expect SetAStyleOptionFromConfig to be called once for each config file key.
+	// Expect SetAStyleOption to be called once for each config file key.
 	// The return value of false will indicate that the key is invalid.
 	// AStyleIFace methods are tested in the AStyleIFace_Test module.
 	for (size_t i = 0; i < keys.GetCount(); i++)
 	{
 		EXPECT_CALL(config, ShowInvalidConfig(keys[i])).Times(1);
-		EXPECT_CALL(astyle, SetAStyleOptionFromConfig(keys[i], _)).Times(1);
-		ON_CALL(astyle, SetAStyleOptionFromConfig(keys[i], _)).WillByDefault(Return(false));
+		EXPECT_CALL(astyle, SetAStyleOption(keys[i], _)).Times(1);
+		ON_CALL(astyle, SetAStyleOption(keys[i], _)).WillByDefault(Return(false));
 	}
 	// test the function
 	config.GetAStyleOptions(&astyle);
@@ -87,13 +97,13 @@ TEST(Config_AStyle, GetAStyleOptions_InvalidValues)
 	config.Write(INDENT_CLASSES, true);
 	config.Write(INDENT_SWITCHES, false);
 	ASSERT_EQ(2U, config.GetNumberOfEntries());
-	// Expect SetAStyleOptionFromConfig to not be called for Windows.
+	// Expect SetAStyleOption to not be called for Windows.
 	// Expect it to be called twice for Linux.
 	// Windows uses the registry. Linux uses a config file.
 #ifdef __WXMSW__
-	EXPECT_CALL(astyle, SetAStyleOptionFromConfig(_, _)).Times(0);
+	EXPECT_CALL(astyle, SetAStyleOption(_, _)).Times(0);
 #else
-	EXPECT_CALL(astyle, SetAStyleOptionFromConfig(_, _)).Times(2);
+	EXPECT_CALL(astyle, SetAStyleOption(_, _)).Times(2);
 #endif
 	// Expect ShowInvalidConfig to be called once for each config file key.
 	// AStyleIFace methods are tested in the AStyleIFace_Test module.
@@ -112,13 +122,13 @@ TEST(Config_AStyle, GetAStyleOptions_InvalidValues)
 	valueLong = 2;
 	config.Write(INDENT_SWITCHES, valueLong);
 	ASSERT_EQ(2U, config.GetNumberOfEntries());
-	// Expect SetAStyleOptionFromConfig to not be called for Windows.
+	// Expect SetAStyleOption to not be called for Windows.
 	// Expect it to be called twice for Linux.
 	// Windows uses the registry. Linux uses a config file.
 #ifdef __WXMSW__
-	EXPECT_CALL(astyle, SetAStyleOptionFromConfig(_, _)).Times(0);
+	EXPECT_CALL(astyle, SetAStyleOption(_, _)).Times(0);
 #else
-	EXPECT_CALL(astyle, SetAStyleOptionFromConfig(_, _)).Times(2);
+	EXPECT_CALL(astyle, SetAStyleOption(_, _)).Times(2);
 #endif
 	// Expect ShowInvalidConfig to be called once for each config file key.
 	// AStyleIFace methods are tested in the AStyleIFace_Test module.
@@ -152,14 +162,14 @@ TEST(Config_AStyle, GetAStyleOptions)
 	ASSERT_EQ(keys.GetCount(), config.GetNumberOfEntries());
 
 	// Expect ShowInvalidConfig to not be called.
-	// Expect SetAStyleOptionFromConfig to be called once for each config file key.
+	// Expect SetAStyleOption to be called once for each config file key.
 	// The return value of true will indicate that the key is valid.
 	// AStyleIFace methods are tested in the AStyleIFace_Test module.
 	for (size_t i = 0; i < keys.GetCount(); i++)
 	{
 		EXPECT_CALL(config, ShowInvalidConfig(keys[i])).Times(0);
-		EXPECT_CALL(astyle, SetAStyleOptionFromConfig(keys[i], _)).Times(1);
-		ON_CALL(astyle, SetAStyleOptionFromConfig(keys[i], _)).WillByDefault(Return(true));
+		EXPECT_CALL(astyle, SetAStyleOption(keys[i], _)).Times(1);
+		ON_CALL(astyle, SetAStyleOption(keys[i], _)).WillByDefault(Return(true));
 	}
 	// test the function
 	config.GetAStyleOptions(&astyle);
@@ -1441,6 +1451,54 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_AddOneLineBraces)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
+TEST(Config_AStyle_Format, SaveAStyleOptions_AttachReturnType)
+// Test config file writes for astyle attachReturnType option
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	AStyleIFace_Test astyle;	// uses getters and setters from AStyleIFace
+	wxString key;				// config key
+	wxString value;				// value of config key
+
+	// test true
+	key = ATTACH_RETURN_TYPE;
+	astyle.setAttachReturnType(true);
+	config.SaveAStyleOptions(&astyle);
+	config.SetPath("/AStyle");
+	ASSERT_TRUE(config.Read(key, &value));
+	EXPECT_STREQ(asTRUE, value);
+
+	// test false (delete key)
+	astyle.setAttachReturnType(false);
+	config.SaveAStyleOptions(&astyle);
+	config.SetPath("/AStyle");
+	ASSERT_FALSE(config.Read(key, &value));
+}
+
+TEST(Config_AStyle_Format, SaveAStyleOptions_AttachReturnTypeDecl)
+// Test config file writes for astyle attachReturnTypeDecl option
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	AStyleIFace_Test astyle;	// uses getters and setters from AStyleIFace
+	wxString key;				// config key
+	wxString value;				// value of config key
+
+	// test true
+	key = ATTACH_RETURN_TYPE_DECL;
+	astyle.setAttachReturnTypeDecl(true);
+	config.SaveAStyleOptions(&astyle);
+	config.SetPath("/AStyle");
+	ASSERT_TRUE(config.Read(key, &value));
+	EXPECT_STREQ(asTRUE, value);
+
+	// test false (delete key)
+	astyle.setAttachReturnTypeDecl(false);
+	config.SaveAStyleOptions(&astyle);
+	config.SetPath("/AStyle");
+	ASSERT_FALSE(config.Read(key, &value));
+}
+
 TEST(Config_AStyle_Format, SaveAStyleOptions_BreakCloseBraces)
 // Test config file writes for astyle breakCloseBraces option
 {
@@ -1508,6 +1566,54 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_BreakOneLineHeaders)
 
 	// test false (delete key)
 	astyle.setBreakOneLineHeaders(false);
+	config.SaveAStyleOptions(&astyle);
+	config.SetPath("/AStyle");
+	ASSERT_FALSE(config.Read(key, &value));
+}
+
+TEST(Config_AStyle_Format, SaveAStyleOptions_BreakReturnType)
+// Test config file writes for astyle breakReturnType option
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	AStyleIFace_Test astyle;	// uses getters and setters from AStyleIFace
+	wxString key;				// config key
+	wxString value;				// value of config key
+
+	// test true
+	key = BREAK_RETURN_TYPE;
+	astyle.setBreakReturnType(true);
+	config.SaveAStyleOptions(&astyle);
+	config.SetPath("/AStyle");
+	ASSERT_TRUE(config.Read(key, &value));
+	EXPECT_STREQ(asTRUE, value);
+
+	// test false (delete key)
+	astyle.setBreakReturnType(false);
+	config.SaveAStyleOptions(&astyle);
+	config.SetPath("/AStyle");
+	ASSERT_FALSE(config.Read(key, &value));
+}
+
+TEST(Config_AStyle_Format, SaveAStyleOptions_BreakReturnTypeDecl)
+// Test config file writes for astyle breakReturnTypeDecl option
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	AStyleIFace_Test astyle;	// uses getters and setters from AStyleIFace
+	wxString key;				// config key
+	wxString value;				// value of config key
+
+	// test true
+	key = BREAK_RETURN_TYPE_DECL;
+	astyle.setBreakReturnTypeDecl(true);
+	config.SaveAStyleOptions(&astyle);
+	config.SetPath("/AStyle");
+	ASSERT_TRUE(config.Read(key, &value));
+	EXPECT_STREQ(asTRUE, value);
+
+	// test false (delete key)
+	astyle.setBreakReturnTypeDecl(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1866,7 +1972,376 @@ TEST(Config_AStyle_Other, SaveAStyleOptions_PadMethodColon)
 }
 
 //-------------------------------------------------------------------------
-// Editor and View Menu Config Tests
+// StyledTextCtrl Styles Config Tests
+//-------------------------------------------------------------------------
+
+TEST(Config_StcStyles, GetStcStyleOptions_Default)
+// Test GetStcStyleOptions initialization
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	// get the default style vector
+	vector<TextStyle> defaults = config.GetDefaultStyleOptions();
+
+	// test the "get" function - should get the default values
+	vector<TextStyle> styles = config.GetStcStyleOptions();
+
+	// verify the number of styles
+	ASSERT_EQ(defaults.size(), styles.size());
+
+	// verify the default vector
+	for (size_t i = 0; i < defaults.size(); i++)
+		ASSERT_EQ(defaults[i].style, styles[i].style);
+}
+
+TEST(Config_StcStyles, GetStcStyleOptions)
+// Test GetStcStyleOptions
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	// get the default style vector
+	vector<TextStyle> styles = config.GetDefaultStyleOptions();
+
+	// change the entries
+	for (size_t i = 0; i < styles.size(); i++)
+	{
+		styles[i].bold = true;
+		styles[i].italic = false;
+		styles[i].fore = wxColor(248, 248, 255);    // ghostwhite
+	}
+
+	// save the updated styles
+	config.SaveStcStyleOptions(styles);
+
+	// test the "get" function - should get the updated values
+	vector<TextStyle> stylesNew = config.GetStcStyleOptions();
+
+	// verify the updated styles - will have the values from the config file
+	for (size_t i = 0; i < stylesNew.size(); i++)
+	{
+		ASSERT_TRUE(stylesNew[i].bold == true);
+		ASSERT_TRUE(stylesNew[i].italic == false);
+		ASSERT_TRUE(stylesNew[i].fore == wxColor(248, 248, 255));   // ghostwhite
+	}
+}
+
+TEST(Config_StcStyles, GetStcStyleOptions_NoEntries)
+// In GetStcStyleOptions a group has no entries.
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	// get the default style vector
+	vector<TextStyle> styles = config.GetDefaultStyleOptions();
+	// save the default styles
+	config.SaveStcStyleOptions(styles);
+
+	// write a group with no entries
+	config.SetPath("/Styles/Style-03");
+	ASSERT_TRUE(config.DeleteEntry("bold", false));
+	ASSERT_TRUE(config.DeleteEntry("italic", false));
+	ASSERT_TRUE(config.DeleteEntry("fore", false));
+	ASSERT_TRUE(config.DeleteEntry("back", false));
+	ASSERT_EQ(0U, config.GetNumberOfEntries());
+
+	// Expect ShowInvalidConfig to be called once for each config file key.
+	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
+	// test the function
+	styles = config.GetStcStyleOptions();
+	// the group with no entries should be deleted
+	config.SetPath("/Styles");
+	EXPECT_EQ(styles.size() - 1, config.GetNumberOfGroups());
+}
+
+TEST(Config_StcStyles, GetStcStyleOptions_InvalidStyleNumber)
+// In GetStcStyleOptions a style number is invalid.
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	// get the default style vector
+	vector<TextStyle> styles = config.GetDefaultStyleOptions();
+	// save the default styles
+	config.SaveStcStyleOptions(styles);
+
+	// write an invalid style number
+	ASSERT_TRUE(config.DeleteGroup("/Styles/Style-05"));
+	config.SetPath("/Styles/Style-99");		// invalid style number
+	config.Write("bold", asTRUE);
+	config.Write("italic", asFALSE);
+	config.Write("fore", "rgb(248 ,248, 255)");
+
+	// Expect ShowInvalidConfig to be called once for each config file group.
+	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
+	// test the function
+	styles = config.GetStcStyleOptions();
+
+	// the invalid should be deleted
+	config.SetPath("/Styles");
+	EXPECT_EQ(styles.size() - 1, config.GetNumberOfGroups());
+}
+
+TEST(Config_StcStyles, GetStcStyleOptions_ExtraStyleNumber)
+// In GetStcStyleOptions there is an extra style number.
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	// get the default style vector
+	vector<TextStyle> styles = config.GetDefaultStyleOptions();
+	// save the default styles
+	config.SaveStcStyleOptions(styles);
+
+	// write an extra group
+	config.SetPath("/Styles/Style-50");
+	config.Write("bold", asTRUE);
+	config.Write("italic", asFALSE);
+	config.Write("fore", "rgb(248 ,248, 255)");
+	// should have an extra group
+	config.SetPath("/Styles");
+	ASSERT_EQ(styles.size() + 1, config.GetNumberOfGroups());
+
+	// Expect ShowInvalidConfig to be called once for each config group.
+	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
+	// test the function
+	styles = config.GetStcStyleOptions();
+	// the invalid should be deleted
+	config.SetPath("/Styles");
+	EXPECT_EQ(styles.size(), config.GetNumberOfGroups());
+}
+
+TEST(Config_StcStyles, GetStcStyleOptions_InvalidForeColor)
+// In GetStyleUpdates a fore color is invalid.
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	// get the default style vector
+	vector<TextStyle> styles = config.GetDefaultStyleOptions();
+	// save the default styles
+	config.SaveStcStyleOptions(styles);
+
+	// write an invalid color format
+	// NOTE: an invalid color value will be changed to 255
+	config.SetPath("/Styles/Style-07");
+	config.Write("fore", "rgb(0, 0");    // invalid color
+
+	// Expect ShowInvalidConfig to be called once for each config file key.
+	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
+	// test the function
+	styles = config.GetStcStyleOptions();
+	// the "fore" entry should be deleted
+	config.SetPath("/Styles/Style-07");
+	EXPECT_EQ(3U, config.GetNumberOfEntries());
+}
+
+TEST(Config_StcStyles, GetStcStyleOptions_InvalidBackColor)
+// In GetStyleUpdates a fore color is invalid.
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	// get the default style vector
+	vector<TextStyle> styles = config.GetDefaultStyleOptions();
+	// save the default styles
+	config.SaveStcStyleOptions(styles);
+
+	// write an invalid color format
+	// NOTE: an invalid color value will be changed to 255
+	config.SetPath("/Styles/Style-07");
+	config.Write("back", "rgb(0, 0");    // invalid color
+
+	// Expect ShowInvalidConfig to be called once for each config file key.
+	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
+	// test the function
+	styles = config.GetStcStyleOptions();
+	// the "back" entry should be deleted
+	config.SetPath("/Styles/Style-07");
+	EXPECT_EQ(3U, config.GetNumberOfEntries());
+}
+
+TEST(Config_StcStyles, GetStcStyleOptions_InvalidKey)
+// In GetStyleUpdates a key is invalid.
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	// get the default style vector
+	vector<TextStyle> styles = config.GetDefaultStyleOptions();
+	// save the default styles
+	config.SaveStcStyleOptions(styles);
+
+	// write an invalid key
+	config.SetPath("/Styles/Style-09");
+	config.DeleteEntry("bold", false);
+	config.Write("bolf", asTRUE);
+
+	// Expect ShowInvalidConfig to be called once for each config file key.
+	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
+	// test the function
+	styles = config.GetStcStyleOptions();
+
+	// the invalid entry should be deleted
+	config.SetPath("/Styles/Style-09");
+	EXPECT_EQ(3U, config.GetNumberOfEntries());
+}
+
+TEST(Config_StcStyles, GetStcStyleOptions_InvalidSeparator)
+// In GetStcStyleOptions invalid separator for the style number.
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	// get the default style vector
+	vector<TextStyle> styles = config.GetDefaultStyleOptions();
+	// save the default styles
+	config.SaveStcStyleOptions(styles);
+
+	// write an invalid separator (no dash) in a group name
+	config.DeleteGroup("/Styles/Style-02");
+	config.SetPath("/Styles/Style 02");
+	config.Write("bold", asTRUE);
+	config.Write("italic", asFALSE);
+	config.Write("bold", "rgb(0, 0, 0)");
+
+	// Expect ShowInvalidConfig to be called once for each config group.
+	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
+	// test the function
+	styles = config.GetStcStyleOptions();
+	// the entire invalid group should be deleted
+	config.SetPath("/Styles");
+	EXPECT_EQ(styles.size() - 1, config.GetNumberOfGroups());
+}
+
+TEST(Config_StcStyles, GetStcStyleOptions_NonNumericStyle)
+// In GetStcStyleOptions a non-numeric style number.
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+	// get the default style vector
+	vector<TextStyle> styles = config.GetDefaultStyleOptions();
+	// save the default styles
+	config.SaveStcStyleOptions(styles);
+
+	// write an invalid color value
+	config.DeleteGroup("/Styles/Style-04");
+	config.SetPath("/Styles/Style-XX");
+	config.Write("bold", asTRUE);
+	config.Write("italic", asFALSE);
+	config.Write("bold", "rgb(0, 0, 0)");
+
+	// Expect ShowInvalidConfig to be called once for each config file key.
+	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
+	// test the function
+	styles = config.GetStcStyleOptions();
+	// the entire invalid group should be deleted
+	config.SetPath("/Styles");
+	EXPECT_EQ(styles.size() - 1, config.GetNumberOfGroups());
+}
+
+TEST(Config_StcStyles, SaveStcStyleOptions_GroupNumber)
+// Test config file writes for number of groups
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+
+	// build the default style vector
+	vector<TextStyle> styles = config.GetDefaultStyleOptions();
+
+	// test the function
+	config.SaveStcStyleOptions(styles);
+
+	// verify 1 group for "Styles" directory
+	config.SetPath("/");
+	EXPECT_EQ(1U, config.GetNumberOfGroups())
+	        << "Missing Styles directory";
+
+	// verify 1 group for each style
+	config.SetPath("/Styles");
+	EXPECT_EQ(styles.size(), config.GetNumberOfGroups());
+}
+
+TEST(Config_StcStyles, SaveStcStyleOptions_GroupNames)
+// Test config file writes for the names of groups
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+
+	// enumeration variables
+	wxString group;		// style group
+	long index;			// don't use this
+
+	// build the default style vector
+	vector<TextStyle> styles = config.GetDefaultStyleOptions();
+
+	// test the function
+	config.SaveStcStyleOptions(styles);
+
+	// verify group names have a valid two digit style number
+	config.SetPath("/Styles");
+	bool hasMoreGroups = config.GetFirstGroup(group, index);
+	while (hasMoreGroups)
+	{
+		// verify two digit style number
+		int lastDash = group.Find('-', true);
+		ASSERT_TRUE(lastDash != wxNOT_FOUND)
+		        << "Group name style number not found";
+		wxString styleStr = group.Mid(lastDash + 1);
+		long styleID;
+		ASSERT_TRUE(styleStr.ToLong(&styleID))
+		        << "Group name style number not numeric";
+		// find style ID in the vector
+		int vectorStyleID = -1;
+		for (size_t i = 0; i < styles.size(); i++)
+		{
+			if (styleID == styles[i].style)
+			{
+				vectorStyleID = styles[i].style;
+				break;
+			}
+		}
+		EXPECT_EQ(styleID, vectorStyleID)
+		        << "Group name style number not in vector";
+		// get the next entry
+		hasMoreGroups = config.GetNextGroup(group, index);
+	}
+}
+
+TEST(Config_StcStyles, SaveStcStyleOptions_Entries)
+// Test config file writes for valid entries
+{
+	// create objects
+	Config_Test config(CONFIG_TEST_NAME);
+
+	// enumeration variables
+	wxString group;		// style group
+	long index;			// don't use this
+
+	// build the default style vector
+	vector<TextStyle> styles = config.GetDefaultStyleOptions();
+
+	// test the function
+	config.SaveStcStyleOptions(styles);
+
+	// verify key names and values for each group
+	wxString value;
+	wxColour color;
+	config.SetPath("/Styles");
+	bool hasMoreGroups = config.GetFirstGroup(group, index);
+	while (hasMoreGroups)
+	{
+		config.SetPath("/Styles/" + group);
+		// verify 4 entries for each group
+		ASSERT_EQ(4U, config.GetNumberOfEntries()) << "Wrong number of styles entries";
+		// verify each entry
+		ASSERT_TRUE(config.Read("bold", &value)) << "Missing key for bold";
+		ASSERT_TRUE(value == asTRUE || value == asFALSE) << "Bad value for bold";
+		ASSERT_TRUE(config.Read("italic", &value)) << "Missing key for italic";
+		ASSERT_TRUE(value == asTRUE || value == asFALSE) << "Bad value for italic'";
+		ASSERT_TRUE(config.Read("fore", &value)) << "Missing key for fore";
+		ASSERT_TRUE(color.Set(value)) << "Bad value for fore";
+		ASSERT_TRUE(config.Read("back", &value)) << "Missing key for back";
+		ASSERT_TRUE(color.Set(value)) << "Bad value for back";
+		config.SetPath("/Styles");
+		hasMoreGroups = config.GetNextGroup(group, index);
+	}
+}
+
+//-------------------------------------------------------------------------
+// Frame Config Tests
 //-------------------------------------------------------------------------
 
 TEST(Config_Frame, InitializeFile)
@@ -2056,7 +2531,7 @@ TEST(Config_Frame, GetEditorAndViewMenuOptions_InvalidValues)
 }
 
 //-------------------------------------------------------------------------
-// Editor Tests
+// Editor Config Tests
 //-------------------------------------------------------------------------
 
 TEST(Config_Editor, SaveEditorOptions_AlwaysSaved)
@@ -2544,375 +3019,6 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_WordWrap)
 	config.SaveViewMenuOptions(&frame);
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
-}
-
-//-------------------------------------------------------------------------
-// Styles Config Tests
-//-------------------------------------------------------------------------
-
-TEST(Config_Styles, GetStcStyleOptions_Default)
-// Test GetStcStyleOptions initialization
-{
-	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
-	// get the default style vector
-	vector<TextStyle> defaults = config.GetDefaultStyleOptions();
-
-	// test the "get" function - should get the default values
-	vector<TextStyle> styles = config.GetStcStyleOptions();
-
-	// verify the number of styles
-	ASSERT_EQ(defaults.size(), styles.size());
-
-	// verify the default vector
-	for (size_t i = 0; i < defaults.size(); i++)
-		ASSERT_EQ(defaults[i].style, styles[i].style);
-}
-
-TEST(Config_Styles, GetStcStyleOptions)
-// Test GetStcStyleOptions
-{
-	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
-	// get the default style vector
-	vector<TextStyle> styles = config.GetDefaultStyleOptions();
-
-	// change the entries
-	for (size_t i = 0; i < styles.size(); i++)
-	{
-		styles[i].bold = true;
-		styles[i].italic = false;
-		styles[i].fore = wxColor(248, 248, 255);    // ghostwhite
-	}
-
-	// save the updated styles
-	config.SaveStcStyleOptions(styles);
-
-	// test the "get" function - should get the updated values
-	vector<TextStyle> stylesNew = config.GetStcStyleOptions();
-
-	// verify the updated styles - will have the values from the config file
-	for (size_t i = 0; i < stylesNew.size(); i++)
-	{
-		ASSERT_TRUE(stylesNew[i].bold == true);
-		ASSERT_TRUE(stylesNew[i].italic == false);
-		ASSERT_TRUE(stylesNew[i].fore == wxColor(248, 248, 255));   // ghostwhite
-	}
-}
-
-TEST(Config_Styles, GetStcStyleOptions_NoEntries)
-// In GetStcStyleOptions a group has no entries.
-{
-	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
-	// get the default style vector
-	vector<TextStyle> styles = config.GetDefaultStyleOptions();
-	// save the default styles
-	config.SaveStcStyleOptions(styles);
-
-	// write a group with no entries
-	config.SetPath("/Styles/Style-03");
-	ASSERT_TRUE(config.DeleteEntry("bold", false));
-	ASSERT_TRUE(config.DeleteEntry("italic", false));
-	ASSERT_TRUE(config.DeleteEntry("fore", false));
-	ASSERT_TRUE(config.DeleteEntry("back", false));
-	ASSERT_EQ(0U, config.GetNumberOfEntries());
-
-	// Expect ShowInvalidConfig to be called once for each config file key.
-	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
-	// test the function
-	styles = config.GetStcStyleOptions();
-	// the group with no entries should be deleted
-	config.SetPath("/Styles");
-	EXPECT_EQ(styles.size() - 1, config.GetNumberOfGroups());
-}
-
-TEST(Config_Styles, GetStcStyleOptions_InvalidStyleNumber)
-// In GetStcStyleOptions a style number is invalid.
-{
-	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
-	// get the default style vector
-	vector<TextStyle> styles = config.GetDefaultStyleOptions();
-	// save the default styles
-	config.SaveStcStyleOptions(styles);
-
-	// write an invalid style number
-	ASSERT_TRUE(config.DeleteGroup("/Styles/Style-05"));
-	config.SetPath("/Styles/Style-99");		// invalid style number
-	config.Write("bold", asTRUE);
-	config.Write("italic", asFALSE);
-	config.Write("fore", "rgb(248 ,248, 255)");
-
-	// Expect ShowInvalidConfig to be called once for each config file group.
-	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
-	// test the function
-	styles = config.GetStcStyleOptions();
-
-	// the invalid should be deleted
-	config.SetPath("/Styles");
-	EXPECT_EQ(styles.size() - 1, config.GetNumberOfGroups());
-}
-
-TEST(Config_Styles, GetStcStyleOptions_ExtraStyleNumber)
-// In GetStcStyleOptions there is an extra style number.
-{
-	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
-	// get the default style vector
-	vector<TextStyle> styles = config.GetDefaultStyleOptions();
-	// save the default styles
-	config.SaveStcStyleOptions(styles);
-
-	// write an extra group
-	config.SetPath("/Styles/Style-50");
-	config.Write("bold", asTRUE);
-	config.Write("italic", asFALSE);
-	config.Write("fore", "rgb(248 ,248, 255)");
-	// should have an extra group
-	config.SetPath("/Styles");
-	ASSERT_EQ(styles.size() + 1, config.GetNumberOfGroups());
-
-	// Expect ShowInvalidConfig to be called once for each config group.
-	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
-	// test the function
-	styles = config.GetStcStyleOptions();
-	// the invalid should be deleted
-	config.SetPath("/Styles");
-	EXPECT_EQ(styles.size(), config.GetNumberOfGroups());
-}
-
-TEST(Config_Styles, GetStcStyleOptions_InvalidForeColor)
-// In GetStyleUpdates a fore color is invalid.
-{
-	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
-	// get the default style vector
-	vector<TextStyle> styles = config.GetDefaultStyleOptions();
-	// save the default styles
-	config.SaveStcStyleOptions(styles);
-
-	// write an invalid color format
-	// NOTE: an invalid color value will be changed to 255
-	config.SetPath("/Styles/Style-07");
-	config.Write("fore", "rgb(0, 0");    // invalid color
-
-	// Expect ShowInvalidConfig to be called once for each config file key.
-	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
-	// test the function
-	styles = config.GetStcStyleOptions();
-	// the "fore" entry should be deleted
-	config.SetPath("/Styles/Style-07");
-	EXPECT_EQ(3U, config.GetNumberOfEntries());
-}
-
-TEST(Config_Styles, GetStcStyleOptions_InvalidBackColor)
-// In GetStyleUpdates a fore color is invalid.
-{
-	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
-	// get the default style vector
-	vector<TextStyle> styles = config.GetDefaultStyleOptions();
-	// save the default styles
-	config.SaveStcStyleOptions(styles);
-
-	// write an invalid color format
-	// NOTE: an invalid color value will be changed to 255
-	config.SetPath("/Styles/Style-07");
-	config.Write("back", "rgb(0, 0");    // invalid color
-
-	// Expect ShowInvalidConfig to be called once for each config file key.
-	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
-	// test the function
-	styles = config.GetStcStyleOptions();
-	// the "back" entry should be deleted
-	config.SetPath("/Styles/Style-07");
-	EXPECT_EQ(3U, config.GetNumberOfEntries());
-}
-
-TEST(Config_Styles, GetStcStyleOptions_InvalidKey)
-// In GetStyleUpdates a key is invalid.
-{
-	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
-	// get the default style vector
-	vector<TextStyle> styles = config.GetDefaultStyleOptions();
-	// save the default styles
-	config.SaveStcStyleOptions(styles);
-
-	// write an invalid key
-	config.SetPath("/Styles/Style-09");
-	config.DeleteEntry("bold", false);
-	config.Write("bolf", asTRUE);
-
-	// Expect ShowInvalidConfig to be called once for each config file key.
-	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
-	// test the function
-	styles = config.GetStcStyleOptions();
-
-	// the invalid entry should be deleted
-	config.SetPath("/Styles/Style-09");
-	EXPECT_EQ(3U, config.GetNumberOfEntries());
-}
-
-TEST(Config_Styles, GetStcStyleOptions_InvalidSeparator)
-// In GetStcStyleOptions invalid separator for the style number.
-{
-	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
-	// get the default style vector
-	vector<TextStyle> styles = config.GetDefaultStyleOptions();
-	// save the default styles
-	config.SaveStcStyleOptions(styles);
-
-	// write an invalid separator (no dash) in a group name
-	config.DeleteGroup("/Styles/Style-02");
-	config.SetPath("/Styles/Style 02");
-	config.Write("bold", asTRUE);
-	config.Write("italic", asFALSE);
-	config.Write("bold", "rgb(0, 0, 0)");
-
-	// Expect ShowInvalidConfig to be called once for each config group.
-	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
-	// test the function
-	styles = config.GetStcStyleOptions();
-	// the entire invalid group should be deleted
-	config.SetPath("/Styles");
-	EXPECT_EQ(styles.size() - 1, config.GetNumberOfGroups());
-}
-
-TEST(Config_Styles, GetStcStyleOptions_NonNumericStyle)
-// In GetStcStyleOptions a non-numeric style number.
-{
-	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
-	// get the default style vector
-	vector<TextStyle> styles = config.GetDefaultStyleOptions();
-	// save the default styles
-	config.SaveStcStyleOptions(styles);
-
-	// write an invalid color value
-	config.DeleteGroup("/Styles/Style-04");
-	config.SetPath("/Styles/Style-XX");
-	config.Write("bold", asTRUE);
-	config.Write("italic", asFALSE);
-	config.Write("bold", "rgb(0, 0, 0)");
-
-	// Expect ShowInvalidConfig to be called once for each config file key.
-	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(1);
-	// test the function
-	styles = config.GetStcStyleOptions();
-	// the entire invalid group should be deleted
-	config.SetPath("/Styles");
-	EXPECT_EQ(styles.size() - 1, config.GetNumberOfGroups());
-}
-
-TEST(Config_Styles, SaveStcStyleOptions_GroupNumber)
-// Test config file writes for number of groups
-{
-	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
-
-	// build the default style vector
-	vector<TextStyle> styles = config.GetDefaultStyleOptions();
-
-	// test the function
-	config.SaveStcStyleOptions(styles);
-
-	// verify 1 group for "Styles" directory
-	config.SetPath("/");
-	EXPECT_EQ(1U, config.GetNumberOfGroups())
-	        << "Missing Styles directory";
-
-	// verify 1 group for each style
-	config.SetPath("/Styles");
-	EXPECT_EQ(styles.size(), config.GetNumberOfGroups());
-}
-
-TEST(Config_Styles, SaveStcStyleOptions_GroupNames)
-// Test config file writes for the names of groups
-{
-	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
-
-	// enumeration variables
-	wxString group;		// style group
-	long index;			// don't use this
-
-	// build the default style vector
-	vector<TextStyle> styles = config.GetDefaultStyleOptions();
-
-	// test the function
-	config.SaveStcStyleOptions(styles);
-
-	// verify group names have a valid two digit style number
-	config.SetPath("/Styles");
-	bool hasMoreGroups = config.GetFirstGroup(group, index);
-	while (hasMoreGroups)
-	{
-		// verify two digit style number
-		int lastDash = group.Find('-', true);
-		ASSERT_TRUE(lastDash != wxNOT_FOUND)
-		        << "Group name style number not found";
-		wxString styleStr = group.Mid(lastDash + 1);
-		long styleID;
-		ASSERT_TRUE(styleStr.ToLong(&styleID))
-		        << "Group name style number not numeric";
-		// find style ID in the vector
-		int vectorStyleID = -1;
-		for (size_t i = 0; i < styles.size(); i++)
-		{
-			if (styleID == styles[i].style)
-			{
-				vectorStyleID = styles[i].style;
-				break;
-			}
-		}
-		EXPECT_EQ(styleID, vectorStyleID)
-		        << "Group name style number not in vector";
-		// get the next entry
-		hasMoreGroups = config.GetNextGroup(group, index);
-	}
-}
-
-TEST(Config_Styles, SaveStcStyleOptions_Entries)
-// Test config file writes for valid entries
-{
-	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
-
-	// enumeration variables
-	wxString group;		// style group
-	long index;			// don't use this
-
-	// build the default style vector
-	vector<TextStyle> styles = config.GetDefaultStyleOptions();
-
-	// test the function
-	config.SaveStcStyleOptions(styles);
-
-	// verify key names and values for each group
-	wxString value;
-	wxColour color;
-	config.SetPath("/Styles");
-	bool hasMoreGroups = config.GetFirstGroup(group, index);
-	while (hasMoreGroups)
-	{
-		config.SetPath("/Styles/" + group);
-		// verify 4 entries for each group
-		ASSERT_EQ(4U, config.GetNumberOfEntries()) << "Wrong number of styles entries";
-		// verify each entry
-		ASSERT_TRUE(config.Read("bold", &value)) << "Missing key for bold";
-		ASSERT_TRUE(value == asTRUE || value == asFALSE) << "Bad value for bold";
-		ASSERT_TRUE(config.Read("italic", &value)) << "Missing key for italic";
-		ASSERT_TRUE(value == asTRUE || value == asFALSE) << "Bad value for italic'";
-		ASSERT_TRUE(config.Read("fore", &value)) << "Missing key for fore";
-		ASSERT_TRUE(color.Set(value)) << "Bad value for fore";
-		ASSERT_TRUE(config.Read("back", &value)) << "Missing key for back";
-		ASSERT_TRUE(color.Set(value)) << "Bad value for back";
-		config.SetPath("/Styles");
-		hasMoreGroups = config.GetNextGroup(group, index);
-	}
 }
 
 //----------------------------------------------------------------------------
