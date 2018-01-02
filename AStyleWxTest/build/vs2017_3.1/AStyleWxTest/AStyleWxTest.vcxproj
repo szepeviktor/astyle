@@ -159,7 +159,7 @@
     </PreBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_lib\mswud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;__WXMSW__;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;__WXMSW__;ASTYLEWX_TEST;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -169,6 +169,7 @@
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;wxscintillad.lib;wxpngd.lib;wxzlibd.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -197,7 +198,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.pdb"  mklink /H "$(T
     </PreBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_dll\mswud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;__WXMSW__;WXUSINGDLL;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;__WXMSW__;WXUSINGDLL;ASTYLEWX_TEST;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -207,6 +208,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.pdb"  mklink /H "$(T
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -223,7 +225,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.pdb"  mklink /H "$(T
     </PreBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_lib\mswud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;__WXMSW__;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;__WXMSW__;ASTYLEWX_TEST;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
@@ -232,6 +234,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.pdb"  mklink /H "$(T
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;wxscintillad.lib;wxpngd.lib;wxzlibd.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -260,7 +263,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H 
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_dll\mswud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;__WXMSW__;WXUSINGDLL;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;__WXMSW__;WXUSINGDLL;ASTYLEWX_TEST;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
@@ -269,6 +272,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H 
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -281,7 +285,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H 
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_lib\mswu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;__WXMSW__;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;__WXMSW__;ASTYLEWX_TEST;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
@@ -290,6 +294,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H 
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;wxscintilla.lib;wxpng.lib;wxzlib.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -305,7 +310,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H 
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_dll\mswu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;__WXMSW__;WXUSINGDLL;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;__WXMSW__;WXUSINGDLL;ASTYLEWX_TEST;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
@@ -314,6 +319,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H 
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -346,7 +352,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.pdb"  mklink /H "$(Ta
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_lib\mswu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;__WXMSW__;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;__WXMSW__;ASTYLEWX_TEST;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
@@ -355,6 +361,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.pdb"  mklink /H "$(Ta
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;wxscintilla.lib;wxpng.lib;wxzlib.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -369,7 +376,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.pdb"  mklink /H "$(Ta
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <AdditionalIncludeDirectories>..\..\..\src;..\..\..\srcx;..\..\..\..\AStyleWx\src;..\..\..\..\AStyleWx\dialog;..\..\..\..\googlemock\include;..\..\..\..\googletest\include;$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_dll\mswu;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;__WXMSW__;WXUSINGDLL;ASTYLEWX_TEST</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;__WXMSW__;WXUSINGDLL;ASTYLEWX_TEST;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
@@ -378,6 +385,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.pdb"  mklink /H "$(Ta
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>

@@ -3,20 +3,20 @@
 // This code is licensed under the MIT License.
 // License.md describes the conditions under which this software may be distributed.
 
+/* ----------------------------------------------------------------------------
+TO ADD A NEW OPTION
+Add new test function to "AStyleIFace_*Options, GetOptions_".
+Add new test function to "AStyleIFace_*Short, GetOptions_".
+Add new test function to "AStyleIFace_Config, SetAStyleOption".
+All boolean functions for the above are added to "SetAStyleOptionBoolean".
+---------------------------------------------------------------------------- */
+
 //----------------------------------------------------------------------------
 // headers
 //----------------------------------------------------------------------------
 
 #include "AStyleIFace.h"
 #include "gtest/gtest.h"
-
-/* ----------------------------------------------------------------------------
-TO ADD A NEW OPTION
-Add new test function to "AStyleIFace_*Options, GetOptions_".
-Add new test function to "AStyleIFace_*Short, GetOptions_".
-Add new test function to "AStyleIFace_Config, SetAStyleOptionFromConfig_".
-All boolean functions for the above are added to "SetAStyleOptionFromConfig_Boolean".
----------------------------------------------------------------------------- */
 
 //----------------------------------------------------------------------------
 // anonymous namespace
@@ -792,6 +792,38 @@ TEST(AStyleIFace_FormatOptions, GetOptions_AddOneLineBraces)
 	EXPECT_TRUE(options == ADD_ONE_LINE_BRACES);
 }
 
+TEST(AStyleIFace_FormatOptions, GetOptions_AttachReturnType)
+// Test AStyleIFace::GetOptions attachReturnType option
+{
+	// create objects
+	AStyleIFace astyle;
+	wxString options;
+
+	// test the option
+	astyle.setAttachReturnType(false);
+	options = astyle.GetOptions();
+	EXPECT_TRUE(options == wxEmptyString);
+	astyle.setAttachReturnType(true);
+	options = astyle.GetOptions();
+	EXPECT_TRUE(options == ATTACH_RETURN_TYPE);
+}
+
+TEST(AStyleIFace_FormatOptions, GetOptions_AttachReturnTypeDecl)
+// Test AStyleIFace::GetOptions breakReturnTypeDecl option
+{
+	// create objects
+	AStyleIFace astyle;
+	wxString options;
+
+	// test the option
+	astyle.setAttachReturnTypeDecl(false);
+	options = astyle.GetOptions();
+	EXPECT_TRUE(options == wxEmptyString);
+	astyle.setAttachReturnTypeDecl(true);
+	options = astyle.GetOptions();
+	EXPECT_TRUE(options == ATTACH_RETURN_TYPE_DECL);
+}
+
 TEST(AStyleIFace_FormatOptions, GetOptions_BreakAfterLogical)
 // Test AStyleIFace::GetOptions breakAfterLogical option
 {
@@ -854,6 +886,38 @@ TEST(AStyleIFace_FormatOptions, GetOptions_BreakOneLineHeaders)
 	astyle.setBreakOneLineHeaders(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == BREAK_ONE_LINE_HEADERS);
+}
+
+TEST(AStyleIFace_FormatOptions, GetOptions_BreakReturnType)
+// Test AStyleIFace::GetOptions breakReturnType option
+{
+	// create objects
+	AStyleIFace astyle;
+	wxString options;
+
+	// test the option
+	astyle.setBreakReturnType(false);
+	options = astyle.GetOptions();
+	EXPECT_TRUE(options == wxEmptyString);
+	astyle.setBreakReturnType(true);
+	options = astyle.GetOptions();
+	EXPECT_TRUE(options == BREAK_RETURN_TYPE);
+}
+
+TEST(AStyleIFace_FormatOptions, GetOptions_BreakReturnTypeDecl)
+// Test AStyleIFace::GetOptions breakReturnTypeDecl option
+{
+	// create objects
+	AStyleIFace astyle;
+	wxString options;
+
+	// test the option
+	astyle.setBreakReturnTypeDecl(false);
+	options = astyle.GetOptions();
+	EXPECT_TRUE(options == wxEmptyString);
+	astyle.setBreakReturnTypeDecl(true);
+	options = astyle.GetOptions();
+	EXPECT_TRUE(options == BREAK_RETURN_TYPE_DECL);
 }
 
 TEST(AStyleIFace_FormatOptions, GetOptions_CloseTemplates)
@@ -1850,6 +1914,38 @@ TEST(AStyleIFace_FormatShort, GetOptions_AddOneLineBraces)
 	EXPECT_TRUE(options == "J");
 }
 
+TEST(AStyleIFace_FormatShort, GetOptions_AttachReturnType)
+// Test AStyleIFace::GetOptions attachReturnType short option
+{
+	// create objects
+	AStyleIFace astyle;
+	wxString options;
+
+	// test the option
+	astyle.setAttachReturnType(false);
+	options = astyle.GetOptions(true);
+	EXPECT_TRUE(options == wxEmptyString);
+	astyle.setAttachReturnType(true);
+	options = astyle.GetOptions(true);
+	EXPECT_TRUE(options == "xf");
+}
+
+TEST(AStyleIFace_FormatShort, GetOptions_AttachReturnTypeDecl)
+// Test AStyleIFace::GetOptions attachReturnTypeDecl short option
+{
+	// create objects
+	AStyleIFace astyle;
+	wxString options;
+
+	// test the option
+	astyle.setAttachReturnTypeDecl(false);
+	options = astyle.GetOptions(true);
+	EXPECT_TRUE(options == wxEmptyString);
+	astyle.setAttachReturnTypeDecl(true);
+	options = astyle.GetOptions(true);
+	EXPECT_TRUE(options == "xh");
+}
+
 TEST(AStyleIFace_FormatShort, GetOptions_BreakCloseBraces)
 // Test AStyleIFace::GetOptions breakCloseBraces short option
 {
@@ -1896,6 +1992,38 @@ TEST(AStyleIFace_FormatShort, GetOptions_BreakOneLineHeaders)
 	astyle.setBreakOneLineHeaders(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xb");
+}
+
+TEST(AStyleIFace_FormatShort, GetOptions_BreakReturnType)
+// Test AStyleIFace::GetOptions breakReturnType short option
+{
+	// create objects
+	AStyleIFace astyle;
+	wxString options;
+
+	// test the option
+	astyle.setBreakReturnType(false);
+	options = astyle.GetOptions(true);
+	EXPECT_TRUE(options == wxEmptyString);
+	astyle.setBreakReturnType(true);
+	options = astyle.GetOptions(true);
+	EXPECT_TRUE(options == "xB");
+}
+
+TEST(AStyleIFace_FormatShort, GetOptions_BreakReturnTypeDecl)
+// Test AStyleIFace::GetOptions breakReturnTypeDecl short option
+{
+	// create objects
+	AStyleIFace astyle;
+	wxString options;
+
+	// test the option
+	astyle.setBreakReturnTypeDecl(false);
+	options = astyle.GetOptions(true);
+	EXPECT_TRUE(options == wxEmptyString);
+	astyle.setBreakReturnTypeDecl(true);
+	options = astyle.GetOptions(true);
+	EXPECT_TRUE(options == "xD");
 }
 
 TEST(AStyleIFace_FormatShort, GetOptions_CloseTemplates)
@@ -2148,384 +2276,392 @@ TEST(AStyleIFace_OptionsSeparator, UseSeparatorSans)
 }
 
 //-------------------------------------------------------------------------
-// AStyleIFace SetAStyleOptionFromConfig Tests
+// AStyleIFace SetAStyleOption Tests
 //-------------------------------------------------------------------------
 
-TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_InvalidKey)
-// Test AStyleIFace::SetAStyleOptionFromConfig with an invalid key
+TEST(AStyleIFace_Config, SetAStyleOptionInvalidKey)
+// Test AStyleIFace::SetAStyleOption with an invalid key
 {
 	// create objects
 	AStyleIFace astyle;
 
 	// test for error
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig("Invalid-key-1", asTRUE));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig("Invalid-key-2", asFALSE));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig("Invalid-key-3", "-1"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig("Invalid-key-4", "4"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig("Invalid-key-5", "X"));
+	EXPECT_FALSE(astyle.SetAStyleOption("Invalid-key-1", asTRUE));
+	EXPECT_FALSE(astyle.SetAStyleOption("Invalid-key-2", asFALSE));
+	EXPECT_FALSE(astyle.SetAStyleOption("Invalid-key-3", "-1"));
+	EXPECT_FALSE(astyle.SetAStyleOption("Invalid-key-4", "4"));
+	EXPECT_FALSE(astyle.SetAStyleOption("Invalid-key-5", "X"));
 }
 
-TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_AlignPointer)
-// Test AStyleIFace::SetAStyleOptionFromConfig alignPointer options
+TEST(AStyleIFace_Config, SetAStyleOptionAlignPointer)
+// Test AStyleIFace::SetAStyleOption alignPointer options
 {
 	// create objects
 	AStyleIFace astyle;
 
 	// test for error
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(ALIGN_POINTER, asTRUE));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(ALIGN_POINTER, asFALSE));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(ALIGN_POINTER, "-1"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(ALIGN_POINTER, "4"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(ALIGN_POINTER, "X"));
+	EXPECT_FALSE(astyle.SetAStyleOption(ALIGN_POINTER, asTRUE));
+	EXPECT_FALSE(astyle.SetAStyleOption(ALIGN_POINTER, asFALSE));
+	EXPECT_FALSE(astyle.SetAStyleOption(ALIGN_POINTER, "-1"));
+	EXPECT_FALSE(astyle.SetAStyleOption(ALIGN_POINTER, "4"));
+	EXPECT_FALSE(astyle.SetAStyleOption(ALIGN_POINTER, "X"));
 	// test the value
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ALIGN_POINTER, "1"));
+	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_POINTER, "1"));
 	EXPECT_EQ(PTR_ALIGN_TYPE, astyle.AStyleIFace::getAlignPointer());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ALIGN_POINTER, "2"));
+	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_POINTER, "2"));
 	EXPECT_EQ(PTR_ALIGN_MIDDLE, astyle.AStyleIFace::getAlignPointer());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ALIGN_POINTER, "3"));
+	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_POINTER, "3"));
 	EXPECT_EQ(PTR_ALIGN_NAME, astyle.AStyleIFace::getAlignPointer());
 }
 
-TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_AlignReference)
-// Test AStyleIFace::SetAStyleOptionFromConfig alignReference options
+TEST(AStyleIFace_Config, SetAStyleOptionAlignReference)
+// Test AStyleIFace::SetAStyleOption alignReference options
 {
 	// create objects
 	AStyleIFace astyle;
 
 	// test for error
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(ALIGN_REFERENCE, asTRUE));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(ALIGN_REFERENCE, asFALSE));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(ALIGN_REFERENCE, "-1"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(ALIGN_REFERENCE, "5"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(ALIGN_REFERENCE, "X"));
+	EXPECT_FALSE(astyle.SetAStyleOption(ALIGN_REFERENCE, asTRUE));
+	EXPECT_FALSE(astyle.SetAStyleOption(ALIGN_REFERENCE, asFALSE));
+	EXPECT_FALSE(astyle.SetAStyleOption(ALIGN_REFERENCE, "-1"));
+	EXPECT_FALSE(astyle.SetAStyleOption(ALIGN_REFERENCE, "5"));
+	EXPECT_FALSE(astyle.SetAStyleOption(ALIGN_REFERENCE, "X"));
 	// test the value
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ALIGN_REFERENCE, "0"));
+	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_REFERENCE, "0"));
 	EXPECT_EQ(REF_ALIGN_NONE, astyle.AStyleIFace::getAlignReference());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ALIGN_REFERENCE, "1"));
+	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_REFERENCE, "1"));
 	EXPECT_EQ(REF_ALIGN_TYPE, astyle.AStyleIFace::getAlignReference());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ALIGN_REFERENCE, "2"));
+	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_REFERENCE, "2"));
 	EXPECT_EQ(REF_ALIGN_MIDDLE, astyle.AStyleIFace::getAlignReference());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ALIGN_REFERENCE, "3"));
+	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_REFERENCE, "3"));
 	EXPECT_EQ(REF_ALIGN_NAME, astyle.AStyleIFace::getAlignReference());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ALIGN_REFERENCE, "4"));
+	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_REFERENCE, "4"));
 	EXPECT_EQ(REF_SAME_AS_PTR, astyle.AStyleIFace::getAlignReference());
 }
 
-TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_Boolean)
-// Test AStyleIFace::SetAStyleOptionFromConfig for boolean options
+TEST(AStyleIFace_Config, SetAStyleOptionBoolean)
+// Test AStyleIFace::SetAStyleOption for boolean options
 {
 	// create objects
 	AStyleIFace astyle;
 
 	// test invalid options
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_CLASSES, "error-test"));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_CLASSES, "error-test"));
 	// test a few false options, should be invalid
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_CLASSES, asFALSE));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_SWITCHES, asFALSE));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_CLASSES, asFALSE));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_SWITCHES, asFALSE));
 	// modifiers
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ATTACH_NAMESPACES, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(ATTACH_NAMESPACES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getAttachNamespace());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ATTACH_CLASSES, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(ATTACH_CLASSES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getAttachClass());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ATTACH_INLINES, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(ATTACH_INLINES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getAttachInline());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ATTACH_EXTERN_C, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(ATTACH_EXTERN_C, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getAttachExternC());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ATTACH_CLOSING_WHILE, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(ATTACH_CLOSING_WHILE, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getAttachClosingWhile());
 	// indentation
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_AFTER_PARENS, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_AFTER_PARENS, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getAfterParenIndent());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_CLASSES, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_CLASSES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getClassIndent());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_MODIFIERS, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_MODIFIERS, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getModifierIndent());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_SWITCHES, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_SWITCHES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getSwitchIndent());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_CASES, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_CASES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getCaseIndent());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_NAMESPACES, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_NAMESPACES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getNamespaceIndent());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_LABELS, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_LABELS, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getLabelIndent());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_PREPROC_BLOCK, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_PREPROC_BLOCK, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getPreprocBlockIndent());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_PREPROC_DEFINE, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_PREPROC_DEFINE, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getPreprocDefineIndent());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_PREPROC_COND, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_PREPROC_COND, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getPreprocCondIndent());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_COL1_COMMENTS, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_COL1_COMMENTS, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getCol1CommentIndent());
 	// padding
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(PAD_OPER, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(PAD_OPER, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getPadOperator());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(PAD_COMMA, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(PAD_COMMA, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getPadComma());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(PAD_HEADER, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(PAD_HEADER, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getPadHeader());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(UNPAD_PAREN, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(UNPAD_PAREN, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getUnpadParen());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(DELETE_EMPTY_LINES, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(DELETE_EMPTY_LINES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getDeleteEmptyLines());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(FILL_EMPTY_LINES, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(FILL_EMPTY_LINES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getFillEmptyLines());
 	// formatting
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(BREAK_CLOSING_BRACES, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getBreakClosingBraces());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(BREAK_ELSEIFS, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getBreakElseIfs());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(BREAK_ONE_LINE_HEADERS, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getBreakOneLineHeaders());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ADD_BRACES, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(ADD_BRACES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getAddBraces());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ADD_ONE_LINE_BRACES, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(ADD_ONE_LINE_BRACES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getAddOneLineBraces());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(REMOVE_BRACES, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(ATTACH_RETURN_TYPE, asTRUE));
+	EXPECT_TRUE(astyle.AStyleIFace::getAttachReturnType());
+	EXPECT_TRUE(astyle.SetAStyleOption(ATTACH_RETURN_TYPE_DECL, asTRUE));
+	EXPECT_TRUE(astyle.AStyleIFace::getAttachReturnTypeDecl());
+	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_CLOSING_BRACES, asTRUE));
+	EXPECT_TRUE(astyle.AStyleIFace::getBreakClosingBraces());
+	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_ELSEIFS, asTRUE));
+	EXPECT_TRUE(astyle.AStyleIFace::getBreakElseIfs());
+	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_ONE_LINE_HEADERS, asTRUE));
+	EXPECT_TRUE(astyle.AStyleIFace::getBreakOneLineHeaders());
+	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_RETURN_TYPE, asTRUE));
+	EXPECT_TRUE(astyle.AStyleIFace::getBreakReturnType());
+	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_RETURN_TYPE_DECL, asTRUE));
+	EXPECT_TRUE(astyle.AStyleIFace::getBreakReturnTypeDecl());
+	EXPECT_TRUE(astyle.SetAStyleOption(REMOVE_BRACES, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getRemoveBraces());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(REMOVE_COMMENT_PREFIX, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(REMOVE_COMMENT_PREFIX, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getRemoveCommentPrefix());
 	// default is true
 	EXPECT_TRUE(astyle.AStyleIFace::getBreakOneLineBlocks());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(KEEP_ONE_LINE_BLOCKS, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(KEEP_ONE_LINE_BLOCKS, asTRUE));
 	EXPECT_FALSE(astyle.AStyleIFace::getBreakOneLineBlocks());
 	// default is true
 	EXPECT_TRUE(astyle.AStyleIFace::getBreakOneLineStmts());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(KEEP_ONE_LINE_STATEMENTS, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(KEEP_ONE_LINE_STATEMENTS, asTRUE));
 	EXPECT_FALSE(astyle.AStyleIFace::getBreakOneLineStmts());
 	// end default is true
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(CONVERT_TABS, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(CONVERT_TABS, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getConvertTabs());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(BREAK_AFTER_LOGICAL, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_AFTER_LOGICAL, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getBreakAfterLogical());
 	// other
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(PAD_METHOD_PREFIX, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(PAD_METHOD_PREFIX, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getPadMethodPrefix());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(UNPAD_METHOD_PREFIX, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(UNPAD_METHOD_PREFIX, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getUnpadMethodPrefix());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(PAD_RETURN_TYPE, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(PAD_RETURN_TYPE, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getPadReturnType());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(UNPAD_RETURN_TYPE, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(UNPAD_RETURN_TYPE, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getUnpadReturnType());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(ALIGN_METHOD_COLON, asTRUE));
+	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_METHOD_COLON, asTRUE));
 	EXPECT_TRUE(astyle.AStyleIFace::getAlignMethodColon());
 }
 
-TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_BreakBlocks)
-// Test AStyleIFace::SetAStyleOptionFromConfig breakBlocks options
+TEST(AStyleIFace_Config, SetAStyleOptionBreakBlocks)
+// Test AStyleIFace::SetAStyleOption breakBlocks options
 {
 	// create objects
 	AStyleIFace astyle;
 
 	// test for error
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(BREAK_BLOCKS, asTRUE));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(BREAK_BLOCKS, asFALSE));
+	EXPECT_FALSE(astyle.SetAStyleOption(BREAK_BLOCKS, asTRUE));
+	EXPECT_FALSE(astyle.SetAStyleOption(BREAK_BLOCKS, asFALSE));
 	// test the value
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(BREAK_BLOCKS, "open"));
+	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_BLOCKS, "open"));
 	EXPECT_TRUE(astyle.AStyleIFace::getBreakHeaderBlocks()) << "Failure for break-blocks";
 	EXPECT_FALSE(astyle.AStyleIFace::getBreakClosingBlocks()) << "Failure for break-blocks";
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(BREAK_BLOCKS, "all"));
+	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_BLOCKS, "all"));
 	EXPECT_TRUE(astyle.AStyleIFace::getBreakHeaderBlocks()) << "Failure for break-blocks=all";
 	EXPECT_TRUE(astyle.AStyleIFace::getBreakClosingBlocks()) << "Failure for break-blocks=all";
 }
 
-TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_ContinuationIndent)
-// Test AStyleIFace::SetAStyleOptionFromConfig continuationIndent option
+TEST(AStyleIFace_Config, SetAStyleOptionContinuationIndent)
+// Test AStyleIFace::SetAStyleOption continuationIndent option
 {
 	// create objects
 	AStyleIFace astyle;
 
 	// test the continuation indent for error
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_CONTINUATION, asTRUE));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_CONTINUATION, "-1"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_CONTINUATION, "5"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_CONTINUATION, "X"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_CONTINUATION, wxEmptyString));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_CONTINUATION, asTRUE));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_CONTINUATION, "-1"));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_CONTINUATION, "5"));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_CONTINUATION, "X"));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_CONTINUATION, wxEmptyString));
 	// test the continuation indent
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_CONTINUATION, "2"));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_CONTINUATION, "2"));
 	EXPECT_EQ(2, astyle.AStyleIFace::getContinuationIndent());
 }
 
-TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_Indent)
-// Test AStyleIFace::SetAStyleOptionFromConfig indent options
+TEST(AStyleIFace_Config, SetAStyleOptionIndent)
+// Test AStyleIFace::SetAStyleOption indent options
 {
 	// create objects
 	AStyleIFace astyle;
 
 	// test the indent-type for error
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_TYPE, asTRUE));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_TYPE, asFALSE));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_TYPE, asTRUE));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_TYPE, asFALSE));
 
 	// test the indent-length for error
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_LENGTH, "-1"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_LENGTH, "0"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_LENGTH, "21"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_LENGTH, " "));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_LENGTH, "="));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_LENGTH, "tab"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_LENGTH, "X"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(INDENT_LENGTH, wxEmptyString));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_LENGTH, "-1"));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_LENGTH, "0"));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_LENGTH, "21"));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_LENGTH, " "));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_LENGTH, "="));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_LENGTH, "tab"));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_LENGTH, "X"));
+	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_LENGTH, wxEmptyString));
 
 	// test the indent-type valid values
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_TYPE, INDENT_TYPE_SPACES));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_TYPE, INDENT_TYPE_SPACES));
 	EXPECT_EQ(INDENT_SPACES, astyle.AStyleIFace::getIndentType());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_TYPE, INDENT_TYPE_TAB));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_TYPE, INDENT_TYPE_TAB));
 	EXPECT_EQ(INDENT_TABS, astyle.AStyleIFace::getIndentType());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_TYPE, INDENT_TYPE_FTAB));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_TYPE, INDENT_TYPE_FTAB));
 	EXPECT_EQ(INDENT_FTABS, astyle.AStyleIFace::getIndentType());
 
 	// test the indent-length valid values
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_LENGTH, "2"));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_LENGTH, "2"));
 	EXPECT_EQ(2, astyle.AStyleIFace::getIndentLength());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(INDENT_LENGTH, "20"));
+	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_LENGTH, "20"));
 	EXPECT_EQ(20, astyle.AStyleIFace::getIndentLength());
 }
 
-TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_MaxCodeLength)
-// Test AStyleIFace::SetAStyleOptionFromConfig maxCodeLength option
+TEST(AStyleIFace_Config, SetAStyleOptionMaxCodeLength)
+// Test AStyleIFace::SetAStyleOption maxCodeLength option
 {
 	// create objects
 	AStyleIFace astyle;
 
 	// test the max code length for error
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CODE_LENGTH, asTRUE));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CODE_LENGTH, "-1"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CODE_LENGTH, "49"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CODE_LENGTH, "201"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CODE_LENGTH, "X"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CODE_LENGTH, wxEmptyString));
+	EXPECT_FALSE(astyle.SetAStyleOption(MAX_CODE_LENGTH, asTRUE));
+	EXPECT_FALSE(astyle.SetAStyleOption(MAX_CODE_LENGTH, "-1"));
+	EXPECT_FALSE(astyle.SetAStyleOption(MAX_CODE_LENGTH, "49"));
+	EXPECT_FALSE(astyle.SetAStyleOption(MAX_CODE_LENGTH, "201"));
+	EXPECT_FALSE(astyle.SetAStyleOption(MAX_CODE_LENGTH, "X"));
+	EXPECT_FALSE(astyle.SetAStyleOption(MAX_CODE_LENGTH, wxEmptyString));
 	// test the indent length
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(MAX_CODE_LENGTH, "100"));
+	EXPECT_TRUE(astyle.SetAStyleOption(MAX_CODE_LENGTH, "100"));
 	EXPECT_EQ(100, astyle.AStyleIFace::getMaxCodeLength());
 }
 
-TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_MaxInStatement)
-// Test AStyleIFace::SetAStyleOptionFromConfig maxInStatementIndent option
+TEST(AStyleIFace_Config, SetAStyleOptionMaxInStatement)
+// Test AStyleIFace::SetAStyleOption maxInStatementIndent option
 {
 	// create objects
 	AStyleIFace astyle;
 
 	// test the indent length for error
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CONTINUATION_INDENT, asTRUE));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CONTINUATION_INDENT, "-1"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CONTINUATION_INDENT, "39"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CONTINUATION_INDENT, "121"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CONTINUATION_INDENT, "X"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MAX_CONTINUATION_INDENT, wxEmptyString));
+	EXPECT_FALSE(astyle.SetAStyleOption(MAX_CONTINUATION_INDENT, asTRUE));
+	EXPECT_FALSE(astyle.SetAStyleOption(MAX_CONTINUATION_INDENT, "-1"));
+	EXPECT_FALSE(astyle.SetAStyleOption(MAX_CONTINUATION_INDENT, "39"));
+	EXPECT_FALSE(astyle.SetAStyleOption(MAX_CONTINUATION_INDENT, "121"));
+	EXPECT_FALSE(astyle.SetAStyleOption(MAX_CONTINUATION_INDENT, "X"));
+	EXPECT_FALSE(astyle.SetAStyleOption(MAX_CONTINUATION_INDENT, wxEmptyString));
 	// test the indent length
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(MAX_CONTINUATION_INDENT, "50"));
+	EXPECT_TRUE(astyle.SetAStyleOption(MAX_CONTINUATION_INDENT, "50"));
 	EXPECT_EQ(50, astyle.AStyleIFace::getMaxContinuationIndent());
 }
 
-TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_MinConditional)
-// Test AStyleIFace::SetAStyleOptionFromConfig minConditionalOption option
+TEST(AStyleIFace_Config, SetAStyleOptionMinConditional)
+// Test AStyleIFace::SetAStyleOption minConditionalOption option
 {
 	// create objects
 	AStyleIFace astyle;
 
 	// test the option for error
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MIN_CONDITIONAL_INDENT, asTRUE));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MIN_CONDITIONAL_INDENT, "-1"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MIN_CONDITIONAL_INDENT, "4"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MIN_CONDITIONAL_INDENT, "X"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(MIN_CONDITIONAL_INDENT, wxEmptyString));
+	EXPECT_FALSE(astyle.SetAStyleOption(MIN_CONDITIONAL_INDENT, asTRUE));
+	EXPECT_FALSE(astyle.SetAStyleOption(MIN_CONDITIONAL_INDENT, "-1"));
+	EXPECT_FALSE(astyle.SetAStyleOption(MIN_CONDITIONAL_INDENT, "4"));
+	EXPECT_FALSE(astyle.SetAStyleOption(MIN_CONDITIONAL_INDENT, "X"));
+	EXPECT_FALSE(astyle.SetAStyleOption(MIN_CONDITIONAL_INDENT, wxEmptyString));
 	// test the option
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(MIN_CONDITIONAL_INDENT, "0"));
+	EXPECT_TRUE(astyle.SetAStyleOption(MIN_CONDITIONAL_INDENT, "0"));
 	EXPECT_EQ(MINCOND_ZERO, astyle.AStyleIFace::getMinConditionalOption());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(MIN_CONDITIONAL_INDENT, "1"));
+	EXPECT_TRUE(astyle.SetAStyleOption(MIN_CONDITIONAL_INDENT, "1"));
 	EXPECT_EQ(MINCOND_ONE, astyle.AStyleIFace::getMinConditionalOption());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(MIN_CONDITIONAL_INDENT, "2"));	// this is the default
+	EXPECT_TRUE(astyle.SetAStyleOption(MIN_CONDITIONAL_INDENT, "2"));	// this is the default
 	EXPECT_EQ(MINCOND_TWO, astyle.AStyleIFace::getMinConditionalOption());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(MIN_CONDITIONAL_INDENT, "3"));
+	EXPECT_TRUE(astyle.SetAStyleOption(MIN_CONDITIONAL_INDENT, "3"));
 	EXPECT_EQ(MINCOND_ONEHALF, astyle.AStyleIFace::getMinConditionalOption());
 }
 
-TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_PadMethodColon)
-// Test AStyleIFace::SetAStyleOptionFromConfig padMethodColon option
+TEST(AStyleIFace_Config, SetAStyleOptionPadMethodColon)
+// Test AStyleIFace::SetAStyleOption padMethodColon option
 {
 	// create objects
 	AStyleIFace astyle;
 
 	// test the option for error
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(PAD_METHOD_COLON, asTRUE));
+	EXPECT_FALSE(astyle.SetAStyleOption(PAD_METHOD_COLON, asTRUE));
 	EXPECT_EQ(COLON_PAD_NO_CHANGE, astyle.AStyleIFace::getPadMethodColon());
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(PAD_METHOD_COLON, "non"));
+	EXPECT_FALSE(astyle.SetAStyleOption(PAD_METHOD_COLON, "non"));
 	EXPECT_EQ(COLON_PAD_NO_CHANGE, astyle.AStyleIFace::getPadMethodColon());
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(PAD_METHOD_COLON, "allx"));
+	EXPECT_FALSE(astyle.SetAStyleOption(PAD_METHOD_COLON, "allx"));
 	EXPECT_EQ(COLON_PAD_NO_CHANGE, astyle.AStyleIFace::getPadMethodColon());
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(PAD_METHOD_COLON, wxEmptyString));
+	EXPECT_FALSE(astyle.SetAStyleOption(PAD_METHOD_COLON, wxEmptyString));
 	EXPECT_EQ(COLON_PAD_NO_CHANGE, astyle.AStyleIFace::getPadMethodColon());
 	// test the option
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(PAD_METHOD_COLON, "none"));
+	EXPECT_TRUE(astyle.SetAStyleOption(PAD_METHOD_COLON, "none"));
 	EXPECT_EQ(COLON_PAD_NONE, astyle.AStyleIFace::getPadMethodColon());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(PAD_METHOD_COLON, "all"));
+	EXPECT_TRUE(astyle.SetAStyleOption(PAD_METHOD_COLON, "all"));
 	EXPECT_EQ(COLON_PAD_ALL, astyle.AStyleIFace::getPadMethodColon());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(PAD_METHOD_COLON, "after"));	// this is the default
+	EXPECT_TRUE(astyle.SetAStyleOption(PAD_METHOD_COLON, "after"));	// this is the default
 	EXPECT_EQ(COLON_PAD_AFTER, astyle.AStyleIFace::getPadMethodColon());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(PAD_METHOD_COLON, "before"));
+	EXPECT_TRUE(astyle.SetAStyleOption(PAD_METHOD_COLON, "before"));
 	EXPECT_EQ(COLON_PAD_BEFORE, astyle.AStyleIFace::getPadMethodColon());
 }
 
-TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_PadParens)
-// Test AStyleIFace::SetAStyleOptionFromConfig padParens options
+TEST(AStyleIFace_Config, SetAStyleOptionPadParens)
+// Test AStyleIFace::SetAStyleOption padParens options
 {
 	// create objects
 	AStyleIFace astyle;
 
 	// test for error
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(PAD_PAREN, "error-test"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(PAD_PAREN, asTRUE));
+	EXPECT_FALSE(astyle.SetAStyleOption(PAD_PAREN, "error-test"));
+	EXPECT_FALSE(astyle.SetAStyleOption(PAD_PAREN, asTRUE));
 	// test the value
 	// test the pad-paren-out
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(PAD_PAREN, "out"));
+	EXPECT_TRUE(astyle.SetAStyleOption(PAD_PAREN, "out"));
 	EXPECT_TRUE(astyle.AStyleIFace::getPadParenOutside()) << "Failure for pad-paren-out";
 	EXPECT_FALSE(astyle.AStyleIFace::getPadParenInside()) << "Failure for pad-paren-out";
 	// test the pad-paren-in
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(PAD_PAREN, "in"));
+	EXPECT_TRUE(astyle.SetAStyleOption(PAD_PAREN, "in"));
 	EXPECT_FALSE(astyle.AStyleIFace::getPadParenOutside()) << "Failure for pad-paren-in";
 	EXPECT_TRUE(astyle.AStyleIFace::getPadParenInside()) << "Failure for pad-paren-in";
 	// test the pad-paren
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(PAD_PAREN, "all"));
+	EXPECT_TRUE(astyle.SetAStyleOption(PAD_PAREN, "all"));
 	EXPECT_TRUE(astyle.AStyleIFace::getPadParenOutside()) << "Failure for pad-paren";
 	EXPECT_TRUE(astyle.AStyleIFace::getPadParenInside()) << "Failure for pad-paren";
 }
 
-TEST(AStyleIFace_Config, SetAStyleOptionFromConfig_Styles)
-// Test AStyleIFace::SetAStyleOptionFromConfig for style options
+TEST(AStyleIFace_Config, SetAStyleOptionStyles)
+// Test AStyleIFace::SetAStyleOption for style options
 {
 	// create objects
 	AStyleIFace astyle;
 
 	// test for error
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(STYLE, "error-test"));
-	EXPECT_FALSE(astyle.SetAStyleOptionFromConfig(STYLE, asTRUE));
+	EXPECT_FALSE(astyle.SetAStyleOption(STYLE, "error-test"));
+	EXPECT_FALSE(astyle.SetAStyleOption(STYLE, asTRUE));
 	// test the styles
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, ALLMAN));
+	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, ALLMAN));
 	EXPECT_EQ(STYLE_ALLMAN, astyle.AStyleIFace::getBraceStyle());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, JAVA));
+	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, JAVA));
 	EXPECT_EQ(STYLE_JAVA, astyle.AStyleIFace::getBraceStyle());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, KandR));
+	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, KandR));
 	EXPECT_EQ(STYLE_KR, astyle.AStyleIFace::getBraceStyle());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, STROUSTRUP));
+	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, STROUSTRUP));
 	EXPECT_EQ(STYLE_STROUSTRUP, astyle.AStyleIFace::getBraceStyle());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, WHITESMITH));
+	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, WHITESMITH));
 	EXPECT_EQ(STYLE_WHITESMITH, astyle.AStyleIFace::getBraceStyle());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, RATLIFF));
+	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, RATLIFF));
 	EXPECT_EQ(STYLE_RATLIFF, astyle.AStyleIFace::getBraceStyle());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, GNU));
+	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, GNU));
 	EXPECT_EQ(STYLE_GNU, astyle.AStyleIFace::getBraceStyle());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, LINUXX));
+	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, LINUXX));
 	EXPECT_EQ(STYLE_LINUX, astyle.AStyleIFace::getBraceStyle());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, HORSTMANN));
+	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, HORSTMANN));
 	EXPECT_EQ(STYLE_HORSTMANN, astyle.AStyleIFace::getBraceStyle());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, oneTBS));
+	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, oneTBS));
 	EXPECT_EQ(STYLE_1TBS, astyle.AStyleIFace::getBraceStyle());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, GOOGLE));
+	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, GOOGLE));
 	EXPECT_EQ(STYLE_GOOGLE, astyle.AStyleIFace::getBraceStyle());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, MOZILLA));
+	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, MOZILLA));
 	EXPECT_EQ(STYLE_MOZILLA, astyle.AStyleIFace::getBraceStyle());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, PICO));
+	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, PICO));
 	EXPECT_EQ(STYLE_PICO, astyle.AStyleIFace::getBraceStyle());
-	EXPECT_TRUE(astyle.SetAStyleOptionFromConfig(STYLE, LISP));
+	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, LISP));
 	EXPECT_EQ(STYLE_LISP, astyle.AStyleIFace::getBraceStyle());
 }
 

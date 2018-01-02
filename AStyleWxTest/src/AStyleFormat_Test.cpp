@@ -29,7 +29,7 @@ public:
 		// Need this setup because of wxWidgets IMPLEMENT_APP_NO_MAIN.
 		// It must be done to create a wxFrame object.
 		// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
-		// See the wxWidgets sample program mfctest.cpp.
+		// See the wxWidgets sample program mfc/mfctest.cpp.
 	{
 		// initialize wxWidgets
 		int argc = 0;
