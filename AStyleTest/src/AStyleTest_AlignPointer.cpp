@@ -3775,6 +3775,22 @@ TEST(AlignPointerName, PointerToPointer5)
 	delete[] textOut;
 }
 
+TEST(AlignPointerName, PointerAndDereference)
+{
+	// test pointer followed by a dereference with space separation
+	// the first * is padded because of align-pointer=name
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    rules = (char * *)(phone->num + 1);\n"
+	    "}\n";
+	char options[] = "align-pointer=name";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(AlignPointerName, EndOfLine1)
 {
 	// test pointer at end of line

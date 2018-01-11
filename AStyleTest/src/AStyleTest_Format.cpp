@@ -4277,13 +4277,65 @@ TEST(BreakReturnType, KeepOneLineBlocks)
 	// the block will have to be broken before the return type can be broken
 	char text[] =
 	    "\n"
-	    "struct Agony { inline void operator()(BackgroundThread* t) {t->MarkDying();}; };"
+	    "namespace TinyXML { bool SaveDocument(const wxString&, TiXmlDocument*); }\n"
 	    "\n"
-	    "template<> struct CompileTimeAssertion<true> { static inline void Assert() {}; };";
+	    "struct Death { inline void operator()(BackgroundThread* t) {t->Die();}; };\n"
+	    "\n"
+	    "template<> struct CompileTimeAssertion<true> { static inline void Assert() {}; };\n"
+	    "\n"
+	    "template< typename T, int maxTests >\n"
+	    "struct RunHelper<T, maxTests, 0 > { public: inline int Run( TestCasesHelper< T, maxTests >& ) { return 0; } };";
 	char options[] = "break-return-type, keep-one-line-blocks";
 	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
+}
+
+TEST(BreakReturnType, SansKeepOneLineBlock)
+{
+	// should break return values in a one line block if keep-one-line-blocks is not requested
+	// TODO: Fix this. Will currently break on the second format, not the first!
+	//char textIn[] =
+	//    "\n"
+	//    "namespace TinyXML { bool SaveDocument(const wxString&, TiXmlDocument*); }\n"
+	//    "\n"
+	//    "struct Death { inline void operator()(BackgroundThread* t) {t->Die();} };\n"
+	//    "\n"
+	//    "template<> struct CompileTimeAssertion<true> { static inline void Assert() {} };\n"
+	//    "\n"
+	//    "template< typename T, int maxTests >\n"
+	//    "struct RunHelper<T, maxTests, 0 > { public: inline int Run( TestCasesHelper< T, maxTests >& ) { return 0; } };";
+	//char text[] =
+	//    "\n"
+	//    "namespace TinyXML {\n"
+	//    "bool\n"
+	//    "SaveDocument(const wxString&, TiXmlDocument*);\n"
+	//    "}\n"
+	//    "\n"
+	//    "struct Death {\n"
+	//    "    inline void\n"
+	//    "    operator()(BackgroundThread* t) {\n"
+	//    "        t->Die();\n"
+	//    "    }\n"
+	//    "};\n"
+	//    "\n"
+	//    "template<> struct CompileTimeAssertion<true> {\n"
+	//    "    static inline void\n"
+	//    "    Assert() {}\n"
+	//    "};\n"
+	//    "\n"
+	//    "template< typename T, int maxTests >\n"
+	//    "struct RunHelper<T, maxTests, 0 > {\n"
+	//    "public:\n"
+	//    "    inline int\n"
+	//    "    Run( TestCasesHelper< T, maxTests >& ) {\n"
+	//    "        return 0;\n"
+	//    "    }\n"
+	//    "};";
+	//char options[] = "break-return-type";
+	//char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	//EXPECT_STREQ(text, textOut);
+	//delete[] textOut;
 }
 
 // BreakReturnTypeDecl Misc tests also test this option
@@ -4511,6 +4563,29 @@ TEST(BreakReturnTypeDecl, Proprocessor)
 	    "#endif\n"
 	    "};";
 	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, JavaDefaultKeyword)
+{
+	// Java can have 'default' keyword not in a switch statement.
+	// There should not be an empty after boolean and the following line.
+	char textIn[] =
+	    "\n"
+	    "public static @interface EBHandler\n"
+	    "{\n"
+	    "    boolean exact() default false;\n"
+	    "}";
+	char text[] =
+	    "\n"
+	    "public static @interface EBHandler\n"
+	    "{\n"
+	    "    boolean\n"
+	    "    exact() default false;\n"
+	    "}";
+	char options[] = "break-return-type-decl, break-blocks, mode=java";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -4789,6 +4864,25 @@ TEST(BreakReturnTypeDecl, Misc8)
 	    "void\n"
 	    "construct(const T1& t1);\n";
 	char options[] = "break-return-type-decl";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BreakReturnTypeDecl, ConvertTabs)
+{
+	// test break return type with convert tabs
+	char textIn[] =
+	    "\n"
+	    "GS_EXPORT NSThread\t\t*GSCurrentThread();\n"
+	    "GS_EXPORT NSMutableDictionary\t*GSCurrentThreadDictionary();\n";
+	char text[] =
+	    "\n"
+	    "GS_EXPORT NSThread      *\n"
+	    "GSCurrentThread();\n"
+	    "GS_EXPORT NSMutableDictionary   *\n"
+	    "GSCurrentThreadDictionary();\n";
+	char options[] = "break-return-type-decl, convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
@@ -5147,6 +5241,25 @@ TEST(AttachReturnTypeDecl, AttachPointerName)
 	    "\n"
 	    "Logger *GetLogger();";
 	char options[] = "attach-return-type-decl, align-pointer=name";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AttachReturnTypeDecl, ConvertTabs)
+{
+	// test break return type with convert tabs
+	char textIn[] =
+	    "\n"
+	    "GS_EXPORT NSThread\t\t*\n"
+	    "GSCurrentThread();\n"
+	    "GS_EXPORT NSMutableDictionary\t*\n"
+	    "GSCurrentThreadDictionary();\n";
+	char text[] =
+	    "\n"
+	    "GS_EXPORT NSThread      *GSCurrentThread();\n"
+	    "GS_EXPORT NSMutableDictionary   *GSCurrentThreadDictionary();\n";
+	char options[] = "attach-return-type-decl, convert-tabs";
 	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
 	EXPECT_STREQ(text, textOut);
 	delete[] textOut;
