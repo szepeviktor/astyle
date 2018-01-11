@@ -42,12 +42,12 @@ pre { margin-left: 0.3in; color: navy; font-weight: bold; }
 #topBtn {
     display: none;          /* Hidden by default */
     position: fixed;        /* Fixed/sticky position */
-    bottom: 20px;           /* Place the button at the bottom of the page */
+    bottom: 55px;           /* Place the button from the bottom */
     right: 10px;            /* Place the button from the right */
     z-index: 99;            /* Make sure it does not overlap */
     border: none;           /* Remove borders */
     outline: none;          /* Remove outline */
-    background-color: #bbb; /* Set a background color */
+    background-color: #ccc; /* Set a background color */
     color: #0000C0;         /* Text color */
     cursor: pointer;        /* Add a mouse pointer on hover */
     padding: 10px;          /* Some padding */
@@ -55,5 +55,5 @@ pre { margin-left: 0.3in; color: navy; font-weight: bold; }
 }
 
 #topBtn:hover {
-    background-color: #999; /* Add a darker background on hover */
+    background-color: #aaa; /* Add a darker background on hover */
 }

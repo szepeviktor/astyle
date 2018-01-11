@@ -94,7 +94,7 @@ namespace astyle {
 	jmethodID g_mid;
 #endif
 
-const char* g_version = "3.1 beta";
+const char* g_version = "3.1";
 
 //-----------------------------------------------------------------------------
 // ASStreamIterator class
@@ -1100,9 +1100,9 @@ void ASConsole::getFileNames(const string& directory, const vector<string>& wild
 		// check exclude before wildcmp to avoid "unmatched exclude" error
 		bool isExcluded = isPathExclued(filePathName);
 		// save file name if wildcard match
-		for (string wildcard : wildcards)
+		for (size_t i = 0; i < wildcards.size(); i++)
 		{
-			if (wildcmp(wildcard.c_str(), findFileData.cFileName))
+			if (wildcmp(wildcards[i].c_str(), findFileData.cFileName))
 			{
 				if (isExcluded)
 					printMsg(_("Exclude  %s\n"), filePathName.substr(mainDirectoryLength));
@@ -2241,8 +2241,9 @@ void ASConsole::printHelp() const
 	cout << "    --project=none\n";
 	cout << "    Specify a project option file #### to read and use.\n";
 	cout << "    It must contain a file name only, without a directory path.\n";
-	cout << "    The default values are .astylerc or _astylerc.\n";
-	cout << "    'none' disables the project option file.\n";
+	cout << "    The file should be included in the project top-level directory.\n";
+	cout << "    The default file name is .astylerc or _astylerc.\n";
+	cout << "    'none' disables the project or environment variable file.\n";
 	cout << endl;
 	cout << "    --ascii  OR  -I\n";
 	cout << "    The displayed output will be ascii characters only.\n";

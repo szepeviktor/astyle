@@ -3020,6 +3020,10 @@ void ASBeautifier::parseCurrentLine(const string& line)
 		{
 			const string* newHeader = findHeader(line, i, headers);
 
+			// java can have a 'default' not in a switch
+			if (newHeader == &AS_DEFAULT
+			        && peekNextChar(line, (i + (*newHeader).length() - 1)) != ':')
+				newHeader = nullptr;
 			// Qt headers may be variables in C++
 			if (isCStyle()
 			        && (newHeader == &AS_FOREVER || newHeader == &AS_FOREACH))

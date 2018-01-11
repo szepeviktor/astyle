@@ -339,8 +339,8 @@
         as described above.</p>
     <p>
         A third option is to use an options file from the &quot;file&quot; folder. If there is a coding style you want
-        to duplicate, input the appropriate <a href="#_Options_File">options file</a>. Use the option
-        <a href="#_options=">options=####</a> to specify the file to use. It must contain a path for the file, including
+        to duplicate, input the appropriate <a href="#_Option_Files">option file</a>. Use the option
+        <a href="#_options">options=####</a> to specify the file to use. It must contain a path for the file, including
         the file name. </p>
     <p>
         Once you are familiar with the options you can customize the format to your personal preference.</p>
@@ -392,8 +392,8 @@
 
     <p>
         The < and > characters may be used to redirect the files into standard input (stdin) and out of standard output
-        (stdout) - don't forget them! With this option only one file at a time can be formatted. Wildcards are not
-        recognized, there are no console messages, and a backup is not created. On Windows the output will always have
+        (stdout) - don't forget them! With this option, only one file at a time can be formatted. Wildcards are not
+        recognized, there are no console messages, and a backup is not created. On Windows, the output will always have
         Windows line ends. The options "stdin=" and "stdout=" can be used instead of redirection.</p>
     <div class="code">
         <p class="code">
@@ -446,10 +446,10 @@
 
     <p>
         An OPTIONAL default option file and/or project option file may be used to supplement or replace the command
-        line options. They may use the computer's standard encoding, UTF-8, or UTF-16 unicode encoding.</p>
+        line options. They may use the computer's standard encoding, UTF-8 or UTF-16 unicode encoding.</p>
     <p>
-        Options may be set apart by new-lines, tabs, commas, or spaces. Long options in the options file may be written
-        without the preceding '--'. Lines within the options file that begin with '#' are considered line-comments.
+        Options may be set apart by new-lines, tabs, commas, or spaces. Long options in the option file may be written
+        without the preceding '--'. Lines within the option file that begin with '#' are considered line-comments.
         The option files used in formatting and their location can be displayed by using the --verbose 
         option. </p>
     <ol>
@@ -457,10 +457,10 @@
             and an option in a default or project file, the command line option will be used.
         </li>
         <li>The <strong>project option file</strong> has precedence over the default option file but not the command line
-            options. The option file should be in the top directory of the project being formatted. The file is identified
-            y a file name only. One of the command line <a href="#_project">project</a> options must be used to indicate a
-            file is available.  Artistic Style looks for the file in the current directory or one of its parent directories
-            in the following order.
+            options. The project option file should be in the top directory of the project being formatted. The file is identified
+            by a file name only. One of the command line <a href="#_project">project</a> options must be used to indicate
+            a file is available, or it must be referred to by the environment variable. Artistic Style looks for the file
+            in the current directory or one of its parent directories in the following order.
             <ul>
                 <li>the file name indicated by the --project= command line option.</li>
                 <li>the file named .astylerc or _ astylerc. </li>
@@ -469,8 +469,8 @@
             </ul>
             The file is expected to be in the top directory of the project being formatted. Only one file will be used per
             execution and all files to be formatted are assumed to be in the same project. Artistic Style will search 
-            backward in the directory path to find the file. The initial directory path for the search is obtained from one
-            of the following locations in the following order.
+            backward in the directory path to find the project option file. The initial directory path for the search is obtained
+            from one of the following locations in the following order.
             <ul>
                 <li>The first <em>SourceFilePath</em> entered on the command line.</li>
                 <li>The value of "--stdin=" if it is used for redirection.</li>
@@ -479,8 +479,8 @@
             </ul>
         </li>
         <li>The <strong>default option file</strong> can be used for all projects. The file is identified by a file path and
-            a file name. One of the <a href="#_options">options</a> options must be used to indicate a file is available,
-            or it must be referred to by an environment variable. Artistic Style looks for a file path and file name in the
+            a file name. One of the command line <a href="#_options">options</a> must be used to indicate a file is available,
+            or it must be referred to by the environment variable. Artistic Style looks for a file path and file name in the
             following order.
             <ul>
                 <li>the file path indicated by the --options= command line option.</li>
@@ -527,8 +527,8 @@ indent-switches     <span class="comment"># cannot do this on the command line</
     <p>
         The beginning tag is &quot;*INDENT-OFF*&quot; and the ending tag is &quot;*INDENT-ON*&quot;.
         They may be used anywhere in the program with the condition that parsing is partially disabled between the
-        tags. Disabling partial statements may result in incorrect formatting after the ending tag. If this happens expand
-        the tags to include additional code.</p>
+        tags. Disabling partial statements may result in incorrect formatting after the ending tag. If this happens,
+        expand the tags to include additional code.</p>
     <div class="code">
         <p class="code">
             The following retains the format of a preprocessor define:</p>
@@ -578,7 +578,7 @@ indent-switches     <span class="comment"># cannot do this on the command line</
     <p>
         Other brace styles are variations of these. Some will use variations on the placement of class, namespace,
         or other braces. (Stroustrup, Google, One True Brace, Lisp). Others will indent the braces (Whitesmith, VTK,
-        Banner, and GNU). Still others will use run-in braces where the following statement is on the same line as the
+        Banner, and GNU). Others will use run-in braces where the following statement is on the same line as the
         brace (Horstmann and Pico).</p>
     <p>
         There are technical arguments for selecting one style over another. But the usual reason comes down to
@@ -1986,9 +1986,9 @@ else
     <p id="_break-return-type">
         <code class="title">--break-return-type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / -xB</code><br />
         <code class="title">--break-return-type-decl / -xD</code><br />
-        Break the return type from the function name. The two options are for the function definitions and the function
-        declarations. If used with --attach-return-type, the result will be to break the return type. This option has
-        no effect on Objective-C methods.</p>
+        Break the return type from the function name. The two options are for the function definitions (-xB), and the
+        function declarations or signatures (-xD). If used with --attach-return-type, the result will be to break the
+        return type. This option has no effect on Objective-C functions.</p>
     <div class="code">
         <pre>void Foo(bool isFoo);</pre>
         <p class="code">
@@ -2001,9 +2001,10 @@ Foo(bool isFoo);</pre>
     <p id="_attach-return-type">
         <code class="title">--attach-return-type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / -xf</code><br />
         <code class="title">--attach-return-type-decl / -xh</code><br />
-        Attach the return type to the function name. The two options are for the function definitions and the function
-        declarations. They are intended to undo the --break-return-type options. If used with --break-return-type, the
-        result will be to break the return type. This option has no effect on Objective-C methods.</p>
+        Attach the return type to the function name. The two options are for the function definitions (-xf), and the 
+        function declarations or signatures (-xh). They are intended to undo the --break-return-type options. If used
+        with --break-return-type, the result will be to break the return type. This option has no effect on 
+        Objective-C functions.</p>
     <div class="code">
         <pre>void
 Foo(bool isFoo);</pre>
@@ -2140,7 +2141,7 @@ Foo(bool isFoo);</pre>
         to the Objective-C method prefix and return type unless overridden by the following options.</p>
     <p>
         Because of the longer indents sometimes needed for Objective&#8209;C, the option "max-continuation-indent" may
-        need to be increased. If you are not getting the paren and square bracket alignment you want try increasing
+        need to be increased. If you are not getting the paren and square bracket alignment you want, try increasing
         this value. The option is described in the "Indentation Options" section.</p>
     <p id="_pad-method-prefix">
         <code class="title">--pad-method-prefix / -xQ</code><br />
@@ -2305,7 +2306,7 @@ Foo(bool isFoo);</pre>
     <h3 id="_Other_Options">Other Options</h3>
 
     <p>
-        These are non-formatting options available for the command-line. They can also be included in an options
+        These are non-formatting options available for the command-line. They can also be included in an option
         file.</p>
 
     <p id="_suffix">
@@ -2331,11 +2332,11 @@ Foo(bool isFoo);</pre>
     <p>
         Excludes are matched from the end of the file path. An exclude option of "templates" will exclude ALL directories
         named "templates". An exclude option of "cpp/templates" will exclude ALL "cpp/templates" directories. You may
-        proceed backwards in the directory tree to exclude only the required directories.</p>
+        proceed backward in the directory tree to exclude only the required directories.</p>
     <p>
         Specific files may be excluded in the same manner. An exclude option of "default.cpp" will exclude ALL files
         named "default.cpp". An exclude option of "python/default.cpp" will exclude ALL files named "default.cpp"
-        contained in a "python" subdirectory. You may proceed backwards in the directory tree to exclude only the
+        contained in a "python" subdirectory. You may proceed backward in the directory tree to exclude only the
         required files.</p>
     <p>
         Wildcards are NOT allowed. There may be more than one exclude statement. The file path and name may be placed
@@ -2416,7 +2417,7 @@ Foo(bool isFoo);</pre>
         This will allow the project file name to be changed from .astylerc or _astylerc. It should be in the top directory
         of the project being formatted. </p>
     <p>
-        The "none" option will disable a project options file if one exists. In this case the project option file will
+        The "none" option will disable a project options file if one exists. In this case, the project option file will
         not be used.</p>
     <p>
         Further information is available in the <a href="#_Option_Files">Option&nbsp;Files</a> section.</p>
@@ -2442,7 +2443,7 @@ Foo(bool isFoo);</pre>
         Open an HTML help file in the default browser using the file path #### and quit. An HTML file other than "astyle.help"
         may be specified. The path may include a directory path and a file name, or a file name only (e.g. html=install.html).
         If only a file name is used, it is assumed to be in the standard install path (/usr/share/doc/astyle/html
-        for Linux or %PROGRAMFILES%\AStyle\doc for Windows). In both cases the file name must include the html extension.
+        for Linux or %PROGRAMFILES%\AStyle\doc for Windows). In both cases, the file name must include the html extension.
         File paths containing spaces must be enclosed in quotes.</p>
     <p>
         On Linux the HTML file is opened using the script "xdg-open" from the install package "xdg-utils". This should

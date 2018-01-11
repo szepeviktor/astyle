@@ -901,17 +901,17 @@ string ASFormatter::nextLine()
 		}
 
 		// Check for break return type
-		if (charNum >= (int) methodBreakCharNum && methodBreakLineNum == 0)
+		if ((size_t) charNum >= methodBreakCharNum && methodBreakLineNum == 0)
 		{
-			if (charNum == (int) methodBreakCharNum)
+			if ((size_t) charNum == methodBreakCharNum)
 				isInLineBreak = true;
 			methodBreakCharNum = string::npos;
 			methodBreakLineNum = 0;
 		}
 		// Check for attach return type
-		if (charNum >= (int) methodAttachCharNum && methodAttachLineNum == 0)
+		if ((size_t) charNum >= methodAttachCharNum && methodAttachLineNum == 0)
 		{
-			if (charNum == (int) methodAttachCharNum)
+			if ((size_t) charNum == methodAttachCharNum)
 			{
 				int pa = pointerAlignment;
 				int ra = referenceAlignment;
@@ -1218,6 +1218,11 @@ string ASFormatter::nextLine()
 
 			newHeader = findHeader(headers);
 
+			// java can have a 'default' not in a switch
+			if (newHeader == &AS_DEFAULT
+			        && ASBeautifier::peekNextChar(
+			            currentLine, charNum + (*newHeader).length() - 1) != ':')
+				newHeader = nullptr;
 			// Qt headers may be variables in C++
 			if (isCStyle()
 			        && (newHeader == &AS_FOREVER || newHeader == &AS_FOREACH))
@@ -1674,6 +1679,7 @@ string ASFormatter::nextLine()
 		// determine if this is an Objective-C statement
 
 		if (currentChar == '@'
+		        && isCStyle()
 		        && (int) currentLine.length() > charNum + 1
 		        && !isWhiteSpace(currentLine[charNum + 1])
 		        && isCharPotentialHeader(currentLine, charNum + 1)
@@ -1687,6 +1693,7 @@ string ASFormatter::nextLine()
 			continue;
 		}
 		else if (currentChar == '@'
+		         && isCStyle()
 		         && (int) currentLine.length() > charNum + 1
 		         && !isWhiteSpace(currentLine[charNum + 1])
 		         && isCharPotentialHeader(currentLine, charNum + 1)
@@ -1699,6 +1706,7 @@ string ASFormatter::nextLine()
 			continue;
 		}
 		else if ((currentChar == '-' || currentChar == '+')
+		         && isCStyle()
 		         && (int) currentLine.find_first_not_of(" \t") == charNum
 		         && !isInPotentialCalculation
 		         && !isInObjCMethodDefinition
@@ -3548,7 +3556,7 @@ bool ASFormatter::isNonInStatementArrayBrace() const
 	char nextChar = peekNextChar();
 	// if this opening brace begins the line there will be no inStatement indent
 	if (currentLineBeginsWithBrace
-	        && charNum == (int) currentLineFirstBraceNum
+	        && (size_t) charNum == currentLineFirstBraceNum
 	        && nextChar != '}')
 		returnVal = true;
 	// if an opening brace ends the line there will be no inStatement indent
@@ -3830,12 +3838,12 @@ string ASFormatter::peekNextText(const string& firstLine,
                                  bool endOnEmptyLine /*false*/,
                                  shared_ptr<ASPeekStream> streamArg /*nullptr*/) const
 {
-	assert(sourceIterator->getPeekStart() == 0 || streamArg != nullptr);
+	assert(sourceIterator->getPeekStart() == 0 || streamArg != nullptr);	// Borland may need != 0
 	bool isFirstLine = true;
 	string nextLine_ = firstLine;
 	size_t firstChar = string::npos;
 	shared_ptr<ASPeekStream> stream = streamArg;
-	if (stream == nullptr)							// Borland may need == 0
+	if (stream == nullptr)					// Borland may need == 0
 		stream = make_shared<ASPeekStream>(sourceIterator);
 
 	// find the first non-blank text, bypassing all comments.
@@ -4399,6 +4407,7 @@ void ASFormatter::formatPointerOrReferenceToName()
 	if (isOldPRCentered
 	        && formattedLine.length() > startNum + 1
 	        && isWhiteSpace(formattedLine[startNum + 1])
+	        && peekedChar != '*'		// check for '* *'
 	        && !isBeforeAnyComment())
 	{
 		formattedLine.erase(startNum + 1, 1);
@@ -4985,7 +4994,7 @@ void ASFormatter::formatOpeningBrace(BraceType braceType)
 				}
 				else
 				{
-					if (currentLineBeginsWithBrace && charNum == (int) currentLineFirstBraceNum)
+					if (currentLineBeginsWithBrace && (size_t) charNum == currentLineFirstBraceNum)
 					{
 						appendSpacePad();
 						appendCurrentChar(false);		// attach
@@ -5152,7 +5161,7 @@ void ASFormatter::formatArrayBraces(BraceType braceType, bool isOpeningArrayBrac
 							testForTimeToSplitFormattedLine();		// line length will have changed
 
 							if (currentLineBeginsWithBrace
-							        && (int) currentLineFirstBraceNum == charNum)
+							        && currentLineFirstBraceNum == (size_t) charNum)
 								shouldBreakLineAtNextChar = true;
 						}
 						else
@@ -5190,7 +5199,7 @@ void ASFormatter::formatArrayBraces(BraceType braceType, bool isOpeningArrayBrac
 				appendCurrentChar();
 
 				if (currentLineBeginsWithBrace
-				        && (int) currentLineFirstBraceNum == charNum
+				        && currentLineFirstBraceNum == (size_t) charNum
 				        && !isBraceType(braceType, SINGLE_LINE_TYPE))
 					shouldBreakLineAtNextChar = true;
 			}
@@ -5218,7 +5227,7 @@ void ASFormatter::formatArrayBraces(BraceType braceType, bool isOpeningArrayBrac
 			else if (braceFormatMode == NONE_MODE)
 			{
 				if (currentLineBeginsWithBrace
-				        && charNum == (int) currentLineFirstBraceNum)
+				        && (size_t) charNum == currentLineFirstBraceNum)
 				{
 					appendCurrentChar();                // don't attach
 				}
@@ -5283,7 +5292,7 @@ void ASFormatter::formatArrayBraces(BraceType braceType, bool isOpeningArrayBrac
 
 		// if a declaration follows an enum definition, space pad
 		char peekedChar = peekNextChar();
-		if (isLegalNameChar(peekedChar)
+		if ((isLegalNameChar(peekedChar) && peekedChar != '.')
 		        || peekedChar == '[')
 			appendSpaceAfter();
 	}
@@ -5697,7 +5706,7 @@ bool ASFormatter::isCurrentBraceBroken() const
 	else if (braceFormatMode == NONE_MODE)
 	{
 		if (currentLineBeginsWithBrace
-		        && (int) currentLineFirstBraceNum == charNum)
+		        && currentLineFirstBraceNum == (size_t) charNum)
 			breakBrace = true;
 	}
 	else if (braceFormatMode == BREAK_MODE || braceFormatMode == RUN_IN_MODE)
@@ -6587,6 +6596,13 @@ void ASFormatter::findReturnTypeSplitPoint(const string& firstLine)
 			{
 				prevNonWSChar = currNonWSChar;
 				currNonWSChar = line[i];
+			}
+			else if (line[i] == '\t' && shouldConvertTabs)
+			{
+				size_t tabSize = getTabLength();
+				size_t numSpaces = tabSize - ((tabIncrementIn + i) % tabSize);
+				line.replace(i, 1, numSpaces, ' ');
+				currentChar = line[i];
 			}
 			if (line.compare(i, 2, "/*") == 0)
 				isInComment_ = true;
