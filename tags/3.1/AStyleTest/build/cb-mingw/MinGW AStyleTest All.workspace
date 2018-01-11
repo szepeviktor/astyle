@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="MinGW AStyleTest All">
+		<Project filename="MinGW AStyleTest.cbp">
+			<Depends filename="MinGW GTest Lib.cbp" />
+		</Project>
+		<Project filename="MinGW AStyleTestCon.cbp">
+			<Depends filename="MinGW GTest Lib.cbp" />
+		</Project>
+		<Project filename="MinGW AStyleTestI18n.cbp">
+			<Depends filename="MinGW GTest Lib.cbp" />
+		</Project>
+		<Project filename="MinGW AStyleTestLib.cbp">
+			<Depends filename="MinGW GTest Lib.cbp" />
+		</Project>
+		<Project filename="MinGW AStyleTestLoc.cbp">
+			<Depends filename="MinGW GTest Lib.cbp" />
+		</Project>
+		<Project filename="MinGW GTest Lib.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

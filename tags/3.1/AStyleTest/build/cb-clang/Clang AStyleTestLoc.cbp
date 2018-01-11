@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Clang AStyleTestLoc" />
+		<Option pch_mode="2" />
+		<Option compiler="clang" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/AStyleTestLocd" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objLoc/Debug/" />
+				<Option type="1" />
+				<Option compiler="clang" />
+				<Option parameters="--terse_output" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-Wextra" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyle/src" />
+					<Add directory="../../../googletest/include" />
+				</Compiler>
+				<Linker>
+					<Add library="gtestd" />
+					<Add directory="bin" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/AStyleTestLoc" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objLoc/Release/" />
+				<Option type="1" />
+				<Option compiler="clang" />
+				<Option parameters="--gtest_print_time=0" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-Wextra" />
+					<Add option="-DNDEBUG" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyle/src" />
+					<Add directory="../../../googletest/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="gtest" />
+					<Add directory="bin" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="../../../AStyle/src/ASLocalizer.cpp" />
+		<Unit filename="../../../AStyle/src/ASLocalizer.h" />
+		<Unit filename="../../srcloc/AStyleTestLoc.cpp" />
+		<Unit filename="../../srcloc/AStyleTestLoc_Main.cpp" />
+		<Unit filename="../../srcx/TersePrinter.cpp" />
+		<Unit filename="../../srcx/TersePrinter.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
