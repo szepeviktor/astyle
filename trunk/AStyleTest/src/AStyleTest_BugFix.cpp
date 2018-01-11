@@ -19,6 +19,38 @@ namespace {
 // AStyle version 3.1 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V31, JavaDefaultKeyword)
+{
+	// Java can have 'default' keyword not in a switch statement.
+	// The line with 'default' should be correctly indented.
+	char text[] =
+	    "\n"
+	    "public static @interface EBHandler\n"
+	    "{\n"
+	    "    boolean exact() default false;\n"
+	    "}";
+	char options[] = "mode=java";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V31, BraceSpacePadding)
+{
+	// Should not space pad a closing brace before a dot.
+	// In this case do not space pad after MyClass{}.
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    MyClass my_object = MyClass{}.bar(22).NEW();\n"
+	    "}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V31, SharpTemplateDeclaration)
 {
 	// Fix template declaration with a colon.
