@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Bcc AStyleWxTest 3.0">
+		<Project filename="Bcc AStyleWxTest 3.0.cbp">
+			<Depends filename="Bcc GMock Lib.cbp" />
+		</Project>
+		<Project filename="Bcc GMock Lib.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>
