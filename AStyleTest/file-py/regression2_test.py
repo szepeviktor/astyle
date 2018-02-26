@@ -35,11 +35,10 @@ import libtest
 __project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
-__options = libastyle.OPT2
+__options = libastyle.OPT1
 
 # options_x are for BOTH executables
-#  -xBxD  -xfxh
-__options_x = "-xfxh"
+__options_x = ""
 # options_x2 are for ONLY exe2 to test new options
 __options_x2 = ""
 
@@ -47,8 +46,8 @@ __options_x2 = ""
 #__options = "-tapOHUk3"
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
-__astyleexe1 = "astyle30g"
-__astyleexe2 = "astyled"
+__astyleexe1 = "astyle31"
+__astyleexe2 = "astyle"
 
 # select one of the following to format files in the OLD directory
 __formatOLD = True

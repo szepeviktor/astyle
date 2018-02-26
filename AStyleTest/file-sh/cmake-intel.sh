@@ -1,55 +1,66 @@
 #!/bin/bash
 
+# USE ONE OF THESE OPTIONS
+opts=
+# opts=-DCMAKE_VERBOSE_MAKEFILE=1
+# opts="-DCMAKE_BUILD_TYPE=Debug  -DCMAKE_VERBOSE_MAKEFILE=1"
+# opts=-DCMAKE_BUILD_TYPE="MinSizeRel"
+# echo $opts
+
 # Executable
 echo
-echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-echo "*                       AStyle Intel Executable                       *"
-echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+echo "*                AStyle Intel Executable                *"
+echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 cd  "$HOME/Projects/AStyle"
+rm --recursive --force  as-intel-exe
 mkdir  --parents  as-intel-exe
 cd  as-intel-exe
-CXX=icpc  cmake  ../
+CXX=icpc  cmake  $opts   ../
 make
 
 # So
 echo
-echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-echo "*                           AStyle Intel So                           *"
-echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+echo "*                    AStyle Intel So                    *"
+echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 cd  "$HOME/Projects/AStyle"
+rm --recursive --force  as-intel-so
 mkdir  --parents  as-intel-so
 cd  as-intel-so
-CXX=icpc  cmake  -DBUILD_SHARED_LIBS=1  ../
+CXX=icpc  cmake  -DBUILD_SHARED_LIBS=1  $opts   ../
 make
 
 # Java
 echo
-echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-echo "*                          AStyle Intel Java                          *"
-echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+echo "*                   AStyle Intel Java                   *"
+echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 cd  "$HOME/Projects/AStyle"
+rm --recursive --force  as-intel-java
 mkdir  as-intel-java
 cd  as-intel-java
-CXX=icpc  cmake  -DBUILD_JAVA_LIBS=1  ../
+CXX=icpc  cmake  -DBUILD_JAVA_LIBS=1  $opts   ../
 make
 
 # Static
 echo
-echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-echo "*                         AStyle Intel Static                         *"
-echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+echo "*                  AStyle Intel Static                  *"
+echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 cd  "$HOME/Projects/AStyle"
+rm --recursive --force  as-intel-a
 mkdir  --parents  as-intel-a
 cd  as-intel-a
-CXX=icpc  cmake  -DBUILD_STATIC_LIBS=1  ../
+CXX=icpc  cmake  -DBUILD_STATIC_LIBS=1  $opts   ../
 make
 
 copy=true
 if [ "$copy" = "true" ]; then
 	echo
-	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-	echo "*                 Copy Files to AStyleDev for Testing                 *"
-	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+	echo "*          Copy Files to AStyleDev for Testing          *"
+	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 	cd ../
 	cp --verbose --force  as-intel-exe/astyle                ../AStyleDev/src-p/
 	cp --verbose --force  as-intel-so/libastyle.so.*         ../AStyleDev/src-o/

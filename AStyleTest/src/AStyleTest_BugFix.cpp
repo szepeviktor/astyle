@@ -19,6 +19,60 @@ namespace {
 // AStyle version 3.1 TEST functions
 //----------------------------------------------------------------------------
 
+TEST(BugFix_V32, ObjCAutoReleasePool)
+{
+	// Objective-C @autoreleasepool not followed by a brace.
+	// The indentation should not change.
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "#if __has_feature(objc_arc)    // clang directive\n"
+	    "    @autoreleasepool\n"
+	    "#else\n"
+	    "    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];\n"
+	    "#endif\n"
+	    "    {\n"
+	    "        for (NSString* fileName in fileNames)\n"
+	    "        {\n"
+	    "            filePath = getDirectory(fileName);\n"
+	    "        }\n"
+	    "    }\n"
+	    "#if !__has_feature(objc_arc)    // clang directive\n"
+	    "    [pool drain];\n"
+	    "#endif\n"
+	    "    return EXIT_SUCCESS;\n"
+	    "}";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(BugFix_V32, ObjCTypeVariable)
+{
+	// Objective-C NSString is recognized as a type.
+	// The NSString should be recognized as a type and not padded.
+	char textIn[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    for (NSString * fileName in fileNames)\n"
+	    "        filePath = getDirectory(fileName);\n"
+	    "}\n";
+	char text[] =
+	    "\n"
+	    "void Foo()\n"
+	    "{\n"
+	    "    for (NSString* fileName in fileNames)\n"
+	    "        filePath = getDirectory(fileName);\n"
+	    "}\n";
+	char options[] = "align-pointer=type, pad-oper";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 TEST(BugFix_V31, JavaDefaultKeyword)
 {
 	// Java can have 'default' keyword not in a switch statement.

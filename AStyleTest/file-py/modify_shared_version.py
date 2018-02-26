@@ -15,12 +15,12 @@ import libastyle
 # global variables ------------------------------------------------------------
 
 # windows
-__old_release = "301"
-__new_release = "31"
+__old_release = "31"
+__new_release = "32"
 
 # linux
-__old_solibver = "3.0.1"
-__new_solibver = "3.1.0"
+__old_solibver = "3.1.0"
+__new_solibver = "3.2.0"
 
 __file_update = False           # should the files be updated?
 
@@ -80,7 +80,7 @@ def main():
     update_astyle_main(astyle_main_file_path)
 
     if not __file_update:
-        print("FILES NOT UPDATED")
+        print("\nFILES NOT UPDATED")
 
 # -----------------------------------------------------------------------------
 
@@ -180,7 +180,7 @@ def update_astyle_main(filepath):
                 if new_astyle_release in line:
                     libastyle.system_exit("ERROR: release is already changed to "
                                           + str(new_astyle_release))
-                line = line.replace(old_astyle_release, new_astyle_release)
+                line = line.replace(old_astyle_release, new_astyle_release + " beta")
                 release_start = line.find(new_astyle_release)
                 if release_start == -1:
                     libastyle.system_exit("ERROR: cannot find release start in line")
@@ -201,7 +201,6 @@ def update_astyle_main(filepath):
     else:
         libastyle.system_exit("ERROR: astyle_main was not changed")
     print("astyle_main Source File", source_total)
-    print()
 
 # -----------------------------------------------------------------------------
 

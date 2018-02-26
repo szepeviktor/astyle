@@ -7,7 +7,7 @@ REM do NOT use %USERPROFILE% because of the backslashes
 set repos=https://svn.code.sf.net/p/astyle/code
 set svndir=%repos%/tags
 set svnprog=C:\Program Files (x86)\SlikSvn\bin
-set rel=3.0.1
+set rel=3.1
 
 
 REM do NOT use backslashes in the file:/// statement

@@ -109,6 +109,9 @@ def process_astyle_main(astyle_main_list):
         if line.startswith("size_t sep = 0"):
             astyle_main_list.append("variableScope:" + src_path + ":" + str(lines)
                                     + "\t\t\t\t// sep\n")
+        if line.startswith("assert(utf16Size =="):
+            astyle_main_list.append("assertWithSideEffect:" + src_path + ":" + str(lines)
+                                    + "\t// assert(utf16Size ==\n")
         # unusedFunction warnings
         if "ASConsole::getErrorStream(" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
@@ -271,11 +274,11 @@ def process_beautifier(beautifier_list):
             chars_processed += 1
             if chars_processed == 1 or chars_processed == 3:
                 beautifier_list.append("variableScope:" + src_path + ":" + str(lines)
-                                       + "\t\t\t// char ch\n")
+                                       + "\t\t\t\t// char ch\n")
         # unusedFunction warnings
         if "ASBeautifier::getBeautifierFileType" in line:
             beautifier_list.append("unusedFunction:" + src_path + ":" + str(lines)
-                                   + "\t\t\t// getBeautifierFileType\n")
+                                   + "\t\t\t\t// getBeautifierFileType\n")
     file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -323,7 +326,6 @@ def process_file_suppressions(file_suppression_list):
     file_suppression_list.append("// These are actually initialized in the astyle 'init' functions.\n")
     file_suppression_list.append("// They are verified by other Python scripts.\n")
     file_suppression_list.append("uninitMemberVar:" + __src_dir + "ASBeautifier.cpp\n")
-    file_suppression_list.append("uninitMemberVar:" + __src_dir + "ASEnhancer.cpp\n")
     file_suppression_list.append("uninitMemberVar:" + __src_dir + "ASFormatter.cpp\n")
 
 # -----------------------------------------------------------------------------
@@ -350,10 +352,10 @@ def process_formatter(formatter_list):
             chars_processed += 1
             if chars_processed == 2:
                 formatter_list.append("variableScope:" + src_path + ":" + str(lines)
-                                      + "\t\t\t// char ch\n")
+                                      + "\t\t\t\t// char ch\n")
         if line.startswith("int spacesOutsideToDelete"):
             formatter_list.append("variableScope:" + src_path + ":" + str(lines)
-                                  + "\t\t\t// spacesOutsideToDelete\n")
+                                  + "\t\t\t\t// spacesOutsideToDelete\n")
         if "operators->empty" in line:
             formatter_list.append("reademptycontainer:" + src_path + ":" + str(lines)
                                   + "\t\t// operators->empty\n")
@@ -411,12 +413,12 @@ def process_localizer(localizer_list):
             line = line[:comment].rstrip()
         if line.startswith('m_localeName = "UNKNOWN"'):
             localizer_list.append("useInitializationList:" + src_path + ":" + str(lines)
-                                  + "\t\t// m_localeName\n")
+                                  + "\t\t\t// m_localeName\n")
         if line.startswith('m_langID = "en"'):
             langid_processed += 1
             if langid_processed == 1:
                 localizer_list.append("useInitializationList:" + src_path + ":" + str(lines)
-                                      + "\t\t// m_langID\n")
+                                      + "\t\t\t// m_langID\n")
         # unusedFunction warnings
         if "ASLocalizer::getTranslationClass" in line:
             localizer_list.append("unusedFunction:" + src_path + ":" + str(lines)
@@ -508,10 +510,10 @@ def verify_cppcheck_version(exepath):
     """
     # check_output always returns byte code
     version = subprocess.check_output([exepath, "--version"])
-    version = version[9:]   # remove "Cppcheck "
-    version = version.rstrip(b"\r\n")
     if platform.python_version_tuple()[0] >= '3':
         version = version.decode()
+    version = version[9:]
+    version = version.rstrip("\r\n")
     if version < __expected_version:
         print("Cppcheck version", version,
               "is less than expected version", __expected_version, "\n")
