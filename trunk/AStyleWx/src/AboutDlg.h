@@ -21,7 +21,6 @@ class AboutDlg: public AboutDlgBase
 {
 public:
 	explicit AboutDlg(wxWindow* parent);
-	~AboutDlg();
 	void SetAboutDlgValues(wxString& astyleVersion, wxIconBundle* m_iconBundle);
 
 private:

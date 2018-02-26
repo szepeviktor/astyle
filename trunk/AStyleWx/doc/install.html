@@ -30,37 +30,41 @@
     <p class="contents2">
         <a class="contents" href="#_wx_Other_Windows_Compilers">Other Windows Compilers</a></p>
     <p class="contents1">
-        <a class="contents" href="#_lnx_Linux_Compiles">Linux Compiles</a></p>
+        <a class="contents" href="#_Linux_Compiles">Linux Compiles</a></p>
     <p class="contents2">
-        <a class="contents" href="#_lnx_CodeBlocks_Linux">CodeBlocks Linux</a></p>
+        <a class="contents" href="#_CodeBlocks_Linux">CodeBlocks Linux</a></p>
     <p class="contents2">
-        <a class="contents" href="#_lnx_GCC_Makefile">GCC Makefile</a></p>
+        <a class="contents" href="#_CMake_Linux">CMake Linux</a></p>
     <p class="contents2">
-        <a class="contents" href="#_lnx_Clang_Makefile">Clang Makefile</a></p>
+        <a class="contents" href="#_GCC_Makefile">GCC Makefile</a></p>
     <p class="contents2">
-        <a class="contents" href="#_lnx_Intel_Makefile">Intel Makefile</a></p>
+        <a class="contents" href="#_Clang_Makefile">Clang Makefile</a></p>
     <p class="contents2">
-        <a class="contents" href="#_lnx_Makefile_Shared_Libraries">Makefile Shared Libraries</a>
+        <a class="contents" href="#_Intel_Makefile">Intel Makefile</a></p>
     <p class="contents2">
-        <a class="contents" href="#_lnx_Other_Makefile_Options">Other Makefile Options</a></p>
+        <a class="contents" href="#_Makefile_Shared_Libraries">Makefile Shared Libraries</a></p>
     <p class="contents2">
-        <a class="contents" href="#_lnx_Other_Makefile_Targets">Other Makefile Targets</a></p>
+        <a class="contents" href="#_Other_Makefile_Options">Other Makefile Options</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_Other_Makefile_Targets">Other Makefile Targets</a></p>
     <p class="contents1">
-        <a class="contents" href="#_mac_MacOS_Compiles">MacOS Compiles</a></p>
+        <a class="contents" href="#_MacOS_Compiles">MacOS Compiles</a></p>
     <p class="contents2">
-        <a class="contents" href="#_mac_Xcode">Xcode</a></p>
+        <a class="contents" href="#_Xcode">Xcode</a></p>
     <p class="contents2">
-        <a class="contents" href="#_mac_Makefile">Makefile</a></p>
+        <a class="contents" href="#_CMake_MacOS">CMake MacOS</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_MacOS_Makefile">MacOS Makefile</a></p>
     <p class="contents1">
-        <a class="contents" href="#_win_Windows_Compiles">Windows Compiles</a></p>
+        <a class="contents" href="#_Windows_Compiles">Windows Compiles</a></p>
     <p class="contents2">
-        <a class="contents" href="#_win_Precompiled_Executable">Precompiled Executable</a></p>
+        <a class="contents" href="#_Precompiled_Executable">Precompiled Executable</a></p>
     <p class="contents2">
-        <a class="contents" href="#_win_CodeBlocks_Windows">CodeBlocks Windows</a></p>
+        <a class="contents" href="#_Visual_C++_Compiler">Visual C++ Compiler</a></p>
     <p class="contents2">
-        <a class="contents" href="#_win_Precompiled_Executable">Precompiled Executable</a></p>
+        <a class="contents" href="#_CodeBlocks_Windows">CodeBlocks Windows</a></p>
     <p class="contents2">
-        <a class="contents" href="#_win_Visual_C++_Compiler">Visual C++ Compiler</a></p>
+        <a class="contents" href="#_CMake_Windows">CMake Windows</a></p>
     <p class="contents1">
         <a class="contents" href="#_Other_Compilers">Other Compilers</a></p>
     <p class="contents1">
@@ -187,9 +191,9 @@ sudo make install</pre>
     <pre>cd build\msw
 mingw32-make -f makefile.gcc SHARED=1 CXXFLAGS=&quot;-std=gnu++11 -Wno-deprecated-declarations&quot;</pre>
 
-    <h3 id="_lnx_Linux_Compiles">Linux Compiles</h3>
+    <h3 id="_Linux_Compiles">Linux Compiles</h3>
 
-    <h4 id="_lnx_CodeBlocks_Linux">CodeBlocks Linux</h4>
+    <h4 id="_CodeBlocks_Linux">CodeBlocks Linux</h4>
 
     <p>
         There are build folders for the following compilers. All compiler folders are in the &quot;build&quot; directory.
@@ -218,12 +222,48 @@ mingw32-make -f makefile.gcc SHARED=1 CXXFLAGS=&quot;-std=gnu++11 -Wno-deprecate
                 <li><em>AStyleWxSoSys 3.x</em> uses a <strong>system</strong> Artistic Style shared library. This library must be
                     installed in a system library folder with the correct linkage. The most current library will be used.</li>
             </ul>
-            The <a href="#_lnx_Makefile_Shared_Libraries">Makefile Shared Libraries</a> section contains additional information
+            The <a href="#_Makefile_Shared_Libraries">Makefile Shared Libraries</a> section contains additional information
             on compiling to use an astyle shared library.
         </li>
     </ul>
 
-    <h4 id="_lnx_GCC_Makefile">GCC Makefile</h4>
+    <h4 id="_CMake_Linux">CMake Linux</h4>
+
+    <p>
+        Artistic Style Wx has CMake support for GCC, Clang, and Intel compilers. Other compilers will probably work if
+        the necessary options are set. Refer to the section on <a href="#_Compiler_Options">Compiler Options</a> for 
+        more information.</p>
+    <p>
+        Artistic Style Wx gets compile information from the wxWidgets wx-config file. A CMake &quot;out of source&quot;
+        build should be used for the different compile configurations. The default build is a release version. A debug
+        version must be specifically requested.</p>
+
+    <h5>EXAMPLES</h5>
+
+    <p>
+        The following examples are assumed to be run from the astyle directory that contains 
+        CMakeLists.txt. They show out of source builds that generate makefiles.</p>
+    <p>
+        To build the GCC release version:</p>
+    <pre>mkdir  aswx-gcc
+cd  aswx-gcc
+cmake  ../
+make
+</pre>
+    <p>
+        To build the debug version using the Clang compiler:</p>
+    <pre>mkdir  aswx-clang
+cd  aswx-clang
+CXX=clang++  -DCMAKE_BUILD_TYPE=Debug  cmake  ../
+make
+</pre>
+
+    <h5>INSTALL</h5>
+
+    <p>
+        There is no install or uninstall. This should be done manually.</p>
+
+    <h4 id="_GCC_Makefile">GCC Makefile</h4>
 
     <p>
         The build has no autoconf dependency. To build the AStyleWx configurations use the makefile located in
@@ -261,12 +301,12 @@ make</pre>
 make release shared</pre>
 
     <p>
-        The <a href="#_lnx_Makefile_Shared_Libraries">Makefile Shared Libraries</a> section contains additional 
-        information on compiling to use an astyle shared library. The <a href="#_lnx_Other_Makefile_Options">Other Makefile
-            Options</a> and <a href="#_lnx_Other_Makefile_Targets">Other Makefile Targets</a> sections contain additional
+        The <a href="#_Makefile_Shared_Libraries">Makefile Shared Libraries</a> section contains additional 
+        information on compiling to use an astyle shared library. The <a href="#_Other_Makefile_Options">Other Makefile
+            Options</a> and <a href="#_Other_Makefile_Targets">Other Makefile Targets</a> sections contain additional
         compile and target options.</p>
 
-    <h4 id="_lnx_Clang_Makefile">Clang Makefile</h4>
+    <h4 id="_Clang_Makefile">Clang Makefile</h4>
 
     <p>
         The build has no autoconf dependency. To build AStyleWx use the makefile located in the astyle/build/clang
@@ -284,12 +324,12 @@ make
 </pre>
 
     <p>
-        The <a href="#_lnx_Makefile_Shared_Libraries">Makefile Shared Libraries</a> section contains additional 
-        information on compiling to use an astyle shared library. The <a href="#_lnx_Other_Makefile_Options">Other Makefile
-            Options</a> and <a href="#_lnx_Other_Makefile_Targets">Other Makefile Targets</a> sections contain additional
+        The <a href="#_Makefile_Shared_Libraries">Makefile Shared Libraries</a> section contains additional 
+        information on compiling to use an astyle shared library. The <a href="#_Other_Makefile_Options">Other Makefile
+            Options</a> and <a href="#_Other_Makefile_Targets">Other Makefile Targets</a> sections contain additional
         compile and target options.</p>
 
-    <h4 id="_lnx_Intel_Makefile">Intel Makefile</h4>
+    <h4 id="_Intel_Makefile">Intel Makefile</h4>
 
     <p>
         These procedures and the makefile are for recent versions of the compiler. They may not work for earlier versions.
@@ -319,12 +359,12 @@ make
 </pre>
 
     <p>
-        The <a href="#_lnx_Makefile_Shared_Libraries">Makefile Shared Libraries</a> section contains additional information
-        on compiling to use an astyle shared library. The <a href="#_lnx_Other_Makefile_Options">Other Makefile Options</a>
-        and <a href="#_lnx_Other_Makefile_Targets">Other Makefile Targets</a> sections contain additional compile and
+        The <a href="#_Makefile_Shared_Libraries">Makefile Shared Libraries</a> section contains additional information
+        on compiling to use an astyle shared library. The <a href="#_Other_Makefile_Options">Other Makefile Options</a>
+        and <a href="#_Other_Makefile_Targets">Other Makefile Targets</a> sections contain additional compile and
         target options.</p>
 
-    <h4 id="_lnx_Makefile_Shared_Libraries">Makefile Shared Libraries</h4>
+    <h4 id="_Makefile_Shared_Libraries">Makefile Shared Libraries</h4>
 
     <p>
         <strong>To build the AStyleWxSo program an AStyle shared library must be compiled using the AStyle 
@@ -341,7 +381,7 @@ make
         build should be changed in a similar manner. When this is done the compile will link to the most current system
         library. </p>
 
-    <h4 id="_lnx_Other_Makefile_Options">Other Makefile Options</h4>
+    <h4 id="_Other_Makefile_Options">Other Makefile Options</h4>
 
     <p>
         The following additional compile options are available for GCC, Clang, Intel, and MacOS.</p>
@@ -356,7 +396,6 @@ make
         option may be used with compile and install commands.</p>
 
     <h5>CFLAGS</h5>
-
 
     <p>
         To add additional compiler options use CFLAGS. The options should be enclosed in quotes if spaces are
@@ -375,7 +414,7 @@ make
         is to make testing more convenient. It is not intended to be used in a release configuration. To use the option
         enter CFLAGS=&quot;&#8209;DTESTMODE1&quot;.</p>
 
-    <h4 id="_lnx_Other_Makefile_Targets">Other Makefile Targets</h4>
+    <h4 id="_Other_Makefile_Targets">Other Makefile Targets</h4>
 
     <p>
         The following additional makefile targets are available.</p>
@@ -433,9 +472,9 @@ make
         NOTE: The uninstall option will NOT remove the &quot;.astylewx&quot; configuration files from the user's home
         directory. The files must be removed individually for each user.</p>
 
-    <h3 id="_mac_MacOS_Compiles">MacOS Compiles</h3>
+    <h3 id="_MacOS_Compiles">MacOS Compiles</h3>
 
-    <h4 id="_mac_Xcode">Xcode</h4>
+    <h4 id="_Xcode">Xcode</h4>
 
     <p>
         AStyleWx workspace and project files for the Xcode development environment are available in the
@@ -491,7 +530,13 @@ make
 sudo xcodebuild install -project AStyleWx.xcodeproj -target AStyleWx
 </pre>
 
-    <h4 id="_mac_Makefile">Makefile</h4>
+    <h4 id="_CMake_MacOS">CMake MacOS</h4>
+
+    <p>
+        Artistic Style Wx has CMake support for MacOS. It is used the same as <a href="#_CMake_Linux">CMake Linux</a>
+        except the supported compilers are only GCC and Clang.</p>
+
+    <h4 id="_MacOS_Makefile">MacOS Makefile</h4>
 
     <p>
         The build has no autoconf dependency. To build the AStyleWx configurations use the makefile located in the astylewx/build/mac
@@ -525,41 +570,19 @@ make</pre>
 make release debug</pre>
 
     <p>
-        The <a href="#_lnx_Other_Makefile_Options">Other Makefile Options</a> and <a href="#_lnx_Other_Makefile_Targets">Other
+        The <a href="#_Other_Makefile_Options">Other Makefile Options</a> and <a href="#_Other_Makefile_Targets">Other
             Makefile Targets</a> sections contain additional compile and target options. They are the same as for Linux
         makefiles.</p>
 
-    <h3 id="_win_Windows_Compiles">Windows Compiles</h3>
+    <h3 id="_Windows_Compiles">Windows Compiles</h3>
 
-    <h4 id="_win_Precompiled_Executable">Precompiled Executable</h4>
+    <h4 id="_Precompiled_Executable">Precompiled Executable</h4>
 
     <p>
         In addition to the source files, the Windows distribution package contains an Artistic Style Win32 executable
         (AStyle.exe). If you prefer to compile the executable yourself use the following instructions.</p>
 
-    <h4 id="_win_CodeBlocks_Windows">CodeBlocks Windows</h4>
-
-    <p>
-        There are build folders for the following compilers. All compiler folders are in the &quot;build&quot; directory.
-    </p>
-    <ul>
-        <li><strong>cb-mingw</strong> contains the workspace and project files for the MinGW or TDM_GCC Compilers.</li>
-    </ul>
-    <p>
-        There are workspace and project files for each folder. All projects have at least Debug and Release
-        configurations. All output will be in the &quot;bin&quot; directory.</p>
-    <p>
-        The following workspace files are available.</p>
-    <ul>
-        <li><strong>AStyleWx 3.x</strong>&nbsp;builds Artistic Style Wx for version 3.x of wxWidgets, where x is the minor
-            version number. Artistic Style is compiled and linked as a Dynamic Link Library (AStyle3.x.dll). The build will
-            result in a single file executable.</li>
-        <li><strong>AStyleWxSo 3.x</strong>&nbsp;builds the Artistic Style Wx program for version 3.x of wxWidgets, where
-            x is the minor version number. Artistic Style is compiled and linked as a Dynamic Link Library (AStyleWxDll).
-        </li>
-    </ul>
-
-    <h4 id="_win_Visual_C++_Compiler">Visual C++ Compiler</h4>
+    <h4 id="_Visual_C++_Compiler">Visual C++ Compiler</h4>
 
     <p>
         <strong>To compile AStyleWx the wxWidgetsMacros.props files must be changed.</strong> The files
@@ -606,6 +629,76 @@ make release debug</pre>
         compile is not needed it can be removed from the configurations. If you want to try compiling it the procedure
         described in the AStyleWx documentation <a href="static.html"
             target="_blank" title="open new window">Visual Studio Static Compile</a>.</p>
+
+    <h4 id="_CodeBlocks_Windows">CodeBlocks Windows</h4>
+
+    <p>
+        There are build folders for the following compilers. All compiler folders are in the &quot;build&quot; directory.
+    </p>
+    <ul>
+        <li><strong>cb-mingw</strong> contains the workspace and project files for the MinGW or TDM_GCC Compilers.</li>
+    </ul>
+    <p>
+        There are workspace and project files for each folder. All projects have at least Debug and Release
+        configurations. All output will be in the &quot;bin&quot; directory.</p>
+    <p>
+        The following workspace files are available.</p>
+    <ul>
+        <li><strong>AStyleWx 3.x</strong>&nbsp;builds Artistic Style Wx for version 3.x of wxWidgets, where x is the minor
+            version number. Artistic Style is compiled and linked as a Dynamic Link Library (AStyle3.x.dll). The build will
+            result in a single file executable.</li>
+        <li><strong>AStyleWxSo 3.x</strong>&nbsp;builds the Artistic Style Wx program for version 3.x of wxWidgets, where
+            x is the minor version number. Artistic Style is compiled and linked as a Dynamic Link Library (AStyleWxDll).
+        </li>
+    </ul>
+
+    <h4 id="_CMake_Windows">CMake Windows</h4>
+
+    <p>
+        Artistic Style Wx has CMake support for the MinGW compiler only.</p>
+    <p>
+        Since the different builds use the same source files an &quot;out of source&quot; build should be used. The
+        default build for MinGW is a release version. A debug version must be specifically requested. </p>
+    <p>
+        The build must get compile information from variables passed to CMake. <strong>These variables may be set by a &quot;set&quot;
+            command before running CMake, or by changing the information in the CMakeLists.txt script.</strong> The variables
+        are at the beginning of the script. The following must be set.</p>
+    <ul>
+        <li><strong>WXWIN</strong> is the path to the wxWidgets top level folder. The folder contains directories for the
+            include files and the library files used in the build.</li>
+        <li><strong>WXSHARED</strong> is a boolean value that indicates if the shared libraries (DLLs) are to be used instead
+            of the static libraries. The default is to use the static libraries. If shared libraries are used, the shared
+            libraries are copied to the folder with the executable so the program can be executed.</li>
+    </ul>
+
+    <h5>EXAMPLES</h5>
+
+    <p>
+        The following examples are assumed to be run from the directory that contains 
+        CMakeLists.txt. They show out of source builds that generate makefiles. </p>
+    <p>
+        A path to the compiler executable may need to be declared before compiling. To set the variables before compiling,
+        replace the fillowing path name with the path on your computer.</p>
+    <pre>set PATH=C:\Program Files\CMake\bin;%PATH%
+</pre>
+    <p>
+        To build the MinGW release version using static libraries:</p>
+    <pre>md  aswx-mingw
+cd  aswx-mingw
+cmake  -G "MinGW Makefiles"  -DWXWIN=&quot;C:/Programs/wxWidgets-3.0.2_mingw&quot;  
+mingw32-make</pre>
+
+    <p>
+        To build the MinGW debug version using shared libraries:</p>
+    <pre>md  aswx-mingw
+cd  aswx-mingw
+cmake  -G "MinGW Makefiles"  -DCMAKE_BUILD_TYPE=Debug  -DWXSHARED=1  -DWXWIN=&quot;C:/Programs/wxWidgets-3.0.2_mingw&quot;  
+mingw32-make</pre>
+
+    <h5>INSTALL</h5>
+
+    <p>
+        There is no install or uninstall. This must be done manually.</p>
 
     <h3 id="_Other_Compilers">Other Compilers</h3>
 

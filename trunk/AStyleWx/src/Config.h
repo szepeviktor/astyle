@@ -26,23 +26,27 @@ class AStyleIFace;
 class Config : public wxConfig
 {
 public:
-	explicit Config(wxString appName) : wxConfig(appName) {}
-	virtual ~Config() {}
+	explicit Config(wxString appName, ASFrame* frame) : wxConfig(appName), m_frame(frame) {}
 	void GetAStyleOptions(AStyleIFace* astyle);
 	vector<TextStyle> GetDefaultStyleOptions();
-	void GetEditorAndViewMenuOptions(ASFrame* frame);
+	void GetEditorAndViewOptions();
+	wxArrayString GetSessionFiles();
 	vector<TextStyle> GetStcStyleOptions();
-	void InitializeConfigFile(ASFrame* frame);
 	void SaveAStyleOptions(AStyleIFace* astyle);
-	void SaveEditorOptions(ASFrame* frame);
+	void SaveEditorOptions();
+	void SaveSessionFiles();
 	void SaveStcStyleOptions(const vector<TextStyle>& styleVector);
 	void SaveTestOptions(const wxString& testOptions);
-	void SaveViewMenuOptions(ASFrame* frame);
+	void SaveViewMenuOptions();
 
 private:
 	int  FindStyleVectorIndex(const wxString& groupPath, const vector<TextStyle>& styleVector);
-	virtual void ShowInvalidConfig(const wxString& entry);								// override for tests
+	void InitializeConfigFile();
+	virtual void ShowInvalidConfig(const wxString& entry);				// override for tests
 	bool UpdateStyleEntry(const wxString& groupPath, vector<TextStyle>& styleVector);
+
+private:
+	ASFrame* m_frame;
 };
 
 #endif  // _CONFIG_H_

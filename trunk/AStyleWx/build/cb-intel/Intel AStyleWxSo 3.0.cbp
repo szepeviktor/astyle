@@ -11,7 +11,6 @@
 				<Option object_output="wx3.0So/obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="icc" />
-				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-fno-rtti" />
@@ -46,7 +45,6 @@
 				<Option object_output="wx3.0So/obj/Release/" />
 				<Option type="0" />
 				<Option compiler="icc" />
-				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-fno-rtti" />
@@ -78,7 +76,7 @@
 				</Linker>
 			</Target>
 			<Environment>
-				<Variable name="SOLIBVER" value="3.1.0" />
+				<Variable name="SOLIBVER" value="3.2.0" />
 			</Environment>
 		</Build>
 		<Unit filename="../../dialog/AStyleDlgBase.cpp" />

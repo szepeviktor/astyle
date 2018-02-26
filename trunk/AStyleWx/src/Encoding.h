@@ -20,9 +20,6 @@ class Encoding
 {
 public:
 	explicit Encoding(const wxString& filename);
-	Encoding(const Encoding& rhs);
-	~Encoding();
-
 	static size_t EncodeText(wxFontEncoding encoding, const wxString& textIn, wxCharBuffer& mbBuff);
 	wxFontEncoding GetFileEncoding() const;
 	wxString& GetConvertedText();

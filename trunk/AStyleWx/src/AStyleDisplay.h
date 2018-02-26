@@ -26,7 +26,6 @@ class AStyleDisplay
 public:
 	AStyleDisplay(wxCheckBox*, wxCheckBox*, wxCheckBox*,
 	              wxCheckBox*, wxCheckBox*, wxCheckBox*);
-	~AStyleDisplay();
 	void DisplayFormatOptions(wxCommandEvent& event, wxStyledTextCtrl* formatPreviewSTC);
 	void DisplayIndentOptions(wxCommandEvent& event, wxStyledTextCtrl* indentPreviewSTC);
 	void DisplayModifierOptions(wxCommandEvent& event, wxStyledTextCtrl* tabPreviewSTC);

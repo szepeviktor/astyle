@@ -22,7 +22,6 @@ class SettingsDlg: public SettingsDlgBase
 {
 public:
 	SettingsDlg(wxWindow* parent, ASFrame* frame, AStyleIFace* astyle);
-	~SettingsDlg();
 };
 
 #endif	// _SETTINGSDLG_H_

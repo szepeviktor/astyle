@@ -46,11 +46,10 @@ class EditorDlg: public EditorDlgBase
 public:
 	/// Constructors
 	EditorDlg(ASFrame* frame, int page);
-	~EditorDlg();
-
 	wxFont GetCommentFont() const;
 	wxFont GetDefaultFont() const;
 	bool GetHideFind() const;
+	bool GetLoadSession() const;
 	vector<TextStyle>& GetNewStyleVector();
 	int  GetPage();
 	bool GetShowDialogTooltips() const;

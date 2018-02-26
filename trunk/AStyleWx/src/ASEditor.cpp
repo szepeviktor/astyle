@@ -20,7 +20,7 @@
 //-----------------------------------------------------------------------------
 
 // Implement ASApp& wxGetApp()
-DECLARE_APP(ASApp)
+wxDECLARE_APP(ASApp);
 
 //-----------------------------------------------------------------------------
 // Editor event table
@@ -78,8 +78,6 @@ ASEditor::ASEditor(wxWindow* notebook)
 	wxStyledTextCtrl::MarkerSetBackground(BOOKMARK_1, wxColour(0x80, 0xFF, 0xA0));
 	wxStyledTextCtrl::MarkerSetForeground(BOOKMARK_1, wxColour(0x80, 0x80, 0));
 }
-
-ASEditor::~ASEditor() {}
 
 int ASEditor::BraceAtCaret()
 /* Find if there is a brace next to the caret, checking before caret first,
@@ -565,6 +563,7 @@ void ASEditor::OnSTCContextMenu(wxContextMenuEvent&)
 {
 	wxMenu contextMenu(0L);
 	// settings and options menu
+	contextMenu.Append(ID_EDIT_EDITOR_OPTIONS, "Editor Options...");
 #ifdef TESTMODE1
 	contextMenu.Append(ID_TOOL_TEST_OPTIONS, "Test Options...");
 #endif

@@ -22,10 +22,6 @@ AboutDlg::AboutDlg(wxWindow* parent) : AboutDlgBase(parent)
 	m_ok->SetDefault();
 }
 
-AboutDlg::~AboutDlg()
-{
-}
-
 void AboutDlg::SetSystemInfo()
 {
 	wxLocale loc;
@@ -43,7 +39,7 @@ void AboutDlg::SetSystemInfo()
 	wxString fontCode = wxFontMapper::GetEncodingName(wxLocale::GetSystemEncoding()).Lower();
 	wxFont sysGuiFont(*wxNORMAL_FONT);
 	wxString guiFont = wxString::Format("%s, %d pt",
-	                                    sysGuiFont.GetFaceName().c_str(), sysGuiFont.GetPointSize());
+	                                    sysGuiFont.GetFaceName(), sysGuiFont.GetPointSize());
 	bool isLittleEndian = wxIsPlatformLittleEndian();
 	wxString endian = isLittleEndian ? "little endian" : "big endian";
 	bool is64Bit = wxIsPlatform64Bit();
@@ -118,9 +114,9 @@ void AboutDlg::SetAboutDlgValues(wxString& astyleVersion, wxIconBundle* m_iconBu
 	m_license->SetLabel("This software is licensed under the MIT License.");
 	m_wxVersion->SetLabel(wxString::Format("Built with wxWidgets version  %d.%d.%d.",
 	                                       wxMAJOR_VERSION, wxMINOR_VERSION, wxRELEASE_NUMBER));
-	m_astylewxVersion->SetLabel(wxString::Format("Artistic Style Wx version  %s.", astyleVersion.c_str()));
+	m_astylewxVersion->SetLabel(wxString::Format("Artistic Style Wx version  %s.", astyleVersion));
 	// set astyle information
-	m_astyleVersion->SetLabel(wxString::Format("Artistic Style version  %s.", astyleVersion.c_str()));
+	m_astyleVersion->SetLabel(wxString::Format("Artistic Style version  %s.", astyleVersion));
 	m_astyleWeblabel->SetLabel("Home Page");
 	m_astyleWebsite->SetLabel("http://astyle.sourceforge.net/");
 	m_astyleWebsite->SetURL("http://astyle.sourceforge.net/");

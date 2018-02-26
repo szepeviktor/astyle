@@ -31,10 +31,6 @@ Encoding::Encoding(const wxString& filename)
 	m_isOK = DetectEncoding(filename);
 }
 
-Encoding::~Encoding()
-{
-}
-
 bool Encoding::IsOK() const
 {
 	return m_isOK;
