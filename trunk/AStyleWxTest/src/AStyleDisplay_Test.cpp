@@ -29,7 +29,7 @@ namespace {
 
 struct AStyleDisplayF_Init : public Test
 {
-	// Need this setup because of wxWidgets IMPLEMENT_APP_NO_MAIN.
+	// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
 	// It must be done to create a wxFrame object.
 	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
 	// See the wxWidgets sample program mfctest.cpp.
@@ -46,7 +46,7 @@ struct AStyleDisplayF_Init : public Test
 		wxASSERT(m_frame != nullptr);
 	}
 	virtual ~AStyleDisplayF_Init()
-	// Need this because of IMPLEMENT_APP_NO_MAIN.
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
 	// See the wxWidgets sample program mfctest.cpp.
 	{
 		wxTheApp->OnExit();			// call wxApp::OnExit()
@@ -184,7 +184,7 @@ TEST_F(AStyleDisplayF_Init, DisplayTabOptions)
 
 struct AStyleDisplayF_Error : public Test
 {
-	// Need this setup because of wxWidgets IMPLEMENT_APP_NO_MAIN.
+	// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
 	// It must be done to create a wxFrame object.
 	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
 	// See the wxWidgets sample program mfctest.cpp.
@@ -201,7 +201,7 @@ struct AStyleDisplayF_Error : public Test
 		wxASSERT(m_frame != nullptr);
 	}
 	virtual ~AStyleDisplayF_Error()
-	// Need this because of IMPLEMENT_APP_NO_MAIN.
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
 	// See the wxWidgets sample program mfctest.cpp.
 	{
 		wxTheApp->OnExit();			// call wxApp::OnExit()

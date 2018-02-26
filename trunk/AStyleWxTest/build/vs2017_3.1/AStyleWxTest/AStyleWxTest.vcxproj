@@ -38,7 +38,7 @@
     <ProjectGuid>{81836994-4DC6-45BD-8C69-633DF214AD3F}</ProjectGuid>
     <RootNamespace>AStyleWxTest</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -172,7 +172,7 @@
       <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;wxscintillad.lib;wxpngd.lib;wxzlibd.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;wxscintillad.lib;wxpngd.lib;wxzlibd.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_lib;$(OutDir)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -211,7 +211,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.pdb"  mklink /H "$(T
       <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_adv.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_dll;$(OutDir)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -237,7 +237,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.pdb"  mklink /H "$(T
       <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;wxscintillad.lib;wxpngd.lib;wxzlibd.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_adv.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;wxscintillad.lib;wxpngd.lib;wxzlibd.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_x64_lib;$(OutDir)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -275,7 +275,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H 
       <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_adv.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_x64_dll;$(OutDir)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -297,7 +297,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H 
       <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;wxscintilla.lib;wxpng.lib;wxzlib.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;wxscintilla.lib;wxpng.lib;wxzlib.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_lib;$(OutDir)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -322,7 +322,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H 
       <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_dll;$(OutDir)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -364,7 +364,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.pdb"  mklink /H "$(Ta
       <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;wxscintilla.lib;wxpng.lib;wxzlib.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;wxscintilla.lib;wxpng.lib;wxzlib.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_x64_lib;$(OutDir)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -388,7 +388,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.pdb"  mklink /H "$(Ta
       <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_x64_dll;$(OutDir)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>

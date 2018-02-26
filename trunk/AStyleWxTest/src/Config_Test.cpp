@@ -221,7 +221,7 @@ TEST(Config_AStyle_Styles, SaveAStyleOptions_StylesAll)
 		config.SaveAStyleOptions(&astyle);
 		config.SetPath("/AStyle");
 		config.Read(key, &value);
-		EXPECT_EQ(style[i].styleName, value)
+		EXPECT_EQ(style[i].styleName.ToStdString(), value.ToStdString())
 		        << "Failure for style = " << style[i].styleName;
 	}
 
@@ -2349,9 +2349,9 @@ TEST(Config_Frame, InitializeFile)
 // This tests the function void Config::InitializeConfigFile().
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	ASSERT_TRUE(frame.GetCommentFont().IsOk());
 	ASSERT_TRUE(frame.GetDefaultFont().IsOk());
 
@@ -2361,6 +2361,7 @@ TEST(Config_Frame, InitializeFile)
 	keys.Add(LINE_NUMBERS);
 	keys.Add(TOOLBAR_TOOLTIPS);
 	keys.Add(DIALOG_TOOLTIPS);
+	keys.Add(LOAD_SESSION);
 	keys.Add(SHOW_TOOLBAR);
 	keys.Add(SHOW_STATUSBAR);
 	keys.Add(DEFAULT_FONT_FACE);
@@ -2383,7 +2384,7 @@ TEST(Config_Frame, InitializeFile)
 	}
 
 	// test the function, InitializeFile should be called
-	config.GetEditorAndViewMenuOptions(&frame);
+	config.GetEditorAndViewOptions();
 
 	// verify keys were added by Config::InitializeConfigFile()
 	config.SetPath("/");
@@ -2393,14 +2394,14 @@ TEST(Config_Frame, InitializeFile)
 	ASSERT_EQ(keys.GetCount(), config.GetNumberOfEntries(true));
 }
 
-TEST(Config_Frame, GetEditorAndViewMenuOptions)
+TEST(Config_Frame, GetEditorAndViewOptions)
 // Test config file gets for editor and view options.
 // GetNextEntry is used for the read so only a few options are checked.
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 
 	// build keys array
 	wxArrayString keys;
@@ -2427,21 +2428,21 @@ TEST(Config_Frame, GetEditorAndViewMenuOptions)
 	}
 
 	// test the function
-	config.GetEditorAndViewMenuOptions(&frame);
+	config.GetEditorAndViewOptions();
 
 	// verify no config file keys were deleted
 	config.SetPath("/");
 	EXPECT_EQ(keys.GetCount(), config.GetNumberOfEntries());
 }
 
-TEST(Config_Frame, GetEditorAndViewMenuOptions_InvalidKeys)
+TEST(Config_Frame, GetEditorAndViewOptions_InvalidKeys)
 // Test config file gets for editor and view options.
 // Invalid keys in the config file should be deleted.
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 
 	// build keys array
 	wxArrayString keys;
@@ -2467,20 +2468,20 @@ TEST(Config_Frame, GetEditorAndViewMenuOptions_InvalidKeys)
 	}
 
 	// test the function
-	config.GetEditorAndViewMenuOptions(&frame);
+	config.GetEditorAndViewOptions();
 	// verify that all config file keys were deleted
 	config.SetPath("/");
 	EXPECT_EQ(0U, config.GetNumberOfEntries());
 }
 
-TEST(Config_Frame, GetEditorAndViewMenuOptions_InvalidValues)
+TEST(Config_Frame, GetEditorAndViewOptions_InvalidValues)
 // Test config file gets for editor and view options.
 // Invalid values in the config file should be deleted.
 // NOTE: Float and double values are written to config as strings.
 {
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 
 	// test reading bool values
 	config.SetPath("/");
@@ -2499,7 +2500,7 @@ TEST(Config_Frame, GetEditorAndViewMenuOptions_InvalidValues)
 	// EditorAndViewMenuOptions are tested in another module.
 	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(2);
 	// test the function
-	config.GetEditorAndViewMenuOptions(&frame);
+	config.GetEditorAndViewOptions();
 	// verify that all bool config file keys were deleted
 	config.SetPath("/");
 	EXPECT_EQ(0U, config.GetNumberOfEntries());
@@ -2524,7 +2525,7 @@ TEST(Config_Frame, GetEditorAndViewMenuOptions_InvalidValues)
 	// EditorAndViewMenuOptions are tested in another module.
 	EXPECT_CALL(config, ShowInvalidConfig(_)).Times(2);
 	// test the function
-	config.GetEditorAndViewMenuOptions(&frame);
+	config.GetEditorAndViewOptions();
 	// verify that all long config file keys were deleted
 	config.SetPath("/AStyle");
 	EXPECT_EQ(0U, config.GetNumberOfEntries());
@@ -2538,9 +2539,9 @@ TEST(Config_Editor, SaveEditorOptions_AlwaysSaved)
 // Test config file writes for editor options that are always saved
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	ASSERT_TRUE(frame.GetCommentFont().IsOk());
 	ASSERT_TRUE(frame.GetDefaultFont().IsOk());
 	wxString value;				// value of config key
@@ -2558,7 +2559,7 @@ TEST(Config_Editor, SaveEditorOptions_AlwaysSaved)
 	// test saves - the Editor fake test object has the default values
 	frame.SetFrameBoolReturn(false);		// set return value getters
 	ASSERT_EQ(0U, config.GetNumberOfEntries());
-	config.SaveEditorOptions(&frame);
+	config.SaveEditorOptions();
 
 	// check the saves
 	config.SetPath("/");
@@ -2572,23 +2573,23 @@ TEST(Config_Editor, SaveEditorOptions_HideFindAfterMatch)
 // Test config file writes for editor option m_hideDialogAfterMatch
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = HIDE_FIND;
 	frame.SetFrameBoolReturn(true);	// set return value for getter
-	config.SaveEditorOptions(&frame);
+	config.SaveEditorOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveEditorOptions(&frame);
+	config.SaveEditorOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -2597,23 +2598,48 @@ TEST(Config_Editor, SaveEditorOptions_IsMaximized)
 // Test config file writes for frame wxTopLevelWindow function IsMaximized
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = FRAME_MAXIMIZED;
 	frame.SetFrameBoolReturn(true);		// set return value for getter
-	config.SaveEditorOptions(&frame);
+	config.SaveEditorOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveEditorOptions(&frame);
+	config.SaveEditorOptions();
+	config.SetPath("/");
+	ASSERT_FALSE(config.Read(key, &value));
+}
+
+TEST(Config_Editor, SaveEditorOptions_LoadSession)
+// Test config file writes for frame wxTopLevelWindow function loadSession
+{
+	// create objects
+	ASEditor editor;
+	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
+	wxString key;				// config key
+	wxString value;				// value of config key
+
+	// test true
+	key = LOAD_SESSION;
+	frame.SetFrameLoadSession(true);
+	config.SaveEditorOptions();
+	config.SetPath("/");
+	ASSERT_TRUE(config.Read(key, &value));
+	EXPECT_STREQ(asTRUE, value);
+
+	// test false (delete key)
+	frame.SetFrameLoadSession(false);
+	config.SaveEditorOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -2622,23 +2648,23 @@ TEST(Config_Editor, SaveEditorOptions_ShowDialogTips)
 // Test config file writes for frame option m_showDialogTips
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = DIALOG_TOOLTIPS;
 	frame.SetFrameBoolReturn(true);		// set return value for getter
-	config.SaveEditorOptions(&frame);
+	config.SaveEditorOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveEditorOptions(&frame);
+	config.SaveEditorOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -2647,23 +2673,23 @@ TEST(Config_Editor, SaveEditorOptions_ShowToolTips)
 // Test config file writes for frame option m_showToolTips
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = TOOLBAR_TOOLTIPS;
 	frame.SetFrameBoolReturn(true);		// set return value for getter
-	config.SaveEditorOptions(&frame);
+	config.SaveEditorOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveEditorOptions(&frame);
+	config.SaveEditorOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -2672,9 +2698,9 @@ TEST(Config_Editor, SaveEditorOptions_TestOptions)
 // Test config file writes for frame option m_testOptions.
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
@@ -2696,23 +2722,23 @@ TEST(Config_Editor, SaveEditorOptions_UseBottomTabs)
 // Test config file writes for frame option m_useBottomTabs
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = USE_BOTTOM_TABS;
 	frame.SetFrameBoolReturn(true);		// set return value for getter
-	config.SaveEditorOptions(&frame);
+	config.SaveEditorOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveEditorOptions(&frame);
+	config.SaveEditorOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -2721,23 +2747,23 @@ TEST(Config_Editor, SaveEditorOptions_UseSmallToolbar)
 // Test config file writes for frame option m_useSmallToolbar
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = USE_SMALL_TOOLBAR;
 	frame.SetFrameBoolReturn(true);		// set return value for getter
-	config.SaveEditorOptions(&frame);
+	config.SaveEditorOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveEditorOptions(&frame);
+	config.SaveEditorOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -2746,23 +2772,23 @@ TEST(Config_Editor, SaveEditorOptions_WrapSearch)
 // Test config file writes for editor option m_wrapSearch
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = WRAP_SEARCH;
 	frame.SetFrameBoolReturn(true);	// set return value for getter
-	config.SaveEditorOptions(&frame);
+	config.SaveEditorOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveEditorOptions(&frame);
+	config.SaveEditorOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -2775,23 +2801,23 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_ActiveLine)
 // Test config file writes for menu option ID_VIEW_ACTIVELINE
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = ACTIVE_LINE;
 	frame.SetFrameBoolReturn(true);		// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -2800,23 +2826,23 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_EndOfLine)
 // Test config file writes for menu option ID_VIEW_ENDLINE
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = END_OF_LINE;
 	frame.SetFrameBoolReturn(true);		// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -2825,23 +2851,23 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_IndentGuides)
 // Test config file writes for menu option ID_VIEW_INDENTGUIDES
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = INDENT_GUIDES;
 	frame.SetFrameBoolReturn(true);		// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -2850,23 +2876,23 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_LineNumbers)
 // Test config file writes for menu option ID_VIEW_LINENUMBERS
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = LINE_NUMBERS;
 	frame.SetFrameBoolReturn(true);		// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -2875,23 +2901,23 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_MonoSpace)
 // Test config file writes for menu option ID_VIEW_MONOSPACE
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = MONOSPACE;
 	frame.SetFrameBoolReturn(true);		// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -2900,23 +2926,23 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_SelectionMargin)
 // Test config file writes for menu option ID_VIEW_MARGIN
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = SELECTION_MARGIN;
 	frame.SetFrameBoolReturn(true);		// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -2925,23 +2951,23 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_StatusBar)
 // Test config file writes for menu option ID_VIEW_STATUSBAR
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = SHOW_STATUSBAR;
 	frame.SetFrameBoolReturn(true);		// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -2950,23 +2976,23 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_Toolbar)
 // Test config file writes for menu option ID_VIEW_TOOLBAR
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = SHOW_TOOLBAR;
 	frame.SetFrameBoolReturn(true);		// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -2975,23 +3001,23 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_WhiteSpace)
 // Test config file writes for menu option ID_VIEW_WHITESPACE
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = WHITESPACE;
 	frame.SetFrameBoolReturn(true);		// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
 }
@@ -3000,25 +3026,272 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_WordWrap)
 // Test config file writes for menu option ID_VIEW_WORDWRAP
 {
 	// create objects
-	Config_Test config(CONFIG_TEST_NAME);
 	ASEditor editor;
 	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
 	wxString key;				// config key
 	wxString value;				// value of config key
 
 	// test true
 	key = WORD_WRAP;
 	frame.SetFrameBoolReturn(true);		// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
 	frame.SetFrameBoolReturn(false);	// set return value for getter
-	config.SaveViewMenuOptions(&frame);
+	config.SaveViewMenuOptions();
 	config.SetPath("/");
 	ASSERT_FALSE(config.Read(key, &value));
+}
+
+//-------------------------------------------------------------------------
+// Session Config Tests
+//-------------------------------------------------------------------------
+
+struct Config_Session_F : public Test
+{
+	void AddTestFilesToConfig(Config_Test* config, wxArrayString& filePaths)
+	{
+		config->SetPath("/Session");
+		size_t fileCount = filePaths.GetCount();
+		// save keys to config file
+		for (int i = 0; i < filePaths.GetCount(); i++)
+		{
+			wxFileName filePath = filePaths[i];
+			wxString key = SESSION_FILE + wxString::Format("%d", i + 1);
+			config->Write(key, filePath.GetFullPath());
+		}
+		ASSERT_EQ(fileCount, config->GetNumberOfEntries());
+	}
+	wxArrayString BuildExistingTestFiles(int numFiles)
+	{
+#ifdef _WIN32
+		wxString filePathStr = "C:\\Users\\UserName\\existing%d.cpp";
+#else
+		wxString filePathStr = "/home/username/existing%d.cpp";
+#endif
+		wxArrayString filePaths;
+		for (int i = 0; i < numFiles; i++)
+			filePaths.Add(wxString::Format(filePathStr, i + 1));
+		return filePaths;
+	}
+	wxArrayString BuildNewTestFiles(int numFiles)
+	{
+#ifdef _WIN32
+		wxString filePathStr = "C:\\Users\\UserName\\newfile%d.cpp";
+#else
+		wxString filePathStr = "/home/username/newfile%d.cpp";
+#endif
+		wxArrayString filePaths;
+		for (int i = 0; i < numFiles; i++)
+			filePaths.Add(wxString::Format(filePathStr, i + 1));
+		return filePaths;
+	}
+	void VerifyConfigEntries(Config_Test* config, wxArrayString& filePaths)
+	{
+		config->SetPath("/Session");
+		int fileCount = filePaths.GetCount();
+		int configCount = config->GetNumberOfEntries();
+		wxString key;
+		wxString value;
+		int i = 0;
+		for (i = 0; i < configCount; i++)
+		{
+			key = SESSION_FILE + wxString::Format("%d", i + 1);
+			if (config->Read(key, &value))
+				EXPECT_EQ(value.ToStdString(), filePaths[i].ToStdString())
+				        << "Value is not correct path";
+			else
+				EXPECT_EQ(key.ToStdString(), "")
+				        << "Key not found in config";
+		}
+		// report missing entries
+		for (; i < fileCount; i++)
+			EXPECT_EQ(filePaths[1].ToStdString(), "")
+			        << "Value not found in config";
+	}
+};
+
+TEST_F(Config_Session_F, GetSessionFiles)
+{
+	// create objects
+	ASEditor editor;
+	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
+
+	// verify no keys are present in config file
+	config.SetPath("/");
+	ASSERT_EQ(0U, config.GetNumberOfEntries(true)) << "Config not empty";
+	config.SetPath("/Session");
+	// build existing files
+	const size_t numExisting = 2;
+	wxArrayString existingFilePaths = BuildExistingTestFiles(numExisting);
+	// add existing files to config
+	AddTestFilesToConfig(&config, existingFilePaths);
+	ASSERT_EQ(numExisting, config.GetNumberOfEntries(true)) << "Config not initialized";
+
+	// call method under test, filePaths contains 2 entries
+	frame.SetFrameLoadSession(true);
+	wxArrayString filePaths = config.GetSessionFiles();
+	EXPECT_EQ(numExisting, filePaths.GetCount());
+}
+
+TEST_F(Config_Session_F, GetSessionFiles_NoOptionSet)
+{
+	// create objects
+	ASEditor editor;
+	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
+
+	// verify no keys are present in config file
+	config.SetPath("/");
+	ASSERT_EQ(0U, config.GetNumberOfEntries(true)) << "Config not empty";
+	config.SetPath("/Session");
+	// build existing files
+	const size_t numExisting = 2;
+	wxArrayString existingFilePaths = BuildExistingTestFiles(numExisting);
+	// add existing files to config
+	AddTestFilesToConfig(&config, existingFilePaths);
+	ASSERT_EQ(numExisting, config.GetNumberOfEntries(true)) << "Config not initialized";
+
+	// call method under test, filePaths contains 0 entries
+	frame.SetFrameLoadSession(false);
+	wxArrayString filePaths = config.GetSessionFiles();
+	EXPECT_EQ(0U, filePaths.GetCount());
+}
+
+TEST_F(Config_Session_F, SaveSessionFiles_AddFiles)
+// Test SaveSessionFiles with 0 entries in config
+{
+	// create objects
+	ASEditor editor;
+	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
+
+	// verify no keys are present in config file
+	config.SetPath("/");
+	ASSERT_EQ(0U, config.GetNumberOfEntries(true)) << "Config not empty";
+	config.SetPath("/Session");
+	// build new files
+	const size_t numNew = 2;
+	wxArrayString newFilePaths = BuildNewTestFiles(numNew);
+	// add files to fake notebook
+	frame.SetFrameNewFilePaths(newFilePaths);
+	frame.SetFrameLoadSession(true);
+
+	// call method under test, config contains 0 entries
+	ASSERT_EQ(0U, config.GetNumberOfEntries(true)) << "Config not initialized";
+	config.SaveSessionFiles();
+
+	// verify keys added by Config::InitializeConfigFile()
+	EXPECT_EQ(numNew, config.GetNumberOfEntries());
+	VerifyConfigEntries(&config, newFilePaths);
+}
+
+TEST_F(Config_Session_F, SaveSessionFiles_ReplaceAndDeleteFiles)
+// Test SaveSessionFiles with entries in config
+// Config entries must be replaced and the excess deleted
+{
+	// create objects
+	ASEditor editor;
+	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
+
+	// verify no keys are present in config file
+	config.SetPath("/");
+	ASSERT_EQ(0U, config.GetNumberOfEntries(true)) << "Config not empty";
+	config.SetPath("/Session");
+	// build existing files
+	const size_t numExisting = 3;
+	wxArrayString existingFilePaths = BuildExistingTestFiles(numExisting);
+	// add existing files to config
+	AddTestFilesToConfig(&config, existingFilePaths);
+	// build new files
+	const size_t numNew = 2;
+	wxArrayString newFilePaths = BuildNewTestFiles(numNew);
+	// add new files to fake notebook
+	frame.SetFrameNewFilePaths(newFilePaths);
+	frame.SetFrameLoadSession(true);
+
+	// call method under test, config contains 3 entries
+	ASSERT_EQ(numExisting, config.GetNumberOfEntries(true)) << "Config not initialized";
+	config.SaveSessionFiles();
+
+	// verify keys added by Config::InitializeConfigFile()
+	EXPECT_EQ(numNew, config.GetNumberOfEntries());
+	VerifyConfigEntries(&config, newFilePaths);
+}
+
+TEST_F(Config_Session_F, SaveSessionFiles_DeleteAllFiles)
+// Test SaveSessionFiles with entries in config
+// Config entries must be deleted because of 0 new files
+{
+	// create objects
+	ASEditor editor;
+	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
+
+	// verify no keys are present in config file
+	config.SetPath("/");
+	ASSERT_EQ(0U, config.GetNumberOfEntries(true)) << "Config not empty";
+	config.SetPath("/Session");
+	// build existing files
+	const size_t numExisting = 3;
+	wxArrayString existingFilePaths = BuildExistingTestFiles(numExisting);
+	// add existing files to config
+	AddTestFilesToConfig(&config, existingFilePaths);
+	// no files added to fake notebook
+	frame.SetFrameLoadSession(true);
+
+	// call method under test, config contains 3 entries
+	ASSERT_EQ(numExisting, config.GetNumberOfEntries(true)) << "Config not initialized";
+	config.SaveSessionFiles();
+
+	// verify all keys and group header deleted by Config::InitializeConfigFile()
+	config.SetPath("/");
+	EXPECT_EQ(0U, config.GetNumberOfEntries());
+	wxArrayString emptyArray;
+	VerifyConfigEntries(&config, emptyArray);
+}
+
+TEST_F(Config_Session_F, SaveSessionFiles_NoOptionSet)
+// Test SaveSessionFiles with entries in config
+// Config entries must be deleted because of loadSession not set
+{
+	// create objects
+	ASEditor editor;
+	ASFrame frame(&editor);
+	Config_Test config(CONFIG_TEST_NAME, &frame);
+
+	// verify no keys are present in config file
+	config.SetPath("/");
+	ASSERT_EQ(0U, config.GetNumberOfEntries(true)) << "Config not empty";
+	config.SetPath("/Session");
+	// build existing files
+	const size_t numExisting = 2;
+	wxArrayString existingFilePaths = BuildExistingTestFiles(numExisting);
+	// add existing files to config
+	AddTestFilesToConfig(&config, existingFilePaths);
+	// build new files
+	const size_t numNew = 2;
+	wxArrayString newFilePaths = BuildNewTestFiles(numNew);
+	// add new files to fake notebook
+	// these will not be added to config because of false loadSession option
+	frame.SetFrameNewFilePaths(newFilePaths);
+	frame.SetFrameLoadSession(false);
+
+	// call method under test, config contains 2 entries
+	ASSERT_EQ(numExisting, config.GetNumberOfEntries(true)) << "Config not initialized";
+	config.SaveSessionFiles();
+
+	// verify all keys and group header deleted by Config::InitializeConfigFile()
+	config.SetPath("/");
+	EXPECT_EQ(0U, config.GetNumberOfEntries());
+	wxArrayString emptyArray;
+	VerifyConfigEntries(&config, emptyArray);
 }
 
 //----------------------------------------------------------------------------

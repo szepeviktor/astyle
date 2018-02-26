@@ -626,10 +626,10 @@ def verify_cppcheck_version(exepath):
     """
     # check_output always returns byte code
     version = subprocess.check_output([exepath, "--version"])
-    version = version[9:]   # remove "Cppcheck "
-    version = version.rstrip(b"\r\n")
     if platform.python_version_tuple()[0] >= '3':
         version = version.decode()
+    version = version[9:]   # remove "Cppcheck "
+    version = version.rstrip("\r\n")
     if version < __expected_version:
         print("Cppcheck version", version,
               "is less than expected version", __expected_version, "\n")

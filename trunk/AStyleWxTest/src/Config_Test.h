@@ -3,8 +3,8 @@
 // This code is licensed under the MIT License.
 // License.md describes the conditions under which this software may be distributed.
 
-#ifndef ASTYLEWX_TEST_H
-#define ASTYLEWX_TEST_H
+#ifndef CONFIG_TEST_H
+#define CONFIG_TEST_H
 
 //----------------------------------------------------------------------------
 // headers
@@ -17,9 +17,11 @@
 
 #include <iostream>         // for cout
 #include <wx/config.h>
+#include <wx/filename.h>
 #include <wx/font.h>
 #include <wx/msgdlg.h>
 #include <wx/stc/stc.h>     // wxStyledTextCtrl
+
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 
@@ -97,6 +99,7 @@ public:
 	ASFrame(ASEditor* editor)
 		: m_editor(editor),
 		  m_boolReturn(false),
+		  m_loadSession(false),
 		  m_commentFont(FindCommentFont()),
 		  m_defaultFont(FindDefaultFont())
 	{
@@ -119,8 +122,11 @@ public:
 	const wxFont& GetCommentFont() const { return m_commentFont; }
 	const wxFont& GetDefaultFont() const { return m_defaultFont; }
 	ASEditor* GetEditor()                { return m_editor; }
+	// option fake return values
 	int  GetEditorDlgPage() const        { return ToLong(EDITOR_DLG_VALUE); }
-	bool GetHideFindAfterMatch() const   { return m_boolReturn; }
+	bool GetHideFindDialog() const       { return m_boolReturn; }
+	bool GetLoadSession() const          { return m_loadSession; }
+	wxArrayString GetOpenFilePaths()     { return m_filePaths;    }
 	bool GetShowDialogTips()             { return m_boolReturn; }
 	bool GetUseBottomTabs()              { return m_boolReturn; }
 	bool GetUseSmallToolbar()            { return m_boolReturn; }
@@ -140,6 +146,14 @@ public:
 	{
 		m_boolReturn = state;
 	}
+	void SetFrameLoadSession(bool state)
+	{
+		m_loadSession = state;
+	}
+	void SetFrameNewFilePaths(wxArrayString filePaths)
+	{
+		m_filePaths = filePaths;
+	}
 	int  ToLong(wxString value) const
 	{
 		long intValue = 0;
@@ -150,10 +164,12 @@ public:
 	MOCK_METHOD2(SetEditorOrViewOption, bool(const wxString&, const wxString&));
 
 private:
-	ASEditor* m_editor;		// variable
+	ASEditor* m_editor;
 	bool m_boolReturn;		// return value for boolean getters
+	bool m_loadSession;
 	wxFont m_commentFont;
 	wxFont m_defaultFont;
+	wxArrayString m_filePaths;
 };
 
 //-------------------------------------------------------------------------
@@ -179,7 +195,9 @@ class Config_Test : public Config
 {
 public:
 	// delete file entries before and after each test
-	Config_Test(wxString appNameTest) : Config(appNameTest) { DeleteAll(); }
+	// one argument constructor is only if  a frame is NOT required
+	Config_Test(wxString appNameTest) : Config(appNameTest, nullptr) { DeleteAll(); }
+	Config_Test(wxString appNameTest, ASFrame* frame) : Config(appNameTest, frame) { DeleteAll(); }
 	virtual ~Config_Test() { DeleteAll(); }
 
 	// mocked method
@@ -188,4 +206,4 @@ public:
 
 //----------------------------------------------------------------------------
 
-#endif // closes ASTYLEWX_TEST_H
+#endif // closes CONFIG_TEST_H
