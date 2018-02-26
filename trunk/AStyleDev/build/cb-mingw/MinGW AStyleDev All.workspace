@@ -12,6 +12,5 @@
 			<Depends filename="MinGW AStyle Lib.cbp" />
 		</Project>
 		<Project filename="MinGW ExampleObj.cbp" />
-		</Project>
 	</Workspace>
 </CodeBlocks_workspace_file>

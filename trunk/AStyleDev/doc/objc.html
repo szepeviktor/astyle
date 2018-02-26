@@ -123,7 +123,7 @@
 
     <p>
         The STDCALL macro is defined for Windows as <i>__stdcall</i>. It is needed if AStyle is compiled as a Windows
-        shared library (DLL). For Linux it is defined, but does not have a value.</p>
+        shared library (DLL). For Linux, it is defined, but does not have a value.</p>
     <p>
         The calling program is responsible for freeing the memory allocated by <i>fpAlloc</i> when it is no longer 
         needed.</p>
@@ -215,7 +215,7 @@ NSString<span class="hl opt">*</span> <span class="hl kwd">getText</span><span c
         <span class="hl kwd">NSLog</span><span class="hl opt">(</span>&#64;<span class="hl str">&quot;Example Obj-C - AStyle %s&quot;</span><span class="hl opt">,</span> versionChar<span class="hl opt">);</span>
 
         <span class="hl slc">// process the input files</span>
-        <span class="hl kwa">for</span> <span class="hl opt">(</span>NSString <span class="hl opt">*</span> fileName <span class="hl kwa">in</span> fileNames<span class="hl opt">)</span>
+        <span class="hl kwa">for</span> <span class="hl opt">(</span>NSString<span class="hl opt">*</span> fileName <span class="hl kwa">in</span> fileNames<span class="hl opt">)</span>
         <span class="hl opt">{</span>   <span class="hl slc">// get the text to format</span>
             NSString<span class="hl opt">*</span> filePath <span class="hl opt">=</span> <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span>fileName<span class="hl opt">);</span>
             NSString<span class="hl opt">*</span> textIn <span class="hl opt">=</span> <span class="hl kwd">getText</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>

@@ -9,15 +9,15 @@ echo Formatting AStyleDev
 echo override standard options with --style=horstmann  --indent=spaces
 echo.
 
-"%progdir%\AStyle"  %options%  ..\src-c\*.cpp
+"%progdir%\AStyle"  %options%  -Q  ..\src-c\*.cpp
 echo.
-"%progdir%\AStyle"  %options%  ..\src-j\*.java
+"%progdir%\AStyle"  %options%  -Q  ..\src-j\*.java
 echo.
-"%progdir%\AStyle"  %options%  ..\src-o\*.m
+"%progdir%\AStyle"  %options%  -Q  ..\src-o\*.m
 echo.
-"%progdir%\AStyle"  %options%  ..\src-s\*.cs
+"%progdir%\AStyle"  %options%  -Q  ..\src-s\*.cs
 echo.
-"%progdir%\AStyle"  %options%  ..\src-s2\*.cs
+"%progdir%\AStyle"  %options%  -Q  ..\src-s2\*.cs
 echo.
 
 echo.

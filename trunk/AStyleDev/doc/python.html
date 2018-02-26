@@ -45,10 +45,10 @@
         of ways when processing disk files and sending them to Artistic Style.</p>
     <p>
         One way is to declare the file as binary. This will read the file as a byte string instead of a Unicode string.
-        In this case you don't need to be concerned with file encoding and the file can be saved or sent to Artistic Style
-        without decoding. The disadvantage of doing this, is there are byte strings that you have to keep track of and
-        the strings not Unicode. The Python script ExampleByte.py uses this method. The names of byte strings contain
-        the word "byte" so they can be easily identified.</p>
+        In this case, you don't need to be concerned with file encoding and the file can be saved or sent to Artistic
+        Style without decoding. The disadvantage of doing this, is there are byte strings that you have to keep track
+        of and the strings not Unicode. The Python script ExampleByte.py uses this method. The names of byte strings 
+        contain the word "byte" so they can be easily identified.</p>
     <p>
         Another way is to use the version 3 default and read the file as a Unicode string. The file is read using the
         default system encoding. If a file uses a different encoding, it can be decoded using the Python "codecs" class
@@ -64,7 +64,7 @@
         The function format_source_code<span class="hl opt"></span> is called to format the source code.</p>
     <p>
         Calling the Artistic Style shared library or DLL requires using the Python <strong>ctypes</strong> foreign function
-        library. It provides C compatible data types, and allows calling functions in a shared library or DLL. All of
+        library. It provides C compatible data types and allows calling functions in a shared library or DLL. All of
         the text sent to Artistic Style must be in byte format, not Unicode. The entire function is shown so you can see
         the setup for calling Artistic Style.</p>
 
@@ -100,7 +100,7 @@
         The options may be set apart by new-lines, commas, tabs or spaces. The long options do not need the "--" prefix.
         Comments may be used, but they must be terminated by a new-line "\n" character.</p>
     <p>
-        If the file is not a C/C++ file, the file mode option "mode=java" or "mode=cs" must be included. Otherwise the
+        If the file is not a C/C++ file, the file mode option "mode=java" or "mode=cs" must be included. Otherwise, the
         default mode of C/C++ is used. For Python 3 the options are explicitly declared as byte format with a "b" preceding
         the string.</p>
     <p>
@@ -137,7 +137,7 @@
 
     <p>
         The calling program is responsible for freeing the memory allocated by the MEMORY_ALLOCATION function when it
-        is no longer needed. In the example this will be done by the MEMORY_ALLOCATION function.</p>
+        is no longer needed. In the example, this will be done by the MEMORY_ALLOCATION function.</p>
 
     <h3>Callback Functions</h3>
 
@@ -226,7 +226,7 @@ ERROR_HANDLER <span class="hl opt">=</span> <span class="hl kwd">ERROR_HANDLER_C
     <h4>Remarks</h4>
 
     <p>
-        The error handler callback displays the error message. For Python 3 and Iron Python the message is decoded to
+        The error handler callback displays the error message. For Python 3 and Iron Python, the message is decoded to
         Unicode. Since the error messages are in ASCII an exception is not handled. It should display an error message
         and then either abort or continue the program depending on the error. The first parameter is a number identifying
         the error. The second parameter is a pointer to a standard error message.</p>
@@ -278,26 +278,25 @@ ERROR_HANDLER <span class="hl opt">=</span> <span class="hl kwd">ERROR_HANDLER_C
     <h4>Remarks</h4>
 
     <p>
-        For Python 3 
-        and Iron Python the formatted_text is decoded to Unicode. Since it is ASCII characters only, no exceptions should
-        occur.</p>
+        For Python 3 and Iron Python, the formatted_text is decoded to Unicode. Since it is ASCII characters only, no
+        exceptions should occur.</p>
 
     <h3>Example Unicode</h3>
 
     <p>
-        The following example will work with Python 2, Python 3, 
-        or Iron Python. For Python 3 and Iron Python it reads the source code disk files as
-        Unicode and decodes and encodes them as needed. The script can be copied and pasted into an editor for execution.
-        Or it can be downloaded with test data from the "Developer Information" page. The Artistic Style source code must
-        be compiled as a shared library (DLL) using the option ASTYLE_LIB. The shared library must then be copied to the
-        directory that contains the Python script. The directory of the source code files to be formatted is a relative
-        path in the function process_files. This may need to be changed to reflect your directory structure.</p>
+        The following example will work with Python 2, Python 3, or Iron Python. For Python 3 and Iron Python, it reads
+        the source code disk files as Unicode and decodes and encodes them as needed. The script can be copied and pasted
+        into an editor for execution. Or it can be downloaded with test data from the "Developer Information" page. The
+        Artistic Style source code must be compiled as a shared library (DLL) using the option ASTYLE_LIB. The shared
+        library must then be copied to the directory that contains the Python script. The directory of the source code
+        files to be formatted is a relative path in the function process_files. This may need to be changed to reflect 
+        your directory structure.</p>
     <p>
         &nbsp;</p>
     <div class="hl">
         <pre class="hl">
         
-<span class="hl slc">#! /usr/bin/python</span>
+<span class="hl slc">#! /usr/bin/python3</span>
 
 <span class="hl str">&quot;&quot;&quot; ExampleUnicode.py</span>
 <span class="hl str">    This program calls the Artistic Style DLL to format the AStyle source files.</span>
@@ -369,7 +368,7 @@ __is_unicode__ <span class="hl opt">=</span> <span class="hl kwa">False</span>
 <span class="hl str">    &quot;&quot;&quot;</span>
     <span class="hl kwa">print</span><span class="hl opt">(</span>message<span class="hl opt">)</span>
     <span class="hl kwa">print</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">)</span>
-    os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
+    os<span class="hl num">._</span>exit<span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">)</span>
 
 <span class="hl slc"># -----------------------------------------------------------------------------</span>
 
@@ -652,7 +651,7 @@ MEMORY_ALLOCATION <span class="hl opt">=</span> <span class="hl kwd">MEMORY_ALLO
 <span class="hl slc"># make the module executable</span>
 <span class="hl kwa">if</span> __name__ <span class="hl opt">==</span> <span class="hl str">&quot;__main__&quot;</span><span class="hl opt">:</span>
     <span class="hl kwd">main</span><span class="hl opt">()</span>
-    os<span class="hl opt">.</span><span class="hl kwd">_exit</span><span class="hl opt">(</span><span class="hl num">0</span><span class="hl opt">)</span>
+    os<span class="hl num">._</span>exit<span class="hl opt">(</span><span class="hl num">0</span><span class="hl opt">)</span>
 
 </pre>
     </div>
