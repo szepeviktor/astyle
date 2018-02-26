@@ -34,7 +34,6 @@ class FileManager
 {
 public:
 	FileManager();
-	virtual ~FileManager();
 	void BuildNotebookPageNew();
 	int  BuildNotebookPageWithFile(const wxString& filePathStr, bool select);
 	void CheckFileReload();
@@ -48,10 +47,10 @@ public:	// static methods
 	static void SetFileFilterIndex(int fileFilterIndex) { m_fileFilterIndex = fileFilterIndex; }
 
 private:
-	ASFrame* m_frame;
-	wxAuiNotebook* m_notebook;
-	ASEditor* m_editor;
-	AStyleIFace* m_astyle;
+	ASFrame* m_frame{};
+	wxAuiNotebook* m_notebook{};
+	ASEditor* m_editor{};
+	AStyleIFace* m_astyle{};
 
 private:
 	int  AskAboutSave(bool saveAs = false);

@@ -3,16 +3,6 @@
 // This code is licensed under the MIT License.
 // License.md describes the conditions under which this software may be distributed.
 
-//-----------------------------------------------------------------------------
-// headers
-//-----------------------------------------------------------------------------
-
-#ifndef ASTYLEWX_TEST
-	#include "AStyleWx.h"		// production classes
-#else
-	#include "Config_Test.h"	// fake classes for test
-#endif
-
 /* ----------------------------------------------------------------------------
 TO ADD A NEW OPTION
 
@@ -25,6 +15,16 @@ Add new option to method "SaveEditorOptions" or "SaveViewMenuOptions".
 Style options:
 Add new option to method "SaveStyleOptions"
 ---------------------------------------------------------------------------- */
+
+//-----------------------------------------------------------------------------
+// headers
+//-----------------------------------------------------------------------------
+
+#ifndef ASTYLEWX_TEST
+	#include "AStyleWx.h"		// production classes
+#else
+	#include "Config_Test.h"	// fake classes for test
+#endif
 
 //-----------------------------------------------------------------------------
 // Global definitions
@@ -214,7 +214,7 @@ vector<TextStyle> Config::GetDefaultStyleOptions()
 	return styleVector;
 }
 
-void Config::GetEditorAndViewMenuOptions(ASFrame* frame)
+void Config::GetEditorAndViewOptions()
 // Update the Editor display from the config file.
 {
 	// enumeration variables
@@ -230,7 +230,7 @@ void Config::GetEditorAndViewMenuOptions(ASFrame* frame)
 	// no entries means the file has not been initialized
 	if (!hasMoreEntries)
 	{
-		InitializeConfigFile(frame);
+		InitializeConfigFile();
 		hasMoreEntries = wxConfig::GetFirstEntry(key, index);
 	}
 	// set the item status from the config key
@@ -239,7 +239,7 @@ void Config::GetEditorAndViewMenuOptions(ASFrame* frame)
 		if (wxConfig::GetEntryType(key) == wxConfig::Type_String)
 		{
 			wxConfig::Read(key, &value);
-			ok = frame->SetEditorOrViewOption(key, value);
+			ok = m_frame->SetEditorOrViewOption(key, value);
 		}
 		else
 			ok = false;
@@ -258,6 +258,31 @@ void Config::GetEditorAndViewMenuOptions(ASFrame* frame)
 		wxConfig::Flush();
 	}
 	wxConfig::SetPath("/");;
+}
+
+wxArrayString Config::GetSessionFiles()
+// Get session filepaths from the config file.
+{
+	wxConfig::SetPath("/Session");
+	wxArrayString filePaths;
+	if (m_frame->GetLoadSession())
+	{
+		int configCount = wxConfig::GetNumberOfEntries();
+		wxString key;
+		wxString value;
+		// read the keys in ascending sequence
+		for (size_t i = 0; configCount > 0; i++)
+		{
+			key = SESSION_FILE + wxString::Format("%d", static_cast<int>(i + 1));
+			if (wxConfig::Read(key, &value))
+			{
+				filePaths.Add(value);
+				--configCount;
+			}
+		}
+	}
+	wxConfig::SetPath("/");
+	return filePaths;
 }
 
 vector<TextStyle> Config::GetStcStyleOptions()
@@ -303,7 +328,7 @@ vector<TextStyle> Config::GetStcStyleOptions()
 	return styleVector;
 }
 
-void Config::InitializeConfigFile(ASFrame* frame)
+void Config::InitializeConfigFile()
 // Initialize the config file for the first use.
 {
 	wxConfig::SetPath("/");
@@ -311,13 +336,14 @@ void Config::InitializeConfigFile(ASFrame* frame)
 	wxConfig::Write(LINE_NUMBERS, asTRUE);
 	wxConfig::Write(TOOLBAR_TOOLTIPS, asTRUE);
 	wxConfig::Write(DIALOG_TOOLTIPS, asTRUE);
+	wxConfig::Write(LOAD_SESSION, asTRUE);
 	wxConfig::Write(SHOW_TOOLBAR, asTRUE);
 	wxConfig::Write(SHOW_STATUSBAR, asTRUE);
 	// find some fonts
-	wxFont defaultFont = frame->FindDefaultFont();
+	wxFont defaultFont = m_frame->FindDefaultFont();
 	wxConfig::Write(DEFAULT_FONT_FACE, defaultFont.GetFaceName());
 	wxConfig::Write(DEFAULT_FONT_SIZE, wxString::Format("%d", defaultFont.GetPointSize()));
-	wxFont commentFont = frame->FindCommentFont();
+	wxFont commentFont = m_frame->FindCommentFont();
 	wxConfig::Write(COMMENT_FONT_FACE, commentFont.GetFaceName());
 	wxConfig::Write(COMMENT_FONT_SIZE, wxString::Format("%d", commentFont.GetPointSize()));
 	wxConfig::Flush();
@@ -555,31 +581,59 @@ void Config::SaveAStyleOptions(AStyleIFace* astyle)
 	wxConfig::SetPath("/");
 }
 
-void Config::SaveEditorOptions(ASFrame* frame)
+void Config::SaveEditorOptions()
 // Save the Editor options to a config file.
 // For true/false values, true values are saved, false values are deleted.
 {
 	wxConfig::SetPath("/");
 	// toolbar and dialogs
-	frame->GetUseBottomTabs()   ? wxConfig::Write(USE_BOTTOM_TABS, asTRUE) : wxConfig::DeleteEntry(USE_BOTTOM_TABS, false);
-	frame->GetUseSmallToolbar() ? wxConfig::Write(USE_SMALL_TOOLBAR, asTRUE) : wxConfig::DeleteEntry(USE_SMALL_TOOLBAR, false);
-	frame->GetShowToolTips()    ? wxConfig::Write(TOOLBAR_TOOLTIPS, asTRUE) : wxConfig::DeleteEntry(TOOLBAR_TOOLTIPS, false);
-	frame->GetShowDialogTips()  ? wxConfig::Write(DIALOG_TOOLTIPS, asTRUE) : wxConfig::DeleteEntry(DIALOG_TOOLTIPS, false);
+	m_frame->GetUseBottomTabs()   ? wxConfig::Write(USE_BOTTOM_TABS, asTRUE) : wxConfig::DeleteEntry(USE_BOTTOM_TABS, false);
+	m_frame->GetUseSmallToolbar() ? wxConfig::Write(USE_SMALL_TOOLBAR, asTRUE) : wxConfig::DeleteEntry(USE_SMALL_TOOLBAR, false);
+	m_frame->GetShowToolTips()    ? wxConfig::Write(TOOLBAR_TOOLTIPS, asTRUE) : wxConfig::DeleteEntry(TOOLBAR_TOOLTIPS, false);
+	m_frame->GetShowDialogTips()  ? wxConfig::Write(DIALOG_TOOLTIPS, asTRUE) : wxConfig::DeleteEntry(DIALOG_TOOLTIPS, false);
+	m_frame->GetLoadSession()     ? wxConfig::Write(LOAD_SESSION, asTRUE) : wxConfig::DeleteEntry(LOAD_SESSION, false);
 	// find dialog
-	frame->GetHideFindAfterMatch() ? wxConfig::Write(HIDE_FIND, asTRUE) : wxConfig::DeleteEntry(HIDE_FIND, false);
-	frame->GetWrapSearch() ? wxConfig::Write(WRAP_SEARCH, asTRUE) : wxConfig::DeleteEntry(WRAP_SEARCH, false);
+	m_frame->GetHideFindDialog()  ? wxConfig::Write(HIDE_FIND, asTRUE) : wxConfig::DeleteEntry(HIDE_FIND, false);
+	m_frame->GetWrapSearch()      ? wxConfig::Write(WRAP_SEARCH, asTRUE) : wxConfig::DeleteEntry(WRAP_SEARCH, false);
 	// fonts
-	wxConfig::Write(DEFAULT_FONT_FACE, frame->GetDefaultFont().GetFaceName());
-	wxConfig::Write(DEFAULT_FONT_SIZE, wxString::Format("%d", frame->GetDefaultFont().GetPointSize()));
-	wxConfig::Write(COMMENT_FONT_FACE, frame->GetCommentFont().GetFaceName());
-	wxConfig::Write(COMMENT_FONT_SIZE, wxString::Format("%d", frame->GetCommentFont().GetPointSize()));
+	wxConfig::Write(DEFAULT_FONT_FACE, m_frame->GetDefaultFont().GetFaceName());
+	wxConfig::Write(DEFAULT_FONT_SIZE, wxString::Format("%d", m_frame->GetDefaultFont().GetPointSize()));
+	wxConfig::Write(COMMENT_FONT_FACE, m_frame->GetCommentFont().GetFaceName());
+	wxConfig::Write(COMMENT_FONT_SIZE, wxString::Format("%d", m_frame->GetCommentFont().GetPointSize()));
 	// other
-	wxConfig::Write(FILE_FILTER_INDEX, wxString::Format("%d", frame->GetFileFilterIndex()));
-	wxConfig::Write(ASTYLE_DLG_PAGE, wxString::Format("%d", frame->GetAStyleDlgPage()));
-	wxConfig::Write(EDITOR_DLG_PAGE, wxString::Format("%d", frame->GetEditorDlgPage()));
-	frame->IsMaximized() ? wxConfig::Write(FRAME_MAXIMIZED, asTRUE) : wxConfig::DeleteEntry(FRAME_MAXIMIZED, false);
+	wxConfig::Write(FILE_FILTER_INDEX, wxString::Format("%d", m_frame->GetFileFilterIndex()));
+	wxConfig::Write(ASTYLE_DLG_PAGE, wxString::Format("%d", m_frame->GetAStyleDlgPage()));
+	wxConfig::Write(EDITOR_DLG_PAGE, wxString::Format("%d", m_frame->GetEditorDlgPage()));
+	m_frame->IsMaximized() ? wxConfig::Write(FRAME_MAXIMIZED, asTRUE) : wxConfig::DeleteEntry(FRAME_MAXIMIZED, false);
 	wxConfig::Flush();
 	wxConfig::SetPath("/");
+}
+
+void Config::SaveSessionFiles()
+{
+	wxConfig::SetPath("/Session");
+	wxArrayString filePaths = m_frame->GetOpenFilePaths();
+	// save current session if option is set
+	size_t fileCount = filePaths.GetCount();
+	size_t i = 0;
+	if (m_frame->GetLoadSession())
+	{
+		for (i = 0; i < fileCount; i++)
+		{
+			wxFileName filePath = filePaths[i];
+			if (!filePath.IsAbsolute())
+				continue;
+			wxString key = SESSION_FILE + wxString::Format("%d", static_cast<int>(i + 1));
+			wxConfig::Write(key, filePath.GetFullPath());
+		}
+	}
+	// remove extra entries
+	size_t sessionCount = wxConfig::GetNumberOfEntries();
+	for (; i < sessionCount; i++)
+	{
+		wxString key = SESSION_FILE + wxString::Format("%d", static_cast<int>(i + 1));
+		wxConfig::DeleteEntry(key);
+	}
 }
 
 void Config::SaveStcStyleOptions(const vector<TextStyle>& styleVector)
@@ -607,23 +661,23 @@ void Config::SaveTestOptions(const wxString& testOptions)
 	wxConfig::SetPath("/");
 }
 
-void Config::SaveViewMenuOptions(ASFrame* frame)
+void Config::SaveViewMenuOptions()
 // Save the View menu status to a config file.
 // Checked values are saved, unchecked values are deleted.
 {
 	wxConfig::SetPath("/");
 	// view menu
-	frame->IsMenuItemChecked(ID_VIEW_LINENUMBERS) ? wxConfig::Write(LINE_NUMBERS, asTRUE) : wxConfig::DeleteEntry(LINE_NUMBERS, false);
-	frame->IsMenuItemChecked(ID_VIEW_MARGIN) ? wxConfig::Write(SELECTION_MARGIN, asTRUE) : wxConfig::DeleteEntry(SELECTION_MARGIN, false);
-	frame->IsMenuItemChecked(ID_VIEW_WHITESPACE) ? wxConfig::Write(WHITESPACE, asTRUE) : wxConfig::DeleteEntry(WHITESPACE, false);
-	frame->IsMenuItemChecked(ID_VIEW_ACTIVELINE) ? wxConfig::Write(ACTIVE_LINE, asTRUE) : wxConfig::DeleteEntry(ACTIVE_LINE, false);
-	frame->IsMenuItemChecked(ID_VIEW_INDENTGUIDES) ? wxConfig::Write(INDENT_GUIDES, asTRUE) : wxConfig::DeleteEntry(INDENT_GUIDES, false);
-	frame->IsMenuItemChecked(ID_VIEW_ENDLINE) ? wxConfig::Write(END_OF_LINE, asTRUE) : wxConfig::DeleteEntry(END_OF_LINE, false);
-	frame->IsMenuItemChecked(ID_VIEW_WORDWRAP) ? wxConfig::Write(WORD_WRAP, asTRUE) : wxConfig::DeleteEntry(WORD_WRAP, false);
-	frame->IsMenuItemChecked(ID_VIEW_MONOSPACE) ? wxConfig::Write(MONOSPACE, asTRUE) : wxConfig::DeleteEntry(MONOSPACE, false);
+	m_frame->IsMenuItemChecked(ID_VIEW_LINENUMBERS) ? wxConfig::Write(LINE_NUMBERS, asTRUE) : wxConfig::DeleteEntry(LINE_NUMBERS, false);
+	m_frame->IsMenuItemChecked(ID_VIEW_MARGIN) ? wxConfig::Write(SELECTION_MARGIN, asTRUE) : wxConfig::DeleteEntry(SELECTION_MARGIN, false);
+	m_frame->IsMenuItemChecked(ID_VIEW_WHITESPACE) ? wxConfig::Write(WHITESPACE, asTRUE) : wxConfig::DeleteEntry(WHITESPACE, false);
+	m_frame->IsMenuItemChecked(ID_VIEW_ACTIVELINE) ? wxConfig::Write(ACTIVE_LINE, asTRUE) : wxConfig::DeleteEntry(ACTIVE_LINE, false);
+	m_frame->IsMenuItemChecked(ID_VIEW_INDENTGUIDES) ? wxConfig::Write(INDENT_GUIDES, asTRUE) : wxConfig::DeleteEntry(INDENT_GUIDES, false);
+	m_frame->IsMenuItemChecked(ID_VIEW_ENDLINE) ? wxConfig::Write(END_OF_LINE, asTRUE) : wxConfig::DeleteEntry(END_OF_LINE, false);
+	m_frame->IsMenuItemChecked(ID_VIEW_WORDWRAP) ? wxConfig::Write(WORD_WRAP, asTRUE) : wxConfig::DeleteEntry(WORD_WRAP, false);
+	m_frame->IsMenuItemChecked(ID_VIEW_MONOSPACE) ? wxConfig::Write(MONOSPACE, asTRUE) : wxConfig::DeleteEntry(MONOSPACE, false);
 
-	frame->IsMenuItemChecked(ID_VIEW_TOOLBAR) ? wxConfig::Write(SHOW_TOOLBAR, asTRUE) : wxConfig::DeleteEntry(SHOW_TOOLBAR, false);
-	frame->IsMenuItemChecked(ID_VIEW_STATUSBAR) ? wxConfig::Write(SHOW_STATUSBAR, asTRUE) : wxConfig::DeleteEntry(SHOW_STATUSBAR, false);
+	m_frame->IsMenuItemChecked(ID_VIEW_TOOLBAR) ? wxConfig::Write(SHOW_TOOLBAR, asTRUE) : wxConfig::DeleteEntry(SHOW_TOOLBAR, false);
+	m_frame->IsMenuItemChecked(ID_VIEW_STATUSBAR) ? wxConfig::Write(SHOW_STATUSBAR, asTRUE) : wxConfig::DeleteEntry(SHOW_STATUSBAR, false);
 	wxConfig::Flush();
 }
 
@@ -635,17 +689,19 @@ void Config::ShowInvalidConfig(const wxString& entry)
 		wxString value;
 		wxConfig::Read(entry, &value);
 		ShowMessageDialog(wxString::Format(
-		                      "Invalid config file entry \"%s\" \"%s\"."
+		                      "Invalid config file entry\n"
+		                      "\"%s\"  \"%s\"."
 		                      "\n\nThe entry will be removed!",
-		                      entry.c_str(), value.c_str()),
+		                      entry, value),
 		                  wxOK | wxICON_ERROR);
 	}
 	else
 	{
 		ShowMessageDialog(wxString::Format(
-		                      "Invalid config file value \"%s\" \"%s\"."
+		                      "Invalid config file value\n"
+		                      "\"%s\"  \"%s\"."
 		                      "\n\nThe entry will be removed!",
-		                      entry.c_str(), "non-string value"),
+		                      entry, "non-string value"),
 		                  wxOK | wxICON_ERROR);
 	}
 }

@@ -15,7 +15,7 @@
 //-----------------------------------------------------------------------------
 
 // Create a ASApp object
-IMPLEMENT_APP(ASApp)
+wxIMPLEMENT_APP(ASApp);
 
 bool ASApp::OnInit()
 {

@@ -11,7 +11,6 @@
 				<Option object_output="wx3.1/objDy/Debug/" />
 				<Option type="0" />
 				<Option compiler="clang" />
-				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-Wall" />
@@ -56,7 +55,6 @@
 				<Option object_output="wx3.1/objDy/Release/" />
 				<Option type="0" />
 				<Option compiler="clang" />
-				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />

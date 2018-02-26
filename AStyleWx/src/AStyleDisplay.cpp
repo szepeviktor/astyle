@@ -35,9 +35,6 @@ AStyleDisplay::AStyleDisplay(wxCheckBox* _useTabLength,
 	m_stc = nullptr;
 }
 
-AStyleDisplay::~AStyleDisplay()
-{}
-
 wxString AStyleDisplay::AlignConvertTabs(const wxString& text) const
 // Align the convert tabs text for the styled text control display.
 // Convert to spaces first because GetTextExtent doesn't work with tabs.

@@ -69,6 +69,15 @@
 												</object>
 												<object class="sizeritem">
 													<option>0</option>
+													<flag>wxALL</flag>
+													<border>5</border>
+													<object class="wxCheckBox" name="m_loadSession">
+														<label>Load previous session</label>
+														<checked>0</checked>
+													</object>
+												</object>
+												<object class="sizeritem">
+													<option>0</option>
 													<flag>wxALIGN_LEFT|wxALL</flag>
 													<border>5</border>
 													<object class="wxCheckBox" name="m_hideFind">

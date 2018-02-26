@@ -43,7 +43,7 @@
 					<Add directory="$(#wx30mingw)/lib/gcc_lib" />
 				</Linker>
 				<ExtraCommands>
-					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle31d.dll&quot;   mklink /h  &quot;wx3.0\bin\AStyle31d.dll&quot;  &quot;lib\AStyle31d.dll&quot;' />
+					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle32d.dll&quot;   mklink /h  &quot;wx3.0\bin\AStyle32d.dll&quot;  &quot;lib\AStyle32d.dll&quot;' />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
@@ -84,7 +84,7 @@
 					<Add directory="$(#wx30mingw)/lib/gcc_lib" />
 				</Linker>
 				<ExtraCommands>
-					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle31.dll&quot;   mklink /h  &quot;wx3.0\bin\AStyle31.dll&quot;  &quot;lib\AStyle31.dll&quot;' />
+					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle32.dll&quot;   mklink /h  &quot;wx3.0\bin\AStyle32.dll&quot;  &quot;lib\AStyle32.dll&quot;' />
 				</ExtraCommands>
 			</Target>
 			<Target title="DLL Debug">
@@ -124,7 +124,7 @@
 					<Add directory="$(#wx30mingw)/lib/gcc_dll" />
 				</Linker>
 				<ExtraCommands>
-					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle31d.dll&quot;   cmd /c   mklink /h  &quot;wx3.0\bin\AStyle31d.dll&quot;  &quot;lib\AStyle31d.dll&quot;' />
+					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle32d.dll&quot;   cmd /c   mklink /h  &quot;wx3.0\bin\AStyle32d.dll&quot;  &quot;lib\AStyle32d.dll&quot;' />
 				</ExtraCommands>
 			</Target>
 			<Target title="DLL Release">
@@ -165,7 +165,7 @@
 					<Add directory="$(#wx30mingw)/lib/gcc_dll" />
 				</Linker>
 				<ExtraCommands>
-					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle31.dll&quot;   cmd /c   mklink /h  &quot;wx3.0\bin\AStyle31.dll&quot;  &quot;lib\AStyle31.dll&quot;' />
+					<Add after='cmd /c  if not exist   &quot;wx3.0\bin\AStyle32.dll&quot;   cmd /c   mklink /h  &quot;wx3.0\bin\AStyle32.dll&quot;  &quot;lib\AStyle32.dll&quot;' />
 				</ExtraCommands>
 			</Target>
 		</Build>

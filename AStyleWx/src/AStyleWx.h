@@ -179,12 +179,10 @@ enum
 // It will cause problems with MinGW and Embarcadero compilers.
 //-----------------------------------------------------------------------------
 
-class ASEditor: public wxStyledTextCtrl
+class ASEditor : public wxStyledTextCtrl
 {
 public:
 	explicit ASEditor(wxWindow* notebook);
-	virtual ~ASEditor();
-
 	void BookmarkClearAll(int markerBookmark);
 	void BookmarkNext(int markerBookmark);
 	void BookmarkPrevious(int markerBookmark);
@@ -286,7 +284,6 @@ class ASFrame : public wxFrame
 {
 public:
 	ASFrame();
-	virtual ~ASFrame();
 	void BuildGuiControls(int argc_, wxChar** argv_);
 	void FileDoCaption();
 	wxFont FindCommentFont() const;
@@ -294,6 +291,7 @@ public:
 	int  GetFileFilterIndex() const;
 	wxString GetKeyWords(int fileMode) const;
 	long GetNotebookStyle(bool useBottomTabs) const;
+	wxArrayString GetOpenFilePaths() const;
 	bool OnDropFiles(const wxArrayString& filePaths);
 	bool SetEditorOrViewOption(const wxString& key, const wxString& value);
 	void SetFileFilterIndex(int fileFilterIndex);
@@ -313,8 +311,9 @@ public:
 	Config* GetConfig() const                       { return m_config; }
 	ASEditor* GetEditor() const                     { return m_editor; }
 	wxFindReplaceDialog* GetFindDialog() const      { return m_find; }
-	bool GetHideFindAfterMatch() const              { return m_hideDialogAfterMatch; }
+	bool GetHideFindDialog() const                  { return m_hideFindDialog; }
 	const wxIconBundle& GetIconBundle() const       { return m_iconBundle; }
+	bool GetLoadSession() const                     { return m_loadSession; }
 	wxAuiNotebook* GetNotebook() const              { return m_notebook; }
 	wxStaticBitmap* GetOptionsBitmap() const        { return m_optionsBitmap; }
 	bool GetShowToolTips() const                    { return m_showToolTips; }
@@ -327,6 +326,7 @@ public:
 	bool IsMenuItemChecked(int id) const            { return GetMenuBar()->IsChecked(id); }
 	void SetAstyleSettings(wxString astyleSettings) { m_astyleSettings = astyleSettings; }
 	void SetDialogTips(bool showDialogTips)         { m_showDialogTips = showDialogTips; }
+	void SetLoadSession(bool loadSession)           { m_loadSession = loadSession; }
 	void SetStatusBarNeedsUpdate(bool needUpdate)   { m_statusBarNeedsUpdate = needUpdate; }
 	void SetUseBottomTabs(bool useBottomTabs)       { m_useBottomTabs = useBottomTabs; }
 	void SetUseSmallToolBar(bool useSmallToolbar)   { m_useSmallToolbar = useSmallToolbar; }
@@ -344,6 +344,7 @@ private:
 	bool m_viewStatusBar;
 	bool m_showToolTips;
 	bool m_showDialogTips;
+	bool m_loadSession;
 	// wxStyledTextCtrl styles
 	wxFont m_defaultFont;               // use only FaceName and PointSize
 	wxFont m_commentFont;               // use only FaceName and PointSize
@@ -352,7 +353,7 @@ private:
 	wxFindReplaceData m_findData;
 	wxFindReplaceDialog* m_find;
 	bool m_wrapSearch;                  // the search should wrap
-	bool m_hideDialogAfterMatch;        // hide find dialog after a match
+	bool m_hideFindDialog;              // hide find dialog after a match
 	// other
 	wxString m_astyleSettings;          // current astyle settings for status bar
 	int m_statusWidth[SB_END];          // default widths of status bar fields
@@ -360,6 +361,7 @@ private:
 	int m_editorDlgPage;                // editor dialog notebook page
 	int m_argc;                         // argc from wxApp
 	wxChar** m_argv;                    // argv from wxApp
+	bool m_loadCommandLine;             // files loaded from command line
 	bool m_statusBarNeedsUpdate;        // statusbar display needs updating
 	bool m_checkFileReload;             // check if file has changed
 	wxIconBundle m_iconBundle;          // the icon bundle
@@ -429,14 +431,13 @@ int  ShowMessageDialog(const wxString& message, long style);
 class ASApp : public wxApp
 {
 public:
-	ASApp() : m_frame(nullptr) {}
-	virtual ~ASApp() {}
+	ASApp() = default;
 	virtual bool OnInit();
 	virtual int OnExit();
 	ASFrame* GetFrame()   { return m_frame; }
 
 private:
-	ASFrame* m_frame;
+	ASFrame* m_frame = nullptr;
 };
 
 #endif  // _ASTYLEWX_H_

@@ -38,32 +38,32 @@
 	#include "AStyle_32.xpm"
 
 	// 16x16 toolbar xpm files
+	#include "All_16.xpm"
+	#include "Block_16.xpm"
+	#include "Close_16.xpm"
 	#include "New_16.xpm"
 	#include "Open_16.xpm"
-	#include "Save_16.xpm"
-	#include "Close_16.xpm"
-	#include "Undo_16.xpm"
 	#include "Redo_16.xpm"
-	#include "White_16.xpm"
-	#include "All_16.xpm"
-	#include "ToEnd_16.xpm"
-	#include "Block_16.xpm"
+	#include "Save_16.xpm"
 	#include "Select_16.xpm"
 	#include "Source_16.xpm"
+	#include "ToEnd_16.xpm"
+	#include "Undo_16.xpm"
+	#include "White_16.xpm"
 
 	// 24x24 toolbar xpm files
+	#include "All_24.xpm"
+	#include "Block_24.xpm"
+	#include "Close_24.xpm"
 	#include "New_24.xpm"
 	#include "Open_24.xpm"
-	#include "Save_24.xpm"
-	#include "Close_24.xpm"
-	#include "Undo_24.xpm"
 	#include "Redo_24.xpm"
-	#include "White_24.xpm"
-	#include "All_24.xpm"
-	#include "ToEnd_24.xpm"
-	#include "Block_24.xpm"
+	#include "Save_24.xpm"
 	#include "Select_24.xpm"
 	#include "Source_24.xpm"
+	#include "ToEnd_24.xpm"
+	#include "Undo_24.xpm"
+	#include "White_24.xpm"
 
 #endif
 
@@ -72,7 +72,7 @@
 //-----------------------------------------------------------------------------
 
 // Implement ASApp& wxGetApp()
-DECLARE_APP(ASApp)
+wxDECLARE_APP(ASApp);
 
 //-----------------------------------------------------------------------------
 // ASFrame event table
@@ -199,11 +199,12 @@ ASFrame::ASFrame()
 	m_viewStatusBar        = false;
 	m_showToolTips         = false;
 	m_showDialogTips       = false;
+	m_loadSession          = false;
 	// initialize find dialog
 	m_find                 = nullptr;
 	m_findData.SetFlags(wxFR_DOWN);
 	m_wrapSearch           = false;
-	m_hideDialogAfterMatch = false;
+	m_hideFindDialog       = false;
 	// initialize other variables
 	for (int i = 0; i < SB_END; i++)
 		m_statusWidth[i]   = 0;
@@ -211,12 +212,9 @@ ASFrame::ASFrame()
 	m_editorDlgPage        = 0;
 	m_argc                 = 0;
 	m_argv                 = nullptr;
+	m_loadCommandLine      = false;
 	m_statusBarNeedsUpdate = false;
 	m_checkFileReload      = false;
-}
-
-ASFrame::~ASFrame()
-{
 }
 
 void ASFrame::BuildGuiControls(int argc_, wxChar** argv_)
@@ -227,9 +225,9 @@ void ASFrame::BuildGuiControls(int argc_, wxChar** argv_)
 	// must be first so the configs are available
 	// data is written to the registry (Windows) or HOME (Linux)
 #ifdef __WXGTK__
-	m_config = new Config(wxGetApp().GetAppName().MakeLower());
+	m_config = new Config("astylewx", this);
 #else
-	m_config = new Config(wxGetApp().GetAppName());
+	m_config = new Config("AStyleWx", this);
 #endif
 	assert(m_config != nullptr);
 
@@ -257,7 +255,7 @@ void ASFrame::BuildGuiControls(int argc_, wxChar** argv_)
 
 	// Get the config editor and view menu options.
 	// Do after BuildMenu and before BuildToolBar and BuildStatusBar.
-	m_config->GetEditorAndViewMenuOptions(this);
+	m_config->GetEditorAndViewOptions();
 
 	// build toolbar and status bar
 	BuildToolBar();
@@ -300,7 +298,7 @@ void ASFrame::BuildGuiControls(int argc_, wxChar** argv_)
 
 	// build notebook pages
 	FileManager fm;
-	// open the files - argv[0] is the program name
+	// open the command line files - argv[0] is the program name
 	for (int i = 1; i < m_argc; i++)
 	{
 		if (m_argv[i][0] == '-')
@@ -310,6 +308,15 @@ void ASFrame::BuildGuiControls(int argc_, wxChar** argv_)
 			continue;
 		}
 		fm.BuildNotebookPageWithFile(m_argv[i], false);
+		m_loadCommandLine = true;
+	}
+	// open the session files if no command line files
+	if (!m_loadCommandLine)
+	{
+		wxArrayString filePaths = m_config->GetSessionFiles();
+		for (wxFileName filePath : filePaths)
+			if (filePath.Exists())
+				fm.BuildNotebookPageWithFile(filePath.GetFullPath(), false);
 	}
 	if (m_notebook->GetPageCount() == 0)
 		fm.BuildNotebookPageNew();
@@ -894,6 +901,19 @@ long ASFrame::GetNotebookStyle(bool useBottomTabs) const
 	return style;
 }
 
+wxArrayString ASFrame::GetOpenFilePaths() const
+// Get open files in the current session.
+{
+	wxArrayString filePaths;
+	size_t pageCount = m_notebook->GetPageCount();
+	for (size_t i = 0; i < pageCount; i++)
+	{
+		wxString filePath = m_notebook->GetPageToolTip(i);
+		filePaths.Add(filePath);
+	}
+	return filePaths;
+}
+
 wxSize ASFrame::GetWindowSize() const
 {
 	int sx = wxSystemSettings::GetMetric(wxSYS_SCREEN_X);
@@ -906,13 +926,16 @@ wxSize ASFrame::GetWindowSize() const
 void ASFrame::OnApplicationClose(wxCloseEvent&)
 {
 	FileManager fm;
+	// save the session files if no command line files
+	if (!m_loadCommandLine)
+		m_config->SaveSessionFiles();
 	while (m_notebook->GetPageCount() > 0)
 	{
 		if (fm.CloseFile() == wxID_CANCEL)
 			return;
 	}
 	CloseNotebook();
-	m_config->SaveEditorOptions(this);
+	m_config->SaveEditorOptions();
 	m_config->SaveStcStyleOptions(m_styleVector);
 	delete (m_astyle);
 	delete (m_config);	// config object is NOT part of the frame
@@ -1144,16 +1167,19 @@ void ASFrame::OnEditorOptions(wxCommandEvent&)
 		// showDialogTips
 		bool showDialogTips = dialog.GetShowDialogTooltips();
 		SetDialogTips(showDialogTips);
+		// loadSession
+		bool loadSession = dialog.GetLoadSession();
+		SetLoadSession(loadSession);
 		// other options
 		m_wrapSearch = dialog.GetWrapSearch();
-		m_hideDialogAfterMatch = dialog.GetHideFind();
+		m_hideFindDialog = dialog.GetHideFind();
 		m_defaultFont = dialog.GetDefaultFont();
 		m_commentFont = dialog.GetCommentFont();
 		// update config file
 		m_styleVector = dialog.GetNewStyleVector();
 		if (m_editor)
 			m_editor->UpdateStcStyleOptions();
-		GetConfig()->SaveEditorOptions(this);
+		GetConfig()->SaveEditorOptions();
 		GetConfig()->SaveStcStyleOptions(m_styleVector);
 	}
 }
@@ -1211,7 +1237,7 @@ void ASFrame::OnFindDialog(wxFindDialogEvent& event)
 	{
 		bool reverseFind = (m_findData.GetFlags() & wxFR_DOWN) == 0;
 		m_editor->FindNext(m_findData, reverseFind);
-		if (m_hideDialogAfterMatch && m_find != nullptr)
+		if (m_hideFindDialog && m_find != nullptr)
 			CloseFindDialog();
 	}
 	else if (type == wxEVT_COMMAND_FIND_CLOSE)
@@ -1658,7 +1684,7 @@ void ASFrame::OnViewMenu(wxCommandEvent& event)
 			                  wxOK | wxICON_ERROR);
 			break;
 	}
-	m_config->SaveViewMenuOptions(this);
+	m_config->SaveViewMenuOptions();
 }
 
 bool ASFrame::SetEditorOrViewOption(const wxString& key, const wxString& value)
@@ -1697,12 +1723,14 @@ bool ASFrame::SetEditorOrViewOption(const wxString& key, const wxString& value)
 		m_useSmallToolbar =  true;
 	else if (key == DIALOG_TOOLTIPS)
 		m_showDialogTips = true;
+	else if (key == LOAD_SESSION)
+		m_loadSession = true;
 	else if (key == TOOLBAR_TOOLTIPS)
 		m_showToolTips = true;
 	else if (key == WRAP_SEARCH)
 		m_wrapSearch = true;
 	else if (key == HIDE_FIND)
-		m_hideDialogAfterMatch = true;
+		m_hideFindDialog = true;
 	else if (key == DEFAULT_FONT_FACE)
 		m_defaultFont.SetFaceName(value);
 	else if (key == DEFAULT_FONT_SIZE)

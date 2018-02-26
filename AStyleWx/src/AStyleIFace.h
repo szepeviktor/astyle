@@ -27,8 +27,7 @@
 class AStyleIFace
 {
 public:
-	AStyleIFace();
-	virtual ~AStyleIFace();
+	AStyleIFace() = default;
 	void AppendFileModeOption(FileMode fileMode, wxString& options) const;
 	wxString GetOptions(bool showShort = false, bool useSeparator = true) const;
 	virtual bool SetAStyleOption(const wxString& key, const wxString& value);	// mocked in tests
@@ -188,91 +187,91 @@ private:
 
 private:
 	// the initial value is the default value in Artistic Style
-	// comments are the command line option used to set the variable
+	// comments are the AStyle command line option used to set the variable
 
-	// brace style option
-	BraceStyle braceStyle;              // --style=?
+	// brace style options
+	BraceStyle braceStyle      = STYLE_NONE;     // --style=?
 
 	// tabs/spaces options
-	IndentType indentType;              // --indent=*
-	int  indentLength;                  // --indent=*
-	bool useTabLength;                  // --indent=force-tab-x=#
-	int  tabLength;                     // --indent=force-tab-x=#
+	IndentType indentType      = INDENT_SPACES;  // --indent=?, --indent=force-tab=#
+	int indentLength           = 4;              // --indent=?, --force-indent=tab=#
+	bool useTabLength          = false;          // --indent=force-tab-x=#
+	int tabLength              = 8;              // --indent=force-tab-x=#
 
 	// brace modifier options
-	bool attachNamespace;               // --attach-namespaces
-	bool attachClass;                   // --attach-classes
-	bool attachInline;                  // --attach-inlines
-	bool attachExternC;                 // --attach-extern-c
-	bool attachClosingWhile;            // --attach-closing-while
+	bool attachNamespace       = false;          // --attach-namespaces
+	bool attachClass           = false;          // --attach-classes
+	bool attachInline          = false;          // --attach-inlines
+	bool attachExternC         = false;          // --attach-extern-c
+	bool attachClosingWhile    = false;          // --attach-closing-while
 
 	// indentation options
-	bool classIndent;                   // --indent-classes
-	bool modifierIndent;                // --indent-modifiers
-	bool switchIndent;                  // --indent-switches
-	bool caseIndent;                    // --indent-cases
-	bool namespaceIndent;               // --indent-namespaces
-	bool afterParenIndent;              // --indent-after-parens
-	int  continuationIndent;            // --indent-continuation=#
-	bool labelIndent;                   // --indent-labels
-	bool preprocBlockIndent;            // --indent-preproc-block
-	bool preprocDefineIndent;           // --indent-preproc-define
-	bool preprocCondIndent;             // --indent-preproc-cond
-	bool col1CommentIndent;             // --indent-col1-comments
-	MinConditional minConditionalOption;// --min-conditional-indent=#
-	int  maxContinuationIndent;         // --max-continuation-indent=#
+	bool classIndent           = false;          // --indent-classes
+	bool modifierIndent        = false;          // --indent-modifiers
+	bool switchIndent          = false;          // --indent-switches
+	bool caseIndent            = false;          // --indent-cases
+	bool namespaceIndent       = false;          // --indent-namespaces
+	bool afterParenIndent      = false;          // --indent-after-parens
+	int  continuationIndent    = 1;              // --indent-continuation=#
+	bool labelIndent           = false;          // --indent-labels
+	bool preprocBlockIndent    = false;          // --indent-preproc-block
+	bool preprocDefineIndent   = false;          // --indent-preproc-define
+	bool preprocCondIndent     = false;          // --indent-preproc-cond
+	bool col1CommentIndent     = false;          // --indent-col1-comments
+	MinConditional minConditionalOption = MINCOND_TWO;  // --min-conditional-indent=#
+	int  maxContinuationIndent = 40;             // --max-continuation-indent=#
 
 	// padding options
-	bool breakHeaderBlocks;             // --break-blocks, --break-blocks=all
-	bool breakClosingBlocks;            // --break-blocks=all
-	bool padOperator;                   // --pad-oper
-	bool padComma;                      // --pad-comma
-	bool padParenOutside;               // --pad-paren, --pad-paren-out
-	bool padFirstParenOut;              // --pad-first-paren-out
-	bool padParenInside;                // --pad-paren, --pad-paren-in
-	bool padHeader;                     // --pad-header
-	bool unpadParen;                    // --unpad-paren
-	bool deleteEmptyLines;              // --delete-empty-lines
-	bool fillEmptyLines;                // --fill-empty-lines
-	PointerAlign alignPointer;          // --align-pointer= none, type, middle, name
-	ReferenceAlign alignReference;      // --align-reference= none, type, middle, name same as pointer
+	bool breakHeaderBlocks     = false;          // --break-blocks, --break-blocks=all
+	bool breakClosingBlocks    = false;          // --break-blocks=all
+	bool padOperator           = false;          // --pad-oper
+	bool padComma              = false;          // --pad-comma
+	bool padParenOutside       = false;          // --pad-paren, --pad-paren-out
+	bool padFirstParenOut      = false;          // --pad-first-paren-out
+	bool padParenInside        = false;          // --pad-paren, --pad-paren-in
+	bool padHeader             = false;          // --pad-header
+	bool unpadParen            = false;          // --unpad-paren
+	bool deleteEmptyLines      = false;          // --delete-empty-lines
+	bool fillEmptyLines        = false;          // --fill-empty-lines
+	PointerAlign alignPointer  = PTR_ALIGN_NONE; // --align-pointer=#
+	ReferenceAlign alignReference = REF_SAME_AS_PTR;    // --align-reference=#
 
 	// formatting options
-	bool breakClosingBraces;            // --break-closing-braces
-	bool breakElseIfs;                  // --break-elseifs
-	bool breakOneLineHeaders;           // --break-one-line-headers
-	bool addBraces;                     // --add-braces
-	bool addOneLineBraces;              // --add-one-line-braces
-	bool removeBraces;                  // --remove-braces
-	bool breakReturnType;               // --break-return-type
-	bool breakReturnTypeDecl;           // --break-return-type-decl
-	bool attachReturnType;              // --attach-return-type
-	bool attachReturnTypeDecl;          // --attach-return-type-decl
-	bool breakOneLineBlocks;            // --keep-one-line-blocks
-	bool breakOneLineStmts;             // --keep-one-line-statements
-	bool convertTabs;                   // --convert-tabs
-	bool closeTemplates;                // --close-templates
-	bool removeCommentPrefix;           // --remove-comment-prefix
-	int  maxCodeLength;                 // --max-code-length=#
-	bool breakAfterLogical;             // --break-after-logical
+	bool breakClosingBraces    = false;          // --break-closing-braces
+	bool breakElseIfs          = false;          // --break-elseifs
+	bool breakOneLineHeaders   = false;          // --break-one-line-headers
+	bool addBraces             = false;          // --add-braces
+	bool addOneLineBraces      = false;          // --add-one-line-braces
+	bool removeBraces          = false;          // --remove-braces
+	bool breakReturnType       = false;          // --break-return-type
+	bool breakReturnTypeDecl   = false;          // --break-return-type-decl
+	bool attachReturnType      = false;          // --attach-return-type
+	bool attachReturnTypeDecl  = false;          // --attach-return-type-decl
+	bool breakOneLineBlocks    = true;           // --keep-one-line-blocks
+	bool breakOneLineStmts     = true;           // --keep-one-line-statements
+	bool convertTabs           = false;          // --convert-tabs
+	bool closeTemplates        = false;          // --close-templates
+	bool removeCommentPrefix   = false;          // --remove-comment-prefix
+	int  maxCodeLength         = 0;              // --max-code-length=#
+	bool breakAfterLogical     = false;          // --break-after-logical
 
 	// other options
-	bool padMethodPrefix;               // --pad-method-prefix
-	bool unpadMethodPrefix;             // --unpad-method-prefix
-	bool padReturnType;                 // --pad-return-type
-	bool unpadReturnType;               // --unpad-return-type
-	bool padParamType;                  // --pad-param-type
-	bool unpadParamType;                // --unpad-param-type
-	bool alignMethodColon;              // --align-method-colon
-	int  padMethodColon;                // --pad-method-colon=#
+	bool padMethodPrefix       = false;          // --pad-method-prefix
+	bool unpadMethodPrefix     = false;          // --unpad-method-prefix
+	bool padReturnType         = false;          // --pad-return-type
+	bool unpadReturnType       = false;          // --unpad-return-type
+	bool padParamType          = false;          // --pad-param-type
+	bool unpadParamType        = false;          // --unpad-param-type
+	bool alignMethodColon      = false;          // --align-method-colon
+	int  padMethodColon = COLON_PAD_NO_CHANGE;   // --pad-method-colon=#
 
-	// default values for integer variables, saved by constructor
-	int defaultIndentLength;            // default indentLength
-	int defaultTabLength;               // default tabLength
-	int defaultContinuationIndent;      // default continuationIndent
-	MinConditional defaultMinConditionalOption;    // default minConditionalIndent
-	int defaultMaxContinuationIndent;   // default maxContinuationIndent
-	int defaultMaxCodeLength;           // default maxCodeLength
+	// save integer default values
+	int defaultIndentLength          = indentLength;
+	int defaultTabLength             = tabLength;
+	int defaultContinuationIndent    = continuationIndent;
+	MinConditional defaultMinConditionalOption  = minConditionalOption;
+	int defaultMaxContinuationIndent = maxContinuationIndent;
+	int defaultMaxCodeLength         = maxCodeLength;
 };  // class AStyleIFace
 
 #endif      // closes ASTYLE_IFACE_H

@@ -59,7 +59,3 @@ SettingsDlg::SettingsDlg(wxWindow* parent, ASFrame* frame, AStyleIFace* astyle)
 	// set the default button
 	m_ok->SetDefault();
 }
-
-SettingsDlg::~SettingsDlg()
-{
-}

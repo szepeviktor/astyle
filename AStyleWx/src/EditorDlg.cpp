@@ -31,8 +31,9 @@ EditorDlg::EditorDlg(ASFrame* frame, int page) : EditorDlgBase(frame)
 	m_useSmallToolbar->SetValue(frame->GetUseSmallToolbar());
 	m_showToolbarTooltips->SetValue(frame->GetShowToolTips());
 	m_showDialogTooltips->SetValue(frame->GetShowDialogTips());
+	m_loadSession->SetValue(frame->GetLoadSession());
+	m_hideFind->SetValue(frame->GetHideFindDialog());
 	m_wrapSearch->SetValue(frame->GetWrapSearch());
-	m_hideFind->SetValue(frame->GetHideFindAfterMatch());
 	// set default font options
 	wxFont defaultHeader = m_defaultHeader->GetFont();
 	defaultHeader.SetWeight(wxFONTWEIGHT_BOLD);
@@ -64,10 +65,6 @@ EditorDlg::EditorDlg(ASFrame* frame, int page) : EditorDlgBase(frame)
 #endif
 }
 
-EditorDlg::~EditorDlg()
-{
-}
-
 void EditorDlg::BuildDialogTips() const
 // Build dialog tool tips if requested.
 {
@@ -78,8 +75,9 @@ void EditorDlg::BuildDialogTips() const
 		m_useSmallToolbar->SetToolTip("Use small bitmaps for toolbar");
 		m_showToolbarTooltips->SetToolTip("Show tooltips for toolbar");
 		m_showDialogTooltips->SetToolTip("Show tooltips for dialog controls");
+		m_loadSession->SetToolTip("Load files from the previous session");
+		m_hideFind->SetToolTip("Hide find dialog after the first match\nUse F3 for next search");
 		m_wrapSearch->SetToolTip("At end of page continue search at top of page");
-		m_hideFind->SetToolTip("Hide find dialog after the first match.\nUse F3 for next search");
 		// fonts
 		m_defaultFonts->SetToolTip("A monospace font used for everything except comments");
 		m_defaultSizes->SetToolTip("Point size of the default font");
@@ -122,6 +120,7 @@ wxFont EditorDlg::GetDefaultFont() const
 void EditorDlg::GetExcludedFonts(wxArrayString& excludedFonts) const
 // Symbol fonts excluded from the font list.
 {
+	//  all fonts beginning in lowercase are excluded
 	excludedFonts.Add("Apple Symbols");
 	excludedFonts.Add("Bookshelf Symbol 7");
 	excludedFonts.Add("Dingbats");
@@ -140,22 +139,16 @@ void EditorDlg::GetExcludedFonts(wxArrayString& excludedFonts) const
 	excludedFonts.Add("Wingdings");
 	excludedFonts.Add("Wingdings 2");
 	excludedFonts.Add("Wingdings 3");
-//  all fonts beginning in lowercase are now excluded
-//	excludedFonts.Add("cmex10");
-//	excludedFonts.Add("cmsy10");
-//	excludedFonts.Add("msam10");
-//	excludedFonts.Add("msbm10");
-//	excludedFonts.Add("wasy10");
-//	excludedFonts.Add("chs_boot");
-//	excludedFonts.Add("cht_boot");
-//	excludedFonts.Add("jpn_boot");
-//	excludedFonts.Add("kor_boot");
-//	excludedFonts.Add("wgl4_boot");
 }
 
 bool EditorDlg::GetHideFind() const
 {
 	return m_hideFind->IsChecked();
+}
+
+bool EditorDlg::GetLoadSession() const
+{
+	return m_loadSession->IsChecked();
 }
 
 vector<TextStyle>& EditorDlg::GetNewStyleVector()

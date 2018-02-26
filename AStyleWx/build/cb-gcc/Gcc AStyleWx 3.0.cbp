@@ -11,7 +11,6 @@
 				<Option object_output="wx3.0/obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Compiler>
 					<Add option="-Wunreachable-code" />
 					<Add option="-Wextra" />
@@ -51,7 +50,6 @@
 				<Option object_output="wx3.0/obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />

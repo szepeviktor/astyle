@@ -11,7 +11,6 @@
 				<Option object_output="wx3.0/obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="clang" />
-				<Option parameters="/home/jimp/Projects/AStyleFuzz/crash/file1.cpp     /home/jimp/Projects/AStyleFuzz/crash/file2.cpp" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
@@ -40,7 +39,6 @@
 				<Option object_output="wx3.0/obj/Release/" />
 				<Option type="0" />
 				<Option compiler="clang" />
-				<Option parameters="../../test-data/AppFrame.cpp" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />

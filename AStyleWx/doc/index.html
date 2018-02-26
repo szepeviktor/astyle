@@ -81,17 +81,8 @@
     <p>
         The most current <a href="https://github.com/wxFormBuilder/wxFormBuilder" target="_blank" title="open new window">
             wxFormBuilder repository</a> is available at GitHub. The version at SourceForge is an older version.
-        Linux users may need to compile it from source. There are more up to date builds available in the Git repository
-        if you want to use them.</p>
-    <p>
-        To compile the Linux build, open a terminal in the top wxFormBuilder directory.</p>
-
-    <pre>cmake CMakeLists.txt 
-make 
-sudo make install</pre>
-
-    <p>
-        You may need to create a menu item after the install.</p>
+        Linux users may need to compile the GitHub version from source. Follow the compile instructions at GitHub.
+    </p>
     <p>
         Another RAD tool that will work, with modifications, is <a href="http://wxcrafter.codelite.org/" target="_blank"
             title="open new window">wxCrafter</a>. It has a GUI similar to wxFormBuilder and generates code in a similar
@@ -123,6 +114,19 @@ sudo make install</pre>
         The Help, About, dialog displays the Artistic Style and wxWidgets versions used in the build. The information
         can also be displayed by clicking on the Encoding status bar field on the main window. This field will be empty
         if the system encoding is used.</p>
+
+    <h3>Sessions</h3>
+
+    <p>
+        The current session can be saved. The files are saved when the program is closed with files still open. The files
+        are reopened when the program is executed again. If a session file is not available no error message is displayed.
+        Saving a session is activated by a &quot;load previous session&quot; option in the &quot;Editor Options&quot;
+        menu.
+    </p>
+    <p>
+        Opening files from the command line overrides save session. The last session will not be restored even if the
+        &quot;load previous session&quot; option is set. The saved session will be retained and loaded when the command
+        line files are no longer present.</p>
 
     <p>
         &nbsp;</p>

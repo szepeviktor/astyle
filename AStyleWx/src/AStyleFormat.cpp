@@ -35,10 +35,6 @@ AStyleFormat::AStyleFormat()
 	m_line0Inserted = false;
 }
 
-AStyleFormat::~AStyleFormat()
-{
-}
-
 char* AStyleFormat::CallAStyleMain(const char* textIn, const char* options) const
 {
 #ifdef ASTYLE_DYLIB
@@ -513,9 +509,9 @@ wxString AStyleFormat::GetDynamicLibraryName()
 {
 	wxString libName;
 #ifdef __WXMSW__
-	libName = "AStyle31";
+	libName = "AStyle32";
 #elif __WXOSX__
-	libName = "astyle31";
+	libName = "astyle32";
 #else
 	libName = "astyle";
 #endif
@@ -524,7 +520,7 @@ wxString AStyleFormat::GetDynamicLibraryName()
 #endif	// NDEBUG
 	libName = aslib.CanonicalizeName(libName);
 #if !defined(__WXMSW__) && !defined(__WXOSX__)
-	const wxString SOLIBVER = "3.1.0";
+	const wxString SOLIBVER = "3.2.0";
 	libName = libName + "." + SOLIBVER;
 #endif
 	return libName;

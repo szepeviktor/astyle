@@ -23,7 +23,7 @@
 //-----------------------------------------------------------------------------
 
 // Implement ASApp& wxGetApp()
-DECLARE_APP(ASApp)
+wxDECLARE_APP(ASApp);
 
 // static member variable
 int FileManager::m_fileFilterIndex;
@@ -33,7 +33,6 @@ int FileManager::m_fileFilterIndex;
 //-----------------------------------------------------------------------------
 
 FileManager::FileManager()
-	: m_frame(nullptr), m_notebook(nullptr), m_editor(nullptr), m_astyle(nullptr)
 {
 	m_frame = wxGetApp().GetFrame();
 	assert(m_frame != nullptr);
@@ -49,9 +48,6 @@ FileManager::FileManager()
 	assert(m_astyle != nullptr);
 }
 
-FileManager::~FileManager()
-{}
-
 int FileManager::AskAboutSave(bool saveAs /*false*/)
 {
 	wxString filename = m_editor->GetFileName();
@@ -61,7 +57,7 @@ int FileManager::AskAboutSave(bool saveAs /*false*/)
 		int page = m_notebook->GetSelection();
 		wxString pageText = m_notebook->GetPageText(page);
 		pageText = pageText.Mid(0, pageText.Len() - 2);
-		filename = wxString::Format("(%s)", pageText.c_str());
+		filename = wxString::Format("(%s)", pageText);
 	}
 	wxString message = saveAs ? "SAVE AS" : "SAVE";
 #ifdef TESTMODE1
@@ -154,7 +150,7 @@ void FileManager::CheckFileReload()
 			message.Append("  The unsaved changes will be lost.");
 		int reply = ShowMessageDialog(wxString::Format(
 		                                  message,
-		                                  m_editor->GetFilePath().c_str()),
+		                                  m_editor->GetFilePath()),
 		                              wxYES_NO | wxICON_QUESTION);
 		dialogsOnScreen--;
 		if (reply == wxID_YES)
@@ -238,7 +234,7 @@ bool FileManager::LoadEditFile(const wxFileName& filepath)
 			ShowMessageDialog(wxString::Format(
 			                      "Cannot open file:\n%s\n"
 			                      "The file cannot be found by the system!",
-			                      filepath.GetFullPath().c_str()),
+			                      filepath.GetFullPath()),
 			                  wxOK | wxICON_ERROR);
 		}
 		else
@@ -246,7 +242,7 @@ bool FileManager::LoadEditFile(const wxFileName& filepath)
 			ShowMessageDialog(wxString::Format(
 			                      "Cannot open file:\n%s\n"
 			                      "The file cannot be opened as read/write!",
-			                      filepath.GetFullPath().c_str()),
+			                      filepath.GetFullPath()),
 			                  wxOK | wxICON_ERROR);
 		}
 		return false;
@@ -258,7 +254,7 @@ bool FileManager::LoadEditFile(const wxFileName& filepath)
 	{
 		ShowMessageDialog(wxString::Format(
 		                      "%s\nThe file is too large for the editor (%ld)!",
-		                      filepath.GetFullPath().c_str(), filesize),
+		                      filepath.GetFullPath(), filesize),
 		                  wxOK | wxICON_ERROR);
 		return false;
 	}
@@ -270,8 +266,8 @@ bool FileManager::LoadEditFile(const wxFileName& filepath)
 	{
 		ShowMessageDialog(wxString::Format(
 		                      "%s\nThe file encoded with %s cannot be decoded!",
-		                      filepath.GetFullPath().c_str(),
-		                      wxFontMapper::GetEncodingName(encoding.GetFileEncoding()).c_str()),
+		                      filepath.GetFullPath(),
+		                      wxFontMapper::GetEncodingName(encoding.GetFileEncoding())),
 		                  wxOK | wxICON_ERROR);
 		return false;
 	}
@@ -393,7 +389,7 @@ bool FileManager::SaveEditFile(const wxFileName& filepath)
 	{
 		ShowMessageDialog(wxString::Format(
 		                      "Error in opening output file '%s'.",
-		                      filepath.GetFullPath().c_str()),
+		                      filepath.GetFullPath()),
 		                  wxOK | wxICON_ERROR);
 		return false;
 	}
@@ -415,7 +411,7 @@ bool FileManager::SaveEditFile(const wxFileName& filepath)
 	{
 		ShowMessageDialog(wxString::Format(
 		                      "Error in writing file '%s'.\n\nThe file is corrupted!",
-		                      filepath.GetFullPath().c_str()),
+		                      filepath.GetFullPath()),
 		                  wxOK | wxICON_ERROR);
 		return false;
 	}
