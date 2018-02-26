@@ -17,7 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BF4E3EB5188B19F4005C5AD0 /* libastyle31j.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libastyle31j.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF4E3EB5188B19F4005C5AD0 /* libastyle32j.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libastyle32j.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFAB842E188B1C4A00DFE955 /* ASBeautifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASBeautifier.cpp; sourceTree = "<group>"; };
 		BFAB842F188B1C4A00DFE955 /* ASEnhancer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASEnhancer.cpp; sourceTree = "<group>"; };
 		BFAB8430188B1C4A00DFE955 /* ASFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASFormatter.cpp; sourceTree = "<group>"; };
@@ -51,7 +51,7 @@
 		BF4E3EB6188B19F4005C5AD0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BF4E3EB5188B19F4005C5AD0 /* libastyle31j.dylib */,
+				BF4E3EB5188B19F4005C5AD0 /* libastyle32j.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -100,7 +100,7 @@
 			);
 			name = AStyleJava;
 			productName = AStyleJava;
-			productReference = BF4E3EB5188B19F4005C5AD0 /* libastyle31j.dylib */;
+			productReference = BF4E3EB5188B19F4005C5AD0 /* libastyle32j.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -244,7 +244,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OBJROOT = Build/Intermediates;
-				PRODUCT_NAME = astyle31j;
+				PRODUCT_NAME = astyle32j;
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = Build/Products;
@@ -278,7 +278,7 @@
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OBJROOT = Build/Intermediates;
-				PRODUCT_NAME = astyle31j;
+				PRODUCT_NAME = astyle32j;
 				SKIP_INSTALL = YES;
 				SYMROOT = Build/Products;
 			};

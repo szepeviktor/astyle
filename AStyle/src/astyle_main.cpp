@@ -45,11 +45,11 @@
 // includes for recursive getFileNames() function
 #ifdef _WIN32
 	#undef UNICODE		// use ASCII windows functions
-	#include <windows.h>
+	#include <Windows.h>
 #else
 	#include <dirent.h>
-	#include <unistd.h>
 	#include <sys/stat.h>
+	#include <unistd.h>
 	#ifdef __VMS
 		#include <unixlib.h>
 		#include <rms.h>
@@ -94,7 +94,7 @@ namespace astyle {
 	jmethodID g_mid;
 #endif
 
-const char* g_version = "3.1";
+const char* g_version = "3.2 beta";
 
 //-----------------------------------------------------------------------------
 // ASStreamIterator class
@@ -120,9 +120,7 @@ ASStreamIterator<T>::ASStreamIterator(T* in)
 }
 
 template<typename T>
-ASStreamIterator<T>::~ASStreamIterator()
-{
-}
+ASStreamIterator<T>::~ASStreamIterator() = default;
 
 /**
 * get the length of the input stream.
@@ -244,7 +242,7 @@ string ASStreamIterator<T>::peekNextLine()
 	string nextLine_;
 	char ch;
 
-	if (peekStart == 0)
+	if (!peekStart)
 		peekStart = inStream->tellg();
 
 	// read the next record
@@ -357,9 +355,6 @@ ASConsole::ASConsole(ASFormatter& formatterArg) : formatter(formatterArg)
 	filesUnchanged = 0;
 	linesOut = 0;
 }
-
-ASConsole::~ASConsole()
-{}
 
 // rewrite a stringstream converting the line ends
 void ASConsole::convertLineEnds(ostringstream& out, int lineEnd)
@@ -694,7 +689,7 @@ string ASConsole::findProjectOptionFilePath(const string& fileName_) const
 		string filepath = parent + fileName_;
 		if (fileExists(filepath.c_str()))
 			return filepath;
-		else if (fileName_ == ".astylerc")
+		if (fileName_ == ".astylerc")
 		{
 			filepath = parent + "_astylerc";
 			if (fileExists(filepath.c_str()))
@@ -868,7 +863,7 @@ void ASConsole::getTargetFilenames(string& targetFilename_,
 		if (fileExtension.length() > 0)
 			targetFilenameVector.emplace_back(fileExtension);
 	}
-	if (targetFilenameVector.size() == 0)
+	if (targetFilenameVector.empty())
 	{
 		fprintf(stderr, _("Missing filename in %s\n"), targetFilename_.c_str());
 		error();
@@ -1100,9 +1095,9 @@ void ASConsole::getFileNames(const string& directory, const vector<string>& wild
 		// check exclude before wildcmp to avoid "unmatched exclude" error
 		bool isExcluded = isPathExclued(filePathName);
 		// save file name if wildcard match
-		for (size_t i = 0; i < wildcards.size(); i++)
+		for (const string& wildcard : wildcards)
 		{
-			if (wildcmp(wildcards[i].c_str(), findFileData.cFileName))
+			if (wildcmp(wildcard.c_str(), findFileData.cFileName))
 			{
 				if (isExcluded)
 					printMsg(_("Exclude  %s\n"), filePathName.substr(mainDirectoryLength));
@@ -1124,8 +1119,6 @@ void ASConsole::getFileNames(const string& directory, const vector<string>& wild
 	// if not doing recursive subDirectory is empty
 	for (unsigned i = 0; i < subDirectory.size(); i++)
 		getFileNames(subDirectory[i], wildcards);
-
-	return;
 }
 
 // WINDOWS function to get the full path name from the relative path name
@@ -1133,7 +1126,7 @@ void ASConsole::getFileNames(const string& directory, const vector<string>& wild
 string ASConsole::getFullPathName(const string& relativePath) const
 {
 	char fullPath[MAX_PATH];
-	GetFullPathName(relativePath.c_str(), MAX_PATH, fullPath, NULL);
+	GetFullPathName(relativePath.c_str(), MAX_PATH, fullPath, nullptr);
 	return fullPath;
 }
 
@@ -1250,7 +1243,7 @@ void ASConsole::launchDefaultBrowser(const char* filePathIn /*nullptr*/) const
 		return;
 	}
 
-	SHELLEXECUTEINFO sei = { sizeof(sei), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	SHELLEXECUTEINFO sei = { sizeof(sei), {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} };
 	sei.fMask = SEE_MASK_FLAG_NO_UI;
 	sei.lpVerb = "open";
 	sei.lpFile = htmlFilePath.c_str();
@@ -1341,7 +1334,7 @@ void ASConsole::getFileNames(const string& directory, const vector<string>& wild
 			// check exclude before wildcmp to avoid "unmatched exclude" error
 			bool isExcluded = isPathExclued(entryFilepath);
 			// save file name if wildcard match
-			for (string wildcard : wildcards)
+			for (const string& wildcard : wildcards)
 			{
 				if (wildcmp(wildcard.c_str(), entry->d_name) != 0)
 				{

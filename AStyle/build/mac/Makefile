@@ -155,13 +155,13 @@ astyled:  $(OBJd)
 shared:  libastyle.$(dylib)
 libastyle.$(dylib):  $(OBJs)
 	@ mkdir -p $(bindir)
-	$(CXX) $(dynamiclib) $(LDFLAGSr) -o $(bindir)/libastyle31.$(dylib) $^
+	$(CXX) $(dynamiclib) $(LDFLAGSr) -o $(bindir)/libastyle32.$(dylib) $^
 	@ echo
 
 shareddebug:  libastyled.$(dylib)
 libastyled.$(dylib):  $(OBJsd)
 	@ mkdir -p $(bindir)
-	$(CXX) $(dynamiclib) $(LDFLAGSd) -o $(bindir)/libastyle31d.$(dylib) $^
+	$(CXX) $(dynamiclib) $(LDFLAGSd) -o $(bindir)/libastyle32d.$(dylib) $^
 	@ echo
 
 static:  libastyle.a
@@ -179,13 +179,13 @@ libastyled.a:  $(OBJad)
 java:  libastylej.$(dylib)
 libastylej.$(dylib):  $(OBJsj)
 	@ mkdir -p $(bindir)
-	$(CXX) $(dynamiclib) $(LDFLAGSr) -o $(bindir)/libastyle31j.$(dylib) $^
+	$(CXX) $(dynamiclib) $(LDFLAGSr) -o $(bindir)/libastyle32j.$(dylib) $^
 	@ echo
 
 javadebug:  libastylejd.$(dylib)
 libastylejd.$(dylib):  $(OBJsjd)
 	@ mkdir -p $(bindir)
-	$(CXX) $(dynamiclib) $(LDFLAGSd) -o $(bindir)/libastyle31jd.$(dylib) $^
+	$(CXX) $(dynamiclib) $(LDFLAGSd) -o $(bindir)/libastyle32jd.$(dylib) $^
 	@ echo
 
 all:  release debug shared shareddebug static staticdebug

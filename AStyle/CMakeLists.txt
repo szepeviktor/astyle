@@ -1,19 +1,22 @@
 cmake_minimum_required(VERSION 3.0)
 project(astyle CXX)
 
-# Release Build - release by default (except for Borland)
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release")
-endif()
+# TODO: Make separate atrgets for astyle, astyleshared, astylejave, and astylelib.
+# TODO: Separate the options into separate macros.
 
 # Build Options - executable by default, libraries on request
 option(BUILD_JAVA_LIBS   "Build java library"   OFF)
 option(BUILD_SHARED_LIBS "Build shared library" OFF)
 option(BUILD_STATIC_LIBS "Build static library" OFF)
 
+# Release Build - release by default (except for Borland)
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+
 # Linux Soname Version
 set(MAJORVER 3)
-set(MINORVER 1)
+set(MINORVER 2)
 set(PATCHVER 0)
 set(SOLIBVER ${MAJORVER}.${MINORVER}.${PATCHVER})
 
@@ -100,14 +103,14 @@ endif()
 # Set file names if different than 'astyle'
 if(BUILD_JAVA_LIBS)
     if(WIN32)
-        set_property(TARGET astyle PROPERTY OUTPUT_NAME AStyle31j)
+        set_property(TARGET astyle PROPERTY OUTPUT_NAME AStyle32j)
         set_property(TARGET astyle PROPERTY PREFIX "")
     else()
         set_property(TARGET astyle PROPERTY OUTPUT_NAME astylej)
     endif()
 elseif(BUILD_SHARED_LIBS)
     if(WIN32)
-        set_property(TARGET astyle PROPERTY OUTPUT_NAME AStyle31)
+        set_property(TARGET astyle PROPERTY OUTPUT_NAME AStyle32)
         set_property(TARGET astyle PROPERTY PREFIX "")
     endif()
 elseif(BUILD_STATIC_LIBS)
@@ -121,16 +124,18 @@ else()
     endif()
 endif()
 
-macro(set_linker_options strip_option)
-    # Remove -rdynamic and add 'strip' to linker flags
+macro(set_linker_options)
+    # Strip release builds
     if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
-        set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
-        set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} ${strip_option}")
-        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${strip_option}")
+        if(NOT BUILD_STATIC_LIBS AND NOT BORLAND)
+            add_custom_command(TARGET astyle POST_BUILD
+                               COMMAND ${CMAKE_STRIP} $<TARGET_FILE_NAME:astyle>)
+        endif()
     endif()
     # Shared library options
     if(BUILD_SHARED_LIBS)
-        if(CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
+        set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")     # remove -rdynamic
+        if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
             set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-intel")
         elseif(MINGW)
             # minGW dlls don't work
@@ -147,26 +152,25 @@ endmacro()
 if(APPLE)
     target_compile_options(
         astyle PRIVATE -W -Wall -fno-rtti -fno-exceptions -std=c++11 -stdlib=libc++)
-    set_linker_options("")
+    set_linker_options()
 elseif(NOT WIN32)   # Linux
     target_compile_options(astyle PRIVATE -Wall -fno-rtti -fno-exceptions -std=c++11)
-    set_linker_options("-s")
-elseif(BORLAND)     # Release must be explicitely requested for Borland
-    target_compile_options(astyle PRIVATE -w -x-)   # Cannot use no-rtti (-RT-)
-    set_linker_options("")
+    set_linker_options()
 elseif(MINGW)
-    target_compile_options(astyle PRIVATE -Wall -Wextra -fno-rtti -fno-exceptions -std=c++0x)
-    set_linker_options("-s")
+    target_compile_options(astyle PRIVATE -Wall -Wextra -fno-rtti -fno-exceptions -std=c++11)
+    set_linker_options()
+elseif(BORLAND)     # Release must be explicitely requested for Borland
+    target_compile_options(astyle PRIVATE -q -w -x-)   # Cannot use no-rtti (-RT-)
+    set_linker_options()
 endif()
 
 # Display build information
 if(BUILD_JAVA_LIBS)
-    message("CMAKE_BUILD_TYPE is Java ${CMAKE_BUILD_TYPE} ${SOLIBVER}")
+    message("## CMAKE_BUILD_TYPE is Java ${CMAKE_BUILD_TYPE}")
 elseif(BUILD_SHARED_LIBS)
-    message("CMAKE_BUILD_TYPE is Shared ${CMAKE_BUILD_TYPE} ${SOLIBVER}")
+    message("## CMAKE_BUILD_TYPE is Shared ${CMAKE_BUILD_TYPE}")
 elseif(BUILD_STATIC_LIBS)
-    message("CMAKE_BUILD_TYPE is Static ${CMAKE_BUILD_TYPE}")
+    message("## CMAKE_BUILD_TYPE is Static ${CMAKE_BUILD_TYPE}")
 else()
-    message("CMAKE_BUILD_TYPE is Executable ${CMAKE_BUILD_TYPE}")
+    message("## CMAKE_BUILD_TYPE is Executable ${CMAKE_BUILD_TYPE}")
 endif()
-set(CMAKE_VERBOSE_MAKEFILE ON)
