@@ -555,13 +555,14 @@ string ASFormatter::nextLine()
 			formatLineCommentBody();
 			continue;
 		}
-		else if (isInComment)
+
+		if (isInComment)
 		{
 			formatCommentBody();
 			continue;
 		}
 
-		else if (isInQuote)
+		if (isInQuote)
 		{
 			formatQuoteBody();
 			continue;
@@ -1692,12 +1693,12 @@ string ASFormatter::nextLine()
 			goForward(name.length() - 1);
 			continue;
 		}
-		else if (currentChar == '@'
-		         && isCStyle()
-		         && (int) currentLine.length() > charNum + 1
-		         && !isWhiteSpace(currentLine[charNum + 1])
-		         && isCharPotentialHeader(currentLine, charNum + 1)
-		         && findKeyword(currentLine, charNum + 1, AS_SELECTOR))
+		if (currentChar == '@'
+		        && isCStyle()
+		        && (int) currentLine.length() > charNum + 1
+		        && !isWhiteSpace(currentLine[charNum + 1])
+		        && isCharPotentialHeader(currentLine, charNum + 1)
+		        && findKeyword(currentLine, charNum + 1, AS_SELECTOR))
 		{
 			isInObjCSelector = true;
 			string name = '@' + AS_SELECTOR;
@@ -1705,13 +1706,13 @@ string ASFormatter::nextLine()
 			goForward(name.length() - 1);
 			continue;
 		}
-		else if ((currentChar == '-' || currentChar == '+')
-		         && isCStyle()
-		         && (int) currentLine.find_first_not_of(" \t") == charNum
-		         && !isInPotentialCalculation
-		         && !isInObjCMethodDefinition
-		         && (isBraceType(braceTypeStack->back(), NULL_TYPE)
-		             || (isBraceType(braceTypeStack->back(), EXTERN_TYPE))))
+		if ((currentChar == '-' || currentChar == '+')
+		        && isCStyle()
+		        && (int) currentLine.find_first_not_of(" \t") == charNum
+		        && !isInPotentialCalculation
+		        && !isInObjCMethodDefinition
+		        && (isBraceType(braceTypeStack->back(), NULL_TYPE)
+		            || (isBraceType(braceTypeStack->back(), EXTERN_TYPE))))
 		{
 			isInObjCMethodDefinition = true;
 			isImmediatelyPostObjCMethodPrefix = true;
@@ -3053,7 +3054,7 @@ BraceType ASFormatter::getBraceType()
 	return returnVal;
 }
 
-bool ASFormatter::isNumericVariable(string word) const
+bool ASFormatter::isNumericVariable(const string& word) const
 {
 	if (word == "bool"
 	        || word == "int"
@@ -3442,6 +3443,8 @@ bool ASFormatter::isPointerOrReferenceCentered() const
 bool ASFormatter::isPointerOrReferenceVariable(const string& word) const
 {
 	return (word == "char"
+	        || word == "string"
+	        || word == "NSString"
 	        || word == "int"
 	        || word == "void"
 	        || (word.length() >= 6     // check end of word for _t
@@ -6586,8 +6589,7 @@ void ASFormatter::findReturnTypeSplitPoint(const string& firstLine)
 			// don't attach to a preprocessor
 			if (shouldAttachReturnType || shouldAttachReturnTypeDecl)
 				return;
-			else
-				continue;
+			continue;
 		}
 		// parse the line
 		for (size_t i = 0; i < line.length(); i++)
@@ -7292,7 +7294,7 @@ void ASFormatter::checkIfTemplateOpener()
 				++maxTemplateDepth;
 				continue;
 			}
-			else if (currentChar_ == '>')
+			if (currentChar_ == '>')
 			{
 				--templateDepth;
 				if (templateDepth == 0)
@@ -7307,7 +7309,7 @@ void ASFormatter::checkIfTemplateOpener()
 				}
 				continue;
 			}
-			else if (currentChar_ == '(' || currentChar_ == ')')
+			if (currentChar_ == '(' || currentChar_ == ')')
 			{
 				if (currentChar_ == '(')
 					++parenDepth_;
@@ -7320,30 +7322,30 @@ void ASFormatter::checkIfTemplateOpener()
 				templateDepth = 0;
 				return;
 			}
-			else if (nextLine_.compare(i, 2, AS_AND) == 0
-			         || nextLine_.compare(i, 2, AS_OR) == 0)
+			if (nextLine_.compare(i, 2, AS_AND) == 0
+			        || nextLine_.compare(i, 2, AS_OR) == 0)
 			{
 				// this is not a template -> leave...
 				isInTemplate = false;
 				templateDepth = 0;
 				return;
 			}
-			else if (currentChar_ == ','  // comma,     e.g. A<int, char>
-			         || currentChar_ == '&'    // reference, e.g. A<int&>
-			         || currentChar_ == '*'    // pointer,   e.g. A<int*>
-			         || currentChar_ == '^'    // C++/CLI managed pointer, e.g. A<int^>
-			         || currentChar_ == ':'    // ::,        e.g. std::string
-			         || currentChar_ == '='    // assign     e.g. default parameter
-			         || currentChar_ == '['    // []         e.g. string[]
-			         || currentChar_ == ']'    // []         e.g. string[]
-			         || currentChar_ == '('    // (...)      e.g. function definition
-			         || currentChar_ == ')'    // (...)      e.g. function definition
-			         || (isJavaStyle() && currentChar_ == '?')   // Java wildcard
-			        )
+			if (currentChar_ == ','  // comma,     e.g. A<int, char>
+			        || currentChar_ == '&'    // reference, e.g. A<int&>
+			        || currentChar_ == '*'    // pointer,   e.g. A<int*>
+			        || currentChar_ == '^'    // C++/CLI managed pointer, e.g. A<int^>
+			        || currentChar_ == ':'    // ::,        e.g. std::string
+			        || currentChar_ == '='    // assign     e.g. default parameter
+			        || currentChar_ == '['    // []         e.g. string[]
+			        || currentChar_ == ']'    // []         e.g. string[]
+			        || currentChar_ == '('    // (...)      e.g. function definition
+			        || currentChar_ == ')'    // (...)      e.g. function definition
+			        || (isJavaStyle() && currentChar_ == '?')   // Java wildcard
+			   )
 			{
 				continue;
 			}
-			else if (!isLegalNameChar(currentChar_))
+			if (!isLegalNameChar(currentChar_))
 			{
 				// this is not a template -> leave...
 				isInTemplate = false;
