@@ -50,7 +50,7 @@ int main()
         NSLog(@"Example Obj-C - AStyle %s", versionChar);
 
         // process the input files
-        for (NSString * fileName in fileNames)
+        for (NSString* fileName in fileNames)
         {   // get the text to format
             NSString* filePath = getProjectDirectory(fileName);
             NSString* textIn = getText(filePath);

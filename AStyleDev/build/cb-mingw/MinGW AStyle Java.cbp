@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="AStyleJ">
-				<Option output="bin/AStyle31j.dll" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/AStyle32j.dll" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objJava" />
 				<Option deps_output="dep" />
 				<Option type="3" />
@@ -34,7 +34,7 @@
 					<Add option="-Wl,--add-stdcall-alias" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cmd /c  copy /y  bin\AStyle31j.dll  ..\..\src-j\  &gt; NUL" />
+					<Add after="cmd /c  copy /y  bin\AStyle32j.dll  ..\..\src-j\  &gt; NUL" />
 				</ExtraCommands>
 			</Target>
 		</Build>

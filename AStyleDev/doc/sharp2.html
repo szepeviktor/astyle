@@ -8,7 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
     <link href="../favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link href="styles.css" rel="stylesheet" type="text/css" />
-    <link href="anotherdark.css" rel="stylesheet" type="text/css" />
+    <link href="andes.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -49,7 +49,7 @@
 
     <p>
         Explicit linking can be used in C# with C language DLLs. The procedure is similar to using explicit linking in
-        a C or C++ program with the additional task of marshalling objects between the languages.</p>
+        a C or C++ program with the additional task of marshaling objects between the languages.</p>
     <p>
         With explicit linking, applications must make function calls to explicitly load the DLL at run time. To explicitly
         link to a DLL, an application must use the following Windows functions, or their Linux equivalent:</p>
@@ -139,7 +139,7 @@
         needed.</p>
     <p>
         AStyleMainUtf16 should be called using a function pointer. The function pointer is obtained by a call to 
-        GetProcAddress and marshalled to a function pointer using Marshal.GetDelegateForFunctionPointer. See the 
+        GetProcAddress and marshaled to a function pointer using Marshal.GetDelegateForFunctionPointer. See the 
         AStyleInterface constructor in the example for the procedure.</p>
 
     <h3>Callback Methods</h3>
@@ -218,7 +218,7 @@
 
     <p>
         AStyleGetVersion should be called using a function pointer. The function pointer is obtained by a 
-        call to GetProcAddress and marshalled to a function pointer using Marshal.GetDelegateForFunctionPointer. See 
+        call to GetProcAddress and marshaled to a function pointer using Marshal.GetDelegateForFunctionPointer. See 
         the AStyleInterface constructor in the example for the procedure.</p>
 
     <h3>Example</h3>
@@ -599,9 +599,7 @@
             <span class="hl opt">}</span>
         <span class="hl opt">}</span>
         <span class="hl kwa">if</span> <span class="hl opt">(</span>libraryName <span class="hl opt">==</span> <span class="hl kwa">null</span><span class="hl opt">)</span>
-        <span class="hl opt">{</span>   <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find astyle native library in &quot;</span>
-                  <span class="hl opt">+</span> appDirectory
-                  <span class="hl opt">+</span> Path<span class="hl opt">.</span>DirectorySeparatorChar<span class="hl opt">);</span>
+        <span class="hl opt">{</span>   <span class="hl kwd">Error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find astyle native library in &quot;</span> <span class="hl opt">+</span> appDirectory<span class="hl opt">);</span>
         <span class="hl opt">}</span>
         <span class="hl kwa">return</span> libraryName<span class="hl opt">;</span>
     <span class="hl opt">}</span>

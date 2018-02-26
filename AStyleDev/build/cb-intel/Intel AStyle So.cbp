@@ -70,7 +70,7 @@
 				</ExtraCommands>
 			</Target>
 			<Environment>
-				<Variable name="SOLIBVER" value="3.1.0" />
+				<Variable name="SOLIBVER" value="3.2.0" />
 			</Environment>
 		</Build>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />

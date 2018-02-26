@@ -9,12 +9,12 @@ public class AStyleInterface
 #if (WINDOWS)
 // Windows will NOT attach an extension to a filename containing dots (.).
 #if (DEBUG)
-    private const string dllName = "astyle31d.dll";
+    private const string dllName = "astyle32d.dll";
 #else
-    private const string dllName = "astyle31.dll";
+    private const string dllName = "astyle32.dll";
 #endif
 #else
-    private const string SOLIBVER = "3.1.0";
+    private const string SOLIBVER = "3.2.0";
 #if (DEBUG)
     private const string dllName = "libastyled.so." + SOLIBVER;
 #else

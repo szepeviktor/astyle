@@ -23,8 +23,8 @@
         Artistic Style can be compiled as a shared library (DLL) with a Java Native Interface (JNI). This will allow the
         library to be called from a Java program.</p>
     <p class="noindent">
-        In a JNI shared library the name of the Java calling class is included in the name of the function call. The name
-        of the calling class in the Artistic Style JNI is AStyleInterface. To use the shared library without modification
+        In a JNI shared library, the name of the Java calling class is included in the name of the function call. The
+        name of the calling class in the Artistic Style JNI is AStyleInterface. To use the shared library without modification
         the name of the Java class that calls Artistic Style needs to be AStyleInterface. Calling the shared library from
         another class will require a modification to Artistic Style.&nbsp; To determine the function name being called
         run the Java program "javah". It will generate a C/C++ header file (.h) that contains the function names. These
@@ -91,7 +91,7 @@
         of zero to determine if an error occurred. Before the source is returned, an error message will be sent to the
         ErrorHandler method.</p>
     <p>
-        The function will NOT fail for an invalid option in the formatting options. In this case an error message is 
+        The function will NOT fail for an invalid option in the formatting options. In this case, an error message is
         sent to the error handling function and the formatted source code is returned without using the invalid 
         option.</p>
 
@@ -183,8 +183,7 @@
     <p>
         &nbsp;</p>
     <div class="hl">
-        <pre class="hl">
-                
+        <pre class="hl">         
 <span class="hl slc">// Example.java</span>
 
 <span class="hl com">/*</span>
@@ -200,7 +199,7 @@
 <span class="hl opt">{</span>   <span class="hl com">/*</span>
 <span class="hl com">    * Main function for this example.</span>
 <span class="hl com">    */</span>
-    <span class="hl kwa">public static</span> <span class="hl kwb">void</span> <span class="hl kwd">main</span><span class="hl opt">(</span>String<span class="hl opt">[]</span> args<span class="hl opt">)</span>
+    <span class="hl kwa">public static void</span> <span class="hl kwd">main</span><span class="hl opt">(</span>String<span class="hl opt">[]</span> args<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl slc">// files to pass to AStyle</span>
         String fileName<span class="hl opt">[] =  {</span>  <span class="hl str">&quot;AStyleDev/test-data/ASBeautifier.cpp&quot;</span><span class="hl opt">,</span>
                                 <span class="hl str">&quot;AStyleDev/test-data/ASFormatter.cpp&quot;</span><span class="hl opt">,</span>
@@ -221,7 +220,7 @@
             System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;Example Java - AStyle &quot;</span> <span class="hl opt">+</span> version<span class="hl opt">);</span>
 
         <span class="hl slc">// process the files</span>
-        <span class="hl kwa">for</span> <span class="hl opt">(</span><span class="hl kwb">int</span> i <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span> i <span class="hl opt">&lt;</span> fileName<span class="hl opt">.</span>length<span class="hl opt">;</span> i<span class="hl opt">++)</span>
+        <span class="hl kwa">for</span> <span class="hl opt">(</span><span class="hl kwa">int</span> i <span class="hl opt">=</span> <span class="hl num">0</span><span class="hl opt">;</span> i <span class="hl opt">&lt;</span> fileName<span class="hl opt">.</span>length<span class="hl opt">;</span> i<span class="hl opt">++)</span>
         <span class="hl opt">{</span>   <span class="hl slc">// get the text to format</span>
             String filePath <span class="hl opt">=</span> <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span>fileName<span class="hl opt">[</span>i<span class="hl opt">]);</span>
             String textIn <span class="hl opt">=</span> <span class="hl kwd">getText</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
@@ -246,7 +245,7 @@
     <span class="hl com">/*</span>
 <span class="hl com">    * Error message function for this example.</span>
 <span class="hl com">    */</span>
-    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span>String message<span class="hl opt">)</span>
+    <span class="hl kwa">private static void</span> <span class="hl kwd">error</span><span class="hl opt">(</span>String message<span class="hl opt">)</span>
     <span class="hl opt">{</span>   System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span>message<span class="hl opt">);</span>
         System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
         System<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
@@ -269,21 +268,21 @@
     <span class="hl kwa">private static</span> String <span class="hl kwd">getText</span><span class="hl opt">(</span>String filePath<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl slc">// create input buffers</span>
         File inFile <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">File</span><span class="hl opt">(</span>filePath<span class="hl opt">);</span>
-        <span class="hl kwa">final</span> <span class="hl kwb">int</span> readSize <span class="hl opt">=</span>  <span class="hl num">131072</span><span class="hl opt">;</span>    <span class="hl slc">// 128 KB</span>
+        <span class="hl kwa">final int</span> readSize <span class="hl opt">=</span>  <span class="hl num">131072</span><span class="hl opt">;</span>    <span class="hl slc">// 128 KB</span>
         StringBuffer bufferIn <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">StringBuffer</span><span class="hl opt">(</span>readSize<span class="hl opt">);</span>
-        <span class="hl kwb">char</span> fileIn<span class="hl opt">[] =</span> <span class="hl kwa">new</span> <span class="hl kwb">char</span><span class="hl opt">[</span>readSize<span class="hl opt">];</span>
+        <span class="hl kwa">char</span> fileIn<span class="hl opt">[] =</span> <span class="hl kwa">new char</span><span class="hl opt">[</span>readSize<span class="hl opt">];</span>
 
         <span class="hl slc">// read file data</span>
         <span class="hl kwa">try</span>
-        <span class="hl opt">{</span>   BufferedReader <span class="hl kwa">in</span> <span class="hl opt">=</span>
+        <span class="hl opt">{</span>   BufferedReader in <span class="hl opt">=</span>
                 <span class="hl kwa">new</span> <span class="hl kwd">BufferedReader</span><span class="hl opt">(</span><span class="hl kwa">new</span> <span class="hl kwd">FileReader</span><span class="hl opt">(</span>inFile<span class="hl opt">));</span>
             <span class="hl slc">// use read to preserve the current line endings</span>
-            <span class="hl kwb">int</span> charsIn <span class="hl opt">=</span> <span class="hl kwa">in</span><span class="hl opt">.</span><span class="hl kwd">read</span><span class="hl opt">(</span>fileIn<span class="hl opt">,</span> <span class="hl num">0</span><span class="hl opt">,</span> readSize<span class="hl opt">);</span>
+            <span class="hl kwa">int</span> charsIn <span class="hl opt">=</span> in<span class="hl opt">.</span><span class="hl kwd">read</span><span class="hl opt">(</span>fileIn<span class="hl opt">,</span> <span class="hl num">0</span><span class="hl opt">,</span> readSize<span class="hl opt">);</span>
             <span class="hl kwa">while</span> <span class="hl opt">(</span>charsIn <span class="hl opt">!= -</span><span class="hl num">1</span><span class="hl opt">)</span>
             <span class="hl opt">{</span>   bufferIn<span class="hl opt">.</span><span class="hl kwd">append</span><span class="hl opt">(</span>fileIn<span class="hl opt">,</span> <span class="hl num">0</span><span class="hl opt">,</span> charsIn<span class="hl opt">);</span>
-                charsIn <span class="hl opt">=</span> <span class="hl kwa">in</span><span class="hl opt">.</span><span class="hl kwd">read</span><span class="hl opt">(</span>fileIn<span class="hl opt">,</span> <span class="hl num">0</span><span class="hl opt">,</span> readSize<span class="hl opt">);</span>
+                charsIn <span class="hl opt">=</span> in<span class="hl opt">.</span><span class="hl kwd">read</span><span class="hl opt">(</span>fileIn<span class="hl opt">,</span> <span class="hl num">0</span><span class="hl opt">,</span> readSize<span class="hl opt">);</span>
             <span class="hl opt">}</span>
-            <span class="hl kwa">in</span><span class="hl opt">.</span><span class="hl kwd">close</span><span class="hl opt">();</span>
+            in<span class="hl opt">.</span><span class="hl kwd">close</span><span class="hl opt">();</span>
         <span class="hl opt">}</span>
         <span class="hl kwa">catch</span> <span class="hl opt">(</span>Exception e<span class="hl opt">)</span>
         <span class="hl opt">{</span>   <span class="hl kwa">if</span> <span class="hl opt">(</span>e <span class="hl kwa">instanceof</span> FileNotFoundException<span class="hl opt">)</span>
@@ -301,7 +300,7 @@
 <span class="hl com">    * Return the formatted text.</span>
 <span class="hl com">    * Usually the text would be returned to an edit control.</span>
 <span class="hl com">    */</span>
-    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">setText</span><span class="hl opt">(</span>String textOut<span class="hl opt">,</span> String filePath<span class="hl opt">)</span>
+    <span class="hl kwa">private static void</span> <span class="hl kwd">setText</span><span class="hl opt">(</span>String textOut<span class="hl opt">,</span> String filePath<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl slc">// create a backup file</span>
         String origfilePath <span class="hl opt">=</span> filePath <span class="hl opt">+</span>  <span class="hl str">&quot;.orig&quot;</span><span class="hl opt">;</span>
         File origFile <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">File</span><span class="hl opt">(</span>origfilePath<span class="hl opt">);</span>
@@ -340,7 +339,7 @@
 <span class="hl kwa">import</span> java<span class="hl opt">.</span>io<span class="hl opt">.</span>File<span class="hl opt">;</span>
 
 <span class="hl kwa">class</span> AStyleInterface
-<span class="hl opt">{</span>   <span class="hl kwa">static private</span> String libraryName <span class="hl opt">=</span> null<span class="hl opt">;</span>
+<span class="hl opt">{</span>   <span class="hl kwa">static private</span> String libraryName <span class="hl opt">=</span> <span class="hl kwb">null</span><span class="hl opt">;</span>
 
     <span class="hl com">/**</span>
 <span class="hl com">    * Call the AStyleMain function in Artistic Style.</span>
@@ -382,7 +381,7 @@
     <span class="hl com">/**</span>
 <span class="hl com">    * Error message function for this example.</span>
 <span class="hl com">    */</span>
-    <span class="hl kwa">private static</span> <span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span>String message<span class="hl opt">)</span>
+    <span class="hl kwa">private static void</span> <span class="hl kwd">error</span><span class="hl opt">(</span>String message<span class="hl opt">)</span>
     <span class="hl opt">{</span>   System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span>message<span class="hl opt">);</span>
         System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;The program has terminated!&quot;</span><span class="hl opt">);</span>
         System<span class="hl opt">.</span><span class="hl kwd">exit</span><span class="hl opt">(</span><span class="hl num">1</span><span class="hl opt">);</span>
@@ -423,7 +422,7 @@
     <span class="hl kwa">static private</span> String <span class="hl kwd">getLibraryName</span><span class="hl opt">(</span>String astyleDirectory<span class="hl opt">)</span>
     <span class="hl opt">{</span>   <span class="hl slc">// get the shared library extension for the platform</span>
         String fileExt <span class="hl opt">=</span> System<span class="hl opt">.</span><span class="hl kwd">mapLibraryName</span><span class="hl opt">(</span><span class="hl str">&quot;&quot;</span><span class="hl opt">);</span>
-        <span class="hl kwb">int</span> dot <span class="hl opt">=</span> fileExt<span class="hl opt">.</span><span class="hl kwd">indexOf</span><span class="hl opt">(</span><span class="hl str">&quot;.&quot;</span><span class="hl opt">);</span>
+        <span class="hl kwa">int</span> dot <span class="hl opt">=</span> fileExt<span class="hl opt">.</span><span class="hl kwd">indexOf</span><span class="hl opt">(</span><span class="hl str">&quot;.&quot;</span><span class="hl opt">);</span>
         fileExt <span class="hl opt">=</span> fileExt<span class="hl opt">.</span><span class="hl kwd">substring</span><span class="hl opt">(</span>dot<span class="hl opt">);</span>
         <span class="hl slc">// get a library name in the classpath</span>
         File directory <span class="hl opt">=</span> <span class="hl kwa">new</span> <span class="hl kwd">File</span><span class="hl opt">(</span>astyleDirectory<span class="hl opt">);</span>
@@ -438,7 +437,7 @@
                 <span class="hl kwa">break</span><span class="hl opt">;</span>
             <span class="hl opt">}</span>
         <span class="hl opt">}</span>
-        <span class="hl kwa">if</span> <span class="hl opt">(</span>libraryName <span class="hl opt">==</span> null<span class="hl opt">)</span>
+        <span class="hl kwa">if</span> <span class="hl opt">(</span>libraryName <span class="hl opt">==</span> <span class="hl kwb">null</span><span class="hl opt">)</span>
         <span class="hl opt">{</span>   <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl str">&quot;Cannot find astyle native library in &quot;</span>
                   <span class="hl opt">+</span> astyleDirectory
                   <span class="hl opt">+</span> System<span class="hl opt">.</span><span class="hl kwd">getProperty</span><span class="hl opt">(</span><span class="hl str">&quot;file.separator&quot;</span><span class="hl opt">));</span>
@@ -475,7 +474,7 @@
 <span class="hl com">    *  &#64;param  errorNumber   The error number from Artistic Style.</span>
 <span class="hl com">    *  &#64;param  errorMessage  The error message from Artistic Style.</span>
 <span class="hl com">    */</span>
-    <span class="hl kwa">private</span> <span class="hl kwb">void</span> <span class="hl kwd">ErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> String errorMessage<span class="hl opt">)</span>
+    <span class="hl kwa">private void</span> <span class="hl kwd">ErrorHandler</span><span class="hl opt">(</span><span class="hl kwa">int</span> errorNumber<span class="hl opt">,</span> String errorMessage<span class="hl opt">)</span>
     <span class="hl opt">{</span>   System<span class="hl opt">.</span>out<span class="hl opt">.</span><span class="hl kwd">println</span><span class="hl opt">(</span><span class="hl str">&quot;AStyle error &quot;</span>
                            <span class="hl opt">+</span> String<span class="hl opt">.</span><span class="hl kwd">valueOf</span><span class="hl opt">(</span>errorNumber<span class="hl opt">)</span>
                            <span class="hl opt">+</span> <span class="hl str">&quot; - &quot;</span> <span class="hl opt">+</span> errorMessage<span class="hl opt">);</span>

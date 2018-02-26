@@ -114,7 +114,7 @@
         <li>the memory allocation function (fpAlloc) returns a NULL.</li>
     </ul>
     <p>
-        The function will NOT fail for an invalid option in the formatting options. In this case an error message is 
+        The function will NOT fail for an invalid option in the formatting options. In this case, an error message is
         sent to the error handling function and the formatted source code is returned without using the invalid 
         option.</p>
 
@@ -122,7 +122,7 @@
 
     <p>
         The STDCALL macro is defined for Windows as <i>__stdcall</i>. It is needed if AStyle is compiled as a Windows
-        shared library (DLL). For Linux it is defined but does not have a value.</p>
+        shared library (DLL). For Linux, it is defined but does not have a value.</p>
     <p>
         The calling program is responsible for freeing the memory allocated by <i>fpAlloc</i> when it is no longer 
         needed.</p>
@@ -198,7 +198,7 @@
 <span class="hl kwb">void</span> <span class="hl kwd">error</span><span class="hl opt">(</span><span class="hl kwb">const</span> string message<span class="hl opt">);</span>
 string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</span><span class="hl kwb">const</span> string<span class="hl opt">&amp;</span> subPath<span class="hl opt">);</span>
 <span class="hl kwb">char</span><span class="hl opt">*</span> <span class="hl kwd">getText</span><span class="hl opt">(</span><span class="hl kwb">const</span> string<span class="hl opt">&amp;</span> filePath<span class="hl opt">);</span>
-<span class="hl kwb">void</span>  <span class="hl kwd">setText</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> textOut<span class="hl opt">,</span> <span class="hl kwb">const</span> string<span class="hl opt">&amp;</span> filePathStr<span class="hl opt">);</span>
+<span class="hl kwb">void</span> <span class="hl kwd">setText</span><span class="hl opt">(</span><span class="hl kwb">const char</span><span class="hl opt">*</span> textOut<span class="hl opt">,</span> <span class="hl kwb">const</span> string<span class="hl opt">&amp;</span> filePathStr<span class="hl opt">);</span>
 
 
 <span class="hl slc">// Main function for this example.</span>
@@ -246,7 +246,7 @@ string <span class="hl kwd">getProjectDirectory</span><span class="hl opt">(</sp
 <span class="hl opt">}</span>
 
 <span class="hl slc">// Error handler for the Artistic Style formatter.</span>
-<span class="hl kwb">void</span>  STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">const char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">)</span>
+<span class="hl kwb">void</span> STDCALL <span class="hl kwd">ASErrorHandler</span><span class="hl opt">(</span><span class="hl kwb">int</span> errorNumber<span class="hl opt">,</span> <span class="hl kwb">const char</span><span class="hl opt">*</span> errorMessage<span class="hl opt">)</span>
 <span class="hl opt">{</span>   cout <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;astyle error &quot;</span> <span class="hl opt">&lt;&lt;</span> errorNumber <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span>
          <span class="hl opt">&lt;&lt;</span> errorMessage <span class="hl opt">&lt;&lt;</span> endl<span class="hl opt">;</span>
 <span class="hl opt">}</span>

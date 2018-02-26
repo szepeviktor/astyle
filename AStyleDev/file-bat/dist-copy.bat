@@ -138,7 +138,7 @@ if exist %distsharp2%\src-s2\*  del %distsharp2%\src-s2\*  /q
 if exist %distsharp2%\test-data\*  del %distsharp2%\test-data\*  /q
 xcopy ..\AStyleDev\doc\sharp2.html  %distsharp2%\doc\  /q
 if errorlevel 2 pause
-xcopy ..\AStyleDev\doc\anotherdark.css  %distsharp2%\doc\  /q
+xcopy ..\AStyleDev\doc\andes.css  %distsharp2%\doc\  /q
 if errorlevel 2 pause
 xcopy ..\AStyleDev\doc\styles.css  %distsharp2%\doc\  /q
 if errorlevel 2 pause
