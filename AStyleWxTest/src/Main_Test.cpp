@@ -21,7 +21,7 @@
 void SystemPause();
 
 //-------------------------------------------------------------------------
-// wxWidgets IMPLEMENT_APP_NO_MAIN instead of IMPLEMENT_APP
+// wxWidgets wxIMPLEMENT_APP_NO_MAIN instead of wxIMPLEMENT_APP
 //-------------------------------------------------------------------------
 
 // Create a wxApp object to initialize wxWidgets.
@@ -30,7 +30,7 @@ void SystemPause();
 // It is needed to create a wxFrame parent for Editor and wxStyledTextCtrl classes.
 // The wxWidgets function wxEntryStart() must be called for tests that require a wxFrame object.
 // See the AStyleFormat constructor or the wxWidgets sample program mfctest.cpp.
-IMPLEMENT_APP_NO_MAIN(wxApp)
+wxIMPLEMENT_APP_NO_MAIN(wxApp);
 
 //----------------------------------------------------------------------------
 // main function

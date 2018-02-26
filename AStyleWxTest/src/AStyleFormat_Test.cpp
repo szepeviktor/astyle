@@ -26,7 +26,7 @@ class AStyleFormat_Test : public AStyleFormat
 {
 public:
 	AStyleFormat_Test() : m_frame(nullptr)
-		// Need this setup because of wxWidgets IMPLEMENT_APP_NO_MAIN.
+		// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
 		// It must be done to create a wxFrame object.
 		// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
 		// See the wxWidgets sample program mfc/mfctest.cpp.
@@ -43,7 +43,7 @@ public:
 	}
 
 	virtual ~AStyleFormat_Test()
-	// Need this because of IMPLEMENT_APP_NO_MAIN.
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
 	// See the wxWidgets sample program mfctest.cpp.
 	{
 		wxTheApp->OnExit();			// call wxApp::OnExit()
