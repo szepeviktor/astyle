@@ -375,9 +375,9 @@ bool Translation::getWideTranslation(const string& stringIn, wstring& wideOut) c
 {
 	for (size_t i = 0; i < m_translationVector.size(); i++)
 	{
-		if (m_translationVector[i].first == stringIn)
+		if (m_translationVector.at(i).first == stringIn)
 		{
-			wideOut = m_translationVector[i].second;
+			wideOut = m_translationVector.at(i).second;
 			return true;
 		}
 	}
@@ -394,9 +394,9 @@ string& Translation::translate(const string& stringIn) const
 	m_mbTranslation.clear();
 	for (size_t i = 0; i < m_translationVector.size(); i++)
 	{
-		if (m_translationVector[i].first == stringIn)
+		if (m_translationVector.at(i).first == stringIn)
 		{
-			m_mbTranslation = convertToMultiByte(m_translationVector[i].second);
+			m_mbTranslation = convertToMultiByte(m_translationVector.at(i).second);
 			break;
 		}
 	}

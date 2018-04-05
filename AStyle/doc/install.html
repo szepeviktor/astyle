@@ -133,9 +133,21 @@ make
     <h5>INSTALL</h5>
 
     <p>
-        The makefile install option installs the astyle executable and documentation files. The default is /usr/bin for
-        the executable and /usr/share/doc/astyle for the documentation. You must have the appropriate permissions to use
-        install. </p>
+        The makefile install option installs the astyle executable and documentation files. The option installs from 
+        the generated makefile, not CMake. You must have the appropriate permissions to use install. </p>
+    <p>
+        To install astyle:</p>
+    <pre>make install</pre>
+    <p>
+        The default install directory is /usr/local/bin for the executable and /usr/local/share/doc/astyle for the
+        documentation. To change the default install directory from /usr/local the CMake must be run with the option 
+        CMAKE_INSTALL_PREFIX. </p>
+    <p>
+        To run CMake and change the install directory:</p>
+    <pre>cmake  -DCMAKE_INSTALL_PREFIX=/usr  ../
+make install</pre>
+
+    <h5>UNINSTALL</h5>
 
     <p>
         There is no uninstall. The easiest way to uninstall is to use the install_manifest.txt file, for example 
@@ -410,15 +422,19 @@ cmake  -G "MinGW Makefiles"  ../
 mingw32-make</pre>
 
     <p>As stated previously, the DLL builds may not work with the CMake generated makefiles.</p>
+
     <h5>INSTALL</h5>
 
     <p>
         The makefile install option installs the astyle executable and documentation files. The default is &quot;C:\Program
-        Files (x86)\AStyle&quot; for the executable and &quot;C:\Program Files (x86)\AStyle\doc&quot; for the documentation.
+        Files\AStyle&quot; for the executable and &quot;C:\Program Files\AStyle\doc&quot; for the documentation.
         You may need to run as an administrator to install. </p>
 
+    <h5>UNINSTALL</h5>
+
     <p>
-        There is no uninstall. The uninstall must be done manually. Just remove the two folders indicated in the 
+        There is no uninstall. The uninstall must be done manually. Just remove the 
+        AStyle folder indicated in the 
         Install. </p>
 
     <h4 id="_CodeBlocks_Windows">CodeBlocks Windows</h4>

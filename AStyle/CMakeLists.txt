@@ -58,24 +58,27 @@ endif()
 
 # Define the output type and install directories
 # To uninstall 'xargs rm < install_manifest.txt'
+# Default linux install prefix is /usr/local"
+# This may be modified by -DCMAKE_INSTALL_PREFIX=
+# Default Win32 install prefix is not used (C:/Program Files (x86))
 if(BUILD_SHARED_LIBS OR BUILD_STATIC_LIBS)
     add_library(astyle ${SRCS})
     if(NOT WIN32)
-        install(TARGETS astyle DESTINATION /usr/lib)
+        install(TARGETS astyle DESTINATION lib)
     endif()
 else()
     add_executable(astyle ${SRCS})
     if(WIN32)
         set(pf86 "PROGRAMFILES(x86)")
         set(prog_files $ENV{${pf86}})
-        if(NOT prog_files)
+        if(NOT ${prog_files})
             set(prog_files $ENV{PROGRAMFILES})
         endif()
         install(TARGETS astyle DESTINATION ${prog_files}/AStyle)
         install(FILES ${DOCS} DESTINATION ${prog_files}/AStyle/doc/)
     else()
-        install(TARGETS astyle DESTINATION /usr/bin)
-        install(FILES ${DOCS} DESTINATION /usr/share/doc/astyle)
+        install(TARGETS astyle DESTINATION bin)
+        install(FILES ${DOCS} DESTINATION share/doc/astyle)
     endif()
 endif()
 

@@ -85,6 +85,7 @@ enum FormatStyle
 	STYLE_1TBS,
 	STYLE_GOOGLE,
 	STYLE_MOZILLA,
+	STYLE_WEBKIT,
 	STYLE_PICO,
 	STYLE_LISP
 };
@@ -657,7 +658,7 @@ class ASFormatter : public ASBeautifier
 {
 public:	// functions
 	ASFormatter();
-	virtual ~ASFormatter();
+	~ASFormatter() override;
 	ASFormatter(const ASFormatter&)            = delete;
 	ASFormatter& operator=(ASFormatter const&) = delete;
 	ASFormatter(ASFormatter&&)                 = delete;
@@ -838,7 +839,7 @@ private:  // functions
 	string getPreviousWord(const string& line, int currPos) const;
 	string peekNextText(const string& firstLine,
 	                    bool endOnEmptyLine = false,
-	                    shared_ptr<ASPeekStream> streamArg = nullptr) const;
+	                    const shared_ptr<ASPeekStream>& streamArg = nullptr) const;
 
 private:  // variables
 	int formatterFileType;

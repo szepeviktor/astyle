@@ -99,6 +99,7 @@
         <a class="contents" href="#_style=1tbs">style=1tbs</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_style=google">style=google</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_style=mozilla">style=mozilla</a>&nbsp;&nbsp;&nbsp;
+        <a class="contents" href="#_style=webkit">style=webkit</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_style=pico">style=pico</a>&nbsp;&nbsp;&nbsp;
         <a class="contents" href="#_style=lisp">style=lisp</a>&nbsp;&nbsp;&nbsp;
     </p>
@@ -669,11 +670,11 @@ indent-switches     <span class="comment"># cannot do this on the command line</
         &nbsp;</p>
     <p id="_style=stroustrup">
         <code class="title">--style=stroustrup / -A4</code><br />
-        Stroustrup style uses linux braces with closing headers broken from closing braces
-        (e.g. &#8209;&#8209;break&#8209;closing&#8209;headers). Opening braces are broken from function definitions only.
-        The opening braces are attached to everything else, including namespaces, classes, arrays, structs, enums, and
-        statements within a function. This style frequently is used with &quot;attach&#8209;closing&#8209;while&quot;,
-        tabbed indents, and an indent of 5 spaces.</p>
+        Stroustrup style uses linux braces. Opening braces are broken from function definitions only. The opening braces
+        are attached to everything else, including namespaces, classes, arrays, structs, enums, and statements within
+        a function.&nbsp; The closing headers are broken from closing braces (e.g. --break-closing-headers). This style
+        frequently is used with attach&#8209;closing&#8209;while, tabbed indents, and an indent of 5 
+        spaces. </p>
     <div class="code">
         <pre>int Foo(bool isBar)
 <span class="brace">{</span>
@@ -845,9 +846,27 @@ indent-switches     <span class="comment"># cannot do this on the command line</
         &nbsp;</p>
     <p id="_style=mozilla">
         <code class="title">--style=mozilla / -A16</code><br />
-        Mozilla style uses linux braces. Opening braces are broken from classes, structs, enums, and function
-        definitions. The braces are attached to everything else, including namespaces, arrays, and statements
-        within a function. This style frequently is used with an indent of 2 spaces and --break-return-type.</p>
+        Mozilla style uses linux braces. Opening braces are broken from classes, structs, enums, and function definitions.
+        The braces are attached to everything else, including namespaces, arrays, and statements within a function. This
+        style frequently is used with an indent of 2 spaces and --break-return-type.</p>
+    <div class="code">
+        <pre>int Foo(bool isBar)/span>
+    if (isBar) <span class="brace">{</span>
+        bar();
+        return 1;
+    <span class="brace">}</span> else
+        return 0;
+<span class="brace">}</span>
+</pre>
+    </div>
+    <p>
+        &nbsp;</p>
+    <p id="_style=webkit">
+        <code class="title">--style=webkit / -A17</code><br />
+        WebKit style uses linux braces. Opening braces are broken from function definitions only. The opening braces are
+        attached to everything else, including namespaces, classes, arrays, structs, enums, and statements within a function.
+        This style frequently is used with attach&#8209;closing&#8209;while, and an indent of 4 spaces.
+    </p>
     <div class="code">
         <pre>int Foo(bool isBar)
 <span class="brace">{</span>
