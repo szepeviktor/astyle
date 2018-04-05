@@ -76,6 +76,9 @@ TEST(AStyleIFace_StyleOptions, GetOptions_StylesAll)
 	astyle.setBraceStyle(STYLE_MOZILLA);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + MOZILLA);
+	astyle.setBraceStyle(STYLE_WEBKIT);
+	options = astyle.GetOptions();
+	EXPECT_TRUE(options == STYLE_EQ + WEBKIT);
 	astyle.setBraceStyle(STYLE_PICO);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + PICO);
@@ -1213,6 +1216,9 @@ TEST(AStyleIFace_StyleShort, GetOptions_All)
 	astyle.setBraceStyle(STYLE_MOZILLA);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A16") << (STYLE_EQ + MOZILLA);
+	astyle.setBraceStyle(STYLE_WEBKIT);
+	options = astyle.GetOptions(true);
+	EXPECT_TRUE(options == "A17") << (STYLE_EQ + WEBKIT);
 	astyle.setBraceStyle(STYLE_PICO);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A11") << (STYLE_EQ + PICO);
@@ -2659,6 +2665,8 @@ TEST(AStyleIFace_Config, SetAStyleOptionStyles)
 	EXPECT_EQ(STYLE_GOOGLE, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, MOZILLA));
 	EXPECT_EQ(STYLE_MOZILLA, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, WEBKIT));
+	EXPECT_EQ(STYLE_WEBKIT, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, PICO));
 	EXPECT_EQ(STYLE_PICO, astyle.AStyleIFace::getBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, LISP));

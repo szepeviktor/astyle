@@ -208,6 +208,7 @@ TEST(Config_AStyle_Styles, SaveAStyleOptions_StylesAll)
 		{ STYLE_1TBS,       oneTBS     },
 		{ STYLE_GOOGLE,     GOOGLE     },
 		{ STYLE_MOZILLA,    MOZILLA    },
+		{ STYLE_WEBKIT,     WEBKIT     },
 		{ STYLE_PICO,       PICO       },
 		{ STYLE_LISP,       LISP       }
 	};
@@ -3056,15 +3057,14 @@ struct Config_Session_F : public Test
 	void AddTestFilesToConfig(Config_Test* config, wxArrayString& filePaths)
 	{
 		config->SetPath("/Session");
-		size_t fileCount = filePaths.GetCount();
 		// save keys to config file
-		for (int i = 0; i < filePaths.GetCount(); i++)
+		for (size_t i = 0; i < filePaths.GetCount(); i++)
 		{
 			wxFileName filePath = filePaths[i];
-			wxString key = SESSION_FILE + wxString::Format("%d", i + 1);
+			wxString key = SESSION_FILE + wxString::Format("%d", static_cast<int>(i + 1));
 			config->Write(key, filePath.GetFullPath());
 		}
-		ASSERT_EQ(fileCount, config->GetNumberOfEntries());
+		ASSERT_EQ(filePaths.GetCount(), config->GetNumberOfEntries());
 	}
 	wxArrayString BuildExistingTestFiles(int numFiles)
 	{

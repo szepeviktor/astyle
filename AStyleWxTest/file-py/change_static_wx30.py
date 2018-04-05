@@ -31,11 +31,10 @@ import libastylewx
 # build/msw paths to be converted
 # NOTE: the Visual Studio release is required in the directory name (e.g. vs2015)
 wx_paths = [
-    #"C:/Programs/wxWidgets-3.0.1_vs2010",
-    #"C:/Programs/wxWidgets-3.0.1_vs2012",
     #"C:/Programs/wxWidgets-3.0.2_vs2013",
     #"C:/Programs/wxWidgets-3.0.2_vs2015",
-    "C:/Programs/wxWidgets-3.0.3_vs2017"
+    #"C:/Programs/wxWidgets-3.0.3_vs2017"
+    "C:/Programs/wxWidgets-3.0.4_vs2017",
 ]
 
 # -----------------------------------------------------------------------------
