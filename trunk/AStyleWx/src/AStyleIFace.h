@@ -28,10 +28,14 @@ class AStyleIFace
 {
 public:
 	AStyleIFace() = default;
+	virtual ~AStyleIFace()                     = default;
+	AStyleIFace(const AStyleIFace&)            = default;
+	AStyleIFace& operator=(AStyleIFace const&) = default;
+
 	void AppendFileModeOption(FileMode fileMode, wxString& options) const;
 	wxString GetOptions(bool showShort = false, bool useSeparator = true) const;
 	virtual bool SetAStyleOption(const wxString& key, const wxString& value);	// mocked in tests
-	int TranslatePadMethodColonString(wxString padMethodColonArg) const;
+	int TranslatePadMethodColonString(const wxString& padMethodColonArg) const;
 	wxString TranslatePadMethodColonValue(int padMethodColonArg) const;
 	wxString TranslatePadMethodColonValueShort(int padMethodColonArg) const;
 

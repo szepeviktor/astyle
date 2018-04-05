@@ -9,9 +9,9 @@
 
 #include <wx/msgdlg.h>
 //
-#include "Constants.h"
 #include "AStyleDisplay.h"
 #include "AStyleDlgBase.h"	// for the AStyle option IDs
+#include "Constants.h"
 
 //-----------------------------------------------------------------------------
 // AStyleDisplay class
@@ -694,6 +694,10 @@ void AStyleDisplay::DisplayStyleOptions(wxCommandEvent& event, wxStyledTextCtrl*
 			textOut = StcStyle_Vtk();
 			break;
 
+		case ID_STYLE_WEBKIT:
+			textOut = StcStyle_WebKit();
+			break;
+
 		case ID_STYLE_WHITESMITH:
 			textOut = StcStyle_Whitesmith();
 			break;
@@ -797,7 +801,12 @@ void AStyleDisplay::LexStcText(wxString boldChars /*wxEmptyString*/)
 			isInLineComment = false;
 		if (isInComment || isInLineComment)
 		{
-			m_stc->StartStyling(i, 31);
+#if wxCHECK_VERSION(3, 1, 1)
+			m_stc->StartStyling(i);
+#else
+			// depreciated in version 3.1.1 of STC
+			m_stc->StartStyling(i, 0);
+#endif
 			m_stc->SetStyling(1, COMMENT);
 		}
 		if (isInComment && previousChar == '*' && currentChar == '/')
@@ -808,7 +817,12 @@ void AStyleDisplay::LexStcText(wxString boldChars /*wxEmptyString*/)
 			int boldChar = boldChars[j];
 			if (currentChar == boldChar)
 			{
-				m_stc->StartStyling(i, 31);
+#if wxCHECK_VERSION(3, 1, 1)
+				m_stc->StartStyling(i);
+#else
+				// depreciated in version 3.1.1 of STC
+				m_stc->StartStyling(i, 0);
+#endif
 				m_stc->SetStyling(1, BOLD_CHAR);
 			}
 		}
@@ -1008,10 +1022,7 @@ wxString AStyleDisplay::StcFormat_ConvertTabs() const
 	                       "}";
 
 	// text is aligned for proportional fonts
-	if (m_event->IsChecked())
-		return AlignConvertTabs(checked);
-	else
-		return AlignConvertTabs(unchecked);
+	return m_event->IsChecked() ? AlignConvertTabs(checked) : AlignConvertTabs(unchecked);
 }
 
 wxString AStyleDisplay::StcFormat_KeepOneLineBlocks() const
@@ -1155,7 +1166,7 @@ wxString AStyleDisplay::StcIndent_IndentAfterParen() const
 	                       "};                   ";
 
 	// text is aligned for proportional fonts
-	return m_event->IsChecked() ? checked : AlignIndentAfterParens(unchecked);;
+	return m_event->IsChecked() ? checked : AlignIndentAfterParens(unchecked);
 }
 
 wxString AStyleDisplay::StcIndent_IndentCase_IndentSwitch() const
@@ -1241,7 +1252,7 @@ wxString AStyleDisplay::StcIndent_IndentCase_IndentSwitch() const
 wxString AStyleDisplay::StcIndent_IndentClass() const
 {
 	wxString checked =     "                   \n"
-	                       "class Foo          \n"
+	                       "class FooClass     \n"
 	                       "{                  \n"
 	                       "	public:        \n"
 	                       "		Foo();     \n"
@@ -1249,7 +1260,7 @@ wxString AStyleDisplay::StcIndent_IndentClass() const
 	                       "};                 ";
 
 	wxString unchecked =   "                   \n"
-	                       "class Foo          \n"
+	                       "class FooClass     \n"
 	                       "{                  \n"
 	                       "public:            \n"
 	                       "	Foo();         \n"
@@ -1341,15 +1352,15 @@ wxString AStyleDisplay::StcIndent_IndentGoTo() const
 wxString AStyleDisplay::StcIndent_IndentModifier() const
 {
 	wxString checked =     "                   \n"
-	                       "class Foo          \n"
+	                       "class FooClass     \n"
 	                       "{                  \n"
-	                       "  public:        \n"
-	                       "	Foo();     \n"
+	                       "  public:          \n"
+	                       "	Foo();         \n"
 	                       "	virtual ~Foo();\n"
 	                       "};                 ";
 
 	wxString unchecked =   "                   \n"
-	                       "class Foo          \n"
+	                       "class FooClass     \n"
 	                       "{                  \n"
 	                       "public:            \n"
 	                       "	Foo();         \n"
@@ -1362,9 +1373,9 @@ wxString AStyleDisplay::StcIndent_IndentModifier() const
 wxString AStyleDisplay::StcIndent_IndentNamespace() const
 {
 	wxString checked =     "                   \n"
-	                       "namespace foospace \n"
+	                       "namespace FooName  \n"
 	                       "{                  \n"
-	                       "	class Foo      \n"
+	                       "	class FooClass \n"
 	                       "	{              \n"
 	                       "		public:    \n"
 	                       "			Foo(); \n"
@@ -1373,9 +1384,9 @@ wxString AStyleDisplay::StcIndent_IndentNamespace() const
 	                       "}                  ";
 
 	wxString unchecked =   "                   \n"
-	                       "namespace foospace \n"
+	                       "namespace FooName  \n"
 	                       "{                  \n"
-	                       "class Foo          \n"
+	                       "class FooClass     \n"
 	                       "{                  \n"
 	                       "	public:        \n"
 	                       "		Foo();     \n"
@@ -1509,10 +1520,7 @@ wxString AStyleDisplay::StcIndent_MaxContinuationDisplay() const
 	// text is aligned for proportional fonts
 	static bool display = false;
 	display = !display;
-	if (display)
-		return smaller;
-	else
-		return AlignMaxContinuation(larger);
+	return display ? smaller : AlignMaxContinuation(larger);
 }
 
 //-----------------------------------------------------------------------------
@@ -1532,10 +1540,7 @@ wxString AStyleDisplay::StcOther_AlignMethodColon() const
 	                       "	ofNode : (Node*)node;   ";
 
 	// text is aligned for proportional fonts
-	if (m_event->IsChecked())
-		return AlignMethodColon(checked);
-	else
-		return unchecked;
+	return m_event->IsChecked() ? AlignMethodColon(checked) :  unchecked;
 }
 
 wxString AStyleDisplay::StcOther_PadMethodColon() const
@@ -1595,10 +1600,7 @@ wxString AStyleDisplay::StcOther_PadMethodColon() const
 	{
 		wxMessageBox(wxString::Format("Unidentified pad method colon display %d.\n", display));
 	}
-	if (display == COLON_PAD_NO_CHANGE)
-		return textOut;
-	else
-		return AlignMethodColon(textOut);
+	return display == COLON_PAD_NO_CHANGE ? textOut : AlignMethodColon(textOut);
 }
 
 wxString AStyleDisplay::StcOther_PadMethodPrefix() const
@@ -2001,19 +2003,28 @@ wxString AStyleDisplay::StcPad_UnpadParen() const
 
 wxString AStyleDisplay::StcStyle_Allman() const
 {
-	wxString selected =    "                   \n"
-	                       "//  Allman Style   \n"
-	                       "                   \n"
-	                       "int Foo(bool isFoo)\n"
-	                       "{                  \n"
-	                       "	if (isFoo)     \n"
-	                       "	{              \n"
-	                       "		bar();     \n"
-	                       "		return 1;  \n"
-	                       "	}              \n"
-	                       "	else           \n"
-	                       "		return 0;  \n"
-	                       "}                  ";
+	wxString selected =    "                    \n"
+	                       "//  Allman Style    \n"
+	                       "                    \n"
+	                       "namespace FooName   \n"
+	                       "{                   \n"
+	                       "class FooClass      \n"
+	                       "{                   \n"
+	                       "public:             \n"
+	                       "	int Foo();      \n"
+	                       "};                  \n"
+	                       "                    \n"
+	                       "int FooClass::Foo() \n"
+	                       "{                   \n"
+	                       "	if (isFoo)      \n"
+	                       "	{               \n"
+	                       "		bar();      \n"
+	                       "		return 1;   \n"
+	                       "	}               \n"
+	                       "	else            \n"
+	                       "		return 0;   \n"
+	                       "}                   \n"
+	                       "}                   ";
 
 	return selected;
 }
@@ -2023,7 +2034,15 @@ wxString AStyleDisplay::StcStyle_Gnu() const
 	wxString selected =    "                     \n"
 	                       "//  GNU Style        \n"
 	                       "                     \n"
-	                       "int Foo(bool isFoo)  \n"
+	                       "namespace FooName    \n"
+	                       "{                    \n"
+	                       "class FooClass       \n"
+	                       "{                    \n"
+	                       "public:              \n"
+	                       "	int Foo();       \n"
+	                       "};                   \n"
+	                       "                     \n"
+	                       "int FooClass::Foo()  \n"
 	                       "{                    \n"
 	                       "	if (isFoo)       \n"
 	                       "		{            \n"
@@ -2032,6 +2051,7 @@ wxString AStyleDisplay::StcStyle_Gnu() const
 	                       "		}            \n"
 	                       "	else             \n"
 	                       "		return 0;    \n"
+	                       "}                    \n"
 	                       "}                    ";
 
 	return selected;
@@ -2042,12 +2062,19 @@ wxString AStyleDisplay::StcStyle_Google() const
 	wxString selected =    "                     \n"
 	                       "//  Google Style     \n"
 	                       "                     \n"
-	                       "int Foo(bool isFoo) {\n"
+	                       "namespace FooName {  \n"
+	                       "class FooClass {     \n"
+	                       "  public:            \n"
+	                       "	int Foo();       \n"
+	                       "};                   \n"
+	                       "                     \n"
+	                       "int FooClass::Foo() {\n"
 	                       "	if (isFoo) {     \n"
 	                       "		bar();       \n"
 	                       "		return 1;    \n"
 	                       "	} else           \n"
 	                       "		return 0;    \n"
+	                       "}                    \n"
 	                       "}                    ";
 
 	return selected;
@@ -2058,13 +2085,22 @@ wxString AStyleDisplay::StcStyle_Horstmann() const
 	wxString selected =    "                    \n"
 	                       "//  Horstmann Style \n"
 	                       "                    \n"
-	                       "int Foo(bool isFoo) \n"
+	                       "namespace FooName   \n"
+	                       "{                   \n"
+	                       "class FooClass      \n"
+	                       "{                   \n"
+	                       "public:             \n"
+	                       "	int Foo();      \n"
+	                       "};                  \n"
+	                       "                    \n"
+	                       "int FooClass::Foo() \n"
 	                       "{	if (isFoo)      \n"
 	                       "	{	bar();      \n"
 	                       "		return 1;   \n"
 	                       "	}               \n"
 	                       "	else            \n"
 	                       "		return 0;   \n"
+	                       "}                   \n"
 	                       "}                   ";
 
 	return selected;
@@ -2075,12 +2111,19 @@ wxString AStyleDisplay::StcStyle_Java() const
 	wxString selected =    "                     \n"
 	                       "//  Java Style       \n"
 	                       "                     \n"
-	                       "int Foo(bool isFoo) {\n"
+	                       "namespace FooName {  \n"
+	                       "class FooClass {     \n"
+	                       "public:              \n"
+	                       "	int Foo()        \n"
+	                       "};                   \n"
+	                       "                     \n"
+	                       "int FooClass::Foo() {\n"
 	                       "	if (isFoo) {     \n"
 	                       "		bar();       \n"
 	                       "		return 1;    \n"
 	                       "	} else           \n"
 	                       "		return 0;    \n"
+	                       "}                    \n"
 	                       "}                    ";
 
 	return selected;
@@ -2091,13 +2134,22 @@ wxString AStyleDisplay::StcStyle_KR() const
 	wxString selected =    "                    \n"
 	                       "//  K & R Style     \n"
 	                       "                    \n"
-	                       "int Foo(bool isFoo) \n"
+	                       "namespace FooName   \n"
+	                       "{                   \n"
+	                       "class FooClass      \n"
+	                       "{                   \n"
+	                       "public:             \n"
+	                       "	int Foo();      \n"
+	                       "};                  \n"
+	                       "                    \n"
+	                       "int FooClass::Foo() \n"
 	                       "{                   \n"
 	                       "	if (isFoo) {    \n"
 	                       "		bar();      \n"
 	                       "		return 1;   \n"
 	                       "	} else          \n"
 	                       "		return 0;   \n"
+	                       "}                   \n"
 	                       "}                   ";
 
 	return selected;
@@ -2105,17 +2157,26 @@ wxString AStyleDisplay::StcStyle_KR() const
 
 wxString AStyleDisplay::StcStyle_Linux() const
 {
-	wxString selected =    "                          \n"
-	                       "//  Linux Style           \n"
-	                       "                          \n"
-	                       "int Foo(bool isFoo)       \n"
-	                       "{                         \n"
-	                       "		if (isFoo) {      \n"
-	                       "				bar();    \n"
-	                       "				return 1; \n"
-	                       "		} else            \n"
-	                       "				return 0; \n"
-	                       "}                         ";
+	wxString selected =    "                    \n"
+	                       "//  Linux Style     \n"
+	                       "                    \n"
+	                       "namespace FooName   \n"
+	                       "{                   \n"
+	                       "class FooClass      \n"
+	                       "{                   \n"
+	                       "public:             \n"
+	                       "	int Foo();      \n"
+	                       "};                  \n"
+	                       "                    \n"
+	                       "int FooClass::Foo() \n"
+	                       "{                   \n"
+	                       "	if (isFoo) {    \n"
+	                       "		bar();      \n"
+	                       "		return 1;   \n"
+	                       "	} else          \n"
+	                       "		return 0;   \n"
+	                       "}                   \n"
+	                       "}                   ";
 
 	return selected;
 }
@@ -2125,29 +2186,42 @@ wxString AStyleDisplay::StcStyle_Lisp() const
 	wxString selected =    "                     \n"
 	                       "//  Lisp Style       \n"
 	                       "                     \n"
-	                       "int Foo(bool isFoo) {\n"
+	                       "namespace FooName {  \n"
+	                       "class FooClass {     \n"
+	                       "public:              \n"
+	                       "	int Foo();  };   \n"
+	                       "                     \n"
+	                       "int FooClass::Foo() {\n"
 	                       "	if (isFoo) {     \n"
 	                       "		bar();       \n"
 	                       "		return 1; }  \n"
 	                       "	else             \n"
-	                       "		return 0; }  ";
+	                       "		return 0; } }";
 
 	return selected;
 }
 
 wxString AStyleDisplay::StcStyle_Mozilla() const
 {
-	wxString selected = "                    \n"
-	                    "//  Mozilla Style     \n"
-	                    "                    \n"
-	                    "int Foo(bool isFoo) \n"
-	                    "{                   \n"
-	                    "	if (isFoo) {    \n"
-	                    "		bar();      \n"
-	                    "		return 1;   \n"
-	                    "	} else          \n"
-	                    "		return 0;   \n"
-	                    "}                   ";
+	wxString selected =    "                    \n"
+	                       "//  Mozilla Style   \n"
+	                       "                    \n"
+	                       "namespace FooName { \n"
+	                       "class FooClass      \n"
+	                       "{                   \n"
+	                       "public:             \n"
+	                       "	int Foo();      \n"
+	                       "};                  \n"
+	                       "                    \n"
+	                       "int FooClass::Foo() \n"
+	                       "{                   \n"
+	                       "	if (isFoo) {    \n"
+	                       "		bar();      \n"
+	                       "		return 1;   \n"
+	                       "	} else          \n"
+	                       "		return 0;   \n"
+	                       "}                   \n"
+	                       "}                   ";
 
 	return selected;
 }
@@ -2161,15 +2235,22 @@ wxString AStyleDisplay::StcStyle_None() const
 
 wxString AStyleDisplay::StcStyle_Pico() const
 {
-	wxString selected =    "                    \n"
-	                       "//  Pico Style      \n"
-	                       "                    \n"
-	                       "int Foo(bool isFoo) \n"
-	                       "{	if (isFoo)      \n"
-	                       "	{	bar();      \n"
-	                       "		return 1; } \n"
-	                       "	else            \n"
-	                       "		return 0; } ";
+	wxString selected =    "                     \n"
+	                       "//  Pico Style       \n"
+	                       "                     \n"
+	                       "namespace FooName    \n"
+	                       "{                    \n"
+	                       "class FooClass       \n"
+	                       "{                    \n"
+	                       "public:              \n"
+	                       "	int Foo(); };    \n"
+	                       "                     \n"
+	                       "int FooClass::Foo()  \n"
+	                       "{	if (isFoo)       \n"
+	                       "	{	bar();       \n"
+	                       "		return 1; }  \n"
+	                       "	else             \n"
+	                       "		return 0; } }";
 
 	return selected;
 }
@@ -2179,31 +2260,46 @@ wxString AStyleDisplay::StcStyle_Ratliff() const
 	wxString selected =    "                     \n"
 	                       "//  Ratliff Style    \n"
 	                       "                     \n"
-	                       "int Foo(bool isFoo) {\n"
+	                       "namespace FooName {  \n"
+	                       "class FooClass {     \n"
+	                       "	public:          \n"
+	                       "		int Foo();   \n"
+	                       "	};               \n"
+	                       "                     \n"
+	                       "int FooClass::Foo() {\n"
 	                       "	if (isFoo) {     \n"
 	                       "		bar();       \n"
 	                       "		return 1;    \n"
 	                       "		}            \n"
 	                       "	else             \n"
 	                       "		return 0;    \n"
-	                       "	}                ";
+	                       "	}                \n"
+	                       "}                    ";
 
 	return selected;
 }
 
 wxString AStyleDisplay::StcStyle_Stroustrup() const
 {
-	wxString selected =    "                     \n"
-	                       "//  Stroustrup Style \n"
-	                       "                     \n"
-	                       "int Foo(bool isFoo)  \n"
-	                       "{                    \n"
-	                       "	if (isFoo) {     \n"
-	                       "		bar();       \n"
-	                       "		return 1;    \n"
-	                       "	} else           \n"
-	                       "		return 0;    \n"
-	                       "}                    ";
+	wxString selected =    "                    \n"
+	                       "//  Stroustrup Style\n"
+	                       "                    \n"
+	                       "namespace FooName { \n"
+	                       "class FooClass {    \n"
+	                       "public:             \n"
+	                       "	int Foo();      \n"
+	                       "};                  \n"
+	                       "                    \n"
+	                       "int FooClass::Foo() \n"
+	                       "{                   \n"
+	                       "	if (isFoo) {    \n"
+	                       "		bar();      \n"
+	                       "		return 1;   \n"
+	                       "	}               \n"
+	                       "    else            \n"
+	                       "		return 0;   \n"
+	                       "}                   \n"
+	                       "}                   ";
 
 	return selected;
 }
@@ -2213,7 +2309,15 @@ wxString AStyleDisplay::StcStyle_Vtk() const
 	wxString selected =    "                    \n"
 	                       "//  VTK Style       \n"
 	                       "                    \n"
-	                       "int Foo(bool isFoo) \n"
+	                       "namespace FooName   \n"
+	                       "{                   \n"
+	                       "class FooClass      \n"
+	                       "{                   \n"
+	                       "public:             \n"
+	                       "	int Foo();      \n"
+	                       "};                  \n"
+	                       "                    \n"
+	                       "int FooClass::Foo() \n"
 	                       "{                   \n"
 	                       "	if (isFoo)      \n"
 	                       "		{           \n"
@@ -2222,6 +2326,31 @@ wxString AStyleDisplay::StcStyle_Vtk() const
 	                       "		}           \n"
 	                       "	else            \n"
 	                       "		return 0;   \n"
+	                       "}                   \n"
+	                       "}                   ";
+
+	return selected;
+}
+
+wxString AStyleDisplay::StcStyle_WebKit() const
+{
+	wxString selected =    "                    \n"
+	                       "//  WebKit Style    \n"
+	                       "                    \n"
+	                       "namespace FooName { \n"
+	                       "class FooClass {    \n"
+	                       "public:             \n"
+	                       "	int Foo();      \n"
+	                       "};                  \n"
+	                       "                    \n"
+	                       "int FooClass::Foo() \n"
+	                       "{                   \n"
+	                       "	if (isFoo) {    \n"
+	                       "		bar();      \n"
+	                       "		return 1;   \n"
+	                       "	} else          \n"
+	                       "		return 0;   \n"
+	                       "}                   \n"
 	                       "}                   ";
 
 	return selected;
@@ -2229,19 +2358,28 @@ wxString AStyleDisplay::StcStyle_Vtk() const
 
 wxString AStyleDisplay::StcStyle_Whitesmith() const
 {
-	wxString selected = "                    \n"
-	                    "//  Whitesmith Style\n"
-	                    "                    \n"
-	                    "int Foo(bool isFoo) \n"
-	                    "	{               \n"
-	                    "	if (isFoo)      \n"
-	                    "		{           \n"
-	                    "		bar();      \n"
-	                    "		return 1;   \n"
-	                    "		}           \n"
-	                    "	else            \n"
-	                    "		return 0;   \n"
-	                    "	}               ";
+	wxString selected =    "                    \n"
+	                       "//  Whitesmith Style\n"
+	                       "                    \n"
+	                       "namespace FooName   \n"
+	                       "{                   \n"
+	                       "class FooClass      \n"
+	                       "	{               \n"
+	                       "	public:         \n"
+	                       "		int Foo()   \n"
+	                       "	};              \n"
+	                       "                    \n"
+	                       "int FooClass::Foo() \n"
+	                       "	{               \n"
+	                       "	if (isFoo)      \n"
+	                       "		{           \n"
+	                       "		bar();      \n"
+	                       "		return 1;   \n"
+	                       "		}           \n"
+	                       "	else            \n"
+	                       "		return 0;   \n"
+	                       "	}               \n"
+	                       "}                   ";
 
 	return selected;
 }
@@ -2251,6 +2389,14 @@ wxString AStyleDisplay::StcStyle_1TBS() const
 	wxString selected =    "                   \n"
 	                       "//  One True Brace Style\n"
 	                       "                   \n"
+	                       "namespace FooName  \n"
+	                       "{                  \n"
+	                       "class FooClass     \n"
+	                       "{                  \n"
+	                       "public:            \n"
+	                       "	int Foo();     \n"
+	                       "};                 \n"
+	                       "                   \n"
 	                       "int Foo(bool isFoo)\n"
 	                       "{                  \n"
 	                       "	if (isFoo) {   \n"
@@ -2259,6 +2405,7 @@ wxString AStyleDisplay::StcStyle_1TBS() const
 	                       "	} else {       \n"
 	                       "		return 0;  \n"
 	                       "	}              \n"
+	                       "}                  \n"
 	                       "}                  ";
 
 	return selected;
@@ -2270,20 +2417,16 @@ wxString AStyleDisplay::StcStyle_1TBS() const
 
 wxString AStyleDisplay::StcModifier_AttachNamespace() const
 {
-	wxString checked =     "                    \n"
-	                       "namespace foospace {\n"
-	                       "                    \n"
-	                       "		. . .       \n"
-	                       "                    \n"
-	                       "}                   ";
+	wxString checked =     "                   \n"
+	                       "namespace FooName {\n"
+	                       "		. . .      \n"
+	                       "}                  ";
 
-	wxString unchecked =   "                    \n"
-	                       "namespace foospace  \n"
-	                       "{                   \n"
-	                       "                    \n"
-	                       "		. . .       \n"
-	                       "                    \n"
-	                       "}                   ";
+	wxString unchecked =   "                   \n"
+	                       "namespace FooName  \n"
+	                       "{                  \n"
+	                       "		. . .      \n"
+	                       "}                  ";
 
 	return m_event->IsChecked() ? checked : unchecked;
 }
@@ -2300,7 +2443,7 @@ wxString AStyleDisplay::StcModifier_AttachClass_AttachInline() const
 		if (inlineChecked)
 		{
 			display =      "                    \n"        // yes class - yes inline
-			               "class Foo {         \n"
+			               "class FooClass {    \n"
 			               "	public:         \n"
 			               "		Foo() {     \n"
 			               "			isFoo();\n"
@@ -2310,7 +2453,7 @@ wxString AStyleDisplay::StcModifier_AttachClass_AttachInline() const
 		else
 		{
 			display =      "                    \n"        // yes class - no inline
-			               "class Foo {         \n"
+			               "class FooClass {    \n"
 			               "	public:         \n"
 			               "		Foo()       \n"
 			               "		{           \n"
@@ -2324,7 +2467,7 @@ wxString AStyleDisplay::StcModifier_AttachClass_AttachInline() const
 		if (inlineChecked)
 		{
 			display =      "                    \n"        // no class - yes inline
-			               "class Foo           \n"
+			               "class FooClass      \n"
 			               "{                   \n"
 			               "	public:         \n"
 			               "		Foo() {     \n"
@@ -2335,7 +2478,7 @@ wxString AStyleDisplay::StcModifier_AttachClass_AttachInline() const
 		else
 		{
 			display =      "                    \n"        // no class - no inline
-			               "class Foo           \n"
+			               "class FooClass      \n"
 			               "{                   \n"
 			               "	public:         \n"
 			               "		Foo()       \n"
@@ -2437,10 +2580,7 @@ wxString AStyleDisplay::StcTab_IndentWithForceTab_UseTabLength() const
 	                       "	}\n"
 	                       "}";
 
-	if (m_useTabLength->IsChecked())
-		return checked;
-	else
-		return unchecked;
+	return m_useTabLength->IsChecked() ? checked : unchecked;
 }
 
 wxString AStyleDisplay::StcTab_IndentWithSpace() const

@@ -20,7 +20,7 @@
 							<style>wxNB_DEFAULT|wxCLIP_CHILDREN</style>
 							<object class="notebookpage">
 								<label>Options</label>
-								<selected>1</selected>
+								<selected>0</selected>
 								<object class="wxPanel" name="m_optionsPage">
 									<style>wxCLIP_CHILDREN|wxTAB_TRAVERSAL</style>
 									<object class="wxBoxSizer">
@@ -150,7 +150,7 @@
 															<border>5</border>
 															<object class="wxComboBox" name="m_defaultSizes">
 																<style>wxCB_READONLY</style>
-																<size>60,-1</size>
+																<size>70,-1</size>
 																<value></value>
 																<content />
 															</object>
@@ -174,13 +174,13 @@
 												</object>
 												<object class="sizeritem">
 													<option>0</option>
-													<flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT</flag>
+													<flag>wxALIGN_CENTER_HORIZONTAL</flag>
 													<border>20</border>
 													<object class="wxBoxSizer">
 														<orient>wxHORIZONTAL</orient>
 														<object class="sizeritem">
 															<option>0</option>
-															<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+															<flag>wxALIGN_CENTER_VERTICAL|wxALL|wxLEFT|wxRIGHT</flag>
 															<border>5</border>
 															<object class="wxComboBox" name="m_commentFonts">
 																<style>wxCB_READONLY</style>
@@ -195,7 +195,7 @@
 															<border>5</border>
 															<object class="wxComboBox" name="m_commentSizes">
 																<style>wxCB_READONLY</style>
-																<size>60,-1</size>
+																<size>70,-1</size>
 																<value></value>
 																<content />
 															</object>
@@ -215,7 +215,7 @@
 							</object>
 							<object class="notebookpage">
 								<label>Styles</label>
-								<selected>0</selected>
+								<selected>1</selected>
 								<object class="wxPanel" name="m_stylesPage">
 									<style>wxCLIP_CHILDREN|wxTAB_TRAVERSAL</style>
 									<object class="wxBoxSizer">

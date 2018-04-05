@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2016)
+// C++ code generated with wxFormBuilder (version Jan 23 2018)
 // http://www.wxformbuilder.org/
 //
-// PLEASE DO "NOT" EDIT THIS FILE!
+// PLEASE DO *NOT* EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
 #include "EditorDlgBase.h"
@@ -63,7 +63,7 @@ EditorDlgBase::EditorDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_optionsPage->SetSizer( optionsSizer );
 	m_optionsPage->Layout();
 	optionsSizer->Fit( m_optionsPage );
-	m_notebook->AddPage( m_optionsPage, _("Options"), true );
+	m_notebook->AddPage( m_optionsPage, _("Options"), false );
 	m_fontsPage = new wxPanel( m_notebook, ID_FONTS_PAGE, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* fontsSizer;
 	fontsSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -84,7 +84,7 @@ EditorDlgBase::EditorDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_defaultFonts = new wxComboBox( m_fontsPage, ID_DEFAULT_FONTS, wxEmptyString, wxDefaultPosition, wxSize( 250,-1 ), 0, NULL, wxCB_READONLY ); 
 	fontsSizer1->Add( m_defaultFonts, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	m_defaultSizes = new wxComboBox( m_fontsPage, ID_DEFAULT_SIZES, wxEmptyString, wxDefaultPosition, wxSize( 60,-1 ), 0, NULL, wxCB_READONLY ); 
+	m_defaultSizes = new wxComboBox( m_fontsPage, ID_DEFAULT_SIZES, wxEmptyString, wxDefaultPosition, wxSize( 70,-1 ), 0, NULL, wxCB_READONLY ); 
 	fontsSizer1->Add( m_defaultSizes, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	
@@ -101,13 +101,13 @@ EditorDlgBase::EditorDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	fontsSizer2 = new wxBoxSizer( wxHORIZONTAL );
 	
 	m_commentFonts = new wxComboBox( m_fontsPage, ID_COMMENT_FONTS, wxEmptyString, wxDefaultPosition, wxSize( 250,-1 ), 0, NULL, wxCB_READONLY ); 
-	fontsSizer2->Add( m_commentFonts, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	fontsSizer2->Add( m_commentFonts, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxLEFT|wxRIGHT, 5 );
 	
-	m_commentSizes = new wxComboBox( m_fontsPage, ID_COMMENT_SIZES, wxEmptyString, wxDefaultPosition, wxSize( 60,-1 ), 0, NULL, wxCB_READONLY ); 
+	m_commentSizes = new wxComboBox( m_fontsPage, ID_COMMENT_SIZES, wxEmptyString, wxDefaultPosition, wxSize( 70,-1 ), 0, NULL, wxCB_READONLY ); 
 	fontsSizer2->Add( m_commentSizes, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	
-	bSizer5->Add( fontsSizer2, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT, 20 );
+	bSizer5->Add( fontsSizer2, 0, wxALIGN_CENTER_HORIZONTAL, 20 );
 	
 	
 	bSizer5->Add( 5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
@@ -160,7 +160,7 @@ EditorDlgBase::EditorDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_stylesPage->SetSizer( stylesSizer );
 	m_stylesPage->Layout();
 	stylesSizer->Fit( m_stylesPage );
-	m_notebook->AddPage( m_stylesPage, _("Styles"), false );
+	m_notebook->AddPage( m_stylesPage, _("Styles"), true );
 	
 	notebookSizer->Add( m_notebook, 1, wxEXPAND|wxALL, 5 );
 	

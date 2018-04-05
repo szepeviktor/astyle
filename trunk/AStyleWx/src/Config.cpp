@@ -30,6 +30,7 @@ Add new option to method "SaveStyleOptions"
 // Global definitions
 //-----------------------------------------------------------------------------
 
+// duplicate needed for Config_Test.h
 int  ShowMessageDialog(const wxString& message, long style);
 
 //-----------------------------------------------------------------------------
@@ -257,7 +258,7 @@ void Config::GetEditorAndViewOptions()
 		}
 		wxConfig::Flush();
 	}
-	wxConfig::SetPath("/");;
+	wxConfig::SetPath("/");
 }
 
 wxArrayString Config::GetSessionFiles()
@@ -383,6 +384,8 @@ void Config::SaveAStyleOptions(AStyleIFace* astyle)
 		wxConfig::Write(STYLE, GOOGLE);
 	else if (braceStyle == STYLE_MOZILLA)
 		wxConfig::Write(STYLE, MOZILLA);
+	else if (braceStyle == STYLE_WEBKIT)
+		wxConfig::Write(STYLE, WEBKIT);
 	else if (braceStyle == STYLE_PICO)
 		wxConfig::Write(STYLE, PICO);
 	else if (braceStyle == STYLE_LISP)
@@ -639,14 +642,14 @@ void Config::SaveSessionFiles()
 void Config::SaveStcStyleOptions(const vector<TextStyle>& styleVector)
 // Save ALL variable style options to a config file.
 {
-	for (size_t i = 0; i < styleVector.size(); i++)
+	for (TextStyle textStyle : styleVector)
 	{
-		wxString stylePath = wxString::Format("/Styles/Style-%02u", styleVector[i].style);
+		wxString stylePath = wxString::Format("/Styles/Style-%02u", textStyle.style);
 		wxConfig::SetPath(stylePath);
-		wxConfig::Write("fore", styleVector[i].fore.GetAsString(wxC2S_CSS_SYNTAX));
-		wxConfig::Write("back", styleVector[i].back.GetAsString(wxC2S_CSS_SYNTAX));
-		wxConfig::Write("bold", styleVector[i].bold ? asTRUE : asFALSE);
-		wxConfig::Write("italic", styleVector[i].italic ? asTRUE : asFALSE);
+		wxConfig::Write("fore", textStyle.fore.GetAsString(wxC2S_CSS_SYNTAX));
+		wxConfig::Write("back", textStyle.back.GetAsString(wxC2S_CSS_SYNTAX));
+		wxConfig::Write("bold", textStyle.bold ? asTRUE : asFALSE);
+		wxConfig::Write("italic", textStyle.italic ? asTRUE : asFALSE);
 	}
 	wxConfig::Flush();
 	wxConfig::SetPath("/");

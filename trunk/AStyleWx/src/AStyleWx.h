@@ -208,7 +208,7 @@ public:
 	void StripTrailingSpaces();
 	void TabsToSpaces();
 	void TextToStrings();
-	void UpdateCommentFonts(wxFont newFont);
+	void UpdateCommentFonts(const wxFont& newFont);
 	void UpdateEditorFromAStyleOptions(const AStyleIFace* astyle);
 	void UpdateEditorFromViewMenuOptions();
 	void UpdateFormatSelectDisplay();

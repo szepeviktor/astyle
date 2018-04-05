@@ -29,8 +29,8 @@ void AboutDlg::SetSystemInfo()
 	wxString osDesc = wxGetOsDescription();
 	if (osDesc.length() > 30)
 	{
-		size_t end = osDesc.Find(',', true);
-		if (end != wxString::npos)
+		size_t end = osDesc.Find(' ', true);
+		if (end != wxString::npos && end > 10)
 			osDesc = osDesc.Mid(0, end);
 	}
 	wxString langDesc = wxLocale::GetLanguageName(loc.GetLanguage());
@@ -112,8 +112,23 @@ void AboutDlg::SetAboutDlgValues(wxString& astyleVersion, wxIconBundle* m_iconBu
 	// set astylewx information
 	m_description->SetLabel("A graphical user interface for the Artistic Style formatter.");
 	m_license->SetLabel("This software is licensed under the MIT License.");
-	m_wxVersion->SetLabel(wxString::Format("Built with wxWidgets version  %d.%d.%d.",
-	                                       wxMAJOR_VERSION, wxMINOR_VERSION, wxRELEASE_NUMBER));
+	wxString toolkit;
+#ifdef __WXQT__
+	toolkit = "qt";
+#elif defined (__WXGTK__)
+#ifdef __WXGTK3__
+	toolkit = "gtk3";
+#else
+	toolkit = "gtk2";
+#endif	// __WXGTK3__
+#endif	// __WXQT__
+	if (toolkit.empty())
+		m_wxVersion->SetLabel(wxString::Format("Built with wxWidgets version  %d.%d.%d.",
+		                                       wxMAJOR_VERSION, wxMINOR_VERSION, wxRELEASE_NUMBER));
+	else
+		m_wxVersion->SetLabel(wxString::Format("Built with wxWidgets version  %d.%d.%d,  %s.",
+		                                       wxMAJOR_VERSION, wxMINOR_VERSION, wxRELEASE_NUMBER,
+		                                       toolkit));
 	m_astylewxVersion->SetLabel(wxString::Format("Artistic Style Wx version  %s.", astyleVersion));
 	// set astyle information
 	m_astyleVersion->SetLabel(wxString::Format("Artistic Style version  %s.", astyleVersion));

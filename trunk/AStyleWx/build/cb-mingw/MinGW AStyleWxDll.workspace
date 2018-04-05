@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="MinGW AStyleWxDll">
+		<Project filename="MinGW AStyleWxDll.cbp">
+			<Depends filename="MinGW Astyle Dll.cbp" />
+		</Project>
+		<Project filename="MinGW Astyle Dll.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

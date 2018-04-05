@@ -27,29 +27,43 @@ ifndef prefix
 endif
 SYSCONF_PATH=$(prefix)/share/doc/astylewx
 
-#install prefix for desktop
-ifdef GTK3
-GTKVERSION=gtk+-3.0
+# set wxWidgets release if not defined on the command line
+ifdef WX
+	wx = $(WX)
 else
-GTKVERSION=gtk+-2.0
+	wx = $(shell wx-config --release)
 endif
+
+# get GTK toolkit varsion and install prefix for desktop
+tk = $(shell wx-config --query-toolkit)
+ifeq ($(tk), gtk3)
+	GTKVERSION = gtk+-3.0
+else
+	GTKVERSION = gtk+-2.0
+endif
+
+ifdef TK
+ifeq ($(TK), gtk3)
+	tk = gtk3
+	GTKVERSION = gtk+-3.0
+else ifeq ($(TK), gtk2)
+	tk = gtk2
+	GTKVERSION = gtk+-2.0
+endif
+endif
+
 gnomeprefix:=$(shell pkg-config --variable=prefix $(GTKVERSION) 2>/dev/null)
 ifndef prefix
 ifdef gnomeprefix
-  prefix=$(gnomeprefix)
+	prefix=$(gnomeprefix)
 else
-  prefix=/usr
+	prefix=/usr
 endif
-endif
-
-# set wxWidgets release if not defined on the command line
-ifndef wx
-	wx=$(shell wx-config --release)
 endif
 
 # define macros
-bindir = bin$(wx)
-objdir = obj$(wx)
+bindir = wx$(wx)$(tk)/bin
+objdir = wx$(wx)$(tk)/obj
 idatadir=$(prefix)/share
 ipixmapdir=$(idatadir)/pixmaps
 ibindir=$(prefix)/bin
@@ -63,24 +77,37 @@ LDBASEFLAGS = -L../../../AStyle/build/intel/bin  -L../../../astyle/build/intel/b
 CXX = icpc
 INSTALL=install -o $(USER) -g $(USER)
 
+# get the compile and link options from wx-config
+WXCONF := wx-config
+ifdef WX
+	WXCONF := $(WXCONF) --version=$(wx)
+endif
+ifdef TK
+	WXCONF := $(WXCONF) --toolkit=$(tk)
+endif
+$(info ## WXCONF = $(WXCONF))
+
+CCONFFLAGS  := $(shell $(WXCONF) --cflags)
+LDCONFFLAGS := $(shell $(WXCONF) --libs adv,aui,core,stc)
+
 ##################################################
 
 # define compile options for each build
 ifdef CFLAGS
-    CFLAGSr  =    -DNDEBUG $(CBASEFLAGS) $(CFLAGS) $(shell wx-config --version=$(wx) --cflags)
-    CFLAGSd  = -g -D_DEBUG $(CBASEFLAGS) $(CFLAGS) $(shell wx-config --version=$(wx) --cflags --debug)
+    CFLAGSr  =    -DNDEBUG $(CBASEFLAGS) $(CFLAGS) $(CCONFFLAGS)
+    CFLAGSd  = -g -D_DEBUG $(CBASEFLAGS) $(CFLAGS) $(CCONFFLAGS)
 else
-    CFLAGSr  = -O2 -DNDEBUG $(CBASEFLAGS) $(shell wx-config --version=$(wx) --cflags)
-    CFLAGSd  = -g  -D_DEBUG $(CBASEFLAGS) $(shell wx-config --version=$(wx) --cflags --debug)
+    CFLAGSr  = -O2 -DNDEBUG $(CBASEFLAGS) $(CCONFFLAGS)
+    CFLAGSd  = -g  -D_DEBUG $(CBASEFLAGS) $(CCONFFLAGS)
 endif
 
 # define link options
 ifdef LDFLAGS
-    LDFLAGSr = $(LDBASEFLAGS) $(LDFLAGS)  $(shell wx-config --version=$(wx) --libs)
-    LDFLAGSd = $(LDBASEFLAGS) $(LDFLAGS) $(shell wx-config --version=$(wx) --libs --debug)
+    LDFLAGSr = $(LDBASEFLAGS) $(LDFLAGS)  $(LDCONFFLAGS)
+    LDFLAGSd = $(LDBASEFLAGS) $(LDFLAGS) $(LDCONFFLAGS)
 else
-    LDFLAGSr = -s $(LDBASEFLAGS) $(shell wx-config --version=$(wx) --libs)
-    LDFLAGSd =    $(LDBASEFLAGS) $(shell wx-config --version=$(wx) --libs --debug)
+    LDFLAGSr = -s $(LDBASEFLAGS) $(LDCONFFLAGS)
+    LDFLAGSd =    $(LDBASEFLAGS) $(LDCONFFLAGS)
 endif
 
 # object files are built from the source list $(SRC)
@@ -120,7 +147,7 @@ $(objdir)/%_sd.o:  %.cpp  deps.mak
 release:  astylewx
 astylewx:  $(OBJ)
 	@ mkdir -p $(bindir)
-	$(CXX) -o $(bindir)/$@ $^ $(LDFLAGSr) -lwx_gtk2u_aui-$(wx) -lwx_gtk2u_stc-$(wx)
+	$(CXX) -o $(bindir)/$@ $^ $(LDFLAGSr)
 	@ echo
 
 # the .o files must be before the LDFLAGS containing the wxWidgets libraries
@@ -128,7 +155,7 @@ astylewx:  $(OBJ)
 debug:  astylewxd
 astylewxd:  $(OBJd)
 	@ mkdir -p $(bindir)
-	$(CXX) -o $(bindir)/$@ $^ $(LDFLAGSd) -lwx_gtk2u_aui-$(wx) -lwx_gtk2u_stc-$(wx)
+	$(CXX) -o $(bindir)/$@ $^ $(LDFLAGSd)
 	@ echo
 
 # the .o files must be before the LDFLAGS containing the wxWidgets libraries
@@ -136,7 +163,7 @@ astylewxd:  $(OBJd)
 shared:  astylewxso
 astylewxso:  $(OBJs)
 	@ mkdir -p $(bindir)
-	$(CXX) -o $(bindir)/$@ $^ $(LDFLAGSr) -lwx_gtk2u_aui-$(wx) -lwx_gtk2u_stc-$(wx) $(rpaths)
+	$(CXX) -o $(bindir)/$@ $^ $(LDFLAGSr) $(rpaths)
 	@ echo
 
 # the .o files must be before the LDFLAGS containing the wxWidgets libraries
@@ -144,7 +171,7 @@ astylewxso:  $(OBJs)
 shareddebug:  astylewxsod
 astylewxsod:  $(OBJsd)
 	@ mkdir -p $(bindir)
-	$(CXX) -o $(bindir)/$@ $^ $(LDFLAGSd) -lwx_gtk2u_aui-$(wx) -lwx_gtk2u_stc-$(wx) $(rpaths)
+	$(CXX) -o $(bindir)/$@ $^ $(LDFLAGSd) $(rpaths)
 	@ echo
 
 # used to display variables for debugging

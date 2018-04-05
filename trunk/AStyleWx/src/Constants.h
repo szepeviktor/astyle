@@ -35,6 +35,7 @@ enum BraceStyle
 	STYLE_1TBS,
 	STYLE_GOOGLE,
 	STYLE_MOZILLA,
+	STYLE_WEBKIT,
 	STYLE_PICO,
 	STYLE_LISP,
 	STYLE_END
@@ -191,6 +192,7 @@ struct TextStyle
 #define oneTBS                      "1tbs"
 #define GOOGLE                      "google"
 #define MOZILLA                     "mozilla"
+#define WEBKIT                      "webkit"
 #define PICO                        "pico"
 #define LISP                        "lisp"
 // tabs/spaces config keys

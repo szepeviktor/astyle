@@ -21,7 +21,7 @@ SettingsDlg::SettingsDlg(wxWindow* parent, ASFrame* frame, AStyleIFace* astyle)
 	: SettingsDlgBase(parent)
 {
 	// get system default GUI font
-	wxFont font(*wxNORMAL_FONT);;
+	wxFont font(*wxNORMAL_FONT);
 	int size = font.GetPointSize();
 	size++;
 	font.SetPointSize(size);

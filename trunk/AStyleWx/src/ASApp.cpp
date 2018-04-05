@@ -10,6 +10,10 @@
 #include "AStyleWx.h"
 #include "AStyleFormat.h"
 
+#if wxMAJOR_VERSION < 3
+	#error wxWidgets is not version 3 or greater.
+#endif // wxMAJOR_VERSION
+
 //-----------------------------------------------------------------------------
 // ASApp
 //-----------------------------------------------------------------------------

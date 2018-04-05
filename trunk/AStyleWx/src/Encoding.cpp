@@ -72,7 +72,7 @@ bool Encoding::DetectEncoding(const wxString& filename)
 	buffer[size + 2] = 0;
 	buffer[size + 3] = 0;
 
-	size_t readBytes = file.Read((void*)buffer, size);
+	size_t readBytes = file.Read(static_cast<void*>(buffer), size);
 	assert(readBytes == size);
 
 	if (readBytes == 0)

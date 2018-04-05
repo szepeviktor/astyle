@@ -16,7 +16,7 @@
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-g" />
-					<Add option="`/usr/local/bin/wx-config --version=3.1 --cflags --debug`" />
+					<Add option="`/usr/local/bin/wx-config --version=3.1 --cflags`" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
 					<Add option="-stdlib=libc++" />

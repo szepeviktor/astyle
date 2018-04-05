@@ -116,6 +116,7 @@ private:
 	wxString StcStyle_Ratliff() const;
 	wxString StcStyle_Stroustrup() const;
 	wxString StcStyle_Vtk() const;
+	wxString StcStyle_WebKit() const;
 	wxString StcStyle_Whitesmith() const;
 	wxString StcStyle_1TBS() const;
 	// Tab Tab

@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2016)
+// C++ code generated with wxFormBuilder (version Jan 23 2018)
 // http://www.wxformbuilder.org/
 //
-// PLEASE DO "NOT" EDIT THIS FILE!
+// PLEASE DO *NOT* EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
 #include "AboutDlgBase.h"
@@ -66,14 +66,14 @@ AboutDlgBase::AboutDlgBase( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	m_astyleWeblabel = new wxStaticText( this, wxID_ANY, wxT("Website"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_astyleWeblabel->Wrap( -1 );
-	bSizer3->Add( m_astyleWeblabel, 0, wxEXPAND|wxRIGHT|wxTOP, 5 );
+	bSizer3->Add( m_astyleWeblabel, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, 5 );
 	
 	m_astyleWebsite = new wxHyperlinkCtrl( this, wxID_ANY, wxT("website"), wxT("http://astyle.sourceforge.net/"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
 	
 	m_astyleWebsite->SetHoverColour( wxColour( 255, 0, 0 ) );
 	m_astyleWebsite->SetNormalColour( wxColour( 0, 0, 255 ) );
 	m_astyleWebsite->SetVisitedColour( wxColour( 0, 0, 255 ) );
-	bSizer3->Add( m_astyleWebsite, 0, 0, 5 );
+	bSizer3->Add( m_astyleWebsite, 0, wxALIGN_CENTER_VERTICAL|wxLEFT, 5 );
 	
 	
 	bSizer1->Add( bSizer3, 0, wxBOTTOM|wxEXPAND|wxTOP, 5 );

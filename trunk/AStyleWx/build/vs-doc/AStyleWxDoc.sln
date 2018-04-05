@@ -1,10 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26206.0
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{DBFA1BC0-70D7-400B-8CEA-5442EC0A4483}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\doc\news.html = ..\..\doc\news.html
 		..\..\doc\index.html = ..\..\doc\index.html
 		..\..\doc\install.html = ..\..\doc\install.html
 		..\..\doc\notes.html = ..\..\doc\notes.html
@@ -21,5 +22,8 @@ EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E220CB6B-5F32-437F-9084-E1C0BEF3C06C}
 	EndGlobalSection
 EndGlobal

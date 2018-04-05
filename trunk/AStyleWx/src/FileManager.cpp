@@ -37,12 +37,8 @@ FileManager::FileManager()
 	m_frame = wxGetApp().GetFrame();
 	assert(m_frame != nullptr);
 
-	// __WXQT__ will bypass creating the notebook and stc
-	// can remove the option when these are handled by wxWidgets WXQT
-#ifndef __WXQT__
 	m_notebook = m_frame->GetNotebook();
 	assert(m_notebook != nullptr);
-#endif
 
 	m_astyle = m_frame->GetAStyle();
 	assert(m_astyle != nullptr);

@@ -180,7 +180,7 @@ bool ASEditor::Includes(const std::string& symbols, const std::string& value)
 	{
 		// Set of individual characters. Only one character allowed for now
 		char ch = symbols[0];
-		return strchr(value.c_str(), ch) != 0;
+		return strchr(value.c_str(), ch) != nullptr;
 	}
 	return false;
 }

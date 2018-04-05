@@ -206,8 +206,8 @@ ASFrame::ASFrame()
 	m_wrapSearch           = false;
 	m_hideFindDialog       = false;
 	// initialize other variables
-	for (int i = 0; i < SB_END; i++)
-		m_statusWidth[i]   = 0;
+	for (int& width : m_statusWidth)
+		width              = 0;
 	m_astyleDlgPage        = 0;
 	m_editorDlgPage        = 0;
 	m_argc                 = 0;
@@ -286,9 +286,6 @@ void ASFrame::BuildGuiControls(int argc_, wxChar** argv_)
 	ASDropTarget* frameDropTarget = new ASDropTarget;
 	this->SetDropTarget(frameDropTarget);
 
-	// __WXQT__ will bypass creating the notebook and stc
-	// can remove the option when these are handled by wxWidgets WXQT
-#ifndef __WXQT__
 	long style = GetNotebookStyle(m_useBottomTabs);
 	m_notebook = new wxAuiNotebook(this,
 	                               ID_NOTEBOOK,
@@ -325,13 +322,6 @@ void ASFrame::BuildGuiControls(int argc_, wxChar** argv_)
 	m_editor->SetFocus();
 	this->Center();
 	this->Show();
-#else
-	m_notebook = nullptr;
-	m_editor = nullptr;
-	this->SetFocus();
-	this->Center();
-	this->Show();
-#endif // __WXQT__
 }
 
 wxMenu* ASFrame::BuildLineEndMenu()
@@ -1699,12 +1689,7 @@ bool ASFrame::SetEditorOrViewOption(const wxString& key, const wxString& value)
 	else if (key == WHITESPACE)
 		menuBar->Check(ID_VIEW_WHITESPACE, true);
 	else if (key == ACTIVE_LINE)
-		// Setting the active line doesn't highlight brace matches.
-#if wxCHECK_VERSION(2, 9, 0)
 		menuBar->Check(ID_VIEW_ACTIVELINE, true);
-#else
-		menuBar->Check(ID_VIEW_ACTIVELINE, false);
-#endif
 	else if (key == INDENT_GUIDES)
 		menuBar->Check(ID_VIEW_INDENTGUIDES, true);
 	else if (key == END_OF_LINE)

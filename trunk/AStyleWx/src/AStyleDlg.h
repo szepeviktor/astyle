@@ -48,6 +48,8 @@ class AStyleDlg: public AStyleDlgBase
 public:
 	AStyleDlg(ASFrame* frame, AStyleIFace* astyle, int page);
 	~AStyleDlg();
+	AStyleDlg(const AStyleDlg&)            = delete;
+	AStyleDlg& operator=(AStyleDlg const&) = delete;
 	int  GetPage();
 
 private:

@@ -113,7 +113,7 @@
 							<orient>wxHORIZONTAL</orient>
 							<object class="sizeritem">
 								<option>0</option>
-								<flag>wxEXPAND|wxRIGHT|wxTOP</flag>
+								<flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
 								<border>5</border>
 								<object class="wxStaticText" name="m_astyleWeblabel">
 									<label>Website</label>
@@ -122,7 +122,7 @@
 							</object>
 							<object class="sizeritem">
 								<option>0</option>
-								<flag></flag>
+								<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
 								<border>5</border>
 								<object class="wxHyperlinkCtrl" name="m_astyleWebsite">
 									<label>website</label>
