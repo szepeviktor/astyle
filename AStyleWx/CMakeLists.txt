@@ -3,11 +3,17 @@ project(astylewx CXX)
 
 # TODO: Separate macros for the huge "if" statement.
 
-# WINDOWS WX-CONFIG INFORMATION
+# LINUX CMAKE DEFINITIONS
+# -DWX=x.y to use a wxWidgets version other than the default. x is the major
+#          version number, y is the minor version number.
+# -DTK=(gtk2,gtk3) to use the gtk2 or gtk3 toolkit instead of the default.
+# There must be a wxWidgets with these specifications installed in wx-config.
+
+# WINDOWS CMAKE CONSTANTS
 # WXWIN is REQUIRED and must point to the top wxWidgets directory
-# WXSHARED is optional. The default is to link with static libraries in the 
-#     wxWidgets "lib/gcc_lib" directory. If set with -DWXSHARED=1, linking 
-#     will be with the shared libraries in the "lib/gcc_dll" directory.      
+# WXSHARED is optional. The default is to link with static libraries in the
+#     wxWidgets "lib/gcc_lib" directory. If set with -DWXSHARED=1, linking
+#     will be with the shared libraries in the "lib/gcc_dll" directory.
 set(WXWIN "C:/Programs/wxWidgets-3.0.2_mingw" CACHE PATH "wxWidgets top directory")
 option(WXSHARED "Link with wxWidgets shared libraries" OFF)
 
@@ -61,16 +67,30 @@ if(NOT WIN32)
                     RESULT_VARIABLE res_var
                     OUTPUT_VARIABLE wx_ver)
     if(NOT ${res_var} EQUAL 0)
-        message(FATAL_ERROR "Cannot find 'wx-config' - is it installed?")
+        message(FATAL_ERROR "\nCannot find 'wx-config' - is it installed?")
     endif()
     string(SUBSTRING ${wx_ver} 0 1 wx_ver_1)
     string(SUBSTRING ${wx_ver} 0 3 wx_ver_3)
     if(${wx_ver_1} LESS "3")
-        message(FATAL_ERROR "Current version ${wx_ver_3} is not 3.0 or greater")
+        message(FATAL_ERROR "\nCurrent version ${wx_ver_3} is not 3.0 or greater")
     endif()
+    # build wx-config command
+    # WX and TK are manually-specified variables defined on the command line
+    set(config_command "wx-config")
+    if(DEFINED WX)
+        set(config_command ${config_command} --version=${WX})
+    endif()
+    if(DEFINED TK)
+        set(config_command ${config_command} --toolkit=${TK})
+    endif()
+    message("## wx-config command: ${config_command}")
     # get options from wx-config
-    execute_process(COMMAND wx-config --cflags
+    execute_process(COMMAND ${config_command} --cflags
+                    RESULT_VARIABLE res_var
                     OUTPUT_VARIABLE config_cflags)
+    if(NOT ${res_var} EQUAL 0)
+        message(FATAL_ERROR "\nNo cflags found for: ${config_command}")
+    endif()
     separate_arguments(config_cflags)
     # set options from wx-config
     set(include_directories src dialog image)
@@ -94,10 +114,19 @@ if(NOT WIN32)
     target_include_directories(astylewx PRIVATE ${include_directories})
     # LINK OPTIONS
     set(link_flags "")
-    set(link_directory "")      # should be only one
+    set(link_directory "")      # not used
+    set(link_libraries "")
     # get options from wx-config
-    execute_process(COMMAND wx-config --libs
+    execute_process(COMMAND ${config_command} --libs adv,aui,core,stc
+                    RESULT_VARIABLE res_var
                     OUTPUT_VARIABLE config_libs)
+    if(NOT ${res_var} EQUAL 0)
+        message(FATAL_ERROR "\nNo libs found for: ${config_command}")
+    endif()
+    # string(REPLACE "\n" " " config_cflags ${config_cflags})    # debugging
+    # string(REPLACE "\n" " " config_libs ${config_libs})        # debugging
+    # message("## cflags: ${config_cflags}")                     # debugging
+    # message("## libs:   ${config_libs}")                       # debugging
     separate_arguments(config_libs)
     # set options from wx-config
     foreach(lib ${config_libs})
@@ -108,7 +137,7 @@ if(NOT WIN32)
         string(SUBSTRING ${lib} 0 2 lib_opt)
         string(SUBSTRING ${lib} 2 -1 lib_txt)
         if(${lib_opt} STREQUAL "-l")
-            continue()
+            list(APPEND link_libraries ${lib_txt})
         elseif(${lib_opt} STREQUAL "-L")
             list(APPEND link_directory ${lib_txt})
         else()
@@ -116,20 +145,7 @@ if(NOT WIN32)
         endif()
     endforeach(lib)
     set_target_properties(astylewx PROPERTIES LINK_FLAGS ${link_flags})
-    # LINK LIBRARIES
-    set(gtk_libs libwx_gtk2u_adv-3.0.so
-                 libwx_gtk2u_aui-3.0.so
-                 libwx_gtk2u_stc-3.0.so
-                 libwx_gtk2u_core-3.0.so
-                 libwx_baseu-3.0.so)
-    list(LENGTH link_directory link_num)
-    if(NOT ${link_num} STREQUAL "1")
-        message(FATAL_ERROR "Cannot determine link directory path")
-    endif()
-    foreach(gtk_lib ${gtk_libs})
-        list(APPEND gcc_libs "${link_directory}/${gtk_lib}")
-    endforeach(gtk_lib)
-    target_link_libraries(astylewx ${gcc_libs})
+    target_link_libraries(astylewx ${link_libraries})
     # STRIP RELEASE BUILDS
     if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
         add_custom_command(TARGET astylewx POST_BUILD

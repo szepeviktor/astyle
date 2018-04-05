@@ -187,8 +187,8 @@
                                 <object class="notebookpage" expanded="1">
                                     <property name="bitmap"></property>
                                     <property name="label">Options</property>
-                                    <property name="select">1</property>
-                                    <object class="wxPanel" expanded="1">
+                                    <property name="select">0</property>
+                                    <object class="wxPanel" expanded="0">
                                         <property name="BottomDockable">1</property>
                                         <property name="LeftDockable">1</property>
                                         <property name="RightDockable">1</property>
@@ -262,25 +262,25 @@
                                         <event name="OnSetFocus"></event>
                                         <event name="OnSize"></event>
                                         <event name="OnUpdateUI"></event>
-                                        <object class="wxBoxSizer" expanded="1">
+                                        <object class="wxBoxSizer" expanded="0">
                                             <property name="minimum_size"></property>
                                             <property name="name">optionsSizer</property>
                                             <property name="orient">wxHORIZONTAL</property>
                                             <property name="permission">none</property>
-                                            <object class="sizeritem" expanded="1">
+                                            <object class="sizeritem" expanded="0">
                                                 <property name="border">20</property>
                                                 <property name="flag">wxALIGN_TOP|wxALL</property>
                                                 <property name="proportion">0</property>
-                                                <object class="wxBoxSizer" expanded="1">
+                                                <object class="wxBoxSizer" expanded="0">
                                                     <property name="minimum_size"></property>
                                                     <property name="name">optionsSizer2</property>
                                                     <property name="orient">wxVERTICAL</property>
                                                     <property name="permission">none</property>
-                                                    <object class="sizeritem" expanded="1">
+                                                    <object class="sizeritem" expanded="0">
                                                         <property name="border">5</property>
                                                         <property name="flag">wxALIGN_LEFT|wxALL</property>
                                                         <property name="proportion">0</property>
-                                                        <object class="wxCheckBox" expanded="1">
+                                                        <object class="wxCheckBox" expanded="0">
                                                             <property name="BottomDockable">1</property>
                                                             <property name="LeftDockable">1</property>
                                                             <property name="RightDockable">1</property>
@@ -628,11 +628,11 @@
                                                             <event name="OnUpdateUI"></event>
                                                         </object>
                                                     </object>
-                                                    <object class="sizeritem" expanded="1">
+                                                    <object class="sizeritem" expanded="0">
                                                         <property name="border">5</property>
                                                         <property name="flag">wxALL</property>
                                                         <property name="proportion">0</property>
-                                                        <object class="wxCheckBox" expanded="1">
+                                                        <object class="wxCheckBox" expanded="0">
                                                             <property name="BottomDockable">1</property>
                                                             <property name="LeftDockable">1</property>
                                                             <property name="RightDockable">1</property>
@@ -901,7 +901,7 @@
                                     <property name="bitmap"></property>
                                     <property name="label">Fonts</property>
                                     <property name="select">0</property>
-                                    <object class="wxPanel" expanded="0">
+                                    <object class="wxPanel" expanded="1">
                                         <property name="BottomDockable">1</property>
                                         <property name="LeftDockable">1</property>
                                         <property name="RightDockable">1</property>
@@ -975,16 +975,16 @@
                                         <event name="OnSetFocus"></event>
                                         <event name="OnSize"></event>
                                         <event name="OnUpdateUI"></event>
-                                        <object class="wxBoxSizer" expanded="0">
+                                        <object class="wxBoxSizer" expanded="1">
                                             <property name="minimum_size"></property>
                                             <property name="name">fontsSizer</property>
                                             <property name="orient">wxHORIZONTAL</property>
                                             <property name="permission">none</property>
-                                            <object class="sizeritem" expanded="0">
+                                            <object class="sizeritem" expanded="1">
                                                 <property name="border">10</property>
                                                 <property name="flag">wxALIGN_TOP|wxALL</property>
                                                 <property name="proportion">0</property>
-                                                <object class="wxBoxSizer" expanded="0">
+                                                <object class="wxBoxSizer" expanded="1">
                                                     <property name="minimum_size"></property>
                                                     <property name="name">bSizer5</property>
                                                     <property name="orient">wxVERTICAL</property>
@@ -1082,11 +1082,11 @@
                                                             <event name="OnUpdateUI"></event>
                                                         </object>
                                                     </object>
-                                                    <object class="sizeritem" expanded="0">
+                                                    <object class="sizeritem" expanded="1">
                                                         <property name="border">20</property>
                                                         <property name="flag">wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT</property>
                                                         <property name="proportion">0</property>
-                                                        <object class="wxBoxSizer" expanded="0">
+                                                        <object class="wxBoxSizer" expanded="1">
                                                             <property name="minimum_size"></property>
                                                             <property name="name">fontsSizer1</property>
                                                             <property name="orient">wxHORIZONTAL</property>
@@ -1234,7 +1234,7 @@
                                                                     <property name="resize">Resizable</property>
                                                                     <property name="selection">-1</property>
                                                                     <property name="show">1</property>
-                                                                    <property name="size">60,-1</property>
+                                                                    <property name="size">70,-1</property>
                                                                     <property name="style">wxCB_READONLY</property>
                                                                     <property name="subclass"></property>
                                                                     <property name="toolbar_pane">0</property>
@@ -1372,18 +1372,18 @@
                                                             <event name="OnUpdateUI"></event>
                                                         </object>
                                                     </object>
-                                                    <object class="sizeritem" expanded="0">
+                                                    <object class="sizeritem" expanded="1">
                                                         <property name="border">20</property>
-                                                        <property name="flag">wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT</property>
+                                                        <property name="flag">wxALIGN_CENTER_HORIZONTAL</property>
                                                         <property name="proportion">0</property>
-                                                        <object class="wxBoxSizer" expanded="0">
+                                                        <object class="wxBoxSizer" expanded="1">
                                                             <property name="minimum_size"></property>
                                                             <property name="name">fontsSizer2</property>
                                                             <property name="orient">wxHORIZONTAL</property>
                                                             <property name="permission">none</property>
                                                             <object class="sizeritem" expanded="0">
                                                                 <property name="border">5</property>
-                                                                <property name="flag">wxALIGN_CENTER_VERTICAL|wxALL</property>
+                                                                <property name="flag">wxALIGN_CENTER_VERTICAL|wxALL|wxLEFT|wxRIGHT</property>
                                                                 <property name="proportion">0</property>
                                                                 <object class="wxComboBox" expanded="0">
                                                                     <property name="BottomDockable">1</property>
@@ -1524,7 +1524,7 @@
                                                                     <property name="resize">Resizable</property>
                                                                     <property name="selection">-1</property>
                                                                     <property name="show">1</property>
-                                                                    <property name="size">60,-1</property>
+                                                                    <property name="size">70,-1</property>
                                                                     <property name="style">wxCB_READONLY</property>
                                                                     <property name="subclass"></property>
                                                                     <property name="toolbar_pane">0</property>
@@ -1587,8 +1587,8 @@
                                 <object class="notebookpage" expanded="1">
                                     <property name="bitmap"></property>
                                     <property name="label">Styles</property>
-                                    <property name="select">0</property>
-                                    <object class="wxPanel" expanded="0">
+                                    <property name="select">1</property>
+                                    <object class="wxPanel" expanded="1">
                                         <property name="BottomDockable">1</property>
                                         <property name="LeftDockable">1</property>
                                         <property name="RightDockable">1</property>

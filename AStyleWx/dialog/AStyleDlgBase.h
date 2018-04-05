@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2016)
+// C++ code generated with wxFormBuilder (version Jan 23 2018)
 // http://www.wxformbuilder.org/
 //
-// PLEASE DO "NOT" EDIT THIS FILE!
+// PLEASE DO *NOT* EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
 #ifndef __ASTYLEDLGBASE_H__
@@ -28,7 +28,7 @@
 #include <wx/spinctrl.h>
 #include <wx/button.h>
 #include <wx/choice.h>
-#include <wx/treebook.h>
+#include <wx/notebook.h>
 #include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -50,91 +50,92 @@
 #define ID_STYLE_1TBS 1014
 #define ID_STYLE_GOOGLE 1015
 #define ID_STYLE_MOZILLA 1016
-#define ID_STYLE_PICO 1017
-#define ID_STYLE_LISP 1018
-#define ID_STYLE_PREVIEW_STC 1019
-#define ID_TABS_PAGE 1020
-#define ID_INDENTWITH_SPACE 1021
-#define ID_INDENTWITH_TAB 1022
-#define ID_INDENTWITH_FTAB 1023
-#define ID_USE_TAB_LENGTH 1024
-#define ID_TAB_LENGTH 1025
-#define ID_INDENT_LENGTH 1026
-#define ID_INDENT_LENGTH_DISPLAY 1027
-#define ID_ATTACH_NAMESPACE 1028
-#define ID_ATTACH_CLASS 1029
-#define ID_ATTACH_INLINE 1030
-#define ID_ATTACH_EXTERN_C 1031
-#define ID_ATTACH_CLOSING_WHILE 1032
-#define ID_TAB_PREVIEW_STC 1033
-#define ID_INDENT_PAGE 1034
-#define ID_INDENT_CLASS 1035
-#define ID_INDENT_MODIFIER 1036
-#define ID_INDENT_SWITCH 1037
-#define ID_INDENT_CASE 1038
-#define ID_INDENT_NAMESPACE 1039
-#define ID_INDENT_AFTER_PAREN 1040
-#define ID_INDENT_CONTINUATION 1041
-#define ID_INDENT_GOTO 1042
-#define ID_INDENT_PREPROC_BLOCK 1043
-#define ID_INDENT_PREPROC_DEFINE 1044
-#define ID_INDENT_PREPROC_COND 1045
-#define ID_INDENT_COL1_COMMENT 1046
-#define ID_MIN_CONDITIONAL 1047
-#define ID_MIN_CONDITIONAL_DISPLAY 1048
-#define ID_MAX_CONTINUATION 1049
-#define ID_MAX_CONTINUATION_DISPLAY 1050
-#define ID_INDENT_PREVIEW_STC 1051
-#define ID_PAD_PAGE 1052
-#define ID_BREAK_HEADER 1053
-#define ID_BREAK_ALL 1054
-#define ID_PAD_OPERATOR 1055
-#define ID_PAD_COMMA 1056
-#define ID_PAD_PAREN_OUT 1057
-#define ID_PAD_PAREN_IN 1058
-#define ID_PAD_FIRST_PAREN_OUT 1059
-#define ID_PAD_HEADER 1060
-#define ID_UNPAD_PAREN 1061
-#define ID_DELETE_EMPTY_LINE 1062
-#define ID_FILL_EMPTY_LINE 1063
-#define ID_ALIGN_POINTER 1064
-#define ID_ALIGN_POINTER_DISPLAY 1065
-#define ID_ALIGN_REFERENCE 1066
-#define ID_ALIGN_REFERENCE_DISPLAY 1067
-#define ID_PAD_PREVIEW_STC 1068
-#define ID_FOMAT_PAGE 1069
-#define ID_BREAK_CLOSING 1070
-#define ID_BREAK_ELSEIF 1071
-#define ID_BREAK_OL_HEADERS 1072
-#define ID_ADD_BRACES 1073
-#define ID_ADD_OL_BRACES 1074
-#define ID_REMOVE_BRACES 1075
-#define ID_BREAK_RETURN_TYPE 1076
-#define ID_BREAK_RETURN_TYPE_DECL 1077
-#define ID_ATTACH_RETURN_TYPE 1078
-#define ID_ATTACH_RETURN_TYPE_DECL 1079
-#define ID_KEEP_OL_BLOCKS 1080
-#define ID_KEEP_OL_STATEMENTS 1081
-#define ID_CONVERT_TABS 1082
-#define ID_CLOSE_TEMPLATES 1083
-#define ID_REMOVE_COMMENT_PREFIX 1084
-#define ID_MAX_CODE_LENGTH 1085
-#define ID_MAX_CODE_LENGTH_DISPLAY 1086
-#define ID_BREAK_AFTER_LOGICAL 1087
-#define ID_FORMAT_PREVIEW_STC 1088
-#define ID_OTHER_PAGE 1089
-#define ID_PAD_METHOD_PREFIX 1090
-#define ID_UNPAD_METHOD_PREFIX 1091
-#define ID_PAD_RETURN_TYPE 1092
-#define ID_UNPAD_RETURN_TYPE 1093
-#define ID_PAD_PARAM_TYPE 1094
-#define ID_UNPAD_PARAM_TYPE 1095
-#define ID_ALIGN_METHOD_COLON 1096
-#define ID_PAD_METHOD_COLON 1097
-#define ID_PAD_METHOD_COLON_DISPLAY 1098
-#define ID_OTHER_PREVIEW_STC 1099
-#define ID_RESET_ALL 1100
-#define ID_NEW_SETTINGS 1101
+#define ID_STYLE_WEBKIT 1017
+#define ID_STYLE_PICO 1018
+#define ID_STYLE_LISP 1019
+#define ID_STYLE_PREVIEW_STC 1020
+#define ID_TABS_PAGE 1021
+#define ID_INDENTWITH_SPACE 1022
+#define ID_INDENTWITH_TAB 1023
+#define ID_INDENTWITH_FTAB 1024
+#define ID_USE_TAB_LENGTH 1025
+#define ID_TAB_LENGTH 1026
+#define ID_INDENT_LENGTH 1027
+#define ID_INDENT_LENGTH_DISPLAY 1028
+#define ID_ATTACH_NAMESPACE 1029
+#define ID_ATTACH_CLASS 1030
+#define ID_ATTACH_INLINE 1031
+#define ID_ATTACH_EXTERN_C 1032
+#define ID_ATTACH_CLOSING_WHILE 1033
+#define ID_TAB_PREVIEW_STC 1034
+#define ID_INDENT_PAGE 1035
+#define ID_INDENT_CLASS 1036
+#define ID_INDENT_MODIFIER 1037
+#define ID_INDENT_SWITCH 1038
+#define ID_INDENT_CASE 1039
+#define ID_INDENT_NAMESPACE 1040
+#define ID_INDENT_AFTER_PAREN 1041
+#define ID_INDENT_CONTINUATION 1042
+#define ID_INDENT_GOTO 1043
+#define ID_INDENT_PREPROC_BLOCK 1044
+#define ID_INDENT_PREPROC_DEFINE 1045
+#define ID_INDENT_PREPROC_COND 1046
+#define ID_INDENT_COL1_COMMENT 1047
+#define ID_MIN_CONDITIONAL 1048
+#define ID_MIN_CONDITIONAL_DISPLAY 1049
+#define ID_MAX_CONTINUATION 1050
+#define ID_MAX_CONTINUATION_DISPLAY 1051
+#define ID_INDENT_PREVIEW_STC 1052
+#define ID_PAD_PAGE 1053
+#define ID_BREAK_HEADER 1054
+#define ID_BREAK_ALL 1055
+#define ID_PAD_OPERATOR 1056
+#define ID_PAD_COMMA 1057
+#define ID_PAD_PAREN_OUT 1058
+#define ID_PAD_PAREN_IN 1059
+#define ID_PAD_FIRST_PAREN_OUT 1060
+#define ID_PAD_HEADER 1061
+#define ID_UNPAD_PAREN 1062
+#define ID_DELETE_EMPTY_LINE 1063
+#define ID_FILL_EMPTY_LINE 1064
+#define ID_ALIGN_POINTER 1065
+#define ID_ALIGN_POINTER_DISPLAY 1066
+#define ID_ALIGN_REFERENCE 1067
+#define ID_ALIGN_REFERENCE_DISPLAY 1068
+#define ID_PAD_PREVIEW_STC 1069
+#define ID_FOMAT_PAGE 1070
+#define ID_BREAK_CLOSING 1071
+#define ID_BREAK_ELSEIF 1072
+#define ID_BREAK_OL_HEADERS 1073
+#define ID_ADD_BRACES 1074
+#define ID_ADD_OL_BRACES 1075
+#define ID_REMOVE_BRACES 1076
+#define ID_BREAK_RETURN_TYPE 1077
+#define ID_BREAK_RETURN_TYPE_DECL 1078
+#define ID_ATTACH_RETURN_TYPE 1079
+#define ID_ATTACH_RETURN_TYPE_DECL 1080
+#define ID_KEEP_OL_BLOCKS 1081
+#define ID_KEEP_OL_STATEMENTS 1082
+#define ID_CONVERT_TABS 1083
+#define ID_CLOSE_TEMPLATES 1084
+#define ID_REMOVE_COMMENT_PREFIX 1085
+#define ID_MAX_CODE_LENGTH 1086
+#define ID_MAX_CODE_LENGTH_DISPLAY 1087
+#define ID_BREAK_AFTER_LOGICAL 1088
+#define ID_FORMAT_PREVIEW_STC 1089
+#define ID_OTHER_PAGE 1090
+#define ID_PAD_METHOD_PREFIX 1091
+#define ID_UNPAD_METHOD_PREFIX 1092
+#define ID_PAD_RETURN_TYPE 1093
+#define ID_UNPAD_RETURN_TYPE 1094
+#define ID_PAD_PARAM_TYPE 1095
+#define ID_UNPAD_PARAM_TYPE 1096
+#define ID_ALIGN_METHOD_COLON 1097
+#define ID_PAD_METHOD_COLON 1098
+#define ID_PAD_METHOD_COLON_DISPLAY 1099
+#define ID_OTHER_PREVIEW_STC 1100
+#define ID_RESET_ALL 1101
+#define ID_NEW_SETTINGS 1102
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class AStyleDlgBase
@@ -145,7 +146,7 @@ class AStyleDlgBase : public wxDialog
 	private:
 		
 		// Private event handlers
-		void _wxFB_OnNotebookPageChanged( wxTreebookEvent& event ){ OnNotebookPageChanged( event ); }
+		void _wxFB_OnNotebookPageChanged( wxNotebookEvent& event ){ OnNotebookPageChanged( event ); }
 		void _wxFB_OnStyleClick( wxCommandEvent& event ){ OnStyleClick( event ); }
 		void _wxFB_OnTabClick( wxCommandEvent& event ){ OnTabClick( event ); }
 		void _wxFB_OnModifierClick( wxCommandEvent& event ){ OnModifierClick( event ); }
@@ -160,7 +161,7 @@ class AStyleDlgBase : public wxDialog
 	
 	protected:
 		wxBoxSizer* m_astyleDlgSizer;
-		wxTreebook* m_notebook;
+		wxNotebook* m_notebook;
 		wxPanel* m_stylePage;
 		wxStaticBoxSizer* m_styleSizer;
 		wxRadioButton* m_styleNone;
@@ -177,6 +178,7 @@ class AStyleDlgBase : public wxDialog
 		wxRadioButton* m_style1tbs;
 		wxRadioButton* m_styleGoogle;
 		wxRadioButton* m_styleMozilla;
+		wxRadioButton* m_styleWebKit;
 		wxRadioButton* m_stylePico;
 		wxRadioButton* m_styleLisp;
 		wxStaticBoxSizer* m_stylePreviewSizer;
@@ -281,7 +283,7 @@ class AStyleDlgBase : public wxDialog
 		wxButton* m_sdbSizerCancel;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void OnNotebookPageChanged( wxTreebookEvent& event ) { event.Skip(); }
+		virtual void OnNotebookPageChanged( wxNotebookEvent& event ) { event.Skip(); }
 		virtual void OnStyleClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnTabClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnModifierClick( wxCommandEvent& event ) { event.Skip(); }

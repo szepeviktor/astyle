@@ -181,6 +181,15 @@
 															<option>0</option>
 															<flag>wxALL</flag>
 															<border>5</border>
+															<object class="wxRadioButton" name="m_styleWebKit">
+																<label>We_bKit</label>
+																<value>0</value>
+															</object>
+														</object>
+														<object class="sizeritem">
+															<option>0</option>
+															<flag>wxALL</flag>
+															<border>5</border>
 															<object class="wxRadioButton" name="m_stylePico">
 																<label>_Pico</label>
 																<value>0</value>
@@ -210,7 +219,7 @@
 												</object>
 												<object class="sizeritem">
 													<option>0</option>
-													<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+													<flag>wxALL|wxEXPAND</flag>
 													<border>5</border>
 													<object class="wxStaticBoxSizer">
 														<orient>wxVERTICAL</orient>
@@ -438,14 +447,14 @@
 												</object>
 												<object class="sizeritem">
 													<option>0</option>
-													<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+													<flag>wxALL|wxEXPAND</flag>
 													<border>5</border>
 													<object class="wxStaticBoxSizer">
 														<orient>wxVERTICAL</orient>
 														<label>Preview</label>
 														<object class="sizeritem">
 															<option>1</option>
-															<flag>wxEXPAND | wxALL</flag>
+															<flag>wxALL</flag>
 															<border>5</border>
 															<object class="unknown" name="m_tabPreviewSTC" />
 														</object>
@@ -698,14 +707,14 @@
 												</object>
 												<object class="sizeritem">
 													<option>0</option>
-													<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+													<flag>wxALL|wxEXPAND</flag>
 													<border>5</border>
 													<object class="wxStaticBoxSizer">
 														<orient>wxVERTICAL</orient>
 														<label>Preview</label>
 														<object class="sizeritem">
 															<option>1</option>
-															<flag>wxEXPAND | wxALL</flag>
+															<flag>wxALL</flag>
 															<border>5</border>
 															<object class="unknown" name="m_indentPreviewSTC" />
 														</object>
@@ -886,7 +895,7 @@
 														</object>
 														<object class="sizeritem">
 															<option>0</option>
-															<flag>wxALL</flag>
+															<flag>wxALL|wxEXPAND</flag>
 															<border>5</border>
 															<object class="wxStaticText" name="staticText11">
 																<label>Align _reference</label>
@@ -936,14 +945,14 @@
 												</object>
 												<object class="sizeritem">
 													<option>0</option>
-													<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+													<flag>wxALL|wxEXPAND</flag>
 													<border>5</border>
 													<object class="wxStaticBoxSizer">
 														<orient>wxVERTICAL</orient>
 														<label>Preview</label>
 														<object class="sizeritem">
 															<option>1</option>
-															<flag>wxEXPAND | wxALL</flag>
+															<flag>wxALL</flag>
 															<border>5</border>
 															<object class="unknown" name="m_padPreviewSTC" />
 														</object>
@@ -956,7 +965,7 @@
 							</object>
 							<object class="notebookpage">
 								<label>Format</label>
-								<selected>1</selected>
+								<selected>0</selected>
 								<object class="wxPanel" name="m_formatPage">
 									<style>wxCLIP_CHILDREN|wxTAB_TRAVERSAL</style>
 									<pos>-1,0</pos>
@@ -1179,14 +1188,14 @@
 												</object>
 												<object class="sizeritem">
 													<option>0</option>
-													<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+													<flag>wxALL|wxEXPAND</flag>
 													<border>5</border>
 													<object class="wxStaticBoxSizer">
 														<orient>wxVERTICAL</orient>
 														<label>Preview</label>
 														<object class="sizeritem">
 															<option>1</option>
-															<flag>wxEXPAND | wxALL</flag>
+															<flag>wxALL</flag>
 															<border>5</border>
 															<object class="unknown" name="m_formatPreviewSTC" />
 														</object>
@@ -1199,7 +1208,7 @@
 							</object>
 							<object class="notebookpage">
 								<label>Other</label>
-								<selected>0</selected>
+								<selected>1</selected>
 								<object class="wxPanel" name="m_otherPage">
 									<style>wxCLIP_CHILDREN|wxTAB_TRAVERSAL</style>
 									<pos>-1,0</pos>
@@ -1260,7 +1269,7 @@
 															<border>5</border>
 															<object class="wxCheckBox" name="m_padParamType">
 																<label>Pad param _type</label>
-																<checked>1</checked>
+																<checked>0</checked>
 															</object>
 														</object>
 														<object class="sizeritem">
@@ -1333,14 +1342,14 @@
 												</object>
 												<object class="sizeritem">
 													<option>0</option>
-													<flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+													<flag>wxALL|wxEXPAND</flag>
 													<border>5</border>
 													<object class="wxStaticBoxSizer">
 														<orient>wxVERTICAL</orient>
 														<label>Preview</label>
 														<object class="sizeritem">
 															<option>1</option>
-															<flag>wxEXPAND | wxALL</flag>
+															<flag>wxALL</flag>
 															<border>5</border>
 															<object class="unknown" name="m_otherPreviewSTC" />
 														</object>

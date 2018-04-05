@@ -82,6 +82,7 @@ AStyleDlg::AStyleDlg(ASFrame* frame, AStyleIFace* astyle, int page) : AStyleDlgB
 	m_style1tbs->Bind(wxEVT_LEFT_UP, &AStyleDlg::OnStyleMouseUp, this);
 	m_styleGoogle->Bind(wxEVT_LEFT_UP, &AStyleDlg::OnStyleMouseUp, this);
 	m_styleMozilla->Bind(wxEVT_LEFT_UP, &AStyleDlg::OnStyleMouseUp, this);
+	m_styleWebKit->Bind(wxEVT_LEFT_UP, &AStyleDlg::OnStyleMouseUp, this);
 	m_stylePico->Bind(wxEVT_LEFT_UP, &AStyleDlg::OnStyleMouseUp, this);
 	m_styleLisp->Bind(wxEVT_LEFT_UP, &AStyleDlg::OnStyleMouseUp, this);
 	m_spaceIndent->Bind(wxEVT_LEFT_UP, &AStyleDlg::OnTabMouseUp, this);
@@ -97,10 +98,12 @@ AStyleDlg::AStyleDlg(ASFrame* frame, AStyleIFace* astyle, int page) : AStyleDlgB
 	m_otherPreviewSTC->Bind(wxEVT_SET_FOCUS, &AStyleDlg::OnPreviewFocus, this);
 #endif	// wxHAS_EVENT_BIND
 	// set size of spin controls
+	// NOTE: there does not seem to be a way to resize spin controls
+	// NOTE: the following does not work
 	wxSize size = m_indentLength->GetSize();
 	size.x = size.x / 2;
-	m_indentLength->SetSize(size);
 	m_tabLength->SetSize(size);
+	m_indentLength->SetSize(size);
 	m_indentContinuationLength->SetSize(size);
 	// set notebook page to the page previously open
 	int pages = static_cast<int>(m_notebook->GetPageCount());
@@ -489,6 +492,8 @@ void AStyleDlg::GetStyleOptions(AStyleIFace* astyle)
 		astyle->setBraceStyle(STYLE_GOOGLE);
 	else if (m_styleMozilla->GetValue())
 		astyle->setBraceStyle(STYLE_MOZILLA);
+	else if (m_styleWebKit->GetValue())
+		astyle->setBraceStyle(STYLE_WEBKIT);
 	else if (m_stylePico->GetValue())
 		astyle->setBraceStyle(STYLE_PICO);
 	else if (m_styleLisp->GetValue())
@@ -591,7 +596,12 @@ void AStyleDlg::InitializeSTC(wxStyledTextCtrl* stc)
 	stc->SetUseHorizontalScrollBar(false);
 	stc->SetWrapMode(0);
 	stc->SetIndentationGuides(0);
+	// stc has a custom context menu
+#if wxCHECK_VERSION(3, 1, 0)
+	stc->UsePopUp(wxSTC_POPUP_NEVER);
+#else
 	stc->UsePopUp(false);
+#endif
 	stc->SetSelBackground(true, wxColour(*wxWHITE));
 	stc->StyleSetBackground(wxSTC_STYLE_LINENUMBER, wxColour(*wxWHITE));
 }
@@ -654,6 +664,7 @@ void AStyleDlg::OnPadClick(wxCommandEvent& event)
 void AStyleDlg::OnPreviewFocus(wxFocusEvent& event)
 // Linux focuses on the read-only textbox, which isn't wanted
 {
+	// do not use dynamic_cast with -no-rtti
 	wxWindow* previewWindow = static_cast<wxWindow*>(event.GetEventObject());
 	previewWindow->Navigate();
 	// do NOT Skip
@@ -1000,6 +1011,8 @@ void AStyleDlg::SetStyleOptions()
 		m_styleGoogle->SetValue(true);
 	else if (braceType == STYLE_MOZILLA)
 		m_styleMozilla->SetValue(true);
+	else if (braceType == STYLE_WEBKIT)
+		m_styleWebKit->SetValue(true);
 	else if (braceType == STYLE_PICO)
 		m_stylePico->SetValue(true);
 	else if (braceType == STYLE_LISP)

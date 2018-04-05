@@ -165,6 +165,13 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 			else
 				options.append(STYLE + EQ + MOZILLA);
 		}
+		else if (getBraceStyle() == STYLE_WEBKIT)
+		{
+			if (showShort)
+				options.append("A17");
+			else
+				options.append(STYLE + EQ + WEBKIT);
+		}
 		else if (getBraceStyle() == STYLE_PICO)
 		{
 			if (showShort)
@@ -926,6 +933,8 @@ bool AStyleIFace::SetAStyleOption(const wxString& key, const wxString& value)
 			braceStyle = STYLE_GOOGLE;
 		else if (value == MOZILLA)
 			braceStyle = STYLE_MOZILLA;
+		else if (value == WEBKIT)
+			braceStyle = STYLE_WEBKIT;
 		else if (value == PICO)
 			braceStyle = STYLE_PICO;
 		else if (value == LISP)
@@ -1169,7 +1178,7 @@ bool AStyleIFace::SetAStyleOptionBool(const wxString& key, bool value)
 	return true;
 }
 
-int AStyleIFace::TranslatePadMethodColonString(wxString padMethodColonArg) const
+int AStyleIFace::TranslatePadMethodColonString(const wxString& padMethodColonArg) const
 // Translate the alpha padMethodColon value to numeric.
 {
 	int value = COLON_PAD_NO_CHANGE;

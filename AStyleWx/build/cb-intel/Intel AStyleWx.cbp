@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Intel AStyleWx" />
+		<Option pch_mode="2" />
+		<Option compiler="icc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="wx$(WX)$(TK)/bin/astylewxd" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx$(WX)$(TK)/obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="icc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-fno-rtti" />
+					<Add option="-g" />
+					<Add option="`wx-config --version=$(WX) --toolkit=$(TK) --cflags`" />
+					<Add option="-w3" />
+					<Add option="-Wextra" />
+					<Add option="-fno-exceptions" />
+					<Add option="-pthread" />
+					<Add option="-std=c++11" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DHAVE_VARIADIC_MACROS" />
+					<Add option="-DTESTMODE1" />
+					<Add directory="../../src" />
+					<Add directory="../../dialog" />
+					<Add directory="../../image" />
+				</Compiler>
+				<Linker>
+					<Add option="`wx-config --version=$(WX) --toolkit=$(TK) --libs adv,aui,core,stc`" />
+					<Add library="astyled" />
+					<Add directory="lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="wx$(WX)$(TK)/bin/astylewx" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx$(WX)$(TK)/obj/Release/" />
+				<Option type="0" />
+				<Option compiler="icc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-fno-rtti" />
+					<Add option="-O3" />
+					<Add option="`wx-config --version=$(WX) --toolkit=$(TK) --cflags`" />
+					<Add option="-w3" />
+					<Add option="-Wextra" />
+					<Add option="-fno-exceptions" />
+					<Add option="-pthread" />
+					<Add option="-std=c++11" />
+					<Add option="-wd11074,11076" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DHAVE_VARIADIC_MACROS" />
+					<Add directory="../../src" />
+					<Add directory="../../dialog" />
+					<Add directory="../../image" />
+				</Compiler>
+				<Linker>
+					<Add option="`wx-config --version=$(WX) --toolkit=$(TK) --libs adv,aui,core,stc`" />
+					<Add option="-s" />
+					<Add library="astyle" />
+					<Add directory="lib" />
+				</Linker>
+			</Target>
+			<Environment>
+				<Variable name="TK" value="gtk2" />
+				<Variable name="WX" value="3.0" />
+			</Environment>
+		</Build>
+		<Unit filename="../../dialog/AStyleDlgBase.cpp" />
+		<Unit filename="../../dialog/AStyleDlgBase.h" />
+		<Unit filename="../../dialog/AboutDlgBase.cpp" />
+		<Unit filename="../../dialog/AboutDlgBase.h" />
+		<Unit filename="../../dialog/EditorDlgBase.cpp" />
+		<Unit filename="../../dialog/EditorDlgBase.h" />
+		<Unit filename="../../dialog/SettingsDlgBase.cpp" />
+		<Unit filename="../../dialog/SettingsDlgBase.h" />
+		<Unit filename="../../src/ASApp.cpp" />
+		<Unit filename="../../src/ASEditor.cpp" />
+		<Unit filename="../../src/AStyleDisplay.cpp" />
+		<Unit filename="../../src/AStyleDisplay.h" />
+		<Unit filename="../../src/AStyleDlg.cpp" />
+		<Unit filename="../../src/AStyleDlg.h" />
+		<Unit filename="../../src/AStyleFormat.cpp" />
+		<Unit filename="../../src/AStyleFormat.h" />
+		<Unit filename="../../src/AStyleIFace.cpp" />
+		<Unit filename="../../src/AStyleIFace.h" />
+		<Unit filename="../../src/AStyleWx.cpp" />
+		<Unit filename="../../src/AStyleWx.h" />
+		<Unit filename="../../src/AboutDlg.cpp" />
+		<Unit filename="../../src/AboutDlg.h" />
+		<Unit filename="../../src/Config.cpp" />
+		<Unit filename="../../src/Config.h" />
+		<Unit filename="../../src/Constants.h" />
+		<Unit filename="../../src/EditorDlg.cpp" />
+		<Unit filename="../../src/EditorDlg.h" />
+		<Unit filename="../../src/Encoding.cpp" />
+		<Unit filename="../../src/Encoding.h" />
+		<Unit filename="../../src/FileManager.cpp" />
+		<Unit filename="../../src/FileManager.h" />
+		<Unit filename="../../src/Indent.cpp" />
+		<Unit filename="../../src/SettingsDlg.cpp" />
+		<Unit filename="../../src/SettingsDlg.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

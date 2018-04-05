@@ -73,7 +73,12 @@ ASEditor::ASEditor(wxWindow* notebook)
 	// styles are set in UpdateStcStyleOptions()
 	wxStyledTextCtrl::SetMarginWidth(STC_BOOKMARK_MARGIN, 0);
 	wxStyledTextCtrl::SetWrapVisualFlags(wxSTC_WRAPVISUALFLAG_START);
-	wxStyledTextCtrl::UsePopUp(false);       // will do a custom context menu
+	// stc has a custom context menu
+#if wxCHECK_VERSION(3, 1, 0)
+	wxStyledTextCtrl::UsePopUp(wxSTC_POPUP_NEVER);
+#else
+	wxStyledTextCtrl::UsePopUp(false);
+#endif
 	// create bookmark markers
 	wxStyledTextCtrl::MarkerSetBackground(BOOKMARK_1, wxColour(0x80, 0xFF, 0xA0));
 	wxStyledTextCtrl::MarkerSetForeground(BOOKMARK_1, wxColour(0x80, 0x80, 0));
@@ -330,7 +335,7 @@ int ASEditor::FindNext(const wxFindReplaceData& findData, bool reverseFind)
 	if (posFind == -1)
 	{
 		wxString msg = wxString::Format("Search string '%s' not found.", findString.c_str());
-		wxMessageBox(msg, "Find", wxOK | wxICON_INFORMATION, m_frame->GetFindDialog()) ;
+		wxMessageBox(msg, "Find", wxOK | wxICON_INFORMATION, m_frame->GetFindDialog());
 	}
 	else
 	{
@@ -556,20 +561,20 @@ void ASEditor::OnSTCChange(wxStyledTextEvent&)
 void ASEditor::OnSTCCharAdded(wxStyledTextEvent& event)
 {
 	int ch = event.GetKey();
-	AutomaticIndentation(ch) ;
+	AutomaticIndentation(ch);
 }
 
 void ASEditor::OnSTCContextMenu(wxContextMenuEvent&)
 {
 	wxMenu contextMenu(0L);
 	// settings and options menu
+	contextMenu.Append(ID_TOOL_ASTYLE_SETTINGS, "AStyle Settings...");
+	contextMenu.AppendSeparator();
 	contextMenu.Append(ID_EDIT_EDITOR_OPTIONS, "Editor Options...");
 #ifdef TESTMODE1
 	contextMenu.Append(ID_TOOL_TEST_OPTIONS, "Test Options...");
 #endif
 	contextMenu.Append(ID_TOOL_ASTYLE_OPTIONS, "AStyle Options...");
-	contextMenu.AppendSeparator();
-	contextMenu.Append(ID_TOOL_ASTYLE_SETTINGS, "AStyle Settings...");
 	PopupMenu(&contextMenu);
 }
 
@@ -606,7 +611,7 @@ void ASEditor::OnSTCUpdateUI(wxStyledTextEvent&)
  */
 {
 	wxMenuBar* menuBar = m_frame->GetMenuBar();
-	wxToolBar* toolBar = m_frame->GetToolBar();;
+	wxToolBar* toolBar = m_frame->GetToolBar();
 
 	// enable select block if brace at caret
 	int caretPos = BraceAtCaret();
@@ -849,7 +854,7 @@ void ASEditor::TextToStrings()
 	wxStyledTextCtrl::Thaw();
 }
 
-void ASEditor::UpdateCommentFonts(wxFont newFont)
+void ASEditor::UpdateCommentFonts(const wxFont& newFont)
 {
 	int commentStyles[] = { wxSTC_C_COMMENT,
 	                        wxSTC_C_COMMENTLINE,
@@ -857,11 +862,10 @@ void ASEditor::UpdateCommentFonts(wxFont newFont)
 	                        wxSTC_C_COMMENTLINEDOC
 	                      };
 
-	const size_t numStyles = sizeof(commentStyles) / sizeof(commentStyles[0]);
-	for (unsigned i = 0; i < numStyles; i++)
+	for (int& commentStyle : commentStyles)
 	{
-		wxStyledTextCtrl::StyleSetFaceName(commentStyles[i], newFont.GetFaceName());
-		wxStyledTextCtrl::StyleSetSize(commentStyles[i], newFont.GetPointSize());
+		wxStyledTextCtrl::StyleSetFaceName(commentStyle, newFont.GetFaceName());
+		wxStyledTextCtrl::StyleSetSize(commentStyle, newFont.GetPointSize());
 	}
 }
 
@@ -920,7 +924,7 @@ void ASEditor::UpdateFormatSelectDisplay()
 {
 	// enable format select if text is selected
 	wxMenuBar* menuBar = m_frame->GetMenuBar();
-	wxToolBar* toolBar = m_frame->GetToolBar();;
+	wxToolBar* toolBar = m_frame->GetToolBar();
 	if (m_fileMode == FILEMODE_CPP
 	        || m_fileMode == FILEMODE_OBJC
 	        || m_fileMode == FILEMODE_JAVA

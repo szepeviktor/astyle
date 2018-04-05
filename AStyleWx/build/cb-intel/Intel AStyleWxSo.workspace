@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Intel AStyleWxSo Workspace">
+		<Project filename="Intel AStyleWxSo.cbp">
+			<Depends filename="Intel AStyle So.cbp" />
+		</Project>
+		<Project filename="Intel AStyle So.cbp" />
+		<Project filename="Intel AStyleWxSoSys.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>
