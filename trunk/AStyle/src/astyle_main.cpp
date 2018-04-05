@@ -376,19 +376,16 @@ void ASConsole::convertLineEnds(ostringstream& out, int lineEnd)
 					pos++;
 					continue;
 				}
-				else if (lineEnd == LINEEND_LF)
+				if (lineEnd == LINEEND_LF)
 				{
-					outStr += inStr[pos + 1];		// Delete the CR
+					outStr += inStr[pos + 1];	// Delete the CR
 					pos++;
 					continue;
 				}
-				else
-				{
-					outStr += inStr[pos];		// Do not change
-					outStr += inStr[pos + 1];
-					pos++;
-					continue;
-				}
+				outStr += inStr[pos];			// Do not change
+				outStr += inStr[pos + 1];
+				pos++;
+				continue;
 			}
 			else
 			{
@@ -399,16 +396,13 @@ void ASConsole::convertLineEnds(ostringstream& out, int lineEnd)
 					outStr += '\n';				// Insert the LF
 					continue;
 				}
-				else if (lineEnd == LINEEND_LF)
+				if (lineEnd == LINEEND_LF)
 				{
 					outStr += '\n';				// Insert the LF
 					continue;
 				}
-				else
-				{
-					outStr += inStr[pos];		// Do not change
-					continue;
-				}
+				outStr += inStr[pos];		// Do not change
+				continue;
 			}
 		}
 		else if (inStr[pos] == '\n')
@@ -420,16 +414,13 @@ void ASConsole::convertLineEnds(ostringstream& out, int lineEnd)
 				outStr += inStr[pos];		// Insert the LF
 				continue;
 			}
-			else if (lineEnd == LINEEND_CR)
+			if (lineEnd == LINEEND_CR)
 			{
 				outStr += '\r';				// Insert the CR
 				continue;
 			}
-			else
-			{
-				outStr += inStr[pos];		// Do not change
-				continue;
-			}
+			outStr += inStr[pos];		// Do not change
+			continue;
 		}
 		else
 		{
@@ -1855,7 +1846,7 @@ void ASConsole::printHelp() const
 	cout << endl;
 	cout << "    --style=stroustrup  OR  -A4\n";
 	cout << "    Stroustrup style formatting/indenting.\n";
-	cout << "    Linux braces.\n";
+	cout << "    Linux braces, with broken closing headers.\n";
 	cout << endl;
 	cout << "    --style=whitesmith  OR  -A5\n";
 	cout << "    Whitesmith style formatting/indenting.\n";
@@ -1894,6 +1885,10 @@ void ASConsole::printHelp() const
 	cout << "    Mozilla style formatting/indenting.\n";
 	cout << "    Linux braces, with broken braces for structs and enums,\n";
 	cout << "    and attached braces for namespaces.\n";
+	cout << endl;
+	cout << "    --style=webkit  OR  -A17\n";
+	cout << "    WebKit style formatting/indenting.\n";
+	cout << "    Linux braces, with attached closing headers.\n";
 	cout << endl;
 	cout << "    --style=pico  OR  -A11\n";
 	cout << "    Pico style formatting/indenting.\n";
@@ -3124,6 +3119,10 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	{
 		formatter.setFormattingStyle(STYLE_MOZILLA);
 	}
+	else if (isOption(arg, "A17", "style=webkit"))
+	{
+		formatter.setFormattingStyle(STYLE_WEBKIT);
+	}
 	else if (isOption(arg, "A11", "style=pico"))
 	{
 		formatter.setFormattingStyle(STYLE_PICO);
@@ -3515,8 +3514,21 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	{
 		formatter.setAttachReturnTypeDecl(true);
 	}
+	// To avoid compiler limit of blocks nested too deep.
+	else if (!parseOptionContinued(arg, errorInfo))
+	{
+		isOptionError(arg, errorInfo);
+	}
+}	// End of parseOption function
+
+// Continuation of parseOption.
+// To avoid compiler limit of blocks nested too deep.
+// Return 'true' if the option was found and processed.
+// Return 'false' if the option was not found.
+bool ASOptions::parseOptionContinued(const string& arg, const string& errorInfo)
+{
 	// Objective-C options
-	else if (isOption(arg, "xQ", "pad-method-prefix"))
+	if (isOption(arg, "xQ", "pad-method-prefix"))
 	{
 		formatter.setMethodPrefixPaddingMode(true);
 	}
@@ -3562,7 +3574,7 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	}
 	// NOTE: depreciated options - remove when appropriate
 	// depreciated options ////////////////////////////////////////////////////////////////////////
-	else if (isOption(arg, "indent-preprocessor"))		// depreciated release 2.04
+	else if (isOption(arg, "indent-preprocessor"))			// depreciated release 2.04
 	{
 		formatter.setPreprocDefineIndent(true);
 	}
@@ -3575,7 +3587,7 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	{
 		formatter.setBreakClosingHeaderBracketsMode(true);
 	}
-	else if (isOption(arg, "add-brackets"))				// depreciated release 3.0
+	else if (isOption(arg, "add-brackets"))					// depreciated release 3.0
 	{
 		formatter.setAddBracketsMode(true);
 	}
@@ -3583,7 +3595,7 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 	{
 		formatter.setAddOneLineBracketsMode(true);
 	}
-	else if (isOption(arg, "remove-brackets"))			// depreciated release 3.0
+	else if (isOption(arg, "remove-brackets"))				// depreciated release 3.0
 	{
 		formatter.setRemoveBracketsMode(true);
 	}
@@ -3604,7 +3616,10 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 #ifdef ASTYLE_LIB
 	// End of options used by GUI /////////////////////////////////////////////////////////////////
 	else
-		isOptionError(arg, errorInfo);
+	{
+		return false;
+	}
+	return true;
 #else
 	// Options used by only console ///////////////////////////////////////////////////////////////
 	else if (isOption(arg, "n", "suffix=none"))
@@ -3689,9 +3704,12 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 			formatter.setLineEndFormat(LINEEND_MACOLD);
 	}
 	else
-		isOptionError(arg, errorInfo);
+	{
+		return false;
+	}
+	return true;
 #endif
-}	// End of parseOption function
+}	// End of parseOptionContinued function
 
 // Parse options from the option file.
 void ASOptions::importOptions(stringstream& in, vector<string>& optionsVector)

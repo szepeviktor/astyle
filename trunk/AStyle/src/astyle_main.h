@@ -221,6 +221,7 @@ private:
 	bool isParamOption(const string& arg, const char* option);
 	bool isParamOption(const string& arg, const char* option1, const char* option2);
 	void parseOption(const string& arg, const string& errorInfo);
+	bool parseOptionContinued(const string& arg, const string& errorInfo);
 };
 
 #ifndef	ASTYLE_LIB
@@ -277,6 +278,8 @@ private:    // variables
 
 public:     // functions
 	explicit ASConsole(ASFormatter& formatterArg);
+	ASConsole(const ASConsole&)            = delete;
+	ASConsole& operator=(ASConsole const&) = delete;
 	void convertLineEnds(ostringstream& out, int lineEnd);
 	FileEncoding detectEncoding(const char* data, size_t dataSize) const;
 	// check Visual Studio 2015 supported C++11 standard
