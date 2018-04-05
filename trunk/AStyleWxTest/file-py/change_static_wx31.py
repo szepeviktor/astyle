@@ -30,11 +30,10 @@ import libastylewx
 
 # build/msw paths to be converted
 wx_paths = [
-    #"C:/Programs/wxWidgets-3.1.0_vs2010",
-    #"C:/Programs/wxWidgets-3.1.0_vs2012",
     #"C:/Programs/wxWidgets-3.1.0_vs2013",
     #"C:/Programs/wxWidgets-3.1.0_vs2015",
-    "C:/Programs/wxWidgets-3.1.0_vs2017",
+    #"C:/Programs/wxWidgets-3.1.0_vs2017",
+    "C:/Programs/wxWidgets-3.1.1_vs2017",
 ]
 
 # -----------------------------------------------------------------------------
