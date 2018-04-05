@@ -2767,6 +2767,309 @@ TEST(StyleMozillaCpp, Enum)
 }
 
 //----------------------------------------------------------------------------
+// AStyle C++ WebKit Style
+// Additional tests are in the attach braces tests
+//----------------------------------------------------------------------------
+
+struct StyleWebKitCppF : public Test
+{
+	string textStr;
+	const char* textIn;
+
+	StyleWebKitCppF()
+	{
+		textStr =
+		    "\nnamespace FooName\n"
+		    "{\n"
+		    "\n"
+		    "class FooClass{\n"
+		    "private:\n"
+		    "    bool var1;\n"
+		    "    void func1();\n"
+		    "protected:\n"
+		    "    bool var2;\n"
+		    "    void func2();\n"
+		    "};\n"
+		    "\n"
+		    "void FooClass::Foo(bool isFoo) {\n"
+		    "    if (isFoo)\n"
+		    "    {\n"
+		    "        bar();\n"
+		    "    }\n"
+		    "    else\n"
+		    "        anotherBar();\n"
+		    "}\n"
+		    "\n"
+		    "}   // end FooName\n";
+		textIn = textStr.c_str();
+	}
+};
+
+TEST_F(StyleWebKitCppF, LongOption)
+{
+	// test webkit style option
+	char text[] =
+	    "\nnamespace FooName {\n"
+	    "\n"
+	    "class FooClass {\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n"
+	    "\n"
+	    "void FooClass::Foo(bool isFoo)\n"
+	    "{\n"
+	    "    if (isFoo) {\n"
+	    "        bar();\n"
+	    "    } else\n"
+	    "        anotherBar();\n"
+	    "}\n"
+	    "\n"
+	    "}   // end FooName\n";
+	char options[] = "style=webkit";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST_F(StyleWebKitCppF, Short)
+{
+	// test webkit style short option
+	char text[] =
+	    "\nnamespace FooName {\n"
+	    "\n"
+	    "class FooClass {\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n"
+	    "\n"
+	    "void FooClass::Foo(bool isFoo)\n"
+	    "{\n"
+	    "    if (isFoo) {\n"
+	    "        bar();\n"
+	    "    } else\n"
+	    "        anotherBar();\n"
+	    "}\n"
+	    "\n"
+	    "}   // end FooName\n";
+	char options[] = "-A17";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleWebKitCpp, SpaceIndent)
+{
+	// test webkit style option with space indent
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char text[] =
+	    "\nclass FooClass {\n"
+	    "private:\n"
+	    "      bool var1;\n"
+	    "      void func1();\n"
+	    "protected:\n"
+	    "      bool var2;\n"
+	    "      void func2();\n"
+	    "};\n";
+	char options[] = "style=webkit, indent=spaces=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleWebKitCpp, Tab)
+{
+	// test webkit style option with tab indent
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char text[] =
+	    "\nclass FooClass {\n"
+	    "private:\n"
+	    "	bool var1;\n"
+	    "	void func1();\n"
+	    "protected:\n"
+	    "	bool var2;\n"
+	    "	void func2();\n"
+	    "};\n";
+	char options[] = "style=webkit, indent=tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleWebKitCpp, TabIndent)
+{
+	// test webkit style option with tab indent
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char text[] =
+	    "\nclass FooClass {\n"
+	    "private:\n"
+	    "	bool var1;\n"
+	    "	void func1();\n"
+	    "protected:\n"
+	    "	bool var2;\n"
+	    "	void func2();\n"
+	    "};\n";
+	char options[] = "style=webkit, indent=tab=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleWebKitCpp, ForceTab)
+{
+	// test webkit style option with force tab
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char text[] =
+	    "\nclass FooClass {\n"
+	    "private:\n"
+	    "	bool var1;\n"
+	    "	void func1();\n"
+	    "protected:\n"
+	    "	bool var2;\n"
+	    "	void func2();\n"
+	    "};\n";
+	char options[] = "style=webkit, indent=force-tab";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleWebKitCpp, ForceTabIndent)
+{
+	// test webkit style option with force tab
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char text[] =
+	    "\nclass FooClass {\n"
+	    "private:\n"
+	    "	bool var1;\n"
+	    "	void func1();\n"
+	    "protected:\n"
+	    "	bool var2;\n"
+	    "	void func2();\n"
+	    "};\n";
+	char options[] = "style=webkit, indent=force-tab=6";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleWebKitCpp, IndentClasses)
+{
+	// test webkit style with indent classes
+	// classes should be indented
+	char textIn[] =
+	    "\nclass FooClass\n"
+	    "{\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char text[] =
+	    "\nclass FooClass {\n"
+	    "    private:\n"
+	    "        bool var1;\n"
+	    "        void func1();\n"
+	    "    protected:\n"
+	    "        bool var2;\n"
+	    "        void func2();\n"
+	    "};\n";
+	char options[] = "style=webkit, indent-classes";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleWebKitCpp, Struct)
+{
+	// test webkit style with a struct,
+	// structs should be attached
+	char text[] =
+	    "\nstruct FooStruct {\n"
+	    "private:\n"
+	    "    bool var1;\n"
+	    "    void func1();\n"
+	    "protected:\n"
+	    "    bool var2;\n"
+	    "    void func2();\n"
+	    "};\n";
+	char options[] = "style=webkit";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(StyleWebKitCpp, Enum)
+{
+	// test webkit style with an enum,
+	// enums should be attached
+	char text[] =
+	    "\nenum Encoding {\n"
+	    "    ENCODING_8BIT,\n"
+	    "    UTF_16BE,\n"
+	    "    UTF_16LE\n"
+	    "};\n";
+	char options[] = "style=webkit";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+//----------------------------------------------------------------------------
 // AStyle C++ Pico Style
 //----------------------------------------------------------------------------
 
