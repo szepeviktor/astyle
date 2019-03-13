@@ -22,9 +22,14 @@
     <ul>
         <li>Add new option "style=webkit" for the WebKit brace style.</li>
         <li>Improve recognition of pointer variable types.</li>
+        <li>Fix formatting of raw string literals with the opening &#39;(&#39; at the end of line (#519).</li>
+        <li>Fix indentation of comments in a preprocessor define indented with tabs (#506).</li>
+        <li>Fix vector limit segfault with g++-8, recursive, and -D_GLIBCXX_ASSERTIONS (#503).</li>
         <li>Refactoring:
             <ul>
                 <li>Extract new method for options in ASOptions class to avoid compiler limits.</li>
+                <li>Change vector push_back to emplace_back except for vector&lt;bool&gt;.</li>
+                <li>Changes from clang-tidy to modernize code.</li>
             </ul>
         </li>
     </ul>
@@ -33,9 +38,9 @@
 
     <ul>
         <li>Add new options "project", "project=####", and "project=none" (#11).</li>
-        <li>Add new options, &quot;break-return-type&quot; and &quot;break-return-type-decl&quot; (358, 286, 205, 16).
+        <li>Add new options, &quot;break-return-type&quot; and &quot;break-return-type-decl&quot; (#358, 286, 205, 16).
         </li>
-        <li>Add new options, &quot;attach-return-type&quot; and &quot;attach-return-type-decl&quot; (358, 286, 205, 16).
+        <li>Add new options, &quot;attach-return-type&quot; and &quot;attach-return-type-decl&quot; (#358, 286, 205, 16).
         </li>
         <li>Add new option "style=ratliff", as an alternate name for banner style.</li>
         <li>Add new environment variable ARTISTIC_STYLE_PROJECT_OPTIONS (#11).</li>
@@ -239,7 +244,7 @@
         <li>Fix indentation of C# &quot;let&quot; statements.</li>
         <li>Fix a few omissions with &quot;fill-empty-lines&quot;.</li>
         <li>Fix file read to read 64K blocks of data.</li>
-        <li>Refactor to un-obfuscate (clarify) the code, and improve design and decomposition:
+        <li>Refactor to clarify the code, and improve design and decomposition:
             <ul>
                 <li>Extract class Utf8_16 from ASConsole. </li>
                 <li>Replace Linux dependency on iconv with a Utf8_16 class for ASLibrary.</li>

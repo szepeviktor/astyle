@@ -50,8 +50,10 @@ private:	// variables
 	Translation* m_translationClass;// pointer to a polymorphic Translation class
 	string m_langID;				// language identifier from the locale
 	string m_subLangID;				// sub language identifier, if needed
-	string m_localeName;			// name of the current locale (Linux only)
+#ifdef _WIN32
 	size_t m_lcid;					// LCID of the user locale (Windows only)
+	size_t m_codepage;				// active codepage, 65001 = utf-8
+#endif
 };
 
 //----------------------------------------------------------------------------

@@ -4,7 +4,7 @@
 # NOTE: Use ~, not $HOME.  HOME is not defined in SciTE.
 
 # prefix may be changed for testing
-prefix=/usr
+prefix=/usr/local
 #prefix=/private/tmp/AStyle.dst/usr
 
 NORMAL="[0;39m"

@@ -1,6 +1,6 @@
 ---
 # clang-webkit.yaml
-# clang-format version 5.0
+# clang-format version 6.0
 Language:        Cpp
 # BasedOnStyle:  WebKit
 AccessModifierOffset: -4
@@ -31,6 +31,7 @@ BraceWrapping:
   AfterObjCDeclaration: false
   AfterStruct:     false
   AfterUnion:      false
+  AfterExternBlock: false
   BeforeCatch:     false
   BeforeElse:      false
   IndentBraces:    false
@@ -60,6 +61,7 @@ ForEachMacros:
   - foreach
   - Q_FOREACH
   - BOOST_FOREACH
+IncludeBlocks:   Preserve
 IncludeCategories:
   - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
     Priority:        2
@@ -69,6 +71,7 @@ IncludeCategories:
     Priority:        1
 IncludeIsMainRegex: '(Test)?$'
 IndentCaseLabels: false
+IndentPPDirectives: None
 IndentWidth:     4
 IndentWrappedFunctionNames: false
 JavaScriptQuotes: Leave
@@ -89,6 +92,10 @@ PenaltyBreakString: 1000
 PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 60
 PointerAlignment: Left
+RawStringFormats: 
+  - Delimiter:       pb
+    Language:        TextProto
+    BasedOnStyle:    google
 ReflowComments:  true
 SortIncludes:    false # true                    ##########
 SortUsingDeclarations: true

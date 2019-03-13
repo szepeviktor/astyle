@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(astyle CXX)
 
-# TODO: Make separate atrgets for astyle, astyleshared, astylejave, and astylelib.
+# TODO: Make separate targets for astyle, astyleshared, astylejave, and astylelib.
 # TODO: Separate the options into separate macros.
 
 # Build Options - executable by default, libraries on request
@@ -9,7 +9,7 @@ option(BUILD_JAVA_LIBS   "Build java library"   OFF)
 option(BUILD_SHARED_LIBS "Build shared library" OFF)
 option(BUILD_STATIC_LIBS "Build static library" OFF)
 
-# Release Build - release by default (except for Borland)
+# Release Build by default (except for Borland)
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
@@ -76,10 +76,18 @@ else()
         endif()
         install(TARGETS astyle DESTINATION ${prog_files}/AStyle)
         install(FILES ${DOCS} DESTINATION ${prog_files}/AStyle/doc/)
-    else()
+    elseif(APPLE)
+        # installs to the default /usr/local/bin because of SIP restrictions
         install(TARGETS astyle DESTINATION bin)
-        install(FILES ${DOCS} DESTINATION share/doc/astyle)
-    endif()
+        install(FILES ${DOCS} DESTINATION share/doc/astyle/html)
+    else()
+        # installs to /usr/bin, the same as package installs
+        if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+            set(CMAKE_INSTALL_PREFIX "/usr" FORCE)
+		endif()
+        install(TARGETS astyle DESTINATION bin)
+        install(FILES ${DOCS} DESTINATION share/doc/astyle/html)
+	endif()
 endif()
 
 # Set build-specific compile options
@@ -127,6 +135,7 @@ else()
     endif()
 endif()
 
+# Set linker options
 macro(set_linker_options)
     # Strip release builds
     if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
@@ -139,6 +148,7 @@ macro(set_linker_options)
     if(BUILD_SHARED_LIBS)
         set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")     # remove -rdynamic
         if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
+            # need static linking because cannot find the intel libraries at runtime
             set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-intel")
         elseif(MINGW)
             # minGW dlls don't work
@@ -153,11 +163,14 @@ endmacro()
 
 # Set default compile options for supported compilers
 if(APPLE)
-    target_compile_options(
-        astyle PRIVATE -W -Wall -fno-rtti -fno-exceptions -std=c++11 -stdlib=libc++)
+    target_compile_options( astyle PRIVATE -W -Wall -fno-rtti -fno-exceptions -std=c++11 -stdlib=libc++)
     set_linker_options()
 elseif(NOT WIN32)   # Linux
-    target_compile_options(astyle PRIVATE -Wall -fno-rtti -fno-exceptions -std=c++11)
+    target_compile_options(astyle PRIVATE -Wall -Wextra -fno-rtti -fno-exceptions -std=c++11)
+    if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel" AND CMAKE_BUILD_TYPE STREQUAL "Release")
+        # remove intel remarks for release build
+        target_compile_options(astyle PRIVATE -wd11074,11076)
+    endif()
     set_linker_options()
 elseif(MINGW)
     target_compile_options(astyle PRIVATE -Wall -Wextra -fno-rtti -fno-exceptions -std=c++11)

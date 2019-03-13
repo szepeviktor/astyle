@@ -4,7 +4,7 @@
 # NOTE: Use ~, not $HOME.  HOME is not defined in SciTE.
 
 # prefix may be changed for testing
-prefix=/usr
+prefix=/usr/local
 #prefix=/private/tmp/AStyle.dst/usr
 
 NORMAL="[0;39m"
@@ -67,9 +67,13 @@ if [ ! -d $SYSCONF_PATH/html ]; then
 	result=$?;	check_error
 fi
 # copy documentaion
-for files in ../../doc/*.html  ../../doc/*.css
+for files in astyle.html \
+             install.html \
+             news.html \
+             notes.html \
+             styles.css
 do
-	$INSTALL  -m 644  $files  $SYSCONF_PATH/html
+	$INSTALL  -m 644  "../../doc/$files"  $SYSCONF_PATH/html
 	result=$?;	check_error
 done
 
