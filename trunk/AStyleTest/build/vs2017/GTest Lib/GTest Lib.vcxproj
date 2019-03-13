@@ -22,7 +22,6 @@
     <ProjectGuid>{45FFCDB2-173B-49DC-9D35-D059626F78EF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>GTestLib</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

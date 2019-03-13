@@ -13,6 +13,7 @@ from __future__ import print_function
 import locale
 import os
 import shutil
+import stat
 import subprocess
 import time
 # local libraries
@@ -30,10 +31,10 @@ import libtest
 # SHARPDEVELOP      # C# - Compile on Windows only
 # SHARPMAIN         # C# - 1000 files from SharpDevelop
 # TESTPROJECT
-__project = libastyle.CODEBLOCKS
+__project = libastyle.SHARPMAIN
 
 # select OPT0 thru OPT3, or use customized options
-__options = libastyle.OPT0
+__options = libastyle.OPT1
 
 # options_x are for BOTH executables
 __options_x = ""
@@ -48,9 +49,13 @@ __astyleexe2 = "astyle"
 __extract_files = True
 #__extract_files = False
 
-# extract all files options, use False for speed
+# extract all files options, use False for speed, use True to compile
 #__all_files_option = True
 __all_files_option = False
+
+# use a ramdrive (for windows only)
+__ramdrive = True
+#__ramdrive = False
 
 # -----------------------------------------------------------------------------
 
@@ -62,6 +67,8 @@ def main():
     libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
     locale.setlocale(locale.LC_ALL, "")
+    if os.name == "nt":
+        process_windows_ramdrive()
     verify_options_x_variable()
     print_run_header()
     os.chdir(libastyle.get_file_py_directory())
@@ -104,8 +111,11 @@ def call_artistic_style(astyle, testfile):
         subprocess.check_call(astyle, stdout=outfile)
     except subprocess.CalledProcessError as err:
         libastyle.system_exit("Bad astyle return: " + str(err.returncode))
-    except OSError:
-        libastyle.system_exit("Cannot find executable: " + astyle[0])
+    except OSError as err:
+        if err.errno == 13:
+            libastyle.system_exit("Permission denied: " + astyle[0])
+        else:
+            print(err)
     outfile.close()
 
 # -----------------------------------------------------------------------------
@@ -135,13 +145,13 @@ def print_astyle_totals(filename):
        Returns files formatted and total files from the report total line.
     """
     # the native locale should be set to get the numeric formatting
-    formatted, totfiles, minute, sec = libtest.get_astyle_totals(filename)
+    formatted, totfiles, minute, second = libtest.get_astyle_totals(filename)
     if minute == 0:
         printline = "{0:n} formatted; {1:n} files; {2} seconds"
-        print(printline.format(formatted, totfiles, sec))
+        print(printline.format(formatted, totfiles, second))
     else:
-        printline = "{0:n} formatted; {1:n} files; {2} min {3} seconds"
-        print(printline.format(formatted, totfiles, minute, sec))
+        printline = "{0:n} formatted; {1:n} files; {2} minutes {3} seconds"
+        print(printline.format(formatted, totfiles, minute, second))
     return formatted, totfiles
 
 # -----------------------------------------------------------------------------
@@ -182,7 +192,7 @@ def print_run_header():
         print("OPT3", end=" ")
     else:
         print(__options, end=" ")
-    if len(__options_x.strip()) > 0:
+    if len(__options_x) > 0:
         print(__options_x, end=" ")
     if len(__options_x2) > 0:
         print("({0})".format(__options_x2), end=" ")
@@ -197,11 +207,11 @@ def print_run_total(starttime):
     stoptime = time.time()
     runtime = int(stoptime - starttime + 0.5)
     minute = int(runtime / 60)
-    sec = int(runtime % 60)
-    if min == 0:
-        print("{0} seconds total run time".format(sec))
+    second = int(runtime % 60)
+    if minute == 0:
+        print("{0} seconds total run time".format(second))
     else:
-        print("{0} min {1} seconds total run time".format(minute, sec))
+        print("{0} minutes {1} seconds total run time".format(minute, second))
     print()
 
 # -----------------------------------------------------------------------------
@@ -214,6 +224,24 @@ def print_test_header(testnum, astyleexe):
     print("TEST {0} with {1}".format(testnum, astyleexe), end='')
     print(' ' * spaces, end='')
     print(libastyle.get_formatted_time())
+
+# -----------------------------------------------------------------------------
+
+def process_windows_ramdrive():
+    """Check if a ramdrive is requested for Windows.
+       The ramdrive is mounted automatically, but must be unmounted manually.
+    """
+    if not os.name == "nt":
+        return
+    if __ramdrive:
+        if not os.path.exists("R:"):
+            libastyle.create_ramdrive()
+        if not os.path.exists("R:/" + libastyle.TEST_DIRECTORY):
+            os.mkdir("R:/" + libastyle.TEST_DIRECTORY)
+        print("Using OSFMount ramdrive")
+    else:
+        if os.path.exists("R:"):
+            libastyle.system_exit("Manually unmount OSFMount ramdrive")
 
 # -----------------------------------------------------------------------------
 
@@ -265,6 +293,8 @@ def verify_astyle_executables(exe1, exe2):
         if os.path.exists(regress1path):
             print("Copying " + exe1)
             shutil.copy(regress1path, exe1path)
+            if not os.access(exe1path, os.X_OK):
+                os.chmod(exe1path, stat.S_IREAD | stat.S_IWRITE | stat.S_IEXEC)
         else:
             libastyle.system_exit("Cannot find executable 1: " + exe1path)
     # check exe1 for most current by bumping the ending letter by 1
@@ -280,22 +310,18 @@ def verify_current_exe1(regress1path):
     """Check that the requested exe1 is the most current version.
     """
     # check exe1 for most current by bumping the ending letter by 1
-    alphas = "abcdefghijklmnopqrstuvwxyz"
+    alphas = "abcdefghijklmnopqrstuvwxyz0123456789"
     if os.name == "nt":
-        if regress1path[-5].isdigit():  # for first file from last release (AStyle1.exe)
-            return True
         index = alphas.find(regress1path[-5])
         if index == -1:
             libastyle.system_exit("Bad index for alpha: " + str(index))
         test1path = regress1path[:-5] + alphas[index + 1] + regress1path[-5 + 1:]
     else:
-        if regress1path[-1].isdigit():  # for first file from last release (astyle1)
-            return True
         index = alphas.find(regress1path[-1])
         if index == -1:
             libastyle.system_exit("Bad index for alpha: " + str(index))
         test1path = regress1path[:-1] + alphas[index + 1]
-    # is NOT most current if the next version exista
+    # is NOT most current if the next version exists
     if os.path.exists(test1path):
         return False
     return True

@@ -16,13 +16,13 @@ import libastyle
 
 # global variables ------------------------------------------------------------
 
-__minimum_version = "5.0"
+__minimum_version = "6.0"
 __src_dir = libastyle.get_astyle_directory() + "/src/"
 __py_dir = libastyle.get_astyletest_directory() + "/file-py/"
-__astyle_file_names = [os.path.basename(path)
-                       for path in glob.glob(__src_dir + "*.cpp")]
+#__astyle_file_names = [os.path.basename(path)
+ #                      for path in glob.glob(__src_dir + "*.cpp")]
 # can also check selected files in a list
-#__astyle_file_names = ["astyle_main.cpp"]
+__astyle_file_names = ["astyle_main.cpp"]
 
 # -----------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ def main():
     if os.name == "nt":
         tidy_exepath = "C:/Program Files/LLVM/bin/clang-tidy.exe"
     else:
-        tidy_exepath = "clang-tidy-5.0"
+        tidy_exepath = "clang-tidy"
 
     tidy_version = verify_clang_tidy_version(tidy_exepath)
     print("clang-tidy version " + tidy_version)
@@ -45,75 +45,53 @@ def main():
 
 def run_clang_tidy(tidy_exepath, tidy_version, file_name):
     """Run the clang-tidy program for the specified file.
+       List of clang-tidy checks:
+       https://clang.llvm.org/extra/clang-tidy/checks/list.html
        NOTE: The window stays open only if run from the console.
     """
     # cert-err34-c warns of using atoi errors - astyle_main checks the input length to avoid
     # cert-err58-cpp warns of static storage exceptions for static variables in ASResource
-    # cppcoreguidelines-owning-memory
-    # cppcoreguidelines-pro-bounds-array-to-pointer-decay is a false positive on asserts
-    # cppcoreguidelines-pro-bounds-pointer-arithmetic, don't use pointer arithmetic in astyle_main
-    # cppcoreguidelines-pro-type-member-init gives constructor does not initialize warning
-    # cppcoreguidelines-pro-type-vararg don't use printf in astyle_main
-    # cppcoreguidelines-special-member-functions add copy and move assignments
-    # fuchsia-default-arguments don't use default arguments
-    # google-build-using-namespace gives warning for "using namespace"
-    # google-readability-braces-around-statements
-    # google-readability-casting replaces c-style casts with c++ casts
-    # google-readability-todo adds username to todo comments
-    # google-runtime-references
-    # hicpp-braces-around-statements redirects to readability-braces-around-statements
-    # hicpp-member-init adds braces to member variables for initialization
-    # hicpp-special-member-functions same as cppcoreguidelines-special-member-functions
-    # hicpp-use-auto redirects to modernize-use-auto
-    # hicpp-use-noexcept redirects to modernize-use-noexcept
-    # llvm-header-guard adds the filepath to the header guard name
-    # misc-misplaced-widening-cast is casting size_t to int instead of int to size_t
-    # misc-unused-parameters caused several false positives, is checked by compiler
-    # readability-braces-around-statements expects braces around single statements
-    # readability-implicit-bool-cast use 'if (x=0)' instead of 'if (!x)'
-    # readability-implicit-bool-conversion replaces above ...bool-cast in version6
-    # readability-simplify-boolean-expr returns a conditional statement
-    #
-    # modernize-use-auto recommends using auto for variable types
-    # modernize-use-noexcept astyle uses no-exceptions compiler option
     #
     # to fix one option: (disable checks, add the option, include -fix)
     # clangtidy.append("-checks=-*,readability-implicit-bool-cast")
     # clangtidy.append("-fix")
     #
-    # version 5 checks
     tidy_checks = ("-checks=*,"
                    "-cert-err34-c,"
                    "-cert-err58-cpp,"
+                   "-cppcoreguidelines-owning-memory,"
                    "-cppcoreguidelines-pro-bounds-array-to-pointer-decay,"
                    "-cppcoreguidelines-pro-bounds-pointer-arithmetic,"
                    "-cppcoreguidelines-pro-type-member-init,"
                    "-cppcoreguidelines-pro-type-vararg,"
                    "-cppcoreguidelines-special-member-functions,"
+                   "-fuchsia-default-arguments,"
                    "-google-build-using-namespace,"
                    "-google-readability-braces-around-statements,"
                    "-google-readability-casting,"
                    "-google-readability-todo,"
                    "-google-runtime-references,"
+                   "-hicpp-braces-around-statements,"
                    "-hicpp-member-init,"
+                   "-hicpp-no-array-decay,"
+                   "-hicpp-signed-bitwise,"
                    "-hicpp-special-member-functions,"
+                   "-hicpp-use-auto,"
+                   "-hicpp-use-noexcept,"
+                   "-hicpp-vararg,"
                    "-llvm-header-guard,"
                    "-misc-misplaced-widening-cast,"
                    "-misc-unused-parameters,"
                    "-readability-braces-around-statements,"
                    "-readability-implicit-bool-cast,"
+                   "-readability-implicit-bool-conversion,"
                    "-readability-simplify-boolean-expr,"
                    "-modernize-use-auto,"
                    "-modernize-use-noexcept")
-    # version 6 checks
-    if tidy_version[:1] > "5":
-        tidy_checks += (","
-                        "-cppcoreguidelines-owning-memory,"
-                        "-fuchsia-default-arguments,"
-                        "-hicpp-braces-around-statements,"
-                        "-hicpp-use-auto,"
-                        "-hicpp-use-noexcept,"
-                        "-readability-implicit-bool-conversion")
+    # version 7 checks
+    # if tidy_version[:1] > "6":
+    #     tidy_checks += (",")
+
     clangtidy = [tidy_exepath]
     clangtidy.append(tidy_checks)
     clangtidy.append("-header-filter=.*")
@@ -122,6 +100,8 @@ def run_clang_tidy(tidy_exepath, tidy_version, file_name):
     clangtidy.append("-std=c++14")          # c++14 minimum is required for clang
     clangtidy.append("-fno-rtti")
     clangtidy.append("-fno-exceptions")
+#    clangtidy.append("-DASTYLE_LIB")
+
     # stdout file must have full path
     filename = __src_dir + "xclang-" + file_name + ".txt"
     outfile = open(filename, 'w')
@@ -156,7 +136,7 @@ def verify_clang_tidy_version(tidy_exepath):
         version = version.decode()
     version = version[40:43]
     if version < __minimum_version:
-        print("\nclang-tidy version", version,
+        print("clang-tidy version", version,
               "is less than minimum version", __minimum_version, "\n")
     return version
 

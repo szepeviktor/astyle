@@ -13,9 +13,9 @@ echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 echo "*                AStyle Intel Executable                *"
 echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 cd  "$HOME/Projects/AStyle"
-rm --recursive --force  as-intel-exe
-mkdir  --parents  as-intel-exe
-cd  as-intel-exe
+rm --recursive --force  as-intel
+mkdir  --parents  as-intel
+cd  as-intel
 CXX=icpc  cmake  $opts   ../
 make
 
@@ -59,15 +59,16 @@ copy=true
 if [ "$copy" = "true" ]; then
 	echo
 	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-	echo "*          Copy Files to AStyleDev for Testing          *"
+	echo "*      Copy Release Files to AStyleDev for Testing      *"
 	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-	cd ../
-	cp --verbose --force  as-intel-exe/astyle                ../AStyleDev/src-p/
-	cp --verbose --force  as-intel-so/libastyle.so.*         ../AStyleDev/src-o/
-	cp --verbose --force  as-intel-so/libastyle.so.?.?.?     ../AStyleDev/src-p/
-	cp --verbose --force  as-intel-so/libastyle.so.?.?.?     ../AStyleDev/src-s/
-	cp --verbose --force  as-intel-so/libastyle.so.?.?.?     ../AStyleDev/src-s2/
-	cp --verbose --force  as-intel-java/libastylej.so.?.?.?  ../AStyleDev/src-j/
+	cd  "$HOME/Projects/AStyle"
+	cp  -fpv --no-dereference  as-intel/astyle               ../AStyleDev/src-p/
+	cp  -fpv --no-dereference  as-intel-so/libastyle.so*     ../AStyleDev/src-c/
+	cp  -fpv --no-dereference  as-intel-so/libastyle.so*     ../AStyleDev/src-o/
+	cp  -fpv --no-dereference  as-intel-so/libastyle.so*     ../AStyleDev/src-p/
+	cp  -fpv --no-dereference  as-intel-so/libastyle.so*     ../AStyleDev/src-s/
+	cp  -fpv --no-dereference  as-intel-so/libastyle.so*     ../AStyleDev/src-s2/
+	cp  -fpv --no-dereference  as-intel-java/libastylej.so*  ../AStyleDev/src-j/
 fi
 
 

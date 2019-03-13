@@ -1794,6 +1794,42 @@ TEST(Cpp11Quote, RawStringLiteral5)
 	delete[] textOut;
 }
 
+TEST(Cpp11Quote, RawStringLiteral6)
+{
+	// test C++11 raw string literal (verbatim quote)
+	// opening paren at the end of a line
+	// the following function should be correctly formatted
+	// the end of the string should be recognized
+	char textIn[] =
+	    "\nvoid foo()\n"
+	    "{\n"
+	    "    //sql.SELECT\n"
+	    "    sSQL.Clear() << R\"(\n"	// opening paren at end
+	    "SELECT TRIM(doc_type)\n"
+	    "FROM doc_types\n"
+	    ")\";\n"
+	    "}\n"
+	    "void foo()\n"					// this function should be whitesmith
+	    "{\n"
+	    "}\n";
+	char text[] =
+	    "\nvoid foo()\n"
+	    "    {\n"
+	    "    //sql.SELECT\n"
+	    "    sSQL.Clear() << R\"(\n"	// opening paren at end
+	    "SELECT TRIM(doc_type)\n"
+	    "FROM doc_types\n"
+	    ")\";\n"
+	    "    }\n"
+	    "void foo()\n"					// this function should be whitesmith
+	    "    {\n"
+	    "    }\n";
+	char options[] = "style=whitesmith";
+	char* textOut = AStyleMain(textIn, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle C++14 Digit Separator
 //----------------------------------------------------------------------------

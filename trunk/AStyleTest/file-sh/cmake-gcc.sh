@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # USE ONE OF THESE OPTIONS
-opts=
+#opts=
 # opts=-DCMAKE_VERBOSE_MAKEFILE=1
 # opts="-DCMAKE_BUILD_TYPE=Debug  -DCMAKE_VERBOSE_MAKEFILE=1"
 # opts=-DCMAKE_BUILD_TYPE="MinSizeRel"
-# opts=-DCMAKE_INSTALL_PREFIX=/usr
+opts=-DCMAKE_INSTALL_PREFIX=$HOME/tester
 # echo $opts
 
 # Executable
@@ -14,9 +14,9 @@ echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 echo "*                 AStyle GCC Executable                 *"
 echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 cd  "$HOME/Projects/AStyle"
-rm --recursive --force  as-gcc-exe
-mkdir  --parents  as-gcc-exe
-cd  as-gcc-exe
+rm --recursive --force  as-gcc
+mkdir  --parents  as-gcc
+cd  as-gcc
 cmake  $opts   ../
 make
 
@@ -62,13 +62,14 @@ if [ "$copy" = "true" ]; then
 	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 	echo "*          Copy Files to AStyleDev for Testing          *"
 	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-	cd ../
-	cp --verbose --force  as-gcc-exe/astyle                ../AStyleDev/src-p/
-	cp --verbose --force  as-gcc-so/libastyle.so.*         ../AStyleDev/src-o/
-	cp --verbose --force  as-gcc-so/libastyle.so.?.?.?     ../AStyleDev/src-p/
-	cp --verbose --force  as-gcc-so/libastyle.so.?.?.?     ../AStyleDev/src-s/
-	cp --verbose --force  as-gcc-so/libastyle.so.?.?.?     ../AStyleDev/src-s2/
-	cp --verbose --force  as-gcc-java/libastylej.so.?.?.?  ../AStyleDev/src-j/
+	cd  "$HOME/Projects/AStyle"
+	cp  -fpv --no-dereference  as-gcc/astyle               ../AStyleDev/src-p/
+	cp  -fpv --no-dereference  as-gcc-so/libastyle.so*     ../AStyleDev/src-c/
+	cp  -fpv --no-dereference  as-gcc-so/libastyle.so*     ../AStyleDev/src-o/
+	cp  -fpv --no-dereference  as-gcc-so/libastyle.so*     ../AStyleDev/src-p/
+	cp  -fpv --no-dereference  as-gcc-so/libastyle.so*     ../AStyleDev/src-s/
+	cp  -fpv --no-dereference  as-gcc-so/libastyle.so*     ../AStyleDev/src-s2/
+	cp  -fpv --no-dereference  as-gcc-java/libastylej.so*  ../AStyleDev/src-j/
 fi
 
 

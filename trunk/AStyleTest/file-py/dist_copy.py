@@ -18,11 +18,11 @@ import libastyle
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-AS_RELEASE = "3.1"
+AS_RELEASE = "3.2"
 
 # extract all platforms for testing (Windows, Linux, Mac)
-EXTRACT_ALL = False
-#EXTRACT_ALL = True
+#EXTRACT_ALL = False
+EXTRACT_ALL = True
 
 # inut from AStyle directory
 __astyle_dir = libastyle.get_astyle_directory()
@@ -200,8 +200,8 @@ def build_windows_distribution():
 
     print("Compiling with ({0})".format(vsdir))
     print("Building AStyle release", AS_RELEASE)
-    if vsdir < "vs2013":
-        libastyle.system_exit("Must compile with vs2013 or greater in libastyle: " + vsdir)
+    if vsdir < "vs2015":
+        libastyle.system_exit("Must compile with vs2015 or greater in libastyle: " + vsdir)
     dist_base = __base_dir + "/DistWindows"
     dist_astyle = dist_base + "/AStyle"
     os.makedirs(dist_astyle)
@@ -313,11 +313,11 @@ def copy_astyle_doc(dist_doc, to_dos=False):
     for filepath in docfiles:
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
-        if (filename == "astyle.html"
-                or filename == "install.html"
-                or filename == "news.html"
-                or filename == "notes.html"
-                or filename == "styles.css"):
+        if filename in ("astyle.html",
+                        "install.html",
+                        "news.html",
+                        "notes.html",
+                        "styles.css"):
             shutil.copy(filepath, dist_doc)
             print("    " + filename)
         else:
@@ -341,7 +341,7 @@ def copy_astyle_file(dist_file, to_dos=False):
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
         unused, ext = os.path.splitext(filename)
-        if ext != ".yaml" and ext != ".md":
+        if ext not in (".yaml", ".md"):
             shutil.copy(filepath, dist_file)
             print("    " + filename)
         else:
@@ -379,9 +379,9 @@ def copy_astyle_top(dist_top, to_dos=False):
     for filepath in docfiles:
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
-        if (filename == "LICENSE.md"
-                or filename == "README.md"
-                or filename == "CMakeLists.txt"):
+        if filename in ("LICENSE.md",
+                        "README.md",
+                        "CMakeLists.txt"):
             shutil.copy(filepath, dist_top)
             print("    " + filename)
         else:
@@ -479,15 +479,15 @@ def copy_linux_build_directories(dist_build):
     build_dir_list = sorted(os.listdir(buildfiles))
     for unused, build_dir in enumerate(build_dir_list):
         # build/codeblocks directories
-        if (build_dir.startswith("cb-clang")
-                or build_dir.startswith("cb-gcc")
-                or build_dir.startswith("cb-intel")):
+        if build_dir in ("cb-clang",
+                         "cb-gcc",
+                         "cb-intel"):
             print("    " + build_dir)
             copy_build_directories_cb(dist_build, build_dir)
         # build makefile directories
-        if (build_dir.startswith("clang")
-                or build_dir.startswith("gcc")
-                or build_dir.startswith("intel")):
+        if build_dir in ("clang",
+                         "gcc",
+                         "intel"):
             print("    " + build_dir)
             copy_build_directories_make(dist_build, build_dir)
 
@@ -533,6 +533,7 @@ def copy_windows_build_directories(dist_build):
 
         # build/vs directories
         if (build_dir.startswith("vs20")
+                and not build_dir.startswith("vs2013")      # vs2013 not supported
                 and not (build_dir.endswith("-clang")
                          or build_dir.endswith("-wsl"))):
             print("    " + build_dir)

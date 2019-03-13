@@ -175,7 +175,7 @@ TEST_F(ProcessMiscOptions3F, HelpOption)
 	optionsIn.push_back("--help");
 	redirectStream();
 	// astyle will exit after display
-#if GTEST_HAS_DEATH_TEST
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for help option display
 	// should have a good return
 	EXPECT_EXIT(console->processOptions(optionsIn),
@@ -204,7 +204,7 @@ TEST_F(ProcessMiscOptions3F, HelpOption_Short1)
 	optionsIn.push_back("-h");
 	redirectStream();
 	// astyle will exit after display
-#if GTEST_HAS_DEATH_TEST
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for help option display
 	// should have a good return
 	EXPECT_EXIT(console->processOptions(optionsIn),
@@ -233,7 +233,7 @@ TEST_F(ProcessMiscOptions3F, HelpOption_Short2)
 	optionsIn.push_back("-?");
 	redirectStream();
 	// astyle will exit after display
-#if GTEST_HAS_DEATH_TEST
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for help option display
 	// should have a good return
 	EXPECT_EXIT(console->processOptions(optionsIn),
@@ -262,7 +262,7 @@ TEST_F(ProcessMiscOptions3F, VersionOption)
 	optionsIn.push_back("--version");
 	redirectStream();
 	// astyle will exit after display
-#if GTEST_HAS_DEATH_TEST
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for version option display
 	// should have a good return
 	EXPECT_EXIT(console->processOptions(optionsIn),
@@ -287,7 +287,7 @@ TEST_F(ProcessMiscOptions3F, VersionOption_Short)
 	optionsIn.push_back("-V");
 	redirectStream();
 	// astyle will exit after display
-#if GTEST_HAS_DEATH_TEST
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for version option display
 	// should have a good return
 	EXPECT_EXIT(console->processOptions(optionsIn),
@@ -317,7 +317,7 @@ TEST_F(ProcessMiscOptions3F, HtmlOption)
 	optionsIn.push_back("--html");
 	redirectStream();
 	// astyle will exit after display
-#if GTEST_HAS_DEATH_TEST
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for html option display
 	// should have a good return
 	EXPECT_EXIT(console->processOptions(optionsIn),
@@ -345,7 +345,7 @@ TEST_F(ProcessMiscOptions3F, HtmlOption_Short)
 	optionsIn.push_back("-!");
 	redirectStream();
 	// astyle will exit after display
-#if GTEST_HAS_DEATH_TEST
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for html option display
 	// should have a good return
 	EXPECT_EXIT(console->processOptions(optionsIn),
@@ -374,7 +374,7 @@ TEST_F(ProcessMiscOptions3F, HtmlOption_ValidFileName)
 	optionsIn.push_back("--html=astyle.html");
 	redirectStream();
 	// astyle will exit after display
-#if GTEST_HAS_DEATH_TEST
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for html option display
 	// should have a good return
 	EXPECT_EXIT(console->processOptions(optionsIn),
@@ -382,7 +382,7 @@ TEST_F(ProcessMiscOptions3F, HtmlOption_ValidFileName)
 	            "");
 	string textOut = restoreStream();
 	// check a sample of the text
-	size_t output = textOut.find("Opening HTML documentation ");
+	size_t output = textOut.find("Opening HTML documentation");
 	// allow "Cannot open" message if the path is correct
 	if (output == string::npos
 	        && textOut.find("Cannot open HTML file") != string::npos)
@@ -411,7 +411,7 @@ TEST_F(ProcessMiscOptions3F, HtmlOption_InvalidFileName)
 	optionsIn.push_back("--html=invalid-name.html");
 	redirectStream();
 	// astyle will exit after display
-#if GTEST_HAS_DEATH_TEST
+#if GTEST_HAS_DEATH_TEST && !(LEAK_DETECTOR || LEAK_FINDER)
 	// test processOptions for invalid file name
 	EXPECT_EXIT(console->processOptions(optionsIn),
 	            ExitedWithCode(EXIT_SUCCESS),

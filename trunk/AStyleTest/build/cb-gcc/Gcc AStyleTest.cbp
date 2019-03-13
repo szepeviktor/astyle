@@ -13,32 +13,10 @@
 				<Option compiler="gcc" />
 				<Option parameters="--terse_output" />
 				<Compiler>
-					<Add option="-Wnon-virtual-dtor" />
-					<Add option="-Wshadow" />
-					<Add option="-Winit-self" />
-					<Add option="-Wredundant-decls" />
-					<Add option="-Wcast-align" />
-					<Add option="-Wfloat-equal" />
-					<Add option="-Winline" />
-					<Add option="-Wunreachable-code" />
-					<Add option="-Wmissing-declarations" />
-					<Add option="-Wmissing-include-dirs" />
-					<Add option="-Wmain" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-g" />
-					<Add option="-Wswitch" />
-					<Add option="-Wno-deprecated-declarations" />
-					<Add option="-Wempty-body" />
-					<Add option="-Wconversion" />
-					<Add option="-Wreturn-type" />
-					<Add option="-Wparentheses" />
-					<Add option="-Wno-format" />
-					<Add option="-Wuninitialized" />
-					<Add option="-Wunused-function" />
-					<Add option="-Wunused-value" />
-					<Add option="-Wunused-variable" />
 					<Add option="-DASTYLE_LIB" />
 					<Add directory="../../src" />
 					<Add directory="../../srcx" />
@@ -57,31 +35,9 @@
 				<Option compiler="gcc" />
 				<Option parameters=" --gtest_print_time=0" />
 				<Compiler>
-					<Add option="-Wnon-virtual-dtor" />
-					<Add option="-Wshadow" />
-					<Add option="-Winit-self" />
-					<Add option="-Wredundant-decls" />
-					<Add option="-Wcast-align" />
-					<Add option="-Wfloat-equal" />
-					<Add option="-Winline" />
-					<Add option="-Wunreachable-code" />
-					<Add option="-Wmissing-declarations" />
-					<Add option="-Wmissing-include-dirs" />
-					<Add option="-Wmain" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
-					<Add option="-Wswitch" />
-					<Add option="-Wno-deprecated-declarations" />
-					<Add option="-Wempty-body" />
-					<Add option="-Wconversion" />
-					<Add option="-Wreturn-type" />
-					<Add option="-Wparentheses" />
-					<Add option="-Wno-format" />
-					<Add option="-Wuninitialized" />
-					<Add option="-Wunused-function" />
-					<Add option="-Wunused-value" />
-					<Add option="-Wunused-variable" />
 					<Add option="-DASTYLE_LIB" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../src" />
@@ -95,9 +51,9 @@
 					<Add directory="bin" />
 				</Linker>
 			</Target>
-			<Target title="Coverage">
-				<Option output="bin/AStyleTestc" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Coverage/" />
+			<Target title="Lint">
+				<Option output="bin/AStyleTestl" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Lint/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option parameters="--terse_output" />
@@ -107,12 +63,56 @@
 					<Add option="-Winit-self" />
 					<Add option="-Wredundant-decls" />
 					<Add option="-Wcast-align" />
+					<Add option="-Wundef" />
 					<Add option="-Wfloat-equal" />
 					<Add option="-Winline" />
 					<Add option="-Wunreachable-code" />
 					<Add option="-Wmissing-declarations" />
 					<Add option="-Wmissing-include-dirs" />
+					<Add option="-Wswitch-enum" />
+					<Add option="-Wswitch-default" />
+					<Add option="-Wzero-as-null-pointer-constant" />
 					<Add option="-Wmain" />
+					<Add option="-pedantic" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-Wconversion" />
+					<Add option="-Wempty-body" />
+					<Add option="-Wint-to-pointer-cast" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-Wno-format" />
+					<Add option="-Wno-switch-default" />
+					<Add option="-Wno-undef" />
+					<Add option="-Wno-zero-as-null-pointer-constant" />
+					<Add option="-Woverloaded-virtual" />
+					<Add option="-Wparentheses" />
+					<Add option="-Wreturn-type" />
+					<Add option="-Wswitch" />
+					<Add option="-Wuninitialized" />
+					<Add option="-Wunused-function" />
+					<Add option="-Wunused-value" />
+					<Add option="-Wunused-variable" />
+					<Add option="-Wwrite-strings" />
+					<Add option="-DASTYLE_LIB" />
+					<Add directory="../../src" />
+					<Add directory="../../srcx" />
+					<Add directory="../../../AStyle/src" />
+					<Add directory="../../../googletest/include" />
+				</Compiler>
+				<Linker>
+					<Add library="gtestd" />
+					<Add directory="bin" />
+				</Linker>
+			</Target>
+			<Target title="Coverage">
+				<Option output="bin/AStyleTestc" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Coverage/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="--terse_output" />
+				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />

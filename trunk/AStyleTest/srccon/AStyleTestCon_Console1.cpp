@@ -806,15 +806,18 @@ TEST(ProcessDefaultOptions, Utf16LE)
 	ASEncoding encode;         // file encoding conversion from astyle
 	ostringstream out;
 	size_t utf16Size = encode.utf16LengthFromUtf8(fileIn, strlen(fileIn));
-	unique_ptr<char> utf16Out(new char[utf16Size]);
-	size_t utf16Len = encode.utf8ToUtf16(fileIn, strlen(fileIn), false, utf16Out.get());
+	// NOTE: do not use smart pointer here
+	char* utf16Out = new (nothrow) char[utf16Size];
+	if (utf16Out == nullptr)
+		FAIL() << "Cannot allocate utf16Out";
+	size_t utf16Len = encode.utf8ToUtf16(fileIn, strlen(fileIn), false, utf16Out);
 	EXPECT_TRUE(utf16Len <= utf16Size) << "Bad conversion length.";
 
 	// write the utf-16le options file
 	string optionFileName = getTestDirectory() + "/astylerc.txt";
 	console->standardizePath(optionFileName);
 	ofstream fout(optionFileName.c_str(), ios::binary | ios::trunc);
-	fout << string(utf16Out.get(), utf16Len);
+	fout << string(utf16Out, utf16Len);
 	if (!fout)
 	{
 		systemPause("Cannot write options test file: " + optionFileName);
@@ -832,6 +835,7 @@ TEST(ProcessDefaultOptions, Utf16LE)
 	for (size_t i = 0; i < fileOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
 	removeTestFile(optionFileName);
+	delete[] utf16Out;
 }
 
 TEST(ProcessDefaultOptions, Utf16BE)
@@ -854,15 +858,18 @@ TEST(ProcessDefaultOptions, Utf16BE)
 	ASEncoding encode;         // file encoding conversion from astyle
 	ostringstream out;
 	size_t utf16Size = encode.utf16LengthFromUtf8(fileIn, strlen(fileIn));
-	unique_ptr<char> utf16Out(new char[utf16Size]);
-	size_t utf16Len = encode.utf8ToUtf16(fileIn, strlen(fileIn), true, utf16Out.get());
+	// NOTE: do not use smart pointer here
+	char* utf16Out = new (nothrow) char[utf16Size];
+	if (utf16Out == nullptr)
+		FAIL() << "Cannot allocate utf16Out";
+	size_t utf16Len = encode.utf8ToUtf16(fileIn, strlen(fileIn), true, utf16Out);
 	EXPECT_TRUE(utf16Len <= utf16Size) << "Bad conversion length.";
 
 	// write the utf-16be options file
 	string optionFileName = getTestDirectory() + "/astylerc.txt";
 	console->standardizePath(optionFileName);
 	ofstream fout(optionFileName.c_str(), ios::binary | ios::trunc);
-	fout << string(utf16Out.get(), utf16Len);
+	fout << string(utf16Out, utf16Len);
 	if (!fout)
 	{
 		systemPause("Cannot write options test file: " + optionFileName);
@@ -880,6 +887,7 @@ TEST(ProcessDefaultOptions, Utf16BE)
 	for (size_t i = 0; i < fileOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], fileOptionsVector[i]);
 	removeTestFile(optionFileName);
+	delete[] utf16Out;
 }
 
 //----------------------------------------------------------------------------
@@ -1075,19 +1083,14 @@ TEST(ProcessProjectOptions, EnvironmentVariable)
 	fileOptions.push_back("--style=allman");
 	fileOptions.push_back("-OoP");
 	fileOptions.push_back("--indent-classes");
-	// set the new environment variable
-	string envValue = "ARTISTIC_STYLE_PROJECT_OPTIONS=astyle.ini";;
-	int isError = putenv(const_cast<char*>(envValue.c_str()));
-	if (isError)
-	{
-		systemPause("Cannot set ARTISTIC_STYLE_PROJECT_OPTIONS environment variable");
-		return;
-	}
 	// write the options file
 	string optionFileName = getTestDirectory() + "/astyle.ini";
 	console->standardizePath(optionFileName);
 	if (!writeOptionsFile(optionFileName, fileIn))
 		return;
+	// set the new environment variable
+	if (putenv(const_cast<char*>("ARTISTIC_STYLE_PROJECT_OPTIONS=astyle.ini")))
+		FAIL() << "Cannot set ARTISTIC_STYLE_PROJECT_OPTIONS environment variable";
 	// build fileOptionsVector
 	vector<string> optionsIn;
 	optionsIn.push_back(getTestDirectory() + "/*.cpp");
@@ -1097,10 +1100,14 @@ TEST(ProcessProjectOptions, EnvironmentVariable)
 	EXPECT_EQ(fileOptions.size(), projectOptionsVector.size()) << "Vector sizes not equal.";
 	for (size_t i = 0; i < projectOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], projectOptionsVector[i]);
-	// clear the environment variable
-	string envClear = "ARTISTIC_STYLE_PROJECT_OPTIONS=";
-	putenv(const_cast<char*>(envClear.c_str()));
 	// cleanup
+#ifdef _WIN32
+	putenv("ARTISTIC_STYLE_PROJECT_OPTIONS=");
+#else
+	unsetenv("ARTISTIC_STYLE_PROJECT_OPTIONS");
+#endif
+	if (getenv("ARTISTIC_STYLE_PROJECT_OPTIONS"))
+		FAIL() << "ARTISTIC_STYLE_PROJECT_OPTIONS was not deleted.";
 	removeTestFile(optionFileName);
 }
 
@@ -1117,19 +1124,14 @@ TEST(ProcessProjectOptions, DisableEnvironmentVariable)
 	fileOptions.push_back("--style=allman");
 	fileOptions.push_back("-OoP");
 	fileOptions.push_back("--indent-classes");
-	// set the new environment variable
-	string envValue = "ARTISTIC_STYLE_PROJECT_OPTIONS=astyle.ini";;
-	int isError = putenv(const_cast<char*>(envValue.c_str()));
-	if (isError)
-	{
-		systemPause("Cannot set ARTISTIC_STYLE_PROJECT_OPTIONS environment variable");
-		return;
-	}
 	// write the options file
 	string optionFileName = getTestDirectory() + "/astyle.ini";
 	console->standardizePath(optionFileName);
 	if (!writeOptionsFile(optionFileName, fileIn))
 		return;
+	// set the new environment variable
+	if (putenv(const_cast<char*>("ARTISTIC_STYLE_PROJECT_OPTIONS=astyle.ini")))
+		FAIL() << "Cannot set ARTISTIC_STYLE_PROJECT_OPTIONS environment variable";
 	// build argvOptionsVector
 	// test that 'none' will override command line and environment
 	vector<string> optionsIn;
@@ -1140,10 +1142,14 @@ TEST(ProcessProjectOptions, DisableEnvironmentVariable)
 	// projectOptionsVector should be empty
 	vector<string> projectOptionsVector = console->getProjectOptionsVector();
 	EXPECT_EQ(0U, projectOptionsVector.size()) << "Vector should be empty.";
-	// clear the environment variable
-	string envClear = "ARTISTIC_STYLE_PROJECT_OPTIONS=";
-	putenv(const_cast<char*>(envClear.c_str()));
 	// cleanup
+#ifdef _WIN32
+	putenv("ARTISTIC_STYLE_PROJECT_OPTIONS=");
+#else
+	unsetenv("ARTISTIC_STYLE_PROJECT_OPTIONS");
+#endif
+	if (getenv("ARTISTIC_STYLE_PROJECT_OPTIONS"))
+		FAIL() << "ARTISTIC_STYLE_PROJECT_OPTIONS was not deleted.";
 	removeTestFile(optionFileName);
 }
 
@@ -1161,19 +1167,14 @@ TEST(ProcessProjectOptions, OverrideEnvironmentVariable)
 	fileOptions.push_back("--style=allman");
 	fileOptions.push_back("-OoP");
 	fileOptions.push_back("--indent-classes");
-	// set the new environment variable
-	string envValue = "ARTISTIC_STYLE_PROJECT_OPTIONS=astyle-env.ini";;
-	int isError = putenv(const_cast<char*>(envValue.c_str()));
-	if (isError)
-	{
-		systemPause("Cannot set ARTISTIC_STYLE_PROJECT_OPTIONS environment variable");
-		return;
-	}
 	// write the options file
 	string optionFileName = getTestDirectory() + "/astyle.ini";
 	console->standardizePath(optionFileName);
 	if (!writeOptionsFile(optionFileName, fileIn))
 		return;
+	// set the new environment variable
+	if (putenv(const_cast<char*>("ARTISTIC_STYLE_PROJECT_OPTIONS=astyle.ini")))
+		FAIL() << "Cannot set ARTISTIC_STYLE_PROJECT_OPTIONS environment variable";
 	// build argvOptionsVector
 	// test that 'project=' will override the environment variable
 	vector<string> optionsIn;
@@ -1183,10 +1184,14 @@ TEST(ProcessProjectOptions, OverrideEnvironmentVariable)
 	// check projectOptionFileName
 	string projectOptionFileName = console->getProjectOptionFileName();
 	EXPECT_EQ("astyle.ini", projectOptionFileName);
-	// clear the environment variable
-	string envClear = "ARTISTIC_STYLE_PROJECT_OPTIONS=";
-	putenv(const_cast<char*>(envClear.c_str()));
 	// cleanup
+#ifdef _WIN32
+	putenv("ARTISTIC_STYLE_PROJECT_OPTIONS=");
+#else
+	unsetenv("ARTISTIC_STYLE_PROJECT_OPTIONS");
+#endif
+	if (getenv("ARTISTIC_STYLE_PROJECT_OPTIONS"))
+		FAIL() << "ARTISTIC_STYLE_PROJECT_OPTIONS was not deleted.";
 	removeTestFile(optionFileName);
 }
 
@@ -1398,15 +1403,18 @@ TEST(ProcessProjectOptions, Utf16LE)
 	ASEncoding encode;         // file encoding conversion from astyle
 	ostringstream out;
 	size_t utf16Size = encode.utf16LengthFromUtf8(fileIn, strlen(fileIn));
-	unique_ptr<char> utf16Out(new char[utf16Size]);
-	size_t utf16Len = encode.utf8ToUtf16(fileIn, strlen(fileIn), false, utf16Out.get());
+	// NOTE: do not use smart pointer here
+	char* utf16Out = new (nothrow) char[utf16Size];
+	if (utf16Out == nullptr)
+		FAIL() << "Cannot allocate utf16Out";
+	size_t utf16Len = encode.utf8ToUtf16(fileIn, strlen(fileIn), false, utf16Out);
 	EXPECT_TRUE(utf16Len <= utf16Size) << "Bad conversion length.";
 
 	// write the utf-16le options file
 	string optionFileName = getTestDirectory() + "/astylerc.txt";
 	console->standardizePath(optionFileName);
 	ofstream fout(optionFileName.c_str(), ios::binary | ios::trunc);
-	fout << string(utf16Out.get(), utf16Len);
+	fout << string(utf16Out, utf16Len);
 	if (!fout)
 	{
 		systemPause("Cannot write options test file: " + optionFileName);
@@ -1425,6 +1433,7 @@ TEST(ProcessProjectOptions, Utf16LE)
 	for (size_t i = 0; i < projectOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], projectOptionsVector[i]);
 	removeTestFile(optionFileName);
+	delete[] utf16Out;
 }
 
 TEST(ProcessProjectOptions, Utf16BE)
@@ -1447,15 +1456,18 @@ TEST(ProcessProjectOptions, Utf16BE)
 	ASEncoding encode;         // file encoding conversion from astyle
 	ostringstream out;
 	size_t utf16Size = encode.utf16LengthFromUtf8(fileIn, strlen(fileIn));
-	unique_ptr<char> utf16Out(new char[utf16Size]);
-	size_t utf16Len = encode.utf8ToUtf16(fileIn, strlen(fileIn), true, utf16Out.get());
+	// NOTE: do not use smart pointer here
+	char* utf16Out = new (nothrow) char[utf16Size];
+	if (utf16Out == nullptr)
+		FAIL() << "Cannot allocate utf16Out";
+	size_t utf16Len = encode.utf8ToUtf16(fileIn, strlen(fileIn), true, utf16Out);
 	EXPECT_TRUE(utf16Len <= utf16Size) << "Bad conversion length.";
 
 	// write the utf-16be options file
 	string optionFileName = getTestDirectory() + "/astylerc.txt";
 	console->standardizePath(optionFileName);
 	ofstream fout(optionFileName.c_str(), ios::binary | ios::trunc);
-	fout << string(utf16Out.get(), utf16Len);
+	fout << string(utf16Out, utf16Len);
 	if (!fout)
 	{
 		systemPause("Cannot write options test file: " + optionFileName);
@@ -1474,6 +1486,7 @@ TEST(ProcessProjectOptions, Utf16BE)
 	for (size_t i = 0; i < projectOptionsVector.size(); i++)
 		EXPECT_EQ(fileOptions[i], projectOptionsVector[i]);
 	removeTestFile(optionFileName);
+	delete[] utf16Out;
 }
 
 //----------------------------------------------------------------------------

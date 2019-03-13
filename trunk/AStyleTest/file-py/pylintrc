@@ -29,8 +29,7 @@ const-rgx=(([A-Z_][A-Z0-9_]*)|(__.*))$
 
 [FORMAT]
 # Maximum number of characters on a single line.
-# max-line-length=  80 to 120
-max-line-length=110
+max-line-length=130
 
 # Regexp for a line that is allowed to be longer than the limit.
 # Default: ``^\s*(# )?<?https?://\S+>?$``
@@ -60,7 +59,10 @@ exclude-protected=_exit
 max-locals=20
 
 # Maximum number of branch for function / method body
-max-branches=20
+max-branches=50
+
+# Maximum number of statements in function / method body
+max-statements=99
 
 # Maximum number of boolean expressions in a if statement
 max-bool-expr=10

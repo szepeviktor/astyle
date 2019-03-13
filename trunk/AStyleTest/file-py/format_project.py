@@ -138,7 +138,7 @@ def format_astyle_test_i18n():
     call_astyle_executable("AStyleTest/srci18n/*.cpp,*.h")
     print()
     # uses a header from the srccon directory
-    call_astyle_executable("AStyleTest/srccon/*.h")
+    call_astyle_executable("AStyleTest/srccon/*.cpp,*.h")
     print()
 
 # -----------------------------------------------------------------------------

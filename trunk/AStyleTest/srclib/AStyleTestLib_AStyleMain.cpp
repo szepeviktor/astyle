@@ -433,6 +433,7 @@ TEST_F(AStyleMainUtf16F1, NullConvertOptions)
 	int errorsOut = getErrorHandler2Calls();
 	EXPECT_EQ(errorsIn + 1, errorsOut);
 	EXPECT_EQ(nullptr, textOut);
+	delete[] utf8Formatted;
 	delete[] textOut;	// should not cause a problem with nullptr
 }
 

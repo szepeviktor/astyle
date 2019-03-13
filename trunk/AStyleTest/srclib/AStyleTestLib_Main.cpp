@@ -24,10 +24,10 @@ int errorHandler2Calls;
 int main(int argc, char** argv)
 {
 	// parse command line BEFORE InitGoogleTest
-	bool useTersePrinter = true;	// ALWAYS true (for testing only)
-	bool useTerseOutput = false;	// option for terse (true) or all (false)
-	bool useColor = true;
-	bool noClose = false;
+	bool useTersePrinter = true;	// sets test listener, false is for testing only
+	bool useTerseOutput = false;	// option from "--terse_output"
+	bool useColor = true;			// option from "--gtest_color"
+	bool noClose = false;			// don't close the terminal at eoj
 	for (int i = 1; i < argc; i++)
 	{
 		if (strcmp(argv[i], "--terse_output") == 0)
@@ -53,7 +53,8 @@ int main(int argc, char** argv)
 	// is missing from the project. The UnitTest reflection API in
 	// example 9 will not work here because of user modifications.
 	// Change the following value to the number of tests (within 10).
-	TersePrinter::PrintTestTotals(20, __FILE__, __LINE__);
+	if (useTersePrinter)
+		TersePrinter::PrintTestTotals(20, __FILE__, __LINE__);
 
 #ifdef _WIN32
 	printf("%c", '\n');

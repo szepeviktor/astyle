@@ -82,11 +82,11 @@ int main(int argc, char** argv)
 	// the following statement will be printed at beginning of job
 	// and before a death test
 //	printf("Test directory: %s.\n", (*g_testDirectory).c_str());
-	// parse command line BEFORE InitGoogleTest
-	bool useTersePrinter = true;	// ALWAYS true (for testing only)
-	bool useTerseOutput = false;	// option for terse (true) or all (false)
-	bool useColor = true;
-	bool noClose = false;
+	// Parse command line BEFORE InitGoogleTest.
+	bool useTersePrinter = true;	// sets test listener, false is for testing only
+	bool useTerseOutput = false;	// option from "--terse_output"
+	bool useColor = true;			// option from "--gtest_color"
+	bool noClose = false;			// don't close the terminal at eoj
 	for (int i = 1; i < argc; i++)
 	{
 		if (strcmp(argv[i], "--terse_output") == 0)
@@ -112,18 +112,20 @@ int main(int argc, char** argv)
 	renameDefaultOptionsFile();
 	int retval = RUN_ALL_TESTS();
 	restoreDefaultOptionsFile();
-	// Print verification if terse_printer.
 	// Verify that all tests were run. This can occur if a source file
 	// is missing from the project. The UnitTest reflection API in
 	// example 9 will not work here because of user modifications.
-	if (g_isI18nTest)
-		// Change the following value to the number of tests (within 20).
-		TersePrinter::PrintTestTotals(40, __FILE__, __LINE__);
-	else
-		// Change the following value to the number of tests (within 20).
-		TersePrinter::PrintTestTotals(140, __FILE__, __LINE__);
-	if (g_isI18nTest)
-		printI18nMessage();
+	if (useTersePrinter)
+	{
+		if (g_isI18nTest)
+			// Change the following value to the number of tests (within 20).
+			TersePrinter::PrintTestTotals(40, __FILE__, __LINE__);
+		else
+			// Change the following value to the number of tests (within 20).
+			TersePrinter::PrintTestTotals(140, __FILE__, __LINE__);
+		if (g_isI18nTest)
+			printI18nMessage();
+	}
 #ifdef _WIN32
 	printf("%c", '\n');
 #endif
@@ -405,7 +407,7 @@ string getCurrentDirectory()
 	else
 		gotDirectory = false;
 #else
-	char* currdir = getenv("PWD");
+	const char* const currdir = getenv("PWD");
 	if (currdir != nullptr)
 		currentDirectory = currdir;
 	else
@@ -420,11 +422,11 @@ string getDefaultOptionsFilePath()
 // Return the path of the default options file for the platform.
 {
 #ifdef _WIN32
-	char* env = getenv("APPDATA");
-	char name[] = "/astylerc";
+	const char* const env = getenv("APPDATA");
+	const char name[] = "/astylerc";
 #else
-	char* env = getenv("HOME");
-	char name[] = "/.astylerc";
+	const char* const env = getenv("HOME");
+	const char name[] = "/.astylerc";
 #endif
 	if (env == nullptr)
 		systemAbort("Cannot get $HOME directory");
@@ -438,35 +440,35 @@ string& getTestDirectory()
 }
 
 void printI18nMessage()
+// print i18n message for Windows tests
 {
-	// print i18n message for Windows tests
-	if (!g_testedJapanese || !g_testedGreek || !g_testedRussian
-	        || !g_testedMultiLanguage || !g_testedCodepage1252)
-	{
-		printf("%c", '\n');		// double space
-		// print tested
-		if (g_testedJapanese)
-			printf("%s\n", "Language tested: Japanese.");
-		if (g_testedGreek)
-			printf("%s\n", "Language tested: Greek.");
-		if (g_testedRussian)
-			printf("%s\n", "Language tested: Russian.");
-		if (g_testedMultiLanguage)
-			printf("%s\n", "Language tested: Multi-Language.");
-		if (g_testedCodepage1252)
-			printf("%s\n", "Language tested: Codepage 1252.");
-		// print not tested
-		if (!g_testedJapanese)
-			printf("%s\n", "Language not tested: Japanese.");
-		if (!g_testedGreek)
-			printf("%s\n", "Language not tested: Greek.");
-		if (!g_testedRussian)
-			printf("%s\n", "Language not tested: Russian.");
-		if (!g_testedMultiLanguage)
-			printf("%s\n", "Language not tested: Multi-Language.");
-		if (!g_testedCodepage1252)
-			printf("%s\n", "Language not tested: Codepage 1252.");
-	}
+#ifdef _WIN32
+
+	// print tested
+	printf("%c", '\n');		// double space
+	if (g_testedJapanese)
+		printf("%s\n", "Code page tested: Japanese 932.");
+	if (g_testedRussian)
+		printf("%s\n", "Code page tested: Russian 1251.");
+	if (g_testedCodepage1252)
+		printf("%s\n", "Code page tested: English 1252.");
+	if (g_testedGreek)
+		printf("%s\n", "Code page tested: Greek   1253.");
+	if (g_testedMultiLanguage)
+		printf("%s\n", "Code page tested: UTF-8  65001.");
+	// print not tested
+	printf("%c", '\n');		// double space
+	if (!g_testedJapanese)
+		printf("%s\n", "Code page not tested: Japanese 932.");
+	if (!g_testedRussian)
+		printf("%s\n", "Code page not tested: Russian 1251.");
+	if (!g_testedCodepage1252)
+		printf("%s\n", "Code page not tested: English 1252.");
+	if (!g_testedGreek)
+		printf("%s\n", "Code page not tested: Greek   1253.");
+	if (!g_testedMultiLanguage)
+		printf("%s\n", "Code page not tested: UTF-8  65001.");
+#endif
 }
 
 void removeTestFile(const string& testFileName)
@@ -522,7 +524,7 @@ void setTestDirectory()
 	string varName = envVar.substr(1, envVar.length() - 1);
 #endif
 	// get replacement for environment variable
-	char* envPath = getenv(varName.c_str());
+	const char* const envPath = getenv(varName.c_str());
 	if (envPath == nullptr)
 		ASTYLE_ABORT("Bad char in wide character string: " + envVar);
 	// replace the environment variable

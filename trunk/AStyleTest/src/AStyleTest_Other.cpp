@@ -3266,6 +3266,24 @@ TEST(Preprocessor, CommentContinuation2)
 	delete[] textOut;
 }
 
+TEST(Preprocessor, CommentContinuation3)
+{
+	//  Comments within a preprocessor definition line can be
+	//  indented with tabs (problem was with the comments).
+	char text[] =
+	    "\n"
+	    "#define Port(Version)                      \\\n"
+	    "	{                                       \\\n"
+	    "		/* Report PORT_E_PARAM_POINTER DET  \\\n"
+	    "		   NULL_PTR                         \\\n"
+	    "		*/                                  \\\n"
+	    "	}\n";
+	char options[] = "";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
 //----------------------------------------------------------------------------
 // AStyle Comments
 //----------------------------------------------------------------------------

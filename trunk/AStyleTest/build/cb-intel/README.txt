@@ -4,6 +4,13 @@ This removes the warning:
 warning #10237: -lcilkrts linked in dynamically, static library not available
 
 -----------------------------------------------------------
+RELEASE 2018.1.163
+-----------------------------------------------------------
+Will not link in Release configuration.
+Abort the compile and restart.
+This should start the linker.
+
+-----------------------------------------------------------
 RELEASE 2016-.0.109  Similar to 2015-1.133
 -----------------------------------------------------------
 The Release compile displays the remarks:

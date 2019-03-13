@@ -10,7 +10,8 @@
 # W503 - Break after a binary operator, issues a warning if break before.
 #        Warning if "if ... \n or ..." instead of "if ... or \n ...".
 
-[pep8]
+# When these are changed, also change VS Code setting "python.formatting.autopep8Args"
+[autopep8]
 aggressive
 aggressive
 ignore=E203,E221,E265,E302,E305,E501,W503

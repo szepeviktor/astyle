@@ -949,7 +949,7 @@ struct TranslationF : public Test
 	{
 		for (size_t i = 0; i < stringIn.length(); i++)
 		{
-			i = stringIn.find('%', i);
+			i = stringIn.find(L'%', i);
 			if (i == string::npos)
 				break;
 			size_t iStart = i;

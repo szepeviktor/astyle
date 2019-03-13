@@ -1,0 +1,68 @@
+# Valgrind suppression file for AStyleTestLoc.
+#
+# Suppression for TranslationF::getPrintSpecifiers.
+# Two errors - Addr16 and Cond.
+# Statement stringIn.find(L'%', i) has the error.
+#
+# Suppression for TersePrinter::OnTestEnd.
+# Statement was copied from GTest.
+# The cause was not determined.
+#
+# SUPPRESSIONS OF C++ FUNCTIONS
+# The cause cannot be corrected.
+#
+# Suppression for Translation::convertToMultiByte in ASLocalizer..
+# Two errors - Addr16 and Cond.
+# Statement wcstombs(...) has the error.
+#
+
+{
+   <TranslationF::getPrintSpecifiers>
+   Memcheck:Addr16
+   fun:__wmemchr_sse2
+   fun:_ZNKSt7__cxx1112basic_stringIwSt11char_traitsIwESaIwEE4findEwm
+   fun:_ZN12_GLOBAL__N_112TranslationF18getPrintSpecifiersERNSt7__cxx1112basic_stringIwSt11char_traitsIwESaIwEEERSt6vectorIS6_SaIS6_EE
+   ...
+}
+
+{
+   <TranslationF::getPrintSpecifiers>
+   Memcheck:Cond
+   fun:__wmemchr_sse2
+   fun:_ZNKSt7__cxx1112basic_stringIwSt11char_traitsIwESaIwEE4findEwm
+   fun:_ZN12_GLOBAL__N_112TranslationF18getPrintSpecifiersERNSt7__cxx1112basic_stringIwSt11char_traitsIwESaIwEEERSt6vectorIS6_SaIS6_EE
+   ...
+}
+
+{
+   <TersePrinter::OnTestEnd>
+   Memcheck:Addr8
+   fun:_ZNK7testing10TestResult12elapsed_timeEv
+   fun:_ZN12TersePrinter9OnTestEndERKN7testing8TestInfoE
+   ...
+}
+
+#
+# SUPPRESSIONS OF C++ FUNCTIONS
+# The cause cannot be corrected.
+#
+
+{
+   <Translation::convertToMultiByte>
+   Memcheck:Addr16
+   fun:__wcsnlen_sse4_1
+   fun:wcsrtombs
+   fun:wcstombs
+   fun:_ZNK6astyle11Translation18convertToMultiByteERKNSt7__cxx1112basic_stringIwSt11char_traitsIwESaIwEEE
+   ...
+}
+
+{
+   <Translation::convertToMultiByte>
+   Memcheck:Cond
+   fun:__wcsnlen_sse4_1
+   fun:wcsrtombs
+   fun:wcstombs
+   fun:_ZNK6astyle11Translation18convertToMultiByteERKNSt7__cxx1112basic_stringIwSt11char_traitsIwESaIwEEE
+   ...
+}
