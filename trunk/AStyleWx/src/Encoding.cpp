@@ -60,7 +60,7 @@ bool Encoding::DetectEncoding(const wxString& filename)
 		return false;
 
 	size_t size = file.Length();
-	wxByte* buffer = (wxByte*) malloc(sizeof(wxByte) * (size + 4));
+	wxByte* buffer = new wxByte[sizeof(wxByte) * (size + 4)];
 	if (!buffer)
 	{
 		file.Close();
@@ -88,7 +88,7 @@ bool Encoding::DetectEncoding(const wxString& filename)
 		isConverted = DetectEncoding8Bit(buffer, size);
 
 	file.Close();
-	free(buffer);
+	delete[] buffer;
 	return isConverted;
 }
 

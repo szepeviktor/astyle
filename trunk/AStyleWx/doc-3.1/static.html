@@ -1,0 +1,120 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Artistic Style Wx - Static Compile</title>
+    <meta http-equiv="Content-Language" content="en-us" />
+    <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+    <h1>Visual Studio Static Compile</h1>
+
+    <p>
+        &nbsp;</p>
+    <p>
+        The Artistic Style Wx static build uses the project files from the wxWidgets Visual Studio compile. A Static configuration
+        is added to the current configurations. It is a customized compile that uses the static runtime library, no exception
+        handling, and no runtime type information (RTTI). It uses props files to define the wxWidgets variables and static
+        compile variables. There is also a modified wxscintilla compile to exclude all language lexers except for the
+        CPP lexer. This lexer contains the syntax highlighting for all languages used by AStyleWx.</p>
+    <p>
+        Most of the changes are made by a Python script. There is a script for wxWidgets 3.0 and another for
+        wxWidgets 3.1. They may or may not work with the most current wxWidgets version. Be sure the wxWidgets files can
+        be restored and the Python script rerun before starting.</p>
+    <p>
+        <strong>Make a copy of the wxWidgets build\msw folder before making the following changes.<br />
+            You must use Visual Studio 2010 or higher. The Python scripts are not set up for any other 
+            releases.</strong></p>
+
+    <h3>Add a Static Configuration</h3>
+
+    <p>
+        A Visual Studio Static configuration is created by copying the Release configuration.</p>
+    <ul>
+        <li>Open the appropriate wxWidgets Visual Studio solution file from the wxWidgets build\msw folder. </li>
+        <li>From the Visual Studio menu, select Build &gt; Configuration Manager. </li>
+        <li>From the solution configuration, select &lt;New...&gt;.</li>
+        <li>Enter &quot;Static&quot; for the name. Copy settings from &quot;Release&quot;. Be sure that &quot;Create 
+            new project configurations&quot; is checked.</li>
+        <li>Press &quot;OK&quot; to create the Static configuration.</li>
+        <li>From the menu, select File &gt; Save All to save the files. </li>
+        <li>Close the solution.</li>
+    </ul>
+
+    <h3>Run the Static Change Script</h3>
+
+    <p>
+        Modify the files using a Python script form the &quot;file-py&quot; folder in the AStyleWx directory. There is
+        a script for wxWidgets 3.0 (change_static_wx3.0.py) and a script for wxWidgets 3.1 
+        (change_static_wx3.1.py). </p>
+    <p>
+        <strong>Change the script variable &quot;wx_paths&quot; to the path of wxWidgets on your system.</strong> The
+        wxWidgets 3.0 Python script needs the Visual Studio version (e.g. vs2013) as part of the wxWidgets folder name.
+        If the name doesn&#39;t have this, the script will need to be modified. The wxWidgets 3.1 version doesn&#39;t
+        need this. </p>
+    <p>
+        Run the Python script that is appropriate for your wxWidgets release. The script will do the following.</p>
+    <ul>
+        <li>Read the appropriate &quot;.vcxproj&quot; files in the build\msw path and change the required Static configuration
+            options.</li>
+        <li>Read the Catalogue.cxx file and create a CatalogueStatic.cxx that links only the cpp lexer 
+            (LexCPP.cxx). </li>
+        <li>Read &quot;wx_wxscintilla.vcxproj&quot; and for the Static configuration and set options to:<br />
+            1) Compile CatalogueStatic.cxx instead of Catalogue.cxx.<br />
+            2) Remove the lexer language compiles, except for the cpp lexer (LexCPP.cxx). 
+        </li>
+        <li>Add the wxWidgets Static macros to the setup.props file. </li>
+    </ul>
+
+    <h3>Verify the Static Changes</h3>
+
+    <p>
+        Check the project files to verify the changes. In the Solution Explorer, right-click on a project and select
+        Properties. Be sure the properties option Configuration is set to Static. The Static configuration options
+        should have the following values.</p>
+    <ul>
+        <li>C++ &gt; Preprocessor &gt; Preprocessor Definitions, should contain wxNO_EXCEPTIONS.</li>
+        <li>C++ &gt; Code Generation &gt; Runtime Library, should be Multi-threaded (/MT).</li>
+        <li>C++ &gt; Language &gt; Enable Run-Time Type Information, should be No (/GR-).</li>
+    </ul>
+    <p>
+        In the Solution Explorer expand the wxscintilla project and the project Source folder to show the wxscintilla
+        source files. Source files that are not included in the compile will have a red minus sign to the left of the
+        file name.</p>
+    <p>For the static configuration in the wxscintilla project:</p>
+    <ul>
+        <li>CatalogueStatic.cxx will be included and Catalogue.cxx will NOT be included.</li>
+        <li>Most of the files beginning with LEX will NOT be included.</li>
+    </ul>
+    <p>
+        For all configurations except static in the wxscintilla project:</p>
+    <ul>
+        <li>CatalogueStatic.cxx will NOT be included and Catalogue.cxx will be included.</li>
+        <li>All of the files beginning with LEX will be included.</li>
+    </ul>
+    <p>
+        If the above conditions are correct the static configurations can be compiled. The <a href="install.html" target="_blank"
+            title="open new window">Install Information</a> contains the compile instructions.</p>
+    <p>
+        If the above conditions are not correct, the Python scripts must be changed. You are probably using a new
+        version of wxWidgets which is not supported by the script.</p>
+    <p>
+        &nbsp;</p>
+
+    <p style="margin-left: -0.4in; text-align: center;">
+        <a href="https://sourceforge.net/projects/astyle">
+            <img src="https://sflogo.sourceforge.net/sflogo.php?group_id=2319&type=16" alt="" />
+        </a></p>
+
+    <p>
+        &nbsp;</p>
+
+</body>
+
+</html>
+

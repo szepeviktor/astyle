@@ -34,8 +34,8 @@ public:
 	void DisplayStyleOptions(wxCommandEvent& event, wxStyledTextCtrl* stylePreviewSTC);
 	void DisplayTabOptions(wxCommandEvent& event, wxStyledTextCtrl* tabPreviewSTC);
 	// getters
-	wxCommandEvent* GetEvent() const { return m_event; };
-	wxStyledTextCtrl* GetSTC() const { return m_stc; };
+	wxCommandEvent* GetEvent() const { return m_event; }
+	wxStyledTextCtrl* GetSTC() const { return m_stc; }
 
 private:
 	wxString AlignConvertTabs(const wxString& text) const;

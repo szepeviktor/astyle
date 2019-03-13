@@ -18,7 +18,7 @@
 					<Add option="-W" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
-					<Add option="-stdlib=libc++" />
+					<Add option="-mmacosx-version-min=10.9" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>
 			</Target>
@@ -35,7 +35,7 @@
 					<Add option="-W" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
-					<Add option="-stdlib=libc++" />
+					<Add option="-mmacosx-version-min=10.9" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>
@@ -44,6 +44,9 @@
 				</Linker>
 			</Target>
 		</Build>
+		<VirtualTargets>
+			<Add alias="Lint" targets="Debug;" />
+		</VirtualTargets>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />

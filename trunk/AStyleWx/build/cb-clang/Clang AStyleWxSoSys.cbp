@@ -14,13 +14,12 @@
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-Wall" />
-					<Add option="-g" />
 					<Add option="-std=c++11" />
-					<Add option="-Wextra" />
+					<Add option="-g" />
 					<Add option="`wx-config --version=$(WX) --toolkit=$(TK) --cflags`" />
 					<Add option="-fno-exceptions" />
+					<Add option="-Wextra" />
 					<Add option="-Wno-potentially-evaluated-expression" />
-					<Add option="-Wno-unknown-warning-option" />
 					<Add option="-D_DEBUG" />
 					<Add option="-DTESTMODE1" />
 					<Add directory="../../src" />
@@ -46,7 +45,6 @@
 					<Add option="-fno-exceptions" />
 					<Add option="-Wextra" />
 					<Add option="-Wno-potentially-evaluated-expression" />
-					<Add option="-Wno-unknown-warning-option" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../src" />
 					<Add directory="../../dialog" />
@@ -59,8 +57,8 @@
 				</Linker>
 			</Target>
 			<Environment>
-				<Variable name="TK" value="gtk2" />
-				<Variable name="WX" value="3.0" />
+				<Variable name="TK" value="" />
+				<Variable name="WX" value="" />
 			</Environment>
 		</Build>
 		<Unit filename="../../dialog/AStyleDlgBase.cpp" />

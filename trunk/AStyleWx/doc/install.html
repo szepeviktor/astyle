@@ -32,6 +32,8 @@
     <p class="contents1">
         <a class="contents" href="#_Linux_Compiles">Linux Compiles</a></p>
     <p class="contents2">
+        <a class="contents" href="#_Linux_Library_Runtime_Error">Linux Library Runtime Error</a></p>
+    <p class="contents2">
         <a class="contents" href="#_CodeBlocks_Linux">CodeBlocks Linux</a></p>
     <p class="contents2">
         <a class="contents" href="#_CMake_Linux">CMake Linux</a></p>
@@ -51,6 +53,8 @@
         <a class="contents" href="#_MacOS_Compiles">MacOS Compiles</a></p>
     <p class="contents2">
         <a class="contents" href="#_Xcode">Xcode</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_CodeBlocks_MacOS">CodeBlocks MacOS</a></p>
     <p class="contents2">
         <a class="contents" href="#_CMake_MacOS">CMake MacOS</a></p>
     <p class="contents2">
@@ -85,16 +89,9 @@
         wxWidgets 3.0 or higher is used. You can install both versions 2.8 and 3.0 on the same system. Both the development
         packages and the run-time packages should be installed.</p>
     <p>
-        The Linux compiles use the wx-config script for information about wxWidgets. The
-        default release is used unless
+        The Linux compiles use the wx-config script for information about wxWidgets. The default release is used unless
         another is requested. Install locations, as well as compiler and linker options, are also obtained from the
         script.</p>
-    <p>
-        <strong>If more than one wxWidgets distribution is installed, the default distribution to use for compiles can be
-            selected with the Linux update&#8209;alternatives utility.</strong> Changing the default requires administrative
-        priviledges. Use the command &quot;update&#8209;alternatives &#8209;&#8209;config wx&#8209;config&quot;. A 
-        menu will be displayed showing the installations for selection. Compile options are also available as 
-        described in the following Linux CMake and Makefile descriptions.</p>
     <p>
         To display the default release:</p>
     <pre>wx-config --release</pre>
@@ -109,14 +106,36 @@
     <pre>wx-config --libs</pre>
     <p>
         To get a list of other options:</p>
-    <pre> wx-config --help</pre>
+    <pre>wx-config --help</pre>
+
+    <h5>UPDATE ALTERNATIVES</h5>
+
+    <p>
+        <strong>If more than one wxWidgets distribution is installed, the default distribution to use for compiles can be
+            selected with the Linux update-alternatives utility.</strong> Changing the default requires administrative
+        privileges. Use the command &quot;update-alternatives&quot; with the appropriate options.</p>
+    <p>
+        <strong>NOTE:</strong> Some Linux distributions do not support update-alternatives. There are AStyleWx project
+        options available that will allow changing from the default distribution. These are described in the following
+        Linux Compiles sections.</p>
+    <p>
+        To change the wxWidgets distribution with update-alternatives (using administrative privileges):</p>
+    <pre>update-alternatives  --config  wx-config</pre>
+    <p>
+        A menu will be displayed showing the installations for selection. Select the number of the desired installation.
+    </p>
+    <p>
+        Compile options are also available for changing the wxWidgets installation used as described in the
+        <a href="#_CodeBlocks_Linux">CodeBlocks Linux</a>, <a href="#_CMake_Linux">CMake Linux</a>, and
+        <a href="#_Other_Makefile_Options">Other Makefile Options</a> sections.
+    </p>
 
     <h4 id="_wx_MacOS">MacOS</h4>
 
     <p>
         <b>Use wxWidgets 3.1 or higher.</b> Previous versions did not work with C++11. For MacOS it must be compiled and
-        installed from the source code. For Artistic Style Wx version 3.0 it must be compiled as C++11. Download the source
-        for Linux and MacOS. Do NOT use a Windows download. It will have the wrong line endings which will cause problems.
+        installed from the source code. Download the source for Linux and MacOS. Do NOT use a Windows download. It will
+        have the wrong line endings which will cause problems.
     </p>
     <p>
         Build the library for cocoa. Install instructions are in wxWidgets docs/osx. Either Xcode or the command line
@@ -124,15 +143,15 @@
         were the better choice. The AStyleWx compiles are built with wxWidgets STATIC libraries from the default install
         folders.</p>
     <p>
-        Building with C++11 requires additional options. The following instructions worked on a macOS 10.12 Sierra with
-        wxWidgets 3.1.0. Other possible configure flags are at
+        For AStyleWx, wxWidgets must be compiled as C++11. Building with C++11 requires additional options. The following
+        instructions worked on a macOS 10.12 Sierra with wxWidgets 3.1.0. Other possible configure flags are at 
         <a href="http://wiki.wxwidgets.org/Possible_Configure_Flags_under_OS_X" target="_blank"
             title="open new window">http://wiki.wxwidgets.org/Possible_Configure_Flags_under_OS_X</a></p>
     <p>
         <strong>NOTE:</strong> The following configure statement is three lines long for readability. It should be
         entered as one line. The files are built as static libraries (disable-shared). The option gnu++11 MUST be used
-        instead of c++11 or linker errors will occur. The minimum deployment is macOS 10.9 Mavericks. The Clang
-        compiler is used instead of the default GCC.</p>
+        instead of c++11 or linker errors will occur. The minimum deployment is macOS 10.9 Mavericks. In the following
+        example, the Clang compiler is used instead of the default GCC.</p>
     <p>
         To build and install static libraries using the command line: </p>
 
@@ -199,6 +218,19 @@ mingw32-make -f makefile.gcc SHARED=1 CXXFLAGS=&quot;-std=gnu++11 -Wno-deprecate
 
     <h3 id="_Linux_Compiles">Linux Compiles</h3>
 
+    <h4 id="_Linux_Library_Runtime_Error">Linux Library Runtime Error</h4>
+
+    <p>
+        When using libraries like wxWidgets there is a possibility that the library has been compiled with a different
+        version of a compiler than is used on your computer. You may get a runtime error of &quot;Mismatch between the
+        program and library build versions detected&quot;. The error message will also give the ABI for the  library and
+        the ABI for the program. The ABI indicates the exception handling version of the compiler.</p>
+
+    <p>
+        Since AStyleWx does not use exceptions this error can be ignored. Add the preprocessor definition
+        <strong>__GXX_ABI_VERSION=###</strong> to the compiler variables, replacing ### with the library ABI given in
+        the error message. Rebuild the project. It should compile and run without error.</p>
+
     <h4 id="_CodeBlocks_Linux">CodeBlocks Linux</h4>
 
     <p>
@@ -230,47 +262,69 @@ mingw32-make -f makefile.gcc SHARED=1 CXXFLAGS=&quot;-std=gnu++11 -Wno-deprecate
     </ul>
 
     <p>
-        If more than one wxWidgets distribution is installed the default distribution to used. The best way to change
-        the default distribution is to use update-alternatives as described in <a href="_wx_wxWidgets_Compiles">Linux 
-            wxWidgets Compiles</a>. It can also be changed using the project file's &quot;Custom Variables&quot; 
-        option. In the
-        menu 
-        select Project &gt; Build Options, Custom Variables, and select the project name at the top. The variables apply
-        to all targets. <strong>The variable values must correspond to an installed wxWidgets distribution available in 
-        wx-config.</strong> The following variables are available.</p>
+        If more than one wxWidgets distribution is installed the default distribution to used. To change the default distribution
+        use update-alternatives as described in <a href="_wx_wxWidgets_Compiles">Linux wxWidgets Compiles</a>. It can
+        also be changed using the project file's &quot;Custom Variables&quot; option.</p>
+
+    <h5>USING UPDATE-ALTERNATIVES</h5>
+
     <ul>
-        <li><strong>WX</strong> indicates the wxWidgets version to use. Use the major and minor version number separated 
-            by a dot (e.g. 3.1). If it is not specified the version of the default distribution is used.</li>
-        <li><strong>TK</strong> indicates the graphical toolkit to use. The valid entries are gtk2 or gtk3. If it is not 
-            specified the toolkit of the default distribution is used.
+        <li>The project variables WX and TK must NOT have a value. The key may remain without the value.</li>
+        <li>Close the CodeBlocks IDE and re-execute after changing update-alternatives or the compile will use the wrong values.
         </li>
+        <li>Rebuild the entire project to create the new object files.</li>
+        <li>Verify the release used in the build by checking the AStyleWx menu Help > About.</li>
+    </ul>
+
+    <h5>USING PROJECT FILES</h5>
+
+    <p>
+        In the CodeBlocks menu select Project &gt; Build Options, Custom Variables, and select the project name at the
+        top. The variables apply to all targets. The variable values must correspond to an installed wxWidgets distribution
+        available in wx-config. <strong>WX</strong> indicates the wxWidgets version to use. Use the major and minor version
+        number separated by a dot (e.g. 3.1). If it is not specified the version of the default distribution is used.
+        <strong>TK</strong> indicates the graphical toolkit to use. The valid entries are gtk2 or gtk3. If it is not
+            specified the toolkit of the default distribution is used. Invalid WX or TK values will get compile errors
+        for "No such file or directory".</p>
+
+    <ul>
+        <li>Change the WX and TK variables to the required values.</li>
+        <li>Close the project workspace after changing variables or the compile will use the wrong values.</li>
+        <li>Rebuild the entire project to create the new object files.</li>
+        <li>Verify the release used in the build by checking the AStyleWx menu Help > About.</li>
     </ul>
 
     <h4 id="_CMake_Linux">CMake Linux</h4>
 
     <p>
-        Artistic Style Wx has CMake support for GCC, Clang, and Intel compilers. Other compilers will probably work if
-        the necessary options are set. Refer to the section on <a href="#_Compiler_Options">Compiler Options</a> for
-        more information.</p>
+        A CMake &quot;out of source&quot; build should be used for the different compile configurations. The default build
+        is a release version. A debug version must be specifically requested.</p>
     <p>
-        A CMake &quot;out of source&quot;
-        build should be used for the different compile configurations. The default build is a release version. A debug
-        version must be specifically requested.</p>
+        Artistic Style Wx has CMake support for the GCC, Clang, and Intel compilers. Other compilers will probably work
+        if the necessary options are set. To use a compiler other than GCC the CXX environment variable must be set to
+        the name of the compiler. This is done before calling cmake.</p>
+    <ul>
+        <li><strong>CXX=clang++</strong> indicates the Clang compiler will be used.</li>
+        <li><strong>CXX=icpc</strong> indicates the Intel compiler will be used.</li>
+    </ul>
     <p>
         If more than one wxWidgets distribution is installed the default distribution to used. The best way to change
-        the default distribution is to use update-alternatives as described in <a href="_wx_wxWidgets_Compiles">Linux 
-            wxWidgets Compiles</a>. It can also be changed using variable definitions when cmake is executed. <strong>The 
+        the default distribution is to use update-alternatives as described in <a href="_wx_wxWidgets_Compiles">Linux
+            wxWidgets Compiles</a>. It can also be changed using variable definitions when cmake is executed. <strong>The
                 variable values must correspond to an installed wxWidgets distribution available in wx-config.</strong>
         The following variable definitions are available.</p>
     <ul>
         <li><strong>-DWX=x.y</strong> indicates the wxWidgets version to use. The x and y are the major and minor version
-            number separated 
-            by a dot (e.g. 3.1). If it is not specified the version of the default distribution is used.</li>
-        <li><strong>-DTK=[gtk2, gtk3]</strong> indicates the graphical toolkit to use. The valid entries are gtk2 or gtk3.
-            If it is not 
-            specified the toolkit of the default distribution is used.
+            number separated by a dot (e.g. 3.1). If it is not specified the version of the default distribution is used.
+        </li>
+        <li><strong>-DTK=[gtk2, gtk3]</strong> indicates the graphical toolkit to use. The valid entries are &quot;gtk2&quot;
+            or &quot;gtk3&quot;. If it is not specified the toolkit of the default distribution is used.
         </li>
     </ul>
+    <p>
+        The standard cmake options can be used in the cmake or make commands. For example, for verbose compiler output
+        use &#8209;DCMAKE_VERBOSE_MAKEFILE=ON with cmake or VERBOSE=1 with make.
+    </p>
 
     <h5>EXAMPLES</h5>
 
@@ -288,13 +342,13 @@ make
         To build the debug version using the Clang compiler:</p>
     <pre>mkdir  aswx-clang
 cd  aswx-clang
-CXX=clang++  -DCMAKE_BUILD_TYPE=Debug  cmake  ../
+CXX=clang++  cmake  -DCMAKE_BUILD_TYPE=Debug  ../
 make
 </pre>
-    <p>To change the wxWidgets distribution and GTK toolkit:</p>
-    <pre>mkdir  aswx-gcc
-cd  aswx-gcc
-cmake  -DWX=3.1  -DGTK=gtk3  ../
+    <p>To change the wxWidgets distribution and GTK toolkit using the Intel compiler:</p>
+    <pre>mkdir  aswx-intel
+cd  aswx-intel
+CXX=icpc  cmake  -DWX=3.1  -DTK=gtk3  ../
 make
 </pre>
 
@@ -431,16 +485,16 @@ make
 
     <p>
         To compile with a wxWidgets release other than the default use the WX option. For example, if both releases 3.0
-        and 3.1 are installed, using WX=3.1 will compile with wxWidgets release 3.1. <strong>The variable values must 
+        and 3.1 are installed, using WX=3.1 will compile with wxWidgets release 3.1. <strong>The variable values must
             correspond to an installed wxWidgets distribution available in wx-config.</strong> This option may be used
         with makefile compile and install commands.</p>
 
-    <h5>GTK=</h5>
-    <pre>GTK=gtk3</pre>
+    <h5>TK=</h5>
+    <pre>TK=gtk3</pre>
 
     <p>
-        To compile with a GTK toolkit other than the default use the GTK option. For example, if a wxWidgets release has
-        both gtk2 and gtk3 installed, using GTK=gtk3 will compile with the gtk3 oolkit. <strong>The variable values must 
+        To compile with a GTK toolkit other than the default use the TK option. For example, if a wxWidgets release has
+        both gtk2 and gtk3 installed, using TK=gtk3 will compile with the gtk3 toolkit. <strong>The variable values must
             correspond to an installed wxWidgets distribution available in x-config.</strong> This option may be used
         with makefile compile and install commands.</p>
 
@@ -579,6 +633,15 @@ make
 sudo xcodebuild install -project AStyleWx.xcodeproj -target AStyleWx
 </pre>
 
+    <h4 id="_CodeBlocks_MacOS">CodeBlocks MacOS</h4>
+
+    <p>
+        The AStyleWx folder <strong>build/cb-mac</strong> has workspace and project files for macOS. They are used the
+        same as <a href="#_CodeBlocks_Linux">CodeBlocks Linux</a> except the only supported compiler is Clang and they
+        link to static instead of shared wxWidgets libraries. The wx-config file is used for the compiles. The WX option
+        is available if more than one wxWidgets version is installed. The TK option is NOT used since only one graphical
+        toolkit is available, osx_cocoa.</p>
+
     <h4 id="_CMake_MacOS">CMake MacOS</h4>
 
     <p>
@@ -637,9 +700,7 @@ make release debug</pre>
         <strong>To compile AStyleWx the wxWidgetsMacros.props files must be changed.</strong> The files are located in
         the build\vs... folders. The easiest way to change them is to open the props file in a text editor. Then change
         the &quot;WXWIN&quot;" field to the location of the wxWidgets directory on your system. The &quot;wxVersion&quot;
-        field will need to be changed if it does not contain the correct wxWidgets two digit version. The &quot;wxVersion3&quot;
-        field contains the three digit version number for wxWidgets versions 3.1.1 or greater. Change it if the variable
-        is present. </p>
+        field will need to be changed if it does not contain the correct wxWidgets two digit version. </p>
     <p>
         The &quot;wxWidgetsMacros.props&quot; files can also be changed from the &quot;Properties Editor&quot; in Visual
         Studio. An AStyleWx solution must be open. Open the &quot;Property Manager&quot; window from the View
@@ -708,10 +769,8 @@ make release debug</pre>
 
     <ul>
         <li><strong>WXWIN</strong> is the location of the wxWidgets directory on your system.</li>
-        <li><strong>wxVersion</strong> is the two digit wxWidgets version being compiled, without a separating dot (e.g. 
+        <li><strong>wxVersion</strong> is the two digit wxWidgets version being compiled, without a separating dot (e.g.
             31). </li>
-        <li><strong>wxVersion3</strong> is the three digit wxWidgets version being compiled, without separating dots (e.g.
-            311).</li>
     </ul>
 
     <h4 id="_CMake_Windows">CMake Windows</h4>
@@ -726,8 +785,10 @@ make release debug</pre>
             command before running CMake, or by changing the information in the CMakeLists.txt script.</strong> The variables
         are at the beginning of the script. The following must be set.</p>
     <ul>
-        <li><strong>WXWIN</strong> is the path to the wxWidgets top level folder. The folder contains directories for the
-            include files and the library files used in the build.</li>
+        <li><strong>WXWIN</strong> is the path to the wxWidgets top level folder. Cmake will look for wxWidgets in the 
+            default folder or in a system path. If it finds the files, this variable is NOT needed. If it cannot be 
+            found, this variable gives the path into the top level wxWidgets folder. The name of the top level folder 
+            should be included in the path.</li>
         <li><strong>WXSHARED</strong> is a boolean value that indicates if the shared libraries (DLLs) are to be used instead
             of the static libraries. The default is to use the static libraries. If shared libraries are used, the shared
             libraries are copied to the folder with the executable so the program can be executed.</li>
@@ -740,21 +801,21 @@ make release debug</pre>
         CMakeLists.txt. They show out of source builds that generate makefiles. </p>
     <p>
         A path to the compiler executable may need to be declared before compiling. To set the variables before compiling,
-        replace the fillowing path name with the path on your computer.</p>
+        replace the following path name with the path on your computer.</p>
     <pre>set PATH=C:\Program Files\CMake\bin;%PATH%
 </pre>
     <p>
         To build the MinGW release version using static libraries:</p>
     <pre>md  aswx-mingw
 cd  aswx-mingw
-cmake  -G "MinGW Makefiles"  -DWXWIN=&quot;C:/Programs/wxWidgets-3.0.2_mingw&quot;
+cmake  -G "MinGW Makefiles"  -DWXWIN=&quot;C:/Programs/wxWidgets-3.0.2_mingw&quot;  ../
 mingw32-make</pre>
 
     <p>
         To build the MinGW debug version using shared libraries:</p>
     <pre>md  aswx-mingw
 cd  aswx-mingw
-cmake  -G "MinGW Makefiles"  -DCMAKE_BUILD_TYPE=Debug  -DWXSHARED=1  -DWXWIN=&quot;C:/Programs/wxWidgets-3.0.2_mingw&quot;
+cmake  -G "MinGW Makefiles"  -DCMAKE_BUILD_TYPE=Debug  -DWXSHARED=1  ../
 mingw32-make</pre>
 
     <h5>INSTALL</h5>

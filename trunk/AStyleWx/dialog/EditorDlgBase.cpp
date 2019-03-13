@@ -10,7 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////
 
 BEGIN_EVENT_TABLE( EditorDlgBase, wxDialog )
-	EVT_NOTEBOOK_PAGE_CHANGED( ID_EDITOR_NOTEBOOK, EditorDlgBase::_wxFB_OnNotebookPageChanged )
+	EVT_TREEBOOK_PAGE_CHANGED( ID_EDITOR_NOTEBOOK, EditorDlgBase::_wxFB_OnNotebookPageChanged )
 	EVT_LISTBOX( ID_STYLES, EditorDlgBase::_wxFB_OnListboxSelected )
 	EVT_CHECKBOX( ID_BOLD, EditorDlgBase::_wxFB_OnBoldClick )
 	EVT_CHECKBOX( ID_ITALIC, EditorDlgBase::_wxFB_OnItalicClick )
@@ -27,7 +27,7 @@ EditorDlgBase::EditorDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* notebookSizer;
 	notebookSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_notebook = new wxNotebook( this, ID_EDITOR_NOTEBOOK, wxDefaultPosition, wxDefaultSize, wxNB_DEFAULT|wxCLIP_CHILDREN );
+	m_notebook = new wxTreebook( this, ID_EDITOR_NOTEBOOK, wxDefaultPosition, wxDefaultSize, wxNB_DEFAULT|wxCLIP_CHILDREN );
 	m_optionsPage = new wxPanel( m_notebook, ID_OPTIONS_PAGE, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* optionsSizer;
 	optionsSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -63,7 +63,8 @@ EditorDlgBase::EditorDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_optionsPage->SetSizer( optionsSizer );
 	m_optionsPage->Layout();
 	optionsSizer->Fit( m_optionsPage );
-	m_notebook->AddPage( m_optionsPage, _("Options"), false );
+	m_notebook->AddPage( NULL, wxT("Editor Options"), false );
+	m_notebook->AddSubPage( m_optionsPage, _("Options"), false );
 	m_fontsPage = new wxPanel( m_notebook, ID_FONTS_PAGE, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* fontsSizer;
 	fontsSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -119,7 +120,7 @@ EditorDlgBase::EditorDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_fontsPage->SetSizer( fontsSizer );
 	m_fontsPage->Layout();
 	fontsSizer->Fit( m_fontsPage );
-	m_notebook->AddPage( m_fontsPage, _("Fonts"), false );
+	m_notebook->AddSubPage( m_fontsPage, _("Fonts"), false );
 	m_stylesPage = new wxPanel( m_notebook, ID_STYLES_PAGE, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* stylesSizer;
 	stylesSizer = new wxBoxSizer( wxVERTICAL );
@@ -160,7 +161,7 @@ EditorDlgBase::EditorDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_stylesPage->SetSizer( stylesSizer );
 	m_stylesPage->Layout();
 	stylesSizer->Fit( m_stylesPage );
-	m_notebook->AddPage( m_stylesPage, _("Styles"), true );
+	m_notebook->AddSubPage( m_stylesPage, _("Styles"), true );
 	
 	notebookSizer->Add( m_notebook, 1, wxEXPAND|wxALL, 5 );
 	

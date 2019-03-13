@@ -36,6 +36,7 @@ bool ASApp::OnInit()
 	SetAppName("AStyleWxSo");
 #endif
 	m_frame = new ASFrame;
+	assert(m_frame != nullptr);
 	m_frame->BuildGuiControls(argc, argv);
 #ifdef ASTYLE_DYLIB
 	AStyleFormat::LoadDynamicLibrary();

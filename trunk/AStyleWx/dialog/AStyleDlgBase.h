@@ -28,7 +28,7 @@
 #include <wx/spinctrl.h>
 #include <wx/button.h>
 #include <wx/choice.h>
-#include <wx/notebook.h>
+#include <wx/treebook.h>
 #include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -146,7 +146,7 @@ class AStyleDlgBase : public wxDialog
 	private:
 		
 		// Private event handlers
-		void _wxFB_OnNotebookPageChanged( wxNotebookEvent& event ){ OnNotebookPageChanged( event ); }
+		void _wxFB_OnNotebookPageChanged( wxTreebookEvent& event ){ OnNotebookPageChanged( event ); }
 		void _wxFB_OnStyleClick( wxCommandEvent& event ){ OnStyleClick( event ); }
 		void _wxFB_OnTabClick( wxCommandEvent& event ){ OnTabClick( event ); }
 		void _wxFB_OnModifierClick( wxCommandEvent& event ){ OnModifierClick( event ); }
@@ -161,7 +161,7 @@ class AStyleDlgBase : public wxDialog
 	
 	protected:
 		wxBoxSizer* m_astyleDlgSizer;
-		wxNotebook* m_notebook;
+		wxTreebook* m_notebook;
 		wxPanel* m_stylePage;
 		wxStaticBoxSizer* m_styleSizer;
 		wxRadioButton* m_styleNone;
@@ -283,7 +283,7 @@ class AStyleDlgBase : public wxDialog
 		wxButton* m_sdbSizerCancel;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void OnNotebookPageChanged( wxNotebookEvent& event ) { event.Skip(); }
+		virtual void OnNotebookPageChanged( wxTreebookEvent& event ) { event.Skip(); }
 		virtual void OnStyleClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnTabClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnModifierClick( wxCommandEvent& event ) { event.Skip(); }

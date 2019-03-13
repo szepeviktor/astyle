@@ -20,10 +20,9 @@
 // define static member variable
 int EditorDlg::m_ix = 0;
 
-EditorDlg::EditorDlg(ASFrame* frame, int page) : EditorDlgBase(frame)
+EditorDlg::EditorDlg(ASFrame* frame, int page)
+	: EditorDlgBase(frame), m_frame{frame}, m_page{page}
 {
-	m_page = page;
-	m_frame = frame;
 	m_editor = frame->GetEditor();
 	// set editor options
 	m_showDialogTips = frame->GetShowDialogTips();
@@ -84,7 +83,6 @@ void EditorDlg::BuildDialogTips() const
 		m_commentFonts->SetToolTip("A proportional or monospace font used for comments");
 		m_commentSizes->SetToolTip("Point size of the comment font");
 		// styles
-		// m_styles->SetToolTip("Select a style.");
 		m_foreground->SetToolTip("Select the text color.");
 		m_bold->SetToolTip("Use bold text for this style.");
 		m_italic->SetToolTip("Use italic text for this style.");
@@ -296,8 +294,7 @@ void EditorDlg::SetDefaultFontOptions() const
 	// Set default font names.
 	wxArrayString defaultFontsAll;		// all default fonts
 	wxArrayString defaultFonts;			// valid default fonts
-	wxFontEnumerator defaultEnum;
-	defaultFontsAll = defaultEnum.GetFacenames(wxFONTENCODING_SYSTEM, true);
+	defaultFontsAll = wxFontEnumerator::GetFacenames(wxFONTENCODING_SYSTEM, true);
 	SetFontNames(defaultFontsAll, defaultFonts);
 	m_defaultFonts->Set(defaultFonts);
 	m_defaultFonts->SetValue(m_frame->GetDefaultFont().GetFaceName());
@@ -395,10 +392,10 @@ void EditorDlg::SetStcStyleOptions(const vector<TextStyle>& styleVector)
 	dc.SetFont(stylesFont);
 	wxCoord charWidth = dc.GetCharWidth();
 	wxCoord charHeight = dc.GetCharHeight();
-#ifdef __WXMSW__
+#if defined(__WXMSW__)
 	int width = charWidth * 16;
 	int height = (charHeight + 1) * numStyles;
-#elif __WXOSX__
+#elif defined(__WXOSX__)
 	int width = charWidth * 14;
 	int height = (charHeight + 6) * numStyles;
 #else

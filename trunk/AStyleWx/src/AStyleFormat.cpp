@@ -86,7 +86,7 @@ void AStyleFormat::FormatSelection(wxStyledTextCtrl* stc, const wxString& option
 	char* textOut = FormatSTCText(optionsWx);
 	if (textOut != nullptr)
 		InsertFormattedText(textOut);
-	delete [] textOut;
+	delete[] textOut;
 	textOut = nullptr;
 	// restore viewing position
 	// selection markers MUST be LAST or the selection will be removed
@@ -125,7 +125,7 @@ void AStyleFormat::FormatSource(wxStyledTextCtrl* stc, const wxString& optionsWx
 	char* textOut = FormatSTCText(optionsWx);
 	if (textOut != nullptr)
 		m_stc->SetTextRaw(textOut);
-	delete [] textOut;
+	delete[] textOut;
 	textOut = nullptr;
 	// restore viewing position
 	RestoreBookmarks(1, m_bookmark1Marker);

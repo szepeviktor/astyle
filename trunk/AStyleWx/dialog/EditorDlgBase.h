@@ -25,7 +25,7 @@
 #include <wx/stattext.h>
 #include <wx/combobox.h>
 #include <wx/listbox.h>
-#include <wx/notebook.h>
+#include <wx/treebook.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
 
@@ -40,7 +40,7 @@ class EditorDlgBase : public wxDialog
 	private:
 		
 		// Private event handlers
-		void _wxFB_OnNotebookPageChanged( wxNotebookEvent& event ){ OnNotebookPageChanged( event ); }
+		void _wxFB_OnNotebookPageChanged( wxTreebookEvent& event ){ OnNotebookPageChanged( event ); }
 		void _wxFB_OnListboxSelected( wxCommandEvent& event ){ OnListboxSelected( event ); }
 		void _wxFB_OnBoldClick( wxCommandEvent& event ){ OnBoldClick( event ); }
 		void _wxFB_OnItalicClick( wxCommandEvent& event ){ OnItalicClick( event ); }
@@ -73,7 +73,7 @@ class EditorDlgBase : public wxDialog
 		};
 		
 		wxBoxSizer* m_editorDlgSizer;
-		wxNotebook* m_notebook;
+		wxTreebook* m_notebook;
 		wxPanel* m_optionsPage;
 		wxCheckBox* m_useBottomTabs;
 		wxCheckBox* m_useSmallToolbar;
@@ -100,7 +100,7 @@ class EditorDlgBase : public wxDialog
 		wxButton* m_sdbSizerCancel;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void OnNotebookPageChanged( wxNotebookEvent& event ) { event.Skip(); }
+		virtual void OnNotebookPageChanged( wxTreebookEvent& event ) { event.Skip(); }
 		virtual void OnListboxSelected( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBoldClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnItalicClick( wxCommandEvent& event ) { event.Skip(); }

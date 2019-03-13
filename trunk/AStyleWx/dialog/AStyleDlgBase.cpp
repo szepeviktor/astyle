@@ -10,7 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////
 
 BEGIN_EVENT_TABLE( AStyleDlgBase, wxDialog )
-	EVT_NOTEBOOK_PAGE_CHANGED( ID_ASTYLE_NOTEBOOK, AStyleDlgBase::_wxFB_OnNotebookPageChanged )
+	EVT_TREEBOOK_PAGE_CHANGED( ID_ASTYLE_NOTEBOOK, AStyleDlgBase::_wxFB_OnNotebookPageChanged )
 	EVT_RADIOBUTTON( ID_STYLE_NONE, AStyleDlgBase::_wxFB_OnStyleClick )
 	EVT_RADIOBUTTON( ID_STYLE_ALLMAN, AStyleDlgBase::_wxFB_OnStyleClick )
 	EVT_RADIOBUTTON( ID_STYLE_JAVA, AStyleDlgBase::_wxFB_OnStyleClick )
@@ -108,7 +108,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* notebookSizer;
 	notebookSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_notebook = new wxNotebook( this, ID_ASTYLE_NOTEBOOK, wxDefaultPosition, wxDefaultSize, 0|wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
+	m_notebook = new wxTreebook( this, ID_ASTYLE_NOTEBOOK, wxDefaultPosition, wxDefaultSize, 0|wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	m_stylePage = new wxPanel( m_notebook, ID_STYLE_PAGE, wxPoint( -1,0 ), wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* styleSizer;
 	styleSizer = new wxBoxSizer( wxVERTICAL );
@@ -231,7 +231,8 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_stylePage->SetSizer( styleSizer );
 	m_stylePage->Layout();
 	styleSizer->Fit( m_stylePage );
-	m_notebook->AddPage( m_stylePage, wxT("Style"), false );
+	m_notebook->AddPage( NULL, wxT("Artistic Style Options"), false );
+	m_notebook->AddSubPage( m_stylePage, wxT("Brace Style"), false );
 	m_tabPage = new wxPanel( m_notebook, ID_TABS_PAGE, wxPoint( -1,0 ), wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* tabSizer;
 	tabSizer = new wxBoxSizer( wxVERTICAL );
@@ -367,7 +368,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_tabPage->SetSizer( tabSizer );
 	m_tabPage->Layout();
 	tabSizer->Fit( m_tabPage );
-	m_notebook->AddPage( m_tabPage, wxT("Tabs"), false );
+	m_notebook->AddSubPage( m_tabPage, wxT("Tabs/Spaces"), false );
 	m_indentPage = new wxPanel( m_notebook, ID_INDENT_PAGE, wxPoint( -1,0 ), wxSize( -1,-1 ), wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* indentSizer;
 	indentSizer = new wxBoxSizer( wxVERTICAL );
@@ -515,7 +516,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_indentPage->SetSizer( indentSizer );
 	m_indentPage->Layout();
 	indentSizer->Fit( m_indentPage );
-	m_notebook->AddPage( m_indentPage, wxT("Indent"), false );
+	m_notebook->AddSubPage( m_indentPage, wxT("Indentation"), false );
 	m_padPage = new wxPanel( m_notebook, ID_PAD_PAGE, wxPoint( -1,0 ), wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* padSizer;
 	padSizer = new wxBoxSizer( wxVERTICAL );
@@ -654,7 +655,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_padPage->SetSizer( padSizer );
 	m_padPage->Layout();
 	padSizer->Fit( m_padPage );
-	m_notebook->AddPage( m_padPage, wxT("Pad"), false );
+	m_notebook->AddSubPage( m_padPage, wxT("Padding"), false );
 	m_formatPage = new wxPanel( m_notebook, ID_FOMAT_PAGE, wxPoint( -1,0 ), wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* formatSizer;
 	formatSizer = new wxBoxSizer( wxVERTICAL );
@@ -789,7 +790,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_formatPage->SetSizer( formatSizer );
 	m_formatPage->Layout();
 	formatSizer->Fit( m_formatPage );
-	m_notebook->AddPage( m_formatPage, wxT("Format"), false );
+	m_notebook->AddSubPage( m_formatPage, wxT("Formatting"), false );
 	m_otherPage = new wxPanel( m_notebook, ID_OTHER_PAGE, wxPoint( -1,0 ), wxDefaultSize, wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	wxBoxSizer* otherSizer;
 	otherSizer = new wxBoxSizer( wxVERTICAL );
@@ -891,7 +892,7 @@ AStyleDlgBase::AStyleDlgBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_otherPage->SetSizer( otherSizer );
 	m_otherPage->Layout();
 	otherSizer->Fit( m_otherPage );
-	m_notebook->AddPage( m_otherPage, wxT("Other"), true );
+	m_notebook->AddSubPage( m_otherPage, wxT("Objective-C"), true );
 	
 	notebookSizer->Add( m_notebook, 1, wxEXPAND | wxALL, 5 );
 	

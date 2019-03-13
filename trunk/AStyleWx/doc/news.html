@@ -20,7 +20,7 @@
     <h3>Artistic Style Wx 3.2&nbsp; (pending)</h3>
 
     <p>
-        The Artistic Style source code has been updated to use C++11. It will need Visual Studio 2013 or GCC 5 or higher
+        The Artistic Style source code has been updated to use C++11. It will need Visual Studio 2015 or GCC 5 or higher
         to compile.
     </p>
     <p>
@@ -37,17 +37,27 @@
     <p>
         Some Linux distribution packages are now offering the GTK3 toolkit in their wxWidgets packages. AStyleWx has 
         been changed to improve the GTK3 displays. But the wxWidgets display is not as good as with GTK2. The sizing 
-        of dialog boxes and some of the widgets is not as good as it could be. A GTK3 distribution package it can be 
+        of dialog boxes and some of the widgets is not as good as it could be. A GTK3 distribution package can be 
         used, but the GTK2 display will be better. </p>
     <p>
         A Linux test version of wxWidgets is now available along with the different gtk toolkits. It is possible to 
         have more than one version installed at the same time. The version to use in a compile is selected using the 
-        wx-config script. To change the default version the utility &quot;update-alternatives&quot; can be used. AStyleWx also 
+        wx-config script. To change the default version the utility &quot;update-alternatives&quot; can be used. AStyleWx
+        also 
         allows for a different version to be selected at compile time. The Install documentation has descriptions on 
         how to do this. The information is new so be sure to check if you are installing more than one wxWidgets 
         distribution. The wxWidgets version used to compile can be obtained from the AStyleWX Help. About menu.</p>
     <p>
-        &nbsp;</p>
+        The cmake options file has been changed to use the cmake wxWidgets commands. The Install documentation has 
+        information on the install procedures. There are a few changes and additions.</p>
+    <p>
+        In some circumstances on Linux you may get a runtime error of &quot;Mismatch between the program and library build
+        versions detected&quot;. There in a new topic in the &quot;Install Instructions&quot; titled &quot;Linux Library
+        Runtime Error&quot; that describes a fix for the error.
+    </p>
+
+    <p>
+        &quot;</p>
 
     <p style="margin-left: -0.4in; text-align: center;">
         <a href="http://sourceforge.net/projects/astyle">

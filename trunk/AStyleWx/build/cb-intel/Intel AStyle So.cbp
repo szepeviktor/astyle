@@ -15,7 +15,6 @@
 					<Add option="-fno-rtti" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fPIC" />
@@ -36,7 +35,6 @@
 					<Add option="-fno-rtti" />
 					<Add option="-O3" />
 					<Add option="-Wall" />
-					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fPIC" />

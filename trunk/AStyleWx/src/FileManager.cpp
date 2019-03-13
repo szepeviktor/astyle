@@ -51,17 +51,17 @@ int FileManager::AskAboutSave(bool saveAs /*false*/)
 	{
 		// get "Untitled" from notebook tab
 		int page = m_notebook->GetSelection();
-		wxString pageText = m_notebook->GetPageText(page);
-		pageText = pageText.Mid(0, pageText.Len() - 2);
-		filename = wxString::Format("(%s)", pageText);
+		filename = m_notebook->GetPageText(page);
+		if (filename[filename.Len() - 1] == '*')
+			filename = filename.Mid(0, filename.Len() - 2);
 	}
 	wxString message = saveAs ? "SAVE AS" : "SAVE";
 #ifdef TESTMODE1
 	int reply = ShowMessageDialog(message + " for TESTMODE1.\n" +
-	                              "Save changes to " + filename + "?",
+	                              "Save changes to \"" + filename + "\"?",
 	                              wxOK | wxCANCEL | wxICON_QUESTION);
 #else
-	int reply = ShowMessageDialog("Save changes to " + filename + "?",
+	int reply = ShowMessageDialog("Save changes to \"" + filename + "\"?",
 	                              wxYES_NO | wxCANCEL | wxICON_QUESTION);
 #endif
 	return reply;
@@ -130,48 +130,71 @@ int FileManager::BuildNotebookPageWithFile(const wxString& filePathStr, bool sel
 }
 
 void FileManager::CheckFileReload()
+// called fron ASFrame::OnIdle
+// check the current active file
 {
-	// check the current active file
+	static int dialogsOnScreen;
 	m_editor = m_frame->GetEditor();
 	if (m_editor == nullptr)
 		return;
 
-	static int dialogsOnScreen;
 	if (0 == dialogsOnScreen && m_editor->FileNeedsReload())
 	{
-		dialogsOnScreen++;
-		wxString message = "%s\nThis file has been modified outside the source editor."
-		                   "\n\nReload file from disk?";
-		if (m_frame->GetMenuBar()->IsEnabled(ID_FILE_SAVE))
-			message.Append("  The unsaved changes will be lost.");
-		int reply = ShowMessageDialog(wxString::Format(
-		                                  message,
-		                                  m_editor->GetFilePath()),
-		                              wxYES_NO | wxICON_QUESTION);
-		dialogsOnScreen--;
-		if (reply == wxID_YES)
+		if (wxFileName::Exists(m_editor->GetFilePath()))
 		{
-			// save viewing position, don't redraw until finished
-			int firstLine = m_editor->wxStyledTextCtrl::GetFirstVisibleLine();
-			int xOffset = m_editor->wxStyledTextCtrl::GetXOffset();
-			m_editor->Freeze();
-			m_frame->SetCursor(*wxHOURGLASS_CURSOR);
-			if (LoadEditFile(m_editor->GetFilePath()))
+			dialogsOnScreen++;
+			wxString message = "%s\nThis file has been modified outside the source editor."
+			                   "\n\nReload file from disk?";
+			if (m_frame->GetMenuBar()->IsEnabled(ID_FILE_SAVE))
+				message.Append("  The unsaved changes will be lost.");
+			int reply = ShowMessageDialog(wxString::Format(
+			                                  message,
+			                                  m_editor->GetFilePath()),
+			                              wxYES_NO | wxICON_ERROR);
+			dialogsOnScreen--;
+			if (reply == wxID_YES)
 			{
-				// return the viewing area, redraw the control
-				m_editor->wxStyledTextCtrl::SetFirstVisibleLine(firstLine);
-				m_editor->wxStyledTextCtrl::SetXOffset(xOffset);
-				// set caret on first visible line
-				int linePos = m_editor->wxStyledTextCtrl::PositionFromLine(firstLine);
-				m_editor->wxStyledTextCtrl::GotoPos(linePos);
-				m_editor->wxStyledTextCtrl::EmptyUndoBuffer();
-				m_editor->wxStyledTextCtrl::SetSavePoint();
-				m_frame->UpdateFrame();
+				// save viewing position, don't redraw until finished
+				int firstLine = m_editor->wxStyledTextCtrl::GetFirstVisibleLine();
+				int xOffset = m_editor->wxStyledTextCtrl::GetXOffset();
+				m_editor->Freeze();
+				m_frame->SetCursor(*wxHOURGLASS_CURSOR);
+				if (LoadEditFile(m_editor->GetFilePath()))
+				{
+					// return the viewing area, redraw the control
+					m_editor->wxStyledTextCtrl::SetFirstVisibleLine(firstLine);
+					m_editor->wxStyledTextCtrl::SetXOffset(xOffset);
+					// set caret on first visible line
+					int linePos = m_editor->wxStyledTextCtrl::PositionFromLine(firstLine);
+					m_editor->wxStyledTextCtrl::GotoPos(linePos);
+					m_editor->wxStyledTextCtrl::SetCurrentPos(linePos);
+					m_editor->wxStyledTextCtrl::EmptyUndoBuffer();
+					m_editor->wxStyledTextCtrl::SetSavePoint();
+					m_frame->UpdateFrame();
+				}
+				m_frame->SetCursor(wxNullCursor);
+				m_editor->Thaw();
+				m_editor->SetFileModFileDeleted(false);
 			}
-			m_frame->SetCursor(wxNullCursor);
-			m_editor->Thaw();
+			m_editor->SetFocus();
 		}
-		m_editor->SetFocus();
+		else
+		{
+			if (!m_editor->GetFileModFileDeleted() && !m_editor->GetFilePath().IsEmpty())
+			{
+				dialogsOnScreen++;
+				ShowMessageDialog(wxString::Format(
+				                      "%s\nThis file has been deleted.",
+				                      m_editor->GetFilePath()),
+				                  wxOK | wxICON_ERROR);
+				dialogsOnScreen--;
+				m_editor->ClearFileModTime();	// ask to reload
+				m_editor->SetIsDirty(true);
+				m_editor->SetFileModFileDeleted(true);
+				m_frame->UpdateFrame();
+				m_editor->SetFocus();
+			}
+		}
 	}
 }
 
@@ -319,7 +342,7 @@ bool FileManager::SaveEditFile(const wxFileName& filepath)
 	wxFontEncoding encoding = m_editor->GetEncoding();
 	const char* BOM = nullptr;
 	size_t BOMSize = 0;
-	const wxString textOut = m_editor->wxStyledTextCtrl::GetText();
+	const wxString textIn = m_editor->wxStyledTextCtrl::GetText();
 
 	if (useBOM)
 	{
@@ -352,12 +375,12 @@ bool FileManager::SaveEditFile(const wxFileName& filepath)
 
 	// encode the file
 	wxCharBuffer mbBuff;
-	size_t outlen = Encoding::EncodeText(encoding, textOut, mbBuff);
+	size_t outlen = Encoding::EncodeText(encoding, textIn, mbBuff);
 
 	// if conversion does not succeed, try UTF-8
-	if (outlen == 0)
+	if (outlen == 0 && textIn.Len() != 0)
 	{
-		outlen = Encoding::EncodeText(wxFONTENCODING_UTF8, textOut, mbBuff);
+		outlen = Encoding::EncodeText(wxFONTENCODING_UTF8, textIn, mbBuff);
 		if (outlen == 0)
 		{
 			ShowMessageDialog(
@@ -398,11 +421,14 @@ bool FileManager::SaveEditFile(const wxFileName& filepath)
 		isError = file.Write(mbBuff, outlen) != outlen;
 	file.Close();
 	m_editor->SetFileVariables(filepath, encoding, useBOM);
+	wxString pageToolTip = filepath.GetFullPath();
+	int page = m_notebook->GetPageIndex(m_editor);
+	m_notebook->SetPageToolTip(page, pageToolTip);
 	m_frame->UpdateFrame();
 	//    wxStyledTextCtrl::EmptyUndoBuffer();  // ???????????????????????
 	m_editor->wxStyledTextCtrl::SetSavePoint();
 
-	// check this AFTER saving the modification time in SetFileVariables()
+	// check this AFTER saving the modification time in ASEditor::SetFileVariables()
 	if (isError)
 	{
 		ShowMessageDialog(wxString::Format(

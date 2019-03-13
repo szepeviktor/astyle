@@ -67,6 +67,7 @@ public:
 
 public:
 	AStyleFormat();
+	virtual ~AStyleFormat() = default;
 	void FormatSource(wxStyledTextCtrl* stc, const wxString& optionsWx);
 	void FormatSelection(wxStyledTextCtrl* stc, const wxString& optionsWx);
 	wxString GetAStyleVersion() const;

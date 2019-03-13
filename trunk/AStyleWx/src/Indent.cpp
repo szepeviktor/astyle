@@ -138,8 +138,9 @@ int ASEditor::GetLinePartsInStyle(int line, int style1, int style2, std::string 
 		if ((wxStyledTextCtrl::GetStyleAt(pos) == style1)
 		        || (wxStyledTextCtrl::GetStyleAt(pos) == style2))
 		{
+			// do NOT change the static_cast to wxChar
 			char c[2];
-			c[0] = static_cast<wxChar>(wxStyledTextCtrl::GetCharAt(pos));
+			c[0] = static_cast<char>(wxStyledTextCtrl::GetCharAt(pos));
 			c[1] = '\0';
 			s += c;
 		}

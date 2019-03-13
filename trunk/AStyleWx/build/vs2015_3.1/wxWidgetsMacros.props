@@ -5,7 +5,6 @@
     <WXWIN>C:\Programs\wxWidgets-3.1.0_vs2015</WXWIN>
     <wxVersion>31</wxVersion>
   </PropertyGroup>
-  <PropertyGroup />
   <ItemDefinitionGroup />
   <ItemGroup>
     <BuildMacro Include="WXWIN">

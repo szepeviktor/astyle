@@ -7,8 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="wx$(wxVersion3)/bin/AStyleWxDlld" prefix_auto="1" extension_auto="1" />
-				<Option object_output="wx$(wxVersion3)/objDll/Debug/" />
+				<Option output="wx$(wxVersion)/bin/AStyleWxDlld" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx$(wxVersion)/objDll/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -36,19 +36,23 @@
 					<Add library="wxpng" />
 					<Add library="wxzlib" />
 					<Add library="comctl32" />
-					<Add library="oleaut32" />
 					<Add library="ole32" />
+					<Add library="oleaut32" />
+					<Add library="oleacc" />
+					<Add library="shlwapi" />
 					<Add library="uuid" />
+					<Add library="UxTheme" />
+					<Add library="version" />
 					<Add library="winspool" />
 					<Add directory="$(WXWIN)/lib/gcc_lib" />
 				</Linker>
 				<ExtraCommands>
-					<Add after='cmd /c  if not exist   &quot;wx$(wxVersion3)\bin\AStyle32d.dll&quot;   mklink /h  &quot;wx$(wxVersion3)\bin\AStyle32d.dll&quot;  &quot;lib\AStyle32d.dll&quot;' />
+					<Add after='cmd /c  if not exist   &quot;wx$(wxVersion)\bin\AStyle32d.dll&quot;   mklink /h  &quot;wx$(wxVersion)\bin\AStyle32d.dll&quot;  &quot;lib\AStyle32d.dll&quot; &gt; NUL' />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
-				<Option output="wx$(wxVersion3)/bin/AStyleWxDll" prefix_auto="1" extension_auto="1" />
-				<Option object_output="wx$(wxVersion3)/objDll/Release/" />
+				<Option output="wx$(wxVersion)/bin/AStyleWxDll" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx$(wxVersion)/objDll/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -77,19 +81,23 @@
 					<Add library="wxpng" />
 					<Add library="wxzlib" />
 					<Add library="comctl32" />
-					<Add library="oleaut32" />
 					<Add library="ole32" />
+					<Add library="oleaut32" />
+					<Add library="oleacc" />
+					<Add library="shlwapi" />
 					<Add library="uuid" />
+					<Add library="UxTheme" />
+					<Add library="version" />
 					<Add library="winspool" />
 					<Add directory="$(WXWIN)/lib/gcc_lib" />
 				</Linker>
 				<ExtraCommands>
-					<Add after='cmd /c  if not exist   &quot;wx$(wxVersion3)\bin\AStyle32.dll&quot;   mklink /h  &quot;wx$(wxVersion3)\bin\AStyle32.dll&quot;  &quot;lib\AStyle32.dll&quot;' />
+					<Add after='cmd /c  if not exist   &quot;wx$(wxVersion)\bin\AStyle32.dll&quot;   mklink /h  &quot;wx$(wxVersion)\bin\AStyle32.dll&quot;  &quot;lib\AStyle32.dll&quot; &gt; NUL' />
 				</ExtraCommands>
 			</Target>
 			<Target title="DLL Debug">
-				<Option output="wx$(wxVersion3)/bin/AStyleWxDlld_dll" prefix_auto="1" extension_auto="1" />
-				<Option object_output="wx$(wxVersion3)/objDll/DLL Debug/" />
+				<Option output="wx$(wxVersion)/bin/AStyleWxDlld_dll" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx$(wxVersion)/objDll/DLL Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -124,12 +132,17 @@
 					<Add directory="$(WXWIN)/lib/gcc_dll" />
 				</Linker>
 				<ExtraCommands>
-					<Add after='cmd /c  if not exist   &quot;wx$(wxVersion3)\bin\AStyle32d.dll&quot;   cmd /c   mklink /h  &quot;wx$(wxVersion3)\bin\AStyle32d.dll&quot;  &quot;lib\AStyle32d.dll&quot;' />
+					<Add before='cmd /c  if not exist  &quot;wx$(wxVersion)\bin\wxbase*u_gcc_*.dll&quot;  xcopy  &quot;$(WXWIN)\lib\gcc_dll\wxbase*u_gcc_*.dll&quot;  &quot;wx$(wxVersion)\bin\&quot; &gt; NUL' />
+					<Add before='cmd /c  if not exist  &quot;wx$(wxVersion)\bin\wxmsw*u_adv_*.dll&quot;  xcopy  &quot;$(WXWIN)\lib\gcc_dll\wxmsw*u_adv_*.dll&quot;  &quot;wx$(wxVersion)\bin\&quot; &gt; NUL' />
+					<Add before='cmd /c  if not exist  &quot;wx$(wxVersion)\bin\wxmsw*u_aui_*.dll&quot;  xcopy  &quot;$(WXWIN)\lib\gcc_dll\wxmsw*u_aui_*.dll&quot;  &quot;wx$(wxVersion)\bin\&quot; &gt; NUL' />
+					<Add before='cmd /c  if not exist  &quot;wx$(wxVersion)\bin\wxmsw*u_core_*.dll&quot;  xcopy  &quot;$(WXWIN)\lib\gcc_dll\wxmsw*u_core_*.dll&quot;  &quot;wx$(wxVersion)\bin\&quot; &gt; NUL' />
+					<Add before='cmd /c  if not exist  &quot;wx$(wxVersion)\bin\wxmsw*u_stc_*.dll&quot;  xcopy  &quot;$(WXWIN)\lib\gcc_dll\wxmsw*u_stc_*.dll&quot;  &quot;wx$(wxVersion)\bin\&quot; &gt; NUL' />
+					<Add after='cmd /c  if not exist   &quot;wx$(wxVersion)\bin\AStyle32d.dll&quot;   cmd /c   mklink /h  &quot;wx$(wxVersion)\bin\AStyle32d.dll&quot;  &quot;lib\AStyle32d.dll&quot; &gt; NUL' />
 				</ExtraCommands>
 			</Target>
 			<Target title="DLL Release">
-				<Option output="wx$(wxVersion3)/bin/AStyleWxDll_dll" prefix_auto="1" extension_auto="1" />
-				<Option object_output="wx$(wxVersion3)/objDll/DLL Release/" />
+				<Option output="wx$(wxVersion)/bin/AStyleWxDll_dll" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx$(wxVersion)/objDll/DLL Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -165,13 +178,17 @@
 					<Add directory="$(WXWIN)/lib/gcc_dll" />
 				</Linker>
 				<ExtraCommands>
-					<Add after='cmd /c  if not exist   &quot;wx$(wxVersion3)\bin\AStyle32.dll&quot;   cmd /c   mklink /h  &quot;wx$(wxVersion3)\bin\AStyle32.dll&quot;  &quot;lib\AStyle32.dll&quot;' />
+					<Add before='cmd /c  if not exist  &quot;wx$(wxVersion)\bin\wxbase*u_gcc_*.dll&quot;  xcopy  &quot;$(WXWIN)\lib\gcc_dll\wxbase*u_gcc_*.dll&quot;  &quot;wx$(wxVersion)\bin\&quot; &gt; NUL' />
+					<Add before='cmd /c  if not exist  &quot;wx$(wxVersion)\bin\wxmsw*u_adv_*.dll&quot;  xcopy  &quot;$(WXWIN)\lib\gcc_dll\wxmsw*u_adv_*.dll&quot;  &quot;wx$(wxVersion)\bin\&quot; &gt; NUL' />
+					<Add before='cmd /c  if not exist  &quot;wx$(wxVersion)\bin\wxmsw*u_aui_*.dll&quot;  xcopy  &quot;$(WXWIN)\lib\gcc_dll\wxmsw*u_aui_*.dll&quot;  &quot;wx$(wxVersion)\bin\&quot; &gt; NUL' />
+					<Add before='cmd /c  if not exist  &quot;wx$(wxVersion)\bin\wxmsw*u_core_*.dll&quot;  xcopy  &quot;$(WXWIN)\lib\gcc_dll\wxmsw*u_core_*.dll&quot;  &quot;wx$(wxVersion)\bin\&quot; &gt; NUL' />
+					<Add before='cmd /c  if not exist  &quot;wx$(wxVersion)\bin\wxmsw*u_stc_*.dll&quot;  xcopy  &quot;$(WXWIN)\lib\gcc_dll\wxmsw*u_stc_*.dll&quot;  &quot;wx$(wxVersion)\bin\&quot; &gt; NUL' />
+					<Add after='cmd /c  if not exist   &quot;wx$(wxVersion)\bin\AStyle32.dll&quot;   cmd /c   mklink /h  &quot;wx$(wxVersion)\bin\AStyle32.dll&quot;  &quot;lib\AStyle32.dll&quot; &gt; NUL' />
 				</ExtraCommands>
 			</Target>
 			<Environment>
-				<Variable name="WXWIN" value="C:\Programs\wxWidgets-3.0.2_mingw" />
-				<Variable name="wxVersion" value="30" />
-				<Variable name="wxVersion3" value="302" />
+				<Variable name="WXWIN" value="C:\Programs\wxWidgets-3.1.1_mingw" />
+				<Variable name="wxVersion" value="31" />
 			</Environment>
 		</Build>
 		<Compiler>

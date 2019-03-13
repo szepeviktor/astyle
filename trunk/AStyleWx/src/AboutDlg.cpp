@@ -24,15 +24,22 @@ AboutDlg::AboutDlg(wxWindow* parent) : AboutDlgBase(parent)
 
 void AboutDlg::SetSystemInfo()
 {
+	const int lengthMax = 30;
 	wxLocale loc;
 	loc.Init();
 	wxString osDesc = wxGetOsDescription();
-	if (osDesc.length() > 30)
+#ifdef __WXGTK__
+	if (osDesc.length() > lengthMax)
 	{
-		size_t end = osDesc.Find(' ', true);
-		if (end != wxString::npos && end > 10)
+		size_t end = osDesc.Find(' ', true);	// search from the end
+		if (end != wxString::npos && end < lengthMax)
 			osDesc = osDesc.Mid(0, end);
 	}
+#else
+	size_t end = osDesc.Find('(');
+	if (end != wxString::npos && end < lengthMax)
+		osDesc = osDesc.Mid(0, end);
+#endif
 	wxString langDesc = wxLocale::GetLanguageName(loc.GetLanguage());
 	wxString locName = loc.GetSysName();
 	wxString langName = loc.GetCanonicalName();
@@ -126,7 +133,7 @@ void AboutDlg::SetAboutDlgValues(wxString& astyleVersion, wxIconBundle* m_iconBu
 		m_wxVersion->SetLabel(wxString::Format("Built with wxWidgets version  %d.%d.%d.",
 		                                       wxMAJOR_VERSION, wxMINOR_VERSION, wxRELEASE_NUMBER));
 	else
-		m_wxVersion->SetLabel(wxString::Format("Built with wxWidgets version  %d.%d.%d,  %s.",
+		m_wxVersion->SetLabel(wxString::Format("Built with wxWidgets version  %d.%d.%d, %s.",
 		                                       wxMAJOR_VERSION, wxMINOR_VERSION, wxRELEASE_NUMBER,
 		                                       toolkit));
 	m_astylewxVersion->SetLabel(wxString::Format("Artistic Style Wx version  %s.", astyleVersion));

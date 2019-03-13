@@ -96,8 +96,8 @@ private:
 
 private:
 
-	AStyleIFace* m_astyle;		// pointer to the AStyleIFace object
 	ASFrame* m_frame;			// pointer to the ASFrame object
+	AStyleIFace* m_astyle;		// pointer to the AStyleIFace object
 	int m_page;					// currently selected dialog page
 	AStyleDisplay* m_display;	// preview window display for AStyleDlg
 

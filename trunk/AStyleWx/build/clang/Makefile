@@ -18,7 +18,7 @@ vpath %.h   ../../src ../../dialog ../../../AStyle/src ../../../astyle/src
 
 # set prefix if not defined on the command line
 ifndef prefix
-    prefix=/usr
+	prefix=/usr
 endif
 SYSCONF_PATH=$(prefix)/share/doc/astylewx
 
@@ -29,7 +29,7 @@ else
 	wx = $(shell wx-config --release)
 endif
 
-# get GTK toolkit varsion and install prefix for desktop
+# get GTK toolkit version and install prefix for desktop
 tk = $(shell wx-config --query-toolkit)
 ifeq ($(tk), gtk3)
 	GTKVERSION = gtk+-3.0
@@ -57,6 +57,10 @@ endif
 endif
 
 # define macros
+# CXX defaults to g++
+ifeq ($(CXX), g++)
+	CXX = clang++
+endif
 bindir = wx$(wx)$(tk)/bin
 objdir = wx$(wx)$(tk)/obj
 idatadir=$(prefix)/share
@@ -67,10 +71,8 @@ rpaths = -Wl,-rpath,./ -Wl,-rpath,../ -Wl,-rpath,./lib -Wl,-rpath,../lib \
 SOLIBVER = 3.2.0
 # c++11 is required for clang wx=3.0, cannot use no-rtti
 CBASEFLAGS = -Wall -Wextra -std=c++11 -fno-exceptions \
--Wno-potentially-evaluated-expression -Wno-unknown-warning-option \
--I../../src -I../../dialog -I../../image
+-Wno-potentially-evaluated-expression -I../../src -I../../dialog -I../../image
 LDBASEFLAGS = -L../../../AStyle/build/clang/bin  -L../../../astyle/build/clang/bin
-CXX = clang++
 INSTALL=install -o $(USER) -g $(USER)
 
 # get the compile and link options from wx-config
@@ -83,27 +85,27 @@ ifdef TK
 endif
 $(info ## WXCONF = $(WXCONF))
 
-CCONFFLAGS  := $(shell $(WXCONF) --cflags)
+CCONFFLAGS  := $(shell $(WXCONF) --cxxflags)
 LDCONFFLAGS := $(shell $(WXCONF) --libs adv,aui,core,stc)
 
 ##################################################
 
 # define compile options for each build
 ifdef CFLAGS
-    CFLAGSr  =    -DNDEBUG $(CBASEFLAGS) $(CFLAGS) $(CCONFFLAGS)
-    CFLAGSd  = -g -D_DEBUG $(CBASEFLAGS) $(CFLAGS) $(CCONFFLAGS)
+	CFLAGSr  =    -DNDEBUG $(CBASEFLAGS) $(CFLAGS) $(CCONFFLAGS)
+	CFLAGSd  = -g -D_DEBUG $(CBASEFLAGS) $(CFLAGS) $(CCONFFLAGS)
 else
-    CFLAGSr  = -O2 -DNDEBUG $(CBASEFLAGS) $(CCONFFLAGS)
-    CFLAGSd  = -g  -D_DEBUG $(CBASEFLAGS) $(CCONFFLAGS)
+	CFLAGSr  = -O2 -DNDEBUG $(CBASEFLAGS) $(CCONFFLAGS)
+	CFLAGSd  = -g  -D_DEBUG $(CBASEFLAGS) $(CCONFFLAGS)
 endif
 
 # define link options
 ifdef LDFLAGS
-    LDFLAGSr = $(LDBASEFLAGS) $(LDFLAGS)  $(LDCONFFLAGS)
-    LDFLAGSd = $(LDBASEFLAGS) $(LDFLAGS) $(LDCONFFLAGS)
+	LDFLAGSr = $(LDBASEFLAGS) $(LDFLAGS)  $(LDCONFFLAGS)
+	LDFLAGSd = $(LDBASEFLAGS) $(LDFLAGS) $(LDCONFFLAGS)
 else
-    LDFLAGSr = -s $(LDBASEFLAGS) $(LDCONFFLAGS)
-    LDFLAGSd =    $(LDBASEFLAGS) $(LDCONFFLAGS)
+	LDFLAGSr = -s $(LDBASEFLAGS) $(LDCONFFLAGS)
+	LDFLAGSd =    $(LDBASEFLAGS) $(LDCONFFLAGS)
 endif
 
 # object files are built from the source list $(SRC)

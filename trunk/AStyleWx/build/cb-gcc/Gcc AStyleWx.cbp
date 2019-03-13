@@ -12,25 +12,12 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Wunreachable-code" />
-					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-g" />
-					<Add option="`wx-config --version=$(WX) --toolkit=$(TK)  --cflags`" />
+					<Add option="`wx-config --version=$(WX) --toolkit=$(TK)  --cxxflags`" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
-					<Add option="-Wswitch" />
-					<Add option="-Wno-deprecated-declarations" />
-					<Add option="-Wempty-body" />
-					<Add option="-Wno-conversion" />
-					<Add option="-Wreturn-type" />
-					<Add option="-Wparentheses" />
-					<Add option="-Wno-format" />
-					<Add option="-Wuninitialized" />
-					<Add option="-Wunused-function" />
-					<Add option="-Wunused-value" />
-					<Add option="-Wunused-variable" />
 					<Add option="-D_DEBUG" />
 					<Add option="-DTESTMODE1" />
 					<Add directory="../../src" />
@@ -51,24 +38,11 @@
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add option="-Wunreachable-code" />
-					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
-					<Add option="`wx-config --version=$(WX) --toolkit=$(TK) --cflags`" />
+					<Add option="`wx-config --version=$(WX) --toolkit=$(TK) --cxxflags`" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
-					<Add option="-Wswitch" />
-					<Add option="-Wno-deprecated-declarations" />
-					<Add option="-Wempty-body" />
-					<Add option="-Wno-conversion" />
-					<Add option="-Wreturn-type" />
-					<Add option="-Wparentheses" />
-					<Add option="-Wno-format" />
-					<Add option="-Wuninitialized" />
-					<Add option="-Wunused-function" />
-					<Add option="-Wunused-value" />
-					<Add option="-Wunused-variable" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../../src" />
 					<Add directory="../../dialog" />
@@ -78,6 +52,51 @@
 					<Add option="-s" />
 					<Add option="`wx-config --version=$(WX) --toolkit=$(TK) --libs adv,aui,core,stc`" />
 					<Add library="astyle" />
+					<Add directory="lib" />
+				</Linker>
+			</Target>
+			<Target title="Lint">
+				<Option output="wx$(WX)$(TK)/bin/astylewxl" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx$(WX)$(TK)/obj/Lint/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wnon-virtual-dtor" />
+					<Add option="-Wshadow" />
+					<Add option="-Winit-self" />
+					<Add option="-Wcast-align" />
+					<Add option="-Wfloat-equal" />
+					<Add option="-Winline" />
+					<Add option="-Wunreachable-code" />
+					<Add option="-Wmissing-include-dirs" />
+					<Add option="-Wswitch-default" />
+					<Add option="-Wmain" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="`wx-config --version=$(WX) --toolkit=$(TK)  --cxxflags`" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add option="-Wempty-body" />
+					<Add option="-Wint-to-pointer-cast" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-Wno-format" />
+					<Add option="-Wno-switch-default" />
+					<Add option="-Woverloaded-virtual" />
+					<Add option="-Wparentheses" />
+					<Add option="-Wreturn-type" />
+					<Add option="-Wswitch" />
+					<Add option="-Wuninitialized" />
+					<Add option="-Wunused" />
+					<Add option="-Wwrite-strings" />
+					<Add directory="../../src" />
+					<Add directory="../../dialog" />
+					<Add directory="../../image" />
+				</Compiler>
+				<Linker>
+					<Add option="`wx-config --version=$(WX) --toolkit=$(TK) --libs adv,aui,core,stc`" />
+					<Add library="astyled" />
 					<Add directory="lib" />
 				</Linker>
 			</Target>
