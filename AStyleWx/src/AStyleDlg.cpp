@@ -31,13 +31,11 @@ BEGIN_EVENT_TABLE(AStyleDlg, AStyleDlgBase)
 	// events are defined in AStyleDlgBase by wxFormBuilder
 END_EVENT_TABLE()
 
-AStyleDlg::AStyleDlg(ASFrame* frame, AStyleIFace* astyle, int page) : AStyleDlgBase(frame)
+AStyleDlg::AStyleDlg(ASFrame* frame, AStyleIFace* astyle, int page)
+	: AStyleDlgBase{frame}, m_frame{frame}, m_astyle{astyle}, m_page{page}
 // Set the GUI controls from the AStyleIFace object.
 // The AStyleIFace object is updated when the OK button is pressed.
 {
-	m_astyle = astyle;
-	m_frame = frame;
-	m_page = page;
 	m_display = new AStyleDisplay(m_useTabLength,
 	                              m_attachClass,
 	                              m_attachInline,
@@ -597,7 +595,7 @@ void AStyleDlg::InitializeSTC(wxStyledTextCtrl* stc)
 	stc->SetWrapMode(0);
 	stc->SetIndentationGuides(0);
 	// stc has a custom context menu
-#if wxCHECK_VERSION(3, 1, 0)
+#if wxCHECK_VERSION(3, 1, 1)
 	stc->UsePopUp(wxSTC_POPUP_NEVER);
 #else
 	stc->UsePopUp(false);
@@ -761,7 +759,6 @@ void AStyleDlg::OnTabClick(wxCommandEvent& event)
 // This will display the preview.
 {
 	EnableOrDisableTabLength();
-	wxString className = event.GetEventObject()->GetClassInfo()->GetClassName();
 	m_display->DisplayTabOptions(event, m_tabPreviewSTC);
 }
 

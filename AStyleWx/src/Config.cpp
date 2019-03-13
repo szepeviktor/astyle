@@ -614,14 +614,14 @@ void Config::SaveEditorOptions()
 
 void Config::SaveSessionFiles()
 {
+	wxConfig::DeleteGroup("/Session");
 	wxConfig::SetPath("/Session");
 	wxArrayString filePaths = m_frame->GetOpenFilePaths();
 	// save current session if option is set
 	size_t fileCount = filePaths.GetCount();
-	size_t i = 0;
 	if (m_frame->GetLoadSession())
 	{
-		for (i = 0; i < fileCount; i++)
+		for (size_t i = 0; i < fileCount; i++)
 		{
 			wxFileName filePath = filePaths[i];
 			if (!filePath.IsAbsolute())
@@ -629,13 +629,6 @@ void Config::SaveSessionFiles()
 			wxString key = SESSION_FILE + wxString::Format("%d", static_cast<int>(i + 1));
 			wxConfig::Write(key, filePath.GetFullPath());
 		}
-	}
-	// remove extra entries
-	size_t sessionCount = wxConfig::GetNumberOfEntries();
-	for (; i < sessionCount; i++)
-	{
-		wxString key = SESSION_FILE + wxString::Format("%d", static_cast<int>(i + 1));
-		wxConfig::DeleteEntry(key);
 	}
 }
 

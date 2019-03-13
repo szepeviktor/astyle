@@ -1,29 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28531.58
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{DBFA1BC0-70D7-400B-8CEA-5442EC0A4483}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\doc\news.html = ..\..\doc\news.html
-		..\..\doc\index.html = ..\..\doc\index.html
-		..\..\doc\install.html = ..\..\doc\install.html
-		..\..\doc\notes.html = ..\..\doc\notes.html
-		..\..\doc\static.html = ..\..\doc\static.html
-		..\..\doc\styles.css = ..\..\doc\styles.css
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "markdown", "markdown", "{31013433-FADD-4D3B-8A24-DFAAC4C7BCAB}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\LICENSE.md = ..\..\LICENSE.md
-		..\..\README.md = ..\..\README.md
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleWxDoc", "AStyleWxDoc\AStyleWxDoc.vcxproj", "{8B08ADA5-CAC6-4C62-AA85-0151DBEAE8FD}"
 EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B08ADA5-CAC6-4C62-AA85-0151DBEAE8FD}.Debug|x64.ActiveCfg = Debug|x64
+		{8B08ADA5-CAC6-4C62-AA85-0151DBEAE8FD}.Debug|x64.Build.0 = Debug|x64
+		{8B08ADA5-CAC6-4C62-AA85-0151DBEAE8FD}.Debug|x86.ActiveCfg = Debug|Win32
+		{8B08ADA5-CAC6-4C62-AA85-0151DBEAE8FD}.Debug|x86.Build.0 = Debug|Win32
+		{8B08ADA5-CAC6-4C62-AA85-0151DBEAE8FD}.Release|x64.ActiveCfg = Release|x64
+		{8B08ADA5-CAC6-4C62-AA85-0151DBEAE8FD}.Release|x64.Build.0 = Release|x64
+		{8B08ADA5-CAC6-4C62-AA85-0151DBEAE8FD}.Release|x86.ActiveCfg = Release|Win32
+		{8B08ADA5-CAC6-4C62-AA85-0151DBEAE8FD}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {E220CB6B-5F32-437F-9084-E1C0BEF3C06C}
+		SolutionGuid = {148EB63C-B34D-458C-907A-D7917D37E38F}
 	EndGlobalSection
 EndGlobal

@@ -14,22 +14,12 @@
 				<Option compiler="clang" />
 				<Option createDefFile="1" />
 				<Compiler>
-					<Add option="-Weverything" />
 					<Add option="-Wall" />
-					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add option="-std=c++11" />
 					<Add option="-Wextra" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
-					<Add option="-Wno-c++98-compat" />
-					<Add option="-Wno-exit-time-destructors" />
-					<Add option="-Wno-global-constructors" />
-					<Add option="-Wno-missing-variable-declarations" />
-					<Add option="-Wno-old-style-cast" />
-					<Add option="-Wno-padded" />
-					<Add option="-Wno-shorten-64-to-32" />
-					<Add option="-Wno-sign-conversion" />
-					<Add option="-Wno-weak-vtables" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>
 			</Target>
@@ -42,21 +32,11 @@
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-O3" />
-					<Add option="-Weverything" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-Wextra" />
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
-					<Add option="-Wno-c++98-compat" />
-					<Add option="-Wno-exit-time-destructors" />
-					<Add option="-Wno-global-constructors" />
-					<Add option="-Wno-missing-variable-declarations" />
-					<Add option="-Wno-old-style-cast" />
-					<Add option="-Wno-padded" />
-					<Add option="-Wno-shorten-64-to-32" />
-					<Add option="-Wno-sign-conversion" />
-					<Add option="-Wno-weak-vtables" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>
@@ -65,6 +45,9 @@
 				</Linker>
 			</Target>
 		</Build>
+		<VirtualTargets>
+			<Add alias="Lint" targets="Debug;" />
+		</VirtualTargets>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
 		<Unit filename="../../../AStyle/src/ASEnhancer.cpp" />
 		<Unit filename="../../../AStyle/src/ASFormatter.cpp" />

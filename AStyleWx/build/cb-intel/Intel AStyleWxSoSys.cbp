@@ -14,9 +14,9 @@
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-fno-rtti" />
+					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="`wx-config --version=$(WX) --toolkit=$(TK) --cflags`" />
-					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
 					<Add option="-pthread" />
@@ -43,8 +43,8 @@
 				<Compiler>
 					<Add option="-fno-rtti" />
 					<Add option="-O3" />
+					<Add option="-Wall" />
 					<Add option="`wx-config --version=$(WX) --toolkit=$(TK) --cflags`" />
-					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
 					<Add option="-pthread" />
@@ -64,8 +64,8 @@
 				</Linker>
 			</Target>
 			<Environment>
-				<Variable name="TK" value="gtk2" />
-				<Variable name="WX" value="3.1" />
+				<Variable name="TK" value="" />
+				<Variable name="WX" value="" />
 			</Environment>
 		</Build>
 		<Unit filename="../../dialog/AStyleDlgBase.cpp" />

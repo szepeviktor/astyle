@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<CodeBlocks_workspace_file>
-	<Workspace title="Mac AStyleWx 3.1 Workspace">
-		<Project filename="Mac AStyleWx 3.1.cbp">
-			<Depends filename="Mac AStyle A.cbp" />
-		</Project>
-		<Project filename="Mac AStyle A.cbp" />
-	</Workspace>
-</CodeBlocks_workspace_file>

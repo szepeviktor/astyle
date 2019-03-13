@@ -7,7 +7,7 @@
 		<Option compiler="clang" />
 		<Build>
 			<Target title="Debug">
-				<Option output="debug/libastyle32d.dylib" prefix_auto="0" extension_auto="0" />
+				<Option output="debug/libastyle32.dylib" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objDy/Debug" />
 				<Option type="3" />
 				<Option compiler="clang" />
@@ -19,7 +19,7 @@
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fPIC" />
-					<Add option="-stdlib=libc++" />
+					<Add option="-mmacosx-version-min=10.9" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>
 				<Linker>
@@ -39,7 +39,7 @@
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fPIC" />
-					<Add option="-stdlib=libc++" />
+					<Add option="-mmacosx-version-min=10.9" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>

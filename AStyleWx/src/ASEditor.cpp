@@ -66,6 +66,7 @@ ASEditor::ASEditor(wxWindow* notebook)
 	m_sysEncoding = wxLocale::GetSystemEncoding();
 	m_fileModTime = 0;
 	m_fileModLastAsk = 0;
+	m_fileModFileDeleted = false;
 	m_isDirty = false;
 	m_indentType = INDENT_SPACES;
 
@@ -74,7 +75,7 @@ ASEditor::ASEditor(wxWindow* notebook)
 	wxStyledTextCtrl::SetMarginWidth(STC_BOOKMARK_MARGIN, 0);
 	wxStyledTextCtrl::SetWrapVisualFlags(wxSTC_WRAPVISUALFLAG_START);
 	// stc has a custom context menu
-#if wxCHECK_VERSION(3, 1, 0)
+#if wxCHECK_VERSION(3, 1, 1)
 	wxStyledTextCtrl::UsePopUp(wxSTC_POPUP_NEVER);
 #else
 	wxStyledTextCtrl::UsePopUp(false);
@@ -102,8 +103,9 @@ int ASEditor::BraceAtCaret()
 	wxStyledTextCtrl::SetHighlightGuide(0);
 
 	// Priority goes to character before caret
+	// do NOT change the static_cast to wxChar
 	if (caretPos > 0)
-		charBefore = static_cast<wxChar>(wxStyledTextCtrl::GetCharAt(caretPos - 1));
+		charBefore = static_cast<char>(wxStyledTextCtrl::GetCharAt(caretPos - 1));
 	if (charBefore && strchr(matchChar, charBefore))
 		braceAtCaret = caretPos - 1;
 	// No brace found so check other side
@@ -229,14 +231,15 @@ void ASEditor::DiscoverEOLSetting(wxString& text)
 
 bool ASEditor::FileNeedsReload()
 {
-	if (m_filepath.IsOk())
+	if (!wxFileName::Exists(GetFilePath()))
+		return true;
+
+	wxDateTime newModTime = m_filepath.GetModificationTime();
+	assert(newModTime.IsValid());
+	if (newModTime > m_fileModTime && newModTime != m_fileModLastAsk)
 	{
-		wxDateTime newModTime = m_filepath.GetModificationTime();
-		if (newModTime > m_fileModTime && newModTime != m_fileModLastAsk)
-		{
-			m_fileModLastAsk = newModTime;
-			return true;
-		}
+		m_fileModLastAsk = newModTime;
+		return true;
 	}
 	return false;
 }
@@ -451,7 +454,7 @@ wxString ASEditor::GetWordAtCaret()
 	{
 		// get selected text
 		wxString selectedText = wxStyledTextCtrl::GetSelectedText();
-		if (!selectedText.IsEmpty() && (selectedText.Length() < 100u))
+		if (!selectedText.IsEmpty() && (selectedText.Length() < 100U))
 			wordAtCaret = selectedText;
 	}
 	else
@@ -469,7 +472,7 @@ wxString ASEditor::GetWordAtCaret()
 		                                  wxStyledTextCtrl::GetCharAt(selEnd))) == wxNOT_FOUND))
 			selEnd++;
 		wxString word = wxStyledTextCtrl::GetTextRange(selStart, selEnd);
-		if (!word.IsEmpty() && (word.Length() < 100u))
+		if (!word.IsEmpty() && (word.Length() < 100U))
 			wordAtCaret = word;
 	}
 	return wordAtCaret;
@@ -517,7 +520,6 @@ void ASEditor::OnLineEndMenu(wxCommandEvent& event)
 	wxStyledTextCtrl::ConvertEOLs(eol);
 	wxStyledTextCtrl::SetEOLMode(eol);
 	// cannot undo since SetEolMode will not be reset
-//	wxStyledTextCtrl::EmptyUndoBuffer();
 	m_frame->UpdateToolBarDisplay();
 	m_frame->UpdateStatusBarDisplay();
 	if (statusBar)

@@ -220,15 +220,19 @@ public:
 	void UpdateStcStyleOptions();
 
 public:
+	void ClearFileModTime()                 { m_fileModTime = 0; }
 	wxString GetCurrentDirectory() const    { return m_filepath.GetPath(); }
 	wxFontEncoding GetEncoding() const      { return m_encoding; }
 	FileMode GetFileMode() const            { return m_fileMode; }
+	bool GetFileModFileDeleted()            { return m_fileModFileDeleted; }
 	bool GetFileIsOk() const                { return m_filepath.IsOk(); }
 	bool GetFileIsDirty() const             { return m_isDirty; }
 	wxString GetFileName() const            { return m_filepath.GetFullName(); }
 	wxString GetFilePath() const            { return m_filepath.GetFullPath(); }
 	bool GetModified() const                { return (wxStyledTextCtrl::GetModify()); }
 	bool GetUseBOM() const                  { return m_useBOM; }
+	void SetFileModFileDeleted(bool state)  { m_fileModFileDeleted = state; }
+	void SetIsDirty(bool state)             { m_isDirty = state; }
 
 private:
 	ASFrame* m_frame;                   // pointer to the frame object
@@ -236,6 +240,7 @@ private:
 	wxFileName m_filepath;              // full path (directory and file name)
 	wxDateTime m_fileModTime;           // file modification time
 	wxDateTime m_fileModLastAsk;        // time last asked for reload
+	bool m_fileModFileDeleted;          // file was deleted by another program
 	FileMode m_fileMode;                // C, Java, C#, ...
 	bool m_useBOM;                      // use byte order mark for encoding
 	wxFontEncoding m_encoding;          // font encoding

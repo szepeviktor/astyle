@@ -752,12 +752,12 @@ wxFont ASFrame::FindCommentFont() const
 {
 	// try to get these fonts
 	wxFont commentFont;
-#ifdef __WXMSW__
+#if defined(__WXMSW__)
 	if (commentFont.SetFaceName("Verdana"))
 		commentFont.SetPointSize(10);
 	else if (commentFont.SetFaceName("Arial"))
 		commentFont.SetPointSize(10);
-#elif __WXOSX__
+#elif defined(__WXOSX__)
 	if (commentFont.SetFaceName("Verdana"))
 		commentFont.SetPointSize(14);
 	else if (commentFont.SetFaceName("Arial"))
@@ -786,12 +786,12 @@ wxFont ASFrame::FindDefaultFont() const
 {
 	// try to get these fonts
 	wxFont defaultFont;
-#ifdef __WXMSW__
+#if defined(__WXMSW__)
 	if (defaultFont.SetFaceName("Consolas"))
 		defaultFont.SetPointSize(11);
 	else if (defaultFont.SetFaceName("Lucida Sans Typewriter"))
 		defaultFont.SetPointSize(10);
-#elif __WXOSX__
+#elif defined(__WXOSX__)
 	if (defaultFont.SetFaceName("Monaco"))
 		defaultFont.SetPointSize(13);
 	else if (defaultFont.SetFaceName("Menlo"))
