@@ -30,7 +30,7 @@
 					<Add option="-s" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/astyle  ../../src-p" />
+					<Add after="cp  -fpP  bin/astyle  ../../src-p/" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug">
@@ -52,6 +52,9 @@
 					<Add option="-fno-rtti" />
 					<Add option="-fno-exceptions" />
 				</Compiler>
+				<ExtraCommands>
+					<Add after="cp  -fpP  bin/astyled ../../src-p/" />
+				</ExtraCommands>
 			</Target>
 		</Build>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
@@ -69,8 +72,8 @@
 		</Unit>
 		<Extensions>
 			<code_completion />
-			<envvars />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

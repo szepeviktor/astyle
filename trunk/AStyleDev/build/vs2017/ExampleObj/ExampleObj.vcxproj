@@ -22,7 +22,6 @@
     <ProjectGuid>{1F6F19BE-34F8-4803-9A34-C69E6C1DE5F9}</ProjectGuid>
     <RootNamespace>ExampleObj</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

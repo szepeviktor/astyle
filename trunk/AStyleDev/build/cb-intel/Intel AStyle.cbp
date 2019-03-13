@@ -3,13 +3,12 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="Intel AStyle" />
-		<Option pch_mode="0" />
-		<Option default_target="Release" />
+		<Option pch_mode="2" />
 		<Option compiler="icc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/astyled" prefix_auto="0" extension_auto="0" />
-				<Option object_output="objd" />
+				<Option output="bin/astyled" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="icc" />
 				<Option parameters='-A1tOP  &quot;../../test-data/*.cpp&quot;  &quot;../../test-data/*.h&quot;' />
@@ -17,15 +16,17 @@
 					<Add option="-fno-rtti" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
 					<Add option="-std=c++11" />
 				</Compiler>
+				<ExtraCommands>
+					<Add after="cp  -fpP  bin/astyled  ../../src-p/" />
+				</ExtraCommands>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/astyle" prefix_auto="0" extension_auto="0" />
-				<Option object_output="obj" />
+				<Option output="bin/astyle" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="icc" />
 				<Option parameters='-A1tOP  &quot;../../test-data/*.cpp&quot;  &quot;../../test-data/*.h&quot;' />
@@ -33,7 +34,6 @@
 					<Add option="-fno-rtti" />
 					<Add option="-O3" />
 					<Add option="-Wall" />
-					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
 					<Add option="-std=c++11" />
@@ -44,8 +44,7 @@
 					<Add option="-s" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/astyle  ../../src-p/" />
-					<Mode after="always" />
+					<Add after="cp  -fpP  bin/astyle  ../../src-p/" />
 				</ExtraCommands>
 			</Target>
 		</Build>
@@ -60,8 +59,8 @@
 		<Unit filename="../../../AStyle/src/astyle_main.h" />
 		<Extensions>
 			<code_completion />
-			<envvars />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

@@ -8,31 +8,32 @@ public class AStyleInterface
 {   // Dll name
 #if (WINDOWS)
 // Windows will NOT attach an extension to a filename containing dots (.).
+// The library name must be a constant.
 #if (DEBUG)
-    private const string dllName = "astyle32d.dll";
+    private const string libraryName = "astyle32d.dll";
 #else
-    private const string dllName = "astyle32.dll";
+    private const string libraryName = "astyle32.dll";
 #endif
 #else
     private const string SOLIBVER = "3.2.0";
 #if (DEBUG)
-    private const string dllName = "libastyled.so." + SOLIBVER;
+    private const string libraryName = "libastyled.so." + SOLIBVER;
 #else
-    private const string dllName = "libastyle.so." + SOLIBVER;
+    private const string libraryName = "libastyle.so." + SOLIBVER;
 #endif
 #endif
     /// AStyleGetVersion DllImport.
     /// Cannot use string as a return value because Mono runtime will attempt to
     /// free the returned pointer resulting in a runtime crash.
     /// NOTE: CharSet.Unicode is NOT used here.
-    [DllImport(dllName)]
+    [DllImport(libraryName)]
     private static extern IntPtr AStyleGetVersion();
 
     /// AStyleMainUtf16 DllImport.
     /// Cannot use string as a return value because Mono runtime will attempt to
     /// free the returned pointer resulting in a runtime crash.
     /// NOTE: CharSet.Unicode and wide strings ARE used here.
-    [DllImport(dllName, CharSet = CharSet.Unicode)]
+    [DllImport(libraryName, CharSet = CharSet.Unicode)]
     private static extern IntPtr AStyleMainUtf16(
         [MarshalAs(UnmanagedType.LPWStr)] string textIn,
         [MarshalAs(UnmanagedType.LPWStr)] string options,
@@ -75,7 +76,7 @@ public class AStyleInterface
         }
         catch (DllNotFoundException)
         {   //Console.WriteLine(e.ToString());
-            Error("Cannot load native library: " + dllName);
+            Error("Cannot load native library: " + libraryName);
         }
         catch (Exception e)
         {   Error(e.ToString());
@@ -98,7 +99,7 @@ public class AStyleInterface
         }
         catch (DllNotFoundException)
         {   //Console.WriteLine(e.ToString());
-            Error("Cannot load native library: " + dllName);
+            Error("Cannot load native library: " + libraryName);
         }
         catch (Exception e)
         {   Error(e.ToString());

@@ -41,7 +41,6 @@
     <ProjectGuid>{08A9EBC2-F740-4017-9D8B-44028E9E04D8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>AStyleJava</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

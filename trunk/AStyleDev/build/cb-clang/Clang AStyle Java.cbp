@@ -40,7 +40,10 @@
 					<Add option="-Wl,-soname,libastylejd.so.$(SOLIBVER)" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/libastylejd.so.$(SOLIBVER)  ../../src-j/" />
+					<Add after="ln  --symbolic --force  libastylejd.so.$(SOLIBVER)  libastylejd.so.$(MAJORVER)" />
+					<Add after="ln  --symbolic --force  libastylejd.so.$(MAJORVER)  libastylejd.so" />
+					<Add after="mv  libastylejd.so*  bin/" />
+					<Add after="cp  -fpP  bin/libastylejd.so*  ../../src-j/" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
@@ -79,11 +82,17 @@
 					<Add option="-Wl,-soname,libastylej.so.$(SOLIBVER)" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/libastylej.so.$(SOLIBVER)  ../../src-j/" />
+					<Add after="ln  --symbolic --force  libastylej.so.$(SOLIBVER)  libastylej.so.$(MAJORVER)" />
+					<Add after="ln  --symbolic --force  libastylej.so.$(MAJORVER)  libastylej.so" />
+					<Add after="mv  libastylej.so*  bin/" />
+					<Add after="cp  -fpP  bin/libastylej.so*  ../../src-j/" />
 				</ExtraCommands>
 			</Target>
 			<Environment>
-				<Variable name="SOLIBVER" value="3.2.0" />
+				<Variable name="MAJORVER" value="3" />
+				<Variable name="MINORVER" value="2" />
+				<Variable name="PATCHVER" value="0" />
+				<Variable name="SOLIBVER" value="$(MAJORVER).$(MINORVER).$(PATCHVER)" />
 			</Environment>
 		</Build>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />

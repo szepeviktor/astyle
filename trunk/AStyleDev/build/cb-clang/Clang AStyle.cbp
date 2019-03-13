@@ -38,7 +38,7 @@
 					<Add option="-Wno-weak-vtables" />
 				</Compiler>
 				<ExtraCommands>
-					<Add after="cp  bin/astyled  ../../src-p/" />
+					<Add after="cp  -fpP  bin/astyled  ../../src-p/" />
 				</ExtraCommands>
 				<MakeCommands>
 					<Build command="" />
@@ -81,7 +81,7 @@
 					<Add option="-s" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/astyle  ../../src-p/" />
+					<Add after="cp  -fpP  bin/astyle  ../../src-p/" />
 				</ExtraCommands>
 			</Target>
 		</Build>
