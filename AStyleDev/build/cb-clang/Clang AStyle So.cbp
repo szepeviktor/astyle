@@ -36,11 +36,14 @@
 					<Add option="-Wl,-soname,libastyled.so.$(SOLIBVER)" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/libastyled.so.$(SOLIBVER)  ../../src-c/" />
-					<Add after="cp  bin/libastyled.so.$(SOLIBVER)  ../../src-o/" />
-					<Add after="cp  bin/libastyled.so.$(SOLIBVER)  ../../src-p/" />
-					<Add after="cp  bin/libastyled.so.$(SOLIBVER)  ../../src-s/" />
-					<Add after="cp  bin/libastyled.so.$(SOLIBVER)  ../../src-s2/" />
+					<Add after="ln  --symbolic --force  libastyled.so.$(SOLIBVER)  libastyled.so.$(MAJORVER)" />
+					<Add after="ln  --symbolic --force  libastyled.so.$(MAJORVER)  libastyled.so" />
+					<Add after="mv  libastyled.so*  bin/" />
+					<Add after="cp  -fpP  bin/libastyled.so*  ../../src-c/" />
+					<Add after="cp  -fpP  bin/libastyled.so*  ../../src-o/" />
+					<Add after="cp  -fpP  bin/libastyled.so*  ../../src-p/" />
+					<Add after="cp  -fpP  bin/libastyled.so*  ../../src-s/" />
+					<Add after="cp  -fpP  bin/libastyled.so*  ../../src-s2/" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
@@ -75,15 +78,21 @@
 					<Add option="-Wl,-soname,libastyle.so.$(SOLIBVER)" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp  bin/libastyle.so.$(SOLIBVER)  ../../src-c/" />
-					<Add after="cp  bin/libastyle.so.$(SOLIBVER)  ../../src-o/" />
-					<Add after="cp  bin/libastyle.so.$(SOLIBVER)  ../../src-p/" />
-					<Add after="cp  bin/libastyle.so.$(SOLIBVER)  ../../src-s/" />
-					<Add after="cp  bin/libastyle.so.$(SOLIBVER)  ../../src-s2/" />
+					<Add after="ln  --symbolic --force  libastyle.so.$(SOLIBVER)  libastyle.so.$(MAJORVER)" />
+					<Add after="ln  --symbolic --force  libastyle.so.$(MAJORVER)  libastyle.so" />
+					<Add after="mv  libastyle.so*  bin/" />
+					<Add after="cp  -fpP  bin/libastyle.so*  ../../src-c/" />
+					<Add after="cp  -fpP  bin/libastyle.so*  ../../src-o/" />
+					<Add after="cp  -fpP  bin/libastyle.so*  ../../src-p/" />
+					<Add after="cp  -fpP  bin/libastyle.so*  ../../src-s/" />
+					<Add after="cp  -fpP  bin/libastyle.so*  ../../src-s2/" />
 				</ExtraCommands>
 			</Target>
 			<Environment>
-				<Variable name="SOLIBVER" value="3.2.0" />
+				<Variable name="MAJORVER" value="3" />
+				<Variable name="MINORVER" value="2" />
+				<Variable name="PATCHVER" value="0" />
+				<Variable name="SOLIBVER" value="$(MAJORVER).$(MINORVER).$(PATCHVER)" />
 			</Environment>
 		</Build>
 		<Unit filename="../../../AStyle/src/ASBeautifier.cpp" />
