@@ -13,7 +13,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyle Lib", "AStyle Lib\AS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4F825CB2-E515-46AB-AB55-EE68F5A7C126}"
 	ProjectSection(SolutionItems) = preProject
-		AStyleTest.gta.runsettings = AStyleTest.gta.runsettings
 		..\..\srcx\gtest-options.lst = ..\..\srcx\gtest-options.lst
 	EndProjectSection
 EndProject
@@ -57,10 +56,10 @@ Global
 		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Debug|x64.Build.0 = Debug|x64
 		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Debug|x86.ActiveCfg = Debug|Win32
 		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Debug|x86.Build.0 = Debug|Win32
-		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x64.ActiveCfg = Release|x64
-		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x64.Build.0 = Release|x64
-		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x86.ActiveCfg = Release|Win32
-		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x86.Build.0 = Release|Win32
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x64.ActiveCfg = Debug|x64
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x64.Build.0 = Debug|x64
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x86.ActiveCfg = Debug|Win32
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x86.Build.0 = Debug|Win32
 		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Release|x64.ActiveCfg = Release|x64
 		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Release|x64.Build.0 = Release|x64
 		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Release|x86.ActiveCfg = Release|Win32

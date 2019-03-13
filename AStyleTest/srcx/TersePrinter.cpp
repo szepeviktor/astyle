@@ -120,8 +120,14 @@ void TersePrinter::OnTestEnd(const TestInfo& test_info)
 	}
 	else
 	{
-		ColoredPrintf(COLOR_RED, "%s", "[  FAILED  ] ");
-		printf("%s.%s\n", test_case_name_.c_str(), test_info_name_.c_str());
+		ColoredPrintf(COLOR_RED, "[  FAILED  ] ");
+		printf("%s.%s", test_case_name_.c_str(), test_info_name_.c_str());
+		// print the test time
+		if (GTEST_FLAG(print_time))
+			printf(" (%s ms)\n", internal::StreamableToString(
+			           test_info.result()->elapsed_time()).c_str());
+		else
+			printf("\n");
 	}
 	fflush(stdout);
 }
@@ -514,9 +520,10 @@ string GetAnsiColorCode(ConsoleColor color)
 			return "\033[1;36m";
 		case COLOR_WHITE:
 			return "\033[1;37m";
-		default:
+		case COLOR_DEFAULT:
 			return "\033[1;39m";
 	}
+	return "\033[1;39m";
 }
 
 // Linux return true if colors should be in output terminal.

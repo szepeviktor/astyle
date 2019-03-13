@@ -35,7 +35,7 @@ import libtest
 __project = libastyle.CODEBLOCKS
 
 # select OPT0 thru OPT3, or use customized options
-__options = libastyle.OPT1
+__options = libastyle.OPT3
 
 # options_x are for BOTH executables
 __options_x = ""
@@ -47,7 +47,7 @@ __options_x2 = ""
 
 # executables for test - astyleexe1 is old version, astyleexe2 is new version
 __astyleexe1 = "astyle31"
-__astyleexe2 = "astyle"
+__astyleexe2 = "astyled"
 
 # select one of the following to format files in the OLD directory
 __formatOLD = True
@@ -56,6 +56,10 @@ __formatOLD = True
 # extract all files options, use False for speed, use True to compile
 #__all_files_option = True
 __all_files_option = False
+
+# use a ramdrive (for windows only)
+__ramdrive = True
+#__ramdrive = False
 
 # -----------------------------------------------------------------------------
 
@@ -67,6 +71,8 @@ def main():
     libastyle.set_text_color("yellow")
     print(libastyle.get_python_version())
     locale.setlocale(locale.LC_ALL, "")
+    if os.name == "nt":
+        process_windows_ramdrive()
     verify_options_x_variable()
     print_run_header()
     os.chdir(libastyle.get_file_py_directory())
@@ -240,13 +246,13 @@ def print_astyle_totals(filename):
        Returns files formatted and total files from the report total line.
     """
     # the native locale should be set to get the numeric formatting
-    formatted, totfiles, minute, sec = libtest.get_astyle_totals(filename)
+    formatted, totfiles, minute, second = libtest.get_astyle_totals(filename)
     if minute == 0:
         printline = "{0:n} formatted; {1:n} files; {2} seconds"
-        print(printline.format(formatted, totfiles, sec))
+        print(printline.format(formatted, totfiles, second))
     else:
-        printline = "{0:n} formatted; {1:n} files; {2} min {3} seconds"
-        print(printline.format(formatted, totfiles, minute, sec))
+        printline = "{0:n} formatted; {1:n} files; {2} minutes {3} seconds"
+        print(printline.format(formatted, totfiles, minute, second))
     return formatted, totfiles
 
 # -----------------------------------------------------------------------------
@@ -302,11 +308,11 @@ def print_run_total(starttime):
     stoptime = time.time()
     runtime = int(stoptime - starttime + 0.5)
     minute = int(runtime / 60)
-    sec = int(runtime % 60)
+    second = int(runtime % 60)
     if minute == 0:
-        print("{0} seconds total run time".format(sec))
+        print("{0} seconds total run time".format(second))
     else:
-        print("{0} min {1} seconds total run time".format(minute, sec))
+        print("{0} minutes {1} seconds total run time".format(minute, second))
     print()
 
 # -----------------------------------------------------------------------------
@@ -319,6 +325,24 @@ def print_test_header(testnum, astyleexe):
     print("TEST {0} with {1}".format(testnum, astyleexe), end='')
     print(' ' * spaces, end='')
     print(libastyle.get_formatted_time())
+
+# -----------------------------------------------------------------------------
+
+def process_windows_ramdrive():
+    """Check if a ramdrive is requested for Windows.
+       The ramdrive is mounted automatically, but must be unmounted manually.
+    """
+    if not os.name == "nt":
+        return
+    if __ramdrive:
+        if not os.path.exists("R:"):
+            libastyle.create_ramdrive()
+        if not os.path.exists("R:/" + libastyle.TEST_DIRECTORY):
+            os.mkdir("R:/" + libastyle.TEST_DIRECTORY)
+        print("Using OSFMount ramdrive")
+    else:
+        if os.path.exists("R:"):
+            libastyle.system_exit("Manually unmount OSFMount ramdrive")
 
 # -----------------------------------------------------------------------------
 
@@ -434,8 +458,8 @@ def verify_test_directory(name):
     testdir = libastyle.get_test_directory(True) + name
     dirs = glob.glob(testdir)
     if len(dirs) == 0:
-        msg = ("No test directory " + name +
-               ", must use formatOLD = True")
+        msg = ("No test directory " + name
+               + ", must use formatOLD = True")
         libastyle.system_exit(msg)
 
 # -----------------------------------------------------------------------------

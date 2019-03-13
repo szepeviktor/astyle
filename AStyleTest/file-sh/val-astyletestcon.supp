@@ -1,0 +1,80 @@
+# Valgrind suppression file for AStyleTestCon.
+#
+# Suppression for TersePrinter::OnTestEnd.
+# Statement was copied from GTest.
+# The cause was not determined.
+
+{
+   <TersePrinter::OnTestEnd>
+   Memcheck:Addr8
+   fun:_ZNK7testing10TestResult12elapsed_timeEv
+   fun:_ZN12TersePrinter9OnTestEndERKN7testing8TestInfoE
+   ...
+}
+
+#
+# SUPPRESSIONS OF C++ FUNCTIONS
+# The cause cannot be corrected.
+#
+
+{
+   <getenv 1>
+   Memcheck:Addr1
+   fun:getenv
+   ...
+}
+
+{
+   <getenv 2>
+   Memcheck:Addr2
+   fun:getenv
+   ...
+}
+
+# occurs only with --terse_output
+{
+   <getenv 3>
+   Memcheck:Cond
+   fun:getenv
+   ...
+}
+
+{
+   <mktime 1>
+   Memcheck:Cond
+   fun:isdst_differ
+   fun:__mktime_internal
+   fun:mktime
+   ...
+}
+
+# since Valgrind 3.14
+{
+   <mktime 2>
+   Memcheck:Cond
+   fun:__mktime_internal
+   ...
+}
+
+{
+   <strlen >
+   Memcheck:Addr1
+   fun:__strlen_sse2
+   ...
+}
+
+{
+   <strncmp>
+   Memcheck:Addr1
+   fun:__strncmp_sse42
+   ...
+}
+
+{
+   <add_to_environ>
+   Memcheck:Addr1
+   fun:__add_to_environ
+   fun:putenv
+   fun:putenv
+   ...
+}

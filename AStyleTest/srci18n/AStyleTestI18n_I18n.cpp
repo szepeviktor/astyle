@@ -142,16 +142,20 @@ struct JapaneseF : public Test
 		// LCID is from https://msdn.microsoft.com/en-us/library/ms912047(WinEmbedded.10).aspx
 		// 1041 - Japanese
 		// Must compare LCIDs, not names
-		LCID lcid = GetSystemDefaultLCID();
-		if (lcid != 1041)
+		size_t lcid = GetSystemDefaultLCID();
+		size_t codepage = GetACP();
+		if (lcid == 1041 && codepage != 65001)
+		{
+			isValidLocale = setGlobalLocale("japanese");
+			if (!isValidLocale)
+				return;
+		}
+		else if (codepage != 65001)
 		{
 			g_testedJapanese = false;
 			isValidLocale = false;
 			return;
 		}
-		isValidLocale = setGlobalLocale("japanese");
-		if (!isValidLocale)
-			return;
 #else
 		// Linux can use the native UTF-8 locale
 		isValidLocale = setGlobalLocale("");
@@ -221,7 +225,7 @@ TEST_F(JapaneseF, Recursive1)
 	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
+		EXPECT_EQ(fileNames[i], fileName[i]);
 }
 
 TEST_F(JapaneseF, Recursive2)
@@ -251,7 +255,7 @@ TEST_F(JapaneseF, Recursive2)
 	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
+		EXPECT_EQ(fileNames[i], fileName[i]);
 }
 
 TEST_F(JapaneseF, Recursive3)
@@ -321,7 +325,7 @@ TEST_F(JapaneseF, RecursiveExclude)
 	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
+		EXPECT_EQ(fileNames[i], fileName[i]);
 }
 
 TEST_F(JapaneseF, RecursiveSuffix)
@@ -385,16 +389,20 @@ struct GreekF : public Test
 		// LCID is from https://msdn.microsoft.com/en-us/library/ms912047(WinEmbedded.10).aspx
 		// 1032 - Greek
 		// Must compare LCIDs, not names
-		LCID lcid = GetSystemDefaultLCID();
-		if (lcid != 1032)
+		size_t lcid = GetSystemDefaultLCID();
+		size_t codepage = GetACP();
+		if (lcid == 1032 && codepage != 65001)
+		{
+			isValidLocale = setGlobalLocale("greek");
+			if (!isValidLocale)
+				return;
+		}
+		else if (codepage != 65001)
 		{
 			g_testedGreek = false;
 			isValidLocale = false;
 			return;
 		}
-		isValidLocale = setGlobalLocale("greek");
-		if (!isValidLocale)
-			return;
 #else
 		// Linux can use the native UTF-8 locale
 		isValidLocale = setGlobalLocale("");
@@ -465,7 +473,7 @@ TEST_F(GreekF, Recursive1)
 #endif
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
+		EXPECT_EQ(fileNames[i], fileName[i]);
 }
 
 TEST_F(GreekF, Recursive2)
@@ -495,7 +503,7 @@ TEST_F(GreekF, Recursive2)
 	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
+		EXPECT_EQ(fileNames[i], fileName[i]);
 }
 
 TEST_F(GreekF, Recursive3)
@@ -568,7 +576,7 @@ TEST_F(GreekF, RecursiveExclude)
 #endif
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
+		EXPECT_EQ(fileNames[i], fileName[i]);
 }
 
 TEST_F(GreekF, RecursiveSuffix)
@@ -631,16 +639,20 @@ struct RussianF : public Test
 		// LCID is from https://msdn.microsoft.com/en-us/library/ms912047(WinEmbedded.10).aspx
 		// 1049 - Russian
 		// Must compare LCIDs, not names
-		LCID lcid = GetSystemDefaultLCID();
-		if (lcid != 1049)
+		size_t lcid = GetSystemDefaultLCID();
+		size_t codepage = GetACP();
+		if (lcid == 1049 && codepage != 65001)
+		{
+			isValidLocale = setGlobalLocale("russian");
+			if (!isValidLocale)
+				return;
+		}
+		else if (codepage != 65001)
 		{
 			g_testedRussian = false;
 			isValidLocale = false;
 			return;
 		}
-		isValidLocale = setGlobalLocale("russian");
-		if (!isValidLocale)
-			return;
 #else
 		// Linux can use the native UTF-8 locale
 		isValidLocale = setGlobalLocale("");
@@ -688,12 +700,7 @@ struct RussianF : public Test
 	}
 };
 
-// MacOS fails on the string compares, which actually are OK.
-#ifdef __APPLE__
-	TEST_F(RussianF, DISABLED_Recursive1)
-#else
-	TEST_F(RussianF, Recursive1)
-#endif
+TEST_F(RussianF, Recursive1)
 // test single-byte recursive option
 {
 	// check valid locale
@@ -714,16 +721,11 @@ struct RussianF : public Test
 	{
 //		cout << fileNames[i] << endl;
 //		cout << fileName[i] << endl;
-		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
+		EXPECT_EQ(fileNames[i], fileName[i]);
 	}
 }
 
-// MacOS fails on the string compares, which actually are OK.
-#ifdef __APPLE__
-	TEST_F(RussianF, DISABLED_Recursive2)
-#else
-	TEST_F(RussianF, Recursive2)
-#endif
+TEST_F(RussianF, Recursive2)
 // test single-byte recursive option with a single-byte directory in the options
 {
 	// check valid locale
@@ -753,7 +755,7 @@ struct RussianF : public Test
 	{
 //		cout << fileNames[i] << endl;
 //		cout << fileName[i] << endl;
-		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
+		EXPECT_EQ(fileNames[i], fileName[i]);
 	}
 }
 
@@ -783,13 +785,7 @@ TEST_F(RussianF, Recursive3)
 	EXPECT_EQ(testFilePath, fileName[0]);
 }
 
-// MacOS iconv cannot do iconv_open for "UTF−16" or "UTF−8".
-// It aborts in the function utf8ToUtf16().
-#ifdef __APPLE__
-	TEST_F(RussianF, DISABLED_RecursiveExclude)
-#else
-	TEST_F(RussianF, RecursiveExclude)
-#endif
+TEST_F(RussianF, RecursiveExclude)
 // test single-byte recursive option with multi-byte excludes
 {
 	// check valid locale
@@ -828,7 +824,7 @@ TEST_F(RussianF, Recursive3)
 	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
+		EXPECT_EQ(fileNames[i], fileName[i]);
 }
 
 TEST_F(RussianF, RecursiveSuffix)
@@ -882,8 +878,8 @@ struct MultiLanguageF : public Test
 #ifdef _WIN32
 		// Windows cannot do multi language.
 		// LCID is from https://msdn.microsoft.com/en-us/library/ms912047(WinEmbedded.10).aspx
-		LCID lcid = GetSystemDefaultLCID();
-		if (lcid != 9999)		// will not compare true
+		size_t codepage = GetACP();
+		if (codepage != 65001)
 		{
 			g_testedMultiLanguage = false;
 			isValidLocale = false;
@@ -902,31 +898,30 @@ struct MultiLanguageF : public Test
 		    "}\n";
 		textOut = textOutStr.c_str();
 		cleanTestDirectory(getTestDirectory());
+		string testdir =  getTestDirectory();
+		// create Japanese files vector
 		// Japanese symbols are copied from http://www.alanwood.net/unicode/katakana.html
 		// subdir1  = L"/\u30a2\u30a4\u30a6\u30aa";
 		string subdir1 = createLocaleDirectory(L"/アイウオ");
-		// create fileNames vector
-		string testdir =  getTestDirectory();
 		fileNames.push_back(testdir + "/recursive1.cpp");
 		fileNames.push_back(testdir + subdir1 + "/recursive2.cpp");
 		fileNames.push_back(testdir + subdir1 + "/recursive3.cpp");
-		// write the Japanese test files
+		// create Greek files vector
+		// Russian symbols are copied from http://en.wikipedia.org/wiki/Greek_alphabet
+		string subdir2 = createLocaleDirectory(L"/ΓγΔδΛλΩω");
+		fileNames.push_back(testdir + subdir2 + "/recursive4.cpp");
+		fileNames.push_back(testdir + subdir2 + "/recursive5.cpp");
+		// create Russian files vector
+		// Russian symbols are copied from http://en.wikipedia.org/wiki/Russian_alphabet
+		string subdir3 = createLocaleDirectory(L"/ЗИФЫЫЯ");
+		fileNames.push_back(testdir + subdir3 + "/recursive6.cpp");
+		fileNames.push_back(testdir + subdir3 + "/recursive7.cpp");
+		// write the test files
 		for (size_t i = 0; i < fileNames.size(); i++)
 		{
 			console->standardizePath(fileNames[i]);
 			createTestFile(fileNames[i], textOut);
 		}
-		// create a directory and files in Russian
-		// Russian symbols are copied from http://en.wikipedia.org/wiki/Russian_alphabet
-		wstring subdir2 = L"\\ЗИФЫЫЯ";
-		string russianPath = getTestDirectory() + convertToMultiByte(subdir2);
-		console->standardizePath(russianPath);
-		createTestDirectory(russianPath);
-		// files are created for Linux only
-		fileNames.push_back(russianPath + "/recursive4.cpp");
-		createTestFile(fileNames.back(), textOut);
-		fileNames.push_back(russianPath + "/recursive5.cpp");
-		createTestFile(fileNames.back(), textOut);
 		// sort test strings for alpha compare
 		sort(fileNames.begin(), fileNames.end());
 	}	// end c'tor
@@ -956,7 +951,7 @@ TEST_F(MultiLanguageF, Recursive1)
 	vector<string> fileName = console->getFileName();
 	ASSERT_EQ(fileNames.size(), fileName.size());
 	for (size_t i = 0; i < fileNames.size(); i++)
-		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
+		EXPECT_EQ(fileNames[i], fileName[i]);
 }
 
 //----------------------------------------------------------------------------
@@ -980,23 +975,15 @@ struct Codepage1252F : public Test
 	{
 		console = new ASConsole(formatter);
 #ifdef _WIN32
-		// Windows must check for codepage 1252.
-		// get buffer for codepageRecursive1
-		int bufSize = GetLocaleInfo(LOCALE_SYSTEM_DEFAULT,
-		                            LOCALE_IDEFAULTANSICODEPAGE,
-		                            nullptr,
-		                            0);
-		char* value = new (nothrow) char[bufSize];
-		if (value == nullptr)
-			systemAbort("Bad memory alloc for GetLocaleInfo in Codepage1252F");
-		// get codepage
-		GetLocaleInfo(LOCALE_SYSTEM_DEFAULT,
-		              LOCALE_IDEFAULTANSICODEPAGE,
-		              value,
-		              sizeof(value) / sizeof(char));
-		int codepage = atoi(value);
-		delete[] value;
-		if (codepage != 1252)
+		size_t lcid = GetSystemDefaultLCID();
+		size_t codepage = GetACP();
+		if (lcid == 1033 && codepage != 65001)
+		{
+			isValidLocale = setGlobalLocale("english");
+			if (!isValidLocale)
+				return;
+		}
+		else if (codepage != 65001)
 		{
 			g_testedCodepage1252 = false;
 			isValidLocale = false;
@@ -1065,12 +1052,7 @@ struct Codepage1252F : public Test
 	}
 };
 
-// MacOS fails on the string compares, which actually are OK.
-#ifdef __APPLE__
-	TEST_F(Codepage1252F, DISABLED_RecursiveMultiLanguage)
-#else
-	TEST_F(Codepage1252F, RecursiveMultiLanguage)
-#endif
+TEST_F(Codepage1252F, RecursiveMultiLanguage)
 // test codepage 1252 recursive option
 {
 	// check valid locale
@@ -1091,7 +1073,7 @@ struct Codepage1252F : public Test
 	for (size_t i = 0; i < fileNames.size(); i++)
 	{
 		// comment out console->setIsQuiet(true) above to see the results
-		EXPECT_STREQ(fileNames[i].c_str(), fileName[i].c_str());
+		EXPECT_EQ(fileNames[i], fileName[i]);
 	}
 }
 
@@ -1213,37 +1195,56 @@ TEST_F(GetNumberFormat, GetNumberFormat)
 	EXPECT_EQ(result, number) << "format zero";
 	// LINUX English locale
 	bool enOk = setGlobalLocale("en_US.UTF-8");
-	ASSERT_TRUE(enOk) << "Cannot set English locale";
-	result = "123,456,789";
-	number = console->getNumberFormat(123456789);
-	EXPECT_EQ(result, number) << "english locale (assumes default formatting)";
+	if (!enOk)
+		EXPECT_TRUE(enOk) << "Cannot set English locale";
+	else
+	{
+		result = "123,456,789";
+		number = console->getNumberFormat(123456789);
+		EXPECT_EQ(result, number) << "english locale (assumes default formatting)";
+	}
 	// LINUX French locale
 	bool frOk = setGlobalLocale("fr_FR.UTF-8");
-	ASSERT_TRUE(frOk) << "Cannot set French locale";
-	// MacOS currently does not set this, grouping = CHAR_MAX (127)
+	if (!frOk)
+		EXPECT_TRUE(frOk) << "Cannot set French locale";
+	else
+	{
+		// MacOS currently does not set this, grouping = CHAR_MAX (127)
 #ifdef __APPLE__
-	result = "123456789";
+		result = "123456789";
 #else
-	result = "123 456 789";
+		result = "123 456 789";
 #endif
-	number = console->getNumberFormat(123456789);
-	// check if non-breaking spaces were used
-	if (number[3] == '\xA0')
-		result[3] = result[7] = '\xA0';
-	EXPECT_EQ(result, number) << "french locale (assumes default formatting)";
+		number = console->getNumberFormat(123456789);
+		// check if non-breaking spaces were used
+		if (number[3] == '\xA0')
+			result[3] = result[7] = '\xA0';
+		// check if unicode narrow no-break spaces were used
+		else if (number[3] == '\xE2' && number[4] == '\x80' && number[5] == '\xAF')
+		{
+			unsigned char temp[] = { '1', '2', '3', 0xE2, 0x80, 0xAF,
+			                         '4', '5', '6', 0xE2, 0x80, 0xAF,
+			                         '7', '8', '9', 0x00
+			                       };
+			result = reinterpret_cast<char*>(temp);
+		}
+		EXPECT_EQ(result, number) << "french locale (assumes default formatting)";
+	}
 	// LINUX German locale
 	bool deOk = setGlobalLocale("de_DE.UTF-8");
-	ASSERT_TRUE(deOk) << "Cannot set German locale";
-	// MacOS currently does not set this, grouping = CHAR_MAX (127)
+	if (!deOk)
+		EXPECT_TRUE(deOk) << "Cannot set German locale";
+	else
+	{
+		// MacOS currently does not set this, grouping = CHAR_MAX (127)
 #ifdef __APPLE__
-	result = "123456789";
+		result = "123456789";
 #else
-	result = "123.456.789";
+		result = "123.456.789";
 #endif
-	number = console->getNumberFormat(123456789);
-	EXPECT_EQ(result, number) << "german locale (assumes default formatting)";
-	// LINUX French Swiss locale
-	// Linux currently does not have a Swiss locale
+		number = console->getNumberFormat(123456789);
+		EXPECT_EQ(result, number) << "german locale (assumes default formatting)";
+	}
 }
 
 #endif	// _WIN32
@@ -1329,11 +1330,19 @@ TEST(Other, SetCLocale)
 // NOTE: MinGW 4.5 fails this test
 // NOTE: AStyle uses the C locale functions (setlocale) instead of C++
 {
+	// Visual Studio with code page 65001 (UTF-8) gets assert error here
+	// Visual Studio 2017 version 15.9 Preview 3 is _MSC_VER 1916
+#if defined(_MSC_VER) && _MSC_VER < 1916
+	size_t codepage = GetConsoleOutputCP();
+	if (codepage == 65001)
+	{
+		cout << "Code Page 65001 (UTF-8), cannot check Other.SetCLocale" << endl;
+		return;
+	}
+#endif
 	// set the C locale to the classic locale
 	char* localeC = setlocale(LC_ALL, "C");
-	if (localeC == nullptr)
-		FAIL() << "Bad return from setlocale";
-	ASSERT_STREQ("C", setlocale(LC_ALL, nullptr)) << "Failed to set C locale";
+	ASSERT_TRUE(localeC != nullptr) << "Failed to set C locale";
 	// set the C++ locale to the native locale
 	try
 	{
@@ -1360,6 +1369,16 @@ TEST(Other, CppImbue)
 // NOTE: Embarcadero 6.20 fails this test
 // NOTE: MacOS fails this test
 {
+	// Visual Studio with code page 65001 (UTF-8) gets assert error here
+	// Visual Studio 2017 version 15.9 Preview 3 is _MSC_VER 1916
+#if defined(_MSC_VER) && _MSC_VER < 1916
+	size_t codepage = GetConsoleOutputCP();
+	if (codepage == 65001)
+	{
+		cout << "Code Page 65001 (UTF-8), cannot check Other.CppImbue\n" << endl;
+		return;
+	}
+#endif
 	locale::global(locale("C"));
 	// test the formatting of "cout" for numbers
 	// a stringstream is tested instead of the "cout" ostream

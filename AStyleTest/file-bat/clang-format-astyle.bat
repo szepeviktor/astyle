@@ -1,9 +1,7 @@
 @echo off
 REM Format astyle using _clang-format in the src directory
 
-set progdir=%USERPROFILE%\.vscode\extensions\ms-vscode.cpptools-0.13.1\LLVM\bin
-set astyle=..\..\AStyle\build\vs2017\debug\AStyled
-:: set astyle=..\..\AStyle\build\vs2017\bin\AStyle
+set progdir=%USERPROFILE%\.vscode\extensions\ms-vscode.cpptools-0.20.1\LLVM\bin
 
 set srcdir=..\..\AStyle\test-data
 
@@ -29,32 +27,32 @@ REM style options are Chromium, Google, LLVM, Mozilla, WebKit
 ::copy ..\file\clang-chromium.yaml  _clang-format
 echo.
 
-echo "ASBeautifier.cpp"
-"%progdir%\clang-format"  -style=file ASBeautifier.cpp  > clang-asbeautifier.cpp
+REM ~ REM echo "ASBeautifier.cpp"
+REM ~ REM "%progdir%\clang-format"  -style=file ASBeautifier.cpp  > clang-asbeautifier.cpp
 
-REM ~ echo "ASEnhancer.cpp"
-REM ~ "%progdir%\clang-format"  -style=file  ASEnhancer.cpp  > clang-asenhancer.cpp
+echo "ASEnhancer.cpp"
+"%progdir%\clang-format"  -style=file  ASEnhancer.cpp  > clang-asenhancer.cpp
 
-REM ~ echo "ASFormatter.cpp"
-REM ~ "%progdir%\clang-format"  -style=file  ASFormatter.cpp  > clang-asformatter.cpp
+echo "ASFormatter.cpp"
+"%progdir%\clang-format"  -style=file  ASFormatter.cpp  > clang-asformatter.cpp
 
-REM ~ echo "ASLocalizer.cpp"
-REM ~ "%progdir%\clang-format"  -style=file  ASLocalizer.cpp  > clang-aslocalizer.cpp
+echo "ASLocalizer.cpp"
+"%progdir%\clang-format"  -style=file  ASLocalizer.cpp  > clang-aslocalizer.cpp
 
-REM ~ echo "ASResource.cpp"
-REM ~ "%progdir%\clang-format"  -style=file  ASResource.cpp  > clang-asresource.cpp
+echo "ASResource.cpp"
+"%progdir%\clang-format"  -style=file  ASResource.cpp  > clang-asresource.cpp
 
-REM ~ echo "astyle_main.cpp"
-REM ~ "%progdir%\clang-format"  -style=file  astyle_main.cpp  > clang-astyle_main.cpp
+echo "astyle_main.cpp"
+"%progdir%\clang-format"  -style=file  astyle_main.cpp  > clang-astyle_main.cpp
 
-REM ~ echo "astyle.h"
-REM ~ "%progdir%\clang-format"  -style=file  astyle.h > clang-astyle.h
+echo "astyle.h"
+"%progdir%\clang-format"  -style=file  astyle.h > clang-astyle.h
 
-REM ~ echo "astyle_main.h"
-REM ~ "%progdir%\clang-format"  -style=file  astyle_main.h > clang-astyle_main.h
+echo "astyle_main.h"
+"%progdir%\clang-format"  -style=file  astyle_main.h > clang-astyle_main.h
 
-REM ~ echo "ASLocalizer.h"
-REM ~ "%progdir%\clang-format"  -style=file   ASLocalizer.h > clang-aslocalizer.h
+echo "ASLocalizer.h"
+"%progdir%\clang-format"  -style=file   ASLocalizer.h > clang-aslocalizer.h
 
 echo.
 pause

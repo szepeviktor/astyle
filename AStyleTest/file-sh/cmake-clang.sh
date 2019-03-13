@@ -13,9 +13,9 @@ echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 echo "*                AStyle Clang Executable                *"
 echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 cd  "$HOME/Projects/AStyle"
-rm --recursive --force  as-clang-exe
-mkdir  --parents  as-clang-exe
-cd  as-clang-exe
+rm --recursive --force  as-clang
+mkdir  --parents  as-clang
+cd  as-clang
 CXX=clang++  cmake  $opts  ../
 make
 
@@ -61,13 +61,14 @@ if [ "$copy" = "true" ]; then
 	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 	echo "*                 Copy Files to AStyleDev for Testing                 *"
 	echo "* * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-	cd ../
-	cp --verbose --force  as-clang-exe/astyle                ../AStyleDev/src-p/
-	cp --verbose --force  as-clang-so/libastyle.so.*         ../AStyleDev/src-o/
-	cp --verbose --force  as-clang-so/libastyle.so.?.?.?     ../AStyleDev/src-p/
-	cp --verbose --force  as-clang-so/libastyle.so.?.?.?     ../AStyleDev/src-s/
-	cp --verbose --force  as-clang-so/libastyle.so.?.?.?     ../AStyleDev/src-s2/
-	cp --verbose --force  as-clang-java/libastylej.so.?.?.?  ../AStyleDev/src-j/
+	cd  "$HOME/Projects/AStyle"
+	cp  -fpv --no-dereference  as-clang/astyle               ../AStyleDev/src-p/
+	cp  -fpv --no-dereference  as-clang-so/libastyle.so*     ../AStyleDev/src-c/
+	cp  -fpv --no-dereference  as-clang-so/libastyle.so*     ../AStyleDev/src-o/
+	cp  -fpv --no-dereference  as-clang-so/libastyle.so*     ../AStyleDev/src-p/
+	cp  -fpv --no-dereference  as-clang-so/libastyle.so*     ../AStyleDev/src-s/
+	cp  -fpv --no-dereference  as-clang-so/libastyle.so*     ../AStyleDev/src-s2/
+	cp  -fpv --no-dereference  as-clang-java/libastylej.so*  ../AStyleDev/src-j/
 fi
 
 

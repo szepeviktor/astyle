@@ -14,8 +14,10 @@
 				<Option compiler="icc" />
 				<Compiler>
 					<Add option="-Wall" />
+					<Add option="-w2" />
 					<Add option="-g" />
 					<Add option="-Wextra" />
+					<Add option="-wd279" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add directory="../../../googletest" />
 					<Add directory="../../../googletest/include" />
@@ -31,7 +33,7 @@
 					<Add option="-Wall" />
 					<Add option="-w2" />
 					<Add option="-Wextra" />
-					<Add option="-wd11074,11076" />
+					<Add option="-wd279,11074,11076" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add directory="../../../googletest" />
 					<Add directory="../../../googletest/include" />

@@ -9,6 +9,7 @@ import os
 import re
 import sys
 # add cppcheck addon directory to the module search path
+# cppcheckdata must be after the append
 if os.name == "nt":
     sys.path.append("C:/Program Files/Cppcheck/addons")
 import cppcheckdata

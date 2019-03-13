@@ -38,6 +38,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTestLoc", "AStyleTest
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GTest Lib", "GTest Lib\GTest Lib.vcxproj", "{45FFCDB2-173B-49DC-9D35-D059626F78EF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0AD7E946-92EB-4787-B593-F9B0969CC475}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\srcx\gtest-options.lst = ..\..\srcx\gtest-options.lst
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -64,10 +69,10 @@ Global
 		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Debug|Win32.Build.0 = Debug|Win32
 		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Debug|x64.ActiveCfg = Debug|x64
 		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Debug|x64.Build.0 = Debug|x64
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|Win32.ActiveCfg = Release|Win32
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|Win32.Build.0 = Release|Win32
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|x64.ActiveCfg = Release|x64
-		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|x64.Build.0 = Release|x64
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|Win32.ActiveCfg = Debug|Win32
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|Win32.Build.0 = Debug|Win32
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|x64.ActiveCfg = Debug|x64
+		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.LeakDetector|x64.Build.0 = Debug|x64
 		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Release|Win32.ActiveCfg = Release|Win32
 		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Release|Win32.Build.0 = Release|Win32
 		{3D040C2E-4F0C-4A79-B33D-8336C1ADA037}.Release|x64.ActiveCfg = Release|x64
@@ -88,10 +93,10 @@ Global
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|Win32.Build.0 = Debug|Win32
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|x64.ActiveCfg = Debug|x64
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Debug|x64.Build.0 = Debug|x64
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|Win32.ActiveCfg = Release|Win32
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|Win32.Build.0 = Release|Win32
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|x64.ActiveCfg = Release|x64
-		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|x64.Build.0 = Release|x64
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|Win32.ActiveCfg = Debug|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|Win32.Build.0 = Debug|Win32
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|x64.ActiveCfg = Debug|x64
+		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.LeakDetector|x64.Build.0 = Debug|x64
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|Win32.ActiveCfg = Release|Win32
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|Win32.Build.0 = Release|Win32
 		{8563FBDA-FEDC-4233-B585-EBDA55E1C599}.Release|x64.ActiveCfg = Release|x64
@@ -124,10 +129,10 @@ Global
 		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.Debug|Win32.Build.0 = Debug|Win32
 		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.Debug|x64.ActiveCfg = Debug|x64
 		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.Debug|x64.Build.0 = Debug|x64
-		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.LeakDetector|Win32.ActiveCfg = Release|Win32
-		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.LeakDetector|Win32.Build.0 = Release|Win32
-		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.LeakDetector|x64.ActiveCfg = Release|x64
-		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.LeakDetector|x64.Build.0 = Release|x64
+		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.LeakDetector|Win32.ActiveCfg = LeakDetector|Win32
+		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.LeakDetector|Win32.Build.0 = LeakDetector|Win32
+		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.LeakDetector|x64.ActiveCfg = LeakDetector|x64
+		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.LeakDetector|x64.Build.0 = LeakDetector|x64
 		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.Release|Win32.ActiveCfg = Release|Win32
 		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.Release|Win32.Build.0 = Release|Win32
 		{11BD9AA4-E0B8-48CE-BD9F-615066D4C5F6}.Release|x64.ActiveCfg = Release|x64
@@ -136,10 +141,10 @@ Global
 		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Debug|Win32.Build.0 = Debug|Win32
 		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Debug|x64.ActiveCfg = Debug|x64
 		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Debug|x64.Build.0 = Debug|x64
-		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|Win32.ActiveCfg = Release|Win32
-		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|Win32.Build.0 = Release|Win32
-		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x64.ActiveCfg = Release|x64
-		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x64.Build.0 = Release|x64
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|Win32.ActiveCfg = Debug|Win32
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|Win32.Build.0 = Debug|Win32
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x64.ActiveCfg = Debug|x64
+		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.LeakDetector|x64.Build.0 = Debug|x64
 		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Release|Win32.ActiveCfg = Release|Win32
 		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Release|Win32.Build.0 = Release|Win32
 		{45FFCDB2-173B-49DC-9D35-D059626F78EF}.Release|x64.ActiveCfg = Release|x64

@@ -17,7 +17,7 @@ import libastyle
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-AS_RELEASE = "3.1"
+AS_RELEASE = "3.2"
 
 # inut from AStyle directory
 __astyle_dir = libastyle.get_astyle_directory()
@@ -54,8 +54,10 @@ def build_windows_distribution():
 
     print("Compiling with ({})".format(vsdir))
     print("Building AStyle release", AS_RELEASE)
-    if vsdir < "vs2013":
-        libastyle.system_exit("Must compile with vs2013 or greater in libastyle: " + vsdir)
+    if vsdir < "vs2015":
+        libastyle.system_exit("Must compile with vs2015 or greater in libastyle: " + vsdir)
+    if vsdir >= "vs2019":
+        libastyle.system_exit("XP not supported above vs2017: " + vsdir)
     dist_base = __base_dir + "/DistWindowsXP"
     dist_astyle = dist_base + "/AStyleXP"
     os.makedirs(dist_astyle)
@@ -167,11 +169,11 @@ def copy_astyle_doc(dist_doc, to_dos=False):
     for filepath in docfiles:
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
-        if (filename == "astyle.html"
-                or filename == "install.html"
-                or filename == "news.html"
-                or filename == "notes.html"
-                or filename == "styles.css"):
+        if filename in ("astyle.html",
+                        "install.html",
+                        "news.html",
+                        "notes.html",
+                        "styles.css"):
             shutil.copy(filepath, dist_doc)
             print("    " + filename)
         else:
@@ -195,7 +197,7 @@ def copy_astyle_file(dist_file, to_dos=False):
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
         unused, ext = os.path.splitext(filename)
-        if ext != ".yaml" and ext != ".md":
+        if ext not in (".yaml", ".md"):
             shutil.copy(filepath, dist_file)
             print("    " + filename)
         else:
@@ -233,9 +235,9 @@ def copy_astyle_top(dist_top, to_dos=False):
     for filepath in docfiles:
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
-        if (filename == "LICENSE.md"
-                or filename == "README.md"
-                or filename == "CMakeLists.txt"):
+        if filename in ("LICENSE.md",
+                        "README.md",
+                        "CMakeLists.txt"):
             shutil.copy(filepath, dist_top)
             print("    " + filename)
         else:

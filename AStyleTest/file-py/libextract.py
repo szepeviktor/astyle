@@ -310,8 +310,11 @@ def rename_test_directory(source, destination):
 def strip_directory_prefix(directory):
     """Strip the prefix from a directory or file for printing.
     """
-    prefix = libastyle.get_project_directory(True)
-    start = len(prefix)
+    if directory[0:3] == "R:/":
+        start = 3
+    else:
+        prefix = libastyle.get_project_directory(True)
+        start = len(prefix)
     if start > len(directory):
         start = 0
     return directory[start:]
@@ -383,11 +386,11 @@ def test_print_time(starttime, stoptime):
     """
     runtime = int(stoptime - starttime + 0.5)
     minute = int(runtime / 60)
-    sec = int(runtime % 60)
-    if min == 0:
-        print("{0} seconds".format(sec))
+    second = int(runtime % 60)
+    if minute == 0:
+        print("{0} seconds".format(second))
     else:
-        print("{0} min {1} seconds".format(minute, sec))
+        print("{0} minutes {1} seconds".format(minute, second))
 
 # -----------------------------------------------------------------------------
 

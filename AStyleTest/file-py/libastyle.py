@@ -77,11 +77,9 @@ STATIC    = "static"
 STATIC_XP = "static-xp"
 
 # Visual Studio release
-#VS_RELEASE = "vs2010"
-#VS_RELEASE = "vs2012"
-#VS_RELEASE = "vs2013"
 #VS_RELEASE = "vs2015"
 VS_RELEASE = "vs2017"
+#VS_RELEASE = "vs2019"
 # for a new release add a path to compile_windows_executable() below
 
 # test directory name
@@ -109,6 +107,9 @@ def build_astyle_executable(config):
     if os.name == "nt":
         if config == STATIC_XP:
             slnpath = slnpath + "/AStyle XP.sln"
+        elif VS_RELEASE >= "vs2019":
+            # add vs release date
+            slnpath = slnpath + "/AStyle " + VS_RELEASE[2:] + ".sln"
         else:
             slnpath = slnpath + "/AStyle.sln"
         compile_windows_executable(slnpath, config)
@@ -139,26 +140,21 @@ def compile_linux_executable(slnpath, config):
 def compile_windows_executable(slnpath, config):
     """Compile the astyle executable for Windows.
     """
-    sdk = "v3.5"
-    if VS_RELEASE >= "vs2010":
-        sdk = "v4.0.30319"
     # remove the cache file as a precaution
     cachepath = slnpath + "/AStyle.sln.cache"
     if os.path.isfile(cachepath):
         os.remove(cachepath)
     # call MSBuild
-    if VS_RELEASE == "vs2013":
-        buildpath = "C:/Program Files (x86)/MSBuild/12.0/Bin/MSBuild.exe"
-    elif VS_RELEASE == "vs2015":
+    if VS_RELEASE == "vs2015":
         buildpath = "C:/Program Files (x86)/MSBuild/14.0/Bin/MSBuild.exe"
     elif VS_RELEASE == "vs2017":
-        buildpath = ("C:/Program Files (x86)/Microsoft Visual Studio/" +
-                     "2017/Community/MSBuild/15.0/Bin/MSBuild.exe")
+        buildpath = ("C:/Program Files (x86)/Microsoft Visual Studio/"
+                     + "2017/Community/MSBuild/15.0/Bin/MSBuild.exe")
+    elif VS_RELEASE == "vs2019":
+        buildpath = ("C:/Program Files (x86)/Microsoft Visual Studio/"
+                     + "2019/Community/MSBuild/Current/Bin/MSBuild.exe")
     else:
-        buildpath = (os.getenv("WINDIR")
-                     + "/Microsoft.NET/Framework/"
-                     + sdk
-                     + "/MSBuild.exe")
+        system_exit("Must compile with vs2015 or greater in libastyle: " + VS_RELEASE)
     if platform.architecture()[0] == "32bit":        # if running on a 32-bit system
         buildpath = buildpath.replace("Program Files (x86)", "Program Files")
     if not os.path.isfile(buildpath):
@@ -166,7 +162,7 @@ def compile_windows_executable(slnpath, config):
         system_exit(message)
     if config == DEBUG:
         config_prop = "/property:Configuration=Debug"
-    elif config == STATIC or config == STATIC_XP:
+    elif config in (STATIC, STATIC_XP):
         config_prop = "/property:Configuration=Static"
     else:
         config_prop = "/property:Configuration=Release"
@@ -186,6 +182,44 @@ def compile_windows_executable(slnpath, config):
 
 # -----------------------------------------------------------------------------
 
+def create_ramdrive():
+    """Create a ram drive as drive R: using OSFMount.
+       The ramdrive is NOT deleted by the python scripts.
+       Uses the defaults except for the drive letter (R:).
+           -a            Mount a virtual disk.
+           -t vm         Indicates RAM disk.
+           -m R:         Specifies a drive letter
+           -o format...  Volume label, format with ntsf (fastest) or fat32.
+           -s 512M       Size in (M)egabytes or (G)igabytes.
+       shell=True on subprocess.call for elevated privileges.
+       There is a Help.exe file in the "Program Files/OSFMount" folder.
+    """
+    if os.name != "nt":
+        return
+    if os.path.exists("R:"):
+        return
+    exepath = "C:/Program Files/OSFMount/OSFMount.com"
+    if not os.path.exists(exepath):
+        system_exit("OSFMount not installed: " + exepath)
+
+    # create version 2 ramdrive
+    #ramdrive = ([exepath, "-a", "-t", "vm", "-m", "R:", "-o", "format:\"RAMDRIVE\"", "-s", "512M"])
+
+    # create V3 BETA 2 ramdrive from 2019/01/25
+    # had problems with "format:ntfs:\"RAMDRIVE\"" command
+    # the ntfs option is not documented in osfmount_Help.exe
+    # return code 8, but seems to run ok
+    ramdrive = ([exepath, "-a", "-t", "vm", "-m", "R:", "-o", "format:ntfs:\"RAMDRIVE\"", "-s", "512M"])
+
+    # must use a shell to get elevated (administrative) privileges
+    # the output cannot be redirected from a shell
+    retval = subprocess.call(ramdrive, shell=True)
+    if retval not in (0, 8):                                # TODO: allows return code 8
+        system_exit("Bad ramdrive return: " + str(retval))
+    os.mkdir("R:/" + TEST_DIRECTORY)
+
+# -----------------------------------------------------------------------------
+
 def get_7zip_path():
     """Get the 7zip executable path for the os environment.
     """
@@ -201,6 +235,8 @@ def get_archive_directory(endsep=False):
     """Get the archives directory for the os environment.
        endsep = True will add an ending separator.
     """
+    if endsep is not True and endsep is not False:
+        system_exit("Bad arg in get_archive_directory(): " + str(endsep))
     arcdir = get_project_directory() + "/TestArchives"
     if not os.path.isdir(arcdir):
         message = "Cannot find archive directory: " + arcdir
@@ -214,7 +250,7 @@ def get_archive_directory(endsep=False):
 def get_astyle_build_directory(config):
     """Get the AStyle build path for the os environment.
     """
-    if config != DEBUG and config != RELEASE and config != STATIC and config != STATIC_XP:
+    if config not in (DEBUG, RELEASE, STATIC, STATIC_XP):
         system_exit("Bad arg in get_astyle_build_directory(): " + config)
     astyledir = get_astyle_directory()
     if os.name == "nt":
@@ -257,7 +293,9 @@ def get_astyleexe_directory(config, endsep=False):
     """Get the AStyle executable directory for the os environment.
        endsep = True will add an ending separator.
     """
-    if config != DEBUG and config != RELEASE and config != STATIC and config != STATIC_XP:
+    if endsep is not True and endsep is not False:
+        system_exit("Bad arg in get_astyleexe_directory(): " + str(endsep))
+    if config not in (DEBUG, RELEASE, STATIC, STATIC_XP):
         system_exit("Bad arg in get_astyleexe_directory(): " + config)
     astyledir = get_astyle_directory()
     if os.name == "nt":
@@ -283,7 +321,7 @@ def get_astyleexe_directory(config, endsep=False):
 def get_astyleexe_path(config):
     """Get the AStyle executable path for the os environment.
     """
-    if config != DEBUG and config != RELEASE and config != STATIC and config != STATIC_XP:
+    if config not in (DEBUG, RELEASE, STATIC, STATIC_XP):
         system_exit("Bad arg in get_astyle_path(): " + config)
     astyledir = get_astyleexe_directory(config, True)
     if os.name == "nt":
@@ -360,10 +398,9 @@ def get_ch():
 
 def get_diff_path():
     """Get the diff executable path for the os environment.
-       endexe = True will add an ending '.exe' to Windows.
     """
     if os.name == "nt":
-        exepath = "/Program Files (x86)" + "/WinMerge2011/WinMergeU.exe"
+        exepath = "C:/Program Files" + "/WinMerge/WinMergeU.exe"
         if not os.path.isfile(exepath):
             message = "Cannot find diff path: " + exepath
             system_exit(message)
@@ -377,6 +414,8 @@ def get_file_py_directory(endsep=False):
     """Get the file-py directory for the os environment.
        endsep = True will add an ending separator.
     """
+    if endsep is not True and endsep is not False:
+        system_exit("Bad arg in get_file_py_directory(): " + str(endsep))
     # get the path where this file is located
     pydir = sys.path[0]
     if endsep:
@@ -406,6 +445,8 @@ def get_home_directory(endsep=False):
     """Get the home directory for the os environment.
        endsep = True will add an ending separator.
     """
+    if endsep is not True and endsep is not False:
+        system_exit("Bad arg in get_home_directory(): " + str(endsep))
     if os.name == "nt":
         homedir = os.getenv("USERPROFILE")
         homedir = homedir.replace('\\', '/')
@@ -422,19 +463,10 @@ def get_project_directory(endsep=False):
        Extract the Project directory from sys.path[0]
        endsep = True will add an ending separator.
     """
+    if endsep is not True and endsep is not False:
+        system_exit("Bad arg in get_project_directory(): " + str(endsep))
     # get project directory
     pydir = get_file_py_directory()
-
-    #~ projdir = pydir
-    #~ tail = pydir
-    #~ while len(tail) > 0:
-    #~ head, tail = os.path.split(projdir)
-    #~ if tail == 'Projects':
-    #~ break
-    #~ projdir = head
-    #~ if len(tail) == 0:
-    #~ system_exit("Cannot find project directory " + pydir[0:])
-
     projdir = os.path.realpath(pydir + "../../../")
     #~ print("project directory = " + projdir)
     if endsep:
@@ -578,7 +610,12 @@ def get_test_directory(endsep=False):
     """Get the test directory for the os environment.
        endsep = True will add an ending separator.
     """
-    testdir = get_project_directory() + '/' + TEST_DIRECTORY
+    if endsep is not True and endsep is not False:
+        system_exit("Bad arg in get_test_directory(): " + str(endsep))
+    if os.name == "nt" and os.path.exists("R:"):
+        testdir = "R:/" + TEST_DIRECTORY
+    else:
+        testdir = get_project_directory(True) + TEST_DIRECTORY
     if not os.path.isdir(testdir):
         message = "Cannot find test directory: " + testdir
         system_exit(message)
@@ -617,7 +654,7 @@ def set_test_directory(test_directory):
     """
     global TEST_DIRECTORY
     TEST_DIRECTORY = test_directory
-    testdir = get_project_directory() + '/' + TEST_DIRECTORY
+    testdir = get_project_directory(True) + TEST_DIRECTORY
     testdir = testdir.replace('\\', '/')
     if not os.path.isdir(testdir):
         print("Creating: " + testdir)
@@ -679,6 +716,7 @@ def test_all_functions():
     """Test all functions for syntax.
     """
     build_astyle_executable(DEBUG)		# calls compile_astyle_linux() or ..._windows()
+    #create_ramdrive()
     get_7zip_path()
     get_archive_directory()
     get_astyle_build_directory(DEBUG)

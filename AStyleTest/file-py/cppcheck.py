@@ -16,7 +16,7 @@ import libastyle
 
 # global variables ------------------------------------------------------------
 
-__expected_version = "1.74"
+__expected_version = "1.84"
 __src_dir = libastyle.get_astyle_directory() + "/src/"
 __py_dir = libastyle.get_astyletest_directory() + "/file-py/"
 __suppression_path = __py_dir + "cppcheck-suppress"
@@ -107,11 +107,17 @@ def process_astyle_main(astyle_main_list):
             astyle_main_list.append("knownConditionTrueFalse:" + src_path + ":" + str(lines)
                                     + "\t// char16_t sizeCheck\n")
         if line.startswith("size_t sep = 0"):
+            astyle_main_list.append("unreadVariable:" + src_path + ":" + str(lines)
+                                    + "\t\t\t// sep\n")
             astyle_main_list.append("variableScope:" + src_path + ":" + str(lines)
                                     + "\t\t\t\t// sep\n")
         if line.startswith("assert(utf16Size =="):
             astyle_main_list.append("assertWithSideEffect:" + src_path + ":" + str(lines)
                                     + "\t// assert(utf16Size ==\n")
+        # THE FOLLOWING EXCLUDE DOES NOT WORK WITH CPPCHECK 1.85 or 1.86
+        if "wildcmp(wildcard.c_str()" in line:              # 2 lines
+            astyle_main_list.append("useStlAlgorithm:" + src_path + ":" + str(lines + 1)
+                                    + "\t\t// wildcmp(wildcard.c_str()\n")
         # unusedFunction warnings
         if "ASConsole::getErrorStream(" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
@@ -164,7 +170,7 @@ def process_astyle_main(astyle_main_list):
         if "ASConsole::getNoBackup(" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
                                     + "\t\t\t// getNoBackup\n")
-        if "ASConsole::getOptionsFileName(" in line:
+        if "ASConsole::getOptionFileName(" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
                                     + "\t\t\t// getOptionsFileName\n")
         if "ASConsole::getOptionsVector(" in line:
@@ -176,6 +182,12 @@ def process_astyle_main(astyle_main_list):
         if "ASConsole::getPreserveDate(" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
                                     + "\t\t\t// getPreserveDate\n")
+        if "ASConsole::getProjectOptionFileName(" in line:
+            astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                    + "\t\t\t// getProjectOptionFileName\n")
+        if "ASConsole::getProjectOptionsVector(" in line:
+            astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                    + "\t\t\t// getProjectOptionsVector\n")
         if "ASConsole::getStdPathIn(" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
                                     + "\t\t\t// getStdPathIn\n")
@@ -191,7 +203,7 @@ def process_astyle_main(astyle_main_list):
         if "Java_AStyleInterface_AStyleMain(" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
                                     + "\t\t\t// Java_AStyleInterface_AStyleMain\n")
-        if "AStyleGetVersion(" in line and "STDCALL" in line:
+        if "AStyleGetVersion(" in line and "_AStyleGetVersion(" not in line and "STDCALL" in line:
             astyle_main_list.append("unusedFunction:" + src_path + ":" + str(lines)
                                     + "\t\t\t// AStyleGetVersion\n")
         if "AStyleMainUtf16(" in line and "STDCALL" in line:
@@ -272,9 +284,14 @@ def process_beautifier(beautifier_list):
                                    + "\t// indentableHeaders\n")
         if line.startswith("char ch"):
             chars_processed += 1
-            if chars_processed == 1 or chars_processed == 3:
+            if chars_processed in (1, 3):
+                beautifier_list.append("unreadVariable:" + src_path + ":" + str(lines)
+                                       + "\t\t\t\t// char ch\n")
                 beautifier_list.append("variableScope:" + src_path + ":" + str(lines)
                                        + "\t\t\t\t// char ch\n")
+        if line.startswith("int stackLength"):
+            beautifier_list.append("unreadVariable:" + src_path + ":" + str(lines)
+                                   + "\t\t\t\t// char ch\n")
         # unusedFunction warnings
         if "ASBeautifier::getBeautifierFileType" in line:
             beautifier_list.append("unusedFunction:" + src_path + ":" + str(lines)
@@ -304,8 +321,10 @@ def process_enhancer(enhancer_list):
         if line.startswith("char ch"):
             chars_processed += 1
             if chars_processed == 1:
-                enhancer_list.append("variableScope:" + src_path + ":" + str(lines)
+                enhancer_list.append("unreadVariable:" + src_path + ":" + str(lines)
                                      + "\t\t\t\t// char ch\n")
+                enhancer_list.append("variableScope:" + src_path + ":" + str(lines)
+                                     + "\t\t\t\t\t// char ch\n")
     file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -315,7 +334,7 @@ def process_file_suppressions(file_suppression_list):
     """
     file_suppression_list.append("// Suppressed on the Command Line\n")
     file_suppression_list.append("// functionStatic is supressed for the entire project.\n")
-    file_suppression_list.append("// purgedConfiguration is supressed for the entire project.\n")
+#    file_suppression_list.append("// purgedConfiguration is supressed for the entire project.\n")
     file_suppression_list.append("//\n")
     file_suppression_list.append("// duplInheritedMember\n")
     file_suppression_list.append("// These are duplicate variable names in the header classes.\n")
@@ -351,14 +370,21 @@ def process_formatter(formatter_list):
         if line.startswith("char ch"):
             chars_processed += 1
             if chars_processed == 2:
+                formatter_list.append("unreadVariable:" + src_path + ":" + str(lines)
+                                      + "\t\t\t\t// char ch\n")
                 formatter_list.append("variableScope:" + src_path + ":" + str(lines)
                                       + "\t\t\t\t// char ch\n")
         if line.startswith("int spacesOutsideToDelete"):
+            formatter_list.append("unreadVariable:" + src_path + ":" + str(lines)
+                                  + "\t\t\t\t// spacesOutsideToDelete\n")
             formatter_list.append("variableScope:" + src_path + ":" + str(lines)
                                   + "\t\t\t\t// spacesOutsideToDelete\n")
-        if "operators->empty" in line:
-            formatter_list.append("reademptycontainer:" + src_path + ":" + str(lines)
-                                  + "\t\t// operators->empty\n")
+        if line.startswith("int spacesInsideToDelete"):
+            formatter_list.append("unreadVariable:" + src_path + ":" + str(lines)
+                                  + "\t\t\t\t// spacesInsideToDelete\n")
+        if line.startswith("bool haveFirstColon"):
+            formatter_list.append("unreadVariable:" + src_path + ":" + str(lines)
+                                  + "\t\t\t\t// haveFirstColon\n")
         if "operators->empty" in line:
             formatter_list.append("reademptycontainer:" + src_path + ":" + str(lines)
                                   + "\t\t// operators->empty\n")
@@ -423,6 +449,9 @@ def process_localizer(localizer_list):
         if "ASLocalizer::getTranslationClass" in line:
             localizer_list.append("unusedFunction:" + src_path + ":" + str(lines)
                                   + "\t\t\t// getTranslationClass\n")
+        if "Translation::getTranslationString(" in line:
+            localizer_list.append("unusedFunction:" + src_path + ":" + str(lines)
+                                  + "\t\t\t// getTranslationString\n")
         if "Translation::getTranslationVectorSize" in line:
             localizer_list.append("unusedFunction:" + src_path + ":" + str(lines)
                                   + "\t\t\t// getTranslationVectorSize\n")
@@ -489,7 +518,7 @@ def run_cppcheck():
     cppcheck.append("--inconclusive")
     cppcheck.append("--verbose")
     cppcheck.append("--suppress=functionStatic")
-    cppcheck.append("--suppress=purgedConfiguration")
+#    cppcheck.append("--suppress=purgedConfiguration")
     cppcheck.append("--suppressions-list=" + __suppression_path)
     cppcheck.append(__src_dir)
     # shell=True keeps the console window open, but will not display if run from an editor

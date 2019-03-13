@@ -13,6 +13,9 @@
 		<Project filename="Mac AStyleTestLib.cbp">
 			<Depends filename="Mac GTest A.cbp" />
 		</Project>
+		<Project filename="Mac AStyleTestLoc.cbp">
+			<Depends filename="Mac GTest A.cbp" />
+		</Project>
 		<Project filename="Mac GTest A.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

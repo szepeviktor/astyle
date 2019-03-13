@@ -272,13 +272,13 @@ def print_astyle_totals(filename):
     """Print total information from the astyle total line.
        Returns files formatted and total files from the report total line.
     """
-    formatted, totfiles, minute, sec = libtest.get_astyle_totals(filename)
-    if min == 0:
+    formatted, totfiles, minute, second = libtest.get_astyle_totals(filename)
+    if minute == 0:
         printline = "{0:n} formatted; {1:n} files; {2} seconds"
-        print(printline.format(formatted, totfiles, sec))
+        print(printline.format(formatted, totfiles, second))
     else:
-        printline = "{0:n} formatted; {1:n} files; {2} min {3} seconds"
-        print(printline.format(formatted, totfiles, minute, sec))
+        printline = "{0:n} formatted; {1:n} files; {2} minutes {3} seconds"
+        print(printline.format(formatted, totfiles, minute, second))
     return formatted, totfiles
 
 # -----------------------------------------------------------------------------
@@ -321,11 +321,11 @@ def print_run_total(errors, errtests, starttime):
     stoptime = time.time()
     runtime = int(stoptime - starttime + 0.5)
     minute = int(runtime / 60)
-    sec = int(runtime % 60)
-    if min == 0:
-        print("{0} seconds total run time".format(sec))
+    second = int(runtime % 60)
+    if minute == 0:
+        print("{0} seconds total run time".format(second))
     else:
-        print("{0} min {1} seconds total run time".format(minute, sec))
+        print("{0} minutes {1} seconds total run time".format(minute, second))
     if errors == 0:
         print(str(errors) + " errors")
     else:

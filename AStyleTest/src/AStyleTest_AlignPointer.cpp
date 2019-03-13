@@ -4704,6 +4704,37 @@ TEST(AlignPointerOther, ConditionalStatementVariable)
 	delete[] textOut;
 }
 
+TEST(AlignPointerOther, SharpObjectType1)
+{
+	// test recognizing a C# object type "x is string"
+	// this is not a pointer or reference
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (o is string && typeof(T) != typeof(string))\n"
+	    "        Type c = GetConverter(typeof(T));\n"
+	    "}\n";
+	char options[] = "mode=cs, align-pointer=type";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
+
+TEST(AlignPointerOther, SharpObjectType2)
+{
+	// test recognizing a C# object type "x is string"
+	// this is not a pointer or reference
+	char text[] =
+	    "\nvoid Foo()\n"
+	    "{\n"
+	    "    if (o is string && typeof(T) != typeof(string))\n"
+	    "        Type c = GetConverter(typeof(T));\n"
+	    "}\n";
+	char options[] = "mode=cs, align-pointer=name";
+	char* textOut = AStyleMain(text, options, errorHandler, memoryAlloc);
+	EXPECT_STREQ(text, textOut);
+	delete[] textOut;
+}
 
 //-------------------------------------------------------------------------
 // AStyle Align Reference

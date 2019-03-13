@@ -3,7 +3,7 @@
     Run from an option in the "Tools" menu of a development environment.
     For Visual Studio:
         Title:       Format Python
-        Command:     C:/Program Files/Python36/python.exe
+        Command:     C:/Program Files/Python37/python.exe
         Arguments:   "format_python.py"  "$(ItemPath)"
         Init Dir:    %USERPROFILE%/Projects/AStyleTest/file-pyr)
 """
@@ -44,7 +44,7 @@ def call_autopep8_executable(file_path):
         Uses the file pyprp8rc for formatting options.
     """
     if os.name == "nt":
-        exepath = "C:/Program Files/Python36/Scripts/autopep8.exe"
+        exepath = "C:/Program Files/Python37/Scripts/autopep8.exe"
         pypep8rc = os.getenv("USERPROFILE") + "/Projects/AStyleTest/file-py/pypep8rc"
     else:
         exepath = "autopep8"
@@ -93,7 +93,6 @@ def get_options(options, opt_path):
             continue
         if line.startswith("[") and "pep8" in line:
             continue
-        option = line
         if not line.startswith("-"):
             line = "--" + line
         options.append(line)

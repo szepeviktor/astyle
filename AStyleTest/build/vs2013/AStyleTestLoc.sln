@@ -10,6 +10,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleTestLoc", "AStyleTest
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMock Lib", "GMock Lib\GMock Lib.vcxproj", "{C76A76D8-C315-49C0-9E7A-162A0697CC47}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{73EEE838-BBE9-45E4-B351-2B8647E18924}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\srcx\gtest-options.lst = ..\..\srcx\gtest-options.lst
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

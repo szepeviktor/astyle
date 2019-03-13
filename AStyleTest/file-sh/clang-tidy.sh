@@ -23,13 +23,17 @@ compiler="-std=c++11"
 # google-readability-todo adds username to todo comments
 # google-runtime-references
 # hicpp-member-init adds braces to member variables for initialization
+# hicpp-signed-bitwise
 # hicpp-special-member-functions same as cppcoreguidelines-special-member-functions
+# hicpp-vararg
 # llvm-header-guard adds the filepath to the header guard name
 # misc-misplaced-widening-cast is casting size_t to int instead of int to size_t
 # misc-unused-parameters caused several false positives, is checked by compiler
 # readability-braces-around-statements
+# readability-implicit-bool-cast
 # readability-simplify-boolean-expr returns a conditional statement
 # modernize-use-auto recomments using auto for variable types
+# modernize-use-noexcept
 
 # to fix one option
 #  -checks='-*,modernize-use-override' -fix
@@ -47,13 +51,17 @@ checks=-checks=*,\
 -google-readability-todo,\
 -google-runtime-references,\
 -hicpp-member-init,\
+-hicpp-signed-bitwise,\
 -hicpp-special-member-functions,\
+-hicpp-vararg,\
 -llvm-header-guard,\
 -misc-misplaced-widening-cast,\
 -misc-unused-parameters,\
 -readability-braces-around-statements,\
+-readability-implicit-bool-cast,\
 -readability-simplify-boolean-expr,\
--modernize-use-auto
+-modernize-use-auto,\
+-modernize-use-noexcept
 
 
 echo
