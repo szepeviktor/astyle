@@ -336,9 +336,8 @@ void ASResource::buildIndentableMacros(vector<const pair<const string, const str
 		macro_pair("BEGIN_PROPPAGEIDS",   "END_PROPPAGEIDS"),
 	};
 
-	size_t entries = sizeof(macros) / sizeof(macros[0]);
-	for (size_t i = 0; i < entries; i++)
-		indentableMacros->emplace_back(&macros[i]);
+	for (const macro_pair& macro : macros)
+		indentableMacros->emplace_back(&macro);
 
 	assert(indentableMacros->size() < elements);
 }

@@ -132,7 +132,7 @@
       <PreprocessorDefinitions>_DEBUG;_USING_V110_SDK71_</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/source-charset:utf-8</AdditionalOptions>
+      <AdditionalOptions>/utf-8</AdditionalOptions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <AdditionalIncludeDirectories>$(UniversalCRTSdkDir)Include\10.0.10240.0\ucrt</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -149,7 +149,7 @@
       <PreprocessorDefinitions>_DEBUG;_USING_V110_SDK71_</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/source-charset:utf-8</AdditionalOptions>
+      <AdditionalOptions>/utf-8</AdditionalOptions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <AdditionalIncludeDirectories>$(UniversalCRTSdkDir)Include\10.0.10240.0\ucrt</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -172,7 +172,7 @@
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <OmitFramePointers>true</OmitFramePointers>
       <ExceptionHandling>false</ExceptionHandling>
-      <AdditionalOptions>/source-charset:utf-8</AdditionalOptions>
+      <AdditionalOptions>/utf-8</AdditionalOptions>
       <AdditionalIncludeDirectories>$(UniversalCRTSdkDir)Include\10.0.10240.0\ucrt</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -197,7 +197,7 @@
       <OmitFramePointers>true</OmitFramePointers>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <ExceptionHandling>false</ExceptionHandling>
-      <AdditionalOptions>/source-charset:utf-8</AdditionalOptions>
+      <AdditionalOptions>/utf-8</AdditionalOptions>
       <AdditionalIncludeDirectories>$(UniversalCRTSdkDir)Include\10.0.10240.0\ucrt</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -221,7 +221,7 @@
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <ExceptionHandling>false</ExceptionHandling>
-      <AdditionalOptions>/source-charset:utf-8</AdditionalOptions>
+      <AdditionalOptions>/utf-8</AdditionalOptions>
       <AdditionalIncludeDirectories>$(UniversalCRTSdkDir)Include\10.0.10240.0\ucrt</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -246,7 +246,7 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <ExceptionHandling>false</ExceptionHandling>
-      <AdditionalOptions>/source-charset:utf-8</AdditionalOptions>
+      <AdditionalOptions>/utf-8</AdditionalOptions>
       <AdditionalIncludeDirectories>$(UniversalCRTSdkDir)Include\10.0.10240.0\ucrt</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>

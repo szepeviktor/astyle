@@ -92,8 +92,8 @@
         more information.</p>
     <p>
         Since the different builds use the same source files an &quot;out of source&quot; build should be used. The
-        default build is a release version. A debug version must be specifically requested. The
-        the following options are available for building the various configurations.</p>
+        default build is a release version. A debug version must be specifically requested. The following options are
+        available for building the various configurations.</p>
     <ul>
         <li>The default builds the Artistic Style command line executable (astyle). </li>
         <li>BUILD_SHARED_LIBS builds the Artistic Style program as a shared object (libastyle.so). </li>
@@ -184,9 +184,8 @@ make install</pre>
             <p>
                 The following Java shared library builds are separate from the above. They include a Java Native Interface (JNI)
                 and require that the Java Development Kit (JDK) be installed. The environment variable JAVA_HOME should be defined.
-                It defines the install directory for the JDK. The makefile also has default install directories for Java 5 and
-                6. If the compile cannot find the file jni.h, either set the variable or change the value in the 
-                makefile.</p>
+                It defines the install directory for the JDK.  If the compile cannot find the file jni.h, either set the JAVA_HOME
+                variable or change the value in the makefile.</p>
         </li>
         <li><strong>java </strong>builds the Artistic Style program as a shared library which includes the JNI (libastylej.so).
         </li>
@@ -284,7 +283,8 @@ make install</pre>
 
     <p>
         Artistic Style has CMake support for MacOS. It is used the same as <a href="#_CMake_Linux">CMake Linux</a>
-        except the supported compilers are only GCC and Clang.</p>
+        except the supported compilers are only GCC and Clang. The macOS default installs will be to /usr/local instead
+        of /usr.</p>
 
     <h4 id="_MacOS_Makefile">MacOS Makefile</h4>
 
@@ -306,8 +306,8 @@ make install</pre>
     <pre>cd astyle/build/mac<br />make release shared static
 </pre>
     <p>
-        The <a href="#_Other_Makefile_Targets">Other Makefile Targets</a> section contains additional target 
-        options.</p>
+        The <a href="#_Other_Makefile_Targets">Other Makefile Targets</a> section contains additional target options.
+        The macOS default installs will be to /usr/local instead of /usr.</p>
 
     <h4 id="_Xcode">Xcode</h4>
 
@@ -332,8 +332,9 @@ make install</pre>
     <p>
         Only the astyle executable is installed. The library project installs are sent to UninstalledProjects in
         the Build directory. The following instructions are for the astyle executable and documentation files. The default
-        install directory is /usr/bin for the executable and /usr/share/doc/astyle for the documentation. You must have
-        the appropriate permissions to use install. If sudo is not used for the install, an error will occur during the
+        install directory is /usr/local/bin for the executable and /usr/local/share/doc/astyle for the documentation.
+        You must have the appropriate permissions to use install. If sudo is not used for the install, an error will occur
+        during the
         build.</p>
     <p>
         To install the astyle executable in the default directory:</p>
@@ -381,7 +382,7 @@ sudo xcodebuild install -project AStyle.xcodeproj
         Since the different builds use the same source files an &quot;out of source&quot; build should be used. The
         default build for MinGW is a release version. A debug version must be specifically requested. For 
         Borland, a release build may need to be specifically requested, depending on the CMake release used. Borland 
-        has been tested with the bcc32c free compiler. It may or may not work with other Borland compilers. The the following
+        has been tested with the bcc32c free compiler. It may or may not work with other Borland compilers. The following
         options are available for building the various configurations.</p>
     <ul>
         <li>The default builds the Artistic Style command line executable (AStyle.exe). </li>

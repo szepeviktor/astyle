@@ -15,7 +15,6 @@
 					<Add option="-fno-rtti" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
 					<Add option="-std=c++11" />
@@ -25,9 +24,8 @@
 					<Add directory="/usr/lib/jvm/default-java/include/linux" />
 				</Compiler>
 				<Linker>
-					<Add option="-static-intel" />
 					<Add option="-Wl,-soname,libastylejd.so.$(MAJORVER)" />
-					<Add option="-wd10237" />
+  					<Add option="-static-intel" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -39,7 +37,6 @@
 					<Add option="-fno-rtti" />
 					<Add option="-O3" />
 					<Add option="-Wall" />
-					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
 					<Add option="-std=c++11" />
@@ -52,9 +49,8 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-static-intel" />
 					<Add option="-Wl,-soname,libastylej.so.$(MAJORVER)" />
-					<Add option="-wd10237" />
+					<Add option="-static-intel" />
 				</Linker>
 			</Target>
 			<Environment>

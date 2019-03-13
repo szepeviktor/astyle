@@ -1,32 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26206.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28531.58
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{9C5D488F-0BFC-40B3-95A4-DB136C6B1202}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\doc\astyle.html = ..\..\doc\astyle.html
-		..\..\doc\index.html = ..\..\doc\index.html
-		..\..\doc\install.html = ..\..\doc\install.html
-		..\..\doc\links.html = ..\..\doc\links.html
-		..\..\doc\news.html = ..\..\doc\news.html
-		..\..\doc\newsArchives.html = ..\..\doc\newsArchives.html
-		..\..\doc\notes.html = ..\..\doc\notes.html
-		..\..\doc\notesArchives.html = ..\..\doc\notesArchives.html
-		..\..\doc\scripts.html = ..\..\doc\scripts.html
-		..\..\doc\styles.css = ..\..\doc\styles.css
-		..\..\doc\subversion.html = ..\..\doc\subversion.html
-		..\..\doc\vsinstall.html = ..\..\doc\vsinstall.html
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "markdown", "markdown", "{3A800245-58B1-4870-84F6-1A5AF63F8DE8}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\LICENSE.md = ..\..\LICENSE.md
-		..\..\README.md = ..\..\README.md
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleDoc", "AStyleDoc\AStyleDoc.vcxproj", "{691E5300-3918-4BBD-BD58-0AC079A33942}"
 EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{691E5300-3918-4BBD-BD58-0AC079A33942}.Debug|x64.ActiveCfg = Debug|x64
+		{691E5300-3918-4BBD-BD58-0AC079A33942}.Debug|x64.Build.0 = Debug|x64
+		{691E5300-3918-4BBD-BD58-0AC079A33942}.Debug|x86.ActiveCfg = Debug|Win32
+		{691E5300-3918-4BBD-BD58-0AC079A33942}.Debug|x86.Build.0 = Debug|Win32
+		{691E5300-3918-4BBD-BD58-0AC079A33942}.Release|x64.ActiveCfg = Release|x64
+		{691E5300-3918-4BBD-BD58-0AC079A33942}.Release|x64.Build.0 = Release|x64
+		{691E5300-3918-4BBD-BD58-0AC079A33942}.Release|x86.ActiveCfg = Release|Win32
+		{691E5300-3918-4BBD-BD58-0AC079A33942}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BDC19013-4500-46BC-815E-61BDFE4B90DC}
 	EndGlobalSection
 EndGlobal

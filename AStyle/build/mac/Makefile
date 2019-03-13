@@ -29,7 +29,7 @@ endif
 
 # set prefix if not defined on the command line
 ifndef prefix
-    prefix=/usr
+    prefix=/usr/local
 endif
 SYSCONF_PATH=$(prefix)/share/doc/astyle
 
@@ -41,9 +41,9 @@ objdir = obj
 ipath=$(prefix)/bin
 CBASEFLAGS = -W -Wall -std=c++11 -stdlib=libc++ -fno-rtti -fno-exceptions  \
 -mmacosx-version-min=10.9
-LDBASEFLAGS = 
-JAVAINCS  = -I/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/include \
--I/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/include/darwin \
+LDBASEFLAGS =
+JAVAINCS  = -I/Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/include \
+-I/Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/include/darwin \
 -I/System/Library/Frameworks/JavaVM.framework/Headers
 CXX = clang++
 INSTALL=install -o $(USER) -g wheel
@@ -208,9 +208,13 @@ install:
 
 	$(INSTALL) -m 755 -d $(SYSCONF_PATH)
 	@mkdir -p $(SYSCONF_PATH)/html;
-	@for files in ../../doc/*.html  ../../doc/*.css; \
+	@for files in astyle.html \
+                  install.html \
+                  news.html \
+                  notes.html \
+                  styles.css; \
 	do \
-		$(INSTALL)  -m 644  "$$files"  $(SYSCONF_PATH)/html; \
+		$(INSTALL)  -m 644  "../../doc/$$files"  $(SYSCONF_PATH)/html; \
 	done
 
 uninstall:
