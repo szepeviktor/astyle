@@ -32,11 +32,9 @@ else:
     WX_RELEASE = "3.0"
 
 # Visual Studio release
-#VS_RELEASE = "vs2010"
-#VS_RELEASE = "vs2012"
-#VS_RELEASE = "vs2013"
 #VS_RELEASE = "vs2015"
 VS_RELEASE = "vs2017"
+#VS_RELEASE = "vs2019"
 # for a new release add a path to compile_windows_executable() below
 
 # -----------------------------------------------------------------------------
@@ -58,6 +56,9 @@ def build_astylewx_executable(config):
     if os.name == "nt":
         if config == STATIC_XP:
             slnpath = slnpath + "/AStyleWx " + WX_RELEASE + " XP.sln"
+        elif VS_RELEASE >= "vs2019":
+            # add vs release date
+            slnpath = slnpath + "/AStyleWx " + WX_RELEASE + " " + VS_RELEASE[2:] + ".sln"
         else:
             slnpath = slnpath + "/AStyleWx " + WX_RELEASE + ".sln"
         compile_windows_executable(slnpath, config)
@@ -69,37 +70,32 @@ def build_astylewx_executable(config):
 def compile_windows_executable(slnpath, config):
     """Compile the astylewx executable for Windows.
     """
-    sdk = "v3.5"
-    if VS_RELEASE >= "vs2010":
-        sdk = "v4.0.30319"
     # remove the cache file as a precaution
     cachepath = slnpath + "/AStyleWx {0}.sln.cache".format(WX_RELEASE)
     if os.path.isfile(cachepath):
         os.remove(cachepath)
     # call MSBuild
-    if VS_RELEASE == "vs2013":
-        buildpath = "C:/Program Files (x86)/MSBuild/12.0/Bin/MSBuild.exe"
-    elif VS_RELEASE == "vs2015":
+    if VS_RELEASE == "vs2015":
         buildpath = "C:/Program Files (x86)/MSBuild/14.0/Bin/MSBuild.exe"
     elif VS_RELEASE == "vs2017":
-        buildpath = ("C:/Program Files (x86)/Microsoft Visual Studio/" +
-                     "2017/Community/MSBuild/15.0/Bin/MSBuild.exe")
+        buildpath = ("C:/Program Files (x86)/Microsoft Visual Studio/"
+                     + "2017/Community/MSBuild/15.0/Bin/MSBuild.exe")
+    elif VS_RELEASE == "vs2019":
+        buildpath = ("C:/Program Files (x86)/Microsoft Visual Studio/"
+                     + "2019/Community/MSBuild/Current/Bin/MSBuild.exe")
     else:
-        buildpath = (os.getenv("WINDIR")
-                     + "/Microsoft.NET/Framework/"
-                     + sdk
-                     + "/MSBuild.exe")
+        system_exit("Must compile with vs2015 or greater in libastyle: " + VS_RELEASE)
     if not os.path.isfile(buildpath):
         message = "Cannot find build path: " + buildpath
         system_exit(message)
     if config == DEBUG:
         config_prop = "/property:Configuration=Debug"
-    elif config == STATIC or config == STATIC_XP:
+    elif config in (STATIC, STATIC_XP):
         config_prop = "/property:Configuration=Static"
     else:
         config_prop = "/property:Configuration=Release"
     platform_prop = "/property:Platform=Win32"
-    if VS_RELEASE > "vs2013":
+    if VS_RELEASE >= "vs2015":
         platform_prop = "/property:Platform=x86"
     msbuild = ([buildpath, config_prop, platform_prop, slnpath])
     buildfile = get_temp_directory() + "/build." + config + ".tmp"
@@ -149,7 +145,7 @@ def get_astyle_directory(endsep=False):
 def get_astylewx_build_directory(config):
     """Get the AStyleWx build path for the os environment.
     """
-    if config != DEBUG and config != RELEASE and config != STATIC and config != STATIC_XP:
+    if config not in (DEBUG, RELEASE, STATIC, STATIC_XP):
         system_exit("Bad arg in get_astylewx_build_directory(): " + config)
     astylewxdir = get_astylewx_directory()
     if os.name == "nt":

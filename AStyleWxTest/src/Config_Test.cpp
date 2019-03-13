@@ -20,6 +20,9 @@ If an entry is NOT always written in the config file add a test to
 // headers
 //----------------------------------------------------------------------------
 
+#include <wx/app.h>
+#include <wx/frame.h>
+
 #include "Config_Test.h"
 
 // for gmock macros
@@ -45,7 +48,31 @@ namespace {
 // AStyle Config Tests for Invalid Keys
 //-------------------------------------------------------------------------
 
-TEST(Config_AStyle, GetAStyleOptions_InvalidKeys)
+struct Config_AStyleF : public Test
+{
+	// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
+	// It must be done to create a wxFrame object.
+	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
+	// See the wxWidgets sample program mfctest.cpp.
+	Config_AStyleF()
+	{
+		// initialize wxWidgets
+		int argc = 0;
+		wxChar** argv = nullptr;
+		wxEntryStart(argc, argv);		// initialize wxWidgets
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
+		wxTheApp->CallOnInit();			// call wxApp::OnInit()
+	}
+	virtual ~Config_AStyleF()
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
+	// See the wxWidgets sample program mfctest.cpp.
+	{
+		wxTheApp->OnExit();			// call wxApp::OnExit()
+		wxEntryCleanup();			// free resources from wxEntryStart
+	}
+};
+
+TEST_F(Config_AStyleF, GetAStyleOptions_InvalidKeys)
 // Test config file gets for AStyle options.
 // Invalid keys in the config file should be deleted.
 {
@@ -83,7 +110,7 @@ TEST(Config_AStyle, GetAStyleOptions_InvalidKeys)
 	EXPECT_EQ(0U, config.GetNumberOfEntries());
 }
 
-TEST(Config_AStyle, GetAStyleOptions_InvalidValues)
+TEST_F(Config_AStyleF, GetAStyleOptions_InvalidValues)
 // Test config file gets for AStyle options.
 // Invalid values in the config file should be deleted.
 // NOTE: Float and double values are written to config as strings.
@@ -140,7 +167,7 @@ TEST(Config_AStyle, GetAStyleOptions_InvalidValues)
 	EXPECT_EQ(0U, config.GetNumberOfEntries());
 }
 
-TEST(Config_AStyle, GetAStyleOptions)
+TEST_F(Config_AStyleF, GetAStyleOptions)
 // Test config file gets for AStyle options.
 // GetNextEntry is used for the read so only a few options are checked.
 {
@@ -179,7 +206,31 @@ TEST(Config_AStyle, GetAStyleOptions)
 // AStyle Config Tests for Style Options
 //-------------------------------------------------------------------------
 
-TEST(Config_AStyle_Styles, SaveAStyleOptions_StylesAll)
+struct Config_AStyleF_Styles : public Test
+{
+	// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
+	// It must be done to create a wxFrame object.
+	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
+	// See the wxWidgets sample program mfctest.cpp.
+	Config_AStyleF_Styles()
+	{
+		// initialize wxWidgets
+		int argc = 0;
+		wxChar** argv = nullptr;
+		wxEntryStart(argc, argv);		// initialize wxWidgets
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
+		wxTheApp->CallOnInit();			// call wxApp::OnInit()
+	}
+	virtual ~Config_AStyleF_Styles()
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
+	// See the wxWidgets sample program mfctest.cpp.
+	{
+		wxTheApp->OnExit();			// call wxApp::OnExit()
+		wxEntryCleanup();			// free resources from wxEntryStart
+	}
+};
+
+TEST_F(Config_AStyleF_Styles, SaveAStyleOptions_StylesAll)
 // Test config file writes for astyle brace style options
 {
 	// create objects
@@ -247,7 +298,31 @@ TEST(Config_AStyle_Styles, SaveAStyleOptions_StylesAll)
 // AStyle Config Tests for Tab Options
 //-------------------------------------------------------------------------
 
-TEST(Config_AStyle_Tabs, SaveAStyleOptions_IndentSpaces_Default)
+struct Config_AStyleF_Tabs : public Test
+{
+	// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
+	// It must be done to create a wxFrame object.
+	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
+	// See the wxWidgets sample program mfctest.cpp.
+	Config_AStyleF_Tabs()
+	{
+		// initialize wxWidgets
+		int argc = 0;
+		wxChar** argv = nullptr;
+		wxEntryStart(argc, argv);		// initialize wxWidgets
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
+		wxTheApp->CallOnInit();			// call wxApp::OnInit()
+	}
+	virtual ~Config_AStyleF_Tabs()
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
+	// See the wxWidgets sample program mfctest.cpp.
+	{
+		wxTheApp->OnExit();			// call wxApp::OnExit()
+		wxEntryCleanup();			// free resources from wxEntryStart
+	}
+};
+
+TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_IndentSpaces_Default)
 // Test the default indent spaces options.
 {
 	// create objects
@@ -267,7 +342,7 @@ TEST(Config_AStyle_Tabs, SaveAStyleOptions_IndentSpaces_Default)
 	EXPECT_FALSE(config.Read(TAB_LENGTH, &value));
 }
 
-TEST(Config_AStyle_Tabs, SaveAStyleOptions_IndentTabs_Default)
+TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_IndentTabs_Default)
 // Test the default indent tabs options.
 {
 	// create objects
@@ -288,7 +363,7 @@ TEST(Config_AStyle_Tabs, SaveAStyleOptions_IndentTabs_Default)
 	EXPECT_FALSE(config.Read(TAB_LENGTH, &value));
 }
 
-TEST(Config_AStyle_Tabs, SaveAStyleOptions_IndentForce_Default)
+TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_IndentForce_Default)
 // Test the default indent force tabs options.
 {
 	// create objects
@@ -310,7 +385,7 @@ TEST(Config_AStyle_Tabs, SaveAStyleOptions_IndentForce_Default)
 	EXPECT_FALSE(config.Read(TAB_LENGTH, &value));
 }
 
-TEST(Config_AStyle_Tabs, SaveAStyleOptions_Indent)
+TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_Indent)
 // Test config file writes for astyle indent type and indent length options.
 {
 	// create objects
@@ -360,7 +435,7 @@ TEST(Config_AStyle_Tabs, SaveAStyleOptions_Indent)
 	}
 }
 
-TEST(Config_AStyle_Tabs, SaveAStyleOptions_Indent_ForceTab_X)
+TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_Indent_ForceTab_X)
 // Test config file writes for astyle indent-force-tab-x options
 {
 	// create objects
@@ -449,7 +524,7 @@ TEST(Config_AStyle_Tabs, SaveAStyleOptions_Indent_ForceTab_X)
 	        << "Failure for force-tab tab-length";
 }
 
-TEST(Config_AStyle_Tabs, SaveAStyleOptions_Indent_UseTabLen_Sans)
+TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_Indent_UseTabLen_Sans)
 // Test config file writes for astyle when useTabLength should have no effect.
 {
 	// create objects
@@ -509,7 +584,31 @@ TEST(Config_AStyle_Tabs, SaveAStyleOptions_Indent_UseTabLen_Sans)
 // AStyle Config Tests for Brace Modifier Options
 //-------------------------------------------------------------------------
 
-TEST(Config_AStyle_Modifier, SaveAStyleOptions_AttachNamespace)
+struct Config_AStyleF_Modifier : public Test
+{
+	// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
+	// It must be done to create a wxFrame object.
+	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
+	// See the wxWidgets sample program mfctest.cpp.
+	Config_AStyleF_Modifier()
+	{
+		// initialize wxWidgets
+		int argc = 0;
+		wxChar** argv = nullptr;
+		wxEntryStart(argc, argv);		// initialize wxWidgets
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
+		wxTheApp->CallOnInit();			// call wxApp::OnInit()
+	}
+	virtual ~Config_AStyleF_Modifier()
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
+	// See the wxWidgets sample program mfctest.cpp.
+	{
+		wxTheApp->OnExit();			// call wxApp::OnExit()
+		wxEntryCleanup();			// free resources from wxEntryStart
+	}
+};
+
+TEST_F(Config_AStyleF_Modifier, SaveAStyleOptions_AttachNamespace)
 // Test config file writes for astyle attachNamespace option
 {
 	// create objects
@@ -533,7 +632,7 @@ TEST(Config_AStyle_Modifier, SaveAStyleOptions_AttachNamespace)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Modifier, SaveAStyleOptions_AttachClass)
+TEST_F(Config_AStyleF_Modifier, SaveAStyleOptions_AttachClass)
 // Test config file writes for astyle attachClass option
 {
 	// create objects
@@ -557,7 +656,7 @@ TEST(Config_AStyle_Modifier, SaveAStyleOptions_AttachClass)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Modifier, SaveAStyleOptions_AttachInline)
+TEST_F(Config_AStyleF_Modifier, SaveAStyleOptions_AttachInline)
 // Test config file writes for astyle attachInline option
 {
 	// create objects
@@ -581,7 +680,7 @@ TEST(Config_AStyle_Modifier, SaveAStyleOptions_AttachInline)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Modifier, SaveAStyleOptions_AttachExternC)
+TEST_F(Config_AStyleF_Modifier, SaveAStyleOptions_AttachExternC)
 // Test config file writes for astyle attachExternC option
 {
 	// create objects
@@ -605,7 +704,7 @@ TEST(Config_AStyle_Modifier, SaveAStyleOptions_AttachExternC)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Modifier, SaveAStyleOptions_AttachClosingWhile)
+TEST_F(Config_AStyleF_Modifier, SaveAStyleOptions_AttachClosingWhile)
 // Test config file writes for astyle attachClosingWhile option
 {
 	// create objects
@@ -633,7 +732,31 @@ TEST(Config_AStyle_Modifier, SaveAStyleOptions_AttachClosingWhile)
 // AStyle Config Tests for Indentation Options
 //-------------------------------------------------------------------------
 
-TEST(Config_AStyle_Indent, SaveAStyleOptions_AfterParenIndent)
+struct Config_AStyleF_Indent : public Test
+{
+	// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
+	// It must be done to create a wxFrame object.
+	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
+	// See the wxWidgets sample program mfctest.cpp.
+	Config_AStyleF_Indent()
+	{
+		// initialize wxWidgets
+		int argc = 0;
+		wxChar** argv = nullptr;
+		wxEntryStart(argc, argv);		// initialize wxWidgets
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
+		wxTheApp->CallOnInit();			// call wxApp::OnInit()
+	}
+	virtual ~Config_AStyleF_Indent()
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
+	// See the wxWidgets sample program mfctest.cpp.
+	{
+		wxTheApp->OnExit();			// call wxApp::OnExit()
+		wxEntryCleanup();			// free resources from wxEntryStart
+	}
+};
+
+TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_AfterParenIndent)
 // Test config file writes for astyle afterParenIndent option
 {
 	// create objects
@@ -657,7 +780,7 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_AfterParenIndent)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Indent, SaveAStyleOptions_CaseIndent)
+TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_CaseIndent)
 // Test config file writes for astyle caseIndent option
 {
 	// create objects
@@ -681,7 +804,7 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_CaseIndent)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Indent, SaveAStyleOptions_ClassIndent)
+TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_ClassIndent)
 // Test config file writes for astyle classIndent option
 {
 	// create objects
@@ -705,7 +828,7 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_ClassIndent)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Indent, SaveAStyleOptions_Col1CommentIndent)
+TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_Col1CommentIndent)
 // Test config file writes for astyle col1CommentIndent option
 {
 	// create objects
@@ -729,7 +852,7 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_Col1CommentIndent)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Indent, SaveAStyleOptions_ContinuationIndent)
+TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_ContinuationIndent)
 // Test config file writes for astyle continuation indent
 {
 	// create objects
@@ -774,7 +897,7 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_ContinuationIndent)
 	        << "Failure for invalid continuation indent";
 }
 
-TEST(Config_AStyle_Indent, SaveAStyleOptions_LabelIndent)
+TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_LabelIndent)
 // Test config file writes for astyle labelIndent option
 {
 	// create objects
@@ -798,7 +921,7 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_LabelIndent)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Indent, SaveAStyleOptions_MaxContinuation)
+TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_MaxContinuation)
 // Test config file writes for astyle max continuation indent
 {
 	// create objects
@@ -845,7 +968,7 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_MaxContinuation)
 	        << "Failure for invalid max continuation indent";
 }
 
-TEST(Config_AStyle_Indent, SaveAStyleOptions_MinConditionalOpt)
+TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_MinConditionalOpt)
 // Test config file writes for astyle min conditional option
 {
 	// create objects
@@ -894,7 +1017,7 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_MinConditionalOpt)
 	        << "Failure for invalid min conditional option";
 }
 
-TEST(Config_AStyle_Indent, SaveAStyleOptions_ModifierIndent)
+TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_ModifierIndent)
 // Test config file writes for astyle modifierIndent option
 {
 	// create objects
@@ -918,7 +1041,7 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_ModifierIndent)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Indent, SaveAStyleOptions_NamespaceIndent)
+TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_NamespaceIndent)
 // Test config file writes for astyle namespaceIndent option
 {
 	// create objects
@@ -942,7 +1065,7 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_NamespaceIndent)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Indent, SaveAStyleOptions_PreprocBlockIndent)
+TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_PreprocBlockIndent)
 // Test config file writes for astyle preprocBlockIndent option
 {
 	// create objects
@@ -966,7 +1089,7 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_PreprocBlockIndent)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Indent, SaveAStyleOptions_PreprocCondIndent)
+TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_PreprocCondIndent)
 // Test config file writes for astyle preprocCondIndent option
 {
 	// create objects
@@ -990,7 +1113,7 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_PreprocCondIndent)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Indent, SaveAStyleOptions_PreprocDefineIndent)
+TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_PreprocDefineIndent)
 // Test config file writes for astyle preprocDefineIndent option
 {
 	// create objects
@@ -1014,7 +1137,7 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_PreprocDefineIndent)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Indent, SaveAStyleOptions_SwitchIIndent)
+TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_SwitchIIndent)
 // Test config file writes for astyle switchIndent option
 {
 	// create objects
@@ -1042,7 +1165,31 @@ TEST(Config_AStyle_Indent, SaveAStyleOptions_SwitchIIndent)
 // AStyle Config Tests for Padding Options
 //-------------------------------------------------------------------------
 
-TEST(Config_AStyle_Pad, SaveAStyleOptions_AlignPointer)
+struct Config_AStyleF_Pad : public Test
+{
+	// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
+	// It must be done to create a wxFrame object.
+	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
+	// See the wxWidgets sample program mfctest.cpp.
+	Config_AStyleF_Pad()
+	{
+		// initialize wxWidgets
+		int argc = 0;
+		wxChar** argv = nullptr;
+		wxEntryStart(argc, argv);		// initialize wxWidgets
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
+		wxTheApp->CallOnInit();			// call wxApp::OnInit()
+	}
+	virtual ~Config_AStyleF_Pad()
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
+	// See the wxWidgets sample program mfctest.cpp.
+	{
+		wxTheApp->OnExit();			// call wxApp::OnExit()
+		wxEntryCleanup();			// free resources from wxEntryStart
+	}
+};
+
+TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_AlignPointer)
 // Test config file writes for astyle align pointer option
 {
 	// create objects
@@ -1097,7 +1244,7 @@ TEST(Config_AStyle_Pad, SaveAStyleOptions_AlignPointer)
 	        << "Failure for invalid align pointer";
 }
 
-TEST(Config_AStyle_Pad, SaveAStyleOptions_AlignReference)
+TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_AlignReference)
 // Test config file writes for astyle align reference option
 {
 	// create objects
@@ -1153,7 +1300,7 @@ TEST(Config_AStyle_Pad, SaveAStyleOptions_AlignReference)
 	        << "Failure for invalid align reference";
 }
 
-TEST(Config_AStyle_Pad, SaveAStyleOptions_BreakBlocks)
+TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_BreakBlocks)
 // Test config file writes for astyle break blocks options
 {
 	// create objects
@@ -1192,7 +1339,7 @@ TEST(Config_AStyle_Pad, SaveAStyleOptions_BreakBlocks)
 	        << "Failure for invalid break header blocks";
 }
 
-TEST(Config_AStyle_Pad, SaveAStyleOptions_DeleteEmptyLines)
+TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_DeleteEmptyLines)
 // Test config file writes for astyle deleteEmptyLines option
 {
 	// create objects
@@ -1216,7 +1363,7 @@ TEST(Config_AStyle_Pad, SaveAStyleOptions_DeleteEmptyLines)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Pad, SaveAStyleOptions_FillEmptyLines)
+TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_FillEmptyLines)
 // Test config file writes for astyle fillEmptyLines option
 {
 	// create objects
@@ -1240,7 +1387,7 @@ TEST(Config_AStyle_Pad, SaveAStyleOptions_FillEmptyLines)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Pad, SaveAStyleOptions_PadComma)
+TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_PadComma)
 // Test config file writes for astyle padComma option
 {
 	// create objects
@@ -1264,7 +1411,7 @@ TEST(Config_AStyle_Pad, SaveAStyleOptions_PadComma)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Pad, SaveAStyleOptions_PadFirstParenOut)
+TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_PadFirstParenOut)
 // Test config file writes for astyle padFirstParenOut option
 {
 	// create objects
@@ -1288,7 +1435,7 @@ TEST(Config_AStyle_Pad, SaveAStyleOptions_PadFirstParenOut)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Pad, SaveAStyleOptions_PadHeader)
+TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_PadHeader)
 // Test config file writes for astyle padHeader option
 {
 	// create objects
@@ -1312,7 +1459,7 @@ TEST(Config_AStyle_Pad, SaveAStyleOptions_PadHeader)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Pad, SaveAStyleOptions_PadOperator)
+TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_PadOperator)
 // Test config file writes for astyle padOperator option
 {
 	// create objects
@@ -1336,7 +1483,7 @@ TEST(Config_AStyle_Pad, SaveAStyleOptions_PadOperator)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Pad, SaveAStyleOptions_PadParen)
+TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_PadParen)
 // Test config file writes for astyle pad paren options
 {
 	// create objects
@@ -1376,7 +1523,7 @@ TEST(Config_AStyle_Pad, SaveAStyleOptions_PadParen)
 	        << "Failure for pad paren inside";
 }
 
-TEST(Config_AStyle_Pad, SaveAStyleOptions_UnpadParen)
+TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_UnpadParen)
 // Test config file writes for astyle unpadParen option
 {
 	// create objects
@@ -1404,7 +1551,31 @@ TEST(Config_AStyle_Pad, SaveAStyleOptions_UnpadParen)
 // AStyle Config Tests for Formatting Options
 //-------------------------------------------------------------------------
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_AddBraces)
+struct Config_AStyleF_Format : public Test
+{
+	// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
+	// It must be done to create a wxFrame object.
+	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
+	// See the wxWidgets sample program mfctest.cpp.
+	Config_AStyleF_Format()
+	{
+		// initialize wxWidgets
+		int argc = 0;
+		wxChar** argv = nullptr;
+		wxEntryStart(argc, argv);		// initialize wxWidgets
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
+		wxTheApp->CallOnInit();			// call wxApp::OnInit()
+	}
+	virtual ~Config_AStyleF_Format()
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
+	// See the wxWidgets sample program mfctest.cpp.
+	{
+		wxTheApp->OnExit();			// call wxApp::OnExit()
+		wxEntryCleanup();			// free resources from wxEntryStart
+	}
+};
+
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_AddBraces)
 // Test config file writes for astyle addBraces option
 {
 	// create objects
@@ -1428,7 +1599,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_AddBraces)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_AddOneLineBraces)
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_AddOneLineBraces)
 // Test config file writes for astyle addOneLineBraces option
 {
 	// create objects
@@ -1452,7 +1623,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_AddOneLineBraces)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_AttachReturnType)
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_AttachReturnType)
 // Test config file writes for astyle attachReturnType option
 {
 	// create objects
@@ -1476,7 +1647,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_AttachReturnType)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_AttachReturnTypeDecl)
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_AttachReturnTypeDecl)
 // Test config file writes for astyle attachReturnTypeDecl option
 {
 	// create objects
@@ -1500,7 +1671,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_AttachReturnTypeDecl)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_BreakCloseBraces)
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_BreakCloseBraces)
 // Test config file writes for astyle breakCloseBraces option
 {
 	// create objects
@@ -1524,7 +1695,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_BreakCloseBraces)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_BreakElseIfs)
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_BreakElseIfs)
 // Test config file writes for astyle breakElseIfs option
 {
 	// create objects
@@ -1548,7 +1719,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_BreakElseIfs)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_BreakOneLineHeaders)
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_BreakOneLineHeaders)
 // Test config file writes for astyle breakOneLineHeaders option
 {
 	// create objects
@@ -1572,7 +1743,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_BreakOneLineHeaders)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_BreakReturnType)
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_BreakReturnType)
 // Test config file writes for astyle breakReturnType option
 {
 	// create objects
@@ -1596,7 +1767,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_BreakReturnType)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_BreakReturnTypeDecl)
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_BreakReturnTypeDecl)
 // Test config file writes for astyle breakReturnTypeDecl option
 {
 	// create objects
@@ -1620,7 +1791,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_BreakReturnTypeDecl)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_CloseTemplates)
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_CloseTemplates)
 // Test config file writes for astyle closeTemplates option
 {
 	// create objects
@@ -1644,7 +1815,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_CloseTemplates)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_ConvertTabs)
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_ConvertTabs)
 // Test config file writes for astyle convertTabs option
 {
 	// create objects
@@ -1668,7 +1839,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_ConvertTabs)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_KeepOneLineBlocks)
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_KeepOneLineBlocks)
 // Test config file writes for astyle breakOneLineBlocks option
 {
 	// create objects
@@ -1692,7 +1863,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_KeepOneLineBlocks)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_KeepOneLineStmts)
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_KeepOneLineStmts)
 // Test config file writes for astyle breakOneLineStmts option
 {
 	// create objects
@@ -1716,7 +1887,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_KeepOneLineStmts)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_MaxCodeLength)
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_MaxCodeLength)
 // Test config file writes for astyle max code length
 {
 	// create objects
@@ -1761,7 +1932,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_MaxCodeLength)
 	EXPECT_EQ(maxCodeLengthMaxValue, value) << "Failure for invalid max code length";
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_RemoveBraces)
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_RemoveBraces)
 // Test config file writes for astyle removeBraces option
 {
 	// create objects
@@ -1785,7 +1956,7 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_RemoveBraces)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Format, SaveAStyleOptions_RemoveCommentPrefix)
+TEST_F(Config_AStyleF_Format, SaveAStyleOptions_RemoveCommentPrefix)
 // Test config file writes for astyle removeCommentPrefix option
 {
 	// create objects
@@ -1813,7 +1984,31 @@ TEST(Config_AStyle_Format, SaveAStyleOptions_RemoveCommentPrefix)
 // AStyle Config Tests for Other Options
 //-------------------------------------------------------------------------
 
-TEST(Config_AStyle_Other, SaveAStyleOptions_PadMethodPrefix)
+struct Config_AStyleF_Other : public Test
+{
+	// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
+	// It must be done to create a wxFrame object.
+	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
+	// See the wxWidgets sample program mfctest.cpp.
+	Config_AStyleF_Other()
+	{
+		// initialize wxWidgets
+		int argc = 0;
+		wxChar** argv = nullptr;
+		wxEntryStart(argc, argv);		// initialize wxWidgets
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
+		wxTheApp->CallOnInit();			// call wxApp::OnInit()
+	}
+	virtual ~Config_AStyleF_Other()
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
+	// See the wxWidgets sample program mfctest.cpp.
+	{
+		wxTheApp->OnExit();			// call wxApp::OnExit()
+		wxEntryCleanup();			// free resources from wxEntryStart
+	}
+};
+
+TEST_F(Config_AStyleF_Other, SaveAStyleOptions_PadMethodPrefix)
 // Test config file writes for astyle padMethodPrefix option
 {
 	// create objects
@@ -1837,7 +2032,7 @@ TEST(Config_AStyle_Other, SaveAStyleOptions_PadMethodPrefix)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Other, SaveAStyleOptions_UnpadMethodPrefix)
+TEST_F(Config_AStyleF_Other, SaveAStyleOptions_UnpadMethodPrefix)
 // Test config file writes for astyle unpadMethodPrefix option
 {
 	// create objects
@@ -1861,7 +2056,7 @@ TEST(Config_AStyle_Other, SaveAStyleOptions_UnpadMethodPrefix)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Other, SaveAStyleOptions_PadReturnType)
+TEST_F(Config_AStyleF_Other, SaveAStyleOptions_PadReturnType)
 // Test config file writes for astyle padReturnType option
 {
 	// create objects
@@ -1885,7 +2080,7 @@ TEST(Config_AStyle_Other, SaveAStyleOptions_PadReturnType)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Other, SaveAStyleOptions_UnpadReturnType)
+TEST_F(Config_AStyleF_Other, SaveAStyleOptions_UnpadReturnType)
 // Test config file writes for astyle unpadReturnType option
 {
 	// create objects
@@ -1909,7 +2104,7 @@ TEST(Config_AStyle_Other, SaveAStyleOptions_UnpadReturnType)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Other, SaveAStyleOptions_AlignMethodColon)
+TEST_F(Config_AStyleF_Other, SaveAStyleOptions_AlignMethodColon)
 // Test config file writes for astyle alignMethodColon option
 {
 	// create objects
@@ -1933,7 +2128,7 @@ TEST(Config_AStyle_Other, SaveAStyleOptions_AlignMethodColon)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_AStyle_Other, SaveAStyleOptions_PadMethodColon)
+TEST_F(Config_AStyleF_Other, SaveAStyleOptions_PadMethodColon)
 // Test config file writes for astyle padMethodColon option
 {
 	// create objects
@@ -1976,7 +2171,31 @@ TEST(Config_AStyle_Other, SaveAStyleOptions_PadMethodColon)
 // StyledTextCtrl Styles Config Tests
 //-------------------------------------------------------------------------
 
-TEST(Config_StcStyles, GetStcStyleOptions_Default)
+struct Config_StcStylesF : public Test
+{
+	// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
+	// It must be done to create a wxFrame object.
+	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
+	// See the wxWidgets sample program mfctest.cpp.
+	Config_StcStylesF()
+	{
+		// initialize wxWidgets
+		int argc = 0;
+		wxChar** argv = nullptr;
+		wxEntryStart(argc, argv);		// initialize wxWidgets
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
+		wxTheApp->CallOnInit();			// call wxApp::OnInit()
+	}
+	virtual ~Config_StcStylesF()
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
+	// See the wxWidgets sample program mfctest.cpp.
+	{
+		wxTheApp->OnExit();			// call wxApp::OnExit()
+		wxEntryCleanup();			// free resources from wxEntryStart
+	}
+};
+
+TEST_F(Config_StcStylesF, GetStcStyleOptions_Default)
 // Test GetStcStyleOptions initialization
 {
 	// create objects
@@ -1995,7 +2214,7 @@ TEST(Config_StcStyles, GetStcStyleOptions_Default)
 		ASSERT_EQ(defaults[i].style, styles[i].style);
 }
 
-TEST(Config_StcStyles, GetStcStyleOptions)
+TEST_F(Config_StcStylesF, GetStcStyleOptions)
 // Test GetStcStyleOptions
 {
 	// create objects
@@ -2026,7 +2245,7 @@ TEST(Config_StcStyles, GetStcStyleOptions)
 	}
 }
 
-TEST(Config_StcStyles, GetStcStyleOptions_NoEntries)
+TEST_F(Config_StcStylesF, GetStcStyleOptions_NoEntries)
 // In GetStcStyleOptions a group has no entries.
 {
 	// create objects
@@ -2053,7 +2272,7 @@ TEST(Config_StcStyles, GetStcStyleOptions_NoEntries)
 	EXPECT_EQ(styles.size() - 1, config.GetNumberOfGroups());
 }
 
-TEST(Config_StcStyles, GetStcStyleOptions_InvalidStyleNumber)
+TEST_F(Config_StcStylesF, GetStcStyleOptions_InvalidStyleNumber)
 // In GetStcStyleOptions a style number is invalid.
 {
 	// create objects
@@ -2080,7 +2299,7 @@ TEST(Config_StcStyles, GetStcStyleOptions_InvalidStyleNumber)
 	EXPECT_EQ(styles.size() - 1, config.GetNumberOfGroups());
 }
 
-TEST(Config_StcStyles, GetStcStyleOptions_ExtraStyleNumber)
+TEST_F(Config_StcStylesF, GetStcStyleOptions_ExtraStyleNumber)
 // In GetStcStyleOptions there is an extra style number.
 {
 	// create objects
@@ -2108,7 +2327,7 @@ TEST(Config_StcStyles, GetStcStyleOptions_ExtraStyleNumber)
 	EXPECT_EQ(styles.size(), config.GetNumberOfGroups());
 }
 
-TEST(Config_StcStyles, GetStcStyleOptions_InvalidForeColor)
+TEST_F(Config_StcStylesF, GetStcStyleOptions_InvalidForeColor)
 // In GetStyleUpdates a fore color is invalid.
 {
 	// create objects
@@ -2132,7 +2351,7 @@ TEST(Config_StcStyles, GetStcStyleOptions_InvalidForeColor)
 	EXPECT_EQ(3U, config.GetNumberOfEntries());
 }
 
-TEST(Config_StcStyles, GetStcStyleOptions_InvalidBackColor)
+TEST_F(Config_StcStylesF, GetStcStyleOptions_InvalidBackColor)
 // In GetStyleUpdates a fore color is invalid.
 {
 	// create objects
@@ -2156,7 +2375,7 @@ TEST(Config_StcStyles, GetStcStyleOptions_InvalidBackColor)
 	EXPECT_EQ(3U, config.GetNumberOfEntries());
 }
 
-TEST(Config_StcStyles, GetStcStyleOptions_InvalidKey)
+TEST_F(Config_StcStylesF, GetStcStyleOptions_InvalidKey)
 // In GetStyleUpdates a key is invalid.
 {
 	// create objects
@@ -2181,7 +2400,7 @@ TEST(Config_StcStyles, GetStcStyleOptions_InvalidKey)
 	EXPECT_EQ(3U, config.GetNumberOfEntries());
 }
 
-TEST(Config_StcStyles, GetStcStyleOptions_InvalidSeparator)
+TEST_F(Config_StcStylesF, GetStcStyleOptions_InvalidSeparator)
 // In GetStcStyleOptions invalid separator for the style number.
 {
 	// create objects
@@ -2207,7 +2426,7 @@ TEST(Config_StcStyles, GetStcStyleOptions_InvalidSeparator)
 	EXPECT_EQ(styles.size() - 1, config.GetNumberOfGroups());
 }
 
-TEST(Config_StcStyles, GetStcStyleOptions_NonNumericStyle)
+TEST_F(Config_StcStylesF, GetStcStyleOptions_NonNumericStyle)
 // In GetStcStyleOptions a non-numeric style number.
 {
 	// create objects
@@ -2233,7 +2452,7 @@ TEST(Config_StcStyles, GetStcStyleOptions_NonNumericStyle)
 	EXPECT_EQ(styles.size() - 1, config.GetNumberOfGroups());
 }
 
-TEST(Config_StcStyles, SaveStcStyleOptions_GroupNumber)
+TEST_F(Config_StcStylesF, SaveStcStyleOptions_GroupNumber)
 // Test config file writes for number of groups
 {
 	// create objects
@@ -2255,7 +2474,7 @@ TEST(Config_StcStyles, SaveStcStyleOptions_GroupNumber)
 	EXPECT_EQ(styles.size(), config.GetNumberOfGroups());
 }
 
-TEST(Config_StcStyles, SaveStcStyleOptions_GroupNames)
+TEST_F(Config_StcStylesF, SaveStcStyleOptions_GroupNames)
 // Test config file writes for the names of groups
 {
 	// create objects
@@ -2301,7 +2520,7 @@ TEST(Config_StcStyles, SaveStcStyleOptions_GroupNames)
 	}
 }
 
-TEST(Config_StcStyles, SaveStcStyleOptions_Entries)
+TEST_F(Config_StcStylesF, SaveStcStyleOptions_Entries)
 // Test config file writes for valid entries
 {
 	// create objects
@@ -2345,7 +2564,31 @@ TEST(Config_StcStyles, SaveStcStyleOptions_Entries)
 // Frame Config Tests
 //-------------------------------------------------------------------------
 
-TEST(Config_Frame, InitializeFile)
+struct Config_FrameF : public Test
+{
+	// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
+	// It must be done to create a wxFrame object.
+	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
+	// See the wxWidgets sample program mfctest.cpp.
+	Config_FrameF()
+	{
+		// initialize wxWidgets
+		int argc = 0;
+		wxChar** argv = nullptr;
+		wxEntryStart(argc, argv);		// initialize wxWidgets
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
+		wxTheApp->CallOnInit();			// call wxApp::OnInit()
+	}
+	virtual ~Config_FrameF()
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
+	// See the wxWidgets sample program mfctest.cpp.
+	{
+		wxTheApp->OnExit();			// call wxApp::OnExit()
+		wxEntryCleanup();			// free resources from wxEntryStart
+	}
+};
+
+TEST_F(Config_FrameF, InitializeFile)
 // Test if config file is initialized if there are no entries.
 // This tests the function void Config::InitializeConfigFile().
 {
@@ -2395,7 +2638,7 @@ TEST(Config_Frame, InitializeFile)
 	ASSERT_EQ(keys.GetCount(), config.GetNumberOfEntries(true));
 }
 
-TEST(Config_Frame, GetEditorAndViewOptions)
+TEST_F(Config_FrameF, GetEditorAndViewOptions)
 // Test config file gets for editor and view options.
 // GetNextEntry is used for the read so only a few options are checked.
 {
@@ -2436,7 +2679,7 @@ TEST(Config_Frame, GetEditorAndViewOptions)
 	EXPECT_EQ(keys.GetCount(), config.GetNumberOfEntries());
 }
 
-TEST(Config_Frame, GetEditorAndViewOptions_InvalidKeys)
+TEST_F(Config_FrameF, GetEditorAndViewOptions_InvalidKeys)
 // Test config file gets for editor and view options.
 // Invalid keys in the config file should be deleted.
 {
@@ -2475,7 +2718,7 @@ TEST(Config_Frame, GetEditorAndViewOptions_InvalidKeys)
 	EXPECT_EQ(0U, config.GetNumberOfEntries());
 }
 
-TEST(Config_Frame, GetEditorAndViewOptions_InvalidValues)
+TEST_F(Config_FrameF, GetEditorAndViewOptions_InvalidValues)
 // Test config file gets for editor and view options.
 // Invalid values in the config file should be deleted.
 // NOTE: Float and double values are written to config as strings.
@@ -2536,7 +2779,31 @@ TEST(Config_Frame, GetEditorAndViewOptions_InvalidValues)
 // Editor Config Tests
 //-------------------------------------------------------------------------
 
-TEST(Config_Editor, SaveEditorOptions_AlwaysSaved)
+struct Config_EditorF : public Test
+{
+	// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
+	// It must be done to create a wxFrame object.
+	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
+	// See the wxWidgets sample program mfctest.cpp.
+	Config_EditorF()
+	{
+		// initialize wxWidgets
+		int argc = 0;
+		wxChar** argv = nullptr;
+		wxEntryStart(argc, argv);		// initialize wxWidgets
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
+		wxTheApp->CallOnInit();			// call wxApp::OnInit()
+	}
+	virtual ~Config_EditorF()
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
+	// See the wxWidgets sample program mfctest.cpp.
+	{
+		wxTheApp->OnExit();			// call wxApp::OnExit()
+		wxEntryCleanup();			// free resources from wxEntryStart
+	}
+};
+
+TEST_F(Config_EditorF, SaveEditorOptions_AlwaysSaved)
 // Test config file writes for editor options that are always saved
 {
 	// create objects
@@ -2570,7 +2837,7 @@ TEST(Config_Editor, SaveEditorOptions_AlwaysSaved)
 	EXPECT_EQ(keys.GetCount(), config.GetNumberOfEntries());
 }
 
-TEST(Config_Editor, SaveEditorOptions_HideFindAfterMatch)
+TEST_F(Config_EditorF, SaveEditorOptions_HideFindAfterMatch)
 // Test config file writes for editor option m_hideDialogAfterMatch
 {
 	// create objects
@@ -2595,7 +2862,7 @@ TEST(Config_Editor, SaveEditorOptions_HideFindAfterMatch)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_Editor, SaveEditorOptions_IsMaximized)
+TEST_F(Config_EditorF, SaveEditorOptions_IsMaximized)
 // Test config file writes for frame wxTopLevelWindow function IsMaximized
 {
 	// create objects
@@ -2620,7 +2887,7 @@ TEST(Config_Editor, SaveEditorOptions_IsMaximized)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_Editor, SaveEditorOptions_LoadSession)
+TEST_F(Config_EditorF, SaveEditorOptions_LoadSession)
 // Test config file writes for frame wxTopLevelWindow function loadSession
 {
 	// create objects
@@ -2645,7 +2912,7 @@ TEST(Config_Editor, SaveEditorOptions_LoadSession)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_Editor, SaveEditorOptions_ShowDialogTips)
+TEST_F(Config_EditorF, SaveEditorOptions_ShowDialogTips)
 // Test config file writes for frame option m_showDialogTips
 {
 	// create objects
@@ -2670,7 +2937,7 @@ TEST(Config_Editor, SaveEditorOptions_ShowDialogTips)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_Editor, SaveEditorOptions_ShowToolTips)
+TEST_F(Config_EditorF, SaveEditorOptions_ShowToolTips)
 // Test config file writes for frame option m_showToolTips
 {
 	// create objects
@@ -2695,7 +2962,7 @@ TEST(Config_Editor, SaveEditorOptions_ShowToolTips)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_Editor, SaveEditorOptions_TestOptions)
+TEST_F(Config_EditorF, SaveEditorOptions_TestOptions)
 // Test config file writes for frame option m_testOptions.
 {
 	// create objects
@@ -2719,7 +2986,7 @@ TEST(Config_Editor, SaveEditorOptions_TestOptions)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_Editor, SaveEditorOptions_UseBottomTabs)
+TEST_F(Config_EditorF, SaveEditorOptions_UseBottomTabs)
 // Test config file writes for frame option m_useBottomTabs
 {
 	// create objects
@@ -2744,7 +3011,7 @@ TEST(Config_Editor, SaveEditorOptions_UseBottomTabs)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_Editor, SaveEditorOptions_UseSmallToolbar)
+TEST_F(Config_EditorF, SaveEditorOptions_UseSmallToolbar)
 // Test config file writes for frame option m_useSmallToolbar
 {
 	// create objects
@@ -2769,7 +3036,7 @@ TEST(Config_Editor, SaveEditorOptions_UseSmallToolbar)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_Editor, SaveEditorOptions_WrapSearch)
+TEST_F(Config_EditorF, SaveEditorOptions_WrapSearch)
 // Test config file writes for editor option m_wrapSearch
 {
 	// create objects
@@ -2798,7 +3065,32 @@ TEST(Config_Editor, SaveEditorOptions_WrapSearch)
 // View Menu Config Tests
 //-------------------------------------------------------------------------
 
-TEST(Config_ViewMenu, SaveViewMenuOptions_ActiveLine)
+struct Config_ViewMenuF : public Test
+{
+	// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
+	// It must be done to create a wxFrame object.
+	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
+	// See the wxWidgets sample program mfctest.cpp.
+	Config_ViewMenuF()
+	{
+		// initialize wxWidgets
+		int argc = 0;
+		wxChar** argv = nullptr;
+		wxEntryStart(argc, argv);		// initialize wxWidgets
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
+		wxTheApp->CallOnInit();			// call wxApp::OnInit()
+	}
+	virtual ~Config_ViewMenuF()
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
+	// See the wxWidgets sample program mfctest.cpp.
+	{
+		wxTheApp->OnExit();			// call wxApp::OnExit()
+		wxEntryCleanup();			// free resources from wxEntryStart
+	}
+
+};
+
+TEST_F(Config_ViewMenuF, SaveViewMenuOptions_ActiveLine)
 // Test config file writes for menu option ID_VIEW_ACTIVELINE
 {
 	// create objects
@@ -2823,7 +3115,7 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_ActiveLine)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_ViewMenu, SaveViewMenuOptions_EndOfLine)
+TEST_F(Config_ViewMenuF, SaveViewMenuOptions_EndOfLine)
 // Test config file writes for menu option ID_VIEW_ENDLINE
 {
 	// create objects
@@ -2848,7 +3140,7 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_EndOfLine)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_ViewMenu, SaveViewMenuOptions_IndentGuides)
+TEST_F(Config_ViewMenuF, SaveViewMenuOptions_IndentGuides)
 // Test config file writes for menu option ID_VIEW_INDENTGUIDES
 {
 	// create objects
@@ -2873,7 +3165,7 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_IndentGuides)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_ViewMenu, SaveViewMenuOptions_LineNumbers)
+TEST_F(Config_ViewMenuF, SaveViewMenuOptions_LineNumbers)
 // Test config file writes for menu option ID_VIEW_LINENUMBERS
 {
 	// create objects
@@ -2898,7 +3190,7 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_LineNumbers)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_ViewMenu, SaveViewMenuOptions_MonoSpace)
+TEST_F(Config_ViewMenuF, SaveViewMenuOptions_MonoSpace)
 // Test config file writes for menu option ID_VIEW_MONOSPACE
 {
 	// create objects
@@ -2923,7 +3215,7 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_MonoSpace)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_ViewMenu, SaveViewMenuOptions_SelectionMargin)
+TEST_F(Config_ViewMenuF, SaveViewMenuOptions_SelectionMargin)
 // Test config file writes for menu option ID_VIEW_MARGIN
 {
 	// create objects
@@ -2948,7 +3240,7 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_SelectionMargin)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_ViewMenu, SaveViewMenuOptions_StatusBar)
+TEST_F(Config_ViewMenuF, SaveViewMenuOptions_StatusBar)
 // Test config file writes for menu option ID_VIEW_STATUSBAR
 {
 	// create objects
@@ -2973,7 +3265,7 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_StatusBar)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_ViewMenu, SaveViewMenuOptions_Toolbar)
+TEST_F(Config_ViewMenuF, SaveViewMenuOptions_Toolbar)
 // Test config file writes for menu option ID_VIEW_TOOLBAR
 {
 	// create objects
@@ -2998,7 +3290,7 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_Toolbar)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_ViewMenu, SaveViewMenuOptions_WhiteSpace)
+TEST_F(Config_ViewMenuF, SaveViewMenuOptions_WhiteSpace)
 // Test config file writes for menu option ID_VIEW_WHITESPACE
 {
 	// create objects
@@ -3023,7 +3315,7 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_WhiteSpace)
 	ASSERT_FALSE(config.Read(key, &value));
 }
 
-TEST(Config_ViewMenu, SaveViewMenuOptions_WordWrap)
+TEST_F(Config_ViewMenuF, SaveViewMenuOptions_WordWrap)
 // Test config file writes for menu option ID_VIEW_WORDWRAP
 {
 	// create objects
@@ -3052,8 +3344,28 @@ TEST(Config_ViewMenu, SaveViewMenuOptions_WordWrap)
 // Session Config Tests
 //-------------------------------------------------------------------------
 
-struct Config_Session_F : public Test
+struct Config_SessionF : public Test
 {
+	// Need this setup because of wxWidgets wxIMPLEMENT_APP_NO_MAIN.
+	// It must be done to create a wxFrame object.
+	// Without it a SEH exception with code 0xc0000005 is thrown in the test body.
+	// See the wxWidgets sample program mfctest.cpp.
+	Config_SessionF()
+	{
+		// initialize wxWidgets
+		int argc = 0;
+		wxChar** argv = nullptr;
+		wxEntryStart(argc, argv);		// initialize wxWidgets
+		wxASSERT(wxTheApp != nullptr);	// check wxApp*
+		wxTheApp->CallOnInit();			// call wxApp::OnInit()
+	}
+	virtual ~Config_SessionF()
+	// Need this because of wxIMPLEMENT_APP_NO_MAIN.
+	// See the wxWidgets sample program mfctest.cpp.
+	{
+		wxTheApp->OnExit();			// call wxApp::OnExit()
+		wxEntryCleanup();			// free resources from wxEntryStart
+	}
 	void AddTestFilesToConfig(Config_Test* config, wxArrayString& filePaths)
 	{
 		config->SetPath("/Session");
@@ -3115,7 +3427,7 @@ struct Config_Session_F : public Test
 	}
 };
 
-TEST_F(Config_Session_F, GetSessionFiles)
+TEST_F(Config_SessionF, GetSessionFiles)
 {
 	// create objects
 	ASEditor editor;
@@ -3139,7 +3451,7 @@ TEST_F(Config_Session_F, GetSessionFiles)
 	EXPECT_EQ(numExisting, filePaths.GetCount());
 }
 
-TEST_F(Config_Session_F, GetSessionFiles_NoOptionSet)
+TEST_F(Config_SessionF, GetSessionFiles_NoOptionSet)
 {
 	// create objects
 	ASEditor editor;
@@ -3163,7 +3475,7 @@ TEST_F(Config_Session_F, GetSessionFiles_NoOptionSet)
 	EXPECT_EQ(0U, filePaths.GetCount());
 }
 
-TEST_F(Config_Session_F, SaveSessionFiles_AddFiles)
+TEST_F(Config_SessionF, SaveSessionFiles_AddFiles)
 // Test SaveSessionFiles with 0 entries in config
 {
 	// create objects
@@ -3191,7 +3503,7 @@ TEST_F(Config_Session_F, SaveSessionFiles_AddFiles)
 	VerifyConfigEntries(&config, newFilePaths);
 }
 
-TEST_F(Config_Session_F, SaveSessionFiles_ReplaceAndDeleteFiles)
+TEST_F(Config_SessionF, SaveSessionFiles_ReplaceAndDeleteFiles)
 // Test SaveSessionFiles with entries in config
 // Config entries must be replaced and the excess deleted
 {
@@ -3225,7 +3537,7 @@ TEST_F(Config_Session_F, SaveSessionFiles_ReplaceAndDeleteFiles)
 	VerifyConfigEntries(&config, newFilePaths);
 }
 
-TEST_F(Config_Session_F, SaveSessionFiles_DeleteAllFiles)
+TEST_F(Config_SessionF, SaveSessionFiles_DeleteAllFiles)
 // Test SaveSessionFiles with entries in config
 // Config entries must be deleted because of 0 new files
 {
@@ -3257,7 +3569,7 @@ TEST_F(Config_Session_F, SaveSessionFiles_DeleteAllFiles)
 	VerifyConfigEntries(&config, emptyArray);
 }
 
-TEST_F(Config_Session_F, SaveSessionFiles_NoOptionSet)
+TEST_F(Config_SessionF, SaveSessionFiles_NoOptionSet)
 // Test SaveSessionFiles with entries in config
 // Config entries must be deleted because of loadSession not set
 {

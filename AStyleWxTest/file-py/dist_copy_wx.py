@@ -18,11 +18,11 @@ import libastylewx
 # global variables ------------------------------------------------------------
 
 # release number for distribution file
-AS_RELEASE = "3.1"
+AS_RELEASE = "3.2"
 
 # extract all platforms for testing (Windows, Linux, Mac)
-EXTRACT_ALL = False
-#EXTRACT_ALL = True
+#EXTRACT_ALL = False
+EXTRACT_ALL = True
 
 # inut from AStyleWx directory
 __astylewx_dir = libastylewx.get_astylewx_directory()
@@ -185,6 +185,8 @@ def build_windows_distribution():
 
     print("Compiling with ({0}) wxWidgets {1}".format(vsdir, wxrel))
     print("Building AStyleWx release", AS_RELEASE)
+    if vsdir < "vs2015":
+        libastylewx.system_exit("Must compile with vs2015 or greater in libastyle: " + vsdir)
     dist_base = get_distribution_folder_windows()
     dist_astylewx = dist_base + "/AStyleWx_{0}_windows".format(AS_RELEASE) + "/AStyleWx"
     os.makedirs(dist_astylewx)
@@ -312,10 +314,10 @@ def copy_astylewx_doc(dist_doc, to_dos=False):
     for filepath in docfiles:
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
-        if (filename == "index.html"
-                or filename == "install.html"
-                or filename == "static.html"
-                or filename == "styles.css"):
+        if filename in ("index.html",
+                        "install.html",
+                        "static.html",
+                        "styles.css"):
             shutil.copy(filepath, dist_doc)
             print("    " + filename)
         else:
@@ -414,8 +416,8 @@ def copy_astylewx_top(dist_top, to_dos=False):
     for filepath in docfiles:
         sep = filepath.rfind(os.sep)
         filename = filepath[sep + 1:]
-        if (filename == "LICENSE.md"
-                or filename == "README.md"):
+        if filename in ("LICENSE.md",
+                        "README.md"):
             shutil.copy(filepath, dist_top)
             print("    " + filename)
         else:
@@ -443,7 +445,7 @@ def copy_build_directories_cb(dist_build, build_dir):
     for cbpfile in cbpfiles:
         shutil.copy(cbpfile, dist_astyle_cb)
         files_copied += 1
-    if files_copied != 6 and files_copied != 7 and files_copied != 10:
+    if files_copied not in (6, 7, 10):
         libastylewx.system_exit("Error in number of build files copied: " + str(files_copied))
 
 # -----------------------------------------------------------------------------
@@ -518,15 +520,15 @@ def copy_linux_build_directories(dist_build):
     build_dir_list = sorted(os.listdir(buildfiles))
     for unused, build_dir in enumerate(build_dir_list):
         # build/codeblocks directories
-        if (build_dir == "cb-clang"
-                or build_dir == "cb-gcc"
-                or build_dir == "cb-intel"):
+        if build_dir in ("cb-clang",
+                         "cb-gcc",
+                         "cb-intel"):
             print("    " + build_dir)
             copy_build_directories_cb(dist_build, build_dir)
         # build makefile directories
-        if (build_dir == "clang"
-                or build_dir == "gcc"
-                or build_dir == "intel"):
+        if build_dir in ("clang",
+                         "gcc",
+                         "intel"):
             print("    " + build_dir)
             copy_build_directories_make(dist_build, build_dir)
 
@@ -542,7 +544,8 @@ def copy_mac_build_directories(dist_build):
     for unused, build_dir in enumerate(build_dir_list):
         # do NOT build/codeblocks directories
         if build_dir == "cb-mac":
-            continue
+            print("    " + build_dir)
+            copy_build_directories_cb(dist_build, build_dir)
         # build makefile directories
         if build_dir == "mac":
             print("    " + build_dir)
@@ -565,13 +568,14 @@ def copy_windows_build_directories(dist_build):
     build_dir_list = sorted(os.listdir(buildfiles))
     for unused, build_dir in enumerate(build_dir_list):
         # build/codeblocks directories
-        if (build_dir == "cb-bcc32c"
-                or build_dir == "cb-mingw"):
+        if build_dir in ("cb-bcc32c",
+                         "cb-mingw"):
             print("    " + build_dir)
             copy_build_directories_cb(dist_build, build_dir)
 
         # build/vs directories
         if (build_dir.startswith("vs20")
+                and not build_dir.startswith("vs2013")      # vs2013 not supported
                 and not (build_dir.endswith("-clang")
                          or build_dir.endswith("-wsl"))):
             print("    " + build_dir)

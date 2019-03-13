@@ -53,6 +53,7 @@
 		</Build>
 		<VirtualTargets>
 			<Add alias="Coverage" targets="Debug;" />
+			<Add alias="Lint" targets="Debug;" />
 		</VirtualTargets>
 		<Unit filename="../../../googlemock/src/gmock-all.cc" />
 		<Unit filename="../../../googletest/src/gtest-all.cc" />

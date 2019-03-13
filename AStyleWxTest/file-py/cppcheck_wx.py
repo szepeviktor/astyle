@@ -195,6 +195,8 @@ def process_astyledisplay(astyledisplay_list):
         if line.startswith("int start"):
             ints_processed += 1
             if ints_processed == 2:
+                astyledisplay_list.append("unreadVariable:" + src_path + ":" + str(lines)
+                                          + "\t\t// int start\n")
                 astyledisplay_list.append("variableScope:" + src_path + ":" + str(lines)
                                           + "\t\t// int start\n")
     file_in.close()
@@ -329,15 +331,6 @@ def process_astyleformat(astyleformat_list):
             line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
-        if line.startswith("minOut"):
-            astyleformat_list.append("redundantAssignment:" + src_path + ":" + str(lines)
-                                     + "\t\t// MinOut\n")
-        if line.startswith("minSTC"):
-            astyleformat_list.append("redundantAssignment:" + src_path + ":" + str(lines)
-                                     + "\t\t// MinSTC\n")
-        if line.startswith("minPosition"):
-            astyleformat_list.append("redundantAssignment:" + src_path + ":" + str(lines)
-                                     + "\t\t// minPosition\n")
         # useInitializationList error
         if line.startswith("m_firstLineMarker"):
             astyleformat_list.append("useInitializationList:" + src_path + ":" + str(lines)
@@ -501,6 +494,9 @@ def process_encoding(encoding_list):
             line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
+        if line.startswith("size_t BOMSize"):
+            encoding_list.append("unreadVariable:" + src_path + ":" + str(lines)
+                                 + "\t\t// size_t BOMSize\n")
     file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -510,7 +506,8 @@ def process_file_suppressions(file_suppression_list):
     """
     file_suppression_list.append("// Suppressed on the Command Line\n")
     file_suppression_list.append("// functionStatic is supressed for the entire project.\n")
-    file_suppression_list.append("// purgedConfiguration is supressed for the entire project.\n")
+    file_suppression_list.append("// noValidConfiguration is supressed for the entire project.\n")
+    #~ file_suppression_list.append("// purgedConfiguration is supressed for the entire project.\n")
     file_suppression_list.append("//\n")
 
 # -----------------------------------------------------------------------------
@@ -520,6 +517,7 @@ def process_filemanager(filemanager_list):
     """
     lines = 0				# current input line number
     src_path = __src_dir + "FileManager.cpp"
+    strings_processed = 0
     file_in = open(src_path, 'r')
     # get exceptions
     for line_in in file_in:
@@ -534,12 +532,11 @@ def process_filemanager(filemanager_list):
             line = line[:comment].rstrip()
         if line.startswith("EVT_"):
             continue
-        if line.startswith("reply = AskAboutSave(true)"):
-            filemanager_list.append("redundantAssignment:" + src_path + ":" + str(lines)
-                                    + "\t// reply\n")
-        if line.startswith("reply = dialog.ShowModal"):
-            filemanager_list.append("redundantAssignment:" + src_path + ":" + str(lines)
-                                    + "\t// reply\n")
+        if line.startswith("wxString message"):
+            strings_processed += 1
+            if strings_processed == 1:
+                filemanager_list.append("unreadVariable:" + src_path + ":" + str(lines)
+                                        + "\t\t// wxString message\n")
     file_in.close()
 
 # -----------------------------------------------------------------------------
@@ -564,6 +561,8 @@ def process_indent(indent_list):
         if line.startswith("EVT_"):
             continue
         if line.startswith("size_t end"):
+            indent_list.append("unreadVariable:" + src_path + ":" + str(lines)
+                               + "\t\t\t// size_t end\n")
             indent_list.append("variableScope:" + src_path + ":" + str(lines)
                                + "\t\t\t// size_t end\n")
     file_in.close()
@@ -605,7 +604,8 @@ def run_cppcheck():
     cppcheck.append("--inconclusive")
     cppcheck.append("--verbose")
     cppcheck.append("--suppress=functionStatic")
-    cppcheck.append("--suppress=purgedConfiguration")
+    cppcheck.append("--suppress=noValidConfiguration")
+    #~ cppcheck.append("--suppress=purgedConfiguration")
     cppcheck.append("--suppressions-list=" + __suppression_path)
     cppcheck.append(__src_dir)
     # shell=True keeps the console window open, but will not display if run from an editor

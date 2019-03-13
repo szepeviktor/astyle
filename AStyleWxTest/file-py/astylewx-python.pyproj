@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{b7b62252-f531-49d3-b6bd-58cb95b21d7e}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>change_static_wx30.py</StartupFile>
+    <StartupFile>dist_copy_wx.py</StartupFile>
     <SearchPath>..\..\..\..\..\Program Files\Python36\Lib\</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>

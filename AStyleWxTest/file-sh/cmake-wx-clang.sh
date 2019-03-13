@@ -5,6 +5,7 @@ opts=
 # opts=-DCMAKE_VERBOSE_MAKEFILE=1
 # opts="-DCMAKE_BUILD_TYPE=Debug  -DCMAKE_VERBOSE_MAKEFILE=1"
 # opts=-DCMAKE_BUILD_TYPE="MinSizeRel"
+# opts="-DWX=3.1  -DTK=gtk3"
 # echo $opts
 
 # Executable

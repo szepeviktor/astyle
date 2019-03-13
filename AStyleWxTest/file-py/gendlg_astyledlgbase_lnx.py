@@ -96,7 +96,7 @@ def process_line(line):
         line = line.replace("wxALL", "wxTOP|wxLEFT")
     # the last line gets a bottom border
     elif (line.find("styleLisp") != -1
-            or line.find("attachExternC") != -1):
+          or line.find("attachExternC") != -1):
         line = line.replace("wxALL", "wxBOTTOM|wxLEFT")
     else:
         if (line.find("indentLength") == -1
@@ -142,15 +142,15 @@ def accum_totals(line):
     if line.find("m_styleSizer") != -1:
         __styles += 1
     elif (line.find("m_tabSizer") != -1
-            or line.find("m_forceTabSizer") != -1
-            or line.find("m_modifySizer") != -1):
+          or line.find("m_forceTabSizer") != -1
+          or line.find("m_modifySizer") != -1):
         __tabs += 1
     elif line.find("m_indentSizer") != -1:
         __indents += 1
     elif line.find("m_padSizer") != -1:
         __pads += 1
     elif (line.find("m_formatSizer") != -1
-            or line.find("m_breakAfterLogicalSizer") != -1):
+          or line.find("m_breakAfterLogicalSizer") != -1):
         __formats += 1
     elif line.find("m_otherSizer") != -1:
         __others += 1

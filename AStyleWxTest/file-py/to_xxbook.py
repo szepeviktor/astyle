@@ -13,7 +13,7 @@ import libastylewx      # local directory
 # NOTE: additions here require changes to AStyleDlg.h and Editor.Dlg.h
 
 #__new_book = "wxChoicebook"
-#__new_book = "wxListbook"      # does not work with 2.8
+#__new_book = "wxListbook"
 #__new_book = "wxNotebook"
 __new_book = "wxTreebook"
 
@@ -155,6 +155,7 @@ def get_new_header():
         return "notebook.h"
     if "wxTreebook" in __new_book:
         return "treebook.h"
+    return "error in global __new_book header"
 
 # -----------------------------------------------------------------------------
 
@@ -169,6 +170,7 @@ def get_new_macro():
         return "_NOTEBOOK_"
     if "wxTreebook" in __new_book:
         return "_TREEBOOK_"
+    return "error in global __new_book macro"
 
 # -----------------------------------------------------------------------------
 
@@ -202,7 +204,7 @@ def process_choicebook_pages(line):
     if "AddSubPage" in line:
         line = line.replace("AddSubPage", "AddPage")
     # replace short name with long name if any
-    for i in range(0, len(__short_name)):
+    for i, unused in enumerate(__short_name):
         if __short_name[i] in line:
             line = line.replace(__short_name[i], __long_name[i])
     return line
@@ -216,7 +218,7 @@ def process_listbook_pages(line):
     if "AddSubPage" in line:
         line = line.replace("AddSubPage", "AddPage")
     # replace short name with long name if any
-    for i in range(0, len(__short_name)):
+    for i, unused in enumerate(__short_name):
         if __short_name[i] in line:
             line = line.replace(__short_name[i], __long_name[i])
     return line
@@ -230,7 +232,7 @@ def process_notebook_pages(line):
     if "AddSubPage" in line:
         line = line.replace("AddSubPage", "AddPage")
     # replace long name with short name if any
-    for i in range(0, len(__short_name)):
+    for i, unused in enumerate(__long_name):
         if __long_name[i] in line:
             line = line.replace(__long_name[i], __short_name[i])
     return line
@@ -244,7 +246,7 @@ def process_treebook_pages(line):
     if "AddPage" in line:
         line = line.replace("AddPage", "AddSubPage")
     # replace short name with long name if any
-    for i in range(0, len(__short_name)):
+    for i, unused in enumerate(__short_name):
         if __short_name[i] in line:
             line = line.replace(__short_name[i], __long_name[i])
     return line

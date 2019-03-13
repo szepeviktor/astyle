@@ -30,11 +30,11 @@ set func="[A-Z].*|get|set|main"
 REM Class names start with upper case.
 set class="[A-Z].*"
 echo running naming.py
-"C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleDisplay_Test.cpp.dump"
-"C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleFormat_Test.cpp.dump"
-"C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleIFace_Test.cpp.dump"
-"C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/Config_Test.cpp.dump"
-"C:/Program Files/Python 3.5/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/Main_Test.cpp.dump"
+"C:/Program Files/Python37/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleDisplay_Test.cpp.dump"
+"C:/Program Files/Python37/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleFormat_Test.cpp.dump"
+"C:/Program Files/Python37/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/AStyleIFace_Test.cpp.dump"
+"C:/Program Files/Python37/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/Config_Test.cpp.dump"
+"C:/Program Files/Python37/python.exe"  "%USERPROFILE%/Projects/AStyleTest/file-py/naming.py"  --var=%var% --function=%func% --class=%class%  "src/Main_Test.cpp.dump"
 
 echo.
 pause
