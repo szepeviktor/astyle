@@ -44,7 +44,7 @@ public:
 	explicit TersePrinter(bool useTerseOutput_, bool /* use_color */)
 		: useTerseOutput(useTerseOutput_),
 		  test_header_printed_(false)
-	{};
+	{}
 
 	static void PrintTestTotals(int all_test_total_check, const char* file, int line);
 

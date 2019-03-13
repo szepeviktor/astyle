@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28527.54
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStyleWxTest", "AStyleWxTest\AStyleWxTest.vcxproj", "{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}"
+	ProjectSection(ProjectDependencies) = postProject
+		{06D396A4-024B-4854-91CD-4E33DE808785} = {06D396A4-024B-4854-91CD-4E33DE808785}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C9B5D598-0EC7-4240-BC92-DE5E93E64376}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMock Lib", "GMock Lib\GMock Lib.vcxproj", "{06D396A4-024B-4854-91CD-4E33DE808785}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		DLL Debug|x64 = DLL Debug|x64
+		DLL Debug|x86 = DLL Debug|x86
+		DLL Release|x64 = DLL Release|x64
+		DLL Release|x86 = DLL Release|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.Debug|x64.ActiveCfg = Debug|x64
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.Debug|x64.Build.0 = Debug|x64
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.Debug|x86.ActiveCfg = Debug|Win32
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.Debug|x86.Build.0 = Debug|Win32
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.DLL Debug|x64.ActiveCfg = DLL Debug|x64
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.DLL Debug|x64.Build.0 = DLL Debug|x64
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.DLL Debug|x86.ActiveCfg = DLL Debug|Win32
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.DLL Debug|x86.Build.0 = DLL Debug|Win32
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.DLL Release|x64.ActiveCfg = DLL Release|x64
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.DLL Release|x64.Build.0 = DLL Release|x64
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.DLL Release|x86.ActiveCfg = DLL Release|Win32
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.DLL Release|x86.Build.0 = DLL Release|Win32
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.Release|x64.ActiveCfg = Release|x64
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.Release|x64.Build.0 = Release|x64
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.Release|x86.ActiveCfg = Release|Win32
+		{E9EF94EC-5C61-4AEA-8D0F-90C73FEC4803}.Release|x86.Build.0 = Release|Win32
+		{06D396A4-024B-4854-91CD-4E33DE808785}.Debug|x64.ActiveCfg = Debug|x64
+		{06D396A4-024B-4854-91CD-4E33DE808785}.Debug|x64.Build.0 = Debug|x64
+		{06D396A4-024B-4854-91CD-4E33DE808785}.Debug|x86.ActiveCfg = Debug|Win32
+		{06D396A4-024B-4854-91CD-4E33DE808785}.Debug|x86.Build.0 = Debug|Win32
+		{06D396A4-024B-4854-91CD-4E33DE808785}.DLL Debug|x64.ActiveCfg = Debug|x64
+		{06D396A4-024B-4854-91CD-4E33DE808785}.DLL Debug|x64.Build.0 = Debug|x64
+		{06D396A4-024B-4854-91CD-4E33DE808785}.DLL Debug|x86.ActiveCfg = Debug|Win32
+		{06D396A4-024B-4854-91CD-4E33DE808785}.DLL Debug|x86.Build.0 = Debug|Win32
+		{06D396A4-024B-4854-91CD-4E33DE808785}.DLL Release|x64.ActiveCfg = Release|x64
+		{06D396A4-024B-4854-91CD-4E33DE808785}.DLL Release|x64.Build.0 = Release|x64
+		{06D396A4-024B-4854-91CD-4E33DE808785}.DLL Release|x86.ActiveCfg = Release|Win32
+		{06D396A4-024B-4854-91CD-4E33DE808785}.DLL Release|x86.Build.0 = Release|Win32
+		{06D396A4-024B-4854-91CD-4E33DE808785}.Release|x64.ActiveCfg = Release|x64
+		{06D396A4-024B-4854-91CD-4E33DE808785}.Release|x64.Build.0 = Release|x64
+		{06D396A4-024B-4854-91CD-4E33DE808785}.Release|x86.ActiveCfg = Release|Win32
+		{06D396A4-024B-4854-91CD-4E33DE808785}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2BA92259-AE25-4FAD-8214-1221E1E3A144}
+	EndGlobalSection
+EndGlobal

@@ -15,9 +15,10 @@
 #endif
 
 //----------------------------------------------------------------------------
-// global variables
+// method declarations
 //----------------------------------------------------------------------------
 
+string GetWxWidgetsVersion();
 void SystemPause();
 
 //-------------------------------------------------------------------------
@@ -67,6 +68,7 @@ int main(int argc, char** argv)
 
 	// run the tests
 	int retval = RUN_ALL_TESTS();
+
 	// Verify that all tests were run. This can occur if a source file
 	// is missing from the project. The UnitTest reflection API in
 	// example 9 will not work here because of user modifications.
@@ -75,6 +77,11 @@ int main(int argc, char** argv)
 		TersePrinter::PrintTestTotals(260, __FILE__, __LINE__);
 	else
 		ColoredPrintf(COLOR_YELLOW, "\n* USING DEFAULT GTEST PRINTER *\n\n");
+
+	// Print the wxWidgets version.
+	string wxVersion = GetWxWidgetsVersion();
+	ColoredPrintf(COLOR_GREEN, "%s\n", wxVersion.c_str());
+
 #ifdef __WIN32
 	printf("%c", '\n');
 #endif
@@ -82,6 +89,29 @@ int main(int argc, char** argv)
 		SystemPause();
 
 	return retval;
+}
+
+string GetWxWidgetsVersion()
+{
+	string wxVersion;
+	string toolkit;
+#ifdef __WXQT__
+	toolkit = "qt";
+#elif defined (__WXGTK__)
+#ifdef __WXGTK3__
+	toolkit = "gtk3";
+#else
+	toolkit = "gtk2";
+#endif	// __WXGTK3__
+#endif	// __WXQT__
+	if (toolkit.empty())
+		wxVersion = wxString::Format("wxWidgets version %d.%d.%d.",
+		                             wxMAJOR_VERSION, wxMINOR_VERSION, wxRELEASE_NUMBER);
+	else
+		wxVersion = wxString::Format("wxWidgets version %d.%d.%d, %s.",
+		                             wxMAJOR_VERSION, wxMINOR_VERSION, wxRELEASE_NUMBER,
+		                             toolkit);
+	return wxVersion;
 }
 
 void SystemPause()

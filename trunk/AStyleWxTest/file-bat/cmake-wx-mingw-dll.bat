@@ -1,11 +1,13 @@
 @echo off
-
 REM MinGW download  https://sourceforge.net/projects/mingw-w64/
 
 REM SET PATH VARIABLE TO INCLUDE CMAKE AND MINGW COMPILER
 set PATH=C:\Program Files\CMake\bin;%PATH%
 set PATH=C:\Programs\TDM-GCC-64\bin;%PATH%
-:: set PATH=C:\Programs\mingw-w64\x86_64-7.1.0-win32-seh-rt_v5-rev2\mingw64\bin;%PATH%
+REM the following path will be overridden by the WXWIN define
+set PATH=C:\Programs\wxWidgets-3.0.2_mingw;%PATH%
+
+set optsx=-DWXWIN="C:/Programs/WxWidgets-3.1.1_mingw"  -DWXSHARED=1
 
 REM USE ONE OF THESE OPTIONS
 set opts=
@@ -23,7 +25,7 @@ cd  "%USERPROFILE%\Projects\AStyleWx"
 rmdir /s /q aswx-mingw-exe-dll
 md  aswx-mingw-exe-dll
 cd  aswx-mingw-exe-dll
-cmake  -G "MinGW Makefiles"  -DWXSHARED=1  %opts%  ../
+cmake  -G "MinGW Makefiles"  %opts%  %optsx%  ../
 mingw32-make
 
 echo.

@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28621.142
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "astylewx-python", "astylewx-python.pyproj", "{B7B62252-F531-49D3-B6BD-58CB95B21D7E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7B62252-F531-49D3-B6BD-58CB95B21D7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7B62252-F531-49D3-B6BD-58CB95B21D7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0B791EEE-C76B-4BD8-A84E-466FD7DC0B84}
+	EndGlobalSection
+EndGlobal

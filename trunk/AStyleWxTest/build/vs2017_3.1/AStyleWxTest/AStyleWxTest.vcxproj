@@ -38,7 +38,6 @@
     <ProjectGuid>{81836994-4DC6-45BD-8C69-633DF214AD3F}</ProjectGuid>
     <RootNamespace>AStyleWxTest</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -169,7 +168,7 @@
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8  %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;wxscintillad.lib;wxpngd.lib;wxzlibd.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -180,20 +179,20 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'">
     <PreBuildEvent>
-      <Command>if not exist "$(TargetDir)wxbase$(wxVersion)ud_vc_custom.dll"     mklink /H "$(TargetDir)wxbase$(wxVersion)ud_vc_custom.dll"     "$(WXWIN)\lib\vc_dll\wxbase$(wxVersion)ud_vc_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxbase$(wxVersion)ud_vc_custom.pdb"     mklink /H "$(TargetDir)wxbase$(wxVersion)ud_vc_custom.pdb"     "$(WXWIN)\lib\vc_dll\wxbase$(wxVersion)ud_vc_custom.pdb" &gt; NUL
+      <Command>if not exist "$(TargetDir)wxbase$(wxVersion)?ud_vc_custom.dll"  xcopy  "$(WXWIN)\lib\vc_dll\wxbase$(wxVersion)?ud_vc_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxbase$(wxVersion)?ud_vc_custom.pdb"  xcopy  "$(WXWIN)\lib\vc_dll\wxbase$(wxVersion)?ud_vc_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_custom.dll"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_adv_vc_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_custom.pdb"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_adv_vc_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_adv_vc_custom.dll"  xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?ud_adv_vc_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_adv_vc_custom.pdb"  xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?ud_adv_vc_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_custom.dll"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_aui_vc_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_custom.pdb"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_aui_vc_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_aui_vc_custom.dll"  xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?ud_aui_vc_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_aui_vc_custom.pdb"  xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?ud_aui_vc_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_custom.dll" mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_custom.dll" "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_core_vc_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_custom.pdb" mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_custom.pdb" "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_core_vc_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_core_vc_custom.dll" xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?ud_core_vc_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_core_vc_custom.pdb" xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?ud_core_vc_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.dll"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_stc_vc_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.pdb"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)ud_stc_vc_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_stc_vc_custom.dll"  xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?ud_stc_vc_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_stc_vc_custom.pdb"  xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?ud_stc_vc_custom.pdb"  "$(TargetDir)" &gt; NUL
 </Command>
     </PreBuildEvent>
     <ClCompile>
@@ -208,7 +207,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.pdb"  mklink /H "$(T
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8  %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_adv.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -234,7 +233,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.pdb"  mklink /H "$(T
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8  %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_adv.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;wxscintillad.lib;wxpngd.lib;wxzlibd.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -244,20 +243,20 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_custom.pdb"  mklink /H "$(T
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|x64'">
     <PreBuildEvent>
-      <Command>if not exist "$(TargetDir)wxbase$(wxVersion)ud_vc_x64_custom.dll"     mklink /H "$(TargetDir)wxbase$(wxVersion)ud_vc_x64_custom.dll"     "$(WXWIN)\lib\vc_x64_dll\wxbase$(wxVersion)ud_vc_x64_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxbase$(wxVersion)ud_vc_x64_custom.pdb"     mklink /H "$(TargetDir)wxbase$(wxVersion)ud_vc_x64_custom.pdb"     "$(WXWIN)\lib\vc_x64_dll\wxbase$(wxVersion)ud_vc_x64_custom.pdb" &gt; NUL
+      <Command>if not exist "$(TargetDir)wxbase$(wxVersion)?ud_vc_x64_custom.dll"  xcopy  "$(WXWIN)\lib\vc_x64_dll\wxbase$(wxVersion)?ud_vc_x64_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxbase$(wxVersion)?ud_vc_x64_custom.pdb"   xcopy  "$(WXWIN)\lib\vc_x64_dll\wxbase$(wxVersion)?ud_vc_x64_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_x64_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_x64_custom.dll"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_adv_vc_x64_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_x64_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_adv_vc_x64_custom.pdb"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_adv_vc_x64_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_adv_vc_x64_custom.dll"  xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?ud_adv_vc_x64_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_adv_vc_x64_custom.pdb"  xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?ud_adv_vc_x64_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_x64_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_x64_custom.dll"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_aui_vc_x64_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_x64_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_aui_vc_x64_custom.pdb"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_aui_vc_x64_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_aui_vc_x64_custom.dll"  xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?ud_aui_vc_x64_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_aui_vc_x64_custom.pdb"  xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?ud_aui_vc_x64_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_x64_custom.dll" mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_x64_custom.dll" "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_core_vc_x64_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_x64_custom.pdb" mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_core_vc_x64_custom.pdb" "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_core_vc_x64_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_core_vc_x64_custom.dll" xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?ud_core_vc_x64_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_core_vc_x64_custom.pdb" xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?ud_core_vc_x64_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.dll"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_stc_vc_x64_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_stc_vc_x64_custom.dll"  xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?ud_stc_vc_x64_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?ud_stc_vc_x64_custom.pdb"  xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?ud_stc_vc_x64_custom.pdb"  "$(TargetDir)" &gt; NUL
 </Command>
     </PreBuildEvent>
     <ClCompile>
@@ -272,7 +271,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H 
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8  %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmockd.lib;wxbase$(wxVersion)ud.lib;wxmsw$(wxVersion)ud_adv.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)ud_core.lib;wxmsw$(wxVersion)ud_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -294,7 +293,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H 
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8  %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;wxscintilla.lib;wxpng.lib;wxzlib.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -319,7 +318,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H 
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8  %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -331,20 +330,20 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)ud_stc_vc_x64_custom.pdb"  mklink /H 
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist "$(TargetDir)wxbase$(wxVersion)u_vc_custom.dll"     mklink /H "$(TargetDir)wxbase$(wxVersion)u_vc_custom.dll"     "$(WXWIN)\lib\vc_dll\wxbase$(wxVersion)u_vc_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxbase$(wxVersion)u_vc_custom.pdb"     mklink /H "$(TargetDir)wxbase$(wxVersion)u_vc_custom.pdb"     "$(WXWIN)\lib\vc_dll\wxbase$(wxVersion)u_vc_custom.pdb" &gt; NUL
+      <Command>if not exist "$(TargetDir)wxbase$(wxVersion)?u_vc_custom.dll"  xcopy  "$(WXWIN)\lib\vc_dll\wxbase$(wxVersion)?u_vc_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxbase$(wxVersion)?u_vc_custom.pdb"  xcopy  "$(WXWIN)\lib\vc_dll\wxbase$(wxVersion)?u_vc_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_custom.dll"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_adv_vc_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_custom.pdb"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_adv_vc_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_adv_vc_custom.dll"  xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?u_adv_vc_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_adv_vc_custom.pdb"  xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?u_adv_vc_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_custom.dll"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_aui_vc_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_custom.pdb"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_aui_vc_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_aui_vc_custom.dll"  xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?u_aui_vc_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_aui_vc_custom.pdb"  xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?u_aui_vc_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_core_vc_custom.dll" mklink /H "$(TargetDir)wxmsw$(wxVersion)u_core_vc_custom.dll" "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_core_vc_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_core_vc_custom.pdb" mklink /H "$(TargetDir)wxmsw$(wxVersion)u_core_vc_custom.pdb" "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_core_vc_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_core_vc_custom.dll" xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?u_core_vc_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_core_vc_custom.pdb" xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?u_core_vc_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.dll"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_stc_vc_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.pdb"  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)u_stc_vc_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_stc_vc_custom.dll"  xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?u_stc_vc_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_stc_vc_custom.pdb"  xcopy  "$(WXWIN)\lib\vc_dll\wxmsw$(wxVersion)?u_stc_vc_custom.pdb"  "$(TargetDir)" &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -361,7 +360,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.pdb"  mklink /H "$(Ta
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8  %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;wxscintilla.lib;wxpng.lib;wxzlib.lib;comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -385,7 +384,7 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.pdb"  mklink /H "$(Ta
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/source-charset:utf-8  /permissive- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8  %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gmock.lib;wxbase$(wxVersion)u.lib;wxmsw$(wxVersion)ud_aui.lib;wxmsw$(wxVersion)u_core.lib;wxmsw$(wxVersion)u_stc.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -396,20 +395,20 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_custom.pdb"  mklink /H "$(Ta
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
     <PreBuildEvent>
-      <Command>if not exist "$(TargetDir)wxbase$(wxVersion)u_vc_x64_custom.dll"     mklink /H "$(TargetDir)wxbase$(wxVersion)u_vc_x64_custom.dll"     "$(WXWIN)\lib\vc_x64_dll\wxbase$(wxVersion)u_vc_x64_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxbase$(wxVersion)u_vc_x64_custom.pdb"     mklink /H "$(TargetDir)wxbase$(wxVersion)u_vc_x64_custom.pdb"     "$(WXWIN)\lib\vc_x64_dll\wxbase$(wxVersion)u_vc_x64_custom.pdb" &gt; NUL
+      <Command>if not exist "$(TargetDir)wxbase$(wxVersion)?u_vc_x64_custom.dll"  xcopy  "$(WXWIN)\lib\vc_x64_dll\wxbase$(wxVersion)?u_vc_x64_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxbase$(wxVersion)?u_vc_x64_custom.pdb"  xcopy  "$(WXWIN)\lib\vc_x64_dll\wxbase$(wxVersion)?u_vc_x64_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_x64_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_x64_custom.dll"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_adv_vc_x64_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_x64_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_adv_vc_x64_custom.pdb"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_adv_vc_x64_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_adv_vc_x64_custom.dll"  xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?u_adv_vc_x64_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_adv_vc_x64_custom.pdb"  xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?u_adv_vc_x64_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_x64_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_x64_custom.dll"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_aui_vc_x64_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_x64_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_aui_vc_x64_custom.pdb"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_aui_vc_x64_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_aui_vc_x64_custom.dll"  xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?u_aui_vc_x64_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_aui_vc_x64_custom.pdb"  xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?u_aui_vc_x64_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_core_vc_x64_custom.dll" mklink /H "$(TargetDir)wxmsw$(wxVersion)u_core_vc_x64_custom.dll" "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_core_vc_x64_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_core_vc_x64_custom.pdb" mklink /H "$(TargetDir)wxmsw$(wxVersion)u_core_vc_x64_custom.pdb" "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_core_vc_x64_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_core_vc_x64_custom.dll" xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?u_core_vc_x64_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_core_vc_x64_custom.pdb" xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?u_core_vc_x64_custom.pdb"  "$(TargetDir)" &gt; NUL
 
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_x64_custom.dll"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_x64_custom.dll"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_stc_vc_x64_custom.dll" &gt; NUL
-if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_x64_custom.pdb"  mklink /H "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_x64_custom.pdb"  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)u_stc_vc_x64_custom.pdb" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_stc_vc_x64_custom.dll"  xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?u_stc_vc_x64_custom.dll"  "$(TargetDir)" &gt; NUL
+if not exist "$(TargetDir)wxmsw$(wxVersion)?u_stc_vc_x64_custom.pdb"  xcopy  "$(WXWIN)\lib\vc_x64_dll\wxmsw$(wxVersion)?u_stc_vc_x64_custom.pdb"  "$(TargetDir)" &gt; NUL
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -435,12 +434,6 @@ if not exist "$(TargetDir)wxmsw$(wxVersion)u_stc_vc_x64_custom.pdb"  mklink /H "
     <ClInclude Include="..\..\..\srcx\TersePrinter.h" />
     <ClInclude Include="..\..\..\src\Config_Test.h" />
     <ClInclude Include="..\..\..\src\Main_Test.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GMock Lib\GMock Lib.vcxproj">
-      <Project>{d336fe81-2b92-49af-a040-d$(wxVersion)c384c8fd2}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -9,7 +9,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMock Lib", "GMock Lib\GMoc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{707B0551-83A0-45A6-B142-1E513869618F}"
 	ProjectSection(SolutionItems) = preProject
-		AStyleWxTest 3.0.gta.runsettings = AStyleWxTest 3.0.gta.runsettings
 		..\..\srcx\gtest-options.lst = ..\..\srcx\gtest-options.lst
 	EndProjectSection
 EndProject

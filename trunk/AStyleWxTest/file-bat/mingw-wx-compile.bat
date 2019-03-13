@@ -6,13 +6,13 @@
 set PATH=C:\Programs\TDM-GCC-64\bin;%PATH%
 
 REM set the wxWidgets folder for compile
-:: set WXWIN=C:\Programs\wxWidgets-2.8.12_mingw
-set WXWIN=C:\Programs\wxWidgets-3.0.2_mingw
+:: set WXWIN=C:\Programs\wxWidgets-3.0.2_mingw
+set WXWIN=C:\Programs\wxWidgets-3.1.1_mingw
 
 REM set variables for wxWidgets version from the environment variable
 set wxVersion=%WXWIN:~22%
-if %wxVersion:~0,3% == 2.8 set wx=28
 if %wxVersion:~0,3% == 3.0 set wx=30
+if %wxVersion:~0,3% == 3.1 set wx=31
 if not defined wx (
 echo Cannot determine wxWidgets version
 pause
@@ -55,7 +55,7 @@ REM FOR 3.0.2 COMPILES
 REM -std=gnu++11 and -Wno-deprecated-declarations are needed.
 REM -std=gnu++11 must be used and NOT -std=c++11 which disables some extensions
 REM and causes "undefined reference" errors.
-set xtra= CXXFLAGS="-std=gnu++11 -Wno-deprecated-declarations"
+REM set xtra= CXXFLAGS="-std=gnu++11 -Wno-deprecated-declarations"
 
 REM DLL CONFIGURATIONS  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -64,7 +64,7 @@ REM Release builds DO include debug information by default.
 REM Releases before wxWidgets 3.0 need UNICODE=1
 REM Releases before wxWidgets 3.0 need BUILD=debug
 if not exist %WXWIN%\lib\gcc_dll\libwxbase%wx%u.a (
-set wxOpts2= %xtra%  MONOLITHIC=0  UNICODE=1  BUILD=release  SHARED=1
+set wxOpts2= MONOLITHIC=0  UNICODE=1  BUILD=release  SHARED=1
 )
 
 REM LIB CONFIGURATIONS  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -74,7 +74,7 @@ REM Release builds DO include debug information by default.
 REM Releases before wxWidgets 3.0 need UNICODE=1
 REM Releases before wxWidgets 3.0 need BUILD=debug
 if not exist "%WXWIN%\lib\gcc_lib\libwxmsw%wx%u.a" (
-set wxOpts4= %xtra%  MONOLITHIC=0  UNICODE=1  BUILD=release
+set wxOpts4= MONOLITHIC=0  UNICODE=1  BUILD=release
 )
 
 REM Release Unicode DLL configuration for CODEBLOCKS

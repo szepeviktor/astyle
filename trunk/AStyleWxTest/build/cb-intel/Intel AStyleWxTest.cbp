@@ -2,37 +2,25 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Gcc AStyleWxTest 3.0" />
+		<Option title="Intel AStyleWxTest 3.0" />
 		<Option pch_mode="2" />
-		<Option compiler="gcc" />
+		<Option compiler="icc" />
 		<Build>
 			<Target title="Debug">
 				<Option output="wx3.0/bin/astylewxtestd" prefix_auto="1" extension_auto="1" />
 				<Option object_output="wx3.0/obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="icc" />
 				<Option parameters="--terse_output" />
 				<Compiler>
-					<Add option="-Wunreachable-code" />
-					<Add option="-Wextra" />
-					<Add option="-Wall" />
-					<Add option="-std=c++11" />
-					<Add option="-g" />
-					<Add option="`wx-config --version=3.0 --cflags --debug`" />
 					<Add option="-fno-rtti" />
+					<Add option="-g" />
+					<Add option="`wx-config --version=3.0  --cflags`" />
+					<Add option="-w3" />
+					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
-					<Add option="-Wno-sign-compare" />
-					<Add option="-Wswitch" />
-					<Add option="-Wno-deprecated-declarations" />
-					<Add option="-Wempty-body" />
-					<Add option="-Wno-conversion" />
-					<Add option="-Wreturn-type" />
-					<Add option="-Wparentheses" />
-					<Add option="-Wno-format" />
-					<Add option="-Wuninitialized" />
-					<Add option="-Wunused-function" />
-					<Add option="-Wunused-value" />
-					<Add option="-Wunused-variable" />
+					<Add option="-std=c++11" />
+					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add option="-D_DEBUG" />
 					<Add option="-D__WXDEBUG__" />
@@ -46,7 +34,7 @@
 					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
-					<Add option="`wx-config --version=3.0 --libs --debug`" />
+					<Add option="`wx-config --version=3.0 --libs core,stc`" />
 					<Add library="wx_gtk2u_stc-3.0" />
 					<Add library="gmockd" />
 					<Add directory="bin" />
@@ -56,30 +44,19 @@
 				<Option output="wx3.0/bin/astylewxtest" prefix_auto="1" extension_auto="1" />
 				<Option object_output="wx3.0/obj/Release/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
-				<Option parameters="--xxgtest_filter=-AStyleDisplayF* --gtest_print_time=0" />
-				<Option projectLinkerOptionsRelation="2" />
+				<Option compiler="icc" />
+				<Option parameters="--xxxgtest_filter=-AStyleDisplayF* --gtest_print_time=0" />
 				<Compiler>
-					<Add option="-O2" />
-					<Add option="-Wunreachable-code" />
-					<Add option="-Wextra" />
-					<Add option="-Wall" />
-					<Add option="-std=c++11" />
-					<Add option="`wx-config --version=3.0 --cflags`" />
 					<Add option="-fno-rtti" />
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="`wx-config --version=3.0 --cflags`" />
+					<Add option="-w3" />
+					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
-					<Add option="-Wno-sign-compare" />
-					<Add option="-Wswitch" />
-					<Add option="-Wno-deprecated-declarations" />
-					<Add option="-Wempty-body" />
-					<Add option="-Wno-conversion" />
-					<Add option="-Wreturn-type" />
-					<Add option="-Wparentheses" />
-					<Add option="-Wno-format" />
-					<Add option="-Wuninitialized" />
-					<Add option="-Wunused-function" />
-					<Add option="-Wunused-value" />
-					<Add option="-Wunused-variable" />
+					<Add option="-std=c++11" />
+					<Add option="-wd11074,11076" />
+					<Add option="-DGTEST_USE_OWN_TR1_TUPLE=1" />
 					<Add option="-DGTEST_HAS_PTHREAD=0" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DwxUSE_UNICODE" />
@@ -92,8 +69,8 @@
 					<Add directory="../../../googletest/include" />
 				</Compiler>
 				<Linker>
+					<Add option="`wx-config --version=3.0 --libs core,stc`" />
 					<Add option="-s" />
-					<Add option="`wx-config --version=3.0  --libs`" />
 					<Add library="wx_gtk2u_stc-3.0" />
 					<Add library="gmock" />
 					<Add directory="bin" />
@@ -119,8 +96,8 @@
 		<Unit filename="../../srcx/TersePrinter.cpp" />
 		<Unit filename="../../srcx/TersePrinter.h" />
 		<Extensions>
-			<code_completion />
 			<envvars />
+			<code_completion />
 			<debugger />
 			<lib_finder disable_auto="1" />
 		</Extensions>
