@@ -188,7 +188,7 @@ private:
 	ASFormatter& formatter;
 	stringstream optionErrors;		// option error messages
 #ifndef ASTYLE_LIB
-	ASConsole&   console;			// DO NOT USE for ASTYLE_LIB
+	ASConsole& console;				// DO NOT USE for ASTYLE_LIB
 #endif
 
 	// functions

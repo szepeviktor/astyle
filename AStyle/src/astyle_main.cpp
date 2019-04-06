@@ -1365,10 +1365,14 @@ void ASConsole::getFileNames(const string& directory, const vector<string>& wild
 // Return the full path name or an empty string if failed.
 string ASConsole::getFullPathName(const string& relativePath) const
 {
+	// ignore realPath attribute warning, only with cmake
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-result"
 	char fullPath[PATH_MAX];
 	fullPath[0] = '\0';
 	realpath(relativePath.c_str(), fullPath);
 	return fullPath;
+#pragma GCC diagnostic pop
 }
 
 // LINUX function to get the documentation file path prefix
@@ -2726,7 +2730,8 @@ void ASConsole::printVerboseStats(clock_t startTime) const
 		// show minutes and seconds if time is greater than one minute
 		int min = (int) secs / 60;
 		secs -= min * 60;
-		int minsec = lround(secs);
+		// NOTE: lround is not supported by MinGW and Embarcadero
+		int minsec = int(secs + .5);
 		printf(_("%d min %d sec   "), min, minsec);
 	}
 
