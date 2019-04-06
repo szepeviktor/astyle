@@ -340,117 +340,117 @@ void AStyleDlg::GetFormatOptions(AStyleIFace* astyle)
 // get format control values and update astyle
 // is used for both the config options and the current dialog settings
 {
-	astyle->setBreakClosingBraces(m_breakClosingBraces->GetValue());
-	astyle->setBreakElseIfs(m_breakElseIf->GetValue());
-	astyle->setBreakOneLineHeaders(m_breakOneLineHeaders->GetValue());
-	astyle->setAddBraces(m_addBraces->GetValue());
-	astyle->setAddOneLineBraces(m_addOneLineBraces->GetValue());
-	astyle->setRemoveBraces(m_removeBraces->GetValue());
-	astyle->setBreakReturnType(m_breakReturnType->GetValue());
-	astyle->setBreakReturnTypeDecl(m_breakReturnTypeDecl->GetValue());
-	astyle->setAttachReturnType(m_attachReturnType->GetValue());
-	astyle->setAttachReturnTypeDecl(m_attachReturnTypeDecl->GetValue());
-	astyle->setBreakOneLineBlocks(!m_keepOneLineBlocks->GetValue());      // break == ! keep
-	astyle->setBreakOneLineStmts(!m_keepOneLineStatements->GetValue());   // break == ! keep
-	astyle->setConvertTabs(m_convertTabs->GetValue());
-	astyle->setCloseTemplates(m_closeTemplates->GetValue());
-	astyle->setRemoveCommentPrefix(m_removeCommentPrefix->GetValue());
+	astyle->SetBreakClosingBraces(m_breakClosingBraces->GetValue());
+	astyle->SetBreakElseIfs(m_breakElseIf->GetValue());
+	astyle->SetBreakOneLineHeaders(m_breakOneLineHeaders->GetValue());
+	astyle->SetAddBraces(m_addBraces->GetValue());
+	astyle->SetAddOneLineBraces(m_addOneLineBraces->GetValue());
+	astyle->SetRemoveBraces(m_removeBraces->GetValue());
+	astyle->SetBreakReturnType(m_breakReturnType->GetValue());
+	astyle->SetBreakReturnTypeDecl(m_breakReturnTypeDecl->GetValue());
+	astyle->SetAttachReturnType(m_attachReturnType->GetValue());
+	astyle->SetAttachReturnTypeDecl(m_attachReturnTypeDecl->GetValue());
+	astyle->SetBreakOneLineBlocks(!m_keepOneLineBlocks->GetValue());      // break == ! keep
+	astyle->SetBreakOneLineStmts(!m_keepOneLineStatements->GetValue());   // break == ! keep
+	astyle->SetConvertTabs(m_convertTabs->GetValue());
+	astyle->SetCloseTemplates(m_closeTemplates->GetValue());
+	astyle->SetRemoveCommentPrefix(m_removeCommentPrefix->GetValue());
 	// get max code length option
 	int maxIndex = m_maxCodeLength->GetCurrentSelection();
 	size_t maxCodeLength = reinterpret_cast<size_t>(m_maxCodeLength->GetClientData(maxIndex));
-	astyle->setMaxCodeLength(static_cast<int>(maxCodeLength));
-	if (astyle->getMaxCodeLength() == 0)
+	astyle->SetMaxCodeLength(static_cast<int>(maxCodeLength));
+	if (astyle->GetMaxCodeLength() == 0)
 		m_breakAfterLogical->SetValue(false);
 	// end max code length
-	astyle->setBreakAfterLogical(m_breakAfterLogical->GetValue());
+	astyle->SetBreakAfterLogical(m_breakAfterLogical->GetValue());
 }
 
 void AStyleDlg::GetIndentOptions(AStyleIFace* astyle)
 // get indent control values and update astyle
 // is used for both the config options and the current dialog settings
 {
-	astyle->setClassIndent(m_indentClassBlocks->GetValue());
-	astyle->setModifierIndent(m_indentAccessModifiers->GetValue());
-	astyle->setSwitchIndent(m_indentSwitchBlocks->GetValue());
-	astyle->setCaseIndent(m_indentCaseBlocks->GetValue());
-	astyle->setNamespaceIndent(m_indentNamespaceBlocks->GetValue());
-	astyle->setAfterParenIndent(m_indentAfterParens->GetValue());
+	astyle->SetClassIndent(m_indentClassBlocks->GetValue());
+	astyle->SetModifierIndent(m_indentAccessModifiers->GetValue());
+	astyle->SetSwitchIndent(m_indentSwitchBlocks->GetValue());
+	astyle->SetCaseIndent(m_indentCaseBlocks->GetValue());
+	astyle->SetNamespaceIndent(m_indentNamespaceBlocks->GetValue());
+	astyle->SetAfterParenIndent(m_indentAfterParens->GetValue());
 	if (m_indentContinuation->IsChecked()
-	        && m_indentContinuationLength->GetValue() != astyle->getDefaultContinuationIndent())
-		astyle->setContinuationIndent(m_indentContinuationLength->GetValue());
+	        && m_indentContinuationLength->GetValue() != astyle->GetDefaultContinuationIndent())
+		astyle->SetContinuationIndent(m_indentContinuationLength->GetValue());
 	else
-		astyle->setContinuationIndent(1);
-	astyle->setLabelIndent(m_indentGotoLabels->GetValue());
-	astyle->setPreprocBlockIndent(m_indentPreprocBlock->GetValue());
-	astyle->setPreprocDefineIndent(m_indentPreprocDefine->GetValue());
-	astyle->setPreprocCondIndent(m_indentPreprocConditional->GetValue());
-	astyle->setCol1CommentIndent(m_indentCol1comments->GetValue());
+		astyle->SetContinuationIndent(1);
+	astyle->SetLabelIndent(m_indentGotoLabels->GetValue());
+	astyle->SetPreprocBlockIndent(m_indentPreprocBlock->GetValue());
+	astyle->SetPreprocDefineIndent(m_indentPreprocDefine->GetValue());
+	astyle->SetPreprocCondIndent(m_indentPreprocConditional->GetValue());
+	astyle->SetCol1CommentIndent(m_indentCol1comments->GetValue());
 	// get min conditional option
 	int minIndex = static_cast<int>(m_minConditional->GetCurrentSelection());
 	size_t minOption = reinterpret_cast<size_t>(m_minConditional->GetClientData(minIndex));
-	astyle->setMinConditionalOption(static_cast<MinConditional>(minOption));
+	astyle->SetMinConditionalOption(static_cast<MinConditional>(minOption));
 	// get max in-statement value
 	int maxIndex = static_cast<int>(m_maxContinuation->GetCurrentSelection());
 	size_t maxOption = reinterpret_cast<size_t>(m_maxContinuation->GetClientData(maxIndex));
-	astyle->setMaxContinuationIndent(static_cast<int>(maxOption));
+	astyle->SetMaxContinuationIndent(static_cast<int>(maxOption));
 }
 
 void AStyleDlg::GetModifierOptions(AStyleIFace* astyle)
 // get brace modifier control values and update astyle
 // is used for both the config options and the current dialog settings
 {
-	astyle->setAttachNamespace(m_attachNamespace->GetValue());
-	astyle->setAttachClass(m_attachClass->GetValue());
-	astyle->setAttachInline(m_attachInline->GetValue());
-	astyle->setAttachExternC(m_attachExternC->GetValue());
-	astyle->setAttachClosingWhile(m_attachClosingWhile->GetValue());
+	astyle->SetAttachNamespace(m_attachNamespace->GetValue());
+	astyle->SetAttachClass(m_attachClass->GetValue());
+	astyle->SetAttachInline(m_attachInline->GetValue());
+	astyle->SetAttachExternC(m_attachExternC->GetValue());
+	astyle->SetAttachClosingWhile(m_attachClosingWhile->GetValue());
 }
 
 void AStyleDlg::GetOtherOptions(AStyleIFace* astyle)
 // get other control values and update astyle
 // is used for both the config options and the current dialog settings
 {
-	astyle->setPadMethodPrefix(m_padMethodPrefix->GetValue());
-	astyle->setUnpadMethodPrefix(m_unpadMethodPrefix->GetValue());
-	astyle->setPadReturnType(m_padReturnType->GetValue());
-	astyle->setUnpadReturnType(m_unpadReturnType->GetValue());
-	astyle->setPadParamType(m_padParamType->GetValue());
-	astyle->setUnpadParamType(m_unpadParamType->GetValue());
-	astyle->setAlignMethodColon(m_alignMethodColon->GetValue());
+	astyle->SetPadMethodPrefix(m_padMethodPrefix->GetValue());
+	astyle->SetUnpadMethodPrefix(m_unpadMethodPrefix->GetValue());
+	astyle->SetPadReturnType(m_padReturnType->GetValue());
+	astyle->SetUnpadReturnType(m_unpadReturnType->GetValue());
+	astyle->SetPadParamType(m_padParamType->GetValue());
+	astyle->SetUnpadParamType(m_unpadParamType->GetValue());
+	astyle->SetAlignMethodColon(m_alignMethodColon->GetValue());
 	int padColonIndex = static_cast<int>(m_padMethodColon->GetCurrentSelection());
 	size_t padMethodColon = reinterpret_cast<size_t>(
 	                            m_padMethodColon->GetClientData(padColonIndex));
-	astyle->setPadMethodColon(static_cast<int>(padMethodColon));
+	astyle->SetPadMethodColon(static_cast<int>(padMethodColon));
 }
 
 void AStyleDlg::GetPadOptions(AStyleIFace* astyle)
 // get pad control values and update astyle
 // is used for both the config options and the current dialog settings
 {
-	astyle->setBreakHeaderBlocks(m_breakHeaderBlocks->GetValue());
-	astyle->setBreakClosingBlocks(false);
+	astyle->SetBreakHeaderBlocks(m_breakHeaderBlocks->GetValue());
+	astyle->SetBreakClosingBlocks(false);
 	if (m_breakAllBlocks->GetValue())
 	{
-		astyle->setBreakHeaderBlocks(true);
-		astyle->setBreakClosingBlocks(true);
+		astyle->SetBreakHeaderBlocks(true);
+		astyle->SetBreakClosingBlocks(true);
 	}
-	astyle->setPadOperator(m_padOperator->GetValue());
-	astyle->setPadComma(m_padComma->GetValue());
-	astyle->setPadParenOutside(m_padParenOutside->GetValue());
-	astyle->setPadParenInside(m_padParenInside->GetValue());
-	astyle->setPadFirstParenOut(m_padFirstParenOut->GetValue());
-	astyle->setPadHeader(m_padHeader->GetValue());
-	astyle->setUnpadParen(m_unpadParen->GetValue());
-	astyle->setDeleteEmptyLines(m_deleteEmptyLines->GetValue());
-	astyle->setFillEmptyLines(m_fillEmptyLines->GetValue());
+	astyle->SetPadOperator(m_padOperator->GetValue());
+	astyle->SetPadComma(m_padComma->GetValue());
+	astyle->SetPadParenOutside(m_padParenOutside->GetValue());
+	astyle->SetPadParenInside(m_padParenInside->GetValue());
+	astyle->SetPadFirstParenOut(m_padFirstParenOut->GetValue());
+	astyle->SetPadHeader(m_padHeader->GetValue());
+	astyle->SetUnpadParen(m_unpadParen->GetValue());
+	astyle->SetDeleteEmptyLines(m_deleteEmptyLines->GetValue());
+	astyle->SetFillEmptyLines(m_fillEmptyLines->GetValue());
 	// get align pointer option
 	int ptrIndex = static_cast<int>(m_alignPointer->GetCurrentSelection());
 	size_t ptrOption = reinterpret_cast<size_t>(m_alignPointer->GetClientData(ptrIndex));
-	astyle->setAlignPointer(static_cast<PointerAlign>(ptrOption));
+	astyle->SetAlignPointer(static_cast<PointerAlign>(ptrOption));
 	// get align reference option
 	int refIndex = static_cast<int>(m_alignReference->GetCurrentSelection());
 	size_t refOption = reinterpret_cast<size_t>(m_alignReference->GetClientData(refIndex));
-	astyle->setAlignReference(static_cast<ReferenceAlign>(refOption));
+	astyle->SetAlignReference(static_cast<ReferenceAlign>(refOption));
 }
 
 int  AStyleDlg::GetPage()
@@ -463,39 +463,39 @@ void AStyleDlg::GetStyleOptions(AStyleIFace* astyle)
 // is used for both the config options and the current dialog settings
 {
 	if (m_styleNone->GetValue())
-		astyle->setBraceStyle(STYLE_NONE);
+		astyle->SetBraceStyle(STYLE_NONE);
 	else if (m_styleAllman->GetValue())
-		astyle->setBraceStyle(STYLE_ALLMAN);
+		astyle->SetBraceStyle(STYLE_ALLMAN);
 	else if (m_styleJava->GetValue())
-		astyle->setBraceStyle(STYLE_JAVA);
+		astyle->SetBraceStyle(STYLE_JAVA);
 	else if (m_styleKR->GetValue())
-		astyle->setBraceStyle(STYLE_KR);
+		astyle->SetBraceStyle(STYLE_KR);
 	else if (m_styleStroustrup->GetValue())
-		astyle->setBraceStyle(STYLE_STROUSTRUP);
+		astyle->SetBraceStyle(STYLE_STROUSTRUP);
 	else if (m_styleWhitesmith->GetValue())
-		astyle->setBraceStyle(STYLE_WHITESMITH);
+		astyle->SetBraceStyle(STYLE_WHITESMITH);
 	else if (m_styleVtk->GetValue())
-		astyle->setBraceStyle(STYLE_VTK);
+		astyle->SetBraceStyle(STYLE_VTK);
 	else if (m_styleRatliff->GetValue())
-		astyle->setBraceStyle(STYLE_RATLIFF);
+		astyle->SetBraceStyle(STYLE_RATLIFF);
 	else if (m_styleGnu->GetValue())
-		astyle->setBraceStyle(STYLE_GNU);
+		astyle->SetBraceStyle(STYLE_GNU);
 	else if (m_styleLinux->GetValue())
-		astyle->setBraceStyle(STYLE_LINUX);
+		astyle->SetBraceStyle(STYLE_LINUX);
 	else if (m_styleHorstmann->GetValue())
-		astyle->setBraceStyle(STYLE_HORSTMANN);
+		astyle->SetBraceStyle(STYLE_HORSTMANN);
 	else if (m_style1tbs->GetValue())
-		astyle->setBraceStyle(STYLE_1TBS);
+		astyle->SetBraceStyle(STYLE_1TBS);
 	else if (m_styleGoogle->GetValue())
-		astyle->setBraceStyle(STYLE_GOOGLE);
+		astyle->SetBraceStyle(STYLE_GOOGLE);
 	else if (m_styleMozilla->GetValue())
-		astyle->setBraceStyle(STYLE_MOZILLA);
+		astyle->SetBraceStyle(STYLE_MOZILLA);
 	else if (m_styleWebKit->GetValue())
-		astyle->setBraceStyle(STYLE_WEBKIT);
+		astyle->SetBraceStyle(STYLE_WEBKIT);
 	else if (m_stylePico->GetValue())
-		astyle->setBraceStyle(STYLE_PICO);
+		astyle->SetBraceStyle(STYLE_PICO);
 	else if (m_styleLisp->GetValue())
-		astyle->setBraceStyle(STYLE_LISP);
+		astyle->SetBraceStyle(STYLE_LISP);
 }
 
 void AStyleDlg::GetTabOptions(AStyleIFace* astyle)
@@ -503,16 +503,16 @@ void AStyleDlg::GetTabOptions(AStyleIFace* astyle)
 // is used for both the config options and the current dialog settings
 {
 	if (m_spaceIndent->GetValue())
-		astyle->setIndentType(INDENT_SPACES);
+		astyle->SetIndentType(INDENT_SPACES);
 	else if (m_tabIndent->GetValue())
-		astyle->setIndentType(INDENT_TABS);
+		astyle->SetIndentType(INDENT_TABS);
 	else if (m_forceTabIndent->GetValue())
-		astyle->setIndentType(INDENT_FTABS);
+		astyle->SetIndentType(INDENT_FTABS);
 	// set indent length value
-	astyle->setIndentLength(m_indentLength->GetValue());
+	astyle->SetIndentLength(m_indentLength->GetValue());
 	// set tab length value
-	astyle->setUseTabLength(m_useTabLength->GetValue());
-	astyle->setTabLength(m_tabLength->GetValue());
+	astyle->SetUseTabLength(m_useTabLength->GetValue());
+	astyle->SetTabLength(m_tabLength->GetValue());
 }
 
 wxSize AStyleDlg::GetWxChoiceSize(const wxChoice* choice) const
@@ -777,26 +777,26 @@ void AStyleDlg::OnTabMouseUp(wxMouseEvent& mouseEvent)
 void AStyleDlg::SetFormatOptions()
 // set format controls from the current astyle values
 {
-	m_breakClosingBraces->SetValue(m_astyle->getBreakClosingBraces());
-	m_breakElseIf->SetValue(m_astyle->getBreakElseIfs());
-	m_breakOneLineHeaders->SetValue(m_astyle->getBreakOneLineHeaders());
-	m_addBraces->SetValue(m_astyle->getAddBraces());
-	m_addOneLineBraces->SetValue(m_astyle->getAddOneLineBraces());
-	m_removeBraces->SetValue(m_astyle->getRemoveBraces());
-	m_breakReturnType->SetValue(m_astyle->getBreakReturnType());
-	m_breakReturnTypeDecl->SetValue(m_astyle->getBreakReturnTypeDecl());
-	m_attachReturnType->SetValue(m_astyle->getAttachReturnType());
-	m_attachReturnTypeDecl->SetValue(m_astyle->getAttachReturnTypeDecl());
-	m_keepOneLineBlocks->SetValue(!m_astyle->getBreakOneLineBlocks());		// keep == ! break
-	m_keepOneLineStatements->SetValue(!m_astyle->getBreakOneLineStmts());	// keep == ! break
-	m_convertTabs->SetValue(m_astyle->getConvertTabs());
-	m_closeTemplates->SetValue(m_astyle->getCloseTemplates());
-	m_removeCommentPrefix->SetValue(m_astyle->getRemoveCommentPrefix());
+	m_breakClosingBraces->SetValue(m_astyle->GetBreakClosingBraces());
+	m_breakElseIf->SetValue(m_astyle->GetBreakElseIfs());
+	m_breakOneLineHeaders->SetValue(m_astyle->GetBreakOneLineHeaders());
+	m_addBraces->SetValue(m_astyle->GetAddBraces());
+	m_addOneLineBraces->SetValue(m_astyle->GetAddOneLineBraces());
+	m_removeBraces->SetValue(m_astyle->GetRemoveBraces());
+	m_breakReturnType->SetValue(m_astyle->GetBreakReturnType());
+	m_breakReturnTypeDecl->SetValue(m_astyle->GetBreakReturnTypeDecl());
+	m_attachReturnType->SetValue(m_astyle->GetAttachReturnType());
+	m_attachReturnTypeDecl->SetValue(m_astyle->GetAttachReturnTypeDecl());
+	m_keepOneLineBlocks->SetValue(!m_astyle->GetBreakOneLineBlocks());		// keep == ! break
+	m_keepOneLineStatements->SetValue(!m_astyle->GetBreakOneLineStmts());	// keep == ! break
+	m_convertTabs->SetValue(m_astyle->GetConvertTabs());
+	m_closeTemplates->SetValue(m_astyle->GetCloseTemplates());
+	m_removeCommentPrefix->SetValue(m_astyle->GetRemoveCommentPrefix());
 	// set max code length choice box
 	if (m_maxCodeLength->GetCount() == 0)
 		AddMaxCodeLengthData();
 	// set max code length value
-	size_t maxCodeLength = m_astyle->getMaxCodeLength();
+	size_t maxCodeLength = m_astyle->GetMaxCodeLength();
 	size_t iMax;
 	for (iMax = 0; iMax < m_maxCodeLength->GetCount(); iMax++)
 	{
@@ -807,7 +807,7 @@ void AStyleDlg::SetFormatOptions()
 	}
 	m_maxCodeLength->SetSelection(static_cast<int>(iMax));
 	// end max code length
-	m_breakAfterLogical->SetValue(m_astyle->getBreakAfterLogical());
+	m_breakAfterLogical->SetValue(m_astyle->GetBreakAfterLogical());
 	// set initial size of the wxChoice
 	wxSize sz = GetWxChoiceSize(m_maxCodeLength);
 	m_maxCodeLength->SetInitialSize(sz);
@@ -816,24 +816,24 @@ void AStyleDlg::SetFormatOptions()
 void AStyleDlg::SetIndentOptions()
 // set indent controls from the current astyle values
 {
-	m_indentClassBlocks->SetValue(m_astyle->getClassIndent());
-	m_indentAccessModifiers->SetValue(m_astyle->getModifierIndent());
-	m_indentSwitchBlocks->SetValue(m_astyle->getSwitchIndent());
-	m_indentCaseBlocks->SetValue(m_astyle->getCaseIndent());
-	m_indentNamespaceBlocks->SetValue(m_astyle->getNamespaceIndent());
-	m_indentAfterParens->SetValue(m_astyle->getAfterParenIndent());
-	m_indentGotoLabels->SetValue(m_astyle->getLabelIndent());
-	m_indentPreprocBlock->SetValue(m_astyle->getPreprocBlockIndent());
-	m_indentPreprocDefine->SetValue(m_astyle->getPreprocDefineIndent());
-	m_indentPreprocConditional->SetValue(m_astyle->getPreprocCondIndent());
-	m_indentCol1comments->SetValue(m_astyle->getCol1CommentIndent());
+	m_indentClassBlocks->SetValue(m_astyle->GetClassIndent());
+	m_indentAccessModifiers->SetValue(m_astyle->GetModifierIndent());
+	m_indentSwitchBlocks->SetValue(m_astyle->GetSwitchIndent());
+	m_indentCaseBlocks->SetValue(m_astyle->GetCaseIndent());
+	m_indentNamespaceBlocks->SetValue(m_astyle->GetNamespaceIndent());
+	m_indentAfterParens->SetValue(m_astyle->GetAfterParenIndent());
+	m_indentGotoLabels->SetValue(m_astyle->GetLabelIndent());
+	m_indentPreprocBlock->SetValue(m_astyle->GetPreprocBlockIndent());
+	m_indentPreprocDefine->SetValue(m_astyle->GetPreprocDefineIndent());
+	m_indentPreprocConditional->SetValue(m_astyle->GetPreprocCondIndent());
+	m_indentCol1comments->SetValue(m_astyle->GetCol1CommentIndent());
 	// set indent continuation length
 	m_indentContinuationLength->SetRange(0, 4);
 	wxSize continueSize = GetWxSpinCtrlSize(m_indentContinuationLength);
 	m_indentContinuationLength->SetInitialSize(continueSize);
-	int continuationIndent = m_astyle->getContinuationIndent();
+	int continuationIndent = m_astyle->GetContinuationIndent();
 	m_indentContinuationLength->SetValue(continuationIndent);
-	if (continuationIndent == m_astyle->getDefaultContinuationIndent())
+	if (continuationIndent == m_astyle->GetDefaultContinuationIndent())
 	{
 		m_indentContinuation->SetValue(false);
 		m_indentContinuationLength->Disable();
@@ -847,7 +847,7 @@ void AStyleDlg::SetIndentOptions()
 	if (m_minConditional->GetCount() == 0)
 		AddMinConditionalData();
 	// set min conditional option
-	int minConditionalOption = m_astyle->getMinConditionalOption();
+	int minConditionalOption = m_astyle->GetMinConditionalOption();
 	size_t iMin;
 	for (iMin = 0; iMin < m_minConditional->GetCount(); iMin++)
 	{
@@ -861,7 +861,7 @@ void AStyleDlg::SetIndentOptions()
 	if (m_maxContinuation->GetCount() == 0)
 		AddMaxContinuationData();
 	// set max continuation indent
-	int maxContinuationIndent = m_astyle->getMaxContinuationIndent();
+	int maxContinuationIndent = m_astyle->GetMaxContinuationIndent();
 	size_t iMax;
 	for (iMax = 0; iMax < m_maxContinuation->GetCount(); iMax++)
 	{
@@ -885,28 +885,28 @@ void AStyleDlg::SetIndentOptions()
 void AStyleDlg::SetModifierOptions()
 // set brace modifier controls from the current astyle values
 {
-	m_attachNamespace->SetValue(m_astyle->getAttachNamespace());
-	m_attachClass->SetValue(m_astyle->getAttachClass());
-	m_attachInline->SetValue(m_astyle->getAttachInline());
-	m_attachExternC->SetValue(m_astyle->getAttachExternC());
-	m_attachClosingWhile->SetValue(m_astyle->getAttachClosingWhile());
+	m_attachNamespace->SetValue(m_astyle->GetAttachNamespace());
+	m_attachClass->SetValue(m_astyle->GetAttachClass());
+	m_attachInline->SetValue(m_astyle->GetAttachInline());
+	m_attachExternC->SetValue(m_astyle->GetAttachExternC());
+	m_attachClosingWhile->SetValue(m_astyle->GetAttachClosingWhile());
 }
 
 void AStyleDlg::SetOtherOptions()
 // set other controls from the current astyle values
 {
-	m_padMethodPrefix->SetValue(m_astyle->getPadMethodPrefix());
-	m_unpadMethodPrefix->SetValue(m_astyle->getUnpadMethodPrefix());
-	m_padReturnType->SetValue(m_astyle->getPadReturnType());
-	m_unpadReturnType->SetValue(m_astyle->getUnpadReturnType());
-	m_padParamType->SetValue(m_astyle->getPadParamType());
-	m_unpadParamType->SetValue(m_astyle->getUnpadParamType());
-	m_alignMethodColon->SetValue(m_astyle->getAlignMethodColon());
+	m_padMethodPrefix->SetValue(m_astyle->GetPadMethodPrefix());
+	m_unpadMethodPrefix->SetValue(m_astyle->GetUnpadMethodPrefix());
+	m_padReturnType->SetValue(m_astyle->GetPadReturnType());
+	m_unpadReturnType->SetValue(m_astyle->GetUnpadReturnType());
+	m_padParamType->SetValue(m_astyle->GetPadParamType());
+	m_unpadParamType->SetValue(m_astyle->GetUnpadParamType());
+	m_alignMethodColon->SetValue(m_astyle->GetAlignMethodColon());
 	// set pad method colon choice box
 	if (m_padMethodColon->GetCount() == 0)
 		AddPadMethodColonData();
 	// set pad method colon value
-	int padMethodColon = m_astyle->getPadMethodColon();
+	int padMethodColon = m_astyle->GetPadMethodColon();
 	size_t iPadColon;
 	for (iPadColon = 0; iPadColon < m_padMethodColon->GetCount(); iPadColon++)
 	{
@@ -924,24 +924,24 @@ void AStyleDlg::SetOtherOptions()
 void AStyleDlg::SetPadOptions()
 // set pad controls from the current astyle values
 {
-	m_breakHeaderBlocks->SetValue(m_astyle->getBreakHeaderBlocks());
-	m_breakAllBlocks->SetValue(m_astyle->getBreakClosingBlocks());
+	m_breakHeaderBlocks->SetValue(m_astyle->GetBreakHeaderBlocks());
+	m_breakAllBlocks->SetValue(m_astyle->GetBreakClosingBlocks());
 	if (m_breakAllBlocks->IsChecked())
 		m_breakHeaderBlocks->SetValue(false);
-	m_padOperator->SetValue(m_astyle->getPadOperator());
-	m_padComma->SetValue(m_astyle->getPadComma());
-	m_padParenOutside->SetValue(m_astyle->getPadParenOutside());
-	m_padParenInside->SetValue(m_astyle->getPadParenInside());
-	m_padFirstParenOut->SetValue(m_astyle->getPadFirstParenOut());
-	m_padHeader->SetValue(m_astyle->getPadHeader());
-	m_unpadParen->SetValue(m_astyle->getUnpadParen());
-	m_deleteEmptyLines->SetValue(m_astyle->getDeleteEmptyLines());
-	m_fillEmptyLines->SetValue(m_astyle->getFillEmptyLines());
+	m_padOperator->SetValue(m_astyle->GetPadOperator());
+	m_padComma->SetValue(m_astyle->GetPadComma());
+	m_padParenOutside->SetValue(m_astyle->GetPadParenOutside());
+	m_padParenInside->SetValue(m_astyle->GetPadParenInside());
+	m_padFirstParenOut->SetValue(m_astyle->GetPadFirstParenOut());
+	m_padHeader->SetValue(m_astyle->GetPadHeader());
+	m_unpadParen->SetValue(m_astyle->GetUnpadParen());
+	m_deleteEmptyLines->SetValue(m_astyle->GetDeleteEmptyLines());
+	m_fillEmptyLines->SetValue(m_astyle->GetFillEmptyLines());
 	// build align pointer choice box
 	if (m_alignPointer->GetCount() == 0)
 		AddAlignPointerData();
 	// set align pointer option
-	int alignPointer = m_astyle->getAlignPointer();
+	int alignPointer = m_astyle->GetAlignPointer();
 	size_t iPtr;
 	for (iPtr = 0; iPtr < m_alignPointer->GetCount(); iPtr++)
 	{
@@ -955,7 +955,7 @@ void AStyleDlg::SetPadOptions()
 	if (m_alignReference->GetCount() == 0)
 		AddAlignReferenceData();
 	// set align reference option
-	int alignReference = m_astyle->getAlignReference();
+	int alignReference = m_astyle->GetAlignReference();
 	size_t iRef;
 	for (iRef = 0; iRef < m_alignReference->GetCount(); iRef++)
 	{
@@ -979,7 +979,7 @@ void AStyleDlg::SetPadOptions()
 void AStyleDlg::SetStyleOptions()
 // set brace controls from the current astyle values
 {
-	int braceType = m_astyle->getBraceStyle();
+	int braceType = m_astyle->GetBraceStyle();
 	if (braceType == STYLE_NONE)
 		m_styleNone->SetValue(true);
 	else if (braceType == STYLE_ALLMAN)
@@ -1019,7 +1019,7 @@ void AStyleDlg::SetStyleOptions()
 void AStyleDlg::SetTabOptions()
 // set tab controls from the current astyle values
 {
-	IndentType indentType = static_cast<IndentType>(m_astyle->getIndentType());
+	IndentType indentType = static_cast<IndentType>(m_astyle->GetIndentType());
 	if (indentType == INDENT_SPACES)
 		m_spaceIndent->SetValue(true);
 	else if (indentType == INDENT_TABS)
@@ -1033,17 +1033,17 @@ void AStyleDlg::SetTabOptions()
 	}
 	// set indent length spin control values 2 - 20
 	m_indentLength->SetRange(2, 20);
-	m_indentLength->SetValue(m_astyle->getIndentLength());
+	m_indentLength->SetValue(m_astyle->GetIndentLength());
 	wxSize indentSize = GetWxSpinCtrlSize(m_indentLength);
 	m_indentLength->SetInitialSize(indentSize);
 	// set tab length spin control values 2 - 20
 	m_tabLength->SetRange(2, 20);
-	m_useTabLength->SetValue(m_astyle->getUseTabLength());
+	m_useTabLength->SetValue(m_astyle->GetUseTabLength());
 	wxSize tabSize = GetWxSpinCtrlSize(m_tabLength);
 	m_tabLength->SetInitialSize(tabSize);
-	if (m_astyle->getUseTabLength())
-		m_tabLength->SetValue(m_astyle->getTabLength());
+	if (m_astyle->GetUseTabLength())
+		m_tabLength->SetValue(m_astyle->GetTabLength());
 	else
-		m_tabLength->SetValue(m_astyle->getIndentLength() * 2);
+		m_tabLength->SetValue(m_astyle->GetIndentLength() * 2);
 	EnableOrDisableTabLength();
 }

@@ -874,19 +874,19 @@ void ASEditor::UpdateCommentFonts(const wxFont& newFont)
 void ASEditor::UpdateEditorFromAStyleOptions(const AStyleIFace* astyle)
 // Update the wxStyledTextControl from the astyle options.
 {
-	m_indentType = static_cast<IndentType>(astyle->getIndentType());
+	m_indentType = static_cast<IndentType>(astyle->GetIndentType());
 	if (m_indentType == INDENT_SPACES)
 		wxStyledTextCtrl::SetUseTabs(false);
 	else if (m_indentType == INDENT_TABS)
 		wxStyledTextCtrl::SetUseTabs(true);
 	else if (m_indentType == INDENT_FTABS)
 		wxStyledTextCtrl::SetUseTabs(true);
-	int indentLen = astyle->getIndentLength();
+	int indentLen = astyle->GetIndentLength();
 	wxStyledTextCtrl::SetTabWidth(indentLen);
 	wxStyledTextCtrl::SetIndent(0);		// set indent the same as tab size
-	if (m_indentType == INDENT_FTABS && astyle->getUseTabLength())
+	if (m_indentType == INDENT_FTABS && astyle->GetUseTabLength())
 	{
-		int tabLen = astyle->getTabLength();
+		int tabLen = astyle->GetTabLength();
 		if (tabLen != indentLen)
 		{
 			wxStyledTextCtrl::SetTabWidth(tabLen);
