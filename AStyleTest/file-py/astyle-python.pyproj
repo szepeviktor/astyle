@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{837a5542-2add-4638-8558-cf70dc5b28aa}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>dist_copy_xp.py</StartupFile>
+    <StartupFile>naming.py</StartupFile>
     <SearchPath>..\..\..\..\..\Program Files\Python37\Lib\</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
