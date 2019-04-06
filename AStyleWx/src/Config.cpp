@@ -355,7 +355,7 @@ void Config::SaveAStyleOptions(AStyleIFace* astyle)
 {
 	wxConfig::SetPath("/AStyle");
 
-	int braceStyle = astyle->getBraceStyle();
+	int braceStyle = astyle->GetBraceStyle();
 	if (braceStyle == STYLE_NONE)
 		wxConfig::DeleteEntry(STYLE, false);
 	else if (braceStyle == STYLE_ALLMAN)
@@ -391,18 +391,18 @@ void Config::SaveAStyleOptions(AStyleIFace* astyle)
 	else if (braceStyle == STYLE_LISP)
 		wxConfig::Write(STYLE, LISP);
 
-	astyle->getAttachNamespace() ? wxConfig::Write(ATTACH_NAMESPACES, asTRUE) : wxConfig::DeleteEntry(ATTACH_NAMESPACES, false);
-	astyle->getAttachClass() ? wxConfig::Write(ATTACH_CLASSES, asTRUE) : wxConfig::DeleteEntry(ATTACH_CLASSES, false);
-	astyle->getAttachInline() ? wxConfig::Write(ATTACH_INLINES, asTRUE) : wxConfig::DeleteEntry(ATTACH_INLINES, false);
-	astyle->getAttachExternC() ? wxConfig::Write(ATTACH_EXTERN_C, asTRUE) : wxConfig::DeleteEntry(ATTACH_EXTERN_C, false);
-	astyle->getAttachClosingWhile() ? wxConfig::Write(ATTACH_CLOSING_WHILE, asTRUE) : wxConfig::DeleteEntry(ATTACH_CLOSING_WHILE, false);
+	astyle->GetAttachNamespace() ? wxConfig::Write(ATTACH_NAMESPACES, asTRUE) : wxConfig::DeleteEntry(ATTACH_NAMESPACES, false);
+	astyle->GetAttachClass() ? wxConfig::Write(ATTACH_CLASSES, asTRUE) : wxConfig::DeleteEntry(ATTACH_CLASSES, false);
+	astyle->GetAttachInline() ? wxConfig::Write(ATTACH_INLINES, asTRUE) : wxConfig::DeleteEntry(ATTACH_INLINES, false);
+	astyle->GetAttachExternC() ? wxConfig::Write(ATTACH_EXTERN_C, asTRUE) : wxConfig::DeleteEntry(ATTACH_EXTERN_C, false);
+	astyle->GetAttachClosingWhile() ? wxConfig::Write(ATTACH_CLOSING_WHILE, asTRUE) : wxConfig::DeleteEntry(ATTACH_CLOSING_WHILE, false);
 
-	IndentType indentType = static_cast<IndentType>(astyle->getIndentType());
-	int indentLength = astyle->getIndentLength();
-	bool useTabLength = astyle->getUseTabLength();
-	int tabLength = astyle->getTabLength();
-	int defaultIndentLength = astyle->getDefaultIndentLength();
-	int defaultTabLength = astyle->getDefaultTabLength();
+	IndentType indentType = static_cast<IndentType>(astyle->GetIndentType());
+	int indentLength = astyle->GetIndentLength();
+	bool useTabLength = astyle->GetUseTabLength();
+	int tabLength = astyle->GetTabLength();
+	int defaultIndentLength = astyle->GetDefaultIndentLength();
+	int defaultTabLength = astyle->GetDefaultTabLength();
 	if (indentLength == defaultIndentLength && indentType == INDENT_SPACES)
 	{
 		wxConfig::DeleteEntry(INDENT_TYPE, false);
@@ -444,105 +444,105 @@ void Config::SaveAStyleOptions(AStyleIFace* astyle)
 		wxConfig::DeleteEntry(TAB_LENGTH, false);
 	}
 
-	astyle->getClassIndent() ? wxConfig::Write(INDENT_CLASSES, asTRUE) : wxConfig::DeleteEntry(INDENT_CLASSES, false);
-	astyle->getModifierIndent() ? wxConfig::Write(INDENT_MODIFIERS, asTRUE) : wxConfig::DeleteEntry(INDENT_MODIFIERS, false);
-	astyle->getSwitchIndent() ? wxConfig::Write(INDENT_SWITCHES, asTRUE) : wxConfig::DeleteEntry(INDENT_SWITCHES, false);
-	astyle->getCaseIndent() ? wxConfig::Write(INDENT_CASES, asTRUE) : wxConfig::DeleteEntry(INDENT_CASES, false);
-	astyle->getNamespaceIndent() ? wxConfig::Write(INDENT_NAMESPACES, asTRUE) : wxConfig::DeleteEntry(INDENT_NAMESPACES, false);
-	astyle->getAfterParenIndent() ? wxConfig::Write(INDENT_AFTER_PARENS, asTRUE) : wxConfig::DeleteEntry(INDENT_AFTER_PARENS, false);
+	astyle->GetClassIndent() ? wxConfig::Write(INDENT_CLASSES, asTRUE) : wxConfig::DeleteEntry(INDENT_CLASSES, false);
+	astyle->GetModifierIndent() ? wxConfig::Write(INDENT_MODIFIERS, asTRUE) : wxConfig::DeleteEntry(INDENT_MODIFIERS, false);
+	astyle->GetSwitchIndent() ? wxConfig::Write(INDENT_SWITCHES, asTRUE) : wxConfig::DeleteEntry(INDENT_SWITCHES, false);
+	astyle->GetCaseIndent() ? wxConfig::Write(INDENT_CASES, asTRUE) : wxConfig::DeleteEntry(INDENT_CASES, false);
+	astyle->GetNamespaceIndent() ? wxConfig::Write(INDENT_NAMESPACES, asTRUE) : wxConfig::DeleteEntry(INDENT_NAMESPACES, false);
+	astyle->GetAfterParenIndent() ? wxConfig::Write(INDENT_AFTER_PARENS, asTRUE) : wxConfig::DeleteEntry(INDENT_AFTER_PARENS, false);
 
-	int continuationIndent = astyle->getContinuationIndent();
+	int continuationIndent = astyle->GetContinuationIndent();
 	if (continuationIndent < 0 || continuationIndent >= 5)
-		continuationIndent = astyle->getDefaultContinuationIndent();
-	if (continuationIndent == astyle->getDefaultContinuationIndent())
+		continuationIndent = astyle->GetDefaultContinuationIndent();
+	if (continuationIndent == astyle->GetDefaultContinuationIndent())
 		wxConfig::DeleteEntry(INDENT_CONTINUATION, false);
 	else
 		wxConfig::Write(INDENT_CONTINUATION, wxString::Format("%d", continuationIndent));
 
-	astyle->getLabelIndent() ? wxConfig::Write(INDENT_LABELS, asTRUE) : wxConfig::DeleteEntry(INDENT_LABELS, false);
-	astyle->getPreprocBlockIndent() ? wxConfig::Write(INDENT_PREPROC_BLOCK, asTRUE) : wxConfig::DeleteEntry(INDENT_PREPROC_BLOCK, false);
-	astyle->getPreprocDefineIndent() ? wxConfig::Write(INDENT_PREPROC_DEFINE, asTRUE) : wxConfig::DeleteEntry(INDENT_PREPROC_DEFINE, false);
-	astyle->getPreprocCondIndent() ? wxConfig::Write(INDENT_PREPROC_COND, asTRUE) : wxConfig::DeleteEntry(INDENT_PREPROC_COND, false);
-	astyle->getCol1CommentIndent() ? wxConfig::Write(INDENT_COL1_COMMENTS, asTRUE) : wxConfig::DeleteEntry(INDENT_COL1_COMMENTS, false);
+	astyle->GetLabelIndent() ? wxConfig::Write(INDENT_LABELS, asTRUE) : wxConfig::DeleteEntry(INDENT_LABELS, false);
+	astyle->GetPreprocBlockIndent() ? wxConfig::Write(INDENT_PREPROC_BLOCK, asTRUE) : wxConfig::DeleteEntry(INDENT_PREPROC_BLOCK, false);
+	astyle->GetPreprocDefineIndent() ? wxConfig::Write(INDENT_PREPROC_DEFINE, asTRUE) : wxConfig::DeleteEntry(INDENT_PREPROC_DEFINE, false);
+	astyle->GetPreprocCondIndent() ? wxConfig::Write(INDENT_PREPROC_COND, asTRUE) : wxConfig::DeleteEntry(INDENT_PREPROC_COND, false);
+	astyle->GetCol1CommentIndent() ? wxConfig::Write(INDENT_COL1_COMMENTS, asTRUE) : wxConfig::DeleteEntry(INDENT_COL1_COMMENTS, false);
 
-	int minConditionalOption = astyle->getMinConditionalOption();
+	int minConditionalOption = astyle->GetMinConditionalOption();
 	if (minConditionalOption < 0 || minConditionalOption >= MINCOND_END)
-		minConditionalOption = astyle->getDefaultMinConditionalOption();
-	if (minConditionalOption == astyle->getDefaultMinConditionalOption())
+		minConditionalOption = astyle->GetDefaultMinConditionalOption();
+	if (minConditionalOption == astyle->GetDefaultMinConditionalOption())
 		wxConfig::DeleteEntry(MIN_CONDITIONAL_INDENT, false);
 	else
 		wxConfig::Write(MIN_CONDITIONAL_INDENT, wxString::Format("%d", minConditionalOption));
 
-	int maxContinuationIndent = astyle->getMaxContinuationIndent();
+	int maxContinuationIndent = astyle->GetMaxContinuationIndent();
 	if (maxContinuationIndent < 40)
 		maxContinuationIndent = 40;
 	else if (maxContinuationIndent > 120)
 		maxContinuationIndent = 120;
-	if (maxContinuationIndent == astyle->getDefaultMaxContinuationIndent())
+	if (maxContinuationIndent == astyle->GetDefaultMaxContinuationIndent())
 		wxConfig::DeleteEntry(MAX_CONTINUATION_INDENT, false);
 	else
 		wxConfig::Write(MAX_CONTINUATION_INDENT, wxString::Format("%d", maxContinuationIndent));
 
-	if (astyle->getBreakHeaderBlocks() && astyle->getBreakClosingBlocks())
+	if (astyle->GetBreakHeaderBlocks() && astyle->GetBreakClosingBlocks())
 		wxConfig::Write(BREAK_BLOCKS, "all");
-	else if (astyle->getBreakHeaderBlocks())
+	else if (astyle->GetBreakHeaderBlocks())
 		wxConfig::Write(BREAK_BLOCKS, "open");
 	else
 		wxConfig::DeleteEntry(BREAK_BLOCKS, false);
 
-	astyle->getPadOperator() ? wxConfig::Write(PAD_OPER, asTRUE) : wxConfig::DeleteEntry(PAD_OPER, false);
-	astyle->getPadComma() ? wxConfig::Write(PAD_COMMA, asTRUE) : wxConfig::DeleteEntry(PAD_COMMA, false);
+	astyle->GetPadOperator() ? wxConfig::Write(PAD_OPER, asTRUE) : wxConfig::DeleteEntry(PAD_OPER, false);
+	astyle->GetPadComma() ? wxConfig::Write(PAD_COMMA, asTRUE) : wxConfig::DeleteEntry(PAD_COMMA, false);
 
-	if (astyle->getPadParenOutside() && astyle->getPadParenInside())
+	if (astyle->GetPadParenOutside() && astyle->GetPadParenInside())
 		wxConfig::Write(PAD_PAREN, "all");
-	else if (astyle->getPadParenOutside())
+	else if (astyle->GetPadParenOutside())
 		wxConfig::Write(PAD_PAREN, "out");
-	else if (astyle->getPadParenInside())
+	else if (astyle->GetPadParenInside())
 		wxConfig::Write(PAD_PAREN, "in");
 	else
 		wxConfig::DeleteEntry(PAD_PAREN, false);
 
-	astyle->getPadFirstParenOut() ? wxConfig::Write(PAD_FIRST_PAREN_OUT, asTRUE) : wxConfig::DeleteEntry(PAD_FIRST_PAREN_OUT, false);
-	astyle->getPadHeader() ? wxConfig::Write(PAD_HEADER, asTRUE) : wxConfig::DeleteEntry(PAD_HEADER, false);
-	astyle->getUnpadParen() ? wxConfig::Write(UNPAD_PAREN, asTRUE) : wxConfig::DeleteEntry(UNPAD_PAREN, false);
-	astyle->getDeleteEmptyLines() ? wxConfig::Write(DELETE_EMPTY_LINES, asTRUE) : wxConfig::DeleteEntry(DELETE_EMPTY_LINES, false);
-	astyle->getFillEmptyLines() ? wxConfig::Write(FILL_EMPTY_LINES, asTRUE) : wxConfig::DeleteEntry(FILL_EMPTY_LINES, false);
+	astyle->GetPadFirstParenOut() ? wxConfig::Write(PAD_FIRST_PAREN_OUT, asTRUE) : wxConfig::DeleteEntry(PAD_FIRST_PAREN_OUT, false);
+	astyle->GetPadHeader() ? wxConfig::Write(PAD_HEADER, asTRUE) : wxConfig::DeleteEntry(PAD_HEADER, false);
+	astyle->GetUnpadParen() ? wxConfig::Write(UNPAD_PAREN, asTRUE) : wxConfig::DeleteEntry(UNPAD_PAREN, false);
+	astyle->GetDeleteEmptyLines() ? wxConfig::Write(DELETE_EMPTY_LINES, asTRUE) : wxConfig::DeleteEntry(DELETE_EMPTY_LINES, false);
+	astyle->GetFillEmptyLines() ? wxConfig::Write(FILL_EMPTY_LINES, asTRUE) : wxConfig::DeleteEntry(FILL_EMPTY_LINES, false);
 
 	// align pointer
-	if (astyle->getAlignPointer() < 0 || astyle->getAlignPointer() >= PTR_ALIGN_END)
-		astyle->setAlignPointer(PTR_ALIGN_NONE);
-	if (astyle->getAlignPointer() == PTR_ALIGN_NONE)
+	if (astyle->GetAlignPointer() < 0 || astyle->GetAlignPointer() >= PTR_ALIGN_END)
+		astyle->SetAlignPointer(PTR_ALIGN_NONE);
+	if (astyle->GetAlignPointer() == PTR_ALIGN_NONE)
 		wxConfig::DeleteEntry(ALIGN_POINTER, false);
 	else
-		wxConfig::Write(ALIGN_POINTER, wxString::Format("%d", astyle->getAlignPointer()));
+		wxConfig::Write(ALIGN_POINTER, wxString::Format("%d", astyle->GetAlignPointer()));
 	// align reference
-	if (astyle->getAlignReference() < 0
-	        || astyle->getAlignReference() >= REF_ALIGN_END
-	        || (astyle->getAlignReference() == astyle->getAlignPointer()
-	            && astyle->getAlignReference() != REF_ALIGN_NONE))
-		astyle->setAlignReference(REF_SAME_AS_PTR);
-	if (astyle->getAlignReference() == REF_SAME_AS_PTR)
+	if (astyle->GetAlignReference() < 0
+	        || astyle->GetAlignReference() >= REF_ALIGN_END
+	        || (astyle->GetAlignReference() == astyle->GetAlignPointer()
+	            && astyle->GetAlignReference() != REF_ALIGN_NONE))
+		astyle->SetAlignReference(REF_SAME_AS_PTR);
+	if (astyle->GetAlignReference() == REF_SAME_AS_PTR)
 		wxConfig::DeleteEntry(ALIGN_REFERENCE, false);
 	else
-		wxConfig::Write(ALIGN_REFERENCE, wxString::Format("%d", astyle->getAlignReference()));
+		wxConfig::Write(ALIGN_REFERENCE, wxString::Format("%d", astyle->GetAlignReference()));
 
-	astyle->getBreakClosingBraces() ? wxConfig::Write(BREAK_CLOSING_BRACES, asTRUE) : wxConfig::DeleteEntry(BREAK_CLOSING_BRACES, false);
-	astyle->getBreakElseIfs() ? wxConfig::Write(BREAK_ELSEIFS, asTRUE) : wxConfig::DeleteEntry(BREAK_ELSEIFS, false);
-	astyle->getBreakOneLineHeaders() ? wxConfig::Write(BREAK_ONE_LINE_HEADERS, asTRUE) : wxConfig::DeleteEntry(BREAK_ONE_LINE_HEADERS, false);
-	astyle->getAddBraces() ? wxConfig::Write(ADD_BRACES, asTRUE) : wxConfig::DeleteEntry(ADD_BRACES, false);
-	astyle->getAddOneLineBraces() ? wxConfig::Write(ADD_ONE_LINE_BRACES, asTRUE) : wxConfig::DeleteEntry(ADD_ONE_LINE_BRACES, false);
-	astyle->getRemoveBraces() ? wxConfig::Write(REMOVE_BRACES, asTRUE) : wxConfig::DeleteEntry(REMOVE_BRACES, false);
-	astyle->getBreakReturnType() ? wxConfig::Write(BREAK_RETURN_TYPE, asTRUE) : wxConfig::DeleteEntry(BREAK_RETURN_TYPE, false);
-	astyle->getBreakReturnTypeDecl() ? wxConfig::Write(BREAK_RETURN_TYPE_DECL, asTRUE) : wxConfig::DeleteEntry(BREAK_RETURN_TYPE_DECL, false);
-	astyle->getAttachReturnType() ? wxConfig::Write(ATTACH_RETURN_TYPE, asTRUE) : wxConfig::DeleteEntry(ATTACH_RETURN_TYPE, false);
-	astyle->getAttachReturnTypeDecl() ? wxConfig::Write(ATTACH_RETURN_TYPE_DECL, asTRUE) : wxConfig::DeleteEntry(ATTACH_RETURN_TYPE_DECL, false);
-	astyle->getBreakOneLineBlocks()  ? wxConfig::DeleteEntry(KEEP_ONE_LINE_BLOCKS, false) : wxConfig::Write(KEEP_ONE_LINE_BLOCKS, asTRUE);
-	astyle->getBreakOneLineStmts() ? wxConfig::DeleteEntry(KEEP_ONE_LINE_STATEMENTS, false) : wxConfig::Write(KEEP_ONE_LINE_STATEMENTS, asTRUE);
-	astyle->getConvertTabs() ? wxConfig::Write(CONVERT_TABS, asTRUE) : wxConfig::DeleteEntry(CONVERT_TABS, false);
-	astyle->getCloseTemplates() ? wxConfig::Write(CLOSE_TEMPLATES, asTRUE) : wxConfig::DeleteEntry(CLOSE_TEMPLATES, false);
-	astyle->getRemoveCommentPrefix() ? wxConfig::Write(REMOVE_COMMENT_PREFIX, asTRUE) : wxConfig::DeleteEntry(REMOVE_COMMENT_PREFIX, false);
+	astyle->GetBreakClosingBraces() ? wxConfig::Write(BREAK_CLOSING_BRACES, asTRUE) : wxConfig::DeleteEntry(BREAK_CLOSING_BRACES, false);
+	astyle->GetBreakElseIfs() ? wxConfig::Write(BREAK_ELSEIFS, asTRUE) : wxConfig::DeleteEntry(BREAK_ELSEIFS, false);
+	astyle->GetBreakOneLineHeaders() ? wxConfig::Write(BREAK_ONE_LINE_HEADERS, asTRUE) : wxConfig::DeleteEntry(BREAK_ONE_LINE_HEADERS, false);
+	astyle->GetAddBraces() ? wxConfig::Write(ADD_BRACES, asTRUE) : wxConfig::DeleteEntry(ADD_BRACES, false);
+	astyle->GetAddOneLineBraces() ? wxConfig::Write(ADD_ONE_LINE_BRACES, asTRUE) : wxConfig::DeleteEntry(ADD_ONE_LINE_BRACES, false);
+	astyle->GetRemoveBraces() ? wxConfig::Write(REMOVE_BRACES, asTRUE) : wxConfig::DeleteEntry(REMOVE_BRACES, false);
+	astyle->GetBreakReturnType() ? wxConfig::Write(BREAK_RETURN_TYPE, asTRUE) : wxConfig::DeleteEntry(BREAK_RETURN_TYPE, false);
+	astyle->GetBreakReturnTypeDecl() ? wxConfig::Write(BREAK_RETURN_TYPE_DECL, asTRUE) : wxConfig::DeleteEntry(BREAK_RETURN_TYPE_DECL, false);
+	astyle->GetAttachReturnType() ? wxConfig::Write(ATTACH_RETURN_TYPE, asTRUE) : wxConfig::DeleteEntry(ATTACH_RETURN_TYPE, false);
+	astyle->GetAttachReturnTypeDecl() ? wxConfig::Write(ATTACH_RETURN_TYPE_DECL, asTRUE) : wxConfig::DeleteEntry(ATTACH_RETURN_TYPE_DECL, false);
+	astyle->GetBreakOneLineBlocks()  ? wxConfig::DeleteEntry(KEEP_ONE_LINE_BLOCKS, false) : wxConfig::Write(KEEP_ONE_LINE_BLOCKS, asTRUE);
+	astyle->GetBreakOneLineStmts() ? wxConfig::DeleteEntry(KEEP_ONE_LINE_STATEMENTS, false) : wxConfig::Write(KEEP_ONE_LINE_STATEMENTS, asTRUE);
+	astyle->GetConvertTabs() ? wxConfig::Write(CONVERT_TABS, asTRUE) : wxConfig::DeleteEntry(CONVERT_TABS, false);
+	astyle->GetCloseTemplates() ? wxConfig::Write(CLOSE_TEMPLATES, asTRUE) : wxConfig::DeleteEntry(CLOSE_TEMPLATES, false);
+	astyle->GetRemoveCommentPrefix() ? wxConfig::Write(REMOVE_COMMENT_PREFIX, asTRUE) : wxConfig::DeleteEntry(REMOVE_COMMENT_PREFIX, false);
 
-	int maxCodeLength = astyle->getMaxCodeLength();
+	int maxCodeLength = astyle->GetMaxCodeLength();
 	if (maxCodeLength > 0)		// default value is 0, no maximum
 	{
 		if (maxCodeLength < MAX_CODE_LENGTH_MIN)
@@ -550,23 +550,23 @@ void Config::SaveAStyleOptions(AStyleIFace* astyle)
 		else if (maxCodeLength > MAX_CODE_LENGTH_MAX)
 			maxCodeLength = MAX_CODE_LENGTH_MAX;
 	}
-	if (maxCodeLength == astyle->getDefaultMaxCodeLength())
+	if (maxCodeLength == astyle->GetDefaultMaxCodeLength())
 		wxConfig::DeleteEntry(MAX_CODE_LENGTH, false);
 	else
 		wxConfig::Write(MAX_CODE_LENGTH, wxString::Format("%d", maxCodeLength));
 
-	(astyle->getBreakAfterLogical() && maxCodeLength > 0) ?
+	(astyle->GetBreakAfterLogical() && maxCodeLength > 0) ?
 	wxConfig::Write(BREAK_AFTER_LOGICAL, asTRUE) : wxConfig::DeleteEntry(BREAK_AFTER_LOGICAL, false);
 
-	astyle->getPadMethodPrefix() ? wxConfig::Write(PAD_METHOD_PREFIX, asTRUE) : wxConfig::DeleteEntry(PAD_METHOD_PREFIX, false);
-	astyle->getUnpadMethodPrefix() ? wxConfig::Write(UNPAD_METHOD_PREFIX, asTRUE) : wxConfig::DeleteEntry(UNPAD_METHOD_PREFIX, false);
-	astyle->getPadReturnType() ? wxConfig::Write(PAD_RETURN_TYPE, asTRUE) : wxConfig::DeleteEntry(PAD_RETURN_TYPE, false);
-	astyle->getUnpadReturnType() ? wxConfig::Write(UNPAD_RETURN_TYPE, asTRUE) : wxConfig::DeleteEntry(UNPAD_RETURN_TYPE, false);
-	astyle->getPadParamType() ? wxConfig::Write(PAD_PARAM_TYPE, asTRUE) : wxConfig::DeleteEntry(PAD_PARAM_TYPE, false);
-	astyle->getUnpadParamType() ? wxConfig::Write(UNPAD_PARAM_TYPE, asTRUE) : wxConfig::DeleteEntry(UNPAD_PARAM_TYPE, false);
-	astyle->getAlignMethodColon() ? wxConfig::Write(ALIGN_METHOD_COLON, asTRUE) : wxConfig::DeleteEntry(ALIGN_METHOD_COLON, false);
+	astyle->GetPadMethodPrefix() ? wxConfig::Write(PAD_METHOD_PREFIX, asTRUE) : wxConfig::DeleteEntry(PAD_METHOD_PREFIX, false);
+	astyle->GetUnpadMethodPrefix() ? wxConfig::Write(UNPAD_METHOD_PREFIX, asTRUE) : wxConfig::DeleteEntry(UNPAD_METHOD_PREFIX, false);
+	astyle->GetPadReturnType() ? wxConfig::Write(PAD_RETURN_TYPE, asTRUE) : wxConfig::DeleteEntry(PAD_RETURN_TYPE, false);
+	astyle->GetUnpadReturnType() ? wxConfig::Write(UNPAD_RETURN_TYPE, asTRUE) : wxConfig::DeleteEntry(UNPAD_RETURN_TYPE, false);
+	astyle->GetPadParamType() ? wxConfig::Write(PAD_PARAM_TYPE, asTRUE) : wxConfig::DeleteEntry(PAD_PARAM_TYPE, false);
+	astyle->GetUnpadParamType() ? wxConfig::Write(UNPAD_PARAM_TYPE, asTRUE) : wxConfig::DeleteEntry(UNPAD_PARAM_TYPE, false);
+	astyle->GetAlignMethodColon() ? wxConfig::Write(ALIGN_METHOD_COLON, asTRUE) : wxConfig::DeleteEntry(ALIGN_METHOD_COLON, false);
 
-	int padMethodColon = astyle->getPadMethodColon();
+	int padMethodColon = astyle->GetPadMethodColon();
 	if (padMethodColon != COLON_PAD_NO_CHANGE)
 	{
 		if (padMethodColon <= COLON_PAD_NO_CHANGE)

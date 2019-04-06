@@ -64,7 +64,7 @@
     <p class="contents2">
         <a class="contents" href="#_Precompiled_Executable">Precompiled Executable</a></p>
     <p class="contents2">
-        <a class="contents" href="#_Visual_C++_Compiler">Visual C++ Compiler</a></p>
+        <a class="contents" href="#_Visual_Studio">Visual Studio</a></p>
     <p class="contents2">
         <a class="contents" href="#_CodeBlocks_Windows">CodeBlocks Windows</a></p>
     <p class="contents2">
@@ -694,7 +694,7 @@ make release debug</pre>
         In addition to the source files, the Windows distribution package contains an Artistic Style Win32 executable
         (AStyle.exe). If you prefer to compile the executable yourself use the following instructions.</p>
 
-    <h4 id="_Visual_C++_Compiler">Visual C++ Compiler</h4>
+    <h4 id="_Visual_Studio">Visual Studio</h4>
 
     <p>
         <strong>To compile AStyleWx the wxWidgetsMacros.props files must be changed.</strong> The files are located in
@@ -781,14 +781,12 @@ make release debug</pre>
         Since the different builds use the same source files an &quot;out of source&quot; build should be used. The
         default build for MinGW is a release version. A debug version must be specifically requested. </p>
     <p>
-        The build must get compile information from variables passed to CMake. <strong>These variables may be set by a &quot;set&quot;
-            command before running CMake, or by changing the information in the CMakeLists.txt script.</strong> The variables
-        are at the beginning of the script. The following must be set.</p>
+        The build can get compile information from the following <strong>optional</strong> variables passed to CMake.</p>
     <ul>
         <li><strong>WXWIN</strong> is the path to the wxWidgets top level folder. Cmake will look for wxWidgets in the 
-            default folder or in a system path. If it finds the files, this variable is NOT needed. If it cannot be 
-            found, this variable gives the path into the top level wxWidgets folder. The name of the top level folder 
-            should be included in the path.</li>
+            default folder or in a system path. If it finds the files, this variable is NOT needed. If the files cannot be 
+            found, this variable gives the path into the top level wxWidgets folder. The CMake variable wxWidgets_ROOT_DIR 
+            may be used instead of WXWIN.</li>
         <li><strong>WXSHARED</strong> is a boolean value that indicates if the shared libraries (DLLs) are to be used instead
             of the static libraries. The default is to use the static libraries. If shared libraries are used, the shared
             libraries are copied to the folder with the executable so the program can be executed.</li>
@@ -815,7 +813,7 @@ mingw32-make</pre>
         To build the MinGW debug version using shared libraries:</p>
     <pre>md  aswx-mingw
 cd  aswx-mingw
-cmake  -G "MinGW Makefiles"  -DCMAKE_BUILD_TYPE=Debug  -DWXSHARED=1  ../
+cmake  -G "MinGW Makefiles"  -DCMAKE_BUILD_TYPE=Debug  -DWXSHARED=ON  ../
 mingw32-make</pre>
 
     <h5>INSTALL</h5>

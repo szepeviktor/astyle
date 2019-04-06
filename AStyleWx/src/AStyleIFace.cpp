@@ -71,115 +71,115 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 	wxString separator = "\n";       // can be new-line, tab, space, or comma
 
 	// brace style
-	if (getBraceStyle() != STYLE_NONE)
+	if (GetBraceStyle() != STYLE_NONE)
 	{
 		const wxString EQ = "=";
-		if (getBraceStyle() == STYLE_ALLMAN)
+		if (GetBraceStyle() == STYLE_ALLMAN)
 		{
 			if (showShort)
 				options.append("A1");
 			else
 				options.append(STYLE + EQ + ALLMAN);
 		}
-		else if (getBraceStyle() == STYLE_JAVA)
+		else if (GetBraceStyle() == STYLE_JAVA)
 		{
 			if (showShort)
 				options.append("A2");
 			else
 				options.append(STYLE + EQ + JAVA);
 		}
-		else if (getBraceStyle() == STYLE_KR)
+		else if (GetBraceStyle() == STYLE_KR)
 		{
 			if (showShort)
 				options.append("A3");
 			else
 				options.append(STYLE + EQ + KandR);
 		}
-		else if (getBraceStyle() == STYLE_STROUSTRUP)
+		else if (GetBraceStyle() == STYLE_STROUSTRUP)
 		{
 			if (showShort)
 				options.append("A4");
 			else
 				options.append(STYLE + EQ + STROUSTRUP);
 		}
-		else if (getBraceStyle() == STYLE_WHITESMITH)
+		else if (GetBraceStyle() == STYLE_WHITESMITH)
 		{
 			if (showShort)
 				options.append("A5");
 			else
 				options.append(STYLE + EQ + WHITESMITH);
 		}
-		else if (getBraceStyle() == STYLE_VTK)
+		else if (GetBraceStyle() == STYLE_VTK)
 		{
 			if (showShort)
 				options.append("A15");
 			else
 				options.append(STYLE + EQ + VTK);
 		}
-		else if (getBraceStyle() == STYLE_RATLIFF)
+		else if (GetBraceStyle() == STYLE_RATLIFF)
 		{
 			if (showShort)
 				options.append("A6");
 			else
 				options.append(STYLE + EQ + RATLIFF);
 		}
-		else if (getBraceStyle() == STYLE_GNU)
+		else if (GetBraceStyle() == STYLE_GNU)
 		{
 			if (showShort)
 				options.append("A7");
 			else
 				options.append(STYLE + EQ + GNU);
 		}
-		else if (getBraceStyle() == STYLE_LINUX)
+		else if (GetBraceStyle() == STYLE_LINUX)
 		{
 			if (showShort)
 				options.append("A8");
 			else
 				options.append(STYLE + EQ + LINUXX);
 		}
-		else if (getBraceStyle() == STYLE_HORSTMANN)
+		else if (GetBraceStyle() == STYLE_HORSTMANN)
 		{
 			if (showShort)
 				options.append("A9");
 			else
 				options.append(STYLE + EQ + HORSTMANN);
 		}
-		else if (getBraceStyle() == STYLE_1TBS)
+		else if (GetBraceStyle() == STYLE_1TBS)
 		{
 			if (showShort)
 				options.append("A10");
 			else
 				options.append(STYLE + EQ + oneTBS);
 		}
-		else if (getBraceStyle() == STYLE_GOOGLE)
+		else if (GetBraceStyle() == STYLE_GOOGLE)
 		{
 			if (showShort)
 				options.append("A14");
 			else
 				options.append(STYLE + EQ + GOOGLE);
 		}
-		else if (getBraceStyle() == STYLE_MOZILLA)
+		else if (GetBraceStyle() == STYLE_MOZILLA)
 		{
 			if (showShort)
 				options.append("A16");
 			else
 				options.append(STYLE + EQ + MOZILLA);
 		}
-		else if (getBraceStyle() == STYLE_WEBKIT)
+		else if (GetBraceStyle() == STYLE_WEBKIT)
 		{
 			if (showShort)
 				options.append("A17");
 			else
 				options.append(STYLE + EQ + WEBKIT);
 		}
-		else if (getBraceStyle() == STYLE_PICO)
+		else if (GetBraceStyle() == STYLE_PICO)
 		{
 			if (showShort)
 				options.append("A11");
 			else
 				options.append(STYLE + EQ + PICO);
 		}
-		else if (getBraceStyle() == STYLE_LISP)
+		else if (GetBraceStyle() == STYLE_LISP)
 		{
 			if (showShort)
 				options.append("A12");
@@ -187,28 +187,28 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 				options.append(STYLE + EQ + LISP);
 		}
 		else		// force an error message
-			options.append(wxString::Format("invalid-braceStyle=%d", getBraceStyle()));
+			options.append(wxString::Format("invalid-braceStyle=%d", GetBraceStyle()));
 		if (useSeparator)
 			options.append(separator);
 	}
 	// begin indent check
-	if (getIndentType() == INDENT_SPACES)               // space is the default
+	if (GetIndentType() == INDENT_SPACES)               // space is the default
 	{
 		// check conditions to use default space setting
-		if (getIndentLength() != getDefaultIndentLength())
+		if (GetIndentLength() != GetDefaultIndentLength())
 		{
 			if (showShort)
-				options.append(wxString::Format("s%d", getIndentLength()));
+				options.append(wxString::Format("s%d", GetIndentLength()));
 			else
-				options.append(INDENT_OPT_SPACES + wxString::Format("=%d", getIndentLength()));
+				options.append(INDENT_OPT_SPACES + wxString::Format("=%d", GetIndentLength()));
 			if (useSeparator)
 				options.append(separator);
 		}
 	}
-	else if (getIndentType() == INDENT_TABS)             // tab is not the default
+	else if (GetIndentType() == INDENT_TABS)             // tab is not the default
 	{
 		// check conditions to use default tab setting
-		if (getIndentLength() == getDefaultIndentLength())
+		if (GetIndentLength() == GetDefaultIndentLength())
 		{
 			if (showShort)
 				options.append("t");
@@ -218,19 +218,19 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		else
 		{
 			if (showShort)
-				options.append(wxString::Format("t%d", getIndentLength()));
+				options.append(wxString::Format("t%d", GetIndentLength()));
 			else
-				options.append(INDENT_OPT_TAB + wxString::Format("=%d", getIndentLength()));
+				options.append(INDENT_OPT_TAB + wxString::Format("=%d", GetIndentLength()));
 		}
 		if (useSeparator)
 			options.append(separator);
 	}
-	else if (getIndentType() == INDENT_FTABS)
+	else if (GetIndentType() == INDENT_FTABS)
 	{
 		// check conditions to use default force-tab setting
-		if (getIndentLength() == getDefaultIndentLength())
+		if (GetIndentLength() == GetDefaultIndentLength())
 		{
-			if (!getUseTabLength())
+			if (!GetUseTabLength())
 			{
 				if (showShort)
 					options.append("T");
@@ -243,16 +243,16 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		else
 		{
 			if (showShort)
-				options.append(wxString::Format("T%d", getIndentLength()));
+				options.append(wxString::Format("T%d", GetIndentLength()));
 			else
-				options.append(INDENT_OPT_FTAB + wxString::Format("=%d", getIndentLength()));
+				options.append(INDENT_OPT_FTAB + wxString::Format("=%d", GetIndentLength()));
 			if (useSeparator)
 				options.append(separator);
 		}
 		// check conditions to use different tab setting
-		if (getUseTabLength())
+		if (GetUseTabLength())
 		{
-			if (getTabLength() == getDefaultTabLength())
+			if (GetTabLength() == GetDefaultTabLength())
 			{
 				if (showShort)
 					options.append("xT");
@@ -262,9 +262,9 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 			else
 			{
 				if (showShort)
-					options.append(wxString::Format("xT%d", getTabLength()));
+					options.append(wxString::Format("xT%d", GetTabLength()));
 				else
-					options.append(INDENT_OPT_FTAB_X + wxString::Format("=%d", getTabLength()));
+					options.append(INDENT_OPT_FTAB_X + wxString::Format("=%d", GetTabLength()));
 			}
 			if (useSeparator)
 				options.append(separator);
@@ -272,18 +272,18 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 	}
 	else	// force an error message
 	{
-		options.append(wxString::Format("invalid-indentType=%d", getIndentType()));
+		options.append(wxString::Format("invalid-indentType=%d", GetIndentType()));
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getIndentLength() < 2 || getIndentLength() > 20)		// validate indent length
+	if (GetIndentLength() < 2 || GetIndentLength() > 20)		// validate indent length
 	{
-		options.append(wxString::Format("invalid-indentLength=%d",  getIndentLength()));
+		options.append(wxString::Format("invalid-indentLength=%d",  GetIndentLength()));
 		if (useSeparator)
 			options.append(separator);
 	}
 	// end indent check
-	if (getAttachNamespace())
+	if (GetAttachNamespace())
 	{
 		if (showShort)
 			options.append("xn");
@@ -292,7 +292,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getAttachClass())
+	if (GetAttachClass())
 	{
 		if (showShort)
 			options.append("xc");
@@ -301,7 +301,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getAttachInline())
+	if (GetAttachInline())
 	{
 		if (showShort)
 			options.append("xl");
@@ -310,7 +310,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getAttachExternC())
+	if (GetAttachExternC())
 	{
 		if (showShort)
 			options.append("xk");
@@ -319,7 +319,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getAttachClosingWhile())
+	if (GetAttachClosingWhile())
 	{
 		if (showShort)
 			options.append("xV");
@@ -328,7 +328,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getClassIndent())
+	if (GetClassIndent())
 	{
 		if (showShort)
 			options.append("C");
@@ -337,7 +337,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getModifierIndent())
+	if (GetModifierIndent())
 	{
 		if (showShort)
 			options.append("xG");
@@ -346,7 +346,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getSwitchIndent())
+	if (GetSwitchIndent())
 	{
 		if (showShort)
 			options.append("S");
@@ -355,7 +355,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getCaseIndent())
+	if (GetCaseIndent())
 	{
 		if (showShort)
 			options.append("K");
@@ -364,7 +364,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getNamespaceIndent())
+	if (GetNamespaceIndent())
 	{
 		if (showShort)
 			options.append("N");
@@ -373,7 +373,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getAfterParenIndent())
+	if (GetAfterParenIndent())
 	{
 		if (showShort)
 			options.append("xU");
@@ -382,21 +382,21 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getContinuationIndent() != getDefaultContinuationIndent())
+	if (GetContinuationIndent() != GetDefaultContinuationIndent())
 	{
-		if (getContinuationIndent() >= 0 && getContinuationIndent() <= 4)
+		if (GetContinuationIndent() >= 0 && GetContinuationIndent() <= 4)
 		{
 			if (showShort)
-				options.append(wxString::Format("xt%d", getContinuationIndent()));
+				options.append(wxString::Format("xt%d", GetContinuationIndent()));
 			else
-				options.append(INDENT_CONTINUATION + wxString::Format("=%d", getContinuationIndent()));
+				options.append(INDENT_CONTINUATION + wxString::Format("=%d", GetContinuationIndent()));
 		}
 		else
-			options.append(wxString::Format("invalid-continuationIndent=%d", getContinuationIndent()));
+			options.append(wxString::Format("invalid-continuationIndent=%d", GetContinuationIndent()));
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getLabelIndent())
+	if (GetLabelIndent())
 	{
 		if (showShort)
 			options.append("L");
@@ -405,7 +405,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getPreprocBlockIndent())
+	if (GetPreprocBlockIndent())
 	{
 		if (showShort)
 			options.append("xW");
@@ -414,7 +414,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getPreprocDefineIndent())
+	if (GetPreprocDefineIndent())
 	{
 		if (showShort)
 			options.append("w");
@@ -423,7 +423,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getPreprocCondIndent())
+	if (GetPreprocCondIndent())
 	{
 		if (showShort)
 			options.append("xw");
@@ -432,7 +432,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getCol1CommentIndent())
+	if (GetCol1CommentIndent())
 	{
 		if (showShort)
 			options.append("Y");
@@ -441,41 +441,41 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getMinConditionalOption() != getDefaultMinConditionalOption())
+	if (GetMinConditionalOption() != GetDefaultMinConditionalOption())
 	{
-		if (getMinConditionalOption() == MINCOND_ZERO
-		        || getMinConditionalOption() == MINCOND_ONE
-		        || getMinConditionalOption() == MINCOND_TWO
-		        || getMinConditionalOption() == MINCOND_ONEHALF)
+		if (GetMinConditionalOption() == MINCOND_ZERO
+		        || GetMinConditionalOption() == MINCOND_ONE
+		        || GetMinConditionalOption() == MINCOND_TWO
+		        || GetMinConditionalOption() == MINCOND_ONEHALF)
 		{
 			if (showShort)
-				options.append(wxString::Format("m%d", getMinConditionalOption()));
+				options.append(wxString::Format("m%d", GetMinConditionalOption()));
 			else
-				options.append(MIN_CONDITIONAL_INDENT + wxString::Format("=%d", getMinConditionalOption()));
+				options.append(MIN_CONDITIONAL_INDENT + wxString::Format("=%d", GetMinConditionalOption()));
 		}
 		else
-			options.append(wxString::Format("invalid-minConditionalOption=%d", getMinConditionalOption()));
+			options.append(wxString::Format("invalid-minConditionalOption=%d", GetMinConditionalOption()));
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getMaxContinuationIndent() != getDefaultMaxContinuationIndent())
+	if (GetMaxContinuationIndent() != GetDefaultMaxContinuationIndent())
 	{
-		if (getMaxContinuationIndent() >= 40 && getMaxContinuationIndent() <= 120)
+		if (GetMaxContinuationIndent() >= 40 && GetMaxContinuationIndent() <= 120)
 		{
 			if (showShort)
-				options.append(wxString::Format("M%d", getMaxContinuationIndent()));
+				options.append(wxString::Format("M%d", GetMaxContinuationIndent()));
 			else
-				options.append(MAX_CONTINUATION_INDENT + wxString::Format("=%d", getMaxContinuationIndent()));
+				options.append(MAX_CONTINUATION_INDENT + wxString::Format("=%d", GetMaxContinuationIndent()));
 		}
 		else
-			options.append(wxString::Format("invalid-maxContinuationIndent=%d", getMaxContinuationIndent()));
+			options.append(wxString::Format("invalid-maxContinuationIndent=%d", GetMaxContinuationIndent()));
 		if (useSeparator)
 			options.append(separator);
 	}
 	// begin break blocks
-	if (getBreakHeaderBlocks())
+	if (GetBreakHeaderBlocks())
 	{
-		if (getBreakClosingBlocks())
+		if (GetBreakClosingBlocks())
 		{
 			if (showShort)
 				options.append("F");
@@ -494,14 +494,14 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 				options.append(separator);
 		}
 	}
-	else if (getBreakClosingBlocks())
+	else if (GetBreakClosingBlocks())
 	{
 		options.append("invalid-breakClosingBlocks=true");
 		if (useSeparator)
 			options.append(separator);
 	}
 	// end break blocks
-	if (getPadOperator())
+	if (GetPadOperator())
 	{
 		if (showShort)
 			options.append("p");
@@ -510,7 +510,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getPadComma())
+	if (GetPadComma())
 	{
 		if (showShort)
 			options.append("xg");
@@ -520,7 +520,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 			options.append(separator);
 	}
 	// begin pad parens check
-	if (getPadParenOutside() && getPadParenInside())
+	if (GetPadParenOutside() && GetPadParenInside())
 	{
 		if (showShort)
 			options.append("P");
@@ -529,7 +529,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	else if (getPadParenOutside())
+	else if (GetPadParenOutside())
 	{
 		if (showShort)
 			options.append("d");
@@ -538,7 +538,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	else if (getPadParenInside())
+	else if (GetPadParenInside())
 	{
 		if (showShort)
 			options.append("D");
@@ -548,7 +548,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 			options.append(separator);
 	}
 	// end pad parens check
-	if (getPadFirstParenOut())
+	if (GetPadFirstParenOut())
 	{
 		if (showShort)
 			options.append("xd");
@@ -557,7 +557,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getPadHeader())
+	if (GetPadHeader())
 	{
 		if (showShort)
 			options.append("H");
@@ -566,7 +566,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getUnpadParen())
+	if (GetUnpadParen())
 	{
 		if (showShort)
 			options.append("U");
@@ -575,7 +575,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getDeleteEmptyLines())
+	if (GetDeleteEmptyLines())
 	{
 		if (showShort)
 			options.append("xe");
@@ -584,7 +584,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getFillEmptyLines())
+	if (GetFillEmptyLines())
 	{
 		if (showShort)
 			options.append("E");
@@ -593,23 +593,23 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getAlignPointer() != PTR_ALIGN_NONE)
+	if (GetAlignPointer() != PTR_ALIGN_NONE)
 	{
-		if (getAlignPointer() == PTR_ALIGN_TYPE)
+		if (GetAlignPointer() == PTR_ALIGN_TYPE)
 		{
 			if (showShort)
 				options.append("k1");
 			else
 				options.append(ALIGN_POINTER_TYPE);
 		}
-		else if (getAlignPointer() == PTR_ALIGN_MIDDLE)
+		else if (GetAlignPointer() == PTR_ALIGN_MIDDLE)
 		{
 			if (showShort)
 				options.append("k2");
 			else
 				options.append(ALIGN_POINTER_MIDDLE);
 		}
-		else if (getAlignPointer() == PTR_ALIGN_NAME)
+		else if (GetAlignPointer() == PTR_ALIGN_NAME)
 		{
 			if (showShort)
 				options.append("k3");
@@ -617,34 +617,34 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 				options.append(ALIGN_POINTER_NAME);
 		}
 		else		// force an error message
-			options.append(wxString::Format("invalid-alignPointer=%d", getAlignPointer()));
+			options.append(wxString::Format("invalid-alignPointer=%d", GetAlignPointer()));
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getAlignReference() != REF_SAME_AS_PTR)
+	if (GetAlignReference() != REF_SAME_AS_PTR)
 	{
-		if (getAlignReference() == REF_ALIGN_NONE)
+		if (GetAlignReference() == REF_ALIGN_NONE)
 		{
 			if (showShort)
 				options.append("W0");
 			else
 				options.append(ALIGN_REFERENCE_NONE);
 		}
-		else if (getAlignReference() == REF_ALIGN_TYPE)
+		else if (GetAlignReference() == REF_ALIGN_TYPE)
 		{
 			if (showShort)
 				options.append("W1");
 			else
 				options.append(ALIGN_REFERENCE_TYPE);
 		}
-		else if (getAlignReference() == REF_ALIGN_MIDDLE)
+		else if (GetAlignReference() == REF_ALIGN_MIDDLE)
 		{
 			if (showShort)
 				options.append("W2");
 			else
 				options.append(ALIGN_REFERENCE_MIDDLE);
 		}
-		else if (getAlignReference() == REF_ALIGN_NAME)
+		else if (GetAlignReference() == REF_ALIGN_NAME)
 		{
 			if (showShort)
 				options.append("W3");
@@ -652,11 +652,11 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 				options.append(ALIGN_REFERENCE_NAME);
 		}
 		else		// force an error message
-			options.append(wxString::Format("invalid-alignReference=%d", getAlignReference()));
+			options.append(wxString::Format("invalid-alignReference=%d", GetAlignReference()));
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getBreakClosingBraces())
+	if (GetBreakClosingBraces())
 	{
 		if (showShort)
 			options.append("y");
@@ -665,7 +665,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getBreakElseIfs())
+	if (GetBreakElseIfs())
 	{
 		if (showShort)
 			options.append("e");
@@ -674,7 +674,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getBreakOneLineHeaders())
+	if (GetBreakOneLineHeaders())
 	{
 		if (showShort)
 			options.append("xb");
@@ -683,7 +683,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getAddBraces())
+	if (GetAddBraces())
 	{
 		if (showShort)
 			options.append("j");
@@ -692,7 +692,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getAddOneLineBraces())
+	if (GetAddOneLineBraces())
 	{
 		if (showShort)
 			options.append("J");
@@ -701,7 +701,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getRemoveBraces())
+	if (GetRemoveBraces())
 	{
 		if (showShort)
 			options.append("xj");
@@ -710,7 +710,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getBreakReturnType())
+	if (GetBreakReturnType())
 	{
 		if (showShort)
 			options.append("xB");
@@ -719,7 +719,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getBreakReturnTypeDecl())
+	if (GetBreakReturnTypeDecl())
 	{
 		if (showShort)
 			options.append("xD");
@@ -728,7 +728,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getAttachReturnType())
+	if (GetAttachReturnType())
 	{
 		if (showShort)
 			options.append("xf");
@@ -737,7 +737,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getAttachReturnTypeDecl())
+	if (GetAttachReturnTypeDecl())
 	{
 		if (showShort)
 			options.append("xh");
@@ -746,7 +746,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (! getBreakOneLineBlocks())               // default = true
+	if (! GetBreakOneLineBlocks())               // default = true
 	{
 		if (showShort)
 			options.append("O");
@@ -755,7 +755,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (! getBreakOneLineStmts())                // default = true
+	if (! GetBreakOneLineStmts())                // default = true
 	{
 		if (showShort)
 			options.append("o");
@@ -764,7 +764,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getConvertTabs())
+	if (GetConvertTabs())
 	{
 		if (showShort)
 			options.append("c");
@@ -773,7 +773,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getCloseTemplates())
+	if (GetCloseTemplates())
 	{
 		if (showShort)
 			options.append("xy");
@@ -782,7 +782,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getRemoveCommentPrefix())
+	if (GetRemoveCommentPrefix())
 	{
 		if (showShort)
 			options.append("xp");
@@ -791,21 +791,21 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getMaxCodeLength() > 0)
+	if (GetMaxCodeLength() > 0)
 	{
-		if (getMaxCodeLength() >= MAX_CODE_LENGTH_MIN && getMaxCodeLength() <= MAX_CODE_LENGTH_MAX)
+		if (GetMaxCodeLength() >= MAX_CODE_LENGTH_MIN && GetMaxCodeLength() <= MAX_CODE_LENGTH_MAX)
 		{
 			if (showShort)
-				options.append(wxString::Format("xC%d", getMaxCodeLength()));
+				options.append(wxString::Format("xC%d", GetMaxCodeLength()));
 			else
-				options.append(MAX_CODE_LENGTH + wxString::Format("=%d", getMaxCodeLength()));
+				options.append(MAX_CODE_LENGTH + wxString::Format("=%d", GetMaxCodeLength()));
 		}
 		else
-			options.append(wxString::Format("invalid-maxCodeLength=%d", getMaxCodeLength()));
+			options.append(wxString::Format("invalid-maxCodeLength=%d", GetMaxCodeLength()));
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getBreakAfterLogical())
+	if (GetBreakAfterLogical())
 	{
 		if (showShort)
 			options.append("xL");
@@ -814,7 +814,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getPadMethodPrefix())
+	if (GetPadMethodPrefix())
 	{
 		if (showShort)
 			options.append("xQ");
@@ -823,7 +823,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getUnpadMethodPrefix())
+	if (GetUnpadMethodPrefix())
 	{
 		if (showShort)
 			options.append("xR");
@@ -832,7 +832,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getPadReturnType())
+	if (GetPadReturnType())
 	{
 		if (showShort)
 			options.append("xq");
@@ -841,7 +841,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getUnpadReturnType())
+	if (GetUnpadReturnType())
 	{
 		if (showShort)
 			options.append("xr");
@@ -850,7 +850,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getPadParamType())
+	if (GetPadParamType())
 	{
 		if (showShort)
 			options.append("xS");
@@ -859,7 +859,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getUnpadParamType())
+	if (GetUnpadParamType())
 	{
 		if (showShort)
 			options.append("xs");
@@ -868,7 +868,7 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getAlignMethodColon())
+	if (GetAlignMethodColon())
 	{
 		if (showShort)
 			options.append("xM");
@@ -877,17 +877,17 @@ wxString AStyleIFace::GetOptions(bool showShort /*false*/, bool useSeparator /*t
 		if (useSeparator)
 			options.append(separator);
 	}
-	if (getPadMethodColon() != COLON_PAD_NO_CHANGE)
+	if (GetPadMethodColon() != COLON_PAD_NO_CHANGE)
 	{
-		if (getPadMethodColon() > COLON_PAD_NO_CHANGE && getPadMethodColon() < COLON_PAD_END)
+		if (GetPadMethodColon() > COLON_PAD_NO_CHANGE && GetPadMethodColon() < COLON_PAD_END)
 		{
 			if (showShort)
-				options.append(TranslatePadMethodColonValueShort(getPadMethodColon()));
+				options.append(TranslatePadMethodColonValueShort(GetPadMethodColon()));
 			else
-				options.append(PAD_METHOD_COLON + wxString("=") + TranslatePadMethodColonValue(getPadMethodColon()));
+				options.append(PAD_METHOD_COLON + wxString("=") + TranslatePadMethodColonValue(GetPadMethodColon()));
 		}
 		else
-			options.append(wxString::Format("invalid-padMethodColon=%d", getPadMethodColon()));
+			options.append(wxString::Format("invalid-padMethodColon=%d", GetPadMethodColon()));
 		if (useSeparator)
 			options.append(separator);
 	}
