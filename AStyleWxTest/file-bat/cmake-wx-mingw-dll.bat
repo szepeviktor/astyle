@@ -22,7 +22,7 @@ echo * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 echo *             AStyleWx MinGW DLL Executable             *
 echo * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 cd  "%USERPROFILE%\Projects\AStyleWx"
-rmdir /s /q aswx-mingw-exe-dll
+if exist aswx-mingw-exe-dll  rmdir /s /q aswx-mingw-exe-dll
 md  aswx-mingw-exe-dll
 cd  aswx-mingw-exe-dll
 cmake  -G "MinGW Makefiles"  %opts%  %optsx%  ../
