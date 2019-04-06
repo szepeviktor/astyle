@@ -37,55 +37,55 @@ TEST(AStyleIFace_StyleOptions, GetOptions_StylesAll)
 
 	// test the options
 	const wxString STYLE_EQ = "style=";
-	astyle.setBraceStyle(STYLE_NONE);
+	astyle.SetBraceStyle(STYLE_NONE);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBraceStyle(STYLE_ALLMAN);
+	astyle.SetBraceStyle(STYLE_ALLMAN);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + ALLMAN);
-	astyle.setBraceStyle(STYLE_JAVA);
+	astyle.SetBraceStyle(STYLE_JAVA);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + JAVA);
-	astyle.setBraceStyle(STYLE_KR);
+	astyle.SetBraceStyle(STYLE_KR);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + KandR);
-	astyle.setBraceStyle(STYLE_STROUSTRUP);
+	astyle.SetBraceStyle(STYLE_STROUSTRUP);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + STROUSTRUP);
-	astyle.setBraceStyle(STYLE_WHITESMITH);
+	astyle.SetBraceStyle(STYLE_WHITESMITH);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + WHITESMITH);
-	astyle.setBraceStyle(STYLE_RATLIFF);
+	astyle.SetBraceStyle(STYLE_RATLIFF);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + RATLIFF);
-	astyle.setBraceStyle(STYLE_GNU);
+	astyle.SetBraceStyle(STYLE_GNU);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + GNU);
-	astyle.setBraceStyle(STYLE_LINUX);
+	astyle.SetBraceStyle(STYLE_LINUX);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + LINUXX);
-	astyle.setBraceStyle(STYLE_HORSTMANN);
+	astyle.SetBraceStyle(STYLE_HORSTMANN);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + HORSTMANN);
-	astyle.setBraceStyle(STYLE_1TBS);
+	astyle.SetBraceStyle(STYLE_1TBS);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + oneTBS);
-	astyle.setBraceStyle(STYLE_GOOGLE);
+	astyle.SetBraceStyle(STYLE_GOOGLE);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + GOOGLE);
-	astyle.setBraceStyle(STYLE_MOZILLA);
+	astyle.SetBraceStyle(STYLE_MOZILLA);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + MOZILLA);
-	astyle.setBraceStyle(STYLE_WEBKIT);
+	astyle.SetBraceStyle(STYLE_WEBKIT);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + WEBKIT);
-	astyle.setBraceStyle(STYLE_PICO);
+	astyle.SetBraceStyle(STYLE_PICO);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + PICO);
-	astyle.setBraceStyle(STYLE_LISP);
+	astyle.SetBraceStyle(STYLE_LISP);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == STYLE_EQ + LISP);
-	astyle.setBraceStyle(static_cast<BraceStyle>(99));
+	astyle.SetBraceStyle(static_cast<BraceStyle>(99));
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == "invalid-braceStyle=99");
 }
@@ -102,14 +102,14 @@ TEST(AStyleIFace_TabOptions, GetOptions_IndentSpaces)
 	wxString options;
 
 	// there is no indent=spaces returned
-	astyle.setIndentType(INDENT_SPACES);
-	astyle.setIndentLength(4);
+	astyle.SetIndentType(INDENT_SPACES);
+	astyle.SetIndentLength(4);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setIndentLength(2);
+	astyle.SetIndentLength(2);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, INDENT_OPT_SPACES "=2");
-	astyle.setIndentLength(20);
+	astyle.SetIndentLength(20);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, INDENT_OPT_SPACES "=20");
 }
@@ -122,14 +122,14 @@ TEST(AStyleIFace_TabOptions, GetOptions_IndentTabs)
 	wxString options;
 
 	// test indent with tabs
-	astyle.setIndentType(INDENT_TABS);
-	astyle.setIndentLength(4);
+	astyle.SetIndentType(INDENT_TABS);
+	astyle.SetIndentLength(4);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, INDENT_OPT_TAB);
-	astyle.setIndentLength(2);
+	astyle.SetIndentLength(2);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, INDENT_OPT_TAB "=2");
-	astyle.setIndentLength(20);
+	astyle.SetIndentLength(20);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, INDENT_OPT_TAB "=20");
 }
@@ -142,37 +142,37 @@ TEST(AStyleIFace_TabOptions, GetOptions_IndentForceTabs)
 	wxString options;
 
 	// test indent with force tabs
-	astyle.setIndentType(INDENT_FTABS);
-	astyle.setIndentLength(4);
-	astyle.setUseTabLength(false);
-	astyle.setTabLength(8);
+	astyle.SetIndentType(INDENT_FTABS);
+	astyle.SetIndentLength(4);
+	astyle.SetUseTabLength(false);
+	astyle.SetTabLength(8);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, INDENT_OPT_FTAB);
-	astyle.setIndentLength(2);
-	astyle.setUseTabLength(false);
-	astyle.setTabLength(4);
+	astyle.SetIndentLength(2);
+	astyle.SetUseTabLength(false);
+	astyle.SetTabLength(4);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, INDENT_OPT_FTAB "=2");
-	astyle.setIndentLength(20);
-	astyle.setUseTabLength(false);
-	astyle.setTabLength(10);
+	astyle.SetIndentLength(20);
+	astyle.SetUseTabLength(false);
+	astyle.SetTabLength(10);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, INDENT_OPT_FTAB "=20");
 	// test indent with force tabs and tab-length
-	astyle.setIndentType(INDENT_FTABS);
-	astyle.setIndentLength(4);
-	astyle.setUseTabLength(true);
-	astyle.setTabLength(8);
+	astyle.SetIndentType(INDENT_FTABS);
+	astyle.SetIndentLength(4);
+	astyle.SetUseTabLength(true);
+	astyle.SetTabLength(8);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, INDENT_OPT_FTAB_X);
-	astyle.setIndentLength(4);
-	astyle.setUseTabLength(true);
-	astyle.setTabLength(6);
+	astyle.SetIndentLength(4);
+	astyle.SetUseTabLength(true);
+	astyle.SetTabLength(6);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, INDENT_OPT_FTAB_X "=6");
-	astyle.setIndentLength(3);
-	astyle.setUseTabLength(true);
-	astyle.setTabLength(6);
+	astyle.SetIndentLength(3);
+	astyle.SetUseTabLength(true);
+	astyle.SetTabLength(6);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, INDENT_OPT_FTAB "=3\n" INDENT_OPT_FTAB_X "=6");
 }
@@ -185,18 +185,18 @@ TEST(AStyleIFace_TabOptions, GetOptions_IndentInvalid)
 	wxString options;
 
 	// test invalid indent type
-	astyle.setIndentType(static_cast<IndentType>(9));
-	astyle.setIndentLength(4);
+	astyle.SetIndentType(static_cast<IndentType>(9));
+	astyle.SetIndentLength(4);
 	options = astyle.GetOptions();
 	EXPECT_STREQ("invalid-indentType=9", options);
 
 	// test invalid indent length
 	// the options will also have indent=spaces=?
-	astyle.setIndentType(INDENT_SPACES);
-	astyle.setIndentLength(1);
+	astyle.SetIndentType(INDENT_SPACES);
+	astyle.SetIndentLength(1);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options.Find("invalid-indentLength=1") != wxNOT_FOUND);
-	astyle.setIndentLength(21);
+	astyle.SetIndentLength(21);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options.Find("invalid-indentLength=21") != wxNOT_FOUND);
 }
@@ -213,10 +213,10 @@ TEST(AStyleIFace_ModifierOptions, GetOptions_AttachNamespace)
 	wxString options;
 
 	// test the option
-	astyle.setAttachNamespace(false);
+	astyle.SetAttachNamespace(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAttachNamespace(true);
+	astyle.SetAttachNamespace(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ATTACH_NAMESPACES);
 }
@@ -229,10 +229,10 @@ TEST(AStyleIFace_ModifierOptions, GetOptions_AttachClass)
 	wxString options;
 
 	// test the option
-	astyle.setAttachClass(false);
+	astyle.SetAttachClass(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAttachClass(true);
+	astyle.SetAttachClass(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ATTACH_CLASSES);
 }
@@ -245,10 +245,10 @@ TEST(AStyleIFace_ModifierOptions, GetOptions_AttachInline)
 	wxString options;
 
 	// test the option
-	astyle.setAttachInline(false);
+	astyle.SetAttachInline(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAttachInline(true);
+	astyle.SetAttachInline(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ATTACH_INLINES);
 }
@@ -261,10 +261,10 @@ TEST(AStyleIFace_ModifierOptions, GetOptions_AttachExternC)
 	wxString options;
 
 	// test the option
-	astyle.setAttachExternC(false);
+	astyle.SetAttachExternC(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAttachExternC(true);
+	astyle.SetAttachExternC(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ATTACH_EXTERN_C);
 }
@@ -277,10 +277,10 @@ TEST(AStyleIFace_ModifierOptions, GetOptions_AttachClosingWhile)
 	wxString options;
 
 	// test the option
-	astyle.setAttachClosingWhile(false);
+	astyle.SetAttachClosingWhile(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAttachClosingWhile(true);
+	astyle.SetAttachClosingWhile(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ATTACH_CLOSING_WHILE);
 }
@@ -297,10 +297,10 @@ TEST(AStyleIFace_IndentOptions, GetOptions_AfterParenIndent)
 	wxString options;
 
 	// test the option
-	astyle.setAfterParenIndent(false);
+	astyle.SetAfterParenIndent(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAfterParenIndent(true);
+	astyle.SetAfterParenIndent(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == INDENT_AFTER_PARENS);
 }
@@ -313,10 +313,10 @@ TEST(AStyleIFace_IndentOptions, GetOptions_CaseIndent)
 	wxString options;
 
 	// test the option
-	astyle.setCaseIndent(false);
+	astyle.SetCaseIndent(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setCaseIndent(true);
+	astyle.SetCaseIndent(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == INDENT_CASES);
 }
@@ -329,10 +329,10 @@ TEST(AStyleIFace_IndentOptions, GetOptions_ClassIndent)
 	wxString options;
 
 	// test the option
-	astyle.setClassIndent(false);
+	astyle.SetClassIndent(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setClassIndent(true);
+	astyle.SetClassIndent(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == INDENT_CLASSES);
 }
@@ -345,10 +345,10 @@ TEST(AStyleIFace_IndentOptions, GetOptions_Col1CommentIndent)
 	wxString options;
 
 	// test the option
-	astyle.setCol1CommentIndent(false);
+	astyle.SetCol1CommentIndent(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setCol1CommentIndent(true);
+	astyle.SetCol1CommentIndent(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == INDENT_COL1_COMMENTS);
 }
@@ -361,18 +361,18 @@ TEST(AStyleIFace_IndentOptions, GetOptions_ContinuationIndent)
 	wxString options;
 
 	// test the option
-	astyle.setContinuationIndent(1);
+	astyle.SetContinuationIndent(1);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setContinuationIndent(2);
+	astyle.SetContinuationIndent(2);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, INDENT_CONTINUATION "=2");
 
 	// test invalid min conditional option
-	astyle.setContinuationIndent(-1);
+	astyle.SetContinuationIndent(-1);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, "invalid-continuationIndent=-1");
-	astyle.setContinuationIndent(5);
+	astyle.SetContinuationIndent(5);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, "invalid-continuationIndent=5");
 }
@@ -385,10 +385,10 @@ TEST(AStyleIFace_IndentOptions, GetOptions_LabelIndent)
 	wxString options;
 
 	// test the option
-	astyle.setLabelIndent(false);
+	astyle.SetLabelIndent(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setLabelIndent(true);
+	astyle.SetLabelIndent(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == INDENT_LABELS);
 }
@@ -401,17 +401,17 @@ TEST(AStyleIFace_IndentOptions, GetOptions_MaxContinuation)
 	wxString options;
 
 	// test the option
-	astyle.setMaxContinuationIndent(40);
+	astyle.SetMaxContinuationIndent(40);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setMaxContinuationIndent(50);
+	astyle.SetMaxContinuationIndent(50);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, MAX_CONTINUATION_INDENT "=50");
 	// test invalid max instatement indent
-	astyle.setMaxContinuationIndent(39);
+	astyle.SetMaxContinuationIndent(39);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, "invalid-maxContinuationIndent=39");
-	astyle.setMaxContinuationIndent(121);
+	astyle.SetMaxContinuationIndent(121);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, "invalid-maxContinuationIndent=121");
 }
@@ -424,24 +424,24 @@ TEST(AStyleIFace_IndentOptions, GetOptions_MinConditional)
 	wxString options;
 
 	// test the option
-	astyle.setMinConditionalOption(MINCOND_ZERO);
+	astyle.SetMinConditionalOption(MINCOND_ZERO);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, MIN_CONDITIONAL_INDENT "=0");
-	astyle.setMinConditionalOption(MINCOND_ONE);
+	astyle.SetMinConditionalOption(MINCOND_ONE);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, MIN_CONDITIONAL_INDENT "=1");
-	astyle.setMinConditionalOption(MINCOND_TWO);
+	astyle.SetMinConditionalOption(MINCOND_TWO);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setMinConditionalOption(MINCOND_ONEHALF);
+	astyle.SetMinConditionalOption(MINCOND_ONEHALF);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, MIN_CONDITIONAL_INDENT "=3");
 
 	// test invalid min conditional option
-	astyle.setMinConditionalOption(static_cast<MinConditional>(-1));
+	astyle.SetMinConditionalOption(static_cast<MinConditional>(-1));
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, "invalid-minConditionalOption=-1");
-	astyle.setMinConditionalOption(static_cast<MinConditional>(9));
+	astyle.SetMinConditionalOption(static_cast<MinConditional>(9));
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, "invalid-minConditionalOption=9");
 }
@@ -454,10 +454,10 @@ TEST(AStyleIFace_IndentOptions, GetOptions_ModifierIndent)
 	wxString options;
 
 	// test the option
-	astyle.setModifierIndent(false);
+	astyle.SetModifierIndent(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setModifierIndent(true);
+	astyle.SetModifierIndent(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == INDENT_MODIFIERS);
 }
@@ -470,10 +470,10 @@ TEST(AStyleIFace_IndentOptions, GetOptions_NamespaceIndent)
 	wxString options;
 
 	// test the option
-	astyle.setNamespaceIndent(false);
+	astyle.SetNamespaceIndent(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setNamespaceIndent(true);
+	astyle.SetNamespaceIndent(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == INDENT_NAMESPACES);
 }
@@ -486,10 +486,10 @@ TEST(AStyleIFace_IndentOptions, GetOptions_PreprocBlockIndent)
 	wxString options;
 
 	// test the option
-	astyle.setPreprocBlockIndent(false);
+	astyle.SetPreprocBlockIndent(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPreprocBlockIndent(true);
+	astyle.SetPreprocBlockIndent(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == INDENT_PREPROC_BLOCK);
 }
@@ -502,10 +502,10 @@ TEST(AStyleIFace_IndentOptions, GetOptions_PreprocCondIndent)
 	wxString options;
 
 	// test the option
-	astyle.setPreprocCondIndent(false);
+	astyle.SetPreprocCondIndent(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPreprocCondIndent(true);
+	astyle.SetPreprocCondIndent(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == INDENT_PREPROC_COND);
 }
@@ -518,10 +518,10 @@ TEST(AStyleIFace_IndentOptions, GetOptions_PreprocDefineIndent)
 	wxString options;
 
 	// test the option
-	astyle.setPreprocDefineIndent(false);
+	astyle.SetPreprocDefineIndent(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPreprocDefineIndent(true);
+	astyle.SetPreprocDefineIndent(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == INDENT_PREPROC_DEFINE);
 }
@@ -534,10 +534,10 @@ TEST(AStyleIFace_IndentOptions, GetOptions_SwitchIndent)
 	wxString options;
 
 	// test the option
-	astyle.setSwitchIndent(false);
+	astyle.SetSwitchIndent(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setSwitchIndent(true);
+	astyle.SetSwitchIndent(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == INDENT_SWITCHES);
 }
@@ -554,19 +554,19 @@ TEST(AStyleIFace_PadOptions, GetOptions_AlignPointer)
 	wxString options;
 
 	// test the options
-	astyle.setAlignPointer(PTR_ALIGN_NONE);
+	astyle.SetAlignPointer(PTR_ALIGN_NONE);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAlignPointer(PTR_ALIGN_TYPE);
+	astyle.SetAlignPointer(PTR_ALIGN_TYPE);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ALIGN_POINTER_TYPE);
-	astyle.setAlignPointer(PTR_ALIGN_MIDDLE);
+	astyle.SetAlignPointer(PTR_ALIGN_MIDDLE);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ALIGN_POINTER_MIDDLE);
-	astyle.setAlignPointer(PTR_ALIGN_NAME);
+	astyle.SetAlignPointer(PTR_ALIGN_NAME);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ALIGN_POINTER_NAME);
-	astyle.setAlignPointer(static_cast<PointerAlign>(99));
+	astyle.SetAlignPointer(static_cast<PointerAlign>(99));
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == "invalid-alignPointer=99");
 }
@@ -579,19 +579,19 @@ TEST(AStyleIFace_PadOptions, GetOptions_AlignReference)
 	wxString options;
 
 	// test the options
-	astyle.setAlignReference(REF_ALIGN_NONE);
+	astyle.SetAlignReference(REF_ALIGN_NONE);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ALIGN_REFERENCE_NONE);
-	astyle.setAlignReference(REF_ALIGN_TYPE);
+	astyle.SetAlignReference(REF_ALIGN_TYPE);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ALIGN_REFERENCE_TYPE);
-	astyle.setAlignReference(REF_ALIGN_MIDDLE);
+	astyle.SetAlignReference(REF_ALIGN_MIDDLE);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ALIGN_REFERENCE_MIDDLE);
-	astyle.setAlignReference(REF_ALIGN_NAME);
+	astyle.SetAlignReference(REF_ALIGN_NAME);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ALIGN_REFERENCE_NAME);
-	astyle.setAlignReference(static_cast<ReferenceAlign>(99));
+	astyle.SetAlignReference(static_cast<ReferenceAlign>(99));
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == "invalid-alignReference=99");
 }
@@ -604,23 +604,23 @@ TEST(AStyleIFace_PadOptions, GetOptions_BreakBlocks)
 	wxString options;
 
 	// test the options
-	astyle.setBreakHeaderBlocks(false);
-	astyle.setBreakClosingBlocks(false);
+	astyle.SetBreakHeaderBlocks(false);
+	astyle.SetBreakClosingBlocks(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
 	// break-blocks
-	astyle.setBreakHeaderBlocks(true);
-	astyle.setBreakClosingBlocks(false);
+	astyle.SetBreakHeaderBlocks(true);
+	astyle.SetBreakClosingBlocks(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == BREAK_BLOCKS);
 	// break-blocks=all
-	astyle.setBreakHeaderBlocks(true);
-	astyle.setBreakClosingBlocks(true);
+	astyle.SetBreakHeaderBlocks(true);
+	astyle.SetBreakClosingBlocks(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == BREAK_BLOCKS_ALL);
 	// invalid
-	astyle.setBreakHeaderBlocks(false);
-	astyle.setBreakClosingBlocks(true);
+	astyle.SetBreakHeaderBlocks(false);
+	astyle.SetBreakClosingBlocks(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == "invalid-breakClosingBlocks=true");
 }
@@ -633,10 +633,10 @@ TEST(AStyleIFace_PadOptions, GetOptions_DeleteEmptyLines)
 	wxString options;
 
 	// test the option
-	astyle.setDeleteEmptyLines(false);
+	astyle.SetDeleteEmptyLines(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setDeleteEmptyLines(true);
+	astyle.SetDeleteEmptyLines(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == DELETE_EMPTY_LINES);
 }
@@ -649,10 +649,10 @@ TEST(AStyleIFace_PadOptions, GetOptions_FillEmptyLines)
 	wxString options;
 
 	// test the option
-	astyle.setFillEmptyLines(false);
+	astyle.SetFillEmptyLines(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setFillEmptyLines(true);
+	astyle.SetFillEmptyLines(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == FILL_EMPTY_LINES);
 }
@@ -665,10 +665,10 @@ TEST(AStyleIFace_PadOptions, GetOptions_PadComma)
 	wxString options;
 
 	// test the option
-	astyle.setPadComma(false);
+	astyle.SetPadComma(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPadComma(true);
+	astyle.SetPadComma(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == PAD_COMMA);
 }
@@ -681,10 +681,10 @@ TEST(AStyleIFace_PadOptions, GetOptions_PadFirstParenOut)
 	wxString options;
 
 	// test the option
-	astyle.setPadFirstParenOut(false);
+	astyle.SetPadFirstParenOut(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPadFirstParenOut(true);
+	astyle.SetPadFirstParenOut(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == PAD_FIRST_PAREN_OUT);
 }
@@ -697,10 +697,10 @@ TEST(AStyleIFace_PadOptions, GetOptions_PadHeader)
 	wxString options;
 
 	// test the option
-	astyle.setPadHeader(false);
+	astyle.SetPadHeader(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPadHeader(true);
+	astyle.SetPadHeader(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == PAD_HEADER);
 }
@@ -713,10 +713,10 @@ TEST(AStyleIFace_PadOptions, GetOptions_PadOperator)
 	wxString options;
 
 	// test the option
-	astyle.setPadOperator(false);
+	astyle.SetPadOperator(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPadOperator(true);
+	astyle.SetPadOperator(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == PAD_OPER);
 }
@@ -729,16 +729,16 @@ TEST(AStyleIFace_PadOptions, GetOptions_PadParen)
 	wxString options;
 
 	// test the options
-	astyle.setPadParenOutside(true);
-	astyle.setPadParenInside(true);
+	astyle.SetPadParenOutside(true);
+	astyle.SetPadParenInside(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == PAD_PAREN);
-	astyle.setPadParenOutside(true);
-	astyle.setPadParenInside(false);
+	astyle.SetPadParenOutside(true);
+	astyle.SetPadParenInside(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == PAD_PAREN_OUT);
-	astyle.setPadParenOutside(false);
-	astyle.setPadParenInside(true);
+	astyle.SetPadParenOutside(false);
+	astyle.SetPadParenInside(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == PAD_PAREN_IN);
 }
@@ -751,10 +751,10 @@ TEST(AStyleIFace_PadOptions, GetOptions_UnpadParen)
 	wxString options;
 
 	// test the option
-	astyle.setUnpadParen(false);
+	astyle.SetUnpadParen(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setUnpadParen(true);
+	astyle.SetUnpadParen(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == UNPAD_PAREN);
 }
@@ -771,10 +771,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_AddBraces)
 	wxString options;
 
 	// test the option
-	astyle.setAddBraces(false);
+	astyle.SetAddBraces(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAddBraces(true);
+	astyle.SetAddBraces(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ADD_BRACES);
 }
@@ -787,10 +787,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_AddOneLineBraces)
 	wxString options;
 
 	// test the option
-	astyle.setAddOneLineBraces(false);
+	astyle.SetAddOneLineBraces(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAddOneLineBraces(true);
+	astyle.SetAddOneLineBraces(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ADD_ONE_LINE_BRACES);
 }
@@ -803,10 +803,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_AttachReturnType)
 	wxString options;
 
 	// test the option
-	astyle.setAttachReturnType(false);
+	astyle.SetAttachReturnType(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAttachReturnType(true);
+	astyle.SetAttachReturnType(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ATTACH_RETURN_TYPE);
 }
@@ -819,10 +819,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_AttachReturnTypeDecl)
 	wxString options;
 
 	// test the option
-	astyle.setAttachReturnTypeDecl(false);
+	astyle.SetAttachReturnTypeDecl(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAttachReturnTypeDecl(true);
+	astyle.SetAttachReturnTypeDecl(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ATTACH_RETURN_TYPE_DECL);
 }
@@ -835,10 +835,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_BreakAfterLogical)
 	wxString options;
 
 	// test the option
-	astyle.setBreakAfterLogical(false);
+	astyle.SetBreakAfterLogical(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakAfterLogical(true);
+	astyle.SetBreakAfterLogical(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == BREAK_AFTER_LOGICAL);
 }
@@ -851,10 +851,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_BreakCloseBraces)
 	wxString options;
 
 	// test the option
-	astyle.setBreakClosingBraces(false);
+	astyle.SetBreakClosingBraces(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakClosingBraces(true);
+	astyle.SetBreakClosingBraces(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == BREAK_CLOSING_BRACES);
 }
@@ -867,10 +867,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_BreakElseIfs)
 	wxString options;
 
 	// test the option
-	astyle.setBreakElseIfs(false);
+	astyle.SetBreakElseIfs(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakElseIfs(true);
+	astyle.SetBreakElseIfs(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == BREAK_ELSEIFS);
 }
@@ -883,10 +883,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_BreakOneLineHeaders)
 	wxString options;
 
 	// test the option
-	astyle.setBreakOneLineHeaders(false);
+	astyle.SetBreakOneLineHeaders(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakOneLineHeaders(true);
+	astyle.SetBreakOneLineHeaders(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == BREAK_ONE_LINE_HEADERS);
 }
@@ -899,10 +899,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_BreakReturnType)
 	wxString options;
 
 	// test the option
-	astyle.setBreakReturnType(false);
+	astyle.SetBreakReturnType(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakReturnType(true);
+	astyle.SetBreakReturnType(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == BREAK_RETURN_TYPE);
 }
@@ -915,10 +915,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_BreakReturnTypeDecl)
 	wxString options;
 
 	// test the option
-	astyle.setBreakReturnTypeDecl(false);
+	astyle.SetBreakReturnTypeDecl(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakReturnTypeDecl(true);
+	astyle.SetBreakReturnTypeDecl(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == BREAK_RETURN_TYPE_DECL);
 }
@@ -931,10 +931,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_CloseTemplates)
 	wxString options;
 
 	// test the option
-	astyle.setCloseTemplates(false);
+	astyle.SetCloseTemplates(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setCloseTemplates(true);
+	astyle.SetCloseTemplates(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == CLOSE_TEMPLATES);
 }
@@ -947,10 +947,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_ConvertTabs)
 	wxString options;
 
 	// test the option
-	astyle.setConvertTabs(false);
+	astyle.SetConvertTabs(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setConvertTabs(true);
+	astyle.SetConvertTabs(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == CONVERT_TABS);
 }
@@ -964,10 +964,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_KeepOneLineBlocks)
 
 	// test the option
 	// NOTE: the option is TRUE by default
-	astyle.setBreakOneLineBlocks(true);
+	astyle.SetBreakOneLineBlocks(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakOneLineBlocks(false);
+	astyle.SetBreakOneLineBlocks(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == KEEP_ONE_LINE_BLOCKS);
 }
@@ -981,10 +981,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_KeepOneLineStatements)
 
 	// test the option
 	// NOTE: the option is TRUE by default
-	astyle.setBreakOneLineStmts(true);
+	astyle.SetBreakOneLineStmts(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakOneLineStmts(false);
+	astyle.SetBreakOneLineStmts(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == KEEP_ONE_LINE_STATEMENTS);
 }
@@ -997,20 +997,20 @@ TEST(AStyleIFace_IndentOptions, GetOptions_MaxCodeLength)
 	wxString options;
 
 	// test the option
-	astyle.setMaxCodeLength(-1);
+	astyle.SetMaxCodeLength(-1);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setMaxCodeLength(MAX_CODE_LENGTH_MIN);
+	astyle.SetMaxCodeLength(MAX_CODE_LENGTH_MIN);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, MAX_CODE_LENGTH "=50");
-	astyle.setMaxCodeLength(MAX_CODE_LENGTH_MAX);
+	astyle.SetMaxCodeLength(MAX_CODE_LENGTH_MAX);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, MAX_CODE_LENGTH "=200");
 	// test invalid max code length
-	astyle.setMaxCodeLength(49);
+	astyle.SetMaxCodeLength(49);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == "invalid-maxCodeLength=49");
-	astyle.setMaxCodeLength(201);
+	astyle.SetMaxCodeLength(201);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == "invalid-maxCodeLength=201");
 }
@@ -1023,10 +1023,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_RemoveBraces)
 	wxString options;
 
 	// test the option
-	astyle.setRemoveBraces(false);
+	astyle.SetRemoveBraces(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setRemoveBraces(true);
+	astyle.SetRemoveBraces(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == REMOVE_BRACES);
 }
@@ -1039,10 +1039,10 @@ TEST(AStyleIFace_FormatOptions, GetOptions_RemoveCommentPrefix)
 	wxString options;
 
 	// test the option
-	astyle.setRemoveCommentPrefix(false);
+	astyle.SetRemoveCommentPrefix(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setRemoveCommentPrefix(true);
+	astyle.SetRemoveCommentPrefix(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == REMOVE_COMMENT_PREFIX);
 }
@@ -1059,10 +1059,10 @@ TEST(AStyleIFace_OtherOptions, GetOptions_PadMethodPrefix)
 	wxString options;
 
 	// test the option
-	astyle.setPadMethodPrefix(false);
+	astyle.SetPadMethodPrefix(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPadMethodPrefix(true);
+	astyle.SetPadMethodPrefix(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == PAD_METHOD_PREFIX);
 }
@@ -1075,10 +1075,10 @@ TEST(AStyleIFace_OtherOptions, GetOptions_UnpadMethodPrefix)
 	wxString options;
 
 	// test the option
-	astyle.setUnpadMethodPrefix(false);
+	astyle.SetUnpadMethodPrefix(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setUnpadMethodPrefix(true);
+	astyle.SetUnpadMethodPrefix(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == UNPAD_METHOD_PREFIX);
 }
@@ -1091,10 +1091,10 @@ TEST(AStyleIFace_OtherOptions, GetOptions_PadReturnType)
 	wxString options;
 
 	// test the option
-	astyle.setPadReturnType(false);
+	astyle.SetPadReturnType(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPadReturnType(true);
+	astyle.SetPadReturnType(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == PAD_RETURN_TYPE);
 }
@@ -1107,10 +1107,10 @@ TEST(AStyleIFace_OtherOptions, GetOptions_UnpadReturnType)
 	wxString options;
 
 	// test the option
-	astyle.setUnpadReturnType(false);
+	astyle.SetUnpadReturnType(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setUnpadReturnType(true);
+	astyle.SetUnpadReturnType(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == UNPAD_RETURN_TYPE);
 }
@@ -1123,10 +1123,10 @@ TEST(AStyleIFace_OtherOptions, GetOptions_AlignMethodColon)
 	wxString options;
 
 	// test the option
-	astyle.setAlignMethodColon(false);
+	astyle.SetAlignMethodColon(false);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAlignMethodColon(true);
+	astyle.SetAlignMethodColon(true);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == ALIGN_METHOD_COLON);
 }
@@ -1139,27 +1139,27 @@ TEST(AStyleIFace_OtherOptions, GetOptions_PadMethodColon)
 	wxString options;
 
 	// test the option
-	astyle.setPadMethodColon(COLON_PAD_NONE);
+	astyle.SetPadMethodColon(COLON_PAD_NONE);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, PAD_METHOD_COLON "=none");
-	astyle.setPadMethodColon(COLON_PAD_ALL);
+	astyle.SetPadMethodColon(COLON_PAD_ALL);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, PAD_METHOD_COLON "=all");
-	astyle.setPadMethodColon(COLON_PAD_AFTER);
+	astyle.SetPadMethodColon(COLON_PAD_AFTER);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, PAD_METHOD_COLON "=after");
-	astyle.setPadMethodColon(COLON_PAD_BEFORE);
+	astyle.SetPadMethodColon(COLON_PAD_BEFORE);
 	options = astyle.GetOptions();
 	EXPECT_STREQ(options, PAD_METHOD_COLON "=before");
 
 	// test invalid pad method colon
-	astyle.setPadMethodColon(COLON_PAD_NO_CHANGE);
+	astyle.SetPadMethodColon(COLON_PAD_NO_CHANGE);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPadMethodColon(-1);
+	astyle.SetPadMethodColon(-1);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == "invalid-padMethodColon=-1");
-	astyle.setPadMethodColon(COLON_PAD_END);
+	astyle.SetPadMethodColon(COLON_PAD_END);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxString::Format("invalid-padMethodColon=%d", COLON_PAD_END));
 }
@@ -1177,55 +1177,55 @@ TEST(AStyleIFace_StyleShort, GetOptions_All)
 
 	// test the options
 	const wxString STYLE_EQ = "style=";
-	astyle.setBraceStyle(STYLE_NONE);
+	astyle.SetBraceStyle(STYLE_NONE);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBraceStyle(STYLE_ALLMAN);
+	astyle.SetBraceStyle(STYLE_ALLMAN);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A1") << (STYLE_EQ + ALLMAN);
-	astyle.setBraceStyle(STYLE_JAVA);
+	astyle.SetBraceStyle(STYLE_JAVA);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A2") << (STYLE_EQ + JAVA);
-	astyle.setBraceStyle(STYLE_KR);
+	astyle.SetBraceStyle(STYLE_KR);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A3") << (STYLE_EQ + KandR);
-	astyle.setBraceStyle(STYLE_STROUSTRUP);
+	astyle.SetBraceStyle(STYLE_STROUSTRUP);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A4") << (STYLE_EQ + STROUSTRUP);
-	astyle.setBraceStyle(STYLE_WHITESMITH);
+	astyle.SetBraceStyle(STYLE_WHITESMITH);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A5") << (STYLE_EQ + WHITESMITH);
-	astyle.setBraceStyle(STYLE_RATLIFF);
+	astyle.SetBraceStyle(STYLE_RATLIFF);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A6") << (STYLE_EQ + RATLIFF);
-	astyle.setBraceStyle(STYLE_GNU);
+	astyle.SetBraceStyle(STYLE_GNU);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A7") << (STYLE_EQ + GNU);
-	astyle.setBraceStyle(STYLE_LINUX);
+	astyle.SetBraceStyle(STYLE_LINUX);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A8") << (STYLE_EQ + LINUXX);
-	astyle.setBraceStyle(STYLE_HORSTMANN);
+	astyle.SetBraceStyle(STYLE_HORSTMANN);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A9") << (STYLE_EQ + HORSTMANN);
-	astyle.setBraceStyle(STYLE_1TBS);
+	astyle.SetBraceStyle(STYLE_1TBS);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A10") << (STYLE_EQ + oneTBS);
-	astyle.setBraceStyle(STYLE_GOOGLE);
+	astyle.SetBraceStyle(STYLE_GOOGLE);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A14") << (STYLE_EQ + GOOGLE);
-	astyle.setBraceStyle(STYLE_MOZILLA);
+	astyle.SetBraceStyle(STYLE_MOZILLA);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A16") << (STYLE_EQ + MOZILLA);
-	astyle.setBraceStyle(STYLE_WEBKIT);
+	astyle.SetBraceStyle(STYLE_WEBKIT);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A17") << (STYLE_EQ + WEBKIT);
-	astyle.setBraceStyle(STYLE_PICO);
+	astyle.SetBraceStyle(STYLE_PICO);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A11") << (STYLE_EQ + PICO);
-	astyle.setBraceStyle(STYLE_LISP);
+	astyle.SetBraceStyle(STYLE_LISP);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "A12") << (STYLE_EQ + LISP);
-	astyle.setBraceStyle(static_cast<BraceStyle>(99));
+	astyle.SetBraceStyle(static_cast<BraceStyle>(99));
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "invalid-braceStyle=99");
 }
@@ -1243,14 +1243,14 @@ TEST(AStyleIFace_TabShort, GetOptions_IndentSpaces)
 
 	// test indent with spaces
 	// there is no indent=spaces returned
-	astyle.setIndentType(INDENT_SPACES);
-	astyle.setIndentLength(4);
+	astyle.SetIndentType(INDENT_SPACES);
+	astyle.SetIndentLength(4);
 	options = astyle.GetOptions(true);
 	EXPECT_STREQ(wxEmptyString, options);
-	astyle.setIndentLength(2);
+	astyle.SetIndentLength(2);
 	options = astyle.GetOptions(true);
 	EXPECT_STREQ("s2", options);
-	astyle.setIndentLength(20);
+	astyle.SetIndentLength(20);
 	options = astyle.GetOptions(true);
 	EXPECT_STREQ("s20", options);
 }
@@ -1263,14 +1263,14 @@ TEST(AStyleIFace_TabShort, GetOptions_IndentTabs)
 	wxString options;
 
 	// test indent with tabs
-	astyle.setIndentType(INDENT_TABS);
-	astyle.setIndentLength(4);
+	astyle.SetIndentType(INDENT_TABS);
+	astyle.SetIndentLength(4);
 	options = astyle.GetOptions(true);
 	EXPECT_STREQ("t", options);
-	astyle.setIndentLength(2);
+	astyle.SetIndentLength(2);
 	options = astyle.GetOptions(true);
 	EXPECT_STREQ("t2", options);
-	astyle.setIndentLength(20);
+	astyle.SetIndentLength(20);
 	options = astyle.GetOptions(true);
 	EXPECT_STREQ("t20", options);
 }
@@ -1283,37 +1283,37 @@ TEST(AStyleIFace_TabShort, GetOptions_IndentForceTabs)
 	wxString options;
 
 	// test indent with force tabs
-	astyle.setIndentType(INDENT_FTABS);
-	astyle.setIndentLength(4);
-	astyle.setUseTabLength(false);
-	astyle.setTabLength(8);
+	astyle.SetIndentType(INDENT_FTABS);
+	astyle.SetIndentLength(4);
+	astyle.SetUseTabLength(false);
+	astyle.SetTabLength(8);
 	options = astyle.GetOptions(true);
 	EXPECT_STREQ("T", options) << INDENT_OPT_FTAB;
-	astyle.setIndentLength(2);
-	astyle.setUseTabLength(false);
-	astyle.setTabLength(4);
+	astyle.SetIndentLength(2);
+	astyle.SetUseTabLength(false);
+	astyle.SetTabLength(4);
 	options = astyle.GetOptions(true);
 	EXPECT_STREQ("T2", options) << INDENT_OPT_FTAB;
-	astyle.setIndentLength(20);
-	astyle.setUseTabLength(false);
-	astyle.setTabLength(10);
+	astyle.SetIndentLength(20);
+	astyle.SetUseTabLength(false);
+	astyle.SetTabLength(10);
 	options = astyle.GetOptions(true);
 	EXPECT_STREQ("T20", options) << INDENT_OPT_FTAB;
 	// test indent with force tabs and tab-length
-	astyle.setIndentType(INDENT_FTABS);
-	astyle.setIndentLength(4);
-	astyle.setUseTabLength(true);
-	astyle.setTabLength(8);
+	astyle.SetIndentType(INDENT_FTABS);
+	astyle.SetIndentLength(4);
+	astyle.SetUseTabLength(true);
+	astyle.SetTabLength(8);
 	options = astyle.GetOptions(true);
 	EXPECT_STREQ("xT", options) << INDENT_OPT_FTAB;
-	astyle.setIndentLength(4);
-	astyle.setUseTabLength(true);
-	astyle.setTabLength(6);
+	astyle.SetIndentLength(4);
+	astyle.SetUseTabLength(true);
+	astyle.SetTabLength(6);
 	options = astyle.GetOptions(true);
 	EXPECT_STREQ("xT6", options) << INDENT_OPT_FTAB;
-	astyle.setIndentLength(3);
-	astyle.setUseTabLength(true);
-	astyle.setTabLength(6);
+	astyle.SetIndentLength(3);
+	astyle.SetUseTabLength(true);
+	astyle.SetTabLength(6);
 	options = astyle.GetOptions(true);
 	EXPECT_STREQ("T3\nxT6", options) << INDENT_OPT_FTAB;
 }
@@ -1326,18 +1326,18 @@ TEST(AStyleIFace_TabShort, GetOptions_IndentInvalid)
 	wxString options;
 
 	// test invalid indent type
-	astyle.setIndentType(static_cast<IndentType>(9));
-	astyle.setIndentLength(4);
+	astyle.SetIndentType(static_cast<IndentType>(9));
+	astyle.SetIndentLength(4);
 	options = astyle.GetOptions();
 	EXPECT_STREQ("invalid-indentType=9", options);
 
 	// test invalid indent length
 	// the options will also have indent=spaces=?
-	astyle.setIndentType(INDENT_SPACES);
-	astyle.setIndentLength(1);
+	astyle.SetIndentType(INDENT_SPACES);
+	astyle.SetIndentLength(1);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options.Find("invalid-indentLength=1") != wxNOT_FOUND);
-	astyle.setIndentLength(21);
+	astyle.SetIndentLength(21);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options.Find("invalid-indentLength=21") != wxNOT_FOUND);
 }
@@ -1354,10 +1354,10 @@ TEST(AStyleIFace_ModifierShort, GetOptions_AttachNamespace)
 	wxString options;
 
 	// test the option
-	astyle.setAttachNamespace(false);
+	astyle.SetAttachNamespace(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAttachNamespace(true);
+	astyle.SetAttachNamespace(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xn");
 }
@@ -1370,10 +1370,10 @@ TEST(AStyleIFace_ModifierShort, GetOptions_AttachClass)
 	wxString options;
 
 	// test the option
-	astyle.setAttachClass(false);
+	astyle.SetAttachClass(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAttachClass(true);
+	astyle.SetAttachClass(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xc");
 }
@@ -1386,10 +1386,10 @@ TEST(AStyleIFace_ModifierShort, GetOptions_AttachInline)
 	wxString options;
 
 	// test the option
-	astyle.setAttachInline(false);
+	astyle.SetAttachInline(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAttachInline(true);
+	astyle.SetAttachInline(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xl");
 }
@@ -1402,10 +1402,10 @@ TEST(AStyleIFace_ModifierShort, GetOptions_AttachExternC)
 	wxString options;
 
 	// test the option
-	astyle.setAttachExternC(false);
+	astyle.SetAttachExternC(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAttachExternC(true);
+	astyle.SetAttachExternC(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xk");
 }
@@ -1422,10 +1422,10 @@ TEST(AStyleIFace_IndentShort, GetOptions_AfterParenIndent)
 	wxString options;
 
 	// test the option
-	astyle.setAfterParenIndent(false);
+	astyle.SetAfterParenIndent(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAfterParenIndent(true);
+	astyle.SetAfterParenIndent(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xU");
 }
@@ -1438,10 +1438,10 @@ TEST(AStyleIFace_IndentShort, GetOptions_CaseIndent)
 	wxString options;
 
 	// test the option
-	astyle.setCaseIndent(false);
+	astyle.SetCaseIndent(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setCaseIndent(true);
+	astyle.SetCaseIndent(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "K");
 }
@@ -1454,10 +1454,10 @@ TEST(AStyleIFace_IndentShort, GetOptions_ClassIndent)
 	wxString options;
 
 	// test the option
-	astyle.setClassIndent(false);
+	astyle.SetClassIndent(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setClassIndent(true);
+	astyle.SetClassIndent(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "C");
 }
@@ -1470,10 +1470,10 @@ TEST(AStyleIFace_IndentShort, GetOptions_Col1CommentIndent)
 	wxString options;
 
 	// test the option
-	astyle.setCol1CommentIndent(false);
+	astyle.SetCol1CommentIndent(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setCol1CommentIndent(true);
+	astyle.SetCol1CommentIndent(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "Y");
 }
@@ -1486,18 +1486,18 @@ TEST(AStyleIFace_IndentShort, GetOptions_ContinuationIndent)
 	wxString options;
 
 	// test the option
-	astyle.setContinuationIndent(1);
+	astyle.SetContinuationIndent(1);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setContinuationIndent(2);
+	astyle.SetContinuationIndent(2);
 	options = astyle.GetOptions(true);
 	EXPECT_STREQ(options, "xt2");
 
 	// test invalid min conditional option
-	astyle.setContinuationIndent(-1);
+	astyle.SetContinuationIndent(-1);
 	options = astyle.GetOptions(true);
 	EXPECT_STREQ(options, "invalid-continuationIndent=-1");
-	astyle.setContinuationIndent(5);
+	astyle.SetContinuationIndent(5);
 	options = astyle.GetOptions(true);
 	EXPECT_STREQ(options, "invalid-continuationIndent=5");
 }
@@ -1510,10 +1510,10 @@ TEST(AStyleIFace_IndentShort, GetOptions_LabelIndent)
 	wxString options;
 
 	// test the option
-	astyle.setLabelIndent(false);
+	astyle.SetLabelIndent(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setLabelIndent(true);
+	astyle.SetLabelIndent(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "L");
 }
@@ -1526,17 +1526,17 @@ TEST(AStyleIFace_IndentShort, GetOptions_MaxInStatement)
 	wxString options;
 
 	// test the option
-	astyle.setMaxContinuationIndent(40);
+	astyle.SetMaxContinuationIndent(40);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setMaxContinuationIndent(50);
+	astyle.SetMaxContinuationIndent(50);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "M50");
 	// test invalid max instatement indent
-	astyle.setMaxContinuationIndent(39);
+	astyle.SetMaxContinuationIndent(39);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "invalid-maxContinuationIndent=39");
-	astyle.setMaxContinuationIndent(121);
+	astyle.SetMaxContinuationIndent(121);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "invalid-maxContinuationIndent=121");
 }
@@ -1549,24 +1549,24 @@ TEST(AStyleIFace_IndentShort, GetOptions_MinConditional)
 	wxString options;
 
 	// test the option
-	astyle.setMinConditionalOption(MINCOND_ZERO);
+	astyle.SetMinConditionalOption(MINCOND_ZERO);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "m0");
-	astyle.setMinConditionalOption(MINCOND_ONE);
+	astyle.SetMinConditionalOption(MINCOND_ONE);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "m1");
-	astyle.setMinConditionalOption(MINCOND_TWO);
+	astyle.SetMinConditionalOption(MINCOND_TWO);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setMinConditionalOption(MINCOND_ONEHALF);
+	astyle.SetMinConditionalOption(MINCOND_ONEHALF);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "m3");
 
 	// test invalid min conditional option
-	astyle.setMinConditionalOption(static_cast<MinConditional>(-1));
+	astyle.SetMinConditionalOption(static_cast<MinConditional>(-1));
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "invalid-minConditionalOption=-1");
-	astyle.setMinConditionalOption(static_cast<MinConditional>(9));
+	astyle.SetMinConditionalOption(static_cast<MinConditional>(9));
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "invalid-minConditionalOption=9");
 }
@@ -1579,10 +1579,10 @@ TEST(AStyleIFace_IndentShort, GetOptions_ModifierIndent)
 	wxString options;
 
 	// test the option
-	astyle.setModifierIndent(false);
+	astyle.SetModifierIndent(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setModifierIndent(true);
+	astyle.SetModifierIndent(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xG");
 }
@@ -1595,10 +1595,10 @@ TEST(AStyleIFace_IndentShort, GetOptions_NamespaceIndent)
 	wxString options;
 
 	// test the option
-	astyle.setNamespaceIndent(false);
+	astyle.SetNamespaceIndent(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setNamespaceIndent(true);
+	astyle.SetNamespaceIndent(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "N");
 }
@@ -1611,10 +1611,10 @@ TEST(AStyleIFace_IndentShort, GetOptions_PreprocBlockIndent)
 	wxString options;
 
 	// test the option
-	astyle.setPreprocBlockIndent(false);
+	astyle.SetPreprocBlockIndent(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPreprocBlockIndent(true);
+	astyle.SetPreprocBlockIndent(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xW");
 }
@@ -1627,10 +1627,10 @@ TEST(AStyleIFace_IndentShort, GetOptions_PreprocCondIndent)
 	wxString options;
 
 	// test the option
-	astyle.setPreprocCondIndent(false);
+	astyle.SetPreprocCondIndent(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPreprocCondIndent(true);
+	astyle.SetPreprocCondIndent(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xw");
 }
@@ -1643,10 +1643,10 @@ TEST(AStyleIFace_IndentShort, GetOptions_PreprocDefineIndent)
 	wxString options;
 
 	// test the option
-	astyle.setPreprocDefineIndent(false);
+	astyle.SetPreprocDefineIndent(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPreprocDefineIndent(true);
+	astyle.SetPreprocDefineIndent(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "w");
 }
@@ -1659,10 +1659,10 @@ TEST(AStyleIFace_IndentShort, GetOptions_SwitchIndent)
 	wxString options;
 
 	// test the option
-	astyle.setSwitchIndent(false);
+	astyle.SetSwitchIndent(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setSwitchIndent(true);
+	astyle.SetSwitchIndent(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "S");
 }
@@ -1679,19 +1679,19 @@ TEST(AStyleIFace_PadShort, GetOptions_AlignPointer)
 	wxString options;
 
 	// test the options
-	astyle.setAlignPointer(PTR_ALIGN_NONE);
+	astyle.SetAlignPointer(PTR_ALIGN_NONE);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAlignPointer(PTR_ALIGN_TYPE);
+	astyle.SetAlignPointer(PTR_ALIGN_TYPE);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "k1");
-	astyle.setAlignPointer(PTR_ALIGN_MIDDLE);
+	astyle.SetAlignPointer(PTR_ALIGN_MIDDLE);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "k2");
-	astyle.setAlignPointer(PTR_ALIGN_NAME);
+	astyle.SetAlignPointer(PTR_ALIGN_NAME);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "k3");
-	astyle.setAlignPointer(static_cast<PointerAlign>(99));
+	astyle.SetAlignPointer(static_cast<PointerAlign>(99));
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "invalid-alignPointer=99");
 }
@@ -1704,19 +1704,19 @@ TEST(AStyleIFace_PadShort, GetOptions_AlignReference)
 	wxString options;
 
 	// test the options
-	astyle.setAlignReference(REF_ALIGN_NONE);
+	astyle.SetAlignReference(REF_ALIGN_NONE);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "W0");
-	astyle.setAlignReference(REF_ALIGN_TYPE);
+	astyle.SetAlignReference(REF_ALIGN_TYPE);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "W1");
-	astyle.setAlignReference(REF_ALIGN_MIDDLE);
+	astyle.SetAlignReference(REF_ALIGN_MIDDLE);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "W2");
-	astyle.setAlignReference(REF_ALIGN_NAME);
+	astyle.SetAlignReference(REF_ALIGN_NAME);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "W3");
-	astyle.setAlignReference(static_cast<ReferenceAlign>(99));
+	astyle.SetAlignReference(static_cast<ReferenceAlign>(99));
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "invalid-alignReference=99");
 }
@@ -1729,23 +1729,23 @@ TEST(AStyleIFace_PadShort, GetOptions_BreakBlocks)
 	wxString options;
 
 	// test the options
-	astyle.setBreakHeaderBlocks(false);
-	astyle.setBreakClosingBlocks(false);
+	astyle.SetBreakHeaderBlocks(false);
+	astyle.SetBreakClosingBlocks(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
 	// break-blocks
-	astyle.setBreakHeaderBlocks(true);
-	astyle.setBreakClosingBlocks(false);
+	astyle.SetBreakHeaderBlocks(true);
+	astyle.SetBreakClosingBlocks(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "f");
 	// break-blocks=all
-	astyle.setBreakHeaderBlocks(true);
-	astyle.setBreakClosingBlocks(true);
+	astyle.SetBreakHeaderBlocks(true);
+	astyle.SetBreakClosingBlocks(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "F");
 	// invalid
-	astyle.setBreakHeaderBlocks(false);
-	astyle.setBreakClosingBlocks(true);
+	astyle.SetBreakHeaderBlocks(false);
+	astyle.SetBreakClosingBlocks(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "invalid-breakClosingBlocks=true");
 }
@@ -1758,10 +1758,10 @@ TEST(AStyleIFace_PadShort, GetOptions_DeleteEmptyLines)
 	wxString options;
 
 	// test the option
-	astyle.setDeleteEmptyLines(false);
+	astyle.SetDeleteEmptyLines(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setDeleteEmptyLines(true);
+	astyle.SetDeleteEmptyLines(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xe");
 }
@@ -1774,10 +1774,10 @@ TEST(AStyleIFace_PadShort, GetOptions_FillEmptyLines)
 	wxString options;
 
 	// test the option
-	astyle.setFillEmptyLines(false);
+	astyle.SetFillEmptyLines(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setFillEmptyLines(true);
+	astyle.SetFillEmptyLines(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "E");
 }
@@ -1790,10 +1790,10 @@ TEST(AStyleIFace_PadShort, GetOptions_PadComma)
 	wxString options;
 
 	// test the option
-	astyle.setPadComma(false);
+	astyle.SetPadComma(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPadComma(true);
+	astyle.SetPadComma(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xg");
 }
@@ -1806,10 +1806,10 @@ TEST(AStyleIFace_PadShort, GetOptions_PadFirstParenOut)
 	wxString options;
 
 	// test the option
-	astyle.setPadFirstParenOut(false);
+	astyle.SetPadFirstParenOut(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPadFirstParenOut(true);
+	astyle.SetPadFirstParenOut(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xd");
 }
@@ -1822,10 +1822,10 @@ TEST(AStyleIFace_PadShort, GetOptions_PadHeader)
 	wxString options;
 
 	// test the option
-	astyle.setPadHeader(false);
+	astyle.SetPadHeader(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPadHeader(true);
+	astyle.SetPadHeader(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "H");
 }
@@ -1838,10 +1838,10 @@ TEST(AStyleIFace_PadShort, GetOptions_PadOperator)
 	wxString options;
 
 	// test the option
-	astyle.setPadOperator(false);
+	astyle.SetPadOperator(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPadOperator(true);
+	astyle.SetPadOperator(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "p");
 }
@@ -1854,16 +1854,16 @@ TEST(AStyleIFace_PadShort, GetOptions_PadParen)
 	wxString options;
 
 	// test the options
-	astyle.setPadParenOutside(true);
-	astyle.setPadParenInside(true);
+	astyle.SetPadParenOutside(true);
+	astyle.SetPadParenInside(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "P");
-	astyle.setPadParenOutside(true);
-	astyle.setPadParenInside(false);
+	astyle.SetPadParenOutside(true);
+	astyle.SetPadParenInside(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "d");
-	astyle.setPadParenOutside(false);
-	astyle.setPadParenInside(true);
+	astyle.SetPadParenOutside(false);
+	astyle.SetPadParenInside(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "D");
 }
@@ -1876,10 +1876,10 @@ TEST(AStyleIFace_PadShort, GetOptions_UnpadParen)
 	wxString options;
 
 	// test the option
-	astyle.setUnpadParen(false);
+	astyle.SetUnpadParen(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setUnpadParen(true);
+	astyle.SetUnpadParen(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "U");
 }
@@ -1896,10 +1896,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_AddBraces)
 	wxString options;
 
 	// test the option
-	astyle.setAddBraces(false);
+	astyle.SetAddBraces(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAddBraces(true);
+	astyle.SetAddBraces(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "j");
 }
@@ -1912,10 +1912,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_AddOneLineBraces)
 	wxString options;
 
 	// test the option
-	astyle.setAddOneLineBraces(false);
+	astyle.SetAddOneLineBraces(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAddOneLineBraces(true);
+	astyle.SetAddOneLineBraces(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "J");
 }
@@ -1928,10 +1928,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_AttachReturnType)
 	wxString options;
 
 	// test the option
-	astyle.setAttachReturnType(false);
+	astyle.SetAttachReturnType(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAttachReturnType(true);
+	astyle.SetAttachReturnType(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xf");
 }
@@ -1944,10 +1944,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_AttachReturnTypeDecl)
 	wxString options;
 
 	// test the option
-	astyle.setAttachReturnTypeDecl(false);
+	astyle.SetAttachReturnTypeDecl(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAttachReturnTypeDecl(true);
+	astyle.SetAttachReturnTypeDecl(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xh");
 }
@@ -1960,10 +1960,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_BreakCloseBraces)
 	wxString options;
 
 	// test the option
-	astyle.setBreakClosingBraces(false);
+	astyle.SetBreakClosingBraces(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakClosingBraces(true);
+	astyle.SetBreakClosingBraces(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "y");
 }
@@ -1976,10 +1976,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_BreakElseIfs)
 	wxString options;
 
 	// test the option
-	astyle.setBreakElseIfs(false);
+	astyle.SetBreakElseIfs(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakElseIfs(true);
+	astyle.SetBreakElseIfs(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "e");
 }
@@ -1992,10 +1992,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_BreakOneLineHeaders)
 	wxString options;
 
 	// test the option
-	astyle.setBreakOneLineHeaders(false);
+	astyle.SetBreakOneLineHeaders(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakOneLineHeaders(true);
+	astyle.SetBreakOneLineHeaders(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xb");
 }
@@ -2008,10 +2008,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_BreakReturnType)
 	wxString options;
 
 	// test the option
-	astyle.setBreakReturnType(false);
+	astyle.SetBreakReturnType(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakReturnType(true);
+	astyle.SetBreakReturnType(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xB");
 }
@@ -2024,10 +2024,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_BreakReturnTypeDecl)
 	wxString options;
 
 	// test the option
-	astyle.setBreakReturnTypeDecl(false);
+	astyle.SetBreakReturnTypeDecl(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakReturnTypeDecl(true);
+	astyle.SetBreakReturnTypeDecl(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xD");
 }
@@ -2040,10 +2040,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_CloseTemplates)
 	wxString options;
 
 	// test the option
-	astyle.setCloseTemplates(false);
+	astyle.SetCloseTemplates(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setCloseTemplates(true);
+	astyle.SetCloseTemplates(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xy");
 }
@@ -2056,10 +2056,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_ConvertTabs)
 	wxString options;
 
 	// test the option
-	astyle.setConvertTabs(false);
+	astyle.SetConvertTabs(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setConvertTabs(true);
+	astyle.SetConvertTabs(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "c");
 }
@@ -2073,10 +2073,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_KeepOneLineBlocks)
 
 	// test the option
 	// NOTE: the option is TRUE by default
-	astyle.setBreakOneLineBlocks(true);
+	astyle.SetBreakOneLineBlocks(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakOneLineBlocks(false);
+	astyle.SetBreakOneLineBlocks(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "O");
 }
@@ -2090,10 +2090,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_KeepOneLineStatements)
 
 	// test the option
 	// NOTE: the option is TRUE by default
-	astyle.setBreakOneLineStmts(true);
+	astyle.SetBreakOneLineStmts(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setBreakOneLineStmts(false);
+	astyle.SetBreakOneLineStmts(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "o");
 }
@@ -2106,20 +2106,20 @@ TEST(AStyleIFace_FormatShort, GetOptions_MaxCodeLength)
 	wxString options;
 
 	// test the option
-	astyle.setMaxCodeLength(-1);
+	astyle.SetMaxCodeLength(-1);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setMaxCodeLength(MAX_CODE_LENGTH_MIN);
+	astyle.SetMaxCodeLength(MAX_CODE_LENGTH_MIN);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xC50");
-	astyle.setMaxCodeLength(MAX_CODE_LENGTH_MAX);
+	astyle.SetMaxCodeLength(MAX_CODE_LENGTH_MAX);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xC200");
 	// test invalid max code length
-	astyle.setMaxCodeLength(49);
+	astyle.SetMaxCodeLength(49);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "invalid-maxCodeLength=49");
-	astyle.setMaxCodeLength(201);
+	astyle.SetMaxCodeLength(201);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "invalid-maxCodeLength=201");
 }
@@ -2132,10 +2132,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_RemoveBraces)
 	wxString options;
 
 	// test the option
-	astyle.setRemoveBraces(false);
+	astyle.SetRemoveBraces(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setRemoveBraces(true);
+	astyle.SetRemoveBraces(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xj");
 }
@@ -2148,10 +2148,10 @@ TEST(AStyleIFace_FormatShort, GetOptions_RemoveCommentPrefix)
 	wxString options;
 
 	// test the option
-	astyle.setRemoveCommentPrefix(false);
+	astyle.SetRemoveCommentPrefix(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setRemoveCommentPrefix(true);
+	astyle.SetRemoveCommentPrefix(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xp");
 }
@@ -2168,10 +2168,10 @@ TEST(AStyleIFace_OtherShort, GetOptions_AlignMethodColon)
 	wxString options;
 
 	// test the option
-	astyle.setAlignMethodColon(false);
+	astyle.SetAlignMethodColon(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setAlignMethodColon(true);
+	astyle.SetAlignMethodColon(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xM");
 }
@@ -2184,10 +2184,10 @@ TEST(AStyleIFace_OtherShort, GetOptions_PadMethodPrefix)
 	wxString options;
 
 	// test the option
-	astyle.setPadMethodPrefix(false);
+	astyle.SetPadMethodPrefix(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPadMethodPrefix(true);
+	astyle.SetPadMethodPrefix(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xQ");
 }
@@ -2200,10 +2200,10 @@ TEST(AStyleIFace_OtherShort, GetOptions_UnpadMethodPrefix)
 	wxString options;
 
 	// test the option
-	astyle.setUnpadMethodPrefix(false);
+	astyle.SetUnpadMethodPrefix(false);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setUnpadMethodPrefix(true);
+	astyle.SetUnpadMethodPrefix(true);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xR");
 }
@@ -2216,27 +2216,27 @@ TEST(AStyleIFace_OtherShort, GetOptions_PadMethodColon)
 	wxString options;
 
 	// test the option
-	astyle.setPadMethodColon(COLON_PAD_NONE);
+	astyle.SetPadMethodColon(COLON_PAD_NONE);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xP0");
-	astyle.setPadMethodColon(COLON_PAD_ALL);
+	astyle.SetPadMethodColon(COLON_PAD_ALL);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xP1");
-	astyle.setPadMethodColon(COLON_PAD_AFTER);
+	astyle.SetPadMethodColon(COLON_PAD_AFTER);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xP2");
-	astyle.setPadMethodColon(COLON_PAD_BEFORE);
+	astyle.SetPadMethodColon(COLON_PAD_BEFORE);
 	options = astyle.GetOptions(true);
 	EXPECT_TRUE(options == "xP3");
 
 	// test invalid min conditional option
-	astyle.setPadMethodColon(COLON_PAD_NO_CHANGE);
+	astyle.SetPadMethodColon(COLON_PAD_NO_CHANGE);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxEmptyString);
-	astyle.setPadMethodColon(-1);
+	astyle.SetPadMethodColon(-1);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == "invalid-padMethodColon=-1");
-	astyle.setPadMethodColon(COLON_PAD_END);
+	astyle.SetPadMethodColon(COLON_PAD_END);
 	options = astyle.GetOptions();
 	EXPECT_TRUE(options == wxString::Format("invalid-padMethodColon=%d", COLON_PAD_END));
 }
@@ -2252,10 +2252,10 @@ TEST(AStyleIFace_OptionsSeparator, UseSeparator)
 	AStyleIFace astyle;
 
 	// set some options
-	astyle.setClassIndent(true);
-	astyle.setSwitchIndent(true);
-	astyle.setCaseIndent(true);
-	astyle.setNamespaceIndent(true);
+	astyle.SetClassIndent(true);
+	astyle.SetSwitchIndent(true);
+	astyle.SetCaseIndent(true);
+	astyle.SetNamespaceIndent(true);
 	// get the short options with separators
 	wxString options = astyle.GetOptions(true);
 	// options should have separators
@@ -2270,10 +2270,10 @@ TEST(AStyleIFace_OptionsSeparator, UseSeparatorSans)
 	AStyleIFace astyle;
 
 	// set some options
-	astyle.setClassIndent(true);
-	astyle.setSwitchIndent(true);
-	astyle.setCaseIndent(true);
-	astyle.setNamespaceIndent(true);
+	astyle.SetClassIndent(true);
+	astyle.SetSwitchIndent(true);
+	astyle.SetCaseIndent(true);
+	astyle.SetNamespaceIndent(true);
 	// get the short options without separators
 	wxString options = astyle.GetOptions(true, false);
 	// options should NOT have separators
@@ -2313,11 +2313,11 @@ TEST(AStyleIFace_Config, SetAStyleOptionAlignPointer)
 	EXPECT_FALSE(astyle.SetAStyleOption(ALIGN_POINTER, "X"));
 	// test the value
 	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_POINTER, "1"));
-	EXPECT_EQ(PTR_ALIGN_TYPE, astyle.AStyleIFace::getAlignPointer());
+	EXPECT_EQ(PTR_ALIGN_TYPE, astyle.AStyleIFace::GetAlignPointer());
 	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_POINTER, "2"));
-	EXPECT_EQ(PTR_ALIGN_MIDDLE, astyle.AStyleIFace::getAlignPointer());
+	EXPECT_EQ(PTR_ALIGN_MIDDLE, astyle.AStyleIFace::GetAlignPointer());
 	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_POINTER, "3"));
-	EXPECT_EQ(PTR_ALIGN_NAME, astyle.AStyleIFace::getAlignPointer());
+	EXPECT_EQ(PTR_ALIGN_NAME, astyle.AStyleIFace::GetAlignPointer());
 }
 
 TEST(AStyleIFace_Config, SetAStyleOptionAlignReference)
@@ -2334,15 +2334,15 @@ TEST(AStyleIFace_Config, SetAStyleOptionAlignReference)
 	EXPECT_FALSE(astyle.SetAStyleOption(ALIGN_REFERENCE, "X"));
 	// test the value
 	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_REFERENCE, "0"));
-	EXPECT_EQ(REF_ALIGN_NONE, astyle.AStyleIFace::getAlignReference());
+	EXPECT_EQ(REF_ALIGN_NONE, astyle.AStyleIFace::GetAlignReference());
 	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_REFERENCE, "1"));
-	EXPECT_EQ(REF_ALIGN_TYPE, astyle.AStyleIFace::getAlignReference());
+	EXPECT_EQ(REF_ALIGN_TYPE, astyle.AStyleIFace::GetAlignReference());
 	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_REFERENCE, "2"));
-	EXPECT_EQ(REF_ALIGN_MIDDLE, astyle.AStyleIFace::getAlignReference());
+	EXPECT_EQ(REF_ALIGN_MIDDLE, astyle.AStyleIFace::GetAlignReference());
 	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_REFERENCE, "3"));
-	EXPECT_EQ(REF_ALIGN_NAME, astyle.AStyleIFace::getAlignReference());
+	EXPECT_EQ(REF_ALIGN_NAME, astyle.AStyleIFace::GetAlignReference());
 	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_REFERENCE, "4"));
-	EXPECT_EQ(REF_SAME_AS_PTR, astyle.AStyleIFace::getAlignReference());
+	EXPECT_EQ(REF_SAME_AS_PTR, astyle.AStyleIFace::GetAlignReference());
 }
 
 TEST(AStyleIFace_Config, SetAStyleOptionBoolean)
@@ -2358,98 +2358,98 @@ TEST(AStyleIFace_Config, SetAStyleOptionBoolean)
 	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_SWITCHES, asFALSE));
 	// modifiers
 	EXPECT_TRUE(astyle.SetAStyleOption(ATTACH_NAMESPACES, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getAttachNamespace());
+	EXPECT_TRUE(astyle.AStyleIFace::GetAttachNamespace());
 	EXPECT_TRUE(astyle.SetAStyleOption(ATTACH_CLASSES, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getAttachClass());
+	EXPECT_TRUE(astyle.AStyleIFace::GetAttachClass());
 	EXPECT_TRUE(astyle.SetAStyleOption(ATTACH_INLINES, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getAttachInline());
+	EXPECT_TRUE(astyle.AStyleIFace::GetAttachInline());
 	EXPECT_TRUE(astyle.SetAStyleOption(ATTACH_EXTERN_C, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getAttachExternC());
+	EXPECT_TRUE(astyle.AStyleIFace::GetAttachExternC());
 	EXPECT_TRUE(astyle.SetAStyleOption(ATTACH_CLOSING_WHILE, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getAttachClosingWhile());
+	EXPECT_TRUE(astyle.AStyleIFace::GetAttachClosingWhile());
 	// indentation
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_AFTER_PARENS, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getAfterParenIndent());
+	EXPECT_TRUE(astyle.AStyleIFace::GetAfterParenIndent());
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_CLASSES, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getClassIndent());
+	EXPECT_TRUE(astyle.AStyleIFace::GetClassIndent());
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_MODIFIERS, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getModifierIndent());
+	EXPECT_TRUE(astyle.AStyleIFace::GetModifierIndent());
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_SWITCHES, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getSwitchIndent());
+	EXPECT_TRUE(astyle.AStyleIFace::GetSwitchIndent());
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_CASES, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getCaseIndent());
+	EXPECT_TRUE(astyle.AStyleIFace::GetCaseIndent());
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_NAMESPACES, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getNamespaceIndent());
+	EXPECT_TRUE(astyle.AStyleIFace::GetNamespaceIndent());
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_LABELS, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getLabelIndent());
+	EXPECT_TRUE(astyle.AStyleIFace::GetLabelIndent());
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_PREPROC_BLOCK, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getPreprocBlockIndent());
+	EXPECT_TRUE(astyle.AStyleIFace::GetPreprocBlockIndent());
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_PREPROC_DEFINE, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getPreprocDefineIndent());
+	EXPECT_TRUE(astyle.AStyleIFace::GetPreprocDefineIndent());
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_PREPROC_COND, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getPreprocCondIndent());
+	EXPECT_TRUE(astyle.AStyleIFace::GetPreprocCondIndent());
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_COL1_COMMENTS, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getCol1CommentIndent());
+	EXPECT_TRUE(astyle.AStyleIFace::GetCol1CommentIndent());
 	// padding
 	EXPECT_TRUE(astyle.SetAStyleOption(PAD_OPER, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getPadOperator());
+	EXPECT_TRUE(astyle.AStyleIFace::GetPadOperator());
 	EXPECT_TRUE(astyle.SetAStyleOption(PAD_COMMA, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getPadComma());
+	EXPECT_TRUE(astyle.AStyleIFace::GetPadComma());
 	EXPECT_TRUE(astyle.SetAStyleOption(PAD_HEADER, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getPadHeader());
+	EXPECT_TRUE(astyle.AStyleIFace::GetPadHeader());
 	EXPECT_TRUE(astyle.SetAStyleOption(UNPAD_PAREN, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getUnpadParen());
+	EXPECT_TRUE(astyle.AStyleIFace::GetUnpadParen());
 	EXPECT_TRUE(astyle.SetAStyleOption(DELETE_EMPTY_LINES, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getDeleteEmptyLines());
+	EXPECT_TRUE(astyle.AStyleIFace::GetDeleteEmptyLines());
 	EXPECT_TRUE(astyle.SetAStyleOption(FILL_EMPTY_LINES, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getFillEmptyLines());
+	EXPECT_TRUE(astyle.AStyleIFace::GetFillEmptyLines());
 	// formatting
 	EXPECT_TRUE(astyle.SetAStyleOption(ADD_BRACES, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getAddBraces());
+	EXPECT_TRUE(astyle.AStyleIFace::GetAddBraces());
 	EXPECT_TRUE(astyle.SetAStyleOption(ADD_ONE_LINE_BRACES, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getAddOneLineBraces());
+	EXPECT_TRUE(astyle.AStyleIFace::GetAddOneLineBraces());
 	EXPECT_TRUE(astyle.SetAStyleOption(ATTACH_RETURN_TYPE, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getAttachReturnType());
+	EXPECT_TRUE(astyle.AStyleIFace::GetAttachReturnType());
 	EXPECT_TRUE(astyle.SetAStyleOption(ATTACH_RETURN_TYPE_DECL, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getAttachReturnTypeDecl());
+	EXPECT_TRUE(astyle.AStyleIFace::GetAttachReturnTypeDecl());
 	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_CLOSING_BRACES, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getBreakClosingBraces());
+	EXPECT_TRUE(astyle.AStyleIFace::GetBreakClosingBraces());
 	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_ELSEIFS, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getBreakElseIfs());
+	EXPECT_TRUE(astyle.AStyleIFace::GetBreakElseIfs());
 	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_ONE_LINE_HEADERS, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getBreakOneLineHeaders());
+	EXPECT_TRUE(astyle.AStyleIFace::GetBreakOneLineHeaders());
 	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_RETURN_TYPE, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getBreakReturnType());
+	EXPECT_TRUE(astyle.AStyleIFace::GetBreakReturnType());
 	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_RETURN_TYPE_DECL, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getBreakReturnTypeDecl());
+	EXPECT_TRUE(astyle.AStyleIFace::GetBreakReturnTypeDecl());
 	EXPECT_TRUE(astyle.SetAStyleOption(REMOVE_BRACES, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getRemoveBraces());
+	EXPECT_TRUE(astyle.AStyleIFace::GetRemoveBraces());
 	EXPECT_TRUE(astyle.SetAStyleOption(REMOVE_COMMENT_PREFIX, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getRemoveCommentPrefix());
+	EXPECT_TRUE(astyle.AStyleIFace::GetRemoveCommentPrefix());
 	// default is true
-	EXPECT_TRUE(astyle.AStyleIFace::getBreakOneLineBlocks());
+	EXPECT_TRUE(astyle.AStyleIFace::GetBreakOneLineBlocks());
 	EXPECT_TRUE(astyle.SetAStyleOption(KEEP_ONE_LINE_BLOCKS, asTRUE));
-	EXPECT_FALSE(astyle.AStyleIFace::getBreakOneLineBlocks());
+	EXPECT_FALSE(astyle.AStyleIFace::GetBreakOneLineBlocks());
 	// default is true
-	EXPECT_TRUE(astyle.AStyleIFace::getBreakOneLineStmts());
+	EXPECT_TRUE(astyle.AStyleIFace::GetBreakOneLineStmts());
 	EXPECT_TRUE(astyle.SetAStyleOption(KEEP_ONE_LINE_STATEMENTS, asTRUE));
-	EXPECT_FALSE(astyle.AStyleIFace::getBreakOneLineStmts());
+	EXPECT_FALSE(astyle.AStyleIFace::GetBreakOneLineStmts());
 	// end default is true
 	EXPECT_TRUE(astyle.SetAStyleOption(CONVERT_TABS, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getConvertTabs());
+	EXPECT_TRUE(astyle.AStyleIFace::GetConvertTabs());
 	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_AFTER_LOGICAL, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getBreakAfterLogical());
+	EXPECT_TRUE(astyle.AStyleIFace::GetBreakAfterLogical());
 	// other
 	EXPECT_TRUE(astyle.SetAStyleOption(PAD_METHOD_PREFIX, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getPadMethodPrefix());
+	EXPECT_TRUE(astyle.AStyleIFace::GetPadMethodPrefix());
 	EXPECT_TRUE(astyle.SetAStyleOption(UNPAD_METHOD_PREFIX, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getUnpadMethodPrefix());
+	EXPECT_TRUE(astyle.AStyleIFace::GetUnpadMethodPrefix());
 	EXPECT_TRUE(astyle.SetAStyleOption(PAD_RETURN_TYPE, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getPadReturnType());
+	EXPECT_TRUE(astyle.AStyleIFace::GetPadReturnType());
 	EXPECT_TRUE(astyle.SetAStyleOption(UNPAD_RETURN_TYPE, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getUnpadReturnType());
+	EXPECT_TRUE(astyle.AStyleIFace::GetUnpadReturnType());
 	EXPECT_TRUE(astyle.SetAStyleOption(ALIGN_METHOD_COLON, asTRUE));
-	EXPECT_TRUE(astyle.AStyleIFace::getAlignMethodColon());
+	EXPECT_TRUE(astyle.AStyleIFace::GetAlignMethodColon());
 }
 
 TEST(AStyleIFace_Config, SetAStyleOptionBreakBlocks)
@@ -2463,11 +2463,11 @@ TEST(AStyleIFace_Config, SetAStyleOptionBreakBlocks)
 	EXPECT_FALSE(astyle.SetAStyleOption(BREAK_BLOCKS, asFALSE));
 	// test the value
 	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_BLOCKS, "open"));
-	EXPECT_TRUE(astyle.AStyleIFace::getBreakHeaderBlocks()) << "Failure for break-blocks";
-	EXPECT_FALSE(astyle.AStyleIFace::getBreakClosingBlocks()) << "Failure for break-blocks";
+	EXPECT_TRUE(astyle.AStyleIFace::GetBreakHeaderBlocks()) << "Failure for break-blocks";
+	EXPECT_FALSE(astyle.AStyleIFace::GetBreakClosingBlocks()) << "Failure for break-blocks";
 	EXPECT_TRUE(astyle.SetAStyleOption(BREAK_BLOCKS, "all"));
-	EXPECT_TRUE(astyle.AStyleIFace::getBreakHeaderBlocks()) << "Failure for break-blocks=all";
-	EXPECT_TRUE(astyle.AStyleIFace::getBreakClosingBlocks()) << "Failure for break-blocks=all";
+	EXPECT_TRUE(astyle.AStyleIFace::GetBreakHeaderBlocks()) << "Failure for break-blocks=all";
+	EXPECT_TRUE(astyle.AStyleIFace::GetBreakClosingBlocks()) << "Failure for break-blocks=all";
 }
 
 TEST(AStyleIFace_Config, SetAStyleOptionContinuationIndent)
@@ -2484,7 +2484,7 @@ TEST(AStyleIFace_Config, SetAStyleOptionContinuationIndent)
 	EXPECT_FALSE(astyle.SetAStyleOption(INDENT_CONTINUATION, wxEmptyString));
 	// test the continuation indent
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_CONTINUATION, "2"));
-	EXPECT_EQ(2, astyle.AStyleIFace::getContinuationIndent());
+	EXPECT_EQ(2, astyle.AStyleIFace::GetContinuationIndent());
 }
 
 TEST(AStyleIFace_Config, SetAStyleOptionIndent)
@@ -2509,17 +2509,17 @@ TEST(AStyleIFace_Config, SetAStyleOptionIndent)
 
 	// test the indent-type valid values
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_TYPE, INDENT_TYPE_SPACES));
-	EXPECT_EQ(INDENT_SPACES, astyle.AStyleIFace::getIndentType());
+	EXPECT_EQ(INDENT_SPACES, astyle.AStyleIFace::GetIndentType());
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_TYPE, INDENT_TYPE_TAB));
-	EXPECT_EQ(INDENT_TABS, astyle.AStyleIFace::getIndentType());
+	EXPECT_EQ(INDENT_TABS, astyle.AStyleIFace::GetIndentType());
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_TYPE, INDENT_TYPE_FTAB));
-	EXPECT_EQ(INDENT_FTABS, astyle.AStyleIFace::getIndentType());
+	EXPECT_EQ(INDENT_FTABS, astyle.AStyleIFace::GetIndentType());
 
 	// test the indent-length valid values
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_LENGTH, "2"));
-	EXPECT_EQ(2, astyle.AStyleIFace::getIndentLength());
+	EXPECT_EQ(2, astyle.AStyleIFace::GetIndentLength());
 	EXPECT_TRUE(astyle.SetAStyleOption(INDENT_LENGTH, "20"));
-	EXPECT_EQ(20, astyle.AStyleIFace::getIndentLength());
+	EXPECT_EQ(20, astyle.AStyleIFace::GetIndentLength());
 }
 
 TEST(AStyleIFace_Config, SetAStyleOptionMaxCodeLength)
@@ -2537,7 +2537,7 @@ TEST(AStyleIFace_Config, SetAStyleOptionMaxCodeLength)
 	EXPECT_FALSE(astyle.SetAStyleOption(MAX_CODE_LENGTH, wxEmptyString));
 	// test the indent length
 	EXPECT_TRUE(astyle.SetAStyleOption(MAX_CODE_LENGTH, "100"));
-	EXPECT_EQ(100, astyle.AStyleIFace::getMaxCodeLength());
+	EXPECT_EQ(100, astyle.AStyleIFace::GetMaxCodeLength());
 }
 
 TEST(AStyleIFace_Config, SetAStyleOptionMaxInStatement)
@@ -2555,7 +2555,7 @@ TEST(AStyleIFace_Config, SetAStyleOptionMaxInStatement)
 	EXPECT_FALSE(astyle.SetAStyleOption(MAX_CONTINUATION_INDENT, wxEmptyString));
 	// test the indent length
 	EXPECT_TRUE(astyle.SetAStyleOption(MAX_CONTINUATION_INDENT, "50"));
-	EXPECT_EQ(50, astyle.AStyleIFace::getMaxContinuationIndent());
+	EXPECT_EQ(50, astyle.AStyleIFace::GetMaxContinuationIndent());
 }
 
 TEST(AStyleIFace_Config, SetAStyleOptionMinConditional)
@@ -2572,13 +2572,13 @@ TEST(AStyleIFace_Config, SetAStyleOptionMinConditional)
 	EXPECT_FALSE(astyle.SetAStyleOption(MIN_CONDITIONAL_INDENT, wxEmptyString));
 	// test the option
 	EXPECT_TRUE(astyle.SetAStyleOption(MIN_CONDITIONAL_INDENT, "0"));
-	EXPECT_EQ(MINCOND_ZERO, astyle.AStyleIFace::getMinConditionalOption());
+	EXPECT_EQ(MINCOND_ZERO, astyle.AStyleIFace::GetMinConditionalOption());
 	EXPECT_TRUE(astyle.SetAStyleOption(MIN_CONDITIONAL_INDENT, "1"));
-	EXPECT_EQ(MINCOND_ONE, astyle.AStyleIFace::getMinConditionalOption());
+	EXPECT_EQ(MINCOND_ONE, astyle.AStyleIFace::GetMinConditionalOption());
 	EXPECT_TRUE(astyle.SetAStyleOption(MIN_CONDITIONAL_INDENT, "2"));	// this is the default
-	EXPECT_EQ(MINCOND_TWO, astyle.AStyleIFace::getMinConditionalOption());
+	EXPECT_EQ(MINCOND_TWO, astyle.AStyleIFace::GetMinConditionalOption());
 	EXPECT_TRUE(astyle.SetAStyleOption(MIN_CONDITIONAL_INDENT, "3"));
-	EXPECT_EQ(MINCOND_ONEHALF, astyle.AStyleIFace::getMinConditionalOption());
+	EXPECT_EQ(MINCOND_ONEHALF, astyle.AStyleIFace::GetMinConditionalOption());
 }
 
 TEST(AStyleIFace_Config, SetAStyleOptionPadMethodColon)
@@ -2589,22 +2589,22 @@ TEST(AStyleIFace_Config, SetAStyleOptionPadMethodColon)
 
 	// test the option for error
 	EXPECT_FALSE(astyle.SetAStyleOption(PAD_METHOD_COLON, asTRUE));
-	EXPECT_EQ(COLON_PAD_NO_CHANGE, astyle.AStyleIFace::getPadMethodColon());
+	EXPECT_EQ(COLON_PAD_NO_CHANGE, astyle.AStyleIFace::GetPadMethodColon());
 	EXPECT_FALSE(astyle.SetAStyleOption(PAD_METHOD_COLON, "non"));
-	EXPECT_EQ(COLON_PAD_NO_CHANGE, astyle.AStyleIFace::getPadMethodColon());
+	EXPECT_EQ(COLON_PAD_NO_CHANGE, astyle.AStyleIFace::GetPadMethodColon());
 	EXPECT_FALSE(astyle.SetAStyleOption(PAD_METHOD_COLON, "allx"));
-	EXPECT_EQ(COLON_PAD_NO_CHANGE, astyle.AStyleIFace::getPadMethodColon());
+	EXPECT_EQ(COLON_PAD_NO_CHANGE, astyle.AStyleIFace::GetPadMethodColon());
 	EXPECT_FALSE(astyle.SetAStyleOption(PAD_METHOD_COLON, wxEmptyString));
-	EXPECT_EQ(COLON_PAD_NO_CHANGE, astyle.AStyleIFace::getPadMethodColon());
+	EXPECT_EQ(COLON_PAD_NO_CHANGE, astyle.AStyleIFace::GetPadMethodColon());
 	// test the option
 	EXPECT_TRUE(astyle.SetAStyleOption(PAD_METHOD_COLON, "none"));
-	EXPECT_EQ(COLON_PAD_NONE, astyle.AStyleIFace::getPadMethodColon());
+	EXPECT_EQ(COLON_PAD_NONE, astyle.AStyleIFace::GetPadMethodColon());
 	EXPECT_TRUE(astyle.SetAStyleOption(PAD_METHOD_COLON, "all"));
-	EXPECT_EQ(COLON_PAD_ALL, astyle.AStyleIFace::getPadMethodColon());
+	EXPECT_EQ(COLON_PAD_ALL, astyle.AStyleIFace::GetPadMethodColon());
 	EXPECT_TRUE(astyle.SetAStyleOption(PAD_METHOD_COLON, "after"));	// this is the default
-	EXPECT_EQ(COLON_PAD_AFTER, astyle.AStyleIFace::getPadMethodColon());
+	EXPECT_EQ(COLON_PAD_AFTER, astyle.AStyleIFace::GetPadMethodColon());
 	EXPECT_TRUE(astyle.SetAStyleOption(PAD_METHOD_COLON, "before"));
-	EXPECT_EQ(COLON_PAD_BEFORE, astyle.AStyleIFace::getPadMethodColon());
+	EXPECT_EQ(COLON_PAD_BEFORE, astyle.AStyleIFace::GetPadMethodColon());
 }
 
 TEST(AStyleIFace_Config, SetAStyleOptionPadParens)
@@ -2619,16 +2619,16 @@ TEST(AStyleIFace_Config, SetAStyleOptionPadParens)
 	// test the value
 	// test the pad-paren-out
 	EXPECT_TRUE(astyle.SetAStyleOption(PAD_PAREN, "out"));
-	EXPECT_TRUE(astyle.AStyleIFace::getPadParenOutside()) << "Failure for pad-paren-out";
-	EXPECT_FALSE(astyle.AStyleIFace::getPadParenInside()) << "Failure for pad-paren-out";
+	EXPECT_TRUE(astyle.AStyleIFace::GetPadParenOutside()) << "Failure for pad-paren-out";
+	EXPECT_FALSE(astyle.AStyleIFace::GetPadParenInside()) << "Failure for pad-paren-out";
 	// test the pad-paren-in
 	EXPECT_TRUE(astyle.SetAStyleOption(PAD_PAREN, "in"));
-	EXPECT_FALSE(astyle.AStyleIFace::getPadParenOutside()) << "Failure for pad-paren-in";
-	EXPECT_TRUE(astyle.AStyleIFace::getPadParenInside()) << "Failure for pad-paren-in";
+	EXPECT_FALSE(astyle.AStyleIFace::GetPadParenOutside()) << "Failure for pad-paren-in";
+	EXPECT_TRUE(astyle.AStyleIFace::GetPadParenInside()) << "Failure for pad-paren-in";
 	// test the pad-paren
 	EXPECT_TRUE(astyle.SetAStyleOption(PAD_PAREN, "all"));
-	EXPECT_TRUE(astyle.AStyleIFace::getPadParenOutside()) << "Failure for pad-paren";
-	EXPECT_TRUE(astyle.AStyleIFace::getPadParenInside()) << "Failure for pad-paren";
+	EXPECT_TRUE(astyle.AStyleIFace::GetPadParenOutside()) << "Failure for pad-paren";
+	EXPECT_TRUE(astyle.AStyleIFace::GetPadParenInside()) << "Failure for pad-paren";
 }
 
 TEST(AStyleIFace_Config, SetAStyleOptionStyles)
@@ -2642,35 +2642,35 @@ TEST(AStyleIFace_Config, SetAStyleOptionStyles)
 	EXPECT_FALSE(astyle.SetAStyleOption(STYLE, asTRUE));
 	// test the styles
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, ALLMAN));
-	EXPECT_EQ(STYLE_ALLMAN, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_EQ(STYLE_ALLMAN, astyle.AStyleIFace::GetBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, JAVA));
-	EXPECT_EQ(STYLE_JAVA, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_EQ(STYLE_JAVA, astyle.AStyleIFace::GetBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, KandR));
-	EXPECT_EQ(STYLE_KR, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_EQ(STYLE_KR, astyle.AStyleIFace::GetBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, STROUSTRUP));
-	EXPECT_EQ(STYLE_STROUSTRUP, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_EQ(STYLE_STROUSTRUP, astyle.AStyleIFace::GetBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, WHITESMITH));
-	EXPECT_EQ(STYLE_WHITESMITH, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_EQ(STYLE_WHITESMITH, astyle.AStyleIFace::GetBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, RATLIFF));
-	EXPECT_EQ(STYLE_RATLIFF, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_EQ(STYLE_RATLIFF, astyle.AStyleIFace::GetBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, GNU));
-	EXPECT_EQ(STYLE_GNU, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_EQ(STYLE_GNU, astyle.AStyleIFace::GetBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, LINUXX));
-	EXPECT_EQ(STYLE_LINUX, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_EQ(STYLE_LINUX, astyle.AStyleIFace::GetBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, HORSTMANN));
-	EXPECT_EQ(STYLE_HORSTMANN, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_EQ(STYLE_HORSTMANN, astyle.AStyleIFace::GetBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, oneTBS));
-	EXPECT_EQ(STYLE_1TBS, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_EQ(STYLE_1TBS, astyle.AStyleIFace::GetBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, GOOGLE));
-	EXPECT_EQ(STYLE_GOOGLE, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_EQ(STYLE_GOOGLE, astyle.AStyleIFace::GetBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, MOZILLA));
-	EXPECT_EQ(STYLE_MOZILLA, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_EQ(STYLE_MOZILLA, astyle.AStyleIFace::GetBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, WEBKIT));
-	EXPECT_EQ(STYLE_WEBKIT, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_EQ(STYLE_WEBKIT, astyle.AStyleIFace::GetBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, PICO));
-	EXPECT_EQ(STYLE_PICO, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_EQ(STYLE_PICO, astyle.AStyleIFace::GetBraceStyle());
 	EXPECT_TRUE(astyle.SetAStyleOption(STYLE, LISP));
-	EXPECT_EQ(STYLE_LISP, astyle.AStyleIFace::getBraceStyle());
+	EXPECT_EQ(STYLE_LISP, astyle.AStyleIFace::GetBraceStyle());
 }
 
 //-------------------------------------------------------------------------

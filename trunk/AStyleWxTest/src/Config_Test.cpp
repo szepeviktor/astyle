@@ -269,7 +269,7 @@ TEST_F(Config_AStyleF_Styles, SaveAStyleOptions_StylesAll)
 	size_t numStyles = sizeof(style) / sizeof(style[0]);
 	for (size_t i = 0; i < numStyles; i++)
 	{
-		astyle.setBraceStyle(style[i].styleNum);
+		astyle.SetBraceStyle(style[i].styleNum);
 		config.SaveAStyleOptions(&astyle);
 		config.SetPath("/AStyle");
 		config.Read(key, &value);
@@ -279,7 +279,7 @@ TEST_F(Config_AStyleF_Styles, SaveAStyleOptions_StylesAll)
 
 	// test style none
 	key = STYLE;
-	astyle.setBraceStyle(STYLE_NONE);
+	astyle.SetBraceStyle(STYLE_NONE);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -287,7 +287,7 @@ TEST_F(Config_AStyleF_Styles, SaveAStyleOptions_StylesAll)
 
 	// test invalid style
 	key = STYLE;
-	astyle.setBraceStyle(STYLE_END);
+	astyle.SetBraceStyle(STYLE_END);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -332,8 +332,8 @@ TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_IndentSpaces_Default)
 	wxString value;				// value of config key
 
 	// indent 4 spaces, no entries for indent-type and indent-length
-	astyle.setIndentType(INDENT_SPACES);
-	astyle.setIndentLength(4);
+	astyle.SetIndentType(INDENT_SPACES);
+	astyle.SetIndentLength(4);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(INDENT_TYPE, &value));
@@ -352,8 +352,8 @@ TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_IndentTabs_Default)
 	wxString value;				// value of config key
 
 	// indent 4 tabs, no entry for indent-length
-	astyle.setIndentType(INDENT_TABS);
-	astyle.setIndentLength(4);
+	astyle.SetIndentType(INDENT_TABS);
+	astyle.SetIndentLength(4);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_TRUE(config.Read(INDENT_TYPE, &value));
@@ -373,9 +373,9 @@ TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_IndentForce_Default)
 	wxString value;				// value of config key
 
 	// indent 4 force-tabs, no entry for indent-length
-	astyle.setIndentType(INDENT_FTABS);
-	astyle.setIndentLength(4);
-	astyle.setUseTabLength(false);		// do not use indent=force-tab-x
+	astyle.SetIndentType(INDENT_FTABS);
+	astyle.SetIndentLength(4);
+	astyle.SetUseTabLength(false);		// do not use indent=force-tab-x
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_TRUE(config.Read(INDENT_TYPE, &value));
@@ -417,9 +417,9 @@ TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_Indent)
 	size_t numIndents = sizeof(indent) / sizeof(indent[0]);
 	for (size_t i = 0; i < numIndents; i++)
 	{
-		astyle.setIndentType(indent[i].indentNum);
-		astyle.setIndentLength(indent[i].indentLen);
-		astyle.setUseTabLength(false);
+		astyle.SetIndentType(indent[i].indentNum);
+		astyle.SetIndentLength(indent[i].indentLen);
+		astyle.SetUseTabLength(false);
 		config.SaveAStyleOptions(&astyle);
 		config.SetPath("/AStyle");
 		config.Read(INDENT_TYPE, &value);
@@ -445,10 +445,10 @@ TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_Indent_ForceTab_X)
 	wxString value;				// value of config key
 
 	// indent 4, tab-length 8, no entry for  tab-length or indent-length
-	astyle.setIndentType(INDENT_FTABS);
-	astyle.setIndentLength(4);
-	astyle.setUseTabLength(true);
-	astyle.setTabLength(8);
+	astyle.SetIndentType(INDENT_FTABS);
+	astyle.SetIndentLength(4);
+	astyle.SetUseTabLength(true);
+	astyle.SetTabLength(8);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_TRUE(config.Read(INDENT_TYPE, &value))
@@ -462,10 +462,10 @@ TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_Indent_ForceTab_X)
 	EXPECT_FALSE(config.Read(TAB_LENGTH, &value))
 	        << "Failure for force-tab tab-length";
 	// indent 4, tab-length 4, no entry for indent-length, entry for tab-length
-	astyle.setIndentType(INDENT_FTABS);
-	astyle.setIndentLength(4);
-	astyle.setUseTabLength(true);
-	astyle.setTabLength(4);
+	astyle.SetIndentType(INDENT_FTABS);
+	astyle.SetIndentLength(4);
+	astyle.SetUseTabLength(true);
+	astyle.SetTabLength(4);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_TRUE(config.Read(INDENT_TYPE, &value))
@@ -481,10 +481,10 @@ TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_Indent_ForceTab_X)
 	EXPECT_STREQ("4", value)
 	        << "Failure for force-tab tab-length";
 	// indent 5, tab-length 5, equal indent and tab, entry for indent-length and tab-length
-	astyle.setIndentType(INDENT_FTABS);
-	astyle.setIndentLength(5);
-	astyle.setUseTabLength(true);
-	astyle.setTabLength(5);
+	astyle.SetIndentType(INDENT_FTABS);
+	astyle.SetIndentLength(5);
+	astyle.SetUseTabLength(true);
+	astyle.SetTabLength(5);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_TRUE(config.Read(INDENT_TYPE, &value))
@@ -502,10 +502,10 @@ TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_Indent_ForceTab_X)
 	EXPECT_STREQ("5", value)
 	        << "Failure for force-tab tab-length";
 	// indent 3 tab-length 6, entry for indent-length and tab-length
-	astyle.setIndentType(INDENT_FTABS);
-	astyle.setIndentLength(3);
-	astyle.setUseTabLength(true);
-	astyle.setTabLength(6);
+	astyle.SetIndentType(INDENT_FTABS);
+	astyle.SetIndentLength(3);
+	astyle.SetUseTabLength(true);
+	astyle.SetTabLength(6);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_TRUE(config.Read(INDENT_TYPE, &value))
@@ -534,10 +534,10 @@ TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_Indent_UseTabLen_Sans)
 	wxString value;				// value of config key
 
 	// indent spaces, no entry for tab-length even if useTabLength is set
-	astyle.setIndentType(INDENT_SPACES);
-	astyle.setIndentLength(3);
-	astyle.setUseTabLength(true);
-	astyle.setTabLength(6);
+	astyle.SetIndentType(INDENT_SPACES);
+	astyle.SetIndentLength(3);
+	astyle.SetUseTabLength(true);
+	astyle.SetTabLength(6);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_TRUE(config.Read(INDENT_TYPE, &value))
@@ -549,10 +549,10 @@ TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_Indent_UseTabLen_Sans)
 	EXPECT_FALSE(config.Read(TAB_LENGTH, &value))
 	        << "Failure for spaces tab length";
 	// indent tabs, no entry for tab-length even if useTabLength is set
-	astyle.setIndentType(INDENT_TABS);
-	astyle.setIndentLength(5);
-	astyle.setUseTabLength(true);
-	astyle.setTabLength(10);
+	astyle.SetIndentType(INDENT_TABS);
+	astyle.SetIndentLength(5);
+	astyle.SetUseTabLength(true);
+	astyle.SetTabLength(10);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_TRUE(config.Read(INDENT_TYPE, &value))
@@ -564,10 +564,10 @@ TEST_F(Config_AStyleF_Tabs, SaveAStyleOptions_Indent_UseTabLen_Sans)
 	EXPECT_FALSE(config.Read(TAB_LENGTH, &value))
 	        << "Failure for tab tab length";
 	// indent force-tabs, no entry for tab-length when useTabLength is not set
-	astyle.setIndentType(INDENT_FTABS);
-	astyle.setIndentLength(5);
-	astyle.setUseTabLength(false);
-	astyle.setTabLength(10);
+	astyle.SetIndentType(INDENT_FTABS);
+	astyle.SetIndentLength(5);
+	astyle.SetUseTabLength(false);
+	astyle.SetTabLength(10);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_TRUE(config.Read(INDENT_TYPE, &value))
@@ -619,14 +619,14 @@ TEST_F(Config_AStyleF_Modifier, SaveAStyleOptions_AttachNamespace)
 
 	// test true
 	key = ATTACH_NAMESPACES;
-	astyle.setAttachNamespace(true);
+	astyle.SetAttachNamespace(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setAttachNamespace(false);
+	astyle.SetAttachNamespace(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -643,14 +643,14 @@ TEST_F(Config_AStyleF_Modifier, SaveAStyleOptions_AttachClass)
 
 	// test true
 	key = ATTACH_CLASSES;
-	astyle.setAttachClass(true);
+	astyle.SetAttachClass(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setAttachClass(false);
+	astyle.SetAttachClass(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -667,14 +667,14 @@ TEST_F(Config_AStyleF_Modifier, SaveAStyleOptions_AttachInline)
 
 	// test true
 	key = ATTACH_INLINES;
-	astyle.setAttachInline(true);
+	astyle.SetAttachInline(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setAttachInline(false);
+	astyle.SetAttachInline(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -691,14 +691,14 @@ TEST_F(Config_AStyleF_Modifier, SaveAStyleOptions_AttachExternC)
 
 	// test true
 	key = ATTACH_EXTERN_C;
-	astyle.setAttachExternC(true);
+	astyle.SetAttachExternC(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setAttachExternC(false);
+	astyle.SetAttachExternC(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -715,14 +715,14 @@ TEST_F(Config_AStyleF_Modifier, SaveAStyleOptions_AttachClosingWhile)
 
 	// test true
 	key = ATTACH_CLOSING_WHILE;
-	astyle.setAttachClosingWhile(true);
+	astyle.SetAttachClosingWhile(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setAttachClosingWhile(false);
+	astyle.SetAttachClosingWhile(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -767,14 +767,14 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_AfterParenIndent)
 
 	// test true
 	key = INDENT_AFTER_PARENS;
-	astyle.setAfterParenIndent(true);
+	astyle.SetAfterParenIndent(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setAfterParenIndent(false);
+	astyle.SetAfterParenIndent(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -791,14 +791,14 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_CaseIndent)
 
 	// test true
 	key = INDENT_CASES;
-	astyle.setCaseIndent(true);
+	astyle.SetCaseIndent(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setCaseIndent(false);
+	astyle.SetCaseIndent(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -815,14 +815,14 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_ClassIndent)
 
 	// test true
 	key = INDENT_CLASSES;
-	astyle.setClassIndent(true);
+	astyle.SetClassIndent(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setClassIndent(false);
+	astyle.SetClassIndent(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -839,14 +839,14 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_Col1CommentIndent)
 
 	// test true
 	key = INDENT_COL1_COMMENTS;
-	astyle.setCol1CommentIndent(true);
+	astyle.SetCol1CommentIndent(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setCol1CommentIndent(false);
+	astyle.SetCol1CommentIndent(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -863,7 +863,7 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_ContinuationIndent)
 
 	// test continuation indent
 	key = INDENT_CONTINUATION;
-	astyle.setContinuationIndent(2);
+	astyle.SetContinuationIndent(2);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	config.Read(key, &value);
@@ -871,10 +871,10 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_ContinuationIndent)
 	        << "Failure for continuation indent";
 
 	// test continuation indent default
-	int defaultContinuationIndent = astyle.getDefaultContinuationIndent();
+	int defaultContinuationIndent = astyle.GetDefaultContinuationIndent();
 	EXPECT_TRUE(defaultContinuationIndent == 1);
 	key = INDENT_CONTINUATION;
-	astyle.setContinuationIndent(defaultContinuationIndent);
+	astyle.SetContinuationIndent(defaultContinuationIndent);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -882,7 +882,7 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_ContinuationIndent)
 
 	// test invalid minimum for continuation indent
 	key = INDENT_CONTINUATION;
-	astyle.setContinuationIndent(-1);
+	astyle.SetContinuationIndent(-1);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -890,7 +890,7 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_ContinuationIndent)
 
 	// test invalid maximum for continuation indent
 	key = INDENT_CONTINUATION;
-	astyle.setContinuationIndent(5);
+	astyle.SetContinuationIndent(5);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -908,14 +908,14 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_LabelIndent)
 
 	// test true
 	key = INDENT_LABELS;
-	astyle.setLabelIndent(true);
+	astyle.SetLabelIndent(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setLabelIndent(false);
+	astyle.SetLabelIndent(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -932,7 +932,7 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_MaxContinuation)
 
 	// test max code length
 	key = MAX_CONTINUATION_INDENT;
-	astyle.setMaxContinuationIndent(50);
+	astyle.SetMaxContinuationIndent(50);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	config.Read(key, &value);
@@ -940,10 +940,10 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_MaxContinuation)
 	        << "Failure for max continuation indent";
 
 	// test max continuation default
-	int defaultMaxInStatementIndent = astyle.getDefaultMaxContinuationIndent();
+	int defaultMaxInStatementIndent = astyle.GetDefaultMaxContinuationIndent();
 	EXPECT_TRUE(defaultMaxInStatementIndent == 40);
 	key = MAX_CONTINUATION_INDENT;
-	astyle.setMaxContinuationIndent(defaultMaxInStatementIndent);
+	astyle.SetMaxContinuationIndent(defaultMaxInStatementIndent);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -951,7 +951,7 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_MaxContinuation)
 
 	// test invalid minimum for max continuation, should use minimum (default)
 	key = MAX_CONTINUATION_INDENT;
-	astyle.setMaxContinuationIndent(39);
+	astyle.SetMaxContinuationIndent(39);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -959,7 +959,7 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_MaxContinuation)
 
 	// test invalid maximum for max continuation, should use maximum
 	key = MAX_CONTINUATION_INDENT;
-	astyle.setMaxContinuationIndent(121);
+	astyle.SetMaxContinuationIndent(121);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	config.Read(key, &value);
@@ -989,7 +989,7 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_MinConditionalOpt)
 	size_t numOptions = sizeof(minOption) / sizeof(minOption[0]);
 	for (size_t i = 0; i < numOptions; i++)
 	{
-		astyle.setMinConditionalOption(minOption[i]);
+		astyle.SetMinConditionalOption(minOption[i]);
 		config.SaveAStyleOptions(&astyle);
 		config.SetPath("/AStyle");
 		config.Read(key, &value);
@@ -999,10 +999,10 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_MinConditionalOpt)
 	}
 
 	// test min conditional option default
-	MinConditional defaultMinConditionalOption = astyle.getDefaultMinConditionalOption();
+	MinConditional defaultMinConditionalOption = astyle.GetDefaultMinConditionalOption();
 	EXPECT_TRUE(defaultMinConditionalOption == MINCOND_TWO);
 	key = MIN_CONDITIONAL_INDENT;
-	astyle.setMinConditionalOption(defaultMinConditionalOption);
+	astyle.SetMinConditionalOption(defaultMinConditionalOption);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -1010,7 +1010,7 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_MinConditionalOpt)
 
 	// test invalid min conditional option, should use default
 	key = MIN_CONDITIONAL_INDENT;
-	astyle.setMinConditionalOption(MINCOND_END);
+	astyle.SetMinConditionalOption(MINCOND_END);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -1028,14 +1028,14 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_ModifierIndent)
 
 	// test true
 	key = INDENT_MODIFIERS;
-	astyle.setModifierIndent(true);
+	astyle.SetModifierIndent(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setModifierIndent(false);
+	astyle.SetModifierIndent(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1052,14 +1052,14 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_NamespaceIndent)
 
 	// test true
 	key = INDENT_NAMESPACES;
-	astyle.setNamespaceIndent(true);
+	astyle.SetNamespaceIndent(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setNamespaceIndent(false);
+	astyle.SetNamespaceIndent(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1076,14 +1076,14 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_PreprocBlockIndent)
 
 	// test true
 	key = INDENT_PREPROC_BLOCK;
-	astyle.setPreprocBlockIndent(true);
+	astyle.SetPreprocBlockIndent(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setPreprocBlockIndent(false);
+	astyle.SetPreprocBlockIndent(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1100,14 +1100,14 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_PreprocCondIndent)
 
 	// test true
 	key = INDENT_PREPROC_COND;
-	astyle.setPreprocCondIndent(true);
+	astyle.SetPreprocCondIndent(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setPreprocCondIndent(false);
+	astyle.SetPreprocCondIndent(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1124,14 +1124,14 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_PreprocDefineIndent)
 
 	// test true
 	key = INDENT_PREPROC_DEFINE;
-	astyle.setPreprocDefineIndent(true);
+	astyle.SetPreprocDefineIndent(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setPreprocDefineIndent(false);
+	astyle.SetPreprocDefineIndent(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1148,14 +1148,14 @@ TEST_F(Config_AStyleF_Indent, SaveAStyleOptions_SwitchIIndent)
 
 	// test true
 	key = INDENT_SWITCHES;
-	astyle.setSwitchIndent(true);
+	astyle.SetSwitchIndent(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setSwitchIndent(false);
+	astyle.SetSwitchIndent(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1210,7 +1210,7 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_AlignPointer)
 	size_t numOptions = sizeof(alignPointer) / sizeof(alignPointer[0]);
 	for (size_t i = 0; i < numOptions; i++)
 	{
-		astyle.setAlignPointer(alignPointer[i]);
+		astyle.SetAlignPointer(alignPointer[i]);
 		config.SaveAStyleOptions(&astyle);
 		config.SetPath("/AStyle");
 		config.Read(key, &value);
@@ -1221,7 +1221,7 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_AlignPointer)
 
 	// test align pointer none (default)
 	key = ALIGN_POINTER;
-	astyle.setAlignPointer(PTR_ALIGN_NONE);
+	astyle.SetAlignPointer(PTR_ALIGN_NONE);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -1229,7 +1229,7 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_AlignPointer)
 
 	// test invalid align pointer, should use default
 	key = ALIGN_POINTER;
-	astyle.setAlignPointer(PTR_ALIGN_END);
+	astyle.SetAlignPointer(PTR_ALIGN_END);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -1237,7 +1237,7 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_AlignPointer)
 
 	// test invalid align pointer, should use default
 	key = ALIGN_POINTER;
-	astyle.setAlignPointer(PTR_ALIGN_END);
+	astyle.SetAlignPointer(PTR_ALIGN_END);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -1266,7 +1266,7 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_AlignReference)
 	size_t numOptions = sizeof(alignReference) / sizeof(alignReference[0]);
 	for (size_t i = 0; i < numOptions; i++)
 	{
-		astyle.setAlignReference(alignReference[i]);
+		astyle.SetAlignReference(alignReference[i]);
 		config.SaveAStyleOptions(&astyle);
 		config.SetPath("/AStyle");
 		config.Read(key, &value);
@@ -1277,7 +1277,7 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_AlignReference)
 
 	// test align reference same as pointer (default)
 	key = ALIGN_REFERENCE;
-	astyle.setAlignReference(REF_SAME_AS_PTR);
+	astyle.SetAlignReference(REF_SAME_AS_PTR);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -1285,7 +1285,7 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_AlignReference)
 
 	// test invalid align reference, should use default
 	key = ALIGN_REFERENCE;
-	astyle.setAlignReference(REF_ALIGN_END);
+	astyle.SetAlignReference(REF_ALIGN_END);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -1293,7 +1293,7 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_AlignReference)
 
 	// test invalid align reference, should use default
 	key = ALIGN_REFERENCE;
-	astyle.setAlignReference(REF_ALIGN_END);
+	astyle.SetAlignReference(REF_ALIGN_END);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -1311,8 +1311,8 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_BreakBlocks)
 
 	// test break all blocks
 	key = BREAK_BLOCKS;
-	astyle.setBreakHeaderBlocks(true);
-	astyle.setBreakClosingBlocks(true);
+	astyle.SetBreakHeaderBlocks(true);
+	astyle.SetBreakClosingBlocks(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	config.Read(key, &value);
@@ -1321,8 +1321,8 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_BreakBlocks)
 
 	// test break header blocks
 	key = BREAK_BLOCKS;
-	astyle.setBreakHeaderBlocks(true);
-	astyle.setBreakClosingBlocks(false);
+	astyle.SetBreakHeaderBlocks(true);
+	astyle.SetBreakClosingBlocks(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	config.Read(key, &value);
@@ -1331,8 +1331,8 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_BreakBlocks)
 
 	// test invalid break header blocks
 	key = BREAK_BLOCKS;
-	astyle.setBreakHeaderBlocks(false);
-	astyle.setBreakClosingBlocks(true);
+	astyle.SetBreakHeaderBlocks(false);
+	astyle.SetBreakClosingBlocks(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value))
@@ -1350,14 +1350,14 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_DeleteEmptyLines)
 
 	// test true
 	key = DELETE_EMPTY_LINES;
-	astyle.setDeleteEmptyLines(true);
+	astyle.SetDeleteEmptyLines(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setDeleteEmptyLines(false);
+	astyle.SetDeleteEmptyLines(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1374,14 +1374,14 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_FillEmptyLines)
 
 	// test true
 	key = FILL_EMPTY_LINES;
-	astyle.setFillEmptyLines(true);
+	astyle.SetFillEmptyLines(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setFillEmptyLines(false);
+	astyle.SetFillEmptyLines(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1398,14 +1398,14 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_PadComma)
 
 	// test true
 	key = PAD_COMMA;
-	astyle.setPadComma(true);
+	astyle.SetPadComma(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setPadComma(false);
+	astyle.SetPadComma(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1422,14 +1422,14 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_PadFirstParenOut)
 
 	// test true
 	key = PAD_FIRST_PAREN_OUT;
-	astyle.setPadFirstParenOut(true);
+	astyle.SetPadFirstParenOut(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setPadFirstParenOut(false);
+	astyle.SetPadFirstParenOut(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1446,14 +1446,14 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_PadHeader)
 
 	// test true
 	key = PAD_HEADER;
-	astyle.setPadHeader(true);
+	astyle.SetPadHeader(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setPadHeader(false);
+	astyle.SetPadHeader(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1470,14 +1470,14 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_PadOperator)
 
 	// test true
 	key = PAD_OPER;
-	astyle.setPadOperator(true);
+	astyle.SetPadOperator(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setPadOperator(false);
+	astyle.SetPadOperator(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1494,8 +1494,8 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_PadParen)
 
 	// test pad paren all
 	key = PAD_PAREN;
-	astyle.setPadParenOutside(true);
-	astyle.setPadParenInside(true);
+	astyle.SetPadParenOutside(true);
+	astyle.SetPadParenInside(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	config.Read(key, &value);
@@ -1504,8 +1504,8 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_PadParen)
 
 	// test pad paren outside
 	key = PAD_PAREN;
-	astyle.setPadParenOutside(true);
-	astyle.setPadParenInside(false);
+	astyle.SetPadParenOutside(true);
+	astyle.SetPadParenInside(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	config.Read(key, &value);
@@ -1514,8 +1514,8 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_PadParen)
 
 	// test pad paren inside
 	key = PAD_PAREN;
-	astyle.setPadParenOutside(false);
-	astyle.setPadParenInside(true);
+	astyle.SetPadParenOutside(false);
+	astyle.SetPadParenInside(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	config.Read(key, &value);
@@ -1534,14 +1534,14 @@ TEST_F(Config_AStyleF_Pad, SaveAStyleOptions_UnpadParen)
 
 	// test true
 	key = UNPAD_PAREN;
-	astyle.setUnpadParen(true);
+	astyle.SetUnpadParen(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setUnpadParen(false);
+	astyle.SetUnpadParen(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1586,14 +1586,14 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_AddBraces)
 
 	// test true
 	key = ADD_BRACES;
-	astyle.setAddBraces(true);
+	astyle.SetAddBraces(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setAddBraces(false);
+	astyle.SetAddBraces(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1610,14 +1610,14 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_AddOneLineBraces)
 
 	// test true
 	key = ADD_ONE_LINE_BRACES;
-	astyle.setAddOneLineBraces(true);
+	astyle.SetAddOneLineBraces(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setAddOneLineBraces(false);
+	astyle.SetAddOneLineBraces(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1634,14 +1634,14 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_AttachReturnType)
 
 	// test true
 	key = ATTACH_RETURN_TYPE;
-	astyle.setAttachReturnType(true);
+	astyle.SetAttachReturnType(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setAttachReturnType(false);
+	astyle.SetAttachReturnType(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1658,14 +1658,14 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_AttachReturnTypeDecl)
 
 	// test true
 	key = ATTACH_RETURN_TYPE_DECL;
-	astyle.setAttachReturnTypeDecl(true);
+	astyle.SetAttachReturnTypeDecl(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setAttachReturnTypeDecl(false);
+	astyle.SetAttachReturnTypeDecl(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1682,14 +1682,14 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_BreakCloseBraces)
 
 	// test true
 	key = BREAK_CLOSING_BRACES;
-	astyle.setBreakClosingBraces(true);
+	astyle.SetBreakClosingBraces(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setBreakClosingBraces(false);
+	astyle.SetBreakClosingBraces(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1706,14 +1706,14 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_BreakElseIfs)
 
 	// test true
 	key = BREAK_ELSEIFS;
-	astyle.setBreakElseIfs(true);
+	astyle.SetBreakElseIfs(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setBreakElseIfs(false);
+	astyle.SetBreakElseIfs(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1730,14 +1730,14 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_BreakOneLineHeaders)
 
 	// test true
 	key = BREAK_ONE_LINE_HEADERS;
-	astyle.setBreakOneLineHeaders(true);
+	astyle.SetBreakOneLineHeaders(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setBreakOneLineHeaders(false);
+	astyle.SetBreakOneLineHeaders(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1754,14 +1754,14 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_BreakReturnType)
 
 	// test true
 	key = BREAK_RETURN_TYPE;
-	astyle.setBreakReturnType(true);
+	astyle.SetBreakReturnType(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setBreakReturnType(false);
+	astyle.SetBreakReturnType(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1778,14 +1778,14 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_BreakReturnTypeDecl)
 
 	// test true
 	key = BREAK_RETURN_TYPE_DECL;
-	astyle.setBreakReturnTypeDecl(true);
+	astyle.SetBreakReturnTypeDecl(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setBreakReturnTypeDecl(false);
+	astyle.SetBreakReturnTypeDecl(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1802,14 +1802,14 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_CloseTemplates)
 
 	// test true
 	key = CLOSE_TEMPLATES;
-	astyle.setCloseTemplates(true);
+	astyle.SetCloseTemplates(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setCloseTemplates(false);
+	astyle.SetCloseTemplates(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1826,14 +1826,14 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_ConvertTabs)
 
 	// test true
 	key = CONVERT_TABS;
-	astyle.setConvertTabs(true);
+	astyle.SetConvertTabs(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setConvertTabs(false);
+	astyle.SetConvertTabs(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1850,14 +1850,14 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_KeepOneLineBlocks)
 
 	// test false
 	key = KEEP_ONE_LINE_BLOCKS;
-	astyle.setBreakOneLineBlocks(false);	// default is false to keep
+	astyle.SetBreakOneLineBlocks(false);	// default is false to keep
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test true (delete key)
-	astyle.setBreakOneLineBlocks(true);		// default is true to break
+	astyle.SetBreakOneLineBlocks(true);		// default is true to break
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1874,14 +1874,14 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_KeepOneLineStmts)
 
 	// test true
 	key = KEEP_ONE_LINE_STATEMENTS;
-	astyle.setBreakOneLineStmts(false);		// default is false to keep
+	astyle.SetBreakOneLineStmts(false);		// default is false to keep
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setBreakOneLineStmts(true);		// default is true to break
+	astyle.SetBreakOneLineStmts(true);		// default is true to break
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1898,24 +1898,24 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_MaxCodeLength)
 
 	// test max continuation indent
 	key = MAX_CODE_LENGTH;
-	astyle.setMaxCodeLength(100);
+	astyle.SetMaxCodeLength(100);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	config.Read(key, &value);
 	EXPECT_STREQ("100", value) << "Failure for max code length";
 
 	// test max code length default
-	int defaultMaxCodeLength = astyle.getDefaultMaxCodeLength();
+	int defaultMaxCodeLength = astyle.GetDefaultMaxCodeLength();
 	EXPECT_EQ(0, defaultMaxCodeLength);
 	key = MAX_CODE_LENGTH;
-	astyle.setMaxCodeLength(defaultMaxCodeLength);
+	astyle.SetMaxCodeLength(defaultMaxCodeLength);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	EXPECT_FALSE(config.Read(key, &value)) << "Failure for default max code length";
 
 	// test invalid minimum for max code length, should use minimum (default)
 	key = MAX_CODE_LENGTH;
-	astyle.setMaxCodeLength(MAX_CODE_LENGTH_MIN - 1);
+	astyle.SetMaxCodeLength(MAX_CODE_LENGTH_MIN - 1);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	config.Read(key, &value);
@@ -1924,7 +1924,7 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_MaxCodeLength)
 
 	// test invalid maximum for max code length, should use maximum
 	key = MAX_CODE_LENGTH;
-	astyle.setMaxCodeLength(MAX_CODE_LENGTH_MAX + 1);
+	astyle.SetMaxCodeLength(MAX_CODE_LENGTH_MAX + 1);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	config.Read(key, &value);
@@ -1943,14 +1943,14 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_RemoveBraces)
 
 	// test true
 	key = REMOVE_BRACES;
-	astyle.setRemoveBraces(true);
+	astyle.SetRemoveBraces(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setRemoveBraces(false);
+	astyle.SetRemoveBraces(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -1967,14 +1967,14 @@ TEST_F(Config_AStyleF_Format, SaveAStyleOptions_RemoveCommentPrefix)
 
 	// test true
 	key = REMOVE_COMMENT_PREFIX;
-	astyle.setRemoveCommentPrefix(true);
+	astyle.SetRemoveCommentPrefix(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setRemoveCommentPrefix(false);
+	astyle.SetRemoveCommentPrefix(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -2019,14 +2019,14 @@ TEST_F(Config_AStyleF_Other, SaveAStyleOptions_PadMethodPrefix)
 
 	// test true
 	key = PAD_METHOD_PREFIX;
-	astyle.setPadMethodPrefix(true);
+	astyle.SetPadMethodPrefix(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setPadMethodPrefix(false);
+	astyle.SetPadMethodPrefix(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -2043,14 +2043,14 @@ TEST_F(Config_AStyleF_Other, SaveAStyleOptions_UnpadMethodPrefix)
 
 	// test true
 	key = UNPAD_METHOD_PREFIX;
-	astyle.setUnpadMethodPrefix(true);
+	astyle.SetUnpadMethodPrefix(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setUnpadMethodPrefix(false);
+	astyle.SetUnpadMethodPrefix(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -2067,14 +2067,14 @@ TEST_F(Config_AStyleF_Other, SaveAStyleOptions_PadReturnType)
 
 	// test true
 	key = PAD_RETURN_TYPE;
-	astyle.setPadReturnType(true);
+	astyle.SetPadReturnType(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setPadReturnType(false);
+	astyle.SetPadReturnType(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -2091,14 +2091,14 @@ TEST_F(Config_AStyleF_Other, SaveAStyleOptions_UnpadReturnType)
 
 	// test true
 	key = UNPAD_RETURN_TYPE;
-	astyle.setUnpadReturnType(true);
+	astyle.SetUnpadReturnType(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setUnpadReturnType(false);
+	astyle.SetUnpadReturnType(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -2115,14 +2115,14 @@ TEST_F(Config_AStyleF_Other, SaveAStyleOptions_AlignMethodColon)
 
 	// test true
 	key = ALIGN_METHOD_COLON;
-	astyle.setAlignMethodColon(true);
+	astyle.SetAlignMethodColon(true);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ(asTRUE, value);
 
 	// test false (delete key)
-	astyle.setAlignMethodColon(false);
+	astyle.SetAlignMethodColon(false);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));
@@ -2139,29 +2139,29 @@ TEST_F(Config_AStyleF_Other, SaveAStyleOptions_PadMethodColon)
 
 	// test pad method colon options
 	key = PAD_METHOD_COLON;
-	astyle.setPadMethodColon(COLON_PAD_NONE);
+	astyle.SetPadMethodColon(COLON_PAD_NONE);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ("none", value);
-	astyle.setPadMethodColon(COLON_PAD_ALL);
+	astyle.SetPadMethodColon(COLON_PAD_ALL);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ("all", value);
-	astyle.setPadMethodColon(COLON_PAD_AFTER);
+	astyle.SetPadMethodColon(COLON_PAD_AFTER);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ("after", value);
-	astyle.setPadMethodColon(COLON_PAD_BEFORE);
+	astyle.SetPadMethodColon(COLON_PAD_BEFORE);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_TRUE(config.Read(key, &value));
 	EXPECT_STREQ("before", value);
 
 	// test invalid pad method colon option, should not write
-	astyle.setPadMethodColon(COLON_PAD_NO_CHANGE);
+	astyle.SetPadMethodColon(COLON_PAD_NO_CHANGE);
 	config.SaveAStyleOptions(&astyle);
 	config.SetPath("/AStyle");
 	ASSERT_FALSE(config.Read(key, &value));

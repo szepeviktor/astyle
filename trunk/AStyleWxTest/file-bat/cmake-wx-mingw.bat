@@ -11,6 +11,7 @@ set optsx=-DWXWIN="C:/Programs/WxWidgets-3.1.1_mingw"
 
 REM USE ONE OF THESE OPTIONS
 set opts=
+:: set opts=-DWXSHARED=ON
 :: set opts=-DCMAKE_VERBOSE_MAKEFILE=1
 :: set opts=-DCMAKE_BUILD_TYPE=Debug  -DCMAKE_VERBOSE_MAKEFILE=1
 :: set opts=-DCMAKE_BUILD_TYPE="MinSizeRel"
@@ -22,7 +23,7 @@ echo * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 echo *               AStyleWx MinGW Executable               *
 echo * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 cd  "%USERPROFILE%\Projects\AStyleWx"
-rmdir /s /q aswx-mingw-exe
+if exist aswx-mingw-exe  rmdir /s /q aswx-mingw-exe
 md  aswx-mingw-exe
 cd  aswx-mingw-exe
 cmake  -G "MinGW Makefiles"   %opts%  %optsx%  ../
