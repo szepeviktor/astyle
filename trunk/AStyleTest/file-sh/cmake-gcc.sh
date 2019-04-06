@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # USE ONE OF THESE OPTIONS
-#opts=
+opts=
 # opts=-DCMAKE_VERBOSE_MAKEFILE=1
 # opts="-DCMAKE_BUILD_TYPE=Debug  -DCMAKE_VERBOSE_MAKEFILE=1"
 # opts=-DCMAKE_BUILD_TYPE="MinSizeRel"
-opts=-DCMAKE_INSTALL_PREFIX=$HOME/tester
+# opts=-DCMAKE_INSTALL_PREFIX=$HOME/tester
 # echo $opts
 
 # Executable

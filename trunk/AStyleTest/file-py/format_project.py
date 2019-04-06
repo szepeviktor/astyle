@@ -3,12 +3,12 @@
     Run from an option in the "Tools" menu of a development environment.
     For Visual Studio:
         Title:       Format Project
-        Command:     %PROGRAMFILES%/Python36/python.exe
+        Command:     %PROGRAMFILES%/Python37/python.exe
         Arguments:   "format_project.py"  "$(ProjectFileName)"
         Init Dir:    %USERPROFILE%/Projects/AStyleTest/file-py
     For CodeBlocks (Windows):
         Name:        Format Project
-        Executable:  %PROGRAMFILES%/Python36/python.exe
+        Executable:  %PROGRAMFILES%/Python37/python.exe
         Parameters:  "format_project.py"  "$(ProjectFileName)"
         Work Dir:    %USERPROFILE%/Projects/AStyleTest/file-py
     For CodeBlocks (Linux):

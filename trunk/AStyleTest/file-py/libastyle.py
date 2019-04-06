@@ -214,7 +214,7 @@ def create_ramdrive():
     # must use a shell to get elevated (administrative) privileges
     # the output cannot be redirected from a shell
     retval = subprocess.call(ramdrive, shell=True)
-    if retval not in (0, 8):                                # TODO: allows return code 8
+    if retval:
         system_exit("Bad ramdrive return: " + str(retval))
     os.mkdir("R:/" + TEST_DIRECTORY)
 
