@@ -94,6 +94,8 @@ const string ASResource::AS_BAR_IF = string("#if");
 const string ASResource::AS_BAR_EL = string("#el");
 const string ASResource::AS_BAR_ENDIF = string("#endif");
 
+const string ASResource::AS_OPEN_PAREN = string("(");
+const string ASResource::AS_CLOSE_PAREN = string(")");
 const string ASResource::AS_OPEN_BRACE = string("{");
 const string ASResource::AS_CLOSE_BRACE = string("}");
 const string ASResource::AS_OPEN_LINE_COMMENT = string("//");
@@ -137,6 +139,7 @@ const string ASResource::AS_ARROW = string("->");
 const string ASResource::AS_AND = string("&&");
 const string ASResource::AS_OR = string("||");
 const string ASResource::AS_SCOPE_RESOLUTION = string("::");
+const string ASResource::AS_SPACESHIP = string("<=>");
 
 const string ASResource::AS_PLUS = string("+");
 const string ASResource::AS_MINUS = string("-");
@@ -154,6 +157,7 @@ const string ASResource::AS_QUESTION = string("?");
 const string ASResource::AS_COLON = string(":");
 const string ASResource::AS_COMMA = string(",");
 const string ASResource::AS_SEMICOLON = string(";");
+
 
 /**
  * Sort comparison function.
@@ -486,6 +490,7 @@ void ASResource::buildOperators(vector<const string*>* operators, int fileType)
 	{
 		operators->emplace_back(&AS_GCC_MIN_ASSIGN);
 		operators->emplace_back(&AS_GCC_MAX_ASSIGN);
+		operators->emplace_back(&AS_SPACESHIP);
 	}
 
 	assert(operators->size() < elements);
