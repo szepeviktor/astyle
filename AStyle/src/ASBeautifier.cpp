@@ -2588,7 +2588,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				char prevCh = i > 0 ? line[i - 1] : ' ';
 
 				// https://sourceforge.net/p/astyle/bugs/535/
-				if (isCStyle() && prevCh == 'R' && !(isalpha(prevPrevCh) || prevNonSpaceCh=='('  ))
+				if (isCStyle() && prevCh == 'R' && !(isalpha(prevNonSpaceCh) || prevNonSpaceCh=='('  ))
 				{
 					int parenPos = line.find('(', i);
 					if (parenPos != -1)
