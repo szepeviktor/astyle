@@ -1,0 +1,27 @@
+# Valgrind suppression file for AStyleTestLib.
+#
+# Suppression for  utf8ToUtf16.
+# Two errors - Addr1 and Addr2.
+# From the struct AStyleMainUtf16F2.
+# The function is called to compute text16 and options16.
+# The function assigns "wcConv = wcOut".
+# wcOut doesn't change while wcConv is modified by iconv.
+# Referencing wcConv, which hasn't had memory allocated,
+#     apparentlt causes the problem.
+
+{
+   <utf8ToUtf16>
+   Memcheck:Addr1
+   fun:_Z11utf8ToUtf16Pc
+   fun:_ZN12_GLOBAL__N_117AStyleMainUtf16F2C2Ev
+   ...
+}
+
+{
+   <utf8ToUtf16>
+   Memcheck:Addr2
+   fun:_Z8utf16lenPKDs
+   fun:_Z11utf8ToUtf16Pc
+   fun:_ZN12_GLOBAL__N_117AStyleMainUtf16F2C2Ev
+   ...
+   }

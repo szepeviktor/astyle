@@ -1,0 +1,46 @@
+# Valgrind suppression file for AStyleTestI18n.
+#
+# Suppression for TersePrinter::OnTestEnd.
+# Statement was copied from GTest.
+# The cause was not determined.
+#
+# SUPPRESSIONS OF C++ FUNCTIONS
+# The cause cannot be corrected.
+#
+# Suppression for Translation::convertToMultiByte in ASLocalizer.
+# Two errors - Addr16 and Cond.
+# Statement wcstombs(...) has the error.
+#
+
+{
+   <TersePrinter::OnTestEnd>
+   Memcheck:Addr8
+   fun:_ZNK7testing10TestResult12elapsed_timeEv
+   fun:_ZN12TersePrinter9OnTestEndERKN7testing8TestInfoE
+   ...
+}
+
+#
+# SUPPRESSIONS OF C++ FUNCTIONS
+# The cause cannot be corrected.
+#
+
+{
+   <Translation::convertToMultiByte>
+   Memcheck:Addr16
+   fun:__wcsnlen_sse4_1
+   fun:wcsrtombs
+   fun:wcstombs
+   fun:_Z18convertToMultiByteRKNSt7__cxx1112basic_stringIwSt11char_traitsIwESaIwEEE
+   ...
+}
+
+{
+   <Translation::convertToMultiByte>
+   Memcheck:Cond
+   fun:__wcsnlen_sse4_1
+   fun:wcsrtombs
+   fun:wcstombs
+   fun:_Z18convertToMultiByteRKNSt7__cxx1112basic_stringIwSt11char_traitsIwESaIwEEE
+   ...
+}

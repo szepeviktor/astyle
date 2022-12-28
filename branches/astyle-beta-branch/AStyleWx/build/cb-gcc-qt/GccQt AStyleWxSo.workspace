@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="GccQt AStyleWxSoWorkspace">
+		<Project filename="GccQt AStyleWxSo.cbp">
+			<Depends filename="GccQt AStyle So.cbp" />
+		</Project>
+		<Project filename="GccQt AStyle So.cbp" />
+		<Project filename="GccQt AStyleWxSoSys.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

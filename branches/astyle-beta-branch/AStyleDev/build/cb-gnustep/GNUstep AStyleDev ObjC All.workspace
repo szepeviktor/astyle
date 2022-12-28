@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="GNUstep AStyleDev ObjC All">
+		<Project filename="GNUstep AStyle Dll.cbp" />
+		<Project filename="GNUstep AStyle Lib.cbp" />
+		<Project filename="GNUstep ExampleDll ObjC.cbp">
+			<Depends filename="GNUstep AStyle Dll.cbp" />
+		</Project>
+		<Project filename="GNUstep ExampleLib ObjC.cbp">
+			<Depends filename="GNUstep AStyle Lib.cbp" />
+		</Project>
+	</Workspace>
+</CodeBlocks_workspace_file>

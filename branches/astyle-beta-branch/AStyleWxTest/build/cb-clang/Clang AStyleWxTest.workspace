@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Clang  AStyleWxTest 3.0">
+		<Project filename="Clang AStyleWxTest 3.0.cbp">
+			<Depends filename="Clang GMock A.cbp" />
+		</Project>
+		<Project filename="Clang GMock A.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

@@ -1,0 +1,41 @@
+// ASAppFrame.rc
+// Copyright (c) 2016 by Jim Pattee <jimp03@email.com>.
+// This code is licensed under the MIT License.
+// License.txt describes the conditions under which this software may be distributed.
+
+#include <wx/msw/wx.rc>
+
+//----------------------------------------------------------------------------
+// icons and bitmaps for Windows
+//----------------------------------------------------------------------------
+
+astyle_16   ICON    "AStyle_16.ico"
+astyle_32   ICON    "AStyle_32.ico"
+
+// 16x16 toolbar bitmaps
+new_16      BITMAP  "New_16.bmp"
+open_16     BITMAP  "Open_16.bmp"
+save_16     BITMAP  "Save_16.bmp"
+close_16    BITMAP  "Close_16.bmp"
+undo_16     BITMAP  "Undo_16.bmp"
+redo_16     BITMAP  "Redo_16.bmp"
+white_16    BITMAP  "White_16.bmp"
+all_16      BITMAP  "All_16.bmp"
+toend_16    BITMAP  "ToEnd_16.bmp"
+block_16    BITMAP  "Block_16.bmp"
+select_16   BITMAP  "Select_16.bmp"
+source_16   BITMAP  "Source_16.bmp"
+
+// 24x24 toolbar bitmaps
+new_24      BITMAP  "New_24.bmp"
+open_24     BITMAP  "Open_24.bmp"
+save_24     BITMAP  "Save_24.bmp"
+close_24    BITMAP  "Close_24.bmp"
+undo_24     BITMAP  "Undo_24.bmp"
+redo_24     BITMAP  "Redo_24.bmp"
+white_24    BITMAP  "White_24.bmp"
+all_24      BITMAP  "All_24.bmp"
+toend_24    BITMAP  "ToEnd_24.bmp"
+block_24    BITMAP  "Block_24.bmp"
+select_24   BITMAP  "Select_24.bmp"
+source_24   BITMAP  "Source_24.bmp"

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Gcc AStyleWx" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="wx$(WX)$(TK)/bin/astylewxd" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx$(WX)$(TK)/obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="`/home/jimp/Projects/wxWidgets-3.1.2/build-qt-release/wx-config --version=$(WX) --toolkit=$(TK)  --cxxflags`" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-exceptions" />
+					<Add option="-DQT_NO_VERSION_TAGGING" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DTESTMODE1" />
+					<Add directory="../../src" />
+					<Add directory="../../dialog" />
+					<Add directory="../../image" />
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5" />
+				</Compiler>
+				<Linker>
+					<Add option="`/home/jimp/Projects/wxWidgets-3.1.2/build-qt-release/wx-config --version=$(WX) --toolkit=$(TK) --libs adv,aui,core,stc`" />
+					<Add library="astyled" />
+					<Add directory="lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="wx$(WX)$(TK)/bin/astylewx" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx$(WX)$(TK)/obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="`/home/jimp/Projects/wxWidgets-3.1.2/build-qt-release/wx-config --version=$(WX) --toolkit=$(TK) --cxxflags`" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-exceptions" />
+					<Add option="-DQT_NO_VERSION_TAGGING" />
+					<Add option="-DNDEBUG" />
+					<Add directory="../../src" />
+					<Add directory="../../dialog" />
+					<Add directory="../../image" />
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="`/home/jimp/Projects/wxWidgets-3.1.2/build-qt-release/wx-config --version=$(WX) --toolkit=$(TK) --libs adv,aui,core,stc`" />
+					<Add library="astyle" />
+					<Add directory="lib" />
+				</Linker>
+			</Target>
+			<Target title="Lint">
+				<Option output="wx$(WX)$(TK)/bin/astylewxl" prefix_auto="1" extension_auto="1" />
+				<Option object_output="wx$(WX)$(TK)/obj/Lint/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wnon-virtual-dtor" />
+					<Add option="-Wshadow" />
+					<Add option="-Winit-self" />
+					<Add option="-Wcast-align" />
+					<Add option="-Wfloat-equal" />
+					<Add option="-Winline" />
+					<Add option="-Wunreachable-code" />
+					<Add option="-Wmissing-include-dirs" />
+					<Add option="-Wswitch-default" />
+					<Add option="-Wmain" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="`/home/jimp/Projects/wxWidgets-3.1.2/build-qt-release/wx-config --version=$(WX) --toolkit=$(TK)  --cxxflags`" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add option="-Wempty-body" />
+					<Add option="-Wint-to-pointer-cast" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-Wno-format" />
+					<Add option="-Wno-switch-default" />
+					<Add option="-Woverloaded-virtual" />
+					<Add option="-Wparentheses" />
+					<Add option="-Wreturn-type" />
+					<Add option="-Wswitch" />
+					<Add option="-Wuninitialized" />
+					<Add option="-Wunused" />
+					<Add option="-Wwrite-strings" />
+					<Add option="-DQT_NO_VERSION_TAGGING" />
+					<Add directory="../../src" />
+					<Add directory="../../dialog" />
+					<Add directory="../../image" />
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5" />
+				</Compiler>
+				<Linker>
+					<Add option="`/home/jimp/Projects/wxWidgets-3.1.2/build-qt-release/wx-config --version=$(WX) --toolkit=$(TK) --libs adv,aui,core,stc`" />
+					<Add library="astyled" />
+					<Add directory="lib" />
+				</Linker>
+			</Target>
+			<Environment>
+				<Variable name="TK" value="" />
+				<Variable name="WX" value="" />
+			</Environment>
+		</Build>
+		<Unit filename="../../dialog/AStyleDlgBase.cpp" />
+		<Unit filename="../../dialog/AStyleDlgBase.h" />
+		<Unit filename="../../dialog/AboutDlgBase.cpp" />
+		<Unit filename="../../dialog/AboutDlgBase.h" />
+		<Unit filename="../../dialog/EditorDlgBase.cpp" />
+		<Unit filename="../../dialog/EditorDlgBase.h" />
+		<Unit filename="../../dialog/SettingsDlgBase.cpp" />
+		<Unit filename="../../dialog/SettingsDlgBase.h" />
+		<Unit filename="../../src/ASApp.cpp" />
+		<Unit filename="../../src/ASEditor.cpp" />
+		<Unit filename="../../src/AStyleDisplay.cpp" />
+		<Unit filename="../../src/AStyleDisplay.h" />
+		<Unit filename="../../src/AStyleDlg.cpp" />
+		<Unit filename="../../src/AStyleDlg.h" />
+		<Unit filename="../../src/AStyleFormat.cpp" />
+		<Unit filename="../../src/AStyleFormat.h" />
+		<Unit filename="../../src/AStyleIFace.cpp" />
+		<Unit filename="../../src/AStyleIFace.h" />
+		<Unit filename="../../src/AStyleWx.cpp" />
+		<Unit filename="../../src/AStyleWx.h" />
+		<Unit filename="../../src/AboutDlg.cpp" />
+		<Unit filename="../../src/AboutDlg.h" />
+		<Unit filename="../../src/Config.cpp" />
+		<Unit filename="../../src/Config.h" />
+		<Unit filename="../../src/Constants.h" />
+		<Unit filename="../../src/EditorDlg.cpp" />
+		<Unit filename="../../src/EditorDlg.h" />
+		<Unit filename="../../src/Encoding.cpp" />
+		<Unit filename="../../src/Encoding.h" />
+		<Unit filename="../../src/FileManager.cpp" />
+		<Unit filename="../../src/FileManager.h" />
+		<Unit filename="../../src/Indent.cpp" />
+		<Unit filename="../../src/SettingsDlg.cpp" />
+		<Unit filename="../../src/SettingsDlg.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

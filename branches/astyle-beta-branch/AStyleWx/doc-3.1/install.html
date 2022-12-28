@@ -1,0 +1,660 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Artistic Style Wx - Install Information</title>
+    <meta http-equiv="Content-Language" content="en-us" />
+    <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+    <h1>Artistic Style Wx Install Information</h1>
+
+    <p>
+        &nbsp;</p>
+
+    <h3 id="Contents">Contents</h3>
+
+    <p class="contents1">
+        <a class="contents" href="#_wx_wxWidgets_Compiles">wxWidgets Compiles</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_wx_Linux">Linux</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_wx_MacOS">MacOS</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_wx_Visual_Studio">Visual Studio</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_wx_Other_Windows_Compilers">Other Windows Compilers</a></p>
+    <p class="contents1">
+        <a class="contents" href="#_lnx_Linux_Compiles">Linux Compiles</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_lnx_CodeBlocks_Linux">CodeBlocks Linux</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_lnx_GCC_Makefile">GCC Makefile</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_lnx_Clang_Makefile">Clang Makefile</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_lnx_Intel_Makefile">Intel Makefile</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_lnx_Makefile_Shared_Libraries">Makefile Shared Libraries</a>
+    <p class="contents2">
+        <a class="contents" href="#_lnx_Other_Makefile_Options">Other Makefile Options</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_lnx_Other_Makefile_Targets">Other Makefile Targets</a></p>
+    <p class="contents1">
+        <a class="contents" href="#_mac_MacOS_Compiles">MacOS Compiles</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_mac_Xcode">Xcode</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_mac_Makefile">Makefile</a></p>
+    <p class="contents1">
+        <a class="contents" href="#_win_Windows_Compiles">Windows Compiles</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_win_Precompiled_Executable">Precompiled Executable</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_win_CodeBlocks_Windows">CodeBlocks Windows</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_win_Precompiled_Executable">Precompiled Executable</a></p>
+    <p class="contents2">
+        <a class="contents" href="#_win_Visual_C++_Compiler">Visual C++ Compiler</a></p>
+    <p class="contents1">
+        <a class="contents" href="#_Other_Compilers">Other Compilers</a></p>
+    <p class="contents1">
+        <a class="contents" href="#_Compiler_Options">Compiler Options</a></p>
+
+    <h3 id="_wx_wxWidgets_Compiles">wxWidgets Compiles</h3>
+
+    <p>
+        For all platforms use wxWidgets 3.0 and higher. AStyleWx will NOT compile with wxWidgets 2.8.</p>
+    <p>
+        AStyleWx expects a Unicode, non-Monolithic build. This is the default for WxWidgets 3.0 and higher and is usually
+        the default for the Linux wxWidgets installation packages.</p>
+
+    <h4 id="_wx_Linux">Linux</h4>
+
+    <p>
+        On Linux, wxWidgets is available as installation packages. AStyleWx will work with the available packages if
+        wxWidgets 3.0 or higher is used. You can install both versions 2.8 and 3.0 on the same system. Both the development
+        packages and the run-time packages should be installed.</p>
+    <p>
+        The Linux compiles use the wx-config script for information about wxWidgets. The default release is used unless
+        another is requested. Install locations, as well as compiler and linker options, are also obtained from the
+        script.</p>
+    <p>
+        To display the default release:</p>
+    <pre>wx-config --release</pre>
+    <p>
+        To display a list of all installed releases:</p>
+    <pre>wx-config --list</pre>
+    <p>
+        To display the compiler options:</p>
+    <pre>wx-config --cflags</pre>
+    <p>
+        To display the linker options:</p>
+    <pre>wx-config --libs</pre>
+    <p>
+        To get a list of other options:</p>
+    <pre> wx-config --help</pre>
+
+    <h4 id="_wx_MacOS">MacOS</h4>
+
+    <p>
+        <b>Use wxWidgets 3.1 or higher.</b> Previous versions did not work with C++11. For MacOS it must be compiled and
+        installed from the source code. Download the source for Linux and MacOS. Do NOT use a Windows download. It will
+        have the wrong line endings which will cause problems.
+    </p>
+    <p>
+        Build the library for cocoa. Install instructions are in wxWidgets docs/osx. Either Xcode or the command line
+        tools may be used. The Xcode install did NOT do a complete install with the tested release. The command line tools
+        were the better choice. The AStyleWx compiles are built with wxWidgets STATIC libraries from the default install
+        folders.</p>
+    <p>
+        For AStyleWx, wxWidgets must be compiled as C++11. Building with C++11 requires additional options. The following
+        instructions worked on a macOS 10.12 Sierra with wxWidgets 3.1.0. Other possible configure flags are at 
+        <a href="http://wiki.wxwidgets.org/Possible_Configure_Flags_under_OS_X" target="_blank"
+            title="open new window">http://wiki.wxwidgets.org/Possible_Configure_Flags_under_OS_X</a></p>
+    <p>
+        <strong>NOTE:</strong> The following configure statement is three lines long for readability. It should be 
+        entered as one line. The files are built as static libraries (disable-shared). The option gnu++11 MUST be used
+        instead of c++11 or linker errors will occur. The minimum deployment is macOS 10.9 Mavericks. In the following
+        example, the Clang compiler is used instead of the default GCC.</p>
+    <p>
+        To build and install static libraries using the command line: </p>
+
+    <pre>cd wxWxdgets-3.1.0
+mkdir build-release
+cd build-release
+../configure  --disable-shared  -with-macosx-version-min=10.9  CC=clang  CXX=clang++ \
+CXXFLAGS="-std=gnu++11 -stdlib=libc++"  OBJCXXFLAGS="-std=gnu++11 -stdlib=libc++" \
+LDFLAGS="-stdlib=libc++"
+make
+sudo make install</pre>
+
+    <p>
+        <strong>NOTE:</strong> An error may occur when compiling and installing QTKit. If it does, just re-execute the
+        make using the additional option --ignore-errors e.g. "make --ignore-errors". The make will continue from
+        that point. The project that does not compile is not needed. </p>
+    <p>
+        The Artistic Style Wx compiles use the &quot;wx-config&quot; script for information about wxWidgets. The default
+        release is used unless another is requested. Install locations, as well as compiler and linker options, are also
+        obtained from the script. A brief description of the script is in the <a href="#_wx_Linux">wxWidgets Linux</a>
+        description.</p>
+
+    <h4 id="_wx_Visual_Studio">Visual Studio</h4>
+
+    <p>
+        There are Visual Studio solution files for wxWidgets releases in the wxWidgets build\msw folder. All of the
+        configurations and platforms in the wxWidgets solution files are supported by AStyleWx. Just open the appropriate
+        solution file for your Visual Studio version and compile the configurations and platforms you want. The
+        outputs will be in the various wxWidgets &quot;lib&quot; folders.</p>
+    <p>
+        The wxWidgets website has binary DLLs available for download. These were not used because the wxWidgets
+        static libraries are not included. The binary DLLs can be used for the DLL files if you want, but the AStyleWx
+        properties will need to be changed to the correct directories. The binaries are apparently compiled with the options
+        OFFICIAL_BUILD, COMPILER_VERSION, and TARGET_CPU (and possibly others) while the solution file compiles are not.
+        The properties that require changing are &quot;C/C++ &gt; General &gt; Additional Include Directories&quot; and
+        &quot;Linker &gt; General &gt; Additional Library Directories&quot;. This may change, of course, with later
+        versions.</p>
+    <p>
+        Compiling wxWidgets 3.0.2 with Visual Studio 2015 requires making changes to the wxWidgets source files. A
+        description of the solution is at <a href="https://forums.wxwidgets.org/viewtopic.php?f=19&amp;t=40491"
+            target="_blank" title="open new window">https://forums.wxwidgets.org/viewtopic.php?f=19&amp;t=40491</a>.
+        Use the reply by doublemax tagged as [SOLVED]. These changes are NOT needed for wxWidgets 3.1.0 and
+        higher.</p>
+    <p>
+        AStyleWx has a &quot;static&quot; build which is not available with the wxWidgets solutions. The Visual Studio
+        wxWidgets project files can be modified by using the procedure described in the AStyleWx documentation
+        <a href="static.html" target="_blank" title="open new window">Visual Studio Static Compile</a>.</p>
+
+    <h4 id="_wx_Other_Windows_Compilers">Other Windows Compilers</h4>
+
+    <p>
+        Other Windows compilers will need to use the makefiles in the wxWidgets build\msw folder. With wxWidgets
+        3 you can use the default options with the following exceptions. To build the wxWidgets static libraries no additional
+        options are needed. To build the wxWidgets DLLs the option SHARED=1 should be used.</p>
+    <p>
+        Some compilers require compiling wxWidgets with C++11. If you need to compile with C++11, there is an important
+        note in wxWidgets docs\msw\install.txt. <strong>Use &#8209;std=gnu++11 instead of &#8209;std=c++11</strong> because
+        the latter disables some extensions that wxWidgets relies on. If this is not done the linker will fail with undefined
+        references. &#8209;Wno-deprecated-declarations may also be needed to eliminate unwanted warning messages.</p>
+    <p>
+        To build wxWidgets DLLs with the TDM GCC compiler:</p>
+    <pre>cd build\msw
+mingw32-make -f makefile.gcc SHARED=1 CXXFLAGS=&quot;-std=gnu++11 -Wno-deprecated-declarations&quot;</pre>
+
+    <h3 id="_lnx_Linux_Compiles">Linux Compiles</h3>
+
+    <h4 id="_lnx_CodeBlocks_Linux">CodeBlocks Linux</h4>
+
+    <p>
+        There are build folders for the following compilers. All compiler folders are in the &quot;build&quot; directory.
+    </p>
+    <ul>
+        <li><strong>cb-clang</strong> contains the workspace and project files for the Linux Clang Compiler.</li>
+        <li><strong>cb-gcc</strong> contains the workspace and project files for the Linux GCC Compiler.</li>
+        <li><strong>cb-intel</strong> contains the workspace and project files for the Linux Intel Compiler.</li>
+    </ul>
+    <p>
+        There are workspace and project files in each folder. All projects have at least Debug and Release configurations.
+        The main &quot;wx&quot; programs will link to the wxWidgets shared object libraries. All output will be in the
+        &quot;bin&quot; directory.</p>
+    <p>
+        The following workspace files are available.</p>
+    <ul>
+        <li><strong>AStyleWx 3.x</strong> builds Artistic Style Wx for version
+            3.x of wxWidgets, where x is the minor version number. Artistic Style is compiled and linked as a Static Library
+            (astylewx). The build will result in a single file executable.</li>
+        <li><strong>AStyleWxSo 3.x</strong> builds the Artistic Style Wx program
+            for version 3.x of wxWidgets, where x is the minor version number. Artistic Style is compiled and linked as
+            a Shared Object Library (astylewxso).
+            <ul>
+                <li><em>AStyleWxSo 3.x</em> uses a <strong>local</strong> Artistic Style shared library. This library is compiled
+                    by the workspace. Only this library will be used, system libraries will be ignored.</li>
+                <li><em>AStyleWxSoSys 3.x</em> uses a <strong>system</strong> Artistic Style shared library. This library must be
+                    installed in a system library folder with the correct linkage. The most current library will be used.</li>
+            </ul>
+            The <a href="#_lnx_Makefile_Shared_Libraries">Makefile Shared Libraries</a> section contains additional information
+            on compiling to use an astyle shared library.
+        </li>
+    </ul>
+
+    <h4 id="_lnx_GCC_Makefile">GCC Makefile</h4>
+
+    <p>
+        The build has no autoconf dependency. To build the AStyleWx configurations use the makefile located in
+        the astylewx/build/gcc directory. The executables will be in the astylewx/build/gcc/bin directory.
+        The Artistic Style source is included in the AStyleWx compile but not in the AStyleWxSo compile. </p>
+    <p>
+        To build Artistic Style Wx change to the astylewx build/gcc directory. Before the first compile the deps.mak file
+        should be regenerated to assure the correct version of wxWidgets headers is being used. It is regenerated using
+        the &quot;deps&quot; target in the makefile. Wait for it to finish before doing the make.</p>
+
+    <pre>cd astylewx/build/gcc
+make deps
+make</pre>
+
+    <p>
+        To build the other astylewx configurations you can enter the file name or a symbolic name. Entering "make astylewx"
+        or "make release" will build the command line configuration. Following are the symbolic names and file names (in
+        parens) of the various configurations:</p>
+    <ul>
+        <li><strong>release</strong> or <strong>astylewx</strong> builds the Artistic Style Wx command line program. This
+            is the default option.</li>
+        <li><strong>shared</strong> or <strong>astylewxso</strong> builds the Artistic Style Wx program to use an astyle
+            shared library.</li>
+        <li><strong>debug</strong> or <strong>astylewxd</strong> builds the Artistic Style Wx command line program with
+            debugging information.</li>
+        <li><strong>shareddebug</strong> or <strong>astylewxsod</strong> builds the Artistic Style Wx program to use an
+            astyle shared library with debugging information.</li>
+        <li><strong>all </strong>builds all the above configurations.</li>
+    </ul>
+    <p>
+        More than one configuration can be built at the same time. For example, to build all the release configurations
+        enter:</p>
+
+    <pre>cd astyle/build/gcc
+make release shared</pre>
+
+    <p>
+        The <a href="#_lnx_Makefile_Shared_Libraries">Makefile Shared Libraries</a> section contains additional 
+        information on compiling to use an astyle shared library. The <a href="#_lnx_Other_Makefile_Options">Other Makefile
+            Options</a> and <a href="#_lnx_Other_Makefile_Targets">Other Makefile Targets</a> sections contain additional
+        compile and target options.</p>
+
+    <h4 id="_lnx_Clang_Makefile">Clang Makefile</h4>
+
+    <p>
+        The build has no autoconf dependency. To build AStyleWx use the makefile located in the astyle/build/clang
+        directory. The executables will be in the astyle/build/clang/bin directory.
+        The Artistic Style source is included in the AStyleWx compile.</p>
+
+    <p>
+        To build Artistic Style Wx change to the astylewx/build/clang directory. Before the first compile the deps.mak
+        file should be regenerated to assure the correct version of wxWidgets headers is being used. It is regenerated
+        using the &quot;deps&quot; target in the makefile. Wait for it to finish before doing the make.</p>
+
+    <pre>cd astylewx/build/clang
+make deps
+make
+</pre>
+
+    <p>
+        The <a href="#_lnx_Makefile_Shared_Libraries">Makefile Shared Libraries</a> section contains additional 
+        information on compiling to use an astyle shared library. The <a href="#_lnx_Other_Makefile_Options">Other Makefile
+            Options</a> and <a href="#_lnx_Other_Makefile_Targets">Other Makefile Targets</a> sections contain additional
+        compile and target options.</p>
+
+    <h4 id="_lnx_Intel_Makefile">Intel Makefile</h4>
+
+    <p>
+        These procedures and the makefile are for recent versions of the compiler. They may not work for earlier versions.
+        Instructions for your compiler are in the compiler documentation file "get_started_lc.htm".</p>
+    <p>
+        To compile the source there are environment variables that must be set by running the compiler environment script
+        compilervars.sh (or compilervars.csh) with an argument that specifies the target architecture. If this has not
+        been done already enter: "<strong>source &nbsp;&lt;install-dir&gt;/bin/compilervars.sh&nbsp;&lt;arg&gt;</strong>",
+        where &lt;install-dir&gt; is the directory where the compiler is installed and &lt;arg&gt; is <strong>ia32 </strong>
+        or <strong>intel64</strong>. If this is not done "make" will display an error message. On an Intel x64 platform
+        installed in the default directory the instruction would be</p>
+    <pre>source /opt/intel/bin/compilervars.sh intel64</pre>
+    <p>
+        The build has no autoconf dependency. To build AStyleWx use the makefile located in the astyle/build/intel directory.
+        The executables will be in the astyle/build/intel/bin directory. The Artistic Style source is included in the
+        AStyleWx compile.</p>
+
+    <p>
+        To build Artistic Style Wx change to the astylewx/build/intel directory.
+        Before the first compile the deps.mak file should be regenerated to assure the correct version of wxWidgets headers
+        is being used. It is regenerated using the &quot;deps&quot; target in the makefile. Wait for it to finish before
+        doing the make.</p>
+
+    <pre>cd astylewx/build/intel
+make deps
+make
+</pre>
+
+    <p>
+        The <a href="#_lnx_Makefile_Shared_Libraries">Makefile Shared Libraries</a> section contains additional information
+        on compiling to use an astyle shared library. The <a href="#_lnx_Other_Makefile_Options">Other Makefile Options</a>
+        and <a href="#_lnx_Other_Makefile_Targets">Other Makefile Targets</a> sections contain additional compile and
+        target options.</p>
+
+    <h4 id="_lnx_Makefile_Shared_Libraries">Makefile Shared Libraries</h4>
+
+    <p>
+        <strong>To build the AStyleWxSo program an AStyle shared library must be compiled using the AStyle 
+            makefile. </strong>AStyleWxSo, the compile using the AStyle dynamic library, uses the compiler directive ASTYLE_DYLIB.
+        This does a dynamic load of the AStyle library at runtime, it is NOT linked during the compile. This will allow
+        it to ignore the library soname version while loading. The shared library can either be left in the AStyle folder
+        or copied to the binary folder containing the AStyleWxSo executable. (It may be in any of the folders indicated
+        by the rpaths options in the AStyleWx makefile). If no library is found a message will be displayed a runtime,
+        not compile time.</p>
+    <p>
+        The shared library compile expects to use the current AStyle library as a local library. If you have system
+        libraries installed and want to use them, the makefile needs to be changed. Find the Makefile macro 
+        &quot;$(rpaths)&quot; in the linker command and change it to "&#8209;lastyle". The instruction for the default
+        build should be changed in a similar manner. When this is done the compile will link to the most current system
+        library. </p>
+
+    <h4 id="_lnx_Other_Makefile_Options">Other Makefile Options</h4>
+
+    <p>
+        The following additional compile options are available for GCC, Clang, Intel, and MacOS.</p>
+
+    <h5>wx</h5>
+
+    <pre>wx=3.0</pre>
+
+    <p>
+        To compile with a wxWidgets release other than the default use the &quot;wx&quot; option. For example, if
+        both releases 3.0 and 3.1 are installed, using &quot;wx=3.0&quot; will compile with wxWidgets release 3.0. This
+        option may be used with compile and install commands.</p>
+
+    <h5>CFLAGS</h5>
+
+
+    <p>
+        To add additional compiler options use CFLAGS. The options should be enclosed in quotes if spaces are
+        included.</p>
+
+    <h5>LDFLAGS</h5>
+
+    <p>
+        To add additional linker options use LDFLAGS. The options should be enclosed in quotes if spaces are
+        included.</p>
+
+    <h5>TESTMODE1</h5>
+
+    <p>
+        This is used in CFLAGS to bypass AStyleWx warning messages when changed files have not been saved. Its purpose
+        is to make testing more convenient. It is not intended to be used in a release configuration. To use the option
+        enter CFLAGS=&quot;&#8209;DTESTMODE1&quot;.</p>
+
+    <h4 id="_lnx_Other_Makefile_Targets">Other Makefile Targets</h4>
+
+    <p>
+        The following additional makefile targets are available.</p>
+
+    <h5>clean</h5>
+
+    <p>
+        Removes the object and executable files for all configurations.</p>
+    <p>
+        To remove the files for all configurations:</p>
+
+    <pre>make clean
+</pre>
+
+    <h5>cleanobj</h5>
+
+    <p>
+        Removes the object files for all configurations. The executables will not be removed.</p>
+    <p>
+        To remove only the object files for all configurations:</p>
+
+    <pre>make cleanobj
+</pre>
+
+    <h5>install</h5>
+
+    <p>
+        Installs the AStyleWx executable and documentation files. The default is /usr/bin for the executable and /usr/share/doc/astylewx
+        for the documentation. You must have the appropriate permissions to use install.</p>
+    <p>
+        To install AStyleWx to the default directories:</p>
+    <pre>sudo make install
+</pre>
+    <p>
+        To install AStyleWx to a different directory, set a value for the macro $(prefix). For example, to install the
+        executable to a user's home directory (/home/<i>user</i>/bin):</p>
+    <pre>sudo make prefix=$HOME install
+</pre>
+
+    <h5>uninstall</h5>
+
+    <p>
+        Uninstalls the executable and documentation. You must have the appropriate permissions to use uninstall.</p>
+    <p>
+        To uninstall AStyleWx from the default directories:</p>
+    <pre>sudo make uninstall
+</pre>
+    <p>
+        To uninstall the files from a different directory set a value for the macro $(prefix). For example, to uninstall
+        the files from a user's home directory (/home/<i>user</i>):</p>
+
+    <pre>sudo make prefix=$HOME uninstall
+</pre>
+    <p>
+        NOTE: The uninstall option will NOT remove the &quot;.astylewx&quot; configuration files from the user's home
+        directory. The files must be removed individually for each user.</p>
+
+    <h3 id="_mac_MacOS_Compiles">MacOS Compiles</h3>
+
+    <h4 id="_mac_Xcode">Xcode</h4>
+
+    <p>
+        AStyleWx workspace and project files for the Xcode development environment are available in the
+        &quot;build/xcode&quot;
+            directory. AStyleWx links AStyle as a static library.</p>
+    <p>
+        The project files have Debug and Release configurations. The following projects are available in the AStyleWx
+        workspace.</p>
+    <ul>
+        <li><strong>AStyleA</strong> builds the Artistic Style program as a Static Library (libastyle.a). This will be statically
+            linked with AStyleWx.</li>
+        <li><strong>AStyleWx</strong> builds the AStyleWx program. It will be linked with AStyleA to create the AStyleWx executable.
+            This will build AStyleA first if necessary.
+        </li>
+    </ul>
+    <p>
+        The following projects are available in the AStyleWxDy workspace.</p>
+    <ul>
+        <li><strong>AStyleDy</strong> builds the Artistic Style program as a dynamic library (libastylexx.dylib). This will
+            be dynamically linked with AStyleWxDy at runtime.</li>
+        <li><strong>AStyleWxDy</strong> builds the AStyleWx program. It will be dynamically linked with AStyleDy at 
+            runtime. This will build AStyleDy first if necessary.</li>
+    </ul>
+    <p>
+        Xcode cannot use the wx-config file like the makefile compile. The information for wxWidgets
+        headers and libraries must be entered into Xcode. There is information at on doing this at wxWidgets
+        <a href="https://wiki.wxwidgets.org/Creating_Xcode_3_projects_for_wxWidgets_applications"
+            target="_blank" title="open new window">Creating Xcode 3 projects for wxWidgets applications</a>. A
+        description of the process follows.</p>
+    <p>
+        Display the wx-config default release as described in <a href="#_wx_Linux">Linux wxWidgets Compiles</a>.</p>
+    <p>
+        Check the following settings for the wxWidgets release you want to use:</p>
+    <ol>
+        <li>In the Xcode Build Settings, navigate to Search Paths and find Header Search Paths. Change the wxWidgets
+        version numbers if they are not correct.</li>
+        <li>In the Xcode Build Settings, navigate to Linking and find Other Linker Flags. Change the wxWidgets
+        version numbers if they are not correct.</li>
+    </ol>
+    <p>
+        Build and run the program as usual from Xcode. The linker should be able to find the correct static libraries
+        for the wxWidgets version. If there are linker errors check the wx-config settings above.</p>
+
+    <h5>install</h5>
+
+    <p>
+        The following instructions are for the AStyleWx applications. The app will be installed in the Applications
+        directory. You must have the appropriate permissions to use install.</p>
+    <p>
+        To install AStyleWx app to the tmp/AStyleWx.dst/Applications directory:</p>
+
+    <pre>cd astylewx/build/xcode
+sudo xcodebuild install -project AStyleWx.xcodeproj -target AStyleWx
+</pre>
+
+    <h4 id="_mac_Makefile">Makefile</h4>
+
+    <p>
+        The build has no autoconf dependency. To build the AStyleWx configurations use the makefile located in the astylewx/build/mac
+        directory. The executables will be in the astylewx/build/mac/bin directory. The Artistic Style source is included
+        in the AStyleWx compile.</p>
+    <p>
+        To build Artistic Style Wx change to the astylewx build mac directory. Before the first compile the deps.mak
+        file should be regenerated to assure the correct version of wxWidgets headers is being used. It is regenerated
+        using the &quot;deps&quot; target in the makefile. Wait for it to finish before doing the make.</p>
+
+    <pre>cd astylewx/build/mac
+make deps
+make</pre>
+
+    <p>
+        To build the other astylewx configurations you can enter the file name or a symbolic name. Entering &quot;make
+        astylewx&quot; or &quot;make release&quot; will build the command line configuration. Following are the symbolic
+        names and file names (in parens) of the various configurations:</p>
+    <ul>
+        <li><strong>release</strong> or <strong>astylewx</strong> builds the Artistic Style Wx executable. This
+            is the default option. </li>
+        <li><strong>debug</strong> or <strong>astylewxd</strong> builds the Artistic Style Wx executable with debugging
+            information. </li>
+        <li><strong>all</strong> builds all the above configurations.</li>
+    </ul>
+    <p>
+        More than one configuration can be built at the same time. For example, to build all the release configurations
+        enter:</p>
+
+    <pre>cd astyle/build/mac
+make release debug</pre>
+
+    <p>
+        The <a href="#_lnx_Other_Makefile_Options">Other Makefile Options</a> and <a href="#_lnx_Other_Makefile_Targets">Other
+            Makefile Targets</a> sections contain additional compile and target options. They are the same as for Linux
+        makefiles.</p>
+
+    <h3 id="_win_Windows_Compiles">Windows Compiles</h3>
+
+    <h4 id="_win_Precompiled_Executable">Precompiled Executable</h4>
+
+    <p>
+        In addition to the source files, the Windows distribution package contains an Artistic Style Win32 executable
+        (AStyle.exe). If you prefer to compile the executable yourself use the following instructions.</p>
+
+    <h4 id="_win_CodeBlocks_Windows">CodeBlocks Windows</h4>
+
+    <p>
+        There are build folders for the following compilers. All compiler folders are in the &quot;build&quot; directory.
+    </p>
+    <ul>
+        <li><strong>cb-mingw</strong> contains the workspace and project files for the MinGW or TDM_GCC Compilers.</li>
+    </ul>
+    <p>
+        There are workspace and project files for each folder. All projects have at least Debug and Release
+        configurations. All output will be in the &quot;bin&quot; directory.</p>
+    <p>
+        The following workspace files are available.</p>
+    <ul>
+        <li><strong>AStyleWx 3.x</strong>&nbsp;builds Artistic Style Wx for version 3.x of wxWidgets, where x is the minor
+            version number. Artistic Style is compiled and linked as a Dynamic Link Library (AStyle3.x.dll). The build will
+            result in a single file executable.</li>
+        <li><strong>AStyleWxSo 3.x</strong>&nbsp;builds the Artistic Style Wx program for version 3.x of wxWidgets, where
+            x is the minor version number. Artistic Style is compiled and linked as a Dynamic Link Library (AStyleWxDll).
+        </li>
+    </ul>
+
+    <h4 id="_win_Visual_C++_Compiler">Visual C++ Compiler</h4>
+
+    <p>
+        <strong>To compile AStyleWx the wxWidgetsMacros.props files must be changed.</strong> The files
+        are located in the build\vs... folders. The easiest way to change them is to
+        open the props files in a text editor. Then change the "WXWIN" field to the location of the wxWidgets directory
+        on your system. The &quot;wxVersion&quot; field will need to be changed if it does not contain the correct wxWidgets
+        version.</p>
+    <p>
+        The &quot;wxWidgetsMacros.props&quot; files can also be changed from the &quot;Properties Editor&quot; in Visual
+        Studio. An AStyleWx solution must be open. Open the &quot;Property Manager&quot; window from the View
+        menu. Open a configuration in the Property Manager, right click on &quot;wxWidgets Macros&quot;, and select &quot;Properties&quot;.
+        Under &quot;Common Properties&quot; select &quot;User Macros&quot;. The &quot;WXWIN&quot; and &quot;wxVersion&quot;
+        macros values will be displayed. They can be changed by double-clicking on the field name. Change the macro value
+        to the correct value for your system and press OK. This will change the macros for all configurations. The properties
+        file needs to be saved before closing the solution.</p>
+    <p>
+        The following solution files are available.</p>
+
+    <ul>
+        <li><strong>AStyleWx_3.x </strong>builds Artistic Style Wx for version 3.x of wxWidgets, where x is the minor
+            version number. Artistic Style is compiled and linked as a Static Library (astylelib.lib). The build will result
+            in a single file executable.</li>
+        <li><strong>AStyleWxDll_3.x </strong>builds the Artistic Style Wx program for version 3.x of wxWidgets, where x is
+            the minor version number. Artistic Style is compiled and linked as a Dynamic Link Library (AStyle.dll). This
+            will also build an exports library and a static library for linking the dll. </li>
+    </ul>
+
+    <p>
+        All projects have the following configurations available for Win32 and x64 platforms.</p>
+    <ul>
+        <li><strong>Debug</strong> builds a debug configuration that is linked to the wxWidgets static libraries.</li>
+        <li><strong>Release</strong> builds a release configuration that is linked to the wxWidgets static
+            libraries.</li>
+        <li><strong>DLL Debug</strong> builds a debug configuration that is linked to the wxWidgets DLL libraries.</li>
+        <li><strong>DLL Release</strong> builds a release configuration that is linked to the wxWidgets DLL
+            libraries.</li>
+        <li><strong>Static</strong> builds a release configuration that is linked to the wxWidgets static libraries
+            and is also linked to a static runtime library.</li>
+    </ul>
+
+    <p>
+        To compile a configuration, the corresponding library files must be available in the wxWidgets directory. All
+        library file compiles are available in the wxWidgets solution files except the Static compile. If the Static
+        compile is not needed it can be removed from the configurations. If you want to try compiling it the procedure
+        described in the AStyleWx documentation <a href="static.html"
+            target="_blank" title="open new window">Visual Studio Static Compile</a>.</p>
+
+    <h3 id="_Other_Compilers">Other Compilers</h3>
+
+    <p>
+        To use other compilers a project file must be built using an editor or development environment.</p>
+
+    <ul>
+        <li>Create a project using the compiler development environment.</li>
+        <li>Add to the project all the AStyleWx .cpp and .h files in the "src" and &quot;dialog&quot; directories.</li>
+        <li>Add to the project all the AStyle .cpp and .h files in the &quot;AStyle\src&quot; directory.</li>
+        <li>Define the Preprocessor Definition ASTYLE_LIB for all Configurations and Platforms.</li>
+        <li>The Compiler Options section discusses the compiler options to use.</li>
+        <li>Compile.</li>
+    </ul>
+
+    <p>
+        The AStyle source can also be compiled as a separate static library and linked to the AStyleWx compile.</p>
+
+    <h3 id="_Compiler_Options">Compiler Options</h3>
+
+    <p>
+        To compile AStyle as a static or shared (dynamic) library define the macro ASTYLE_LIB. To compile a Java shared
+        (dynamic) library define the macro ASTYLE_JNI. The option ASTYLE_NO_EXPORTS is sometimes needed for static libraries
+        to prevent compiler error and warning messages. Use the appropriate compiler and linker options to compile the
+        static or shared library. Add debug options to compile the debug versions.</p>
+    <p>
+        Artistic Style Wx has two compiler options. ASTYLE_DYLIB uses the wxWidgets wxDynamicLibrary Class to load an
+        AStyle dll at runtime. The AStyle library is NOT linked with AStyleWx. It is loaded at runtime and must be 
+        available where expected. The TESTMODE1 option can be used with debug builds of AStyleWx. It removes 
+        confirmation messages for file saves and adds a &quot;Test Options&quot; dialog box to the Tools menu. It cannot
+        be used with release builds.</p>
+    <p>
+        Artistic Style is a small program and it is best to optimize for speed. The debug configurations are not usually
+        optimized. To optimize for speed in the release configurations, use the macro NDEBUG to remove asserts. If
+        necessary, use an option to activate the C++11 standards (--std=c++11 on GCC and MinGW). Use an option that allows
+        inline function expansion. Runtime Type Information (RTTI) is NOT needed. Exceptions are not used. Use whole program
+        optimization if your compiler supports it. There may be other options you can use depending
+        on the compiler.</p>
+    <p>
+        &nbsp;</p>
+
+    <p style="margin-left: -0.4in; text-align: center;">
+        <a href="https://sourceforge.net/projects/astyle">
+            <img src="https://sflogo.sourceforge.net/sflogo.php?group_id=2319&type=16" alt="" />
+        </a></p>
+
+    <p>
+        &nbsp;</p>
+
+</body>
+
+</html>
+
