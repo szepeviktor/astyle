@@ -3322,8 +3322,14 @@ bool ASFormatter::isDereferenceOrAddressOf() const
 	if (isCharImmediatelyPostTemplate)
 		return false;
 
+	//TODO FIXME
+	// https://sourceforge.net/p/astyle/bugs/537/
+	/* if ( previousNonWSChar == ',') {
+		return false;
+	}*/
+
 	if (previousNonWSChar == '='
-	       // || previousNonWSChar == ','
+	        || previousNonWSChar == ','
 	        || previousNonWSChar == '.'
 	        || previousNonWSChar == '{'
 	        || previousNonWSChar == '>'
@@ -3333,12 +3339,6 @@ bool ASFormatter::isDereferenceOrAddressOf() const
 	        || isCharImmediatelyPostComment
 	        || isCharImmediatelyPostReturn)
 		return true;
-
-	// https://sourceforge.net/p/astyle/bugs/537/
-	if ( previousNonWSChar == ',') {
-
-		return false;
-	}
 
 
 	char nextChar = peekNextChar();
