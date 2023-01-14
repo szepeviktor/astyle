@@ -94,7 +94,7 @@ namespace astyle {
 	jmethodID g_mid;
 #endif
 
-const char* g_version = "3.3 beta";
+const char* g_version = "3.2 beta";
 
 //-----------------------------------------------------------------------------
 // ASStreamIterator class
@@ -2031,8 +2031,7 @@ void ASConsole::printHelp() const
 	cout << "    --max-continuation-indent=#  OR  -M#\n";
 	cout << "    Indent a maximal # spaces in a continuation line,\n";
 	cout << "    relative to the previous line.\n";
-	cout << "    The valid values are 40 thru 120.\n";
-	cout << "    The default value is 40.\n";
+	cout << "    The minimum and default value is 40.\n";
 	cout << endl;
 	cout << "Padding Options:\n";
 	cout << "----------------\n";
@@ -3275,8 +3274,6 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 			maxIndent = atoi(maxIndentParam.c_str());
 		if (maxIndent < 40)
 			isOptionError(arg, errorInfo);
-		else if (maxIndent > 120)
-			isOptionError(arg, errorInfo);
 		else
 			formatter.setMaxContinuationIndentLength(maxIndent);
 	}
@@ -3634,8 +3631,6 @@ bool ASOptions::parseOptionContinued(const string& arg, const string& errorInfo)
 		if (maxIndentParam.length() > 0)
 			maxIndent = atoi(maxIndentParam.c_str());
 		if (maxIndent < 40)
-			isOptionError(arg, errorInfo);
-		else if (maxIndent > 120)
 			isOptionError(arg, errorInfo);
 		else
 			formatter.setMaxInStatementIndentLength(maxIndent);
