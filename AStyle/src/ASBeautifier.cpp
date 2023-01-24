@@ -1,5 +1,5 @@
 // ASBeautifier.cpp
-// Copyright (c) 2018 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2023 The Artistic Style Authors.
 // This code is licensed under the MIT License.
 // License.md describes the conditions under which this software may be distributed.
 
@@ -815,6 +815,14 @@ void ASBeautifier::setCStyle()
 void ASBeautifier::setJavaStyle()
 {
 	fileType = JAVA_TYPE;
+}
+
+/**
+ * set indentation style to JavaScript.
+ */
+void ASBeautifier::setJSStyle()
+{
+	fileType = JS_TYPE;
 }
 
 /**

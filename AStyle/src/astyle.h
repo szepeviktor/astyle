@@ -1,5 +1,5 @@
 // astyle.h
-// Copyright (c) 2018 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2023 The Artistic Style Authors.
 // This code is licensed under the MIT License.
 // License.md describes the conditions under which this software may be distributed.
 
@@ -64,7 +64,7 @@ using namespace std;
 // definitions
 //----------------------------------------------------------------------------
 
-enum FileType { C_TYPE = 0, JAVA_TYPE = 1, SHARP_TYPE = 2 };
+enum FileType { C_TYPE = 0, JAVA_TYPE = 1, SHARP_TYPE = 2, JS_TYPE = 3 };
 
 /* The enums below are not recognized by 'vectors' in Microsoft Visual C++
    V5 when they are part of a namespace!!!  Use Visual C++ V6 or higher.
@@ -271,7 +271,7 @@ public:
 	static const string AS_ASSIGN, AS_PLUS_ASSIGN, AS_MINUS_ASSIGN, AS_MULT_ASSIGN;
 	static const string AS_DIV_ASSIGN, AS_MOD_ASSIGN, AS_XOR_ASSIGN, AS_OR_ASSIGN, AS_AND_ASSIGN;
 	static const string AS_GR_GR_ASSIGN, AS_LS_LS_ASSIGN, AS_GR_GR_GR_ASSIGN, AS_LS_LS_LS_ASSIGN;
-	static const string AS_GCC_MIN_ASSIGN, AS_GCC_MAX_ASSIGN, AS_SPACESHIP;
+	static const string AS_GCC_MIN_ASSIGN, AS_GCC_MAX_ASSIGN, AS_SPACESHIP, AS_EQUAL_JS;
 	static const string AS_EQUAL, AS_PLUS_PLUS, AS_MINUS_MINUS, AS_NOT_EQUAL, AS_GR_EQUAL;
 	static const string AS_LS_EQUAL, AS_LS_LS_LS, AS_LS_LS, AS_GR_GR_GR, AS_GR_GR;
 	static const string AS_QUESTION_QUESTION, AS_LAMBDA;
@@ -308,6 +308,7 @@ protected:  // inline functions
 	bool isCStyle() const { return (baseFileType == C_TYPE); }
 	bool isJavaStyle() const { return (baseFileType == JAVA_TYPE); }
 	bool isSharpStyle() const { return (baseFileType == SHARP_TYPE); }
+	bool isJSStyle() const { return (baseFileType == JS_TYPE); }
 	bool isWhiteSpace(char ch) const { return (ch == ' ' || ch == '\t'); }
 
 protected:  // functions definitions are at the end of ASResource.cpp
@@ -351,6 +352,8 @@ public:
 	void setForceTabXIndentation(int length);
 	void setAfterParenIndent(bool state);
 	void setJavaStyle();
+	void setJSStyle();
+
 	void setLabelIndent(bool state);
 	void setMaxContinuationIndentLength(int max);
 	void setMaxInStatementIndentLength(int max);
