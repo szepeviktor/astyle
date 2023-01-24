@@ -1,5 +1,5 @@
 // astyle_main.cpp
-// Copyright (c) 2018 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2023 The Artistic Style Authors.
 // This code is licensed under the MIT License.
 // License.md describes the conditions under which this software may be distributed.
 
@@ -1365,14 +1365,12 @@ void ASConsole::getFileNames(const string& directory, const vector<string>& wild
 // Return the full path name or an empty string if failed.
 string ASConsole::getFullPathName(const string& relativePath) const
 {
-	// ignore realPath attribute warning, only with cmake
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-result"
-	char fullPath[PATH_MAX];
-	fullPath[0] = '\0';
-	realpath(relativePath.c_str(), fullPath);
-	return fullPath;
-#pragma GCC diagnostic pop
+	char *fullPath = realpath(relativePath.c_str(), nullptr);
+	if (fullPath == nullptr)
+		return string();
+	const string p(fullPath);
+	free(fullPath);
+	return p;
 }
 
 // LINUX function to get the documentation file path prefix
@@ -1795,7 +1793,7 @@ void ASConsole::printHelp() const
 {
 	cout << endl;
 	cout << "                     Artistic Style " << g_version << endl;
-	cout << "                     Maintained by: Jim Pattee\n";
+	cout << "                     Maintained by: Andre Simon, Jim Pattee\n";
 	cout << "                     Original Author: Tal Davidson\n";
 	cout << endl;
 	cout << "Usage:\n";
@@ -2161,6 +2159,9 @@ void ASConsole::printHelp() const
 	cout << "    --mode=cs\n";
 	cout << "    Indent a C# source file.\n";
 	cout << endl;
+	cout << "    --mode=js\n";
+	cout << "    Indent a JavaScript source file (experimental).\n";
+	cout << endl;
 	cout << "Objective-C Options:\n";
 	cout << "--------------------\n";
 	cout << "    --pad-method-prefix  OR  -xQ\n";
@@ -2452,19 +2453,7 @@ void ASConsole::processOptions(const vector<string>& argvOptions)
 					setOptionFileName(name);
 			}
 		}
-		// for Windows
-		// NOTE: depreciated with release 3.1, remove when appropriate
-		// there is NO test data for this option
-		if (optionFileName.empty())
-		{
-			const char* const env = getenv("USERPROFILE");
-			if (env != nullptr)
-			{
-				string name = string(env) + "\\astylerc";
-				if (fileExists(name.c_str()))
-					setOptionFileName(name);
-			}
-		}
+
 	}
 
 	// find project option file
@@ -2688,14 +2677,7 @@ void ASConsole::printVerboseHeader() const
 	// print option files
 	if (!optionFileName.empty())
 		printf(_("Default option file  %s\n"), optionFileName.c_str());
-	// NOTE: depreciated with release 3.1, remove when appropriate
-	if (!optionFileName.empty())
-	{
-		const char* const env = getenv("USERPROFILE");
-		if (env != nullptr && optionFileName == string(env) + "\\astylerc")
-			printf("The above option file has been DEPRECIATED\n");
-	}
-	// end depreciated
+
 	if (!projectOptionFileName.empty())
 		printf(_("Project option file  %s\n"), projectOptionFileName.c_str());
 }
@@ -3174,6 +3156,11 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 		formatter.setJavaStyle();
 		formatter.setModeManuallySet(true);
 	}
+	else if (isOption(arg, "mode=js"))
+	{
+		formatter.setJSStyle();
+		formatter.setModeManuallySet(true);
+	}
 	else if (isParamOption(arg, "t", "indent=tab="))
 	{
 		int spaceNum = 4;
@@ -3597,45 +3584,7 @@ bool ASOptions::parseOptionContinued(const string& arg, const string& errorInfo)
 	{
 		formatter.setObjCColonPaddingMode(COLON_PAD_BEFORE);
 	}
-	// NOTE: depreciated options - remove when appropriate
-	// depreciated options ////////////////////////////////////////////////////////////////////////
-	else if (isOption(arg, "indent-preprocessor"))			// depreciated release 2.04
-	{
-		formatter.setPreprocDefineIndent(true);
-	}
-	else if (isOption(arg, "style=ansi"))					// depreciated release 2.05
-	{
-		formatter.setFormattingStyle(STYLE_ALLMAN);
-	}
-	// depreciated in release 3.0 /////////////////////////////////////////////////////////////////
-	else if (isOption(arg, "break-closing-brackets"))		// depreciated release 3.0
-	{
-		formatter.setBreakClosingHeaderBracketsMode(true);
-	}
-	else if (isOption(arg, "add-brackets"))					// depreciated release 3.0
-	{
-		formatter.setAddBracketsMode(true);
-	}
-	else if (isOption(arg, "add-one-line-brackets"))		// depreciated release 3.0
-	{
-		formatter.setAddOneLineBracketsMode(true);
-	}
-	else if (isOption(arg, "remove-brackets"))				// depreciated release 3.0
-	{
-		formatter.setRemoveBracketsMode(true);
-	}
-	else if (isParamOption(arg, "max-instatement-indent="))	// depreciated release 3.0
-	{
-		int maxIndent = 40;
-		string maxIndentParam = getParam(arg, "max-instatement-indent=");
-		if (maxIndentParam.length() > 0)
-			maxIndent = atoi(maxIndentParam.c_str());
-		if (maxIndent < 40)
-			isOptionError(arg, errorInfo);
-		else
-			formatter.setMaxInStatementIndentLength(maxIndent);
-	}
-	// end depreciated options ////////////////////////////////////////////////////////////////////
+
 #ifdef ASTYLE_LIB
 	// End of options used by GUI /////////////////////////////////////////////////////////////////
 	else
