@@ -42,6 +42,7 @@ ASFormatter::ASFormatter()
 	objCColonPadMode = COLON_PAD_NO_CHANGE;
 	lineEnd = LINEEND_DEFAULT;
 	maxCodeLength = string::npos;
+	isInStruct = false;
 	shouldPadCommas = false;
 	shouldPadOperators = false;
 	shouldPadParensOutside = false;
@@ -239,6 +240,8 @@ void ASFormatter::init(ASSourceIterator* si)
 	endOfCodeReached = false;
 	isFormattingModeOff = false;
 	isInEnum = false;
+	isInContinuedPreProc = false;
+	isInStruct = false;
 	isInExecSQL = false;
 	isInAsm = false;
 	isInAsmOneLine = false;
@@ -291,8 +294,8 @@ void ASFormatter::init(ASSourceIterator* si)
 	currentLineBeginsWithBrace = false;
 	isPrependPostBlockEmptyLineRequested = false;
 	isAppendPostBlockEmptyLineRequested = false;
-	isIndentableProprocessor = false;
-	isIndentableProprocessorBlock = false;
+	isIndentablePreprocessor = false;
+	isIndentablePreprocessorBlck = false;
 	prependEmptyLine = false;
 	appendOpeningBrace = false;
 	foundClosingHeader = false;
@@ -595,12 +598,17 @@ string ASFormatter::nextLine()
 			continue;
 		}
 		// treat these preprocessor statements as a line comment
-		if (currentChar == '#'
+
+		if ((currentChar == '#')
 		        && currentLine.find_first_not_of(" \t") == (size_t) charNum)
 		{
+			isInContinuedPreProc = currentLine[currentLine.size() - 1] == '\\';
+
+			/*
 			string preproc = trim(currentLine.c_str() + charNum + 1);
 			if (preproc.length() > 0
 			        && isCharPotentialHeader(preproc, 0)
+			        && getFileType() != C_TYPE
 			        && (findKeyword(preproc, 0, "region")
 			            || findKeyword(preproc, 0, "endregion")
 			            || findKeyword(preproc, 0, "error")
@@ -620,6 +628,7 @@ string ASFormatter::nextLine()
 				appendCurrentChar();
 				continue;
 			}
+			*/
 		}
 
 		if (isInPreprocessor)
@@ -670,7 +679,11 @@ string ASFormatter::nextLine()
 			// if top level it is potentially indentable
 			if (shouldIndentPreprocBlock
 			        && (isBraceType(braceTypeStack->back(), NULL_TYPE)
-			            || isBraceType(braceTypeStack->back(), NAMESPACE_TYPE))
+			            || isBraceType(braceTypeStack->back(), NAMESPACE_TYPE)
+
+			            /* #521 enables preprocessor indent within { ... } block, but disables indent of code between #ifdefs  */
+			            //|| getFileType() == C_TYPE
+			           )
 			        && !foundClassHeader
 			        && !isInClassInitializer
 			        && sourceIterator->tellg() > preprocBlockEnd)
@@ -681,11 +694,11 @@ string ASFormatter::nextLine()
 				{
 					if (isImmediatelyPostPreprocessor)
 						breakLine();
-					isIndentableProprocessorBlock = isIndentablePreprocessorBlock(currentLine, charNum);
-					isIndentableProprocessor = isIndentableProprocessorBlock;
+					isIndentablePreprocessorBlck = isIndentablePreprocessorBlock(currentLine, charNum);
+					isIndentablePreprocessor = isIndentablePreprocessorBlck;
 				}
 			}
-			if (isIndentableProprocessorBlock
+			if (isIndentablePreprocessorBlck
 			        && charNum < (int) currentLine.length() - 1
 			        && isWhiteSpace(currentLine[charNum + 1]))
 			{
@@ -693,9 +706,9 @@ string ASFormatter::nextLine()
 				if (nextText != string::npos)
 					currentLine.erase(charNum + 1, nextText - charNum - 1);
 			}
-			if (isIndentableProprocessorBlock
+			if (isIndentablePreprocessorBlck
 			        && sourceIterator->tellg() >= preprocBlockEnd)
-				isIndentableProprocessorBlock = false;
+				isIndentablePreprocessorBlck = false;
 			//  need to fall thru here to reset the variables
 		}
 
@@ -1039,6 +1052,7 @@ string ASFormatter::nextLine()
 				isImmediatelyPostObjCMethodPrefix = false;
 				isInObjCInterface = false;
 				isInEnum = false;
+				//isInStruct = false;
 				isJavaStaticConstructor = false;
 				isCharImmediatelyPostNonInStmt = false;
 				needHeaderOpeningBrace = false;
@@ -1432,8 +1446,8 @@ string ASFormatter::nextLine()
 				lineCommentNoIndent = false;
 				if (isImmediatelyPostPreprocessor)
 				{
-					isInIndentablePreproc = isIndentableProprocessor;
-					isIndentableProprocessor = false;
+					isInIndentablePreproc = isIndentablePreprocessor;
+					isIndentablePreprocessor = false;
 				}
 			}
 		}
@@ -1466,12 +1480,14 @@ string ASFormatter::nextLine()
 						passedSemicolon = true;
 				}
 
+//is set in struct case? #518
 				if (shouldBreakBlocks
 				        && currentHeader != nullptr
 				        && currentHeader != &AS_CASE
 				        && currentHeader != &AS_DEFAULT
 				        && !isHeaderInMultiStatementLine
-				        && parenStack->back() == 0)
+				        && parenStack->back() == 0
+				   )
 				{
 					isAppendPostBlockEmptyLineRequested = true;
 				}
@@ -1506,6 +1522,8 @@ string ASFormatter::nextLine()
 			         && !isInObjCSelector           // not objC @selector
 			         && !isDigit(peekNextChar())    // not a bit field
 			         && !isInEnum                   // not an enum with a base type
+			         && !isInStruct                 // not an struct
+			         && !isInContinuedPreProc           // not in preprocessor line
 			         && !isInAsm                    // not in extended assembler
 			         && !isInAsmOneLine             // not in extended assembler
 			         && !isInAsmBlock)              // not in extended assembler
@@ -1533,7 +1551,10 @@ string ASFormatter::nextLine()
 			}
 
 			if (isClassInitializer())
+			{
 				isInClassInitializer = true;
+			}
+
 		}
 
 		if (currentChar == '?')
@@ -1564,6 +1585,18 @@ string ASFormatter::nextLine()
 				        || currentLine[firstNum] == '{'
 				        || currentLine[firstNum] == '/')
 					isInEnum = true;
+			}
+
+			if (findKeyword(currentLine, charNum, AS_TYPEDEF_STRUCT) || findKeyword(currentLine, charNum, AS_STRUCT))
+			{
+				size_t firstNum = currentLine.find_first_of("(){},/");
+
+				if (firstNum == string::npos
+				        || currentLine[firstNum] == '{'
+				        || currentLine[firstNum] == '/')
+				{
+					isInStruct = true;
+				}
 			}
 
 			if (isCStyle()
@@ -1773,7 +1806,8 @@ string ASFormatter::nextLine()
 		        && isPointerOrReference())
 		{
 
-			if (!isDereferenceOrAddressOf() && !isOperatorPaddingDisabled()) {
+			if (!isDereferenceOrAddressOf() && !isOperatorPaddingDisabled())
+			{
 				formatPointerOrReference();
 			}
 
@@ -1907,8 +1941,8 @@ string ASFormatter::nextLine()
 		runInIndentChars = 0;
 		lineCommentNoBeautify = lineCommentNoIndent;
 		lineCommentNoIndent = false;
-		isInIndentablePreproc = isIndentableProprocessor;
-		isIndentableProprocessor = false;
+		isInIndentablePreproc = isIndentablePreprocessor;
+		isIndentablePreprocessor = false;
 		isElseHeaderIndent = elseHeaderFollowsComments;
 		isCaseHeaderCommentIndent = caseHeaderFollowsComments;
 		objCColonAlignSubsequent = objCColonAlign;
@@ -2596,7 +2630,6 @@ bool ASFormatter::getNextChar()
 	        && (!isWhiteSpace(peekNextChar()) || isInComment || isInLineComment))
 	{
 		currentChar = currentLine[++charNum];
-
 		if (currentChar == '\t' && shouldConvertTabs)
 			convertTabToSpaces();
 
@@ -2627,6 +2660,7 @@ bool ASFormatter::getNextLine(bool emptyLineWasDeleted /*false*/)
 		currentLine = sourceIterator->nextLine(emptyLineWasDeleted);
 		assert(computeChecksumIn(currentLine));
 	}
+
 	// reset variables for new line
 	inLineNumber++;
 	if (endOfAsmReached)
@@ -2642,7 +2676,10 @@ bool ASFormatter::getNextLine(bool emptyLineWasDeleted /*false*/)
 	previousChar = ' ';
 
 	if (currentLine.length() == 0)
+	{
+		isInContinuedPreProc = false;
 		currentLine = string(" ");        // a null is inserted if this is not done
+	}
 
 	if (methodBreakLineNum > 0)
 		--methodBreakLineNum;
@@ -4036,7 +4073,7 @@ void ASFormatter::padOperators(const string* newOperator)
 	                           || isInObjCSelector || squareBracketCount != 0))
 	                  && !(newOperator == &AS_MINUS && isInExponent())
 	                  && !(newOperator == &AS_PLUS && isInExponent())
-                      && !(newOperator == &AS_GR && previousChar=='-') //https://sourceforge.net/p/astyle/bugs/544/
+	                  && !(newOperator == &AS_GR && previousChar == '-') //https://sourceforge.net/p/astyle/bugs/544/
 	                  && !((newOperator == &AS_PLUS || newOperator == &AS_MINUS)	// check for unary plus or minus
 	                       && (previousNonWSChar == '('
 	                           || previousNonWSChar == '['
@@ -4076,7 +4113,10 @@ void ASFormatter::padOperators(const string* newOperator)
 	        && !(newOperator == &AS_QUESTION && isSharpStyle() // check for C# nullable type (e.g. int?)
 	             && currentLine.find(':', charNum + 1) == string::npos)
 	   )
+	{
 		appendSpacePad();
+	}
+
 	appendOperator(*newOperator);
 	goForward(newOperator->length() - 1);
 
@@ -4129,7 +4169,8 @@ void ASFormatter::formatPointerOrReference()
 			peekedChar = currentLine[nextChar];
 
 		//https://sourceforge.net/p/astyle/bugs/543/
-		if (currentChar=='&' /*&& itemAlignment == PTR_ALIGN_NAME*/) {
+		if (currentChar == '&' /*&& itemAlignment == PTR_ALIGN_NAME*/)
+		{
 			itemAlignment = PTR_ALIGN_NONE;
 		}
 	}
@@ -4205,7 +4246,7 @@ void ASFormatter::formatPointerOrReferenceToType()
 	}
 
 	// https://sourceforge.net/p/astyle/bugs/537/
-	if (previousNonWSChar==',' && currentChar!=' ')
+	if (previousNonWSChar == ',' && currentChar != ' ')
 		appendSpacePad();
 
 	formattedLine.append(sequenceToInsert);
@@ -4442,16 +4483,15 @@ void ASFormatter::formatPointerOrReferenceToName()
 		spacePadNum++;
 	}
 	appendSequence(sequenceToInsert, false);
-	// if old pointer or reference is centered, remove a space
 
+	// if old pointer or reference is centered, remove a space
 	if (isOldPRCentered
 	        && formattedLine.length() > startNum + 1
 	        && isWhiteSpace(formattedLine[startNum + 1])
 	        && peekedChar != '*'		// check for '* *'
 	        && !isBeforeAnyComment()
-            && !(peekedChar == '&' && pointerAlignment==PTR_ALIGN_NAME) //https://sourceforge.net/p/astyle/bugs/546/
-            && !(peekedChar == '{' && pointerAlignment==PTR_ALIGN_NAME) //https://sourceforge.net/p/astyle/bugs/527/
-			)
+	        && ((isLegalNameChar(peekedChar) || peekedChar == '(') && pointerAlignment == PTR_ALIGN_NAME) //https://sourceforge.net/p/astyle/bugs/546/ + #527
+	   )
 	{
 		formattedLine.erase(startNum + 1, 1);
 		spacePadNum--;
@@ -4537,6 +4577,7 @@ void ASFormatter::formatPointerOrReferenceCast()
 			formattedLine.erase(prevNum + 1);
 		}
 	}
+
 	bool isAfterScopeResolution = previousNonWSChar == ':';
 	if ((itemAlignment == PTR_ALIGN_MIDDLE || itemAlignment == PTR_ALIGN_NAME)
 	        && !isAfterScopeResolution && prevCh != '(')
@@ -4630,7 +4671,10 @@ void ASFormatter::padParens()
 			         || lastChar == '%'
 			         || lastChar == '^'
 			        )
+			{
 				spacesOutsideToDelete--;
+			}
+
 
 			if (spacesOutsideToDelete > 0)
 			{
@@ -5635,7 +5679,6 @@ void ASFormatter::processPreprocessor()
 	assert(currentChar == '#');
 
 	const size_t preproc = currentLine.find_first_not_of(" \t", charNum + 1);
-
 	if (preproc == string::npos)
 		return;
 
@@ -5656,6 +5699,8 @@ void ASFormatter::processPreprocessor()
 	}
 	else if (currentLine.compare(preproc, 6, "define") == 0)
 		isInPreprocessorDefineDef = true;
+
+
 }
 
 /**
@@ -7379,6 +7424,7 @@ void ASFormatter::checkIfTemplateOpener()
 				templateDepth = 0;
 				return;
 			}
+
 			if (currentChar_ == ','  // comma,     e.g. A<int, char>
 			        || currentChar_ == '&'    // reference, e.g. A<int&>
 			        || currentChar_ == '*'    // pointer,   e.g. A<int*>

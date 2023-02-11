@@ -662,13 +662,36 @@ void ASConsole::formatFile(const string& fileName_)
 string ASConsole::findProjectOptionFilePath(const string& fileName_) const
 {
 	string parent;
-
 	if (!fileNameVector.empty())
-		parent = getFullPathName(fileNameVector.front());
+	{
+
+		string first = fileNameVector.front();
+		if (first.find_first_of("*?") != string::npos)
+		{
+			// First item has wildcards - get rid of them for now
+			size_t endPath = first.find_last_of(g_fileSeparator);
+			if (endPath != string::npos)
+			{
+				first.erase(endPath + 1, string::npos);
+				first += ".";
+			}
+		}
+
+		parent = getFullPathName(first);
+	}
 	else if (!stdPathIn.empty())
+	{
 		parent = getFullPathName(stdPathIn);
+	}
 	else
+	{
 		parent = getFullPathName(getCurrentDirectory(fileName_));
+	}
+
+	if (parent.size())
+	{
+		parent.push_back(g_fileSeparator);
+	}
 
 	// remove filename from path
 	size_t endPath = parent.find_last_of(g_fileSeparator);
@@ -678,6 +701,7 @@ string ASConsole::findProjectOptionFilePath(const string& fileName_) const
 	while (!parent.empty())
 	{
 		string filepath = parent + fileName_;
+
 		if (fileExists(filepath.c_str()))
 			return filepath;
 		if (fileName_ == ".astylerc")
@@ -1306,7 +1330,8 @@ void ASConsole::getFileNames(const string& directory, const vector<string>& wild
 				continue;
 			}
 			perror("errno message");
-			error("Error getting file status in directory", directory.c_str());
+			//error("Error getting file status in directory", directory.c_str());
+			error("Error getting file status for", entryFilepath.c_str());
 		}
 		// skip hidden or read only
 		if (entry->d_name[0] == '.' || !(statbuf.st_mode & S_IWUSR))
@@ -1365,7 +1390,7 @@ void ASConsole::getFileNames(const string& directory, const vector<string>& wild
 // Return the full path name or an empty string if failed.
 string ASConsole::getFullPathName(const string& relativePath) const
 {
-	char *fullPath = realpath(relativePath.c_str(), nullptr);
+	char* fullPath = realpath(relativePath.c_str(), nullptr);
 	if (fullPath == nullptr)
 		return string();
 	const string p(fullPath);
@@ -2067,7 +2092,7 @@ void ASConsole::printHelp() const
 	cout << "    Remove unnecessary space padding around parenthesis. This\n";
 	cout << "    can be used in combination with the 'pad' options above.\n";
 	cout << endl;
-	cout << "    --delete-empty-lines  OR  -xd\n";
+	cout << "    --delete-empty-lines  OR  -xe\n";
 	cout << "    Delete empty lines within a function or method.\n";
 	cout << "    It will NOT delete lines added by the break-blocks options.\n";
 	cout << endl;

@@ -252,7 +252,7 @@ public:
 	static const string AS_TRY, AS_CATCH, AS_THROW, AS_THROWS, AS_FINALLY, AS_USING;
 	static const string _AS_TRY, _AS_FINALLY, _AS_EXCEPT;
 	static const string AS_PUBLIC, AS_PROTECTED, AS_PRIVATE;
-	static const string AS_CLASS, AS_STRUCT, AS_UNION, AS_INTERFACE, AS_NAMESPACE;
+	static const string AS_CLASS, AS_STRUCT, AS_TYPEDEF_STRUCT, AS_UNION, AS_INTERFACE, AS_NAMESPACE;
 	static const string AS_MODULE;
 	static const string AS_END;
 	static const string AS_SELECTOR;
@@ -309,6 +309,7 @@ protected:  // inline functions
 	bool isJavaStyle() const { return (baseFileType == JAVA_TYPE); }
 	bool isSharpStyle() const { return (baseFileType == SHARP_TYPE); }
 	bool isJSStyle() const { return (baseFileType == JS_TYPE); }
+
 	bool isWhiteSpace(char ch) const { return (ch == ' ' || ch == '\t'); }
 
 protected:  // functions definitions are at the end of ASResource.cpp
@@ -516,6 +517,7 @@ private:  // variables
 	bool isInObjCInterface;
 	bool isInEnum;
 	bool isInEnumTypeID;
+	bool isInStruct;
 	bool isInLet;
 	bool isInTrailingReturnType;
 	bool modifierIndent;
@@ -974,6 +976,8 @@ private:  // variables
 	bool lineCommentNoIndent;
 	bool isFormattingModeOff;
 	bool isInEnum;
+	bool isInStruct;
+    bool isInContinuedPreProc;
 	bool isInExecSQL;
 	bool isInAsm;
 	bool isInAsmOneLine;
@@ -1049,8 +1053,8 @@ private:  // variables
 	bool shouldBreakClosingHeaderBlocks;
 	bool isPrependPostBlockEmptyLineRequested;
 	bool isAppendPostBlockEmptyLineRequested;
-	bool isIndentableProprocessor;
-	bool isIndentableProprocessorBlock;
+	bool isIndentablePreprocessor;
+	bool isIndentablePreprocessorBlck;
 	bool prependEmptyLine;
 	bool appendOpeningBrace;
 	bool foundClosingHeader;
