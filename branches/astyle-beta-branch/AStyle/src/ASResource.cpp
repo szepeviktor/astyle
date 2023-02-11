@@ -69,6 +69,7 @@ const string ASResource::AS_SET = string("set");
 const string ASResource::AS_STATIC = string("static");
 const string ASResource::AS_STATIC_CAST = string("static_cast");
 const string ASResource::AS_STRUCT = string("struct");
+const string ASResource::AS_TYPEDEF_STRUCT = string("typedef struct");
 const string ASResource::AS_SWITCH = string("switch");
 const string ASResource::AS_SYNCHRONIZED = string("synchronized");
 const string ASResource::AS_TEMPLATE = string("template");
