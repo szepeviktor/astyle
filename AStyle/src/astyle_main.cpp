@@ -662,22 +662,30 @@ void ASConsole::formatFile(const string& fileName_)
 string ASConsole::findProjectOptionFilePath(const string& fileName_) const
 {
 	string parent;
+
 	if (!fileNameVector.empty())
 	{
-
 		string first = fileNameVector.front();
+
 		if (first.find_first_of("*?") != string::npos)
 		{
 			// First item has wildcards - get rid of them for now
 			size_t endPath = first.find_last_of(g_fileSeparator);
+
 			if (endPath != string::npos)
 			{
 				first.erase(endPath + 1, string::npos);
-				first += ".";
+			} else {
+				first = ".";
+				first.push_back(g_fileSeparator);
 			}
 		}
 
 		parent = getFullPathName(first);
+		if (parent[parent.size()] != g_fileSeparator) {
+			parent.push_back(g_fileSeparator);
+		}
+
 	}
 	else if (!stdPathIn.empty())
 	{
@@ -686,13 +694,11 @@ string ASConsole::findProjectOptionFilePath(const string& fileName_) const
 	else
 	{
 		parent = getFullPathName(getCurrentDirectory(fileName_));
+		if (parent.size())
+		{
+			parent.push_back(g_fileSeparator);
+		}
 	}
-
-	if (parent.size())
-	{
-		parent.push_back(g_fileSeparator);
-	}
-
 	// remove filename from path
 	size_t endPath = parent.find_last_of(g_fileSeparator);
 	if (endPath != string::npos)
@@ -701,7 +707,6 @@ string ASConsole::findProjectOptionFilePath(const string& fileName_) const
 	while (!parent.empty())
 	{
 		string filepath = parent + fileName_;
-
 		if (fileExists(filepath.c_str()))
 			return filepath;
 		if (fileName_ == ".astylerc")
@@ -1212,7 +1217,7 @@ bool ASConsole::isHomeOrInvalidAbsPath(const string& absPath) const
 	if (absPath.c_str() == env)
 		return true;
 
-	if (absPath.compare(0, strlen(env), env) != 0)
+	if (absPath.compare(0, strlen(env), env) == 0)
 		return true;
 
 	return false;
