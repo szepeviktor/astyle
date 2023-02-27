@@ -1214,13 +1214,7 @@ bool ASConsole::isHomeOrInvalidAbsPath(const string& absPath) const
 	if (env == nullptr)
 		return true;
 
-	if (absPath.c_str() == env)
-		return true;
-
-	if (absPath.compare(0, strlen(env), env) == 0)
-		return true;
-
-	return false;
+	return (absPath.compare(env) == 0);
 }
 
 /**
@@ -1499,16 +1493,10 @@ string ASConsole::getNumberFormat(int num, const char* groupingArg, const char* 
 bool ASConsole::isHomeOrInvalidAbsPath(const string& absPath) const
 {
 	const char* const env = getenv("HOME");
-	if (env == nullptr)
-		return true;
 
-	if (absPath.c_str() == env)
-		return true;
+	//cerr<<"isHomeOrInvalidAbsPath absPath "<< absPath << " ENV " <<env<<  "\n";
 
-	if (absPath.compare(0, strlen(env), env) != 0)
-		return true;
-
-	return false;
+	return (absPath.compare(env) == 0 || absPath=="/" );
 }
 
 /**
@@ -2189,6 +2177,9 @@ void ASConsole::printHelp() const
 	cout << "    --mode=cs\n";
 	cout << "    Indent a C# source file.\n";
 	cout << endl;
+	cout << "    --mode=objc\n";
+	cout << "    Indent an Objective-C source file.\n";
+	cout << endl;
 	cout << "    --mode=js\n";
 	cout << "    Indent a JavaScript source file (experimental).\n";
 	cout << endl;
@@ -2209,10 +2200,10 @@ void ASConsole::printHelp() const
 	cout << "    Remove all space padding after the Objective-C return type.\n";
 	cout << endl;
 	cout << "    --pad-param-type  OR  -xS\n";
-	cout << "    Insert space padding after the Objective-C return type.\n";
+	cout << "    Insert space padding after the Objective-C param type.\n";
 	cout << endl;
 	cout << "    --unpad-param-type  OR  -xs\n";
-	cout << "    Remove all space padding after the Objective-C return type.\n";
+	cout << "    Remove all space padding after the Objective-C param type.\n";
 	cout << endl;
 	cout << "    --align-method-colon  OR  -xM\n";
 	cout << "    Align the colons in an Objective-C method definition.\n";
@@ -3191,6 +3182,11 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 		formatter.setJSStyle();
 		formatter.setModeManuallySet(true);
 	}
+	else if (isOption(arg, "mode=objc"))
+    {
+    		formatter.setObjCStyle();
+    		formatter.setModeManuallySet(true);
+    }
 	else if (isParamOption(arg, "t", "indent=tab="))
 	{
 		int spaceNum = 4;

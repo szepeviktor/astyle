@@ -64,7 +64,7 @@ using namespace std;
 // definitions
 //----------------------------------------------------------------------------
 
-enum FileType { C_TYPE = 0, JAVA_TYPE = 1, SHARP_TYPE = 2, JS_TYPE = 3 };
+enum FileType { C_TYPE = 0, JAVA_TYPE = 1, SHARP_TYPE = 2, JS_TYPE = 3, OBJC_TYPE = 4 };
 
 /* The enums below are not recognized by 'vectors' in Microsoft Visual C++
    V5 when they are part of a namespace!!!  Use Visual C++ V6 or higher.
@@ -309,6 +309,7 @@ protected:  // inline functions
 	bool isJavaStyle() const { return (baseFileType == JAVA_TYPE); }
 	bool isSharpStyle() const { return (baseFileType == SHARP_TYPE); }
 	bool isJSStyle() const { return (baseFileType == JS_TYPE); }
+	bool isObjCStyle() const { return (baseFileType == OBJC_TYPE); }
 
 	bool isWhiteSpace(char ch) const { return (ch == ' ' || ch == '\t'); }
 
@@ -354,6 +355,7 @@ public:
 	void setAfterParenIndent(bool state);
 	void setJavaStyle();
 	void setJSStyle();
+    void setObjCStyle();
 
 	void setLabelIndent(bool state);
 	void setMaxContinuationIndentLength(int max);

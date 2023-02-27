@@ -828,6 +828,14 @@ void ASBeautifier::setJSStyle()
 }
 
 /**
+ * set indentation style to JavaScript.
+ */
+void ASBeautifier::setObjCStyle()
+{
+	fileType = OBJC_TYPE;
+}
+
+/**
  * set indentation style to C#.
  */
 void ASBeautifier::setSharpStyle()
@@ -2825,7 +2833,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				if (ch == '[')
 				{
 					++squareBracketCount;
-					if (squareBracketCount == 1 && isCStyle())
+					if (squareBracketCount == 1 && isObjCStyle())
 					{
 						isInObjCMethodCall = true;
 						isInObjCMethodCallFirst = true;
@@ -3629,7 +3637,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 		// Handle Objective-C statements
 
 		if (ch == '@'
-		        && !isCStyle() // we need one to determine Objective C
+		        && isObjCStyle()
 		        && line.length() > i + 1
 		        && !isWhiteSpace(line[i + 1])
 		        && isCharPotentialHeader(line, i + 1))
@@ -3676,7 +3684,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 		             || headerStack->empty() || isInObjCInterface)
 		         && ASBase::peekNextChar(line, i) != '-'
 		         && ASBase::peekNextChar(line, i) != '+'
-		         && !isCStyle() // we need one to determine Objective C
+		         && isObjCStyle()
 		         && line.find_first_not_of(" \t") == i)
 		{
 			if (isInObjCInterface)
