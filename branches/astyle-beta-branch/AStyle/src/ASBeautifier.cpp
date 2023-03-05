@@ -72,7 +72,7 @@ ASBeautifier::ASBeautifier()
 	setAlignMethodColon(false);
 
 	// initialize ASBeautifier member vectors
-	beautifierFileType = 9;		// reset to an invalid type
+	beautifierFileType = INVALID_TYPE;		// reset to an invalid type
 	headers = new vector<const string*>;
 	nonParenHeaders = new vector<const string*>;
 	assignmentOperators = new vector<const string*>;
@@ -1545,7 +1545,7 @@ vector<vector<const string*>*>* ASBeautifier::copyTempStacks(const ASBeautifier&
  */
 void ASBeautifier::deleteBeautifierVectors()
 {
-	beautifierFileType = 9;		// reset to an invalid type
+	beautifierFileType = INVALID_TYPE;		// reset to an invalid type
 	delete headers;
 	delete nonParenHeaders;
 	delete preBlockStatements;
@@ -2836,7 +2836,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 					if (squareBracketCount == 1 && isObjCStyle())
 					{
 						isInObjCMethodCall = true;
-						isInObjCMethodCallFirst = true;
+						// isInObjCMethodCallFirst = true; // #525
 					}
 				}
 

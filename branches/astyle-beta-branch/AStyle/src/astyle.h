@@ -64,7 +64,7 @@ using namespace std;
 // definitions
 //----------------------------------------------------------------------------
 
-enum FileType { C_TYPE = 0, JAVA_TYPE = 1, SHARP_TYPE = 2, JS_TYPE = 3, OBJC_TYPE = 4 };
+enum FileType { C_TYPE = 0, JAVA_TYPE = 1, SHARP_TYPE = 2, JS_TYPE = 3, OBJC_TYPE = 4, INVALID_TYPE = -1 };
 
 /* The enums below are not recognized by 'vectors' in Microsoft Visual C++
    V5 when they are part of a namespace!!!  Use Visual C++ V6 or higher.
@@ -957,6 +957,7 @@ private:  // variables
 	bool isInClassInitializer;
 	bool isInQuote;
 	bool isInVerbatimQuote;
+	bool checkInterpolation;
 	bool haveLineContinuationChar;
 	bool isInQuoteContinuation;
 	bool isHeaderInMultiStatementLine;

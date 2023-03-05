@@ -86,7 +86,7 @@ ASFormatter::ASFormatter()
 	shouldUnPadParamType = false;
 
 	// initialize ASFormatter member vectors
-	formatterFileType = 9;		// reset to an invalid type
+	formatterFileType = INVALID_TYPE;		// reset to an invalid type
 	headers = new vector<const string*>;
 	nonParenHeaders = new vector<const string*>;
 	preDefinitionHeaders = new vector<const string*>;
@@ -112,7 +112,7 @@ ASFormatter::~ASFormatter()
 	deleteContainer(questionMarkStack);
 
 	// delete ASFormatter member vectors
-	formatterFileType = 9;		// reset to an invalid type
+	formatterFileType = INVALID_TYPE;		// reset to an invalid type
 	delete headers;
 	delete nonParenHeaders;
 	delete preDefinitionHeaders;
@@ -220,6 +220,7 @@ void ASFormatter::init(ASSourceIterator* si)
 	isInClassInitializer = false;
 	isInQuote = false;
 	isInVerbatimQuote = false;
+	checkInterpolation = false;
 	haveLineContinuationChar = false;
 	isInQuoteContinuation = false;
 	isHeaderInMultiStatementLine = false;
@@ -478,6 +479,7 @@ string ASFormatter::nextLine()
 	isCharImmediatelyPostOpenBlock = false;
 	isCharImmediatelyPostCloseBlock = false;
 	isCharImmediatelyPostTemplate = false;
+
 
 	while (!isLineReady)
 	{
@@ -6168,6 +6170,12 @@ void ASFormatter::formatQuoteBody()
 {
 	assert(isInQuote);
 
+	int _braceCount = 0;
+
+	if (checkInterpolation && currentChar=='{') {
+		++_braceCount;
+	}
+
 	if (isSpecialChar)
 	{
 		isSpecialChar = false;
@@ -6189,6 +6197,7 @@ void ASFormatter::formatQuoteBody()
 			{
 				isInQuote = false;
 				isInVerbatimQuote = false;
+				checkInterpolation = false;
 			}
 		}
 		else if (isSharpStyle())
@@ -6202,10 +6211,12 @@ void ASFormatter::formatQuoteBody()
 			}
 			isInQuote = false;
 			isInVerbatimQuote = false;
+			checkInterpolation = false;
 		}
 	}
 	else if (quoteChar == currentChar)
 	{
+		////do not quit if we have CS string with interpolation
 		isInQuote = false;
 	}
 
@@ -6216,17 +6227,27 @@ void ASFormatter::formatQuoteBody()
 	if (isInQuote && currentChar != '\\')
 	{
 		while (charNum + 1 < (int) currentLine.length()
-		        && currentLine[charNum + 1] != quoteChar
+		        && ( currentLine[charNum + 1] != quoteChar || _braceCount > 0 )
 		        && currentLine[charNum + 1] != '\\')
 		{
 			currentChar = currentLine[++charNum];
+
+			if (checkInterpolation) {
+				if (currentChar=='{')
+					++_braceCount;
+
+				if (currentChar=='}')
+					--_braceCount;
+			}
 			appendCurrentChar();
 		}
 	}
 	if (charNum + 1 >= (int) currentLine.length()
 	        && currentChar != '\\'
-	        && !isInVerbatimQuote)
-		isInQuote = false;				// missing closing quote
+	        && !isInVerbatimQuote) {
+				isInQuote = false;				// missing closing quote
+	}
+
 }
 
 /**
@@ -6250,8 +6271,11 @@ void ASFormatter::formatQuoteOpener()
 			verbatimDelimiter = currentLine.substr(charNum + 1, parenPos - charNum - 1);
 		}
 	}
-	else if (isSharpStyle() && previousChar == '@')
+	else if (isSharpStyle() && (previousChar == '@' || previousChar == '$' )) {
 		isInVerbatimQuote = true;
+		checkInterpolation = true;
+	}
+
 
 	// a quote following a brace is an array
 	if (previousCommandChar == '{'
