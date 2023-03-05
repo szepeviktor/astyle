@@ -1494,6 +1494,9 @@ bool ASConsole::isHomeOrInvalidAbsPath(const string& absPath) const
 {
 	const char* const env = getenv("HOME");
 
+	if (env == nullptr)
+		return true;
+
 	//cerr<<"isHomeOrInvalidAbsPath absPath "<< absPath << " ENV " <<env<<  "\n";
 
 	return (absPath.compare(env) == 0 || absPath=="/" );
