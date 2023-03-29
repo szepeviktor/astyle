@@ -2833,10 +2833,11 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				if (ch == '[')
 				{
 					++squareBracketCount;
-					if (squareBracketCount == 1 && isObjCStyle())
+					// #525 Maybe check for opening brace in the line
+					if (squareBracketCount == 1 && isObjCStyle() && line.find("{", i + 1 ) == string::npos)
 					{
 						isInObjCMethodCall = true;
-						// isInObjCMethodCallFirst = true; // #525
+						isInObjCMethodCallFirst = true;
 					}
 				}
 

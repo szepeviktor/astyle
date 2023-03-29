@@ -263,7 +263,7 @@ void ASResource::buildHeaders(vector<const string*>* headers, int fileType, bool
 	headers->emplace_back(&AS_FOREACH);		// QT & C#
 	headers->emplace_back(&AS_FOREVER);		// Qt & Boost
 
-	if (fileType == C_TYPE)
+	if (fileType == C_TYPE || fileType == OBJC_TYPE)
 	{
 		headers->emplace_back(&_AS_TRY);		// __try
 		headers->emplace_back(&_AS_FINALLY);	// __finally
@@ -289,7 +289,7 @@ void ASResource::buildHeaders(vector<const string*>* headers, int fileType, bool
 
 	if (beautifier)
 	{
-		if (fileType == C_TYPE)
+		if (fileType == C_TYPE || fileType == OBJC_TYPE)
 		{
 			headers->emplace_back(&AS_TEMPLATE);
 		}
@@ -399,7 +399,7 @@ void ASResource::buildNonParenHeaders(vector<const string*>* nonParenHeaders, in
 	nonParenHeaders->emplace_back(&AS_QFOREVER);	// QT
 	nonParenHeaders->emplace_back(&AS_FOREVER);	// Boost
 
-	if (fileType == C_TYPE)
+	if (fileType == C_TYPE || fileType == OBJC_TYPE)
 	{
 		nonParenHeaders->emplace_back(&_AS_TRY);		// __try
 		nonParenHeaders->emplace_back(&_AS_FINALLY);	// __finally
@@ -515,7 +515,7 @@ void ASResource::buildPreBlockStatements(vector<const string*>* preBlockStatemen
 	preBlockStatements->reserve(elements);
 
 	preBlockStatements->emplace_back(&AS_CLASS);
-	if (fileType == C_TYPE)
+	if (fileType == C_TYPE || fileType == OBJC_TYPE)
 	{
 		preBlockStatements->emplace_back(&AS_STRUCT);
 		preBlockStatements->emplace_back(&AS_UNION);
@@ -554,7 +554,7 @@ void ASResource::buildPreCommandHeaders(vector<const string*>* preCommandHeaders
 	const size_t elements = 10;
 	preCommandHeaders->reserve(elements);
 
-	if (fileType == C_TYPE)
+	if (fileType == C_TYPE || fileType == OBJC_TYPE)
 	{
 		preCommandHeaders->emplace_back(&AS_CONST);
 		preCommandHeaders->emplace_back(&AS_FINAL);
@@ -563,6 +563,10 @@ void ASResource::buildPreCommandHeaders(vector<const string*>* preCommandHeaders
 		preCommandHeaders->emplace_back(&AS_OVERRIDE);
 		preCommandHeaders->emplace_back(&AS_VOLATILE);
 		preCommandHeaders->emplace_back(&AS_SEALED);			// Visual C only
+	}
+
+	if (fileType == OBJC_TYPE)
+	{
 		preCommandHeaders->emplace_back(&AS_AUTORELEASEPOOL);	// Obj-C only
 	}
 
@@ -594,7 +598,7 @@ void ASResource::buildPreDefinitionHeaders(vector<const string*>* preDefinitionH
 	preDefinitionHeaders->reserve(elements);
 
 	preDefinitionHeaders->emplace_back(&AS_CLASS);
-	if (fileType == C_TYPE)
+	if (fileType == C_TYPE || fileType == OBJC_TYPE)
 	{
 		preDefinitionHeaders->emplace_back(&AS_STRUCT);
 		preDefinitionHeaders->emplace_back(&AS_UNION);

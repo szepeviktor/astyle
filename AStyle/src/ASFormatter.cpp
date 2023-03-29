@@ -1495,6 +1495,7 @@ string ASFormatter::nextLine()
 				}
 			}
 			if (currentChar != ';'
+					|| foundStructHeader // #518
 			        || (needHeaderOpeningBrace && parenStack->back() == 0))
 				currentHeader = nullptr;
 
@@ -1533,7 +1534,7 @@ string ASFormatter::nextLine()
 				passedColon = true;
 			}
 
-			if (isCStyle()
+			if (isObjCStyle()
 			        && (squareBracketCount > 0 || isInObjCMethodDefinition || isInObjCSelector)
 			        && !foundQuestionMark)			// not in a ?: sequence
 			{
@@ -8168,7 +8169,7 @@ int ASFormatter::findObjCColonAlignment() const
 				}
 				haveFirstColon = true;
 				foundMethodColon = true;
-				if (shouldPadMethodColon)
+				if (isObjCStyle() && shouldPadMethodColon)
 				{
 					int spacesStart;
 					for (spacesStart = i; spacesStart > 0; spacesStart--)
