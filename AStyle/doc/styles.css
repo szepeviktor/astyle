@@ -14,18 +14,15 @@
 
 /* margin: [top] [right] [bottom] [left] */
 
-body { background-color: white; margin: 0.5in 0.8in 0.5in 1.3in; }
+body { background-color: white; margin: 5em 15em 5em 2em; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; }
 
-h1 { color: mediumblue; text-align: center; font-style: italic; margin-top: 0.4in; margin-left: -0.5in; }
-h2 { color: mediumblue; text-align: center; font-size: larger; margin-top: 0.4in; margin-left: -0.5in; }
-h3 { color: mediumblue; margin-top: 0.4in; margin-left: -0.4in; }
-h4 { color: mediumblue; margin-top: 0.3in; }
+h1 { color: mediumblue; text-align: center; font-style: italic; margin-top: 3em;  }
+h2 { color: mediumblue; text-align: center; font-size: larger; margin-top: 2em;  }
+h3 { color: mediumblue; margin-top: 2em;  }
+h4 { color: mediumblue; margin-top: 2em; }
 h5 { text-transform: uppercase }
 
-/* paragraph classes */
-.noindent  { margin-left: -0.4in; }
-.contents1 { font-size: 105%; margin: 0; }
-.contents2 { margin: 0 0.4in 0 0.4in; }
+p { line-height: 1.2em;}
 
 a.contents:link, a.contents:visited { color: mediumblue; text-decoration: none; }
 a.contents:hover  { color: red; text-decoration: none; }
@@ -34,7 +31,7 @@ a:hover { color: red; text-decoration: underline; }
 
 img { border: none; }
 
-pre { margin-left: 0.3in; color: mediumblue; font-weight: bold; }
+pre { color: mediumblue; font-family: 'Courier New', Courier, monospace; background-color: #fffdda; padding: 1em;}
 
 /*- the following styles are for the 'top' button
     the corresponding javascript is in the html document from

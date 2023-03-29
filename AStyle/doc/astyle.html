@@ -17,11 +17,10 @@
     <style type="text/css">
         hr { margin-left: -0.4in; }
         /* the following styles are for formatting code samples */
-        div.code { background: #DADAFF; }
+        div.code { background: #fffdda; padding: 0.5em; border-style: 1px solid;}
         /* code */
-        p.code { margin-left: 0.3in; }
         code { color: navy; }
-            code.title { font-size: larger; font-weight: bold; }
+        code.title { font-size: larger; font-weight: bold; }
         /* spans */
         span.brace { color: red; }
         span.comment { color: dimgray; font-style: italic; }
@@ -451,7 +450,7 @@
     <p>
         Options may be set apart by new-lines, tabs, commas, or spaces. Long options in the option file may be written
         without the preceding '--'. Lines within the option file that begin with '#' are considered line-comments.
-        The option files used in formatting and their location can be displayed by using the --verbose 
+        The option files used in formatting and their location can be displayed by using the --verbose
         option. </p>
     <ol>
         <li>The <strong>command line options</strong> have precedence. If there is a conflict between a command line option
@@ -465,18 +464,18 @@
             <ul>
                 <li>the file name indicated by the --project= command line option.</li>
                 <li>the file named .astylerc or _ astylerc and the --project command line option. </li>
-                <li>the file name identified by the environment variable ARTISTIC_STYLE_PROJECT_OPTIONS if it exists. The value of 
+                <li>the file name identified by the environment variable ARTISTIC_STYLE_PROJECT_OPTIONS if it exists. The value of
                     the variable should be a file name only, no path.</li>
                 <li>the file or environment variable can be disabled by specifying --project=none on the command line.</li>
             </ul>
             The file is expected to be in the top directory of the project being formatted. Only one file will be used per
-            execution and all files to be formatted are assumed to be in the same project. Artistic Style will search 
+            execution and all files to be formatted are assumed to be in the same project. Artistic Style will search
             backward in the directory path to find the project option file. The initial directory path for the search is obtained
             from one of the following locations in the following order.
             <ul>
                 <li>The first <em>SourceFilePath</em> entered on the command line.</li>
                 <li>The value of "--stdin=" if it is used for redirection.</li>
-                <li>The current directory if "<" is used for redirection. If the file to be formatted is not in the current 
+                <li>The current directory if "<" is used for redirection. If the file to be formatted is not in the current
                     directory, use the "--stdin=" option instead.</li>
             </ul>
         </li>
@@ -486,11 +485,11 @@
             following order.
             <ul>
                 <li>the file path indicated by the --options= command line option.</li>
-                <li>the file path indicated by the environment variable ARTISTIC_STYLE_OPTIONS if it exists. The value of the 
+                <li>the file path indicated by the environment variable ARTISTIC_STYLE_OPTIONS if it exists. The value of the
                     variable should be a path including the file name.</li>
-                <li>the file named .astylerc in the directory pointed to by the HOME environment variable 
+                <li>the file named .astylerc in the directory pointed to by the HOME environment variable
                     (e.g. "$HOME<strong>/.</strong>astylerc" on Linux); </li>
-                <li>the file named astylerc in the directory pointed to by the APPDATA environment variable 
+                <li>the file named astylerc in the directory pointed to by the APPDATA environment variable
                     (e.g. "%APPDATA%<strong>\</strong>astylerc" on Windows). </li>
                 <li>the file or environment variable can be disabled by specifying --options=none on the command line.</li>
             </ul>
@@ -675,7 +674,7 @@ indent-switches     <span class="comment"># cannot do this on the command line</
         Stroustrup style uses linux braces. Opening braces are broken from function definitions only. The opening braces
         are attached to everything else, including namespaces, classes, arrays, structs, enums, and statements within
         a function.&nbsp; The closing headers are broken from closing braces (e.g. --break-closing-headers). This style
-        frequently is used with attach&#8209;closing&#8209;while, tabbed indents, and an indent of 5 
+        frequently is used with attach&#8209;closing&#8209;while, tabbed indents, and an indent of 5
         spaces. </p>
     <div class="code">
         <pre>int Foo(bool isBar)
@@ -712,7 +711,7 @@ indent-switches     <span class="comment"># cannot do this on the command line</
         &nbsp;</p>
     <p id="_style=vtk">
         <code class="title">--style=vtk / -A15</code><br />
-        VTK (Visualization Toolkit) style uses broken, indented braces, except for the opening brace of classes, 
+        VTK (Visualization Toolkit) style uses broken, indented braces, except for the opening brace of classes,
         arrays, structs, enums, and function definitions.. Switch blocks are indented to prevent a 'hanging
         indent' with following case statements. </p>
     <div class="code">
@@ -750,7 +749,7 @@ indent-switches     <span class="comment"># cannot do this on the command line</
     <p id="_style=gnu">
         <code class="title">--style=gnu / -A7</code><br />
         GNU style uses broken braces. Extra indentation is added to blocks <strong>within a function</strong>
-        only. The entire block is indented, not just the brace. This style frequently is used with an indent of 2 
+        only. The entire block is indented, not just the brace. This style frequently is used with an indent of 2
         spaces. </p>
     <div class="code">
         <pre>int Foo(bool isBar)
@@ -852,7 +851,8 @@ indent-switches     <span class="comment"># cannot do this on the command line</
         The braces are attached to everything else, including namespaces, arrays, and statements within a function. This
         style frequently is used with an indent of 2 spaces and --break-return-type.</p>
     <div class="code">
-        <pre>int Foo(bool isBar)/span>
+        <pre>int Foo(bool isBar)
+<span class="brace">{</span>
     if (isBar) <span class="brace">{</span>
         bar();
         return 1;
@@ -1895,7 +1895,7 @@ else if (isFoo1()) <span class="brace">{</span>
     bar1();
 <span class="brace">}</span>
 else if (isFoo2()) <span class="brace">{</span>
-    bar2;
+    bar2();
 <span class="brace">}</span>
 </pre>
         <p class="code">
@@ -2022,9 +2022,9 @@ Foo(bool isFoo);</pre>
     <p id="_attach-return-type">
         <code class="title">--attach-return-type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / -xf</code><br />
         <code class="title">--attach-return-type-decl / -xh</code><br />
-        Attach the return type to the function name. The two options are for the function definitions (-xf), and the 
+        Attach the return type to the function name. The two options are for the function definitions (-xf), and the
         function declarations or signatures (-xh). They are intended to undo the --break-return-type options. If used
-        with --break-return-type, the result will be to break the return type. This option has no effect on 
+        with --break-return-type, the result will be to break the return type. This option has no effect on
         Objective-C functions.</p>
     <div class="code">
         <pre>void
@@ -2144,8 +2144,10 @@ Foo(bool isFoo);</pre>
     <p id="_mode">
         <code class="title">--mode=c</code><br />
         <code class="title">--mode=cs</code><br />
+        <code class="title">--mode=js</code><br />
         <code class="title">--mode=java</code><br />
-        Indent a C type, C#, or Java file. C type files are C, C++, C++/CLI, and Objective-C. The option is usually
+        <code class="title">--mode=objc</code><br />
+        Indent a C type, C#, Javascript, Java or Objective-C file. C type files are C, C++, C++/CLI. The option is usually
         set from the file extension for each file. You can override the setting with this entry. It will be used for all
         files, regardless of the file extension. It allows the formatter to identify language specific syntax such as
         C++ classes, templates, and keywords.</p>
@@ -2386,7 +2388,7 @@ Foo(bool isFoo);</pre>
         file.</p>
     <p id="_verbose">
         <code class="title">--verbose / -v</code><br />
-        Verbose display mode. Display optional information, such as release number, date, 
+        Verbose display mode. Display optional information, such as release number, date,
         option file locations, and statistical data.</p>
     <p id="_formatted">
         <code class="title">--formatted / -Q</code><br />
@@ -2420,7 +2422,7 @@ Foo(bool isFoo);</pre>
         <code class="title">--options=<span class="option">####</span></code><br />
         <code class="title">--options=none</code><br />
         Specify an options file #### to read and use. It must contain a file path and a file name. This will allow
-        the file name to be changed from astylerc or .astylerc.</p>
+        the file name to be changed from .astylerc or _astylerc.</p>
     <p>
         The "none" option will disable the default options file if one exists. Only command-line parameters will be used.
     </p>
@@ -2430,7 +2432,7 @@ Foo(bool isFoo);</pre>
         <code class="title">--project</code><br />
         <code class="title">--project=<span class="option">####</span></code><br />
         <code class="title">--project=none</code> <br />
-        The first option specifies a project option file to use. The option file 
+        The first option specifies a project option file to use. The option file
         should have&nbsp; the default name of .astylerc or _astylerc and should be in the top directory of the project
         being formatted. </p>
     <p>
@@ -2499,4 +2501,3 @@ Foo(bool isFoo);</pre>
 </body>
 
 </html>
-
