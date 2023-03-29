@@ -1,5 +1,5 @@
 // astyle_main.cpp
-// Copyright (c) 2018 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2023 The Artistic Style Authors.
 // This code is licensed under the MIT License.
 // License.md describes the conditions under which this software may be distributed.
 
@@ -94,7 +94,7 @@ namespace astyle {
 	jmethodID g_mid;
 #endif
 
-const char* g_version = "3.2 beta";
+const char* g_version = "3.2";
 
 //-----------------------------------------------------------------------------
 // ASStreamIterator class
@@ -431,6 +431,69 @@ void ASConsole::convertLineEnds(ostringstream& out, int lineEnd)
 	out.str(outStr);
 }
 
+
+/*
+void ASConsole::convertLineEnds(std::ostringstream& out, int lineEnd) {
+    assert(lineEnd == LINEEND_WINDOWS || lineEnd == LINEEND_LINUX || lineEnd == LINEEND_MACOLD);
+
+    const std::string inStr = out.str();
+    std::ostringstream outStream;
+
+    for (std::string::size_type i = 0; i < inStr.length(); ++i) {
+        const char currChar = inStr[i];
+        const char nextChar = i < inStr.length() - 1 ? inStr[i + 1] : 0;
+
+        if (currChar == '\r') {
+            if (nextChar == '\n') {
+                // CRLF
+                if (lineEnd == LINEEND_CR) {
+                    outStream << currChar;  // Delete the LF
+                    ++i;
+                }
+                else if (lineEnd == LINEEND_LF) {
+                    outStream << nextChar;  // Delete the CR
+                    ++i;
+                }
+                else {
+                    outStream << currChar << nextChar;  // Do not change
+                    ++i;
+                }
+            }
+            else {
+                // CR
+                if (lineEnd == LINEEND_CRLF) {
+                    outStream << currChar << '\n';  // Insert the LF
+                }
+                else if (lineEnd == LINEEND_LF) {
+                    outStream << '\n';  // Insert the LF
+                }
+                else {
+                    outStream << currChar;  // Do not change
+                }
+            }
+        }
+        else if (currChar == '\n') {
+            // LF
+            if (lineEnd == LINEEND_CRLF) {
+                outStream << '\r' << currChar;  // Insert the CR and LF
+            }
+            else if (lineEnd == LINEEND_CR) {
+                outStream << '\r';  // Insert the CR
+            }
+            else {
+                outStream << currChar;  // Do not change
+            }
+        }
+        else {
+            outStream << currChar;  // Write the current character
+        }
+    }
+
+    out.str(outStream.str());  // Replace the stream
+}
+
+*/
+
 void ASConsole::correctMixedLineEnds(ostringstream& out)
 {
 	LineEndFormat lineEndFormat = LINEEND_DEFAULT;
@@ -664,12 +727,41 @@ string ASConsole::findProjectOptionFilePath(const string& fileName_) const
 	string parent;
 
 	if (!fileNameVector.empty())
-		parent = getFullPathName(fileNameVector.front());
-	else if (!stdPathIn.empty())
-		parent = getFullPathName(stdPathIn);
-	else
-		parent = getFullPathName(getCurrentDirectory(fileName_));
+	{
+		string first = fileNameVector.front();
 
+		if (first.find_first_of("*?") != string::npos)
+		{
+			// First item has wildcards - get rid of them for now
+			size_t endPath = first.find_last_of(g_fileSeparator);
+
+			if (endPath != string::npos)
+			{
+				first.erase(endPath + 1, string::npos);
+			} else {
+				first = ".";
+				first.push_back(g_fileSeparator);
+			}
+		}
+
+		parent = getFullPathName(first);
+		if (parent[parent.size()] != g_fileSeparator) {
+			parent.push_back(g_fileSeparator);
+		}
+
+	}
+	else if (!stdPathIn.empty())
+	{
+		parent = getFullPathName(stdPathIn);
+	}
+	else
+	{
+		parent = getFullPathName(getCurrentDirectory(fileName_));
+		if (parent.size())
+		{
+			parent.push_back(g_fileSeparator);
+		}
+	}
 	// remove filename from path
 	size_t endPath = parent.find_last_of(g_fileSeparator);
 	if (endPath != string::npos)
@@ -1185,13 +1277,7 @@ bool ASConsole::isHomeOrInvalidAbsPath(const string& absPath) const
 	if (env == nullptr)
 		return true;
 
-	if (absPath.c_str() == env)
-		return true;
-
-	if (absPath.compare(0, strlen(env), env) != 0)
-		return true;
-
-	return false;
+	return (absPath.compare(env) == 0);
 }
 
 /**
@@ -1306,7 +1392,8 @@ void ASConsole::getFileNames(const string& directory, const vector<string>& wild
 				continue;
 			}
 			perror("errno message");
-			error("Error getting file status in directory", directory.c_str());
+			//error("Error getting file status in directory", directory.c_str());
+			error("Error getting file status for", entryFilepath.c_str());
 		}
 		// skip hidden or read only
 		if (entry->d_name[0] == '.' || !(statbuf.st_mode & S_IWUSR))
@@ -1365,14 +1452,12 @@ void ASConsole::getFileNames(const string& directory, const vector<string>& wild
 // Return the full path name or an empty string if failed.
 string ASConsole::getFullPathName(const string& relativePath) const
 {
-	// ignore realPath attribute warning, only with cmake
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-result"
-	char fullPath[PATH_MAX];
-	fullPath[0] = '\0';
-	realpath(relativePath.c_str(), fullPath);
-	return fullPath;
-#pragma GCC diagnostic pop
+	char* fullPath = realpath(relativePath.c_str(), nullptr);
+	if (fullPath == nullptr)
+		return string();
+	const string p(fullPath);
+	free(fullPath);
+	return p;
 }
 
 // LINUX function to get the documentation file path prefix
@@ -1471,16 +1556,11 @@ string ASConsole::getNumberFormat(int num, const char* groupingArg, const char* 
 bool ASConsole::isHomeOrInvalidAbsPath(const string& absPath) const
 {
 	const char* const env = getenv("HOME");
+
 	if (env == nullptr)
 		return true;
 
-	if (absPath.c_str() == env)
-		return true;
-
-	if (absPath.compare(0, strlen(env), env) != 0)
-		return true;
-
-	return false;
+	return (absPath.compare(env) == 0 || absPath=="/" );
 }
 
 /**
@@ -1795,7 +1875,7 @@ void ASConsole::printHelp() const
 {
 	cout << endl;
 	cout << "                     Artistic Style " << g_version << endl;
-	cout << "                     Maintained by: Jim Pattee\n";
+	cout << "                     Maintained by: Andre Simon, Jim Pattee\n";
 	cout << "                     Original Author: Tal Davidson\n";
 	cout << endl;
 	cout << "Usage:\n";
@@ -2031,8 +2111,7 @@ void ASConsole::printHelp() const
 	cout << "    --max-continuation-indent=#  OR  -M#\n";
 	cout << "    Indent a maximal # spaces in a continuation line,\n";
 	cout << "    relative to the previous line.\n";
-	cout << "    The valid values are 40 thru 120.\n";
-	cout << "    The default value is 40.\n";
+	cout << "    The minimum and default value is 40.\n";
 	cout << endl;
 	cout << "Padding Options:\n";
 	cout << "----------------\n";
@@ -2070,7 +2149,7 @@ void ASConsole::printHelp() const
 	cout << "    Remove unnecessary space padding around parenthesis. This\n";
 	cout << "    can be used in combination with the 'pad' options above.\n";
 	cout << endl;
-	cout << "    --delete-empty-lines  OR  -xd\n";
+	cout << "    --delete-empty-lines  OR  -xe\n";
 	cout << "    Delete empty lines within a function or method.\n";
 	cout << "    It will NOT delete lines added by the break-blocks options.\n";
 	cout << endl;
@@ -2162,6 +2241,12 @@ void ASConsole::printHelp() const
 	cout << "    --mode=cs\n";
 	cout << "    Indent a C# source file.\n";
 	cout << endl;
+	cout << "    --mode=objc\n";
+	cout << "    Indent an Objective-C source file.\n";
+	cout << endl;
+	cout << "    --mode=js\n";
+	cout << "    Indent a JavaScript source file (experimental).\n";
+	cout << endl;
 	cout << "Objective-C Options:\n";
 	cout << "--------------------\n";
 	cout << "    --pad-method-prefix  OR  -xQ\n";
@@ -2179,10 +2264,10 @@ void ASConsole::printHelp() const
 	cout << "    Remove all space padding after the Objective-C return type.\n";
 	cout << endl;
 	cout << "    --pad-param-type  OR  -xS\n";
-	cout << "    Insert space padding after the Objective-C return type.\n";
+	cout << "    Insert space padding after the Objective-C param type.\n";
 	cout << endl;
 	cout << "    --unpad-param-type  OR  -xs\n";
-	cout << "    Remove all space padding after the Objective-C return type.\n";
+	cout << "    Remove all space padding after the Objective-C param type.\n";
 	cout << endl;
 	cout << "    --align-method-colon  OR  -xM\n";
 	cout << "    Align the colons in an Objective-C method definition.\n";
@@ -2453,19 +2538,7 @@ void ASConsole::processOptions(const vector<string>& argvOptions)
 					setOptionFileName(name);
 			}
 		}
-		// for Windows
-		// NOTE: depreciated with release 3.1, remove when appropriate
-		// there is NO test data for this option
-		if (optionFileName.empty())
-		{
-			const char* const env = getenv("USERPROFILE");
-			if (env != nullptr)
-			{
-				string name = string(env) + "\\astylerc";
-				if (fileExists(name.c_str()))
-					setOptionFileName(name);
-			}
-		}
+
 	}
 
 	// find project option file
@@ -2689,14 +2762,7 @@ void ASConsole::printVerboseHeader() const
 	// print option files
 	if (!optionFileName.empty())
 		printf(_("Default option file  %s\n"), optionFileName.c_str());
-	// NOTE: depreciated with release 3.1, remove when appropriate
-	if (!optionFileName.empty())
-	{
-		const char* const env = getenv("USERPROFILE");
-		if (env != nullptr && optionFileName == string(env) + "\\astylerc")
-			printf("The above option file has been DEPRECIATED\n");
-	}
-	// end depreciated
+
 	if (!projectOptionFileName.empty())
 		printf(_("Project option file  %s\n"), projectOptionFileName.c_str());
 }
@@ -3175,6 +3241,16 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 		formatter.setJavaStyle();
 		formatter.setModeManuallySet(true);
 	}
+	else if (isOption(arg, "mode=js"))
+	{
+		formatter.setJSStyle();
+		formatter.setModeManuallySet(true);
+	}
+	else if (isOption(arg, "mode=objc"))
+    {
+    		formatter.setObjCStyle();
+    		formatter.setModeManuallySet(true);
+    }
 	else if (isParamOption(arg, "t", "indent=tab="))
 	{
 		int spaceNum = 4;
@@ -3274,8 +3350,6 @@ void ASOptions::parseOption(const string& arg, const string& errorInfo)
 		if (maxIndentParam.length() > 0)
 			maxIndent = atoi(maxIndentParam.c_str());
 		if (maxIndent < 40)
-			isOptionError(arg, errorInfo);
-		else if (maxIndent > 120)
 			isOptionError(arg, errorInfo);
 		else
 			formatter.setMaxContinuationIndentLength(maxIndent);
@@ -3600,47 +3674,7 @@ bool ASOptions::parseOptionContinued(const string& arg, const string& errorInfo)
 	{
 		formatter.setObjCColonPaddingMode(COLON_PAD_BEFORE);
 	}
-	// NOTE: depreciated options - remove when appropriate
-	// depreciated options ////////////////////////////////////////////////////////////////////////
-	else if (isOption(arg, "indent-preprocessor"))			// depreciated release 2.04
-	{
-		formatter.setPreprocDefineIndent(true);
-	}
-	else if (isOption(arg, "style=ansi"))					// depreciated release 2.05
-	{
-		formatter.setFormattingStyle(STYLE_ALLMAN);
-	}
-	// depreciated in release 3.0 /////////////////////////////////////////////////////////////////
-	else if (isOption(arg, "break-closing-brackets"))		// depreciated release 3.0
-	{
-		formatter.setBreakClosingHeaderBracketsMode(true);
-	}
-	else if (isOption(arg, "add-brackets"))					// depreciated release 3.0
-	{
-		formatter.setAddBracketsMode(true);
-	}
-	else if (isOption(arg, "add-one-line-brackets"))		// depreciated release 3.0
-	{
-		formatter.setAddOneLineBracketsMode(true);
-	}
-	else if (isOption(arg, "remove-brackets"))				// depreciated release 3.0
-	{
-		formatter.setRemoveBracketsMode(true);
-	}
-	else if (isParamOption(arg, "max-instatement-indent="))	// depreciated release 3.0
-	{
-		int maxIndent = 40;
-		string maxIndentParam = getParam(arg, "max-instatement-indent=");
-		if (maxIndentParam.length() > 0)
-			maxIndent = atoi(maxIndentParam.c_str());
-		if (maxIndent < 40)
-			isOptionError(arg, errorInfo);
-		else if (maxIndent > 120)
-			isOptionError(arg, errorInfo);
-		else
-			formatter.setMaxInStatementIndentLength(maxIndent);
-	}
-	// end depreciated options ////////////////////////////////////////////////////////////////////
+
 #ifdef ASTYLE_LIB
 	// End of options used by GUI /////////////////////////////////////////////////////////////////
 	else

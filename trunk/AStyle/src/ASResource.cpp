@@ -1,5 +1,5 @@
 // ASResource.cpp
-// Copyright (c) 2018 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2023 The Artistic Style Authors.
 // This code is licensed under the MIT License.
 // License.md describes the conditions under which this software may be distributed.
 
@@ -69,6 +69,7 @@ const string ASResource::AS_SET = string("set");
 const string ASResource::AS_STATIC = string("static");
 const string ASResource::AS_STATIC_CAST = string("static_cast");
 const string ASResource::AS_STRUCT = string("struct");
+const string ASResource::AS_TYPEDEF_STRUCT = string("typedef struct");
 const string ASResource::AS_SWITCH = string("switch");
 const string ASResource::AS_SYNCHRONIZED = string("synchronized");
 const string ASResource::AS_TEMPLATE = string("template");
@@ -94,6 +95,8 @@ const string ASResource::AS_BAR_IF = string("#if");
 const string ASResource::AS_BAR_EL = string("#el");
 const string ASResource::AS_BAR_ENDIF = string("#endif");
 
+const string ASResource::AS_OPEN_PAREN = string("(");
+const string ASResource::AS_CLOSE_PAREN = string(")");
 const string ASResource::AS_OPEN_BRACE = string("{");
 const string ASResource::AS_CLOSE_BRACE = string("}");
 const string ASResource::AS_OPEN_LINE_COMMENT = string("//");
@@ -137,6 +140,8 @@ const string ASResource::AS_ARROW = string("->");
 const string ASResource::AS_AND = string("&&");
 const string ASResource::AS_OR = string("||");
 const string ASResource::AS_SCOPE_RESOLUTION = string("::");
+const string ASResource::AS_SPACESHIP = string("<=>");
+const string ASResource::AS_EQUAL_JS = string("===");
 
 const string ASResource::AS_PLUS = string("+");
 const string ASResource::AS_MINUS = string("-");
@@ -154,6 +159,7 @@ const string ASResource::AS_QUESTION = string("?");
 const string ASResource::AS_COLON = string(":");
 const string ASResource::AS_COMMA = string(",");
 const string ASResource::AS_SEMICOLON = string(";");
+
 
 /**
  * Sort comparison function.
@@ -257,7 +263,7 @@ void ASResource::buildHeaders(vector<const string*>* headers, int fileType, bool
 	headers->emplace_back(&AS_FOREACH);		// QT & C#
 	headers->emplace_back(&AS_FOREVER);		// Qt & Boost
 
-	if (fileType == C_TYPE)
+	if (fileType == C_TYPE || fileType == OBJC_TYPE)
 	{
 		headers->emplace_back(&_AS_TRY);		// __try
 		headers->emplace_back(&_AS_FINALLY);	// __finally
@@ -283,7 +289,7 @@ void ASResource::buildHeaders(vector<const string*>* headers, int fileType, bool
 
 	if (beautifier)
 	{
-		if (fileType == C_TYPE)
+		if (fileType == C_TYPE || fileType == OBJC_TYPE)
 		{
 			headers->emplace_back(&AS_TEMPLATE);
 		}
@@ -393,7 +399,7 @@ void ASResource::buildNonParenHeaders(vector<const string*>* nonParenHeaders, in
 	nonParenHeaders->emplace_back(&AS_QFOREVER);	// QT
 	nonParenHeaders->emplace_back(&AS_FOREVER);	// Boost
 
-	if (fileType == C_TYPE)
+	if (fileType == C_TYPE || fileType == OBJC_TYPE)
 	{
 		nonParenHeaders->emplace_back(&_AS_TRY);		// __try
 		nonParenHeaders->emplace_back(&_AS_FINALLY);	// __finally
@@ -486,8 +492,12 @@ void ASResource::buildOperators(vector<const string*>* operators, int fileType)
 	{
 		operators->emplace_back(&AS_GCC_MIN_ASSIGN);
 		operators->emplace_back(&AS_GCC_MAX_ASSIGN);
+		operators->emplace_back(&AS_SPACESHIP);
 	}
-
+	if (fileType == JS_TYPE)
+	{
+		operators->emplace_back(&AS_EQUAL_JS);
+	}
 	assert(operators->size() < elements);
 	sort(operators->begin(), operators->end(), sortOnLength);
 }
@@ -505,7 +515,7 @@ void ASResource::buildPreBlockStatements(vector<const string*>* preBlockStatemen
 	preBlockStatements->reserve(elements);
 
 	preBlockStatements->emplace_back(&AS_CLASS);
-	if (fileType == C_TYPE)
+	if (fileType == C_TYPE || fileType == OBJC_TYPE)
 	{
 		preBlockStatements->emplace_back(&AS_STRUCT);
 		preBlockStatements->emplace_back(&AS_UNION);
@@ -544,7 +554,7 @@ void ASResource::buildPreCommandHeaders(vector<const string*>* preCommandHeaders
 	const size_t elements = 10;
 	preCommandHeaders->reserve(elements);
 
-	if (fileType == C_TYPE)
+	if (fileType == C_TYPE || fileType == OBJC_TYPE)
 	{
 		preCommandHeaders->emplace_back(&AS_CONST);
 		preCommandHeaders->emplace_back(&AS_FINAL);
@@ -553,6 +563,10 @@ void ASResource::buildPreCommandHeaders(vector<const string*>* preCommandHeaders
 		preCommandHeaders->emplace_back(&AS_OVERRIDE);
 		preCommandHeaders->emplace_back(&AS_VOLATILE);
 		preCommandHeaders->emplace_back(&AS_SEALED);			// Visual C only
+	}
+
+	if (fileType == OBJC_TYPE)
+	{
 		preCommandHeaders->emplace_back(&AS_AUTORELEASEPOOL);	// Obj-C only
 	}
 
@@ -584,7 +598,7 @@ void ASResource::buildPreDefinitionHeaders(vector<const string*>* preDefinitionH
 	preDefinitionHeaders->reserve(elements);
 
 	preDefinitionHeaders->emplace_back(&AS_CLASS);
-	if (fileType == C_TYPE)
+	if (fileType == C_TYPE || fileType == OBJC_TYPE)
 	{
 		preDefinitionHeaders->emplace_back(&AS_STRUCT);
 		preDefinitionHeaders->emplace_back(&AS_UNION);

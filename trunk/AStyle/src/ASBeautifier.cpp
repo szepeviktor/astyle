@@ -1,5 +1,5 @@
 // ASBeautifier.cpp
-// Copyright (c) 2018 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2023 The Artistic Style Authors.
 // This code is licensed under the MIT License.
 // License.md describes the conditions under which this software may be distributed.
 
@@ -72,7 +72,7 @@ ASBeautifier::ASBeautifier()
 	setAlignMethodColon(false);
 
 	// initialize ASBeautifier member vectors
-	beautifierFileType = 9;		// reset to an invalid type
+	beautifierFileType = INVALID_TYPE;		// reset to an invalid type
 	headers = new vector<const string*>;
 	nonParenHeaders = new vector<const string*>;
 	assignmentOperators = new vector<const string*>;
@@ -199,6 +199,7 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	isInObjCInterface = other.isInObjCInterface;
 	isInEnum = other.isInEnum;
 	isInEnumTypeID = other.isInEnumTypeID;
+	isInStruct = other.isInStruct;
 	isInLet = other.isInLet;
 	isInTrailingReturnType = other.isInTrailingReturnType;
 	modifierIndent = other.modifierIndent;
@@ -354,6 +355,7 @@ void ASBeautifier::init(ASSourceIterator* iter)
 	isInObjCInterface = false;
 	isInEnum = false;
 	isInEnumTypeID = false;
+	isInStruct = false;
 	isInLet = false;
 	isInHeader = false;
 	isInTemplate = false;
@@ -579,7 +581,7 @@ string ASBeautifier::beautify(const string& originalLine)
 		{
 			if (isInIndentablePreprocBlock)
 				return preLineWS(preprocBlockIndent, 0);
-			if (!headerStack->empty() || isInEnum)
+			if (!headerStack->empty() || isInEnum || isInStruct)
 				return preLineWS(prevFinalLineIndentCount, prevFinalLineSpaceIndentCount);
 			// must fall thru here
 		}
@@ -815,6 +817,22 @@ void ASBeautifier::setCStyle()
 void ASBeautifier::setJavaStyle()
 {
 	fileType = JAVA_TYPE;
+}
+
+/**
+ * set indentation style to JavaScript.
+ */
+void ASBeautifier::setJSStyle()
+{
+	fileType = JS_TYPE;
+}
+
+/**
+ * set indentation style to JavaScript.
+ */
+void ASBeautifier::setObjCStyle()
+{
+	fileType = OBJC_TYPE;
 }
 
 /**
@@ -1343,7 +1361,7 @@ void ASBeautifier::registerContinuationIndent(const string& line, int i, int spa
 
 	// the block opener is not indented for a NonInStatementArray
 	if ((isNonInStatementArray && i >= 0 && line[i] == '{')
-	        && !isInEnum && !braceBlockStateStack->empty() && braceBlockStateStack->back())
+	        && !isInEnum && !isInStruct && !braceBlockStateStack->empty() && braceBlockStateStack->back())
 		continuationIndentCount = 0;
 
 	continuationIndentStack->emplace_back(continuationIndentCount);
@@ -1527,7 +1545,7 @@ vector<vector<const string*>*>* ASBeautifier::copyTempStacks(const ASBeautifier&
  */
 void ASBeautifier::deleteBeautifierVectors()
 {
-	beautifierFileType = 9;		// reset to an invalid type
+	beautifierFileType = INVALID_TYPE;		// reset to an invalid type
 	delete headers;
 	delete nonParenHeaders;
 	delete preBlockStatements;
@@ -2105,7 +2123,7 @@ void ASBeautifier::computePreliminaryIndentation()
 		indentCount += classInitializerIndents;
 	}
 
-	if (isInEnum && lineBeginsWithComma && !continuationIndentStack->empty())
+	if ( (isInEnum || isInStruct) && lineBeginsWithComma && !continuationIndentStack->empty())
 	{
 		// unregister '=' indent from the previous line
 		continuationIndentStack->pop_back();
@@ -2528,6 +2546,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 	bool previousLineProbation = (probationHeader != nullptr);
 	char ch = ' ';
 	int tabIncrementIn = 0;
+
 	if (isInQuote
 	        && !haveLineContinuationChar
 	        && !isInVerbatimQuote
@@ -2585,7 +2604,9 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				quoteChar = ch;
 				isInQuote = true;
 				char prevCh = i > 0 ? line[i - 1] : ' ';
-				if (isCStyle() && prevCh == 'R')
+
+				// https://sourceforge.net/p/astyle/bugs/535/
+				if (isCStyle() && prevCh == 'R' && !(isalpha(prevNonSpaceCh) || prevNonSpaceCh == '('  ))
 				{
 					int parenPos = line.find('(', i);
 					if (parenPos != -1)
@@ -2812,7 +2833,8 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				if (ch == '[')
 				{
 					++squareBracketCount;
-					if (squareBracketCount == 1 && isCStyle())
+					// #525 Maybe check for opening brace in the line
+					if (squareBracketCount == 1 && isObjCStyle() && line.find("{", i + 1 ) == string::npos)
 					{
 						isInObjCMethodCall = true;
 						isInObjCMethodCallFirst = true;
@@ -2823,7 +2845,9 @@ void ASBeautifier::parseCurrentLine(const string& line)
 
 				if (currentHeader != nullptr)
 					registerContinuationIndent(line, i, spaceIndentCount, tabIncrementIn, minConditionalIndent, true);
-				else if (!isInObjCMethodDefinition)
+				else if (!isInObjCMethodDefinition
+				         //&& xxxCondition && shouldForceTabIndentation  // only count one opening parenthese per line #498
+				        )
 					registerContinuationIndent(line, i, spaceIndentCount, tabIncrementIn, 0, true);
 			}
 			else if (ch == ')' || ch == ']')
@@ -2899,7 +2923,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 					clearObjCMethodDefinitionAlignment();
 			}
 
-			if (!isBlockOpener && !isContinuation && !isInClassInitializer && !isInEnum)
+			if (!isBlockOpener && !isContinuation && !isInClassInitializer && !isInEnum && !isInStruct)
 			{
 				if (isTopLevel())
 					isBlockOpener = true;
@@ -3200,8 +3224,21 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			if (isCStyle() && findKeyword(line, i, AS_NS_HANDLER))
 				foundPreCommandMacro = true;
 
-			if (parenDepth == 0 && findKeyword(line, i, AS_ENUM))
+			//https://sourceforge.net/p/astyle/bugs/550/
+			//enum can be function return value
+			if (parenDepth == 0 && findKeyword(line, i, AS_ENUM) && line.find_first_of(AS_OPEN_PAREN, i) == string::npos)
 				isInEnum = true;
+
+			if (parenDepth == 0 && (findKeyword(line, i, AS_TYPEDEF_STRUCT) || findKeyword(line, i, AS_STRUCT)))
+			{
+				isInStruct = true;
+			}
+
+			// avoid regression with neovim test dataset
+			if (parenDepth == 0 && findKeyword(line, i, AS_UNION) )
+			{
+				isInStruct = false;
+			}
 
 			if (isSharpStyle() && findKeyword(line, i, AS_LET))
 				isInLet = true;
@@ -3211,7 +3248,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 		if (ch == '?')
 			isInQuestion = true;
 
-		// special handling of colons
+		// special handling of colons XXX 533
 		if (ch == ':')
 		{
 			if (line.length() > i + 1 && line[i + 1] == ':') // look for ::
@@ -3232,6 +3269,11 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			{
 				// found an enum with a base-type
 				isInEnumTypeID = true;
+				if (i == 0)
+					indentCount += classInitializerIndents;
+			}
+			else if (isInStruct && !isInCase)
+			{
 				if (i == 0)
 					indentCount += classInitializerIndents;
 			}
@@ -3305,7 +3347,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			        < (int) continuationIndentStack->size())
 				continuationIndentStack->pop_back();
 
-		else if (ch == ',' && isInEnum && isNonInStatementArray && !continuationIndentStack->empty())
+		else if (ch == ',' && (isInEnum || isInStruct) && isNonInStatementArray && !continuationIndentStack->empty())
 			continuationIndentStack->pop_back();
 
 		// handle commas
@@ -3398,6 +3440,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 					spaceIndentCount = 0;
 				isInAsmBlock = false;
 				isInAsm = isInAsmOneLine = isInQuote = false;	// close these just in case
+				isInStruct = false;
 
 				int headerPlace = indexOf(*headerStack, &AS_OPEN_BRACE);
 				if (headerPlace != -1)
@@ -3465,6 +3508,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 			isInClassHeader = false;		// for 'friend' class
 			isInEnum = false;
 			isInEnumTypeID = false;
+
 			isInQuestion = false;
 			isInTemplate = false;
 			isInObjCInterface = false;
@@ -3490,7 +3534,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 						newHeader = nullptr;
 				}
 				if (newHeader != nullptr
-				        && !(isCStyle() && newHeader == &AS_CLASS && isInEnum)	// is not 'enum class'
+				        && !(isCStyle() && newHeader == &AS_CLASS && (isInEnum || isInStruct))	// is not 'enum class'
 				        && !(isCStyle() && newHeader == &AS_INTERFACE			// CORBA IDL interface
 				             && (headerStack->empty()
 				                 || headerStack->back() != &AS_OPEN_BRACE)))
@@ -3594,6 +3638,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 		// Handle Objective-C statements
 
 		if (ch == '@'
+		        && isObjCStyle()
 		        && line.length() > i + 1
 		        && !isWhiteSpace(line[i + 1])
 		        && isCharPotentialHeader(line, i + 1))
@@ -3640,6 +3685,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 		             || headerStack->empty() || isInObjCInterface)
 		         && ASBase::peekNextChar(line, i) != '-'
 		         && ASBase::peekNextChar(line, i) != '+'
+		         && isObjCStyle()
 		         && line.find_first_not_of(" \t") == i)
 		{
 			if (isInObjCInterface)
@@ -3709,7 +3755,7 @@ void ASBeautifier::parseCurrentLine(const string& line)
 				if (foundAssignmentOp->length() > 1)
 					i += foundAssignmentOp->length() - 1;
 
-				if (!isInOperator && !isInTemplate && (!isNonInStatementArray || isInEnum))
+				if (!isInOperator && !isInTemplate && (!isNonInStatementArray || isInEnum || isInStruct))
 				{
 					// if multiple assignments, align on the previous word
 					if (foundAssignmentOp == &AS_ASSIGN
