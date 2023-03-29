@@ -305,11 +305,11 @@ protected:
 
 protected:  // inline functions
 	void init(int fileTypeArg) { baseFileType = fileTypeArg; }
-	bool isCStyle() const { return (baseFileType == C_TYPE); }
-	bool isJavaStyle() const { return (baseFileType == JAVA_TYPE); }
-	bool isSharpStyle() const { return (baseFileType == SHARP_TYPE); }
-	bool isJSStyle() const { return (baseFileType == JS_TYPE); }
-	bool isObjCStyle() const { return (baseFileType == OBJC_TYPE); }
+	bool isCStyle() const { return baseFileType == C_TYPE || baseFileType == OBJC_TYPE; }
+	bool isJavaStyle() const { return baseFileType == JAVA_TYPE; }
+	bool isSharpStyle() const { return baseFileType == SHARP_TYPE; }
+	bool isJSStyle() const { return baseFileType == JS_TYPE; }
+	bool isObjCStyle() const { return baseFileType == OBJC_TYPE; }
 
 	bool isWhiteSpace(char ch) const { return (ch == ' ' || ch == '\t'); }
 
