@@ -94,7 +94,7 @@ namespace astyle {
 	jmethodID g_mid;
 #endif
 
-const char* g_version = "3.2";
+const char* g_version = "3.2.1";
 
 //-----------------------------------------------------------------------------
 // ASStreamIterator class
@@ -511,20 +511,35 @@ void ASConsole::correctMixedLineEnds(ostringstream& out)
 // NOTE: some string functions don't work with NULLs (e.g. length())
 FileEncoding ASConsole::detectEncoding(const char* data, size_t dataSize) const
 {
-	FileEncoding encoding = ENCODING_8BIT;
+    if (dataSize >= 3 && memcmp(data, "\xEF\xBB\xBF", 3) == 0)
+    {
+        return UTF_8BOM;
+    }
 
-	if (dataSize >= 3 && memcmp(data, "\xEF\xBB\xBF", 3) == 0)
-		encoding = UTF_8BOM;
-	else if (dataSize >= 4 && memcmp(data, "\x00\x00\xFE\xFF", 4) == 0)
-		encoding = UTF_32BE;
-	else if (dataSize >= 4 && memcmp(data, "\xFF\xFE\x00\x00", 4) == 0)
-		encoding = UTF_32LE;
-	else if (dataSize >= 2 && memcmp(data, "\xFE\xFF", 2) == 0)
-		encoding = UTF_16BE;
-	else if (dataSize >= 2 && memcmp(data, "\xFF\xFE", 2) == 0)
-		encoding = UTF_16LE;
+    if (dataSize >= 4)
+    {
+        if (memcmp(data, "\x00\x00\xFE\xFF", 4) == 0)
+        {
+            return UTF_32BE;
+        }
+        else if (memcmp(data, "\xFF\xFE\x00\x00", 4) == 0)
+        {
+            return UTF_32LE;
+        }
+    }
 
-	return encoding;
+    if (dataSize >= 2)
+    {
+        if (memcmp(data, "\xFE\xFF", 2) == 0)
+        {
+            return UTF_16BE;
+        }
+        else if (memcmp(data, "\xFF\xFE", 2) == 0)
+        {
+            return UTF_16LE;
+        }
+    }
+    return ENCODING_8BIT;
 }
 
 // error exit without a message
@@ -996,6 +1011,7 @@ FileEncoding ASConsole::readFile(const string& fileName_, stringstream& in) cons
 		error(_("Cannot process UTF-32 encoding"), fileName_.c_str());
 	bool firstBlock = true;
 	bool isBigEndian = (encoding == UTF_16BE);
+
 	while (dataSize != 0)
 	{
 		if (encoding == UTF_16LE || encoding == UTF_16BE)
