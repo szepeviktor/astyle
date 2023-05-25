@@ -1504,7 +1504,7 @@ std::string ASConsole::getNumberFormat(int num, size_t /*lcid*/) const
 	// The C locale should be set but not the C++.
 	// This function is not necessary if the C++ locale is set.
 	// The locale().name() return value is not portable to all compilers.
-	assert(locale().name() == "C");
+	assert(std::locale().name() == "C");
 #endif
 
 	// get the locale info
