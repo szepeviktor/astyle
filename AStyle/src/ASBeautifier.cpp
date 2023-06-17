@@ -60,6 +60,7 @@ ASBeautifier::ASBeautifier()
 	setSwitchIndent(false);
 	setCaseIndent(false);
 	setSqueezeWhitespace(false);
+	setLambdaIndentation(false);
 	setBlockIndent(false);
 	setBraceIndent(false);
 	setBraceIndentVtk(false);
@@ -207,6 +208,7 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	switchIndent = other.switchIndent;
 	caseIndent = other.caseIndent;
 	squeezeWhitespace = other.squeezeWhitespace;
+	attemptLambdaIndentation = other.attemptLambdaIndentation;
 	namespaceIndent = other.namespaceIndent;
 	braceIndent = other.braceIndent;
 	braceIndentVtk = other.braceIndentVtk;
@@ -1118,6 +1120,18 @@ void ASBeautifier::setAlignMethodColon(bool state)
 void ASBeautifier::setSqueezeWhitespace(bool state)
 {
 	squeezeWhitespace = state;
+}
+
+/**
+ * set the state of the lambda indentation option. If true,
+ * the parser tries to recognize lambda code. Indentation
+ * is bad if the lambda code is more complex (if/switch etc)
+ *
+ * @param   state             state of option.
+ */
+void ASBeautifier::setLambdaIndentation(bool state)
+{
+	attemptLambdaIndentation = state;
 }
 
 /**
@@ -2846,7 +2860,8 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 				{
 					headerStack->pop_back();
 					isInClassHeader = false;
-					if ( !findKeyword(line, i, AS_STRUCT) )	// if not on this line #526
+
+					if (line.find("struct ", 0) > i)        // if not on this line #526, GH #12
 						indentCount -= classInitializerIndents;
 					if (indentCount < 0)
 						indentCount = 0;
@@ -2870,8 +2885,13 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 					}
 
 					// #121
-					if (!isLegalNameChar(prevNonSpaceCh) && prevNonSpaceCh != ']' && prevNonSpaceCh != ')' && line.find(AS_AUTO, 0 ) == std::string::npos) {
-						lambdaIndicator = true;
+					if (attemptLambdaIndentation // GH #7
+					     && !isLegalNameChar(prevNonSpaceCh)
+						 && prevNonSpaceCh != ']'
+						 && prevNonSpaceCh != ')'
+						 && prevNonSpaceCh != '*'  // GH #11
+						 && line.find(AS_AUTO, 0 ) == std::string::npos) {
+							lambdaIndicator = true;
 					}
 				}
 
@@ -2945,7 +2965,7 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 			                      || isSharpDelegate
 			                      || isInExternC
 			                      || isInAsmBlock
-			                      //|| (getNextWord(line, i) == AS_NEW // #487
+			                      //|| getNextWord(line, i) == AS_NEW // #487
 			                      || (isInDefine
 			                          && (prevNonSpaceCh == '('
 			                              || isLegalNameChar(prevNonSpaceCh))));
@@ -3264,6 +3284,12 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 				foundPreCommandMacro = true;
 			if (isObjCStyle() && findKeyword(line, i, AS_NS_HANDLER))
 				foundPreCommandMacro = true;
+
+			//https://sourceforge.net/p/astyle/bugs/353/
+			// new is ending the line?
+			if (isJavaStyle() && findKeyword(line, i, AS_NEW) && line.length()-3 == i) {
+				headerStack->emplace_back(&AS_FIXED); // needs to be something which will not match - need to define a token which will never match
+			}
 
 			//https://sourceforge.net/p/astyle/bugs/550/
 			//enum can be function return value
@@ -3808,7 +3834,8 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 					        && prevNonSpaceCh != ']'		// an array
 					        && statementEndsWithComma(line, i))
 					{
-						if (!haveAssignmentThisLine)		// only one assignment indent per line
+						// only one assignment indent per line + GH #10
+						if (!haveAssignmentThisLine && line.find(AS_SCOPE_RESOLUTION) == std::string::npos)
 						{
 							// register indent at previous word
 							haveAssignmentThisLine = true;
