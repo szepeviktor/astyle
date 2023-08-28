@@ -94,7 +94,7 @@ namespace astyle {
 	jmethodID g_mid;
 #endif
 
-const char* g_version = "3.4";
+const char* g_version = "3.4.6";
 
 //-----------------------------------------------------------------------------
 // ASStreamIterator class
@@ -448,35 +448,35 @@ void ASConsole::correctMixedLineEnds(std::ostringstream& out)
 // NOTE: some string functions don't work with NULLs (e.g. length())
 FileEncoding ASConsole::detectEncoding(const char* data, size_t dataSize) const
 {
-    if (dataSize >= 3 && memcmp(data, "\xEF\xBB\xBF", 3) == 0)
-    {
-        return UTF_8BOM;
-    }
+	if (dataSize >= 3 && memcmp(data, "\xEF\xBB\xBF", 3) == 0)
+	{
+		return UTF_8BOM;
+	}
 
-    if (dataSize >= 4)
-    {
-        if (memcmp(data, "\x00\x00\xFE\xFF", 4) == 0)
-        {
-            return UTF_32BE;
-        }
-        else if (memcmp(data, "\xFF\xFE\x00\x00", 4) == 0)
-        {
-            return UTF_32LE;
-        }
-    }
+	if (dataSize >= 4)
+	{
+		if (memcmp(data, "\x00\x00\xFE\xFF", 4) == 0)
+		{
+			return UTF_32BE;
+		}
+		else if (memcmp(data, "\xFF\xFE\x00\x00", 4) == 0)
+		{
+			return UTF_32LE;
+		}
+	}
 
-    if (dataSize >= 2)
-    {
-        if (memcmp(data, "\xFE\xFF", 2) == 0)
-        {
-            return UTF_16BE;
-        }
-        else if (memcmp(data, "\xFF\xFE", 2) == 0)
-        {
-            return UTF_16LE;
-        }
-    }
-    return ENCODING_8BIT;
+	if (dataSize >= 2)
+	{
+		if (memcmp(data, "\xFE\xFF", 2) == 0)
+		{
+			return UTF_16BE;
+		}
+		else if (memcmp(data, "\xFF\xFE", 2) == 0)
+		{
+			return UTF_16LE;
+		}
+	}
+	return ENCODING_8BIT;
 }
 
 // error exit without a message
@@ -690,14 +690,17 @@ std::string ASConsole::findProjectOptionFilePath(const std::string& fileName_) c
 			if (endPath != std::string::npos)
 			{
 				first.erase(endPath + 1, std::string::npos);
-			} else {
+			}
+			else
+			{
 				first = ".";
 				first.push_back(g_fileSeparator);
 			}
 		}
 
 		parent = getFullPathName(first);
-		if (parent[parent.size()] != g_fileSeparator) {
+		if (parent[parent.size()] != g_fileSeparator)
+		{
 			parent.push_back(g_fileSeparator);
 		}
 
@@ -1513,7 +1516,7 @@ bool ASConsole::isHomeOrInvalidAbsPath(const std::string& absPath) const
 	if (env == nullptr)
 		return true;
 
-	return (absPath.compare(env) == 0 || absPath=="/" );
+	return (absPath.compare(env) == 0 || absPath == "/" );
 }
 
 /**
@@ -3218,10 +3221,10 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		formatter.setModeManuallySet(true);
 	}
 	else if (isOption(arg, "mode=objc"))
-    {
-    		formatter.setObjCStyle();
-    		formatter.setModeManuallySet(true);
-    }
+	{
+		formatter.setObjCStyle();
+		formatter.setModeManuallySet(true);
+	}
 	else if (isParamOption(arg, "t", "indent=tab="))
 	{
 		int spaceNum = 4;
@@ -3413,6 +3416,17 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 	else if (isOption(arg, "xe", "delete-empty-lines"))
 	{
 		formatter.setDeleteEmptyLinesMode(true);
+	}
+	else if (isParamOption(arg, "squeeze-lines="))
+	{
+		int keepEmptyLines = 2;
+		std::string keepEmptyLinesParam = getParam(arg, "squeeze-lines=");
+		if (keepEmptyLinesParam.length() > 0)
+			keepEmptyLines = atoi(keepEmptyLinesParam.c_str());
+		if (keepEmptyLines < 1)
+			isOptionError(arg, errorInfo);
+		else
+			formatter.setSqueezeEmptyLinesNumber(keepEmptyLines);
 	}
 	else if (isOption(arg, "E", "fill-empty-lines"))
 	{
@@ -3737,20 +3751,9 @@ bool ASOptions::parseOptionContinued(const std::string& arg, const std::string& 
 			formatter.setLineEndFormat(LINEEND_MACOLD);
 	}
 	else if (isOption(arg, "squeeze-ws"))
-    {
-        formatter.setSqueezeWhitespace(true);
-    }
-	else if (isParamOption(arg, "squeeze-lines="))
-    {
-		int keepEmptyLines = 2;
-		std::string keepEmptyLinesParam = getParam(arg, "squeeze-lines=");
-		if (keepEmptyLinesParam.length() > 0)
-			keepEmptyLines = atoi(keepEmptyLinesParam.c_str());
-		if (keepEmptyLines < 1)
-			isOptionError(arg, errorInfo);
-		else
-			formatter.setSqueezeEmptyLinesNumber(keepEmptyLines);
-    }
+	{
+		formatter.setSqueezeWhitespace(true);
+	}
 	else if (isOption(arg, "pad-brackets"))
 	{
 		formatter.setBracketsOutsidePaddingMode(true);
