@@ -309,13 +309,15 @@ void ASFormatter::init(ASSourceIterator* si)
 	isImmediatelyPostHeader = false;
 	isInHeader = false;
 	isInCase = false;
+    isInAllocator = false;
+
 	isFirstPreprocConditional = false;
 	processedFirstConditional = false;
 	isJavaStaticConstructor = false;
 }
 
 /**
- * build std::vectors for each programing language
+ * build std::vectors for each programming language
  * depending on the file extension.
  */
 void ASFormatter::buildLanguageVectors()
@@ -861,6 +863,7 @@ std::string ASFormatter::nextLine()
 
 		if (passedSemicolon)    // need to break the formattedLine
 		{
+			isInAllocator = false; // GH16
 			passedSemicolon = false;
 			if (parenStack->back() == 0 && !isCharImmediatelyPostComment && currentChar != ';') // allow ;;
 			{
@@ -997,6 +1000,7 @@ std::string ASFormatter::nextLine()
 				++parenthesesCount;
 			}
 		}
+
 		else if (currentChar == ')' || currentChar == ']' || (isInTemplate && currentChar == '>'))
 		{
 			foundPreCommandHeader = false;
@@ -1020,7 +1024,8 @@ std::string ASFormatter::nextLine()
 			}
 
 			// check if this parenthesis closes a header, e.g. if (...), while (...)
-			if (isInHeader && parenStack->back() == 0)
+			//GH16
+			if ( !(isSharpStyle() && peekNextChar() == ',') && isInHeader && parenStack->back() == 0)
 			{
 				isInHeader = false;
 				isImmediatelyPostHeader = true;
@@ -1036,6 +1041,8 @@ std::string ASFormatter::nextLine()
 				}
 
 			}
+
+			// GH16 break
 			if (currentChar == ')')
 			{
 				--parenthesesCount;
@@ -1066,15 +1073,14 @@ std::string ASFormatter::nextLine()
 				isImmediatelyPostObjCMethodPrefix = false;
 				isInObjCInterface = false;
 				isInEnum = false;
-				//isInStruct = false;
+
 				isJavaStaticConstructor = false;
 				isCharImmediatelyPostNonInStmt = false;
 				needHeaderOpeningBrace = false;
 				shouldKeepLineUnbroken = false;
 				returnTypeChecked = false;
 				objCColonAlign = 0;
-				//assert(methodBreakCharNum == std::string::npos);	// comment out
-				//assert(methodBreakLineNum == 0);				// comment out
+
 				methodBreakCharNum = std::string::npos;
 				methodBreakLineNum = 0;
 				methodAttachCharNum = std::string::npos;
@@ -1110,6 +1116,7 @@ std::string ASFormatter::nextLine()
 				isInAsmOneLine = isInQuote = false;
 				shouldKeepLineUnbroken = false;
 				squareBracketCount = 0;
+				isInAllocator = false;
 
 				if (braceTypeStack->size() > 1)
 				{
@@ -1507,7 +1514,7 @@ std::string ASFormatter::nextLine()
 				}
 			}
 			if (currentChar != ';'
-					|| foundStructHeader // #518
+			        || foundStructHeader // #518
 			        || (needHeaderOpeningBrace && parenStack->back() == 0))
 				currentHeader = nullptr;
 
@@ -1584,6 +1591,21 @@ std::string ASFormatter::nextLine()
 				isImmediatelyPostNewDelete = true;
 			}
 
+			//https://sourceforge.net/p/astyle/bugs/464/ + GH16
+			if (isSharpStyle() && findKeyword(currentLine, charNum, AS_NEW)
+								&& currentHeader != &AS_FOREACH
+								&& currentHeader != &AS_FOR
+								&& currentHeader != &AS_USING
+								&& currentHeader != &AS_WHILE
+								&& currentHeader != &AS_IF
+								&& currentLine.find(AS_PUBLIC) == std::string::npos
+								&& currentLine.find(AS_PROTECTED) == std::string::npos
+								&& currentLine.find(AS_PRIVATE) == std::string::npos
+								)
+			{
+				isInAllocator = true;
+			}
+
 			if (findKeyword(currentLine, charNum, AS_RETURN))
 			{
 				isInPotentialCalculation = true;
@@ -1641,10 +1663,13 @@ std::string ASFormatter::nextLine()
 				        && !isInObjCMethodDefinition
 				        // bypass objective-C and java @ character
 				        && charNum == (int) currentLine.find_first_not_of(" \t")
+
+						// possibly related to #504
 				        && !(isCStyle() && isCharPotentialHeader(currentLine, charNum)
 				             && (findKeyword(currentLine, charNum, AS_PUBLIC)
 				                 || findKeyword(currentLine, charNum, AS_PRIVATE)
-				                 || findKeyword(currentLine, charNum, AS_PROTECTED))))
+				                 || findKeyword(currentLine, charNum, AS_PROTECTED)))
+					)
 				{
 					findReturnTypeSplitPoint(currentLine);
 					returnTypeChecked = true;
@@ -1869,7 +1894,6 @@ std::string ASFormatter::nextLine()
 			        && nextChar != '>'
 			        && nextChar != ';'
 			        && !isBeforeAnyComment()
-			        /* && !(isBraceType(braceTypeStack->back(), ARRAY_TYPE)) */
 			   )
 			{
 				appendCurrentChar();
@@ -2922,7 +2946,8 @@ void ASFormatter::initNewLine()
 	else if (isWhiteSpace(currentLine[charNum]) && !(charNum + 1 < (int) currentLine.length()))
 	{
 		lineIsEmpty = true;
-		if (!isImmediatelyPostEmptyLine  ) {
+		if (!isImmediatelyPostEmptyLine  )
+		{
 			squeezeEmptyLineCount = 0;
 		}
 	}
@@ -3110,12 +3135,18 @@ BraceType ASFormatter::getBraceType()
 	{
 		returnVal = (BraceType)(ARRAY_TYPE | ENUM_TYPE);
 	}
+	else if (isSharpStyle() &&
+				(currentHeader == &AS_IF || currentHeader == &AS_WHILE
+				|| currentHeader == &AS_USING || currentHeader == &AS_WHILE
+				|| currentHeader == &AS_FOR  || currentHeader == &AS_FOREACH) ) { // GH16
+		returnVal = (BraceType) COMMAND_TYPE;
+	}
 	else
 	{
 		bool isCommandType = (foundPreCommandHeader
 		                      || foundPreCommandMacro
 		                      || (currentHeader != nullptr && isNonParenHeader)
-		                      || (previousCommandChar == ')')
+		                      || (previousCommandChar == ')' && !isInAllocator)
 		                      || (previousCommandChar == ':' && !foundQuestionMark)
 		                      || (previousCommandChar == ';')
 		                      || ((previousCommandChar == '{' || previousCommandChar == '}')
@@ -3128,7 +3159,6 @@ BraceType ASFormatter::getBraceType()
 		                      || isInObjCInterface
 		                      || isJavaStaticConstructor
 		                      || isSharpDelegate);
-
 		// C# methods containing 'get', 'set', 'add', and 'remove' do NOT end with parens
 		if (!isCommandType && isSharpStyle() && isNextWordSharpNonParenHeader(charNum + 1))
 		{
@@ -3168,6 +3198,7 @@ BraceType ASFormatter::getBraceType()
 		if (isUniformInitializerBrace())
 			returnVal = (BraceType)(returnVal | INIT_TYPE);
 	}
+
 
 	return returnVal;
 }
@@ -3436,14 +3467,15 @@ bool ASFormatter::isDereferenceOrAddressOf() const
 	if (isCharImmediatelyPostTemplate)
 		return false;
 
-	//TODO FIXME
 	// https://sourceforge.net/p/astyle/bugs/537/
-	 if ( previousNonWSChar == ',' && parenthesesCount <= 0) {
+	// https://sourceforge.net/p/astyle/bugs/552/
+	if ( previousNonWSChar == ',' && parenthesesCount <= 0 && currentChar != '&')
+	{
 		return false;
 	}
 
 	if (previousNonWSChar == '='
-	        //|| previousNonWSChar == ','  // #537
+	        || (previousNonWSChar == ',' && currentChar == '&')  // #537, #552
 	        || previousNonWSChar == '.'
 	        || previousNonWSChar == '{'
 	        || previousNonWSChar == '>'
@@ -3501,9 +3533,9 @@ bool ASFormatter::isDereferenceOrAddressOf() const
 		return true;
 	if (isPointerOrReferenceVariable(lastWord))
 		return false;
-	bool isDA = (!(isLegalNameChar(previousNonWSChar) || previousNonWSChar == '>')
+	bool isDA = (!(isLegalNameChar(previousNonWSChar) || previousNonWSChar == '>')          // TODO GH14
 	             || (nextText.length() > 0 && !isLegalNameChar(nextText[0]) && nextText[0] != '/')
-	             || (ispunct((unsigned char)previousNonWSChar) && previousNonWSChar != '.')
+	             || (ispunct((unsigned char)previousNonWSChar) && previousNonWSChar != '.') // TODO GH14
 	             || isCharImmediatelyPostReturn);
 
 	return isDA;
@@ -3976,8 +4008,8 @@ bool ASFormatter::isMultiStatementLine() const
  * @return  the next non-whitespace substd::string.
  */
 std::string ASFormatter::peekNextText(const std::string& firstLine,
-                                 bool endOnEmptyLine /*false*/,
-                                 const std::shared_ptr<ASPeekStream>& streamArg /*nullptr*/) const
+                                      bool endOnEmptyLine /*false*/,
+                                      const std::shared_ptr<ASPeekStream>& streamArg /*nullptr*/) const
 {
 	assert(sourceIterator->getPeekStart() == 0 || streamArg != nullptr);	// Borland may need != 0
 	bool isFirstLine = true;
@@ -4681,7 +4713,7 @@ void ASFormatter::padParensOrBrackets(char openDelim, char closeDelim, bool shou
 	int spacesOutsideToDelete = 0;
 	int spacesInsideToDelete = 0;
 
-	if (currentChar ==openDelim)
+	if (currentChar == openDelim)
 	{
 		spacesOutsideToDelete = formattedLine.length() - 1;
 		spacesInsideToDelete = 0;
@@ -4828,8 +4860,10 @@ void ASFormatter::padParensOrBrackets(char openDelim, char closeDelim, bool shou
 			        && peekedCharOutside != '.'
 			        && peekedCharOutside != '+'    // check for ++
 			        && peekedCharOutside != '-'    // check for --
-			        && peekedCharOutside != ']')
-				appendSpaceAfter();
+			        && peekedCharOutside != ']'){
+			        appendSpaceAfter();
+		}
+
 	}
 }
 
@@ -5847,13 +5881,17 @@ bool ASFormatter::isCurrentBraceBroken() const
 	{
 		if (currentLineBeginsWithBrace
 		        || braceFormatMode == RUN_IN_MODE)
+		{
 			breakBrace = true;
+		}
 	}
 	else if (braceFormatMode == NONE_MODE)
 	{
 		if (currentLineBeginsWithBrace
 		        && currentLineFirstBraceNum == (size_t) charNum)
-			breakBrace = true;
+			{
+				breakBrace = true;
+			}
 	}
 	else if (braceFormatMode == BREAK_MODE || braceFormatMode == RUN_IN_MODE)
 	{
@@ -5867,7 +5905,9 @@ bool ASFormatter::isCurrentBraceBroken() const
 			if (formattingStyle != STYLE_STROUSTRUP
 			        && formattingStyle != STYLE_MOZILLA
 			        && formattingStyle != STYLE_WEBKIT)
-				breakBrace = true;
+				{
+					breakBrace = true;
+				}
 		}
 		// break a class or interface
 		else if (isBraceType((*braceTypeStack)[stackEnd], CLASS_TYPE)
@@ -5875,13 +5915,17 @@ bool ASFormatter::isCurrentBraceBroken() const
 		{
 			if (formattingStyle != STYLE_STROUSTRUP
 			        && formattingStyle != STYLE_WEBKIT)
-				breakBrace = true;
+				{
+					breakBrace = true;
+				}
 		}
 		// break a struct if mozilla - an enum is processed as an array brace
 		else if (isBraceType((*braceTypeStack)[stackEnd], STRUCT_TYPE))
 		{
 			if (formattingStyle == STYLE_MOZILLA)
-				breakBrace = true;
+				{
+					breakBrace = true;
+				}
 		}
 		// break the first brace if a function
 		else if (isBraceType((*braceTypeStack)[stackEnd], COMMAND_TYPE))
@@ -5895,15 +5939,18 @@ bool ASFormatter::isCurrentBraceBroken() const
 				// break the first brace after these if a function
 				if (isBraceType((*braceTypeStack)[stackEnd - 1], NAMESPACE_TYPE)
 				        || isBraceType((*braceTypeStack)[stackEnd - 1], CLASS_TYPE)
-				        || isBraceType((*braceTypeStack)[stackEnd - 1], ARRAY_TYPE)
+				        || (isBraceType((*braceTypeStack)[stackEnd - 1], ARRAY_TYPE) && !lambdaIndicator)
 				        || isBraceType((*braceTypeStack)[stackEnd - 1], STRUCT_TYPE)
-				        || isBraceType((*braceTypeStack)[stackEnd - 1], EXTERN_TYPE))
+				        || isBraceType((*braceTypeStack)[stackEnd - 1], EXTERN_TYPE)
+						)
 				{
 					breakBrace = true;
 				}
 			}
 		}
 	}
+
+	//breakBrace = false;
 	return breakBrace;
 }
 
@@ -6226,7 +6273,8 @@ void ASFormatter::formatQuoteBody()
 
 	int _braceCount = 0;
 
-	if (checkInterpolation && currentChar=='{') {
+	if (checkInterpolation && currentChar == '{')
+	{
 		++_braceCount;
 	}
 
@@ -6241,7 +6289,7 @@ void ASFormatter::formatQuoteBody()
 		else
 			isSpecialChar = true;
 	}
-	else if (isInVerbatimQuote && currentChar == '"')
+	else if (isInVerbatimQuote && currentChar == '"' )
 	{
 		if (isCStyle())
 		{
@@ -6254,7 +6302,7 @@ void ASFormatter::formatQuoteBody()
 				checkInterpolation = false;
 			}
 		}
-		else if (isSharpStyle() && !checkInterpolation )
+		else if (isSharpStyle() )       // GH16
 		{
 			if ((int) currentLine.length() > charNum + 1
 			        && currentLine[charNum + 1] == '"')			// check consecutive quotes
@@ -6263,8 +6311,13 @@ void ASFormatter::formatQuoteBody()
 				goForward(1);
 				return;
 			}
-			isInQuote = false;
-			isInVerbatimQuote = false;
+
+			//if ( charNum>0 && currentLine[charNum - 1] != '\\')
+				isInQuote = false;
+
+			if (checkInterpolation)
+				isInVerbatimQuote = false;
+
 			checkInterpolation = false;
 		}
 	}
@@ -6286,11 +6339,12 @@ void ASFormatter::formatQuoteBody()
 		{
 			currentChar = currentLine[++charNum];
 
-			if (checkInterpolation) {
-				if (currentChar=='{')
+			if (checkInterpolation)
+			{
+				if (currentChar == '{')
 					++_braceCount;
 
-				if (currentChar=='}')
+				if (currentChar == '}')
 					--_braceCount;
 			}
 			appendCurrentChar();
@@ -6298,8 +6352,9 @@ void ASFormatter::formatQuoteBody()
 	}
 	if (charNum + 1 >= (int) currentLine.length()
 	        && currentChar != '\\'
-	        && !isInVerbatimQuote) {
-				isInQuote = false;				// missing closing quote
+	        && !isInVerbatimQuote)
+	{
+		isInQuote = false;				// missing closing quote
 	}
 
 }
@@ -6325,7 +6380,8 @@ void ASFormatter::formatQuoteOpener()
 			verbatimDelimiter = currentLine.substr(charNum + 1, parenPos - charNum - 1);
 		}
 	}
-	else if (isSharpStyle() && (previousChar == '@' || previousChar == '$' )) {
+	else if (isSharpStyle() && (previousChar == '@' ))
+	{
 		isInVerbatimQuote = true;
 		checkInterpolation = true;
 	}
@@ -6809,6 +6865,15 @@ void ASFormatter::findReturnTypeSplitPoint(const std::string& firstLine)
 				i = line.length();
 				continue;
 			}
+
+			// https://sourceforge.net/p/astyle/bugs/504/
+			if (line[line.length()-1] == ':')
+			{
+				i = line.length();
+				foundSplitPoint = true;
+				continue;
+			}
+
 			// not in quote or comment
 			if (!foundSplitPoint)
 			{
@@ -6920,6 +6985,7 @@ void ASFormatter::findReturnTypeSplitPoint(const std::string& firstLine)
 				}
 				if (line[i] == '(' && !squareCount)
 				{
+
 					// is line is already broken?
 					if (breakCharNum == firstCharNum && breakLineNum > 0)
 						isAlreadyBroken = true;
