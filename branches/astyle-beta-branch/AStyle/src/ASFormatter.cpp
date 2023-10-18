@@ -11,6 +11,7 @@
 
 #include <algorithm>
 #include <fstream>
+#include <set>
 
 //-----------------------------------------------------------------------------
 // astyle namespace
@@ -47,6 +48,7 @@ ASFormatter::ASFormatter()
 	shouldPadOperators = false;
 	shouldPadParensOutside = false;
 	shouldPadFirstParen = false;
+	shouldPadEmptyParens = false;
 	shouldPadParensInside = false;
 	shouldPadHeader = false;
 	shouldStripCommentPrefix = false;
@@ -854,7 +856,9 @@ std::string ASFormatter::nextLine()
 				}
 				else
 				{
-					isInLineBreak = true;
+					// GH16 only break if header is present
+					if (currentHeader)
+						isInLineBreak = true;
 				}
 			}
 
@@ -1039,7 +1043,6 @@ std::string ASFormatter::nextLine()
 					squareBracketCount = 0;
 					objCColonAlign = 0;
 				}
-
 			}
 
 			// GH16 break
@@ -1051,6 +1054,8 @@ std::string ASFormatter::nextLine()
 					endOfAsmReached = true;
 			}
 		}
+
+
 
 		// handle braces
 		if (currentChar == '{' || currentChar == '}')
@@ -1174,6 +1179,19 @@ std::string ASFormatter::nextLine()
 				else
 					formatClosingBrace(braceType);
 			}
+			continue;
+		}
+
+		// #126
+		if ( currentChar == '*' && shouldPadOperators &&
+			pointerAlignment != PTR_ALIGN_TYPE &&  // SF 557
+			( currentHeader == &AS_IF || currentHeader == &AS_WHILE || currentHeader == &AS_DO || currentHeader == &AS_FOR)
+			&& ( previousChar == ')' || std::isalpha(previousChar) )
+			&& !isOperatorPaddingDisabled() ) {
+			appendSpacePad();
+			appendOperator(AS_MULT);
+			goForward(0);
+			appendSpaceAfter();
 			continue;
 		}
 
@@ -1475,7 +1493,7 @@ std::string ASFormatter::nextLine()
 
 		if (previousNonWSChar == '}' || currentChar == ';')
 		{
-			if (currentChar == ';')
+			if (currentChar == ';' && !isInAsmBlock)
 			{
 				squareBracketCount = 0;
 				//assert(methodBreakCharNum == std::string::npos);	// comment out
@@ -2255,6 +2273,19 @@ void ASFormatter::setBracketsInsidePaddingMode(bool state)
 void ASFormatter::setParensFirstPaddingMode(bool state)
 {
 	shouldPadFirstParen = state;
+}
+
+/**
+ * set padding mode for empty parentheses.
+ * options:
+ *    true     padding will be applied
+ *    false    no padding (default)
+ *
+ * @param state         the padding mode.
+ */
+void ASFormatter::setEmptyParensPaddingMode(bool state)
+{
+	shouldPadEmptyParens = state;
 }
 
 /**
@@ -3136,6 +3167,7 @@ BraceType ASFormatter::getBraceType()
 		returnVal = (BraceType)(ARRAY_TYPE | ENUM_TYPE);
 	}
 	else if (isSharpStyle() &&
+				!isOneLineBlockReached(currentLine, charNum) &&
 				(currentHeader == &AS_IF || currentHeader == &AS_WHILE
 				|| currentHeader == &AS_USING || currentHeader == &AS_WHILE
 				|| currentHeader == &AS_FOR  || currentHeader == &AS_FOREACH) ) { // GH16
@@ -3415,14 +3447,11 @@ bool ASFormatter::isPointerOrReference() const
 	}
 
 	// checks on operators in parens with following '('
+	std::set<char> disallowedChars = {',', '(', '!', '&', '*', '|'};
+
 	if (parenStack->back() > 0
 	        && nextChar == '('
-	        && previousNonWSChar != ','
-	        && previousNonWSChar != '('
-	        && previousNonWSChar != '!'
-	        && previousNonWSChar != '&'
-	        && previousNonWSChar != '*'
-	        && previousNonWSChar != '|')
+	        && disallowedChars.find(previousNonWSChar) == disallowedChars.end())
 		return false;
 
 	if (nextChar == '-'
@@ -3474,13 +3503,10 @@ bool ASFormatter::isDereferenceOrAddressOf() const
 		return false;
 	}
 
-	if (previousNonWSChar == '='
+	std::set<char> allowedChars = {'=', '.', '{', '>', '<', '?'};
+
+	if ( allowedChars.find(previousNonWSChar) != allowedChars.end()
 	        || (previousNonWSChar == ',' && currentChar == '&')  // #537, #552
-	        || previousNonWSChar == '.'
-	        || previousNonWSChar == '{'
-	        || previousNonWSChar == '>'
-	        || previousNonWSChar == '<'
-	        || previousNonWSChar == '?'
 	        || isCharImmediatelyPostLineComment
 	        || isCharImmediatelyPostComment
 	        || isCharImmediatelyPostReturn)
@@ -4170,6 +4196,8 @@ void ASFormatter::padOperators(const std::string* newOperator)
 	assert(newOperator != nullptr);
 
 	char nextNonWSChar = ASBase::peekNextChar(currentLine, charNum);
+	std::set<char> allowedChars = {'(', '[', '=', ',', ':', '{'};
+
 	bool shouldPad = (newOperator != &AS_SCOPE_RESOLUTION
 	                  && newOperator != &AS_PLUS_PLUS
 	                  && newOperator != &AS_MINUS_MINUS
@@ -4183,12 +4211,7 @@ void ASFormatter::padOperators(const std::string* newOperator)
 	                  && !(newOperator == &AS_PLUS && isInExponent())
 	                  && !(newOperator == &AS_GR && previousChar == '-') //https://sourceforge.net/p/astyle/bugs/544/
 	                  && !((newOperator == &AS_PLUS || newOperator == &AS_MINUS)	// check for unary plus or minus
-	                       && (previousNonWSChar == '('
-	                           || previousNonWSChar == '['
-	                           || previousNonWSChar == '='
-	                           || previousNonWSChar == ','
-	                           || previousNonWSChar == ':'
-	                           || previousNonWSChar == '{'))
+	                       && (allowedChars.find(previousNonWSChar) != allowedChars.end()))
 	                  && !(newOperator == &AS_MULT
 	                       && (previousNonWSChar == '.'
 	                           || previousNonWSChar == '>'))    // check for ->
@@ -4791,11 +4814,12 @@ void ASFormatter::padParensOrBrackets(char openDelim, char closeDelim, bool shou
 
 		// pad open paren outside
 		char peekedCharOutside = peekNextChar();
-		if (shouldPadFirstParen && previousChar != openDelim && peekedCharOutside != closeDelim)
+		if (shouldPadFirstParen && ( (previousChar != openDelim && peekedCharOutside != closeDelim)  || shouldPadEmptyParens ) )
 			appendSpacePad();
 		else if (shouldPadParensOutside)
 		{
-			if (!(currentChar == openDelim && peekedCharOutside == closeDelim))
+			// GH19
+			if (!(currentChar == openDelim && peekedCharOutside == closeDelim) || shouldPadEmptyParens)
 				appendSpacePad();
 		}
 
@@ -5268,8 +5292,12 @@ void ASFormatter::formatClosingBrace(BraceType braceType)
 			        && nextText.substr(0, 5) != "break")
 				isAppendPostBlockEmptyLineRequested = true;
 		}
-		else
-			isAppendPostBlockEmptyLineRequested = true;
+		else {
+			// GH18
+			isAppendPostBlockEmptyLineRequested = !(shouldBreakBlocks && shouldAttachClosingWhile)
+                                                    || currentHeader != &AS_DO;
+		}
+
 	}
 }
 
@@ -6556,7 +6584,7 @@ void ASFormatter::appendClosingHeader()
 	if (firstBrace != std::string::npos)
 		previousLineIsOneLineBlock = isOneLineBlockReached(formattedLine, firstBrace);
 	if (!previousLineIsEmpty
-	        && previousLineIsOneLineBlock == 0)
+	    && previousLineIsOneLineBlock == 0)
 	{
 		isInLineBreak = false;
 		appendSpacePad();
