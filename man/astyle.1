@@ -1,4 +1,4 @@
-.TH astyle 1 "2023-02-23" "Andre Simon" "user documentation"
+.TH astyle 1 "2023-04-18" "Andre Simon" "user documentation"
 
 .SH NAME
 astyle - C syntax indenter and formatter
@@ -239,6 +239,13 @@ Insert space padding after paren headers (e.g. 'if', 'for'...).
 Remove unnecessary space padding around parenthesis. This
 can be used in combination with the 'pad' options above.
 
+.IP "--pad-brackets"
+Insert space padding around square brackets on both the outside
+and the inside (experimental).
+
+.IP "--unpad-brackets"
+Remove unnecessary space padding around square brackets (experimental).
+
 .IP "--delete-empty-lines OR -xe"
 Delete empty lines within a function or method.
 It will NOT delete lines added by the break-blocks options.
@@ -261,6 +268,12 @@ To align the reference separately use --align-reference.
 Attach a reference operator (&) to either
 the operator type (left), middle, or operator name (right).
 If not set, follow pointer alignment.
+
+.IP "--squeeze-lines=#"
+Remove superfluous empty lines exceeding the given number (experimental).
+
+.IP "--squeeze-ws"
+Remove superfluous whitespace (experimental).
 
 .SH  Formatting Options
 

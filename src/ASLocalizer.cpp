@@ -183,7 +183,7 @@ void ASLocalizer::setLanguageFromLCID(size_t lcid)
 
 #endif	// _WIN32
 
-string ASLocalizer::getLanguageID() const
+std::string ASLocalizer::getLanguageID() const
 // Returns the language ID in m_langID.
 {
 	return m_langID;
@@ -217,13 +217,13 @@ void ASLocalizer::setLanguageFromName(const char* langID)
 //      de_DE.iso88591@euro
 {
 	// the constants describing the format of lang_LANG locale string
-	string langStr = langID;
+	std::string langStr = langID;
 	m_langID = langStr.substr(0, 2);
 
 	// need the sublang for chinese
 	if (m_langID == "zh" && langStr[2] == '_')
 	{
-		string subLang = langStr.substr(3, 2);
+		std::string subLang = langStr.substr(3, 2);
 		if (subLang == "CN" || subLang == "SG")
 			m_subLangID = "CHS";
 		else
@@ -236,7 +236,7 @@ const char* ASLocalizer::settext(const char* textIn) const
 // Call the settext class and return the value.
 {
 	assert(m_translationClass);
-	const string stringIn = textIn;
+	const std::string stringIn = textIn;
 	return m_translationClass->translate(stringIn).c_str();
 }
 
@@ -311,22 +311,22 @@ Translation::Translation()
 	m_translationVector.reserve(translationElements);
 }
 
-void Translation::addPair(const string& english, const wstring& translated)
+void Translation::addPair(const std::string& english, const std::wstring& translated)
 // Add a string pair to the translation vector.
 {
-	pair<string, wstring> entry(english, translated);
+	std::pair<std::string, std::wstring> entry(english, translated);
 	m_translationVector.emplace_back(entry);
 	assert(m_translationVector.size() <= translationElements);
 }
 
-string Translation::convertToMultiByte(const wstring& wideStr) const
+std::string Translation::convertToMultiByte(const std::wstring& wideStr) const
 // Convert wchar_t to a multibyte string using the currently assigned locale.
 // Return an empty string if an error occurs.
 {
 	static bool msgDisplayed = false;
 	// get length of the output excluding the nullptr and validate the parameters
 	size_t mbLen = wcstombs(nullptr, wideStr.c_str(), 0);
-	if (mbLen == string::npos)
+	if (mbLen == std::string::npos)
 	{
 		if (!msgDisplayed)
 		{
@@ -336,7 +336,7 @@ string Translation::convertToMultiByte(const wstring& wideStr) const
 		return "";
 	}
 	// convert the characters
-	char* mbStr = new (nothrow) char[mbLen + 1];
+	char* mbStr = new (std::nothrow) char[mbLen + 1];
 	if (mbStr == nullptr)
 	{
 		if (!msgDisplayed)
@@ -348,16 +348,16 @@ string Translation::convertToMultiByte(const wstring& wideStr) const
 	}
 	wcstombs(mbStr, wideStr.c_str(), mbLen + 1);
 	// return the string
-	string mbTranslation = mbStr;
+	std::string mbTranslation = mbStr;
 	delete[] mbStr;
 	return mbTranslation;
 }
 
-string Translation::getTranslationString(size_t i) const
+std::string Translation::getTranslationString(size_t i) const
 // Return the translation ascii value. Used for testing.
 {
 	if (i >= m_translationVector.size())
-		return string();
+		return std::string();
 	return m_translationVector[i].first;
 }
 
@@ -367,10 +367,10 @@ size_t Translation::getTranslationVectorSize() const
 	return m_translationVector.size();
 }
 
-bool Translation::getWideTranslation(const string& stringIn, wstring& wideOut) const
+bool Translation::getWideTranslation(const std::string& stringIn, std::wstring& wideOut) const
 // Get the wide translation string. Used for testing.
 {
-	for (const pair<string, wstring>& translation : m_translationVector)
+	for (const std::pair<std::string, std::wstring>& translation : m_translationVector)
 	{
 		if (translation.first == stringIn)
 		{
@@ -383,13 +383,13 @@ bool Translation::getWideTranslation(const string& stringIn, wstring& wideOut) c
 	return false;
 }
 
-string& Translation::translate(const string& stringIn) const
+std::string& Translation::translate(const std::string& stringIn) const
 // Translate a string.
 // Return a mutable string so the method can have a "const" designation.
 // This allows "settext" to be called from a "const" method.
 {
 	m_mbTranslation.clear();
-	for (const pair<string, wstring>& translation : m_translationVector)
+	for (const std::pair<std::string, std::wstring>& translation : m_translationVector)
 	{
 		if (translation.first == stringIn)
 		{
