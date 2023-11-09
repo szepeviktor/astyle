@@ -52,7 +52,7 @@
 	#pragma clang diagnostic ignored "-Wshorten-64-to-32"
 #endif
 
-#define ASTYLE_VERSION "3.4.9"
+#define ASTYLE_VERSION "3.4.10"
 
 //-----------------------------------------------------------------------------
 // astyle namespace
@@ -561,6 +561,9 @@ private:  // variables
 	bool shouldIndentPreprocConditional;
 	bool squeezeWhitespace;
 	bool attemptLambdaIndentation;
+
+	bool isInAssignment;
+
 	int  indentCount;
 	int  spaceIndentCount;
 	int  spaceIndentObjCMethodAlignment;

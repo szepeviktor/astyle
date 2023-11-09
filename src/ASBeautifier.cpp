@@ -72,6 +72,7 @@ ASBeautifier::ASBeautifier()
 	setPreprocDefineIndent(false);
 	setPreprocConditionalIndent(false);
 	setAlignMethodColon(false);
+	isInAssignment = false;
 
 	// initialize ASBeautifier member vectors
 	beautifierFileType = INVALID_TYPE;		// reset to an invalid type
@@ -209,6 +210,7 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	caseIndent = other.caseIndent;
 	squeezeWhitespace = other.squeezeWhitespace;
 	attemptLambdaIndentation = other.attemptLambdaIndentation;
+	isInAssignment = other.isInAssignment;
 	namespaceIndent = other.namespaceIndent;
 	braceIndent = other.braceIndent;
 	braceIndentVtk = other.braceIndentVtk;
@@ -1387,9 +1389,10 @@ void ASBeautifier::registerContinuationIndent(const std::string& line, int i, in
 		continuationIndentCount = minIndent + spaceIndentCount_;
 
 	// this is not done for an in-statement array
+	int multiplier = isInAssignment ? 1 : 2; // GH16 - no multiply in assignments
 	if (continuationIndentCount > maxContinuationIndent
 	        && !(prevNonLegalCh == '=' && currentNonLegalCh == '{'))
-		continuationIndentCount = indentLength /* * 2*/ + spaceIndentCount_; // GH16
+		continuationIndentCount = indentLength * multiplier + spaceIndentCount_;
 
 	if (!continuationIndentStack->empty()
 	        && continuationIndentCount < continuationIndentStack->back())
@@ -3501,6 +3504,8 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 		// handle ends of statements
 		if ((ch == ';' && parenDepth == 0) || ch == '}')
 		{
+			isInAssignment = false;
+
 			if (ch == '}')
 			{
 
@@ -3866,6 +3871,8 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 
 			else if (foundAssignmentOp != nullptr)
 			{
+
+				isInAssignment = true;
 				foundPreCommandHeader = false;		// clears this for array assignments
 				foundPreCommandMacro = false;
 
