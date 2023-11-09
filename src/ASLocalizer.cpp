@@ -1,5 +1,5 @@
 // ASLocalizer.cpp
-// Copyright (c) 2018 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2023 The Artistic Style Authors.
 // This code is licensed under the MIT License.
 // License.md describes the conditions under which this software may be distributed.
 //
@@ -13,9 +13,9 @@
 // Change both the "Format" and the "Current Language..." settings.
 // A restart is required if the codepage has changed.
 //		Windows problems:
-//		Hindi    - no available locale, language pack removed
-//		Japanese - language pack install error
-//		Ukranian - displays a ? instead of i
+//		Hindi     - no available locale, language pack removed
+//		Japanese  - language pack install error
+//		Ukrainian - displays a ? instead of i
 //
 // Linux:
 // Change the LANG environment variable: LANG=fr_FR.UTF-8.
@@ -40,7 +40,7 @@
 #include "ASLocalizer.h"
 
 #ifdef _WIN32
-	#include <windows.h>
+	#include <Windows.h>
 #endif
 
 #ifdef __VMS
@@ -50,10 +50,10 @@
 	#include <cassert>
 #endif
 
-#include <cstdio>
-#include <iostream>
 #include <clocale>		// needed by some compilers
+#include <cstdio>
 #include <cstdlib>
+#include <iostream>
 #include <typeinfo>
 
 #ifdef _MSC_VER
@@ -65,8 +65,8 @@
 #endif
 
 #ifdef __INTEL_COMPILER
-	#pragma warning(disable:  383)  // value copied to temporary, reference to temporary used
-	#pragma warning(disable:  981)  // operands are evaluated in unspecified order
+	// #pragma warning(disable:  383)  // value copied to temporary, reference to temporary used
+	// #pragma warning(disable:  981)  // operands are evaluated in unspecified order
 #endif
 
 #ifdef __clang__
@@ -86,11 +86,9 @@ ASLocalizer::ASLocalizer()
 {
 	// set language default values to english (ascii)
 	// this will be used if a locale or a language cannot be found
-	m_localeName = "UNKNOWN";
 	m_langID = "en";
-	m_lcid = 0;
 	m_subLangID.clear();
-	m_translation = nullptr;
+	m_translationClass = nullptr;
 
 	// Not all compilers support the C++ function locale::global(locale(""));
 	char* localeName = setlocale(LC_ALL, "");
@@ -104,6 +102,7 @@ ASLocalizer::ASLocalizer()
 #ifdef _WIN32
 	size_t lcid = GetUserDefaultLCID();
 	setLanguageFromLCID(lcid);
+	m_codepage = GetACP();
 #else
 	setLanguageFromName(localeName);
 #endif
@@ -112,7 +111,7 @@ ASLocalizer::ASLocalizer()
 ASLocalizer::~ASLocalizer()
 // Delete dynamically allocated memory.
 {
-	delete m_translation;
+	delete m_translationClass;
 }
 
 #ifdef _WIN32
@@ -164,12 +163,11 @@ void ASLocalizer::setLanguageFromLCID(size_t lcid)
 	size_t lang = PRIMARYLANGID(LANGIDFROMLCID(m_lcid));
 	size_t sublang = SUBLANGID(LANGIDFROMLCID(m_lcid));
 	// find language in the wlc table
-	size_t count = sizeof(wlc) / sizeof(wlc[0]);
-	for (size_t i = 0; i < count; i++)
+	for (WinLangCode language : wlc)
 	{
-		if (wlc[i].winLang == lang)
+		if (language.winLang == lang)
 		{
-			m_langID = wlc[i].canonicalLang;
+			m_langID = language.canonicalLang;
 			break;
 		}
 	}
@@ -194,8 +192,8 @@ string ASLocalizer::getLanguageID() const
 const Translation* ASLocalizer::getTranslationClass() const
 // Returns the name of the translation class in m_translation.  Used for testing.
 {
-	assert(m_translation);
-	return m_translation;
+	assert(m_translationClass);
+	return m_translationClass;
 }
 
 void ASLocalizer::setLanguageFromName(const char* langID)
@@ -219,7 +217,6 @@ void ASLocalizer::setLanguageFromName(const char* langID)
 //      de_DE.iso88591@euro
 {
 	// the constants describing the format of lang_LANG locale string
-	m_lcid = 0;
 	string langStr = langID;
 	m_langID = langStr.substr(0, 2);
 
@@ -238,82 +235,88 @@ void ASLocalizer::setLanguageFromName(const char* langID)
 const char* ASLocalizer::settext(const char* textIn) const
 // Call the settext class and return the value.
 {
-	assert(m_translation);
+	assert(m_translationClass);
 	const string stringIn = textIn;
-	return m_translation->translate(stringIn).c_str();
+	return m_translationClass->translate(stringIn).c_str();
 }
 
 void ASLocalizer::setTranslationClass()
 // Return the required translation class.
-// Sets the class variable m_translation from the value of m_langID.
+// Sets the class variable m_translationClass from the value of m_langID.
 // Get the language ID at http://msdn.microsoft.com/en-us/library/ee797784%28v=cs.20%29.aspx
 {
 	assert(m_langID.length());
 	// delete previously set (--ascii option)
-	if (m_translation != nullptr)
+	if (m_translationClass != nullptr)
 	{
-		delete m_translation;
-		m_translation = nullptr;
+		delete m_translationClass;
+		m_translationClass = nullptr;
 	}
 	if (m_langID == "bg")
-		m_translation = new Bulgarian;
+		m_translationClass = new Bulgarian;
 	else if (m_langID == "zh" && m_subLangID == "CHS")
-		m_translation = new ChineseSimplified;
+		m_translationClass = new ChineseSimplified;
 	else if (m_langID == "zh" && m_subLangID == "CHT")
-		m_translation = new ChineseTraditional;
+		m_translationClass = new ChineseTraditional;
 	else if (m_langID == "nl")
-		m_translation = new Dutch;
+		m_translationClass = new Dutch;
 	else if (m_langID == "en")
-		m_translation = new English;
+		m_translationClass = new English;
 	else if (m_langID == "et")
-		m_translation = new Estonian;
+		m_translationClass = new Estonian;
 	else if (m_langID == "fi")
-		m_translation = new Finnish;
+		m_translationClass = new Finnish;
 	else if (m_langID == "fr")
-		m_translation = new French;
+		m_translationClass = new French;
 	else if (m_langID == "de")
-		m_translation = new German;
+		m_translationClass = new German;
 	else if (m_langID == "el")
-		m_translation = new Greek;
+		m_translationClass = new Greek;
 	else if (m_langID == "hi")
-		m_translation = new Hindi;
+		m_translationClass = new Hindi;
 	else if (m_langID == "hu")
-		m_translation = new Hungarian;
+		m_translationClass = new Hungarian;
 	else if (m_langID == "it")
-		m_translation = new Italian;
+		m_translationClass = new Italian;
 	else if (m_langID == "ja")
-		m_translation = new Japanese;
+		m_translationClass = new Japanese;
 	else if (m_langID == "ko")
-		m_translation = new Korean;
+		m_translationClass = new Korean;
 	else if (m_langID == "nn")
-		m_translation = new Norwegian;
+		m_translationClass = new Norwegian;
 	else if (m_langID == "pl")
-		m_translation = new Polish;
+		m_translationClass = new Polish;
 	else if (m_langID == "pt")
-		m_translation = new Portuguese;
+		m_translationClass = new Portuguese;
 	else if (m_langID == "ro")
-		m_translation = new Romanian;
+		m_translationClass = new Romanian;
 	else if (m_langID == "ru")
-		m_translation = new Russian;
+		m_translationClass = new Russian;
 	else if (m_langID == "es")
-		m_translation = new Spanish;
+		m_translationClass = new Spanish;
 	else if (m_langID == "sv")
-		m_translation = new Swedish;
+		m_translationClass = new Swedish;
 	else if (m_langID == "uk")
-		m_translation = new Ukrainian;
+		m_translationClass = new Ukrainian;
 	else	// default
-		m_translation = new English;
+		m_translationClass = new English;
 }
 
 //----------------------------------------------------------------------------
 // Translation base class methods.
 //----------------------------------------------------------------------------
 
+Translation::Translation()
+{
+	m_translationVector.reserve(translationElements);
+}
+
 void Translation::addPair(const string& english, const wstring& translated)
 // Add a string pair to the translation vector.
 {
 	pair<string, wstring> entry(english, translated);
-	m_translation.emplace_back(entry);
+	m_translationVector.emplace_back(entry);
+	assert(m_translationVector.size() <= translationElements);
 }
 
 string Translation::convertToMultiByte(const wstring& wideStr) const
@@ -353,25 +356,25 @@ string Translation::convertToMultiByte(const wstring& wideStr) const
 string Translation::getTranslationString(size_t i) const
 // Return the translation ascii value. Used for testing.
 {
-	if (i >= m_translation.size())
+	if (i >= m_translationVector.size())
 		return string();
-	return m_translation[i].first;
+	return m_translationVector[i].first;
 }
 
 size_t Translation::getTranslationVectorSize() const
 // Return the translation vector size.  Used for testing.
 {
-	return m_translation.size();
+	return m_translationVector.size();
 }
 
 bool Translation::getWideTranslation(const string& stringIn, wstring& wideOut) const
 // Get the wide translation string. Used for testing.
 {
-	for (size_t i = 0; i < m_translation.size(); i++)
+	for (const pair<string, wstring>& translation : m_translationVector)
 	{
-		if (m_translation[i].first == stringIn)
+		if (translation.first == stringIn)
 		{
-			wideOut = m_translation[i].second;
+			wideOut = translation.second;
 			return true;
 		}
 	}
@@ -386,11 +389,11 @@ string& Translation::translate(const string& stringIn) const
 // This allows "settext" to be called from a "const" method.
 {
 	m_mbTranslation.clear();
-	for (size_t i = 0; i < m_translation.size(); i++)
+	for (const pair<string, wstring>& translation : m_translationVector)
 	{
-		if (m_translation[i].first == stringIn)
+		if (translation.first == stringIn)
 		{
-			m_mbTranslation = convertToMultiByte(m_translation[i].second);
+			m_mbTranslation = convertToMultiByte(translation.second);
 			break;
 		}
 	}
@@ -541,9 +544,8 @@ Dutch::Dutch()	// Nederlandse
 	addPair("Artistic Style has terminated\n", L"Artistic Style heeft beëindigd\n");
 }
 
-English::English()
+English::English() = default;
 // this class is NOT translated
-{}
 
 Estonian::Estonian()	// Eesti
 // build the translation vector in the Translation base class
@@ -654,31 +656,31 @@ German::German()	// Deutsch
 	addPair("Unchanged  %s\n", L"Unverändert  %s\n");	// should align with formatted
 	addPair("Directory  %s\n", L"Verzeichnis  %s\n");
 	addPair("Default option file  %s\n", L"Standard-Optionsdatei  %s\n");
-	addPair("Project option file  %s\n", L"Projektoptionsdatei  %s\n");
+	addPair("Project option file  %s\n", L"Projekt-Optionsdatei  %s\n");
 	addPair("Exclude  %s\n", L"Ausschließen  %s\n");
-	addPair("Exclude (unmatched)  %s\n", L"Ausschließen (unerreichte)  %s\n");
+	addPair("Exclude (unmatched)  %s\n", L"Ausschließen (keine Übereinstimmung)  %s\n");
 	addPair(" %s formatted   %s unchanged   ", L" %s formatiert   %s unverändert   ");
-	addPair(" seconds   ", L" sekunden   ");
+	addPair(" seconds   ", L" Sekunden   ");
 	addPair("%d min %d sec   ", L"%d min %d sek   ");
-	addPair("%s lines\n", L"%s linien\n");
-	addPair("Opening HTML documentation %s\n", L"Öffnen HTML-Dokumentation %s\n");
+	addPair("%s lines\n", L"%s Zeilen\n");
+	addPair("Opening HTML documentation %s\n", L"Öffne HTML-Dokumentation %s\n");
 	addPair("Invalid default options:", L"Ungültige Standardoptionen:");
 	addPair("Invalid project options:", L"Ungültige Projektoptionen:");
 	addPair("Invalid command line options:", L"Ungültige Kommandozeilen-Optionen:");
-	addPair("For help on options type 'astyle -h'", L"Für Hilfe zu den Optionen geben Sie 'astyle -h'");
+	addPair("For help on options type 'astyle -h'", L"Für Hilfe zu den Optionen geben Sie 'astyle -h' ein");
 	addPair("Cannot open default option file", L"Die Standardoptionsdatei kann nicht geöffnet werden");
 	addPair("Cannot open project option file", L"Die Projektoptionsdatei kann nicht geöffnet werden");
-	addPair("Cannot open directory", L"Kann nicht geöffnet werden Verzeichnis");
-	addPair("Cannot open HTML file %s\n", L"Kann nicht öffnen HTML-Datei %s\n");
-	addPair("Command execute failure", L"Execute Befehl Scheitern");
-	addPair("Command is not installed", L"Befehl ist nicht installiert");
-	addPair("Missing filename in %s\n", L"Missing in %s Dateiname\n");
+	addPair("Cannot open directory", L"Das Verzeichnis kann nicht geöffnet werden");
+	addPair("Cannot open HTML file %s\n", L"Kann HTML-Datei nicht öffnen %s\n");
+	addPair("Command execute failure", L"Ausführung gescheitert");
+	addPair("Command is not installed", L"Kommando ist nicht installiert");
+	addPair("Missing filename in %s\n", L"Fehlender Dateiname in %s\n");
 	addPair("Recursive option with no wildcard", L"Rekursive Option ohne Wildcard");
 	addPair("Did you intend quote the filename", L"Haben Sie die Absicht Inhalte der Dateiname");
 	addPair("No file to process %s\n", L"Keine Datei zu verarbeiten %s\n");
-	addPair("Did you intend to use --recursive", L"Haben Sie verwenden möchten --recursive");
-	addPair("Cannot process UTF-32 encoding", L"Nicht verarbeiten kann UTF-32 Codierung");
-	addPair("Artistic Style has terminated\n", L"Artistic Style ist beendet\n");
+	addPair("Did you intend to use --recursive", L"Wollten Sie --recursive verwenden");
+	addPair("Cannot process UTF-32 encoding", L"Kann UTF-32 Codierung nicht verarbeiten");
+	addPair("Artistic Style has terminated\n", L"Artistic Style wurde beendet\n");
 }
 
 Greek::Greek()	// ελληνικά
@@ -690,7 +692,7 @@ Greek::Greek()	// ελληνικά
 	addPair("Default option file  %s\n", L"Προεπιλεγμένο αρχείο επιλογών  %s\n");
 	addPair("Project option file  %s\n", L"Αρχείο επιλογής έργου  %s\n");
 	addPair("Exclude  %s\n", L"Αποκλείω  %s\n");
-	addPair("Exclude (unmatched)  %s\n", L"Ausschließen (unerreichte)  %s\n");
+	addPair("Exclude (unmatched)  %s\n", L"Exclude (unmatched)  %s\n");
 	addPair(" %s formatted   %s unchanged   ", L" %s σχηματοποιημένη   %s αμετάβλητες   ");
 	addPair(" seconds   ", L" δευτερόλεπτα   ");
 	addPair("%d min %d sec   ", L"%d λεπ %d δευ   ");
@@ -788,35 +790,35 @@ Hungarian::Hungarian()	// Magyar
 Italian::Italian()	// Italiano
 // build the translation vector in the Translation base class
 {
-	addPair("Formatted  %s\n", L"Formattata  %s\n");	// should align with unchanged
+	addPair("Formatted  %s\n", L"Formattato  %s\n");	// should align with unchanged
 	addPair("Unchanged  %s\n", L"Immutato    %s\n");	// should align with formatted
-	addPair("Directory  %s\n", L"Elenco  %s\n");
-	addPair("Default option file  %s\n", L"File di opzione predefinito  %s\n");
-	addPair("Project option file  %s\n", L"File di opzione del progetto  %s\n");
-	addPair("Exclude  %s\n", L"Escludere  %s\n");
-	addPair("Exclude (unmatched)  %s\n", L"Escludere (senza pari)  %s\n");
-	addPair(" %s formatted   %s unchanged   ", L" %s ormattata   %s immutato   ");
-	addPair(" seconds   ", L" secondo   ");
-	addPair("%d min %d sec   ", L"%d min %d seg   ");
+	addPair("Directory  %s\n", L"Directory  %s\n");
+	addPair("Default option file  %s\n", L"File di configurazione predefinito  %s\n");
+	addPair("Project option file  %s\n", L"File di configurazione del progetto %s\n");
+	addPair("Exclude  %s\n", L"Escluso  %s\n");
+	addPair("Exclude (unmatched)  %s\n", L"Escluso (senza pari)  %s\n");
+	addPair(" %s formatted   %s unchanged   ", L" %s formattato   %s immutato   ");
+	addPair(" seconds   ", L" secondi   ");
+	addPair("%d min %d sec   ", L"%d min %d sec   ");
 	addPair("%s lines\n", L"%s linee\n");
 	addPair("Opening HTML documentation %s\n", L"Apertura di documenti HTML %s\n");
 	addPair("Invalid default options:", L"Opzioni di default non valide:");
 	addPair("Invalid project options:", L"Opzioni di progetto non valide:");
-	addPair("Invalid command line options:", L"Opzioni della riga di comando non valido:");
-	addPair("For help on options type 'astyle -h'", L"Per informazioni sulle opzioni di tipo 'astyle-h'");
-	addPair("Cannot open default option file", L"Impossibile aprire il file di opzione predefinito");
-	addPair("Cannot open project option file", L"Impossibile aprire il file di opzione del progetto");
+	addPair("Invalid command line options:", L"Opzioni della riga di comando non valide:");
+	addPair("For help on options type 'astyle -h'", L"Per informazioni sulle opzioni di tipo 'astyle -h'");
+	addPair("Cannot open default option file", L"Impossibile aprire il file di configurazione predefinito");
+	addPair("Cannot open project option file", L"Impossibile aprire il file di configurazione del progetto");
 	addPair("Cannot open directory", L"Impossibile aprire la directory");
 	addPair("Cannot open HTML file %s\n", L"Impossibile aprire il file HTML %s\n");
-	addPair("Command execute failure", L"Esegui fallimento comando");
+	addPair("Command execute failure", L"Esecuzione del comando fallita");
 	addPair("Command is not installed", L"Il comando non è installato");
 	addPair("Missing filename in %s\n", L"Nome del file mancante in %s\n");
 	addPair("Recursive option with no wildcard", L"Opzione ricorsiva senza jolly");
 	addPair("Did you intend quote the filename", L"Avete intenzione citare il nome del file");
-	addPair("No file to process %s\n", L"Nessun file al processo %s\n");
+	addPair("No file to process %s\n", L"Nessun file da processare %s\n");
 	addPair("Did you intend to use --recursive", L"Hai intenzione di utilizzare --recursive");
-	addPair("Cannot process UTF-32 encoding", L"Non è possibile processo di codifica UTF-32");
-	addPair("Artistic Style has terminated\n", L"Artistic Style ha terminato\n");
+	addPair("Cannot process UTF-32 encoding", L"Non è possibile processare codifica UTF-32");
+	addPair("Artistic Style has terminated\n", L"Artistic Style è terminato\n");
 }
 
 Japanese::Japanese()	// 日本語
@@ -1163,4 +1165,3 @@ Ukrainian::Ukrainian()	// Український
 #endif	// ASTYLE_LIB
 
 }   // end of namespace astyle
-

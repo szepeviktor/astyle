@@ -15,7 +15,6 @@
 					<Add option="-fno-rtti" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fPIC" />
@@ -23,9 +22,8 @@
 					<Add option="-DASTYLE_LIB" />
 				</Compiler>
 				<Linker>
-					<Add option="-static-intel" />
 					<Add option="-Wl,-soname,libastyled.so.$(MAJORVER)" />
-					<Add option="-wd10237" />
+					<Add option="-static-intel" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -37,7 +35,6 @@
 					<Add option="-fno-rtti" />
 					<Add option="-O3" />
 					<Add option="-Wall" />
-					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
 					<Add option="-fPIC" />
@@ -50,12 +47,11 @@
 					<Add option="-s" />
 					<Add option="-static-intel" />
 					<Add option="-Wl,-soname,libastyle.so.$(MAJORVER)" />
-					<Add option="-wd10237" />
 				</Linker>
 			</Target>
 			<Environment>
 				<Variable name="MAJORVER" value="3" />
-				<Variable name="MINORVER" value="1" />
+				<Variable name="MINORVER" value="2" />
 				<Variable name="PATCHVER" value="0" />
 				<Variable name="SOLIBVER" value="$(MAJORVER).$(MINORVER).$(PATCHVER)" />
 			</Environment>

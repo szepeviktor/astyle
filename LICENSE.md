@@ -1,6 +1,6 @@
 ### MIT License
 
-Copyright (c) 2018 by Jim Pattee <jimp03@email.com>.
+Copyright (c) 2023 The Artistic Style Authors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

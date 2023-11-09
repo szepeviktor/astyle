@@ -1,5 +1,5 @@
 // ASResource.cpp
-// Copyright (c) 2018 by Jim Pattee <jimp03@email.com>.
+// Copyright (c) 2023 The Artistic Style Authors.
 // This code is licensed under the MIT License.
 // License.md describes the conditions under which this software may be distributed.
 
@@ -69,6 +69,7 @@ const string ASResource::AS_SET = string("set");
 const string ASResource::AS_STATIC = string("static");
 const string ASResource::AS_STATIC_CAST = string("static_cast");
 const string ASResource::AS_STRUCT = string("struct");
+const string ASResource::AS_TYPEDEF_STRUCT = string("typedef struct");
 const string ASResource::AS_SWITCH = string("switch");
 const string ASResource::AS_SYNCHRONIZED = string("synchronized");
 const string ASResource::AS_TEMPLATE = string("template");
@@ -94,6 +95,8 @@ const string ASResource::AS_BAR_IF = string("#if");
 const string ASResource::AS_BAR_EL = string("#el");
 const string ASResource::AS_BAR_ENDIF = string("#endif");
 
+const string ASResource::AS_OPEN_PAREN = string("(");
+const string ASResource::AS_CLOSE_PAREN = string(")");
 const string ASResource::AS_OPEN_BRACE = string("{");
 const string ASResource::AS_CLOSE_BRACE = string("}");
 const string ASResource::AS_OPEN_LINE_COMMENT = string("//");
@@ -137,6 +140,8 @@ const string ASResource::AS_ARROW = string("->");
 const string ASResource::AS_AND = string("&&");
 const string ASResource::AS_OR = string("||");
 const string ASResource::AS_SCOPE_RESOLUTION = string("::");
+const string ASResource::AS_SPACESHIP = string("<=>");
+const string ASResource::AS_EQUAL_JS = string("===");
 
 const string ASResource::AS_PLUS = string("+");
 const string ASResource::AS_MINUS = string("-");
@@ -154,6 +159,7 @@ const string ASResource::AS_QUESTION = string("?");
 const string ASResource::AS_COLON = string(":");
 const string ASResource::AS_COMMA = string(",");
 const string ASResource::AS_SEMICOLON = string(";");
+
 
 /**
  * Sort comparison function.
@@ -187,12 +193,7 @@ bool sortOnName(const string* a, const string* b)
 void ASResource::buildAssignmentOperators(vector<const string*>* assignmentOperators)
 {
 	const size_t elements = 15;
-	static bool reserved = false;
-	if (!reserved)
-	{
-		assignmentOperators->reserve(elements);
-		reserved = true;
-	}
+	assignmentOperators->reserve(elements);
 
 	assignmentOperators->emplace_back(&AS_ASSIGN);
 	assignmentOperators->emplace_back(&AS_PLUS_ASSIGN);
@@ -225,12 +226,7 @@ void ASResource::buildAssignmentOperators(vector<const string*>* assignmentOpera
 void ASResource::buildCastOperators(vector<const string*>* castOperators)
 {
 	const size_t elements = 5;
-	static bool reserved = false;
-	if (!reserved)
-	{
-		castOperators->reserve(elements);
-		reserved = true;
-	}
+	castOperators->reserve(elements);
 
 	castOperators->emplace_back(&AS_CONST_CAST);
 	castOperators->emplace_back(&AS_DYNAMIC_CAST);
@@ -250,12 +246,7 @@ void ASResource::buildCastOperators(vector<const string*>* castOperators)
 void ASResource::buildHeaders(vector<const string*>* headers, int fileType, bool beautifier)
 {
 	const size_t elements = 25;
-	static bool reserved = false;
-	if (!reserved)
-	{
-		headers->reserve(elements);
-		reserved = true;
-	}
+	headers->reserve(elements);
 
 	headers->emplace_back(&AS_IF);
 	headers->emplace_back(&AS_ELSE);
@@ -272,7 +263,7 @@ void ASResource::buildHeaders(vector<const string*>* headers, int fileType, bool
 	headers->emplace_back(&AS_FOREACH);		// QT & C#
 	headers->emplace_back(&AS_FOREVER);		// Qt & Boost
 
-	if (fileType == C_TYPE)
+	if (fileType == C_TYPE || fileType == OBJC_TYPE)
 	{
 		headers->emplace_back(&_AS_TRY);		// __try
 		headers->emplace_back(&_AS_FINALLY);	// __finally
@@ -298,7 +289,7 @@ void ASResource::buildHeaders(vector<const string*>* headers, int fileType, bool
 
 	if (beautifier)
 	{
-		if (fileType == C_TYPE)
+		if (fileType == C_TYPE || fileType == OBJC_TYPE)
 		{
 			headers->emplace_back(&AS_TEMPLATE);
 		}
@@ -335,15 +326,10 @@ void ASResource::buildIndentableHeaders(vector<const string*>* indentableHeaders
 void ASResource::buildIndentableMacros(vector<const pair<const string, const string>* >* indentableMacros)
 {
 	const size_t elements = 10;
-	static bool reserved = false;
-	if (!reserved)
-	{
-		indentableMacros->reserve(elements);
-		reserved = true;
-	}
+	indentableMacros->reserve(elements);
 
 	// the pairs must be retained in memory because of pair pointers
-	typedef pair<const string, const string> macro_pair;
+	using macro_pair = pair<const string, const string>;
 	static const macro_pair macros[] =
 	{
 		// wxWidgets
@@ -356,9 +342,8 @@ void ASResource::buildIndentableMacros(vector<const pair<const string, const str
 		macro_pair("BEGIN_PROPPAGEIDS",   "END_PROPPAGEIDS"),
 	};
 
-	size_t entries = sizeof(macros) / sizeof(macros[0]);
-	for (size_t i = 0; i < entries; i++)
-		indentableMacros->emplace_back(&macros[i]);
+	for (const macro_pair& macro : macros)
+		indentableMacros->emplace_back(&macro);
 
 	assert(indentableMacros->size() < elements);
 }
@@ -372,12 +357,7 @@ void ASResource::buildIndentableMacros(vector<const pair<const string, const str
 void ASResource::buildNonAssignmentOperators(vector<const string*>* nonAssignmentOperators)
 {
 	const size_t elements = 15;
-	static bool reserved = false;
-	if (!reserved)
-	{
-		nonAssignmentOperators->reserve(elements);
-		reserved = true;
-	}
+	nonAssignmentOperators->reserve(elements);
 
 	nonAssignmentOperators->emplace_back(&AS_EQUAL);
 	nonAssignmentOperators->emplace_back(&AS_PLUS_PLUS);
@@ -408,12 +388,7 @@ void ASResource::buildNonAssignmentOperators(vector<const string*>* nonAssignmen
 void ASResource::buildNonParenHeaders(vector<const string*>* nonParenHeaders, int fileType, bool beautifier)
 {
 	const size_t elements = 20;
-	static bool reserved = false;
-	if (!reserved)
-	{
-		nonParenHeaders->reserve(elements);
-		reserved = true;
-	}
+	nonParenHeaders->reserve(elements);
 
 	nonParenHeaders->emplace_back(&AS_ELSE);
 	nonParenHeaders->emplace_back(&AS_DO);
@@ -424,7 +399,7 @@ void ASResource::buildNonParenHeaders(vector<const string*>* nonParenHeaders, in
 	nonParenHeaders->emplace_back(&AS_QFOREVER);	// QT
 	nonParenHeaders->emplace_back(&AS_FOREVER);	// Boost
 
-	if (fileType == C_TYPE)
+	if (fileType == C_TYPE || fileType == OBJC_TYPE)
 	{
 		nonParenHeaders->emplace_back(&_AS_TRY);		// __try
 		nonParenHeaders->emplace_back(&_AS_FINALLY);	// __finally
@@ -468,13 +443,7 @@ void ASResource::buildNonParenHeaders(vector<const string*>* nonParenHeaders, in
 void ASResource::buildOperators(vector<const string*>* operators, int fileType)
 {
 	const size_t elements = 50;
-	static bool reserved = false;
-	if (!reserved)
-	{
-		operators->reserve(elements);
-		reserved = true;
-	}
-
+	operators->reserve(elements);
 
 	operators->emplace_back(&AS_PLUS_ASSIGN);
 	operators->emplace_back(&AS_MINUS_ASSIGN);
@@ -523,8 +492,12 @@ void ASResource::buildOperators(vector<const string*>* operators, int fileType)
 	{
 		operators->emplace_back(&AS_GCC_MIN_ASSIGN);
 		operators->emplace_back(&AS_GCC_MAX_ASSIGN);
+		operators->emplace_back(&AS_SPACESHIP);
 	}
-
+	if (fileType == JS_TYPE)
+	{
+		operators->emplace_back(&AS_EQUAL_JS);
+	}
 	assert(operators->size() < elements);
 	sort(operators->begin(), operators->end(), sortOnLength);
 }
@@ -539,15 +512,10 @@ void ASResource::buildOperators(vector<const string*>* operators, int fileType)
 void ASResource::buildPreBlockStatements(vector<const string*>* preBlockStatements, int fileType)
 {
 	const size_t elements = 10;
-	static bool reserved = false;
-	if (!reserved)
-	{
-		preBlockStatements->reserve(elements);
-		reserved = true;
-	}
+	preBlockStatements->reserve(elements);
 
 	preBlockStatements->emplace_back(&AS_CLASS);
-	if (fileType == C_TYPE)
+	if (fileType == C_TYPE || fileType == OBJC_TYPE)
 	{
 		preBlockStatements->emplace_back(&AS_STRUCT);
 		preBlockStatements->emplace_back(&AS_UNION);
@@ -584,14 +552,9 @@ void ASResource::buildPreBlockStatements(vector<const string*>* preBlockStatemen
 void ASResource::buildPreCommandHeaders(vector<const string*>* preCommandHeaders, int fileType)
 {
 	const size_t elements = 10;
-	static bool reserved = false;
-	if (!reserved)
-	{
-		preCommandHeaders->reserve(elements);
-		reserved = true;
-	}
+	preCommandHeaders->reserve(elements);
 
-	if (fileType == C_TYPE)
+	if (fileType == C_TYPE || fileType == OBJC_TYPE)
 	{
 		preCommandHeaders->emplace_back(&AS_CONST);
 		preCommandHeaders->emplace_back(&AS_FINAL);
@@ -600,6 +563,10 @@ void ASResource::buildPreCommandHeaders(vector<const string*>* preCommandHeaders
 		preCommandHeaders->emplace_back(&AS_OVERRIDE);
 		preCommandHeaders->emplace_back(&AS_VOLATILE);
 		preCommandHeaders->emplace_back(&AS_SEALED);			// Visual C only
+	}
+
+	if (fileType == OBJC_TYPE)
+	{
 		preCommandHeaders->emplace_back(&AS_AUTORELEASEPOOL);	// Obj-C only
 	}
 
@@ -628,15 +595,10 @@ void ASResource::buildPreCommandHeaders(vector<const string*>* preCommandHeaders
 void ASResource::buildPreDefinitionHeaders(vector<const string*>* preDefinitionHeaders, int fileType)
 {
 	const size_t elements = 10;
-	static bool reserved = false;
-	if (!reserved)
-	{
-		preDefinitionHeaders->reserve(elements);
-		reserved = true;
-	}
+	preDefinitionHeaders->reserve(elements);
 
 	preDefinitionHeaders->emplace_back(&AS_CLASS);
-	if (fileType == C_TYPE)
+	if (fileType == C_TYPE || fileType == OBJC_TYPE)
 	{
 		preDefinitionHeaders->emplace_back(&AS_STRUCT);
 		preDefinitionHeaders->emplace_back(&AS_UNION);
@@ -693,10 +655,10 @@ const string* ASBase::findHeader(const string& line, int i,
 		// the following accessor definitions are NOT headers
 		// goto default; is NOT a header
 		// default(int) keyword in C# is NOT a header
-		else if ((header == &AS_GET
-		          || header == &AS_SET
-		          || header == &AS_DEFAULT)
-		         && (peekChar == ';' || peekChar == '(' || peekChar == '='))
+		if ((header == &AS_GET
+		        || header == &AS_SET
+		        || header == &AS_DEFAULT)
+		        && (peekChar == ';' || peekChar == '(' || peekChar == '='))
 			break;
 		return header;
 	}

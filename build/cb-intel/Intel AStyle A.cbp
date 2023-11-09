@@ -17,7 +17,6 @@
 					<Add option="-fno-rtti" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
 					<Add option="-std=c++11" />
@@ -35,7 +34,6 @@
 					<Add option="-fno-rtti" />
 					<Add option="-O3" />
 					<Add option="-Wall" />
-					<Add option="-w3" />
 					<Add option="-Wextra" />
 					<Add option="-fno-exceptions" />
 					<Add option="-std=c++11" />
