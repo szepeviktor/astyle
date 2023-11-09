@@ -56,7 +56,7 @@ INSTALL=install -o $(USER) -g $(USER)
 # Library's major version number -- Increment in case of incompatible API
 # change.
 MAJORVER = 3
-# Library's minor version number -- Increment when functionnality is added in a
+# Library's minor version number -- Increment when functionality is added in a
 # backward-compatible manner; reset to 0 when major number changes.
 MINORVER = 2
 # Library's patch version number -- Increment in case of backward-compatible

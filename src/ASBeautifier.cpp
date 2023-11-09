@@ -238,7 +238,7 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	shouldAlignMethodColon = other.shouldAlignMethodColon;
 	shouldIndentPreprocDefine = other.shouldIndentPreprocDefine;
 	shouldIndentPreprocConditional = other.shouldIndentPreprocConditional;
-    lambdaIndicator = other.lambdaIndicator;
+	lambdaIndicator = other.lambdaIndicator;
 
 	indentCount = other.indentCount;
 	spaceIndentCount = other.spaceIndentCount;
@@ -420,6 +420,7 @@ void ASBeautifier::init(ASSourceIterator* iter)
 	isInBeautifySQL = false;
 	isInIndentableStruct = false;
 	isInIndentablePreproc = false;
+
 	inLineNumber = 0;
 	runInIndentContinuation = 0;
 	nonInStatementBrace = 0;
@@ -2205,6 +2206,8 @@ void ASBeautifier::computePreliminaryIndentation()
 		--indentCount;
 	if (g_preprocessorCppExternCBrace >= 4)
 		--indentCount;
+
+
 }
 
 void ASBeautifier::adjustParsedLineIndentation(size_t iPrelim, bool isInExtraHeaderIndent)
@@ -2625,8 +2628,9 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 		// bypass whitespace here
 		if (isWhiteSpace(ch))
 		{
-			if (squeezeWhitespace && !isInComment && !isInQuote && isWhiteSpace(line[i+1]) && !isWhiteSpace(line[i-1])) {
-				size_t wsSpanEnd = line.find_first_not_of(" \t", i+1);
+			if (squeezeWhitespace && !isInComment && !isInQuote && isWhiteSpace(line[i + 1]) && !isWhiteSpace(line[i - 1]))
+			{
+				size_t wsSpanEnd = line.find_first_not_of(" \t", i + 1);
 				std::pair<size_t, size_t> wsSpan(i, wsSpanEnd - i - 1);
 				squeezeWSStack.emplace_back(wsSpan);
 			}
@@ -2679,7 +2683,9 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 				else if (isSharpStyle())
 				{
 					if (line.compare(i, 2, "\"\"") == 0)
+					{
 						i++;
+					}
 					else
 					{
 						isInQuote = false;
@@ -2885,13 +2891,13 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 					}
 
 					// #121
-					if (attemptLambdaIndentation // GH #7
-					     && !isLegalNameChar(prevNonSpaceCh)
-						 && prevNonSpaceCh != ']'
-						 && prevNonSpaceCh != ')'
-						 && prevNonSpaceCh != '*'  // GH #11
-						 && line.find(AS_AUTO, 0 ) == std::string::npos) {
-							lambdaIndicator = true;
+					if (   !isLegalNameChar(prevNonSpaceCh)
+					        && prevNonSpaceCh != ']'
+					        && prevNonSpaceCh != ')'
+					        && prevNonSpaceCh != '*'  // GH #11
+					        && line.find(AS_AUTO, 0 ) == std::string::npos)
+					{
+						lambdaIndicator = true;
 					}
 				}
 
@@ -2900,7 +2906,7 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 				if (currentHeader != nullptr)
 					registerContinuationIndent(line, i, spaceIndentCount, tabIncrementIn, minConditionalIndent, true);
 				else if (!isInObjCMethodDefinition
-				         //&& xxxCondition && shouldForceTabIndentation  // only count one opening parenthese per line #498
+				         //&& xxxCondition && shouldForceTabIndentation  // only count one opening parentheses per line #498
 				        )
 					registerContinuationIndent(line, i, spaceIndentCount, tabIncrementIn, 0, true);
 			}
@@ -2917,6 +2923,7 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 				}
 				foundPreCommandHeader = false;
 				parenDepth--;
+
 				if (parenDepth == 0)
 				{
 					if (!parenStatementStack->empty())      // in case of unmatched closing parens
@@ -2995,8 +3002,9 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 					}
 			}
 
-			// #121 fix indent of lambda bodies
-			if (isCStyle() && lambdaIndicator ) {
+			// #121 fix indent of lambda bodies, also GH #7
+			if (isCStyle() && lambdaIndicator && attemptLambdaIndentation )
+			{
 				isBlockOpener = false;
 			}
 
@@ -3287,14 +3295,16 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 
 			//https://sourceforge.net/p/astyle/bugs/353/
 			// new is ending the line?
-			if (isJavaStyle() && findKeyword(line, i, AS_NEW) && line.length()-3 == i) {
+			if (isJavaStyle() && findKeyword(line, i, AS_NEW) && line.length() - 3 == i)
+			{
 				headerStack->emplace_back(&AS_FIXED); // needs to be something which will not match - need to define a token which will never match
 			}
 
 			//https://sourceforge.net/p/astyle/bugs/550/
 			//enum can be function return value
-			if (parenDepth == 0 && findKeyword(line, i, AS_ENUM) && line.find_first_of(AS_OPEN_PAREN, i) == std::string::npos)
+			if (parenDepth == 0 && findKeyword(line, i, AS_ENUM) && line.find_first_of(AS_OPEN_PAREN, i) == std::string::npos){
 				isInEnum = true;
+			}
 
 			if (parenDepth == 0 && (findKeyword(line, i, AS_TYPEDEF_STRUCT) || findKeyword(line, i, AS_STRUCT)) && line.find_first_of(AS_SEMICOLON, i) == std::string::npos)
 			{

@@ -265,11 +265,11 @@ public:
 	static const std::string AS_OPEN_LINE_COMMENT, AS_OPEN_COMMENT, AS_CLOSE_COMMENT;
 	static const std::string AS_BAR_DEFINE, AS_BAR_INCLUDE, AS_BAR_IF, AS_BAR_EL, AS_BAR_ENDIF;
 	static const std::string AS_AUTO, AS_RETURN;
-	static const std::string AS_CIN, AS_COUT, AS_CERR;
+	static const std::string AS_CIN, AS_COUT, AS_CERR, AS_MAPPING;
 	static const std::string AS_ASSIGN, AS_PLUS_ASSIGN, AS_MINUS_ASSIGN, AS_MULT_ASSIGN;
 	static const std::string AS_DIV_ASSIGN, AS_MOD_ASSIGN, AS_XOR_ASSIGN, AS_OR_ASSIGN, AS_AND_ASSIGN;
 	static const std::string AS_GR_GR_ASSIGN, AS_LS_LS_ASSIGN, AS_GR_GR_GR_ASSIGN, AS_LS_LS_LS_ASSIGN;
-	static const std::string AS_GCC_MIN_ASSIGN, AS_GCC_MAX_ASSIGN, AS_SPACESHIP, AS_EQUAL_JS;
+	static const std::string AS_GCC_MIN_ASSIGN, AS_GCC_MAX_ASSIGN, AS_SPACESHIP, AS_EQUAL_JS, AS_COALESCE_CS;
 	static const std::string AS_EQUAL, AS_PLUS_PLUS, AS_MINUS_MINUS, AS_NOT_EQUAL, AS_GR_EQUAL;
 	static const std::string AS_LS_EQUAL, AS_LS_LS_LS, AS_LS_LS, AS_GR_GR_GR, AS_GR_GR;
 	static const std::string AS_QUESTION_QUESTION, AS_LAMBDA;
@@ -313,10 +313,10 @@ protected:  // inline functions
 
 protected:  // functions definitions are at the end of ASResource.cpp
 	const std::string* findHeader(const std::string& line, int i,
-	                         const std::vector<const std::string*>* possibleHeaders) const;
+	                              const std::vector<const std::string*>* possibleHeaders) const;
 	bool findKeyword(const std::string& line, int i, const std::string& keyword) const;
 	const std::string* findOperator(const std::string& line, int i,
-	                           const std::vector<const std::string*>* possibleOperators) const;
+	                                const std::vector<const std::string*>* possibleOperators) const;
 	std::string getCurrentWord(const std::string& line, size_t index) const;
 	bool isDigit(char ch) const;
 	bool isLegalNameChar(char ch) const;
@@ -353,8 +353,8 @@ public:
 	void setAfterParenIndent(bool state);
 	void setJavaStyle();
 	void setJSStyle();
-    void setObjCStyle();
-    void setSharpStyle();
+	void setObjCStyle();
+	void setSharpStyle();
 
 	void setLabelIndent(bool state);
 	void setMaxContinuationIndentLength(int max);
@@ -417,6 +417,8 @@ protected:
 	bool isInBeautifySQL;
 	bool isInIndentableStruct;
 	bool isInIndentablePreproc;
+	bool lambdaIndicator;
+
 
 private:  // functions
 	void adjustObjCMethodDefinitionIndentation(const std::string& line_);
@@ -555,7 +557,6 @@ private:  // variables
 	bool foundPreCommandMacro;
 	bool shouldAlignMethodColon;
 	bool shouldIndentPreprocConditional;
-	bool lambdaIndicator;
 	bool squeezeWhitespace;
 	bool attemptLambdaIndentation;
 	int  indentCount;
@@ -855,8 +856,8 @@ private:  // functions
 	const std::string* getFollowingOperator() const;
 	std::string getPreviousWord(const std::string& line, int currPos) const;
 	std::string peekNextText(const std::string& firstLine,
-	                    bool endOnEmptyLine = false,
-	                    const std::shared_ptr<ASPeekStream>& streamArg = nullptr) const;
+	                         bool endOnEmptyLine = false,
+	                         const std::shared_ptr<ASPeekStream>& streamArg = nullptr) const;
 
 private:  // variables
 	int formatterFileType;
@@ -993,7 +994,7 @@ private:  // variables
 	bool isFormattingModeOff;
 	bool isInEnum;
 	bool isInStruct;
-    bool isInContinuedPreProc;
+	bool isInContinuedPreProc;
 	bool isInExecSQL;
 	bool isInAsm;
 	bool isInAsmOneLine;
@@ -1083,6 +1084,7 @@ private:  // variables
 	bool isFirstPreprocConditional;
 	bool processedFirstConditional;
 	bool isJavaStaticConstructor;
+	bool isInAllocator;
 
 private:  // inline functions
 	// append the CURRENT character (curentChar) to the current formatted line.

@@ -14,7 +14,7 @@ elseif(NOT WIN32)   # Linux
     endif()
 elseif(MINGW)
     target_compile_options(astyle PRIVATE -Wall -Wextra -fno-rtti -fno-exceptions -std=c++11)
-elseif(BORLAND)     # Release must be explicitely requested for Borland
+elseif(BORLAND)     # Release must be explicitly requested for Borland
     target_compile_options(astyle PRIVATE -q -w -x-)   # Cannot use no-rtti (-RT-)
 endif()
 

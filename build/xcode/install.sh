@@ -53,7 +53,7 @@ if [ ! -f install.sh ]; then
 	exit 1
 fi
 
-# remove previous documentaion
+# remove previous documentation
 echo $CYAN
 echo "Installing documentation to $SYSCONF_PATH"
 echo -n $YELLOW
@@ -61,12 +61,12 @@ if [ -d $SYSCONF_PATH/html ]; then
 	rm -rf  $SYSCONF_PATH/html
 	result=$?;	check_error
 fi
-# create documentaion install directory
+# create documentation install directory
 if [ ! -d $SYSCONF_PATH/html ]; then
 	$INSTALL -m 755 -d $SYSCONF_PATH/html
 	result=$?;	check_error
 fi
-# copy documentaion
+# copy documentation
 for files in astyle.html \
              install.html \
              news.html \
