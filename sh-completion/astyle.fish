@@ -29,6 +29,7 @@ complete -c astyle -l pad-first-paren-out -d 'Insert space padding around first 
 complete -c astyle -l pad-paren-in -d 'Insert space padding around parenthesis on the inside only'
 complete -c astyle -l pad-header -d 'Insert space padding after paren headers (e.g'
 complete -c astyle -l unpad-paren -d 'Remove unnecessary space padding around parenthesis'
+complete -c astyle -l pad-empty-paren -d 'Apply padding to empty pairs of parentheses'
 complete -c astyle -l pad-brackets -d 'Insert space padding around square brackets on both the outside and the inside (experimental)'
 complete -c astyle -l unpad-brackets -d 'Remove unnecessary space padding around square brackets (experimental)'
 complete -c astyle -l delete-empty-lines -d 'Delete empty lines within a function or method'

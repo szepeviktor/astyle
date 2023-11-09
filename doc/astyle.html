@@ -60,7 +60,7 @@
 
     <button onclick="topFunction()" id="topBtn" title="Go to Contents"><b>Top</b></button>
 
-    <h1>Artistic Style 3.4.6</h1>
+    <h1>Artistic Style 3.4.8</h1>
 
     <h2>
         A Free, Fast, and Small Automatic Formatter<br />
@@ -155,6 +155,7 @@
         <a class="contents" href="#_pad-paren-in">pad-paren-in</a>
         <a class="contents" href="#_pad-header">pad-header</a>
         <a class="contents" href="#_unpad-paren">unpad-paren</a>
+        <a class="contents" href="#_pad-empty-paren">pad-empty-paren</a>
         <a class="contents" href="#_pad-brackets">pad-brackets</a>
         <a class="contents" href="#_unpad-brackets">unpad-brackets</a>
         <a class="contents" href="#_delete-empty-lines">delete-empty-lines</a>
@@ -915,7 +916,7 @@ indent-switches     <span class="comment"># cannot do this on the command line</
     <div class="code">
         <pre>int Foo(bool isBar) <span class="brace">{</span>
     if (isBar) <span class="brace">{
-</span>        bar()
+</span>        bar();
         return 1; <span class="brace">}
  </span>   else
         return 0; <span class="brace">}</span>
@@ -1785,6 +1786,25 @@ isBar = false;
 </pre>
     </div>
 
+
+    <p id="_pad-empty-paren">
+        <code class="title">--pad-empty-paren / -xo </code>
+        <br />
+        Apply padding to empty pairs of parentheses; combine with other
+        parentheses padding options.
+    </p>
+    <div class="code">
+        <pre>if (isFoo())
+    bar(a, b);
+</pre>
+        <p class="code">
+            becomes:</p>
+        <pre>if ( isFoo () )
+    bar( a, b );
+</pre>
+    </div>
+    <p>
+        &nbsp;</p>
 
     <p id="_pad-brackets">
         <code class="title">--pad-brackets</code>

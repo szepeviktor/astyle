@@ -1,4 +1,4 @@
-.TH astyle 1 "2023-04-18" "Andre Simon" "user documentation"
+.TH astyle 1 "2023-09-21" "Andre Simon" "user documentation"
 
 .SH NAME
 astyle - C syntax indenter and formatter
@@ -238,6 +238,10 @@ Insert space padding after paren headers (e.g. 'if', 'for'...).
 .IP "--unpad-paren OR -U"
 Remove unnecessary space padding around parenthesis. This
 can be used in combination with the 'pad' options above.
+
+.IP "--pad-empty-paren OR -xo"
+Apply padding to empty pairs of parentheses; combine with other
+parenthesis padding options.
 
 .IP "--pad-brackets"
 Insert space padding around square brackets on both the outside
@@ -517,6 +521,6 @@ astyle  --style=allman  --recursive  /home/project/*.cpp,*.h
 astyle --style=allman < OriginalSourceFile > BeautifiedSourceFile
 
 .SH AUTHORS
-Andre Simon <a.simon@mailbox.org>
+Andre Simon <as@andre-simon.de>
 .SH SEE ALSO
 More information at https://sourceforge.net/p/astyle/.

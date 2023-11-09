@@ -47,6 +47,7 @@ ASFormatter::ASFormatter()
 	shouldPadOperators = false;
 	shouldPadParensOutside = false;
 	shouldPadFirstParen = false;
+	shouldPadEmptyParens = false;
 	shouldPadParensInside = false;
 	shouldPadHeader = false;
 	shouldStripCommentPrefix = false;
@@ -1039,7 +1040,6 @@ std::string ASFormatter::nextLine()
 					squareBracketCount = 0;
 					objCColonAlign = 0;
 				}
-
 			}
 
 			// GH16 break
@@ -1051,6 +1051,8 @@ std::string ASFormatter::nextLine()
 					endOfAsmReached = true;
 			}
 		}
+
+
 
 		// handle braces
 		if (currentChar == '{' || currentChar == '}')
@@ -1174,6 +1176,18 @@ std::string ASFormatter::nextLine()
 				else
 					formatClosingBrace(braceType);
 			}
+			continue;
+		}
+
+		// #126
+		if ( currentChar == '*' && shouldPadOperators &&
+			( currentHeader == &AS_IF || currentHeader == &AS_WHILE || currentHeader == &AS_DO || currentHeader == &AS_FOR)
+			&& ( previousChar == ')' || std::isalpha(previousChar) )
+			&& !isOperatorPaddingDisabled() ) {
+			appendSpacePad();
+			appendOperator(AS_MULT);
+			goForward(0);
+			appendSpaceAfter();
 			continue;
 		}
 
@@ -1475,7 +1489,7 @@ std::string ASFormatter::nextLine()
 
 		if (previousNonWSChar == '}' || currentChar == ';')
 		{
-			if (currentChar == ';')
+			if (currentChar == ';' && !isInAsmBlock)
 			{
 				squareBracketCount = 0;
 				//assert(methodBreakCharNum == std::string::npos);	// comment out
@@ -2255,6 +2269,19 @@ void ASFormatter::setBracketsInsidePaddingMode(bool state)
 void ASFormatter::setParensFirstPaddingMode(bool state)
 {
 	shouldPadFirstParen = state;
+}
+
+/**
+ * set padding mode for empty parentheses.
+ * options:
+ *    true     padding will be applied
+ *    false    no padding (default)
+ *
+ * @param state         the padding mode.
+ */
+void ASFormatter::setEmptyParensPaddingMode(bool state)
+{
+	shouldPadEmptyParens = state;
 }
 
 /**
@@ -4791,11 +4818,12 @@ void ASFormatter::padParensOrBrackets(char openDelim, char closeDelim, bool shou
 
 		// pad open paren outside
 		char peekedCharOutside = peekNextChar();
-		if (shouldPadFirstParen && previousChar != openDelim && peekedCharOutside != closeDelim)
+		if (shouldPadFirstParen && ( (previousChar != openDelim && peekedCharOutside != closeDelim)  || shouldPadEmptyParens ) )
 			appendSpacePad();
 		else if (shouldPadParensOutside)
 		{
-			if (!(currentChar == openDelim && peekedCharOutside == closeDelim))
+			// GH19
+			if (!(currentChar == openDelim && peekedCharOutside == closeDelim) || shouldPadEmptyParens)
 				appendSpacePad();
 		}
 
@@ -5268,8 +5296,12 @@ void ASFormatter::formatClosingBrace(BraceType braceType)
 			        && nextText.substr(0, 5) != "break")
 				isAppendPostBlockEmptyLineRequested = true;
 		}
-		else
-			isAppendPostBlockEmptyLineRequested = true;
+		else {
+			// GH18
+			isAppendPostBlockEmptyLineRequested = !(shouldBreakBlocks && shouldAttachClosingWhile)
+                                                    || currentHeader != &AS_DO;
+		}
+
 	}
 }
 
@@ -6556,7 +6588,7 @@ void ASFormatter::appendClosingHeader()
 	if (firstBrace != std::string::npos)
 		previousLineIsOneLineBlock = isOneLineBlockReached(formattedLine, firstBrace);
 	if (!previousLineIsEmpty
-	        && previousLineIsOneLineBlock == 0)
+	    && previousLineIsOneLineBlock == 0)
 	{
 		isInLineBreak = false;
 		appendSpacePad();

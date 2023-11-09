@@ -1389,7 +1389,7 @@ void ASBeautifier::registerContinuationIndent(const std::string& line, int i, in
 	// this is not done for an in-statement array
 	if (continuationIndentCount > maxContinuationIndent
 	        && !(prevNonLegalCh == '=' && currentNonLegalCh == '{'))
-		continuationIndentCount = indentLength * 2 + spaceIndentCount_;
+		continuationIndentCount = indentLength /* * 2*/ + spaceIndentCount_; // GH16
 
 	if (!continuationIndentStack->empty()
 	        && continuationIndentCount < continuationIndentStack->back())
@@ -2895,7 +2895,8 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 					        && prevNonSpaceCh != ']'
 					        && prevNonSpaceCh != ')'
 					        && prevNonSpaceCh != '*'  // GH #11
-					        && line.find(AS_AUTO, 0 ) == std::string::npos)
+					        //&& line.find(AS_AUTO, 0 ) == std::string::npos
+					   )
 					{
 						lambdaIndicator = true;
 					}
@@ -3325,6 +3326,8 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 		if (ch == '?')
 			isInQuestion = true;
 
+
+
 		// special handling of colons XXX 533
 		if (ch == ':')
 		{
@@ -3421,11 +3424,11 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 			}
 		}
 
-		if ((ch == ';' || (parenDepth > 0 && ch == ',')) && !continuationIndentStackSizeStack->empty())
+		if ((ch == ';' || (parenDepth > 0 && ch == ',')) && !continuationIndentStackSizeStack->empty()){
 			while ((int) continuationIndentStackSizeStack->back() + (parenDepth > 0 ? 1 : 0)
 			        < (int) continuationIndentStack->size())
 				continuationIndentStack->pop_back();
-
+		}
 		else if (ch == ',' && (isInEnum || isInStruct) && isNonInStatementArray && !continuationIndentStack->empty())
 			continuationIndentStack->pop_back();
 
@@ -3812,14 +3815,15 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 				if (foundNonAssignmentOp->length() > 1)
 					i += foundNonAssignmentOp->length() - 1;
 
-				// For C++ input/output, operator<< and >> should be
+				// For C++ input/output, operator<<, >> and . method calls should be
 				// aligned, if we are not in a statement already and
 				// also not in the "operator<<(...)" header line
 				if (!isInOperator
 				        && continuationIndentStack->empty()
 				        && isCStyle()
 				        && (foundNonAssignmentOp == &AS_GR_GR
-				            || foundNonAssignmentOp == &AS_LS_LS))
+				            || foundNonAssignmentOp == &AS_LS_LS
+                            || (foundNonAssignmentOp == &AS_DOT && line.find(AS_OPEN_PAREN, i) != std::string::npos)))
 				{
 					// this will be true if the line begins with the operator
 					if (i < foundNonAssignmentOp->length() && spaceIndentCount == 0)

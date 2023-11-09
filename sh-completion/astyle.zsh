@@ -32,6 +32,7 @@ _astyle() {
     "--pad-paren-in[Insert space padding around parenthesis on the inside only]"
     "--pad-header[Insert space padding after paren headers (e.g]"
     "--unpad-paren[Remove unnecessary space padding around parenthesis]"
+    "--pad-empty-paren[Apply padding to empty pairs of parentheses]"
     "--pad-brackets[Insert space padding around square brackets on both the outside and the inside (experimental)]"
     "--unpad-brackets[Remove unnecessary space padding around square brackets (experimental)]"
     "--delete-empty-lines[Delete empty lines within a function or method]"

@@ -94,7 +94,7 @@ namespace astyle {
 	jmethodID g_mid;
 #endif
 
-const char* g_version = "3.4.6";
+const char* g_version = ASTYLE_VERSION;
 
 //-----------------------------------------------------------------------------
 // ASStreamIterator class
@@ -2101,6 +2101,10 @@ void ASConsole::printHelp() const
 	std::cout << "    --pad-paren-in  OR  -D\n";
 	std::cout << "    Insert space padding around parenthesis on the inside only.\n";
 	std::cout << std::endl;
+	std::cout << "    --pad-empty-paren  OR  -xo\n";
+	std::cout << "    Apply padding to empty pairs of parentheses; combine with other\n";
+	std::cout << "    parenthesis padding options.\n";
+	std::cout << std::endl;
 	std::cout << "    --pad-header  OR  -H\n";
 	std::cout << "    Insert space padding after paren headers (e.g. 'if', 'for'...).\n";
 	std::cout << std::endl;
@@ -3392,6 +3396,10 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 	else if (isOption(arg, "xd", "pad-first-paren-out"))
 	{
 		formatter.setParensFirstPaddingMode(true);
+	}
+	else if (isOption(arg, "xo", "pad-empty-paren"))
+	{
+		formatter.setEmptyParensPaddingMode(true);
 	}
 	else if (isOption(arg, "D", "pad-paren-in"))
 	{
