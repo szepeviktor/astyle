@@ -6254,7 +6254,7 @@ void ASFormatter::formatQuoteBody()
 				checkInterpolation = false;
 			}
 		}
-		else if (isSharpStyle())
+		else if (isSharpStyle() && !checkInterpolation )
 		{
 			if ((int) currentLine.length() > charNum + 1
 			        && currentLine[charNum + 1] == '"')			// check consecutive quotes

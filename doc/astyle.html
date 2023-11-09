@@ -139,6 +139,8 @@
         <a class="contents" href="#_indent-col1-comments">indent-col1-comments</a>
         <a class="contents" href="#_min-conditional-indent">min-conditional-indent</a>
         <a class="contents" href="#_max-continuation-indent">max-continuation-indent</a>
+        <a class="contents" href="#_lambda_indent">lambda-indent</a>
+
     </p>
     <p class="contents1">
         <a href="#_Padding_Options">Padding&nbsp;Options</a></p>
@@ -1513,6 +1515,7 @@ if (a &lt; b
     </div>
     <p>
         &nbsp;</p>
+
     <p id="_max-continuation-indent">
         <code class="title">--max-continuation-indent=<span class="option">#</span> / -M<span class="option">#</span></code><br />
         Set the &nbsp;maximum of <span class="option">#</span> spaces to indent a continuation line. The
@@ -1540,6 +1543,38 @@ fooFunction(barArg1,
             barArg3);
 </pre>
     </div>
+
+<p id="_lambda_indent">
+    <code class="title">--lambda-indent</code><br />
+    This option improves indentation of C++ lambda functions. As it currently does not work well with complex lambda function bodies, this feature is not enabled by default.
+</p>
+
+<div class="code">
+    <pre>void abssort (float* x, unsigned n)
+{
+    std::sort (x, x + n,
+    [] (float a, float b) {
+        return (std::abs (a) < std::abs (b));
+    }
+              );
+}</pre>
+</div>
+
+<p class="code">
+    becomes:</p>
+
+<div class="code">
+    <pre>void abssort (float* x, unsigned n)
+{
+    std::sort (x, x + n,
+                [] (float a, float b) {
+                    return (std::abs (a) < std::abs (b));
+                }
+               );
+}</pre>
+</div>
+
+
     <p>
         &nbsp;</p>
     <hr />

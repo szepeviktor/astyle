@@ -94,7 +94,7 @@ namespace astyle {
 	jmethodID g_mid;
 #endif
 
-const char* g_version = "3.3";
+const char* g_version = "3.4";
 
 //-----------------------------------------------------------------------------
 // ASStreamIterator class
@@ -430,69 +430,6 @@ void ASConsole::convertLineEnds(std::ostringstream& out, int lineEnd)
 	// replace the stream
 	out.str(outStr);
 }
-
-
-/*
-void ASConsole::convertLineEnds(std::ostringstream& out, int lineEnd) {
-    assert(lineEnd == LINEEND_WINDOWS || lineEnd == LINEEND_LINUX || lineEnd == LINEEND_MACOLD);
-
-    const std::string inStr = out.str();
-    std::ostringstream outStream;
-
-    for (std::string::size_type i = 0; i < inStr.length(); ++i) {
-        const char currChar = inStr[i];
-        const char nextChar = i < inStr.length() - 1 ? inStr[i + 1] : 0;
-
-        if (currChar == '\r') {
-            if (nextChar == '\n') {
-                // CRLF
-                if (lineEnd == LINEEND_CR) {
-                    outStream << currChar;  // Delete the LF
-                    ++i;
-                }
-                else if (lineEnd == LINEEND_LF) {
-                    outStream << nextChar;  // Delete the CR
-                    ++i;
-                }
-                else {
-                    outStream << currChar << nextChar;  // Do not change
-                    ++i;
-                }
-            }
-            else {
-                // CR
-                if (lineEnd == LINEEND_CRLF) {
-                    outStream << currChar << '\n';  // Insert the LF
-                }
-                else if (lineEnd == LINEEND_LF) {
-                    outStream << '\n';  // Insert the LF
-                }
-                else {
-                    outStream << currChar;  // Do not change
-                }
-            }
-        }
-        else if (currChar == '\n') {
-            // LF
-            if (lineEnd == LINEEND_CRLF) {
-                outStream << '\r' << currChar;  // Insert the CR and LF
-            }
-            else if (lineEnd == LINEEND_CR) {
-                outStream << '\r';  // Insert the CR
-            }
-            else {
-                outStream << currChar;  // Do not change
-            }
-        }
-        else {
-            outStream << currChar;  // Write the current character
-        }
-    }
-
-    out.str(outStream.str());  // Replace the stream
-}
-
-*/
 
 void ASConsole::correctMixedLineEnds(std::ostringstream& out)
 {
@@ -2113,6 +2050,9 @@ void ASConsole::printHelp() const
 	std::cout << std::endl;
 	std::cout << "    --indent-col1-comments  OR  -Y\n";
 	std::cout << "    Indent line comments that start in column one.\n";
+	std::cout << std::endl;
+	std::cout << "    --indent-lambda\n";
+	std::cout << "    Indent C++ lambda functions (experimental, broken for complex fct bodies)\n";
 	std::cout << std::endl;
 	std::cout << "    --min-conditional-indent=#  OR  -m#\n";
 	std::cout << "    Indent a minimal # spaces in a continuous conditional\n";
@@ -3819,6 +3759,10 @@ bool ASOptions::parseOptionContinued(const std::string& arg, const std::string& 
 	else if (isOption(arg, "unpad-brackets"))
 	{
 		formatter.setBracketsUnPaddingMode(true);
+	}
+	else if (isOption(arg, "indent-lambda"))
+	{
+		formatter.setLambdaIndentation(true);
 	}
 	else
 	{

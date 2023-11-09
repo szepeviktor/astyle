@@ -268,6 +268,9 @@ parser:option "--squeeze-lines"
 parser:flag "--squeeze-ws"
    :description "Remove superfluous whitespace"
 
+parser:flag "--indent-lambda"
+   :description "Indent C++ lambda functions (experimental, broken for complex fct bodies)"
+
 local p = argparse "gen-completions"
 p:argument "shell"
    :choices {"bash", "zsh", "fish"}

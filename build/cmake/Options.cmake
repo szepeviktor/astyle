@@ -10,7 +10,7 @@ endif()
 
 # Linux Soname Version
 set(MAJORVER 3)
-set(MINORVER 3)
+set(MINORVER 4)
 set(PATCHVER 0)
 set(SOLIBVER ${MAJORVER}.${MINORVER}.${PATCHVER})
 
