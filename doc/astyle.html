@@ -60,11 +60,11 @@
 
     <button onclick="topFunction()" id="topBtn" title="Go to Contents"><b>Top</b></button>
 
-    <h1>Artistic Style 3.4.8</h1>
+    <h1>Artistic Style 3.4.9</h1>
 
     <h2>
         A Free, Fast, and Small Automatic Formatter<br />
-        for C, C++, C++/CLI, Objective-C, C#, and Java Source Code
+        for C, C++, C++/CLI, <span style="white-space: nowrap;">Objective-C</span>, C#, and Java Source Code
     </h2>
 
     <h3 id="Contents">Contents</h3>
@@ -186,7 +186,7 @@
         <a class="contents" href="#_mode">mode</a>
     </p>
     <p class="contents1">
-        <a href="#_Objective_C_Options">Objective-C&nbsp;Options</a></p>
+        <a href="#_Objective_C_Options"><span style="white-space: nowrap;">Objective-C</span>&nbsp;Options</a></p>
     <p class="contents2">
         <a class="contents" href="#_pad-method-prefix">pad-method-prefix</a>
         <a class="contents" href="#_unpad-method-prefix">unpad-method-prefix</a>
@@ -244,7 +244,7 @@
 
     <p>
         Artistic Style will determine the file type from the file extension. The extension ".java" indicates a Java file,
-        and ".cs" indicates a C# file. Everything else is a C type file (C, C++, C++/CLI, or Objective-C). If you are
+        and ".cs" indicates a C# file. Everything else is a C type file (C, C++, C++/CLI, or <span style="white-space: nowrap;">Objective-C</span>). If you are
         using a non-standard file extension for Java or C#, use one of the --mode= options.</p>
 
     <h4>Wildcards and Recursion</h4>
@@ -2150,7 +2150,7 @@ else
         <code class="title">--break-return-type-decl / -xD</code><br />
         Break the return type from the function name. The two options are for the function definitions (-xB), and the
         function declarations or signatures (-xD). If used with --attach-return-type, the result will be to break the
-        return type. This option has no effect on Objective-C functions.</p>
+        return type. This option has no effect on <span style="white-space: nowrap;">Objective-C</span> functions.</p>
     <div class="code">
         <pre>void Foo(bool isFoo);</pre>
         <p class="code">
@@ -2166,7 +2166,7 @@ Foo(bool isFoo);</pre>
         Attach the return type to the function name. The two options are for the function definitions (-xf), and the
         function declarations or signatures (-xh). They are intended to undo the --break-return-type options. If used
         with --break-return-type, the result will be to break the return type. This option has no effect on
-        Objective-C functions.</p>
+        <span style="white-space: nowrap;">Objective-C</span> functions.</p>
     <div class="code">
         <pre>void
 Foo(bool isFoo);</pre>
@@ -2288,7 +2288,7 @@ Foo(bool isFoo);</pre>
         <code class="title">--mode=js</code><br />
         <code class="title">--mode=java</code><br />
         <code class="title">--mode=objc</code><br />
-        Indent a C type, C#, Javascript, Java or Objective-C file. C type files are C, C++, C++/CLI. The option is usually
+        Indent a C type, C#, Javascript, Java or <span style="white-space: nowrap;">Objective-C</span> file. C type files are C, C++, C++/CLI. The option is usually
         set from the file extension for each file. You can override the setting with this entry. It will be used for all
         files, regardless of the file extension. It allows the formatter to identify language specific syntax such as
         C++ classes, templates, and keywords.</p>
@@ -2298,18 +2298,18 @@ Foo(bool isFoo);</pre>
 
     <!--  * * * * * * * * * * * * *   Objective-C Options  * * * * * * * * * * * * *  -->
 
-    <h3 id="_Objective_C_Options">Objective-C Options</h3>
+    <h3 id="_Objective_C_Options"><span style="white-space: nowrap;">Objective-C</span> Options</h3>
 
     <p>
-        These options are effective for Objective-C files only. The standard paren padding options will still apply
-        to the Objective-C method prefix and return type unless overridden by the following options.</p>
+        These options are effective for <span style="white-space: nowrap;">Objective-C</span> files only. The standard paren padding options will still apply
+        to the <span style="white-space: nowrap;">Objective-C</span> method prefix and return type unless overridden by the following options.</p>
     <p>
-        Because of the longer indents sometimes needed for Objective-C, the option "max-continuation-indent" may
+        Because of the longer indents sometimes needed for <span style="white-space: nowrap;">Objective-C</span>, the option "max-continuation-indent" may
         need to be increased. If you are not getting the paren and square bracket alignment you want, try increasing
         this value. The option is described in the "Indentation Options" section.</p>
     <p id="_pad-method-prefix">
         <code class="title">--pad-method-prefix / -xQ</code><br />
-        Insert space padding <strong>after</strong> the '-' or '+' Objective-C method prefix. This will add
+        Insert space padding <strong>after</strong> the '-' or '+' <span style="white-space: nowrap;">Objective-C</span> method prefix. This will add
         exactly one space. Any additional spaces will be deleted.</p>
     <div class="code">
         <pre>-(void)foo1;
@@ -2323,7 +2323,7 @@ Foo(bool isFoo);</pre>
         &nbsp;</p>
     <p id="_unpad-method-prefix">
         <code class="title">--unpad-method-prefix / -xR</code><br />
-        Remove all space padding <strong>after</strong> the &#39;-&#39; or &#39;+&#39; Objective-C method prefix.&nbsp;
+        Remove all space padding <strong>after</strong> the &#39;-&#39; or &#39;+&#39; <span style="white-space: nowrap;">Objective-C</span> method prefix.&nbsp;
         This option will be ignored if used with pad-method-prefix. This option  takes precedence over the
         pad paren outside option.</p>
     <div class="code">
@@ -2338,7 +2338,7 @@ Foo(bool isFoo);</pre>
         &nbsp;</p>
     <p id="_pad-return-type">
         <code class="title">--pad-return-type / -xq</code><br />
-        Insert space padding <strong>after</strong> the Objective-C return type. This will add exactly one
+        Insert space padding <strong>after</strong> the <span style="white-space: nowrap;">Objective-C</span> return type. This will add exactly one
         space. Any additional spaces will be deleted. </p>
     <div class="code">
         <pre>-(void)foo1;
@@ -2352,7 +2352,7 @@ Foo(bool isFoo);</pre>
         &nbsp;</p>
     <p id="_unpad-return-type">
         <code class="title">--unpad-return-type / -xr</code><br />
-        Remove all space padding <strong>after</strong> the Objective-C return type. This option
+        Remove all space padding <strong>after</strong> the <span style="white-space: nowrap;">Objective-C</span> return type. This option
         will be ignored if used with pad-return-type. This option  takes precedence over the pad paren
         outside option. </p>
     <div class="code">
@@ -2367,7 +2367,7 @@ Foo(bool isFoo);</pre>
         &nbsp;</p>
     <p id="_pad-param-type">
         <code class="title">--pad-param-type / -xS</code><br />
-        Insert space padding around an Objective-C parameter type. This will add exactly
+        Insert space padding around an <span style="white-space: nowrap;">Objective-C</span> parameter type. This will add exactly
         one space. Any additional spaces will be deleted. This has precedence over the pad method colon option and
         will always cause space padding after a method colon.</p>
     <div class="code">
@@ -2382,7 +2382,7 @@ Foo(bool isFoo);</pre>
         &nbsp;</p>
     <p id="_unpad-param-type">
         <code class="title">--unpad-param-type / -xs</code><br />
-        Remove all space padding around an Objective-C parameter type. This option  takes precedence over the
+        Remove all space padding around an <span style="white-space: nowrap;">Objective-C</span> parameter type. This option  takes precedence over the
         pad paren outside option. The pad method colon option has precedence over the <strong>opening</strong> paren.
         The closing paren will always be unpadded.</p>
     <div class="code">
@@ -2402,7 +2402,7 @@ Foo(bool isFoo);</pre>
         &nbsp;</p>
     <p id="_align-method-colon">
         <code class="title">--align-method-colon / -xM</code><br />
-        Align the colons in Objective-C method declarations
+        Align the colons in <span style="white-space: nowrap;">Objective-C</span> method declarations
         and method calls. If this option is not declared, method definitions will be indented uniformly, and method calls
         will align with the first keyword.</p>
     <div class="code">
@@ -2444,7 +2444,7 @@ Foo(bool isFoo);</pre>
             --pad-method-colon=after&nbsp; / -xP2<br />
             --pad-method-colon=before / -xP3
         </code><br />
-        Add or remove space padding before or after the colons in an Objective-C method call. These options will
+        Add or remove space padding before or after the colons in an <span style="white-space: nowrap;">Objective-C</span> method call. These options will
         pad exactly one space. Any additional spaces will be deleted. The space padding after the method colon can be
         overridden by pad-param-type.</p>
     <div class="code">

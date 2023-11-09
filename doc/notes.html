@@ -14,6 +14,14 @@
 
     <h1>Artistic Style Release Notes</h1>
 
+    <h3>Artistic Style 3.4.9 (September 2023)</h3>
+
+    <ul>
+        <li>applied one wording for <span style="white-space: nowrap;">Objective-C</span> in the docs</li>
+        <li>fixed more CS regressions (https://gitlab.com/saalen/astyle/-/issues/16)</li>
+        <li>fixed inserting space with combined "--pad-oper" and "--align-pointer" options (#557)</li>
+    </ul>
+
     <h3>Artistic Style 3.4.8 (September 2023)</h3>
 
     <ul>
@@ -142,12 +150,12 @@
         <li>Fix indentation of compound literals in an argument list (#456).</li>
         <li>Fix indentation of trailing return type method following a constructor (#463).</li>
         <li>Fix space padding of closing brace before a dot (#468).</li>
-        <li>Fix Objective-C to allow for &quot;Extern C&quot; statements in the source files (#443, 444, 446).</li>
-        <li>Fix Objective-C to allow for method definitions without a specified return type (#447).</li>
-        <li>Fix Objective-C to allow for method definitions with multiple param types.</li>
-        <li>Fix Objective-C to replace tabbed padding with a space.</li>
-        <li>Fix Objective-C formatting of line-end comments with &quot;unpad-return-type&quot;.</li>
-        <li>Fix Objective-C &quot;align-method-colon&quot; to ignore ternary (?) operators.</li>
+        <li>Fix <span style="white-space: nowrap;">Objective-C</span> to allow for &quot;Extern C&quot; statements in the source files (#443, 444, 446).</li>
+        <li>Fix <span style="white-space: nowrap;">Objective-C</span> to allow for method definitions without a specified return type (#447).</li>
+        <li>Fix <span style="white-space: nowrap;">Objective-C</span> to allow for method definitions with multiple param types.</li>
+        <li>Fix <span style="white-space: nowrap;">Objective-C</span> to replace tabbed padding with a space.</li>
+        <li>Fix <span style="white-space: nowrap;">Objective-C</span> formatting of line-end comments with &quot;unpad-return-type&quot;.</li>
+        <li>Fix <span style="white-space: nowrap;">Objective-C</span> &quot;align-method-colon&quot; to ignore ternary (?) operators.</li>
         <li>Fix C# base class constructor indentation (#459).</li>
         <li>Fix C# indentation of method declaration containing a colon (#465)</li>
         <li>Fix C/C++ to allow &quot;interface&quot; as a non-keyword (#445).</li>
@@ -219,13 +227,13 @@
         <li>Add new option &quot;indent-continuation&quot;.</li>
         <li>Add new option &quot;pad-comma&quot; (#100).</li>
         <li>Add removing spaces before a comma (#100).</li>
-        <li>Add new Objective&#8209;C options "pad-return-type" (-xq) and "unpad-return-type" (-xr).</li>
-        <li>Add new Objective&#8209;C options "pad-param-type" (-xS) and "unpad-param-type" (-xs).</li>
+        <li>Add new <span style="white-space: nowrap;">Objective-C</span> options "pad-return-type" (-xq) and "unpad-return-type" (-xr).</li>
+        <li>Add new <span style="white-space: nowrap;">Objective-C</span> options "pad-param-type" (-xS) and "unpad-param-type" (-xs).</li>
         <li>Add formatting of C++14 single-quote digit separators (#337).</li>
         <li>Add indentation for CORBA IDL module statement (#414).</li>
         <li>Add translations for Bulgarian, Estonian, Greek, Hungarian, Norwegian, and Romanian.</li>
         <li>Remove lineend option from formatCinToCout function.</li>
-        <li>Improve align-method-colon and apply to Objective&#8209;C method calls.</li>
+        <li>Improve align-method-colon and apply to <span style="white-space: nowrap;">Objective-C</span> method calls.</li>
         <li>Improve recognition of header guards in preprocessor statements.</li>
         <li>Improve recognition of C++11 uniform initializer brackets (#381, 411, 415).</li>
         <li>Improve the processing of quoted strings and verbatim strings.</li>
@@ -250,8 +258,8 @@
         <li>Fix C# to recognize &quot;using&quot; as a header.</li>
         <li>Fix C# to always recognize &quot;forever&quot; as a header.</li>
         <li>Fix Pico style not always computing the indentation for one line blocks.</li>
-        <li>Fix indentation of Objective-C @interface statement (#333).</li>
-        <li>Fix assert error when Objective-C &quot;@&quot; is followed by whitespace.</li>
+        <li>Fix indentation of <span style="white-space: nowrap;">Objective-C</span> @interface statement (#333).</li>
+        <li>Fix assert error when <span style="white-space: nowrap;">Objective-C</span> &quot;@&quot; is followed by whitespace.</li>
         <li>Fix end of line comments for &quot;pad-method-prefix&quot; and &quot;unpad-method-prefix&quot;.</li>
         <li>Fix end of line comments for &quot;pad-method-colon&quot;.</li>
         <li>Refactoring:
