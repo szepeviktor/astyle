@@ -1,4 +1,4 @@
-.TH astyle 1 "2023-09-21" "Andre Simon" "user documentation"
+.TH astyle 1 "2024-01-05" "Andre Simon" "user documentation"
 
 .SH NAME
 astyle - C syntax indenter and formatter
@@ -245,10 +245,10 @@ parenthesis padding options.
 
 .IP "--pad-brackets"
 Insert space padding around square brackets on both the outside
-and the inside (experimental).
+and the inside.
 
 .IP "--unpad-brackets"
-Remove unnecessary space padding around square brackets (experimental).
+Remove unnecessary space padding around square brackets.
 
 .IP "--delete-empty-lines OR -xe"
 Delete empty lines within a function or method.
@@ -274,10 +274,10 @@ the operator type (left), middle, or operator name (right).
 If not set, follow pointer alignment.
 
 .IP "--squeeze-lines=#"
-Remove superfluous empty lines exceeding the given number (experimental).
+Remove superfluous empty lines exceeding the given number.
 
 .IP "--squeeze-ws"
-Remove superfluous whitespace (experimental).
+Remove superfluous whitespace.
 
 .SH  Formatting Options
 
@@ -293,6 +293,7 @@ Break one line headers (e.g. 'if', 'while', 'else', ...) from a
 statement residing on the same line.
 
 .IP "--add-braces OR -j"
+.IP "--add-braces=nested (experimental)"
 Add braces to unbraced one line conditional statements.
 
 .IP "--add-one-line-braces OR -J"
@@ -352,6 +353,9 @@ Indent an Objective-C source file.
 
 .IP "--mode=js"
 Indent a JavaScript source file (experimental).
+
+.IP "--mode=ghc"
+Indent a GHC source file (experimental).
 
 .SH  Objective-C Options
 

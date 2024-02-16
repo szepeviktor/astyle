@@ -2115,10 +2115,10 @@ void ASConsole::printHelp() const
 
 	std::cout << "    --pad-brackets\n";
 	std::cout << "    Insert space padding around square brackets on both the outside\n";
-	std::cout << "    and the inside (experimental).\n";
+	std::cout << "    and the inside.\n";
 	std::cout << std::endl;
 	std::cout << "    --unpad-brackets\n";
-	std::cout << "    Remove unnecessary space padding around square brackets (experimental).\n";
+	std::cout << "    Remove unnecessary space padding around square brackets.\n";
 	std::cout << std::endl;
 
 	std::cout << "    --delete-empty-lines  OR  -xe\n";
@@ -2130,10 +2130,10 @@ void ASConsole::printHelp() const
 	std::cout << "    previous lines.\n";
 	std::cout << std::endl;
 	std::cout << "    --squeeze-lines=#\n";
-	std::cout << "    Remove superfluous empty lines exceeding the given number (experimental).\n";
+	std::cout << "    Remove superfluous empty lines exceeding the given number.\n";
 	std::cout << std::endl;
 	std::cout << "    --squeeze-ws\n";
-	std::cout << "    Remove superfluous whitespace (experimental).\n";
+	std::cout << "    Remove superfluous whitespace.\n";
 	std::cout << std::endl;
 	std::cout << "    --align-pointer=type    OR  -k1\n";
 	std::cout << "    --align-pointer=middle  OR  -k2\n";
@@ -2165,6 +2165,7 @@ void ASConsole::printHelp() const
 	std::cout << "    statement residing on the same line.\n";
 	std::cout << std::endl;
 	std::cout << "    --add-braces  OR  -j\n";
+	std::cout << "    --add-braces=nested (experimental)\n";
 	std::cout << "    Add braces to unbraced one line conditional statements.\n";
 	std::cout << std::endl;
 	std::cout << "    --add-one-line-braces  OR  -J\n";
@@ -2224,6 +2225,9 @@ void ASConsole::printHelp() const
 	std::cout << std::endl;
 	std::cout << "    --mode=js\n";
 	std::cout << "    Indent a JavaScript source file (experimental).\n";
+	std::cout << std::endl;
+	std::cout << "    --mode=ghc\n";
+	std::cout << "    Indent a GHC source file (experimental).\n";
 	std::cout << std::endl;
 	std::cout << "Objective-C Options:\n";
 	std::cout << "--------------------\n";
@@ -3229,6 +3233,11 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		formatter.setObjCStyle();
 		formatter.setModeManuallySet(true);
 	}
+	else if (isOption(arg, "mode=ghc"))
+	{
+		formatter.setGHCStyle();
+		formatter.setModeManuallySet(true);
+	}
 	else if (isParamOption(arg, "t", "indent=tab="))
 	{
 		int spaceNum = 4;
@@ -3465,9 +3474,13 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 	{
 		formatter.setBreakOneLineHeadersMode(true);
 	}
+	else if (isOption(arg, "add-braces=nested"))
+	{
+		formatter.setAddBracesMode(2);
+	}
 	else if (isOption(arg, "j", "add-braces"))
 	{
-		formatter.setAddBracesMode(true);
+		formatter.setAddBracesMode(1);
 	}
 	else if (isOption(arg, "J", "add-one-line-braces"))
 	{

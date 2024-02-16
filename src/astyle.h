@@ -52,7 +52,7 @@
 	#pragma clang diagnostic ignored "-Wshorten-64-to-32"
 #endif
 
-#define ASTYLE_VERSION "3.4.10"
+#define ASTYLE_VERSION "3.4.11"
 
 //-----------------------------------------------------------------------------
 // astyle namespace
@@ -64,7 +64,7 @@ namespace astyle {
 // definitions
 //----------------------------------------------------------------------------
 
-enum FileType { C_TYPE = 0, JAVA_TYPE = 1, SHARP_TYPE = 2, JS_TYPE = 3, OBJC_TYPE = 4, INVALID_TYPE = -1 };
+enum FileType { C_TYPE = 0, JAVA_TYPE = 1, SHARP_TYPE = 2, JS_TYPE = 3, OBJC_TYPE = 4, GHC_TYPE = 5, INVALID_TYPE = -1 };
 
 /* The enums below are not recognized by 'vectors' in Microsoft Visual C++
    V5 when they are part of a namespace!!!  Use Visual C++ V6 or higher.
@@ -305,11 +305,12 @@ protected:
 
 protected:  // inline functions
 	void init(int fileTypeArg) { baseFileType = fileTypeArg; }
-	bool isCStyle() const { return baseFileType == C_TYPE || baseFileType == OBJC_TYPE; }
+	bool isCStyle() const { return baseFileType == C_TYPE || baseFileType == OBJC_TYPE || baseFileType == GHC_TYPE; }
 	bool isJavaStyle() const { return baseFileType == JAVA_TYPE; }
 	bool isSharpStyle() const { return baseFileType == SHARP_TYPE; }
 	bool isJSStyle() const { return baseFileType == JS_TYPE; }
 	bool isObjCStyle() const { return baseFileType == OBJC_TYPE; }
+	bool isGHCStyle() const { return baseFileType == GHC_TYPE; }
 
 	bool isWhiteSpace(char ch) const { return (ch == ' ' || ch == '\t'); }
 
@@ -357,6 +358,8 @@ public:
 	void setJSStyle();
 	void setObjCStyle();
 	void setSharpStyle();
+	void setGHCStyle();
+
 
 	void setLabelIndent(bool state);
 	void setMaxContinuationIndentLength(int max);
@@ -426,7 +429,7 @@ private:  // functions
 	void adjustObjCMethodDefinitionIndentation(const std::string& line_);
 	void adjustObjCMethodCallIndentation(const std::string& line_);
 	void adjustParsedLineIndentation(size_t iPrelim, bool isInExtraHeaderIndent);
-	void computePreliminaryIndentation();
+	void computePreliminaryIndentation(const std::string& line);
 	void parseCurrentLine(const std::string& line);
 	void popLastContinuationIndent();
 	void processPreprocessor(const std::string& preproc, const std::string& line);
@@ -688,7 +691,7 @@ public:	// functions
 	LineEndFormat getLineEndFormat() const;
 	bool getIsLineReady() const;
 	void setFormattingStyle(FormatStyle style);
-	void setAddBracesMode(bool state);
+	void setAddBracesMode(int state);
 	void setAddOneLineBracesMode(bool state);
 	void setRemoveBracesMode(bool state);
 	void setAttachClass(bool state);
@@ -892,6 +895,7 @@ private:  // variables
 	std::string readyFormattedLine;
 	std::string verbatimDelimiter;
 	const std::string* currentHeader;
+	const std::string* previousHeader;
 	char currentChar;
 	char previousChar;
 	char previousNonWSChar;
@@ -908,8 +912,9 @@ private:  // variables
 	int  templateDepth;
 	int  squareBracketCount;
 	int  parenthesesCount;
-	int  squeezeEmptyLineNum;
-	int  squeezeEmptyLineCount;
+	int  closingBracesCount;
+	size_t  squeezeEmptyLineNum;
+	size_t  squeezeEmptyLineCount;
 
 	size_t checksumIn;
 	size_t checksumOut;
@@ -1042,7 +1047,7 @@ private:  // variables
 	bool shouldBreakClosingHeaderBraces;
 	bool shouldBreakElseIfs;
 	bool shouldBreakLineAfterLogical;
-	bool shouldAddBraces;
+	int  shouldAddBraces;
 	bool shouldAddOneLineBraces;
 	bool shouldRemoveBraces;
 	bool shouldPadMethodColon;
@@ -1097,7 +1102,7 @@ private:  // variables
 	bool isInAllocator;
 
 private:  // inline functions
-	// append the CURRENT character (curentChar) to the current formatted line.
+	// append the CURRENT character (currentChar) to the current formatted line.
 	void appendCurrentChar(bool canBreakLine = true)
 	{ appendChar(currentChar, canBreakLine); }
 

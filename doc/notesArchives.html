@@ -876,7 +876,7 @@
         <li>Compilation under G++ 3.0 now works properly.</li>
         <li>Bug fix: Opening brackets that appear at the beginning of a line immediately after an empty line comment are now
             handled properly, and not appended as part of the line comment.</li>
-        <li>Bug fix: Brackets inside comments are now not mis-indented within the comment.</li>
+        <li>Bug fix: Brackets inside comments are properly indented within the comment.</li>
     </ul>
 
     <h3>Artistic Style 1.14.1 (2 June 2001)</h3>
@@ -1015,13 +1015,13 @@
     <h3>Artistic Style 1.11.1 (3 September 1999)</h3>
 
     <ul>
-        <li>Fixed a bug that inserted an empty line at the begining of source files.</li>
+        <li>Fixed a bug that inserted an empty line at the beginning of source files.</li>
     </ul>
 
     <h3>Artistic Style 1.11.0 (3 September 1999)</h3>
 
     <ul>
-        <li>Astyle now filters out line-feeds ('\r') before begining to parse lines. This should take care of bizarre formatting
+        <li>Astyle now filters out line-feeds ('\r') before beginning to parse lines. This should take care of bizarre formatting
             that existed when moving source files from Windows (which breaks lines with a linefeed AND newline ("\r\n") to
             unix (which breaks lines only with newlines).</li>
         <li>The "struct", "static" and "synchronized" keywords are now finally handled correctly in both the contexts of block
@@ -1088,7 +1088,7 @@
             for similarity with the new option above.</li>
         <li>Changed the short option name of the option '-<strong>-errors-to-standard-output</strong>' from '<strong>-o</strong>'
             to '<strong>-X</strong>'.</li>
-        <li>Up to now, Artistic Style always inserted a minimal indent of <strong>t</strong>wice the current selected indent
+        <li>Up to now, Artistic Style always inserted a minimal indent of <strong>twice</strong> the current selected indent
             size inside multi-line conditional headers ('if', 'while' ...), so that it would be clear where the headers end
             and the code after them begins. The current version adds the option '<strong>--min-conditional-indent=#</strong>'
             (or '<strong>-m#</strong>') that sets the absolute minimal indent between conditional headers and their multiple-line
@@ -1347,4 +1347,3 @@
 </body>
 
 </html>
-
