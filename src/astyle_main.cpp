@@ -2117,6 +2117,12 @@ void ASConsole::printHelp() const
 	std::cout << "    Insert space padding around square brackets on both the outside\n";
 	std::cout << "    and the inside.\n";
 	std::cout << std::endl;
+	std::cout << "    --pad-brackets-in\n";
+	std::cout << "    Insert space padding around square brackets on the inside only.\n";
+	std::cout << std::endl;
+	std::cout << "    --pad-brackets-out\n";
+	std::cout << "    Insert space padding around square brackets on the outside only.\n";
+	std::cout << std::endl;
 	std::cout << "    --unpad-brackets\n";
 	std::cout << "    Remove unnecessary space padding around square brackets.\n";
 	std::cout << std::endl;
@@ -3779,6 +3785,14 @@ bool ASOptions::parseOptionContinued(const std::string& arg, const std::string& 
 	{
 		formatter.setBracketsOutsidePaddingMode(true);
 		formatter.setBracketsInsidePaddingMode(true);
+	}
+	else if (isOption(arg, "pad-brackets-in"))
+	{
+		formatter.setBracketsInsidePaddingMode(true);
+	}
+	else if (isOption(arg, "pad-brackets-out"))
+	{
+		formatter.setBracketsOutsidePaddingMode(true);
 	}
 	else if (isOption(arg, "unpad-brackets"))
 	{

@@ -72,7 +72,7 @@ ASBeautifier::ASBeautifier()
 	setPreprocDefineIndent(false);
 	setPreprocConditionalIndent(false);
 	setAlignMethodColon(false);
-	isInAssignment = false;
+	isInAssignment = isInInitializerList = false;
 
 	// initialize ASBeautifier member vectors
 	beautifierFileType = INVALID_TYPE;		// reset to an invalid type
@@ -211,6 +211,7 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	squeezeWhitespace = other.squeezeWhitespace;
 	attemptLambdaIndentation = other.attemptLambdaIndentation;
 	isInAssignment = other.isInAssignment;
+	isInInitializerList = other.isInInitializerList;
 	namespaceIndent = other.namespaceIndent;
 	braceIndent = other.braceIndent;
 	braceIndentVtk = other.braceIndentVtk;
@@ -2117,6 +2118,7 @@ void ASBeautifier::computePreliminaryIndentation(const std::string& line)
 			        || (*headerStack)[i] == &AS_STATIC))
 				++indentCount;
 		} else {
+		    //GL37
 			if (!(i > 0 && (*headerStack)[i - 1] != &AS_OPEN_BRACE
                 && (*headerStack)[i] == &AS_OPEN_BRACE))
                 ++indentCount;
@@ -2917,8 +2919,10 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 		}
 
 		// handle parentheses
-		if (ch == '(' || ch == '[' || ch == ')' || ch == ']')
+		if ((ch == '(' && !isInInitializerList) || ch == '[' || ch == ')' || ch == ']')
 		{
+
+			// GL28 xx
 			if (ch == '(' || ch == '[')
 			{
 				isInOperator = false;
@@ -3055,6 +3059,9 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 				if (isTopLevel())
 					isBlockOpener = true;
 			}
+
+			// GL28 fix initializer lists like x({a.x=0;})
+			isInInitializerList = isCStyle() && isBlockOpener && (prevNonSpaceCh=='(' || prevNonSpaceCh=='=');
 
 			if (!isBlockOpener && currentHeader != nullptr)
 			{
@@ -3533,7 +3540,7 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 		// handle ends of statements
 		if ((ch == ';' && parenDepth == 0) || ch == '}')
 		{
-			isInAssignment = false;
+			isInAssignment = isInInitializerList = false;
 
 			if (ch == '}')
 			{
@@ -3926,6 +3933,7 @@ void ASBeautifier::parseCurrentLine(const std::string& line)
 			{
 
 				isInAssignment = true;
+
 				foundPreCommandHeader = false;		// clears this for array assignments
 				foundPreCommandMacro = false;
 

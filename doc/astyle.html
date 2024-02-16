@@ -60,7 +60,7 @@
 
     <button onclick="topFunction()" id="topBtn" title="Go to Contents"><b>Top</b></button>
 
-    <h1>Artistic Style 3.4.9</h1>
+    <h1>Artistic Style 3.4.12</h1>
 
     <h2>
         A Free, Fast, and Small Automatic Formatter<br />
@@ -157,6 +157,8 @@
         <a class="contents" href="#_unpad-paren">unpad-paren</a>
         <a class="contents" href="#_pad-empty-paren">pad-empty-paren</a>
         <a class="contents" href="#_pad-brackets">pad-brackets</a>
+        <a class="contents" href="#_pad-brackets-in">pad-brackets-in</a>
+        <a class="contents" href="#_pad-brackets-out">pad-brackets-out</a>
         <a class="contents" href="#_unpad-brackets">unpad-brackets</a>
         <a class="contents" href="#_delete-empty-lines">delete-empty-lines</a>
         <a class="contents" href="#_fill-empty-lines">fill-empty-lines</a>
@@ -1817,6 +1819,31 @@ isBar = false;
             becomes:</p>
         <pre>a = b [ a [ 1 ] ];</pre>
     </div>
+
+    <p id="_pad-brackets-in">
+        <code class="title">--pad-brackets-in</code>
+        <br />
+        Insert space padding around square brackets the <strong>inside</strong> only.
+    </p>
+    <div class="code">
+        <pre>a = b[a[1]];</pre>
+        <p class="code">
+            becomes:</p>
+        <pre>a = b[ a[ 1 ] ];</pre>
+    </div>
+
+    <p id="_pad-brackets-out">
+        <code class="title">--pad-brackets-out</code>
+        <br />
+        Insert space padding around square brackets the <strong>outside</strong> only.
+    </p>
+    <div class="code">
+        <pre>a = b[a[1]];</pre>
+        <p class="code">
+            becomes:</p>
+        <pre>a = b [a [1]];</pre>
+    </div>
+
 
     <p id="_unpad-brackets">
         <code class="title">--unpad-brackets</code>

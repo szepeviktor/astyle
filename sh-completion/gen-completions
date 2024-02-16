@@ -108,7 +108,13 @@ parser:flag "--unpad-paren"
    :description "Remove unnecessary space padding around parenthesis"
 
 parser:flag "--pad-brackets"
-   :description "Insert space padding around square brackets on both the outside and the inside (experimental)."
+   :description "Insert space padding around square brackets on both the outside and the inside."
+
+parser:flag "--pad-brackets-in"
+   :description "Insert space padding around square brackets on the inside only."
+
+parser:flag "--pad-brackets-out"
+   :description "Insert space padding around square brackets on the outside only."
 
 parser:flag "--unpad-brackets"
    :description "Remove unnecessary space padding around square brackets (experimental)."

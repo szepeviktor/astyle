@@ -52,7 +52,7 @@
 	#pragma clang diagnostic ignored "-Wshorten-64-to-32"
 #endif
 
-#define ASTYLE_VERSION "3.4.11"
+#define ASTYLE_VERSION "3.4.12"
 
 //-----------------------------------------------------------------------------
 // astyle namespace
@@ -566,6 +566,7 @@ private:  // variables
 	bool attemptLambdaIndentation;
 
 	bool isInAssignment;
+	bool isInInitializerList;
 
 	int  indentCount;
 	int  spaceIndentCount;
@@ -1100,6 +1101,8 @@ private:  // variables
 	bool processedFirstConditional;
 	bool isJavaStaticConstructor;
 	bool isInAllocator;
+	bool isInMultlineStatement;
+	int isInExplicitBlock;
 
 private:  // inline functions
 	// append the CURRENT character (currentChar) to the current formatted line.
