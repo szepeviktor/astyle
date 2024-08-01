@@ -543,20 +543,28 @@ std::string ASBeautifier::beautify(const std::string& originalLine)
 				lineBeginsWithCloseBrace = true;
 			else if (line[0] == ',')
 				lineBeginsWithComma = true;
-			else if (line.compare(0, 2, "//") == 0)
+			else if (line.compare(0, AS_OPEN_LINE_COMMENT.length(), AS_OPEN_LINE_COMMENT) == 0)
 				lineIsLineCommentOnly = true;
-			else if (line.compare(0, 2, "/*") == 0)
+			else if (line.compare(0, AS_OPEN_COMMENT.length(), AS_OPEN_COMMENT) == 0)
 			{
-				if (line.find("*/", 2) != std::string::npos)
+				if (line.find(AS_CLOSE_COMMENT, AS_CLOSE_COMMENT.length()) != std::string::npos)
+					lineIsCommentOnly = true;
+			}
+			else if (line.compare(0, AS_GSC_OPEN_COMMENT.length(), AS_GSC_OPEN_COMMENT) == 0)
+			{
+				if (line.find(AS_GSC_CLOSE_COMMENT, AS_GSC_CLOSE_COMMENT.length()) != std::string::npos)
 					lineIsCommentOnly = true;
 			}
 		}
 
 		isInRunInComment = false;
 		size_t j = line.find_first_not_of(" \t{");
-		if (j != std::string::npos && line.compare(j, 2, "//") == 0)
+		if (   j != std::string::npos
+			&& line.compare(j, AS_OPEN_LINE_COMMENT.length(), AS_OPEN_LINE_COMMENT) == 0)
 			lineOpensWithLineComment = true;
-		if (j != std::string::npos && line.compare(j, 2, "/*") == 0)
+		if (j != std::string::npos
+			&& (line.compare(j, AS_OPEN_COMMENT.length(), AS_OPEN_COMMENT) == 0
+				|| line.compare(j, AS_GSC_OPEN_COMMENT.length(), AS_GSC_OPEN_COMMENT) == 0))
 		{
 			lineOpensWithComment = true;
 			size_t k = line.find_first_not_of(" \t");
@@ -762,7 +770,7 @@ std::string ASBeautifier::beautify(const std::string& originalLine)
 	size_t iPrelim = headerStack->size();
 
 	// calculate preliminary indentation based on headerStack and data from past lines
-	computePreliminaryIndentation(line);
+	computePreliminaryIndentation();
 
 	// parse characters in the current line.
 	parseCurrentLine(line);
@@ -874,6 +882,14 @@ void ASBeautifier::setSharpStyle()
 void ASBeautifier::setGHCStyle()
 {
 	fileType = GHC_TYPE;
+}
+
+/**
+ * set indentation style to GSC.
+ */
+void ASBeautifier::setGSCStyle()
+{
+	fileType = GSC_TYPE;
 }
 
 /**
@@ -1458,7 +1474,7 @@ void ASBeautifier::registerContinuationIndentColon(std::string_view line, int i,
  */
 std::pair<int, int> ASBeautifier::computePreprocessorIndent()
 {
-	computePreliminaryIndentation("");
+	computePreliminaryIndentation();
 	std::pair<int, int> entry(indentCount, spaceIndentCount);
 	if (!headerStack->empty()
 	        && entry.first > 0
@@ -1486,7 +1502,8 @@ int ASBeautifier::getNextProgramCharDistance(std::string_view line, int i) const
 		ch = line[i + charDistance];
 		if (inComment)
 		{
-			if (line.compare(i + charDistance, 2, "*/") == 0)
+			if (line.compare(i + charDistance, AS_CLOSE_COMMENT.length(), AS_CLOSE_COMMENT) == 0
+				|| line.compare(i + charDistance, AS_GSC_CLOSE_COMMENT.length(), AS_GSC_CLOSE_COMMENT) == 0)
 			{
 				charDistance++;
 				inComment = false;
@@ -1497,9 +1514,10 @@ int ASBeautifier::getNextProgramCharDistance(std::string_view line, int i) const
 			continue;
 		if (ch == '/')
 		{
-			if (line.compare(i + charDistance, 2, "//") == 0)
+			if (line.compare(i + charDistance, AS_OPEN_LINE_COMMENT.length(), AS_OPEN_LINE_COMMENT) == 0)
 				return remainingCharNum;
-			if (line.compare(i + charDistance, 2, "/*") == 0)
+			if (line.compare(i + charDistance, AS_OPEN_COMMENT.length(), AS_OPEN_COMMENT) == 0
+				|| line.compare(i + charDistance, AS_GSC_OPEN_COMMENT.length(), AS_GSC_OPEN_COMMENT) == 0)
 			{
 				charDistance++;
 				inComment = true;
@@ -1726,7 +1744,7 @@ bool ASBeautifier::statementEndsWithComma(std::string_view line, int index) cons
 
 		if (isInComment_)
 		{
-			if (line.compare(i, 2, "*/") == 0)
+			if (line.compare(i, AS_CLOSE_COMMENT.length(), AS_CLOSE_COMMENT) == 0)
 			{
 				isInComment_ = false;
 				++i;
@@ -1755,10 +1773,11 @@ bool ASBeautifier::statementEndsWithComma(std::string_view line, int index) cons
 			continue;
 		}
 
-		if (line.compare(i, 2, "//") == 0)
+		if (line.compare(i, AS_OPEN_LINE_COMMENT.length(), AS_OPEN_LINE_COMMENT) == 0)
 			break;
 
-		if (line.compare(i, 2, "/*") == 0)
+		if (line.compare(i, AS_OPEN_COMMENT.length(), AS_OPEN_COMMENT) == 0
+			|| line.compare(i, AS_GSC_OPEN_COMMENT.length(), AS_GSC_OPEN_COMMENT) == 0)
 		{
 			if (isLineEndComment(line, i))
 				break;
@@ -1792,10 +1811,13 @@ bool ASBeautifier::statementEndsWithComma(std::string_view line, int index) cons
  */
 bool ASBeautifier::isLineEndComment(std::string_view line, int startPos) const
 {
-	assert(line.compare(startPos, 2, "/*") == 0);
+	assert(line.compare(startPos, AS_OPEN_COMMENT.length(), AS_OPEN_COMMENT) == 0
+			|| line.compare(startPos, AS_GSC_OPEN_COMMENT.length(), AS_GSC_OPEN_COMMENT) == 0 );
+
+	bool isCppComment = line.compare(startPos, AS_OPEN_COMMENT.length(), AS_OPEN_COMMENT);
 
 	// comment must be closed on this line with nothing after it
-	size_t endNum = line.find("*/", startPos + 2);
+	size_t endNum = line.find(isCppComment ? AS_CLOSE_COMMENT : AS_GSC_CLOSE_COMMENT, startPos + 2);
 	if (endNum != std::string::npos)
 	{
 		size_t nextChar = line.find_first_not_of(" \t", endNum + 2);
@@ -1981,11 +2003,11 @@ bool ASBeautifier::isInPreprocessorUnterminatedComment(std::string_view line)
 {
 	if (!isInPreprocessorComment)
 	{
-		size_t startPos = line.find("/*");
+		size_t startPos = line.find(AS_OPEN_COMMENT);
 		if (startPos == std::string::npos)
 			return false;
 	}
-	size_t endNum = line.find("*/");
+	size_t endNum = line.find(AS_CLOSE_COMMENT);
 	if (endNum != std::string::npos)
 	{
 		isInPreprocessorComment = false;
@@ -2102,7 +2124,7 @@ void ASBeautifier::processPreprocessor(std::string_view preproc, std::string_vie
 // Compute the preliminary indentation based on data in the headerStack
 // and data from previous lines.
 // Update the class variable indentCount.
-void ASBeautifier::computePreliminaryIndentation(std::string_view line)
+void ASBeautifier::computePreliminaryIndentation()
 {
 	indentCount = 0;
 	spaceIndentCount = 0;
@@ -2794,7 +2816,7 @@ void ASBeautifier::parseCurrentLine(std::string_view line)
 
 		// handle comments
 
-		if (!(isInComment || isInLineComment) && line.compare(i, 2, "//") == 0)
+		if (!(isInComment || isInLineComment) && line.compare(i, AS_OPEN_LINE_COMMENT.length(), AS_OPEN_LINE_COMMENT) == 0)
 		{
 			// if there is a 'case' statement after these comments unindent by 1
 			if (isCaseHeaderCommentIndent)
@@ -2807,7 +2829,9 @@ void ASBeautifier::parseCurrentLine(std::string_view line)
 			i++;
 			continue;
 		}
-		if (!(isInComment || isInLineComment) && line.compare(i, 2, "/*") == 0)
+		if (!(isInComment || isInLineComment)
+			&& (line.compare(i, AS_OPEN_COMMENT.length(), AS_OPEN_COMMENT) == 0
+				|| line.compare(i, AS_GSC_OPEN_COMMENT.length(), AS_GSC_OPEN_COMMENT) == 0))
 		{
 			// if there is a 'case' statement after these comments unindent by 1
 			if (isCaseHeaderCommentIndent && lineOpensWithComment)
@@ -2822,7 +2846,9 @@ void ASBeautifier::parseCurrentLine(std::string_view line)
 				blockCommentNoIndent = true;        // if no, cannot indent continuation lines
 			continue;
 		}
-		if ((isInComment || isInLineComment) && line.compare(i, 2, "*/") == 0)
+		if ((isInComment || isInLineComment)
+			&& (line.compare(i, AS_CLOSE_COMMENT.length(), AS_CLOSE_COMMENT) == 0
+				|| line.compare(i, AS_GSC_CLOSE_COMMENT.length(), AS_GSC_CLOSE_COMMENT) == 0))
 		{
 			size_t firstText = line.find_first_not_of(" \t");
 			// if there is a 'case' statement after these comments unindent by 1
@@ -2867,7 +2893,7 @@ void ASBeautifier::parseCurrentLine(std::string_view line)
 				indentCount += adjustIndentCountForBreakElseIfComments();
 			// bypass rest of the comment up to the comment end
 			while (i + 1 < line.length()
-			        && line.compare(i + 1, 2, "*/") != 0)
+			        && line.compare(i + 1, AS_CLOSE_COMMENT.length(), AS_CLOSE_COMMENT) != 0)
 				i++;
 
 			continue;
@@ -2923,7 +2949,7 @@ void ASBeautifier::parseCurrentLine(std::string_view line)
 
 		if (isCStyle() && isInTemplate
 		        && (ch == '<' || ch == '>')
-		        && !(line.length() > i + 1 && line.compare(i, 2, ">=") == 0))
+		        && !(line.length() > i + 1 && line.compare(i, AS_GR_EQUAL.length(), AS_GR_EQUAL) == 0))
 		{
 			if (ch == '<')
 			{
@@ -3535,8 +3561,9 @@ void ASBeautifier::parseCurrentLine(std::string_view line)
 			size_t nextChar = line.find_first_not_of(" \t", i + 1);
 			if (nextChar != std::string::npos)
 			{
-				if (line.compare(nextChar, 2, "//") == 0
-				        || line.compare(nextChar, 2, "/*") == 0)
+				if (line.compare(nextChar, AS_OPEN_LINE_COMMENT.length(), AS_OPEN_LINE_COMMENT) == 0
+					|| line.compare(nextChar, AS_OPEN_COMMENT.length(), AS_OPEN_COMMENT) == 0
+					|| line.compare(nextChar, AS_GSC_OPEN_COMMENT.length(), AS_GSC_OPEN_COMMENT) == 0)
 					nextChar = std::string::npos;
 			}
 			// register indent

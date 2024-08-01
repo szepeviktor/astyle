@@ -53,7 +53,7 @@
 	#pragma clang diagnostic ignored "-Wshorten-64-to-32"
 #endif
 
-#define ASTYLE_VERSION "3.5"
+#define ASTYLE_VERSION "3.5.1"
 
 //-----------------------------------------------------------------------------
 // astyle namespace
@@ -65,7 +65,7 @@ namespace astyle {
 // definitions
 //----------------------------------------------------------------------------
 
-enum FileType { C_TYPE = 0, JAVA_TYPE = 1, SHARP_TYPE = 2, JS_TYPE = 3, OBJC_TYPE = 4, GHC_TYPE = 5, INVALID_TYPE = -1 };
+enum FileType { C_TYPE = 0, JAVA_TYPE = 1, SHARP_TYPE = 2, JS_TYPE = 3, OBJC_TYPE = 4, GHC_TYPE = 5, GSC_TYPE = 6, INVALID_TYPE = -1 };
 
 /* The enums below are not recognized by 'vectors' in Microsoft Visual C++
    V5 when they are part of a namespace!!!  Use Visual C++ V6 or higher.
@@ -170,10 +170,7 @@ enum LineEndFormat
 	LINEEND_DEFAULT,	// Use line break that matches most of the file
 	LINEEND_WINDOWS,
 	LINEEND_LINUX,
-	LINEEND_MACOLD,
-	LINEEND_CRLF = LINEEND_WINDOWS,
-	LINEEND_LF   = LINEEND_LINUX,
-	LINEEND_CR   = LINEEND_MACOLD
+	LINEEND_MACOLD
 };
 
 enum NegationPaddingMode
@@ -181,6 +178,13 @@ enum NegationPaddingMode
 	NEGATION_PAD_NO_CHANGE,
 	NEGATION_PAD_AFTER,
 	NEGATION_PAD_BEFORE
+};
+
+enum IncludeDirectivePaddingMode
+{
+	INCLUDE_PAD_NO_CHANGE,
+	INCLUDE_PAD_NONE,
+	INCLUDE_PAD_AFTER
 };
 
 //-----------------------------------------------------------------------------
@@ -273,6 +277,7 @@ public:
 	static const std::string AS_OPEN_PAREN, AS_CLOSE_PAREN;
 	static const std::string AS_OPEN_BRACE, AS_CLOSE_BRACE;
 	static const std::string AS_OPEN_LINE_COMMENT, AS_OPEN_COMMENT, AS_CLOSE_COMMENT;
+	static const std::string AS_GSC_OPEN_COMMENT, AS_GSC_CLOSE_COMMENT;
 	static const std::string AS_BAR_DEFINE, AS_BAR_INCLUDE, AS_BAR_IF, AS_BAR_EL, AS_BAR_ENDIF;
 	static const std::string AS_AUTO, AS_RETURN;
 	static const std::string AS_CIN, AS_COUT, AS_CERR, AS_MAPPING;
@@ -313,12 +318,13 @@ protected:
 
 protected:  // inline functions
 	void init(int fileTypeArg) { baseFileType = fileTypeArg; }
-	bool isCStyle() const { return baseFileType == C_TYPE || baseFileType == OBJC_TYPE || baseFileType == GHC_TYPE; }
+	bool isCStyle() const { return baseFileType == C_TYPE || baseFileType == OBJC_TYPE || baseFileType == GHC_TYPE || baseFileType == GSC_TYPE; }
 	bool isJavaStyle() const { return baseFileType == JAVA_TYPE; }
 	bool isSharpStyle() const { return baseFileType == SHARP_TYPE; }
 	bool isJSStyle() const { return baseFileType == JS_TYPE; }
 	bool isObjCStyle() const { return baseFileType == OBJC_TYPE; }
 	bool isGHCStyle() const { return baseFileType == GHC_TYPE; }
+	bool isGSCStyle() const { return baseFileType == GSC_TYPE; }
 
 	bool isWhiteSpace(char ch) const { return (ch == ' ' || ch == '\t'); }
 
@@ -366,6 +372,7 @@ public:
 	void setObjCStyle();
 	void setSharpStyle();
 	void setGHCStyle();
+	void setGSCStyle();
 
 
 	void setLabelIndent(bool state);
@@ -436,7 +443,7 @@ private:  // functions
 	void adjustObjCMethodDefinitionIndentation(std::string_view line_);
 	void adjustObjCMethodCallIndentation(std::string_view line_);
 	void adjustParsedLineIndentation(size_t iPrelim, bool isInExtraHeaderIndent);
-	void computePreliminaryIndentation(std::string_view line);
+	void computePreliminaryIndentation();
 	void parseCurrentLine(std::string_view line);
 	void popLastContinuationIndent();
 	void processPreprocessor(std::string_view preproc, std::string_view line);
@@ -738,6 +745,8 @@ public:	// functions
 	void setObjCColonPaddingMode(ObjCColonPad mode);
 	void setOperatorPaddingMode(bool state);
 	void setNegationPaddingMode(NegationPaddingMode mode);
+	void setIncludeDirectivePaddingMode(IncludeDirectivePaddingMode mode);
+
 
 	void setParensOutsidePaddingMode(bool state);
 	void setParensFirstPaddingMode(bool state);
@@ -866,7 +875,7 @@ private:  // functions
 	void padObjCParamType();
 	void padObjCReturnType();
 	void padOperators(const std::string* newOperator);
-	void padParensOrBrackets(char openDelim, char closeDelim, bool shouldPadParensOutside, bool shouldPadParensInside, bool shouldUnPadParens, bool shouldPadFirstParen);
+	void padParensOrBrackets(char openDelim, char closeDelim, bool padFirstParen);
 	void processPreprocessor();
 	void resetEndOfStatement();
 	void setAttachClosingBraceMode(bool state);
@@ -961,6 +970,7 @@ private:  // variables
 	ObjCColonPad objCColonPadMode;
 	LineEndFormat lineEnd;
 	NegationPaddingMode negationPadMode;
+	IncludeDirectivePaddingMode includeDirectivePaddingMode;
 
 	bool isVirgin;
 	bool isInVirginLine;

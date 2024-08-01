@@ -1,18 +1,41 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Artistic Style - News</title>
-    <meta http-equiv="Content-Language" content="en-us" />
-    <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
-    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
     <link href="styles.css" rel="stylesheet" type="text/css" />
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <title>Artistic Style - News</title>
+
 </head>
 
 <body>
 
     <h1>Artistic Style News</h1>
+
+    <h3>Artistic Style 3.5 (June 2024)</h3>
+
+    <div class="container-fluid">
+
+        <p>
+            A new option &quot;--pad-negation&quot; / &quot;--pad-negation=before&quot; was added to add space padding around ! operators.
+        </p>
+
+        <p>
+            Some C++ related formatting issues were fixed, e.g. apply &quot;align-pointer=type&quot; only if type is present.
+        </p>
+
+        <p>
+            On Windows, the file endings are no longer automatically converted to <code>\r\n</code> when using piped streams.
+        </p>
+
+    </div>
 
     <h3>Artistic Style 3.4 (June 2023)</h3>
 
@@ -29,6 +52,10 @@
         A new option to enable padding of empty pairs of parentheses was added: &quot;pad-empty-paren&quot;.
         It can be combined with other parentheses padding options.<br>
         The bracket padding options were enhanced by &quot;pad-brackets-in&quot; and &quot;pad-brackets-out&quot;.
+    </p>
+
+    <p>
+       Ignores files ending with backup suffix from input file names list.
     </p>
 
 
@@ -241,16 +268,9 @@
         were created for the astyle_main.h source code. With this release, the classes have been made independent
         of the source file containing them and the shared and global data has been eliminated. The classes could now be
         separated into separate source files. They have not been actually separated because it seems more convenient
-        to leave them combined.</p>
-    <p>
-        As explained previously, the terminology for special characters has been changed to agree with various
-        development environments and compilers. The variable and method names in the source code were changed as well
-        as the documentation. This was a major renaming. If not for the &quot;rename&quot; refactoring feature in Visual
-        Studio, and the AStyleTest programs, it would probably not have been attempted.</p>
-    <p>
-        Artistic Style has also started using C++11. Older compiler versions and compilers without C++11support cannot
-        be used. If your compiler requires a compiler directive for C++, such as -std=c++11 or -std=c++0x, it will
-        need to be used. </p>
+        to leave them combined.
+    </p>
+
 
     <h4>Library File Names</h4>
 
@@ -282,48 +302,6 @@
         choose. Developers using Artistic Style in another project may use any part of AStyleWx in their project. The
         modified source code does NOT need to be made available to others.</p>
 
-    <h4>Code::Blocks Support</h4>
-
-    <p>
-        Code::Blocks is a free, open-source cross-platform IDE that supports multiple compilers. It currently gets over
-        100,000 downloads per week. It is used by Artistic Style to test compilers on various systems. Code::Blocks build
-        files for several free compilers are now provided with the Artistic Style release. The &quot;Install Information&quot;
-        contains additional information.</p>
-
-    <h4>Embarcadero Compiler</h4>
-
-    <p>
-        Embarcadero is offering a new, free, BCC32C C++ compiler. It includes C++11 language support, the Dinkumware
-        Standard Template Library, and the Embarcadero Runtime Library. Included are a linker, a
-        resource compiler, and a number of command line tools. It is currently for Win32 only. There is more
-        information at their <a href="https://www.embarcadero.com/free-tools/ccompiler" target="_blank"
-            title="open new window">Free Tools</a> web page. They are also currently offering a free debugger and two
-        different
-        development environments.</p>
-
-    <h4>Naming Conventions</h4>
-
-    <p>
-        If you use Cppcheck, it has an add-on to check naming standards for functions and variables by using regular
-        expressions. Cppcheck must be run first to generate &quot;.dump&quot; files. The Python program, naming.py,
-        can then be run to check the names. It is basically a shell that you will probably want to modify for regular
-        use. The add-ons must be installed with cppcheck for naming.py to be available.</p>
-
-    <h4>WinMerge 2011</h4>
-
-    <p>
-        WinMerge 2011 is a fork of the original WinMerge application published on SourceForge by Thingamahoochie
-        Software. It is has removed the ATL/MFC dependencies and added some useful features. It uses Artistic Style
-        to format the source code.</p>
-
-    <h4>Whatstyle</h4>
-
-    <p>
-        Whatstyle finds a code format style that fits given source files. This program looks at your source code and
-        generates a style definition that fits its original formatting style as closely as possible.
-        Several formatters and programming languages are supported. It is written in Python and has an interesting
-        method for finding the style options.
-    </p>
 
     <h3>Artistic Style 2.06  (December 2016)</h3>
 

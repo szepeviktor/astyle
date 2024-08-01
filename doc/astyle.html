@@ -1,8 +1,11 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-
+<!doctype html>
+<html lang="en">
 <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>Artistic Style</title>
     <meta http-equiv="Content-Language" content="en-us" />
     <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
@@ -67,7 +70,10 @@
         for C, C++, C++/CLI, <span style="white-space: nowrap;">Objective-C</span>, C#, and Java Source Code
     </h2>
 
-    <h3 id="Contents">Contents</h3>
+
+    <div style="float: left; background-color: #fbfaef;padding: 2em;">
+
+        <h3 id="Contents" style="margin-top: 0em;">Contents</h3>
 
     <p class="contents1">
         <a   href="#_General_Information">General&nbsp;Information</a></p>
@@ -229,11 +235,10 @@
         <a class="contents" href="#_stdin=">stdin=</a>
         <a class="contents" href="#_stdout=">stdout=</a>
     </p>
-    <p>
-        &nbsp;</p>
-    <hr />
 
-    <!--  * * * * * * * * * * * *  General Information<  * * * * * * * * * * * *  -->
+</div>
+
+<div style="float: right; width: 65%; margin-top: 0em;">
 
     <h3 id="_General_Information">General Information</h3>
 
@@ -328,11 +333,6 @@
         from the definition. If you have source code with these types of statements, exclude them with the
         <a href="#_exclude">exclude=####</a> option described in the <a href="#_Other_Options">Other Options</a>
         section.</p>
-    <p>
-        &nbsp;</p>
-    <hr />
-
-    <!--  * * * * * * * * * * * * * *  Quick Start  * * * * * * * * * * * * * *  -->
 
     <h3 id="_Quick_Start">Quick Start</h3>
 
@@ -356,11 +356,6 @@
         the file name. </p>
     <p>
         Once you are familiar with the options you can customize the format to your personal preference.</p>
-    <p>
-        &nbsp;</p>
-    <hr />
-
-    <!--  * * * * * * * * * * * * * * *  Usage  * * * * * * * * * * * * * * *  -->
 
     <h3 id="_Usage">Usage</h3>
 
@@ -424,11 +419,6 @@
         <pre>astyle --style=allman &lt; <em>OriginalSourceFile</em> | less
 </pre>
     </div>
-    <p>
-        &nbsp;</p>
-    <hr />
-
-    <!--  * * * * * * * * * * * * * * *  Options  * * * * * * * * * * * * * * *  -->
 
     <h3 id="_Options">Options</h3>
 
@@ -449,11 +439,6 @@
     <p>
         These options start with a single '<strong>-</strong>', and may be concatenated together.<br />
         (Example: '-bps4' is the same as writing '-b -p -s4'.)</p>
-    <p>
-        &nbsp;</p>
-    <hr />
-
-    <!--  * * * * * * * * * * * * * *  Options File  * * * * * * * * * * * * * *  -->
 
     <h3 id="_Option_Files">Option Files</h3>
 
@@ -520,12 +505,6 @@ indent-switches     <span class="comment"># cannot do this on the command line</
 <span class="comment"># short options can be concatenated together</span>
 -M60Ucv</pre>
     </div>
-    <p>
-        &nbsp;</p>
-
-    <hr />
-
-    <!--  * * * * * * * * * * * * *  Disable Formatting   * * * * * * * * * * * * *  -->
 
     <h3 id="_Disable_Formatting">Disable Formatting</h3>
 
@@ -573,11 +552,6 @@ indent-switches     <span class="comment"># cannot do this on the command line</
             The following prevents the operator padding from changing:</p>
         <pre>size_t foo = (unsigned int) -1;  <span class="comment">// *NOPAD*</span></pre>
     </div>
-    <p>
-        &nbsp;</p>
-    <hr />
-
-    <!--  * * * * * * * * * * * *   Basic Brace Styles    * * * * * * * * * * * *  -->
 
     <h3 id="_Basic_Brace_Styles">Basic Brace Styles</h3>
 
@@ -603,12 +577,6 @@ indent-switches     <span class="comment"># cannot do this on the command line</
         Style you can easily modify source code to suit your
         preference.</p>
 
-    <p>
-        &nbsp;</p>
-    <hr />
-
-
-    <!--  * * * * * * * * * * * *   Brace Style Options    * * * * * * * * * * * *  -->
 
     <h3 id="_Brace_Style_Options">Brace Style Options</h3>
 
@@ -926,11 +894,6 @@ indent-switches     <span class="comment"># cannot do this on the command line</
         return 0; <span class="brace">}</span>
 </pre>
     </div>
-    <p>
-        &nbsp;</p>
-    <hr />
-
-    <!--  * * * * * * * * * * * * * * *   Tab Options  * * * * * * * * * * * * * * * -->
 
     <h3 id="_Tab_Options">Tab Options</h3>
 
@@ -1037,11 +1000,6 @@ indent-switches     <span class="comment"># cannot do this on the command line</
 <span class="brace">}</span>
 </pre>
     </div>
-    <p>
-        &nbsp;</p>
-    <hr />
-
-    <!--  * * * * * * * * * * * *   Brace Modify Options   * * * * * * * * * * * * -->
 
     <h3 id="_Brace_Modify_Options">Brace Modify Options</h3>
 
@@ -1133,11 +1091,6 @@ while x == 1;
 <span class="brace">}</span> while x == 1;
 </pre>
     </div>
-    <p>
-        &nbsp;</p>
-    <hr />
-
-    <!--  * * * * * * * * * * * * *   Indentation Options  * * * * * * * * * * * * *  -->
 
     <h3 id="_Indentation_Options">Indentation Options</h3>
 
@@ -1580,11 +1533,6 @@ fooFunction(barArg1,
 </div>
 
 
-    <p>
-        &nbsp;</p>
-    <hr />
-
-    <!--  * * * * * * * * * * * * *   Padding Options  * * * * * * * * * * * * *  -->
 
     <h3 id="_Padding_Options">Padding Options</h3>
 
@@ -2050,11 +1998,6 @@ string ^s1;</pre>
             becomes (with align-reference=name):</p>
         <pre>char &amp;foo3;</pre>
     </div>
-    <p>
-        &nbsp;</p>
-    <hr />
-
-    <!--  * * * * * * * * * * * * *   Formatting Options  * * * * * * * * * * * * *  -->
 
     <h3 id="_Formatting_Options">Formatting Options</h3>
 
@@ -2354,17 +2297,13 @@ Foo(bool isFoo);</pre>
         <code class="title">--mode=objc</code><br />
         <code class="title">--mode=js <i>(experimental)</i></code><br />
         <code class="title">--mode=ghc <i>(experimental)</i></code><br />
+        <code class="title">--mode=gsc <i>(experimental)</i></code><br />
         Indent a C type, C#, Javascript, Java or <span style="white-space: nowrap;">Objective-C</span> file.
-        JS and GHC support is experimental.
+        The other listed modes are experimental.<br>
         C type files are C, C++, C++/CLI. The option is usually set from the file extension for each file.
         You can override the setting with this entry. It will be used for all files, regardless of the file extension.
         It allows the formatter to identify language specific syntax such as C++ classes, templates, and keywords.
     </p>
-    <p>
-        &nbsp;</p>
-    <hr />
-
-    <!--  * * * * * * * * * * * * *   Objective-C Options  * * * * * * * * * * * * *  -->
 
     <h3 id="_Objective_C_Options"><span style="white-space: nowrap;">Objective-C</span> Options</h3>
 
@@ -2529,11 +2468,6 @@ Foo(bool isFoo);</pre>
             with pad-method-colon=before:</p>
         <pre>-(void)insertKey :(id)key;</pre>
     </div>
-    <p>
-        &nbsp;</p>
-    <hr />
-
-    <!--  * * * * * * * * * * * *  Other Command Line Options  * * * * * * * * * * * *  -->
 
     <h3 id="_Other_Options">Other Options</h3>
 
@@ -2617,11 +2551,6 @@ Foo(bool isFoo);</pre>
     <p>
         When <strong>redirection</strong> is used on Windows the output will always have Windows line ends. This option
         will be ignored.</p>
-    <p>
-        &nbsp;</p>
-    <hr  />
-
-    <!--  * * * * * * * * * * * *  Command-Line Options  * * * * * * * * * * * *  -->
 
     <h3 id="_Command_Line_Only">Command Line Only</h3>
 
@@ -2693,15 +2622,13 @@ Foo(bool isFoo);</pre>
         <code class="title">--stdout=<span class="option">####</span></code><br />
         Open a file using the file path #### as output from single file formatting. This is a replacement for redirection.
         Do not use this with "&gt;" redirection.</p>
-    <p>
-        &nbsp;</p>
-    <hr  />
 
     <p >
         <a href="http://sourceforge.net/projects/astyle">
             <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=2319&type=16" alt="" />
         </a></p>
 
+    </div>
 
 </body>
 

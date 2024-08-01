@@ -47,6 +47,10 @@
 #ifdef _WIN32
 	#undef UNICODE		// use ASCII windows functions
 	#include <Windows.h>
+
+	#include <io.h>
+	#include <fcntl.h>
+
 #else
 	#include <dirent.h>
 	#include <sys/stat.h>
@@ -108,9 +112,7 @@ ASStreamIterator<T>::ASStreamIterator(T* in)
 {
 	inStream = in;
 	buffer.reserve(200);
-	eolWindows = 0;
-	eolLinux = 0;
-	eolMacOld = 0;
+
 	peekStart = 0;
 	prevLineDeleted = false;
 	checkForEmptyLine = false;
@@ -175,6 +177,10 @@ std::string ASStreamIterator<T>::nextLine(bool emptyLineWasDeleted)
 		return buffer;
 	}
 
+
+	lastOutputEOL.clear();
+	lastOutputEOL.append(1, ch);
+
 	int peekCh = inStream->peek();
 
 	// find input end-of-line characters
@@ -184,50 +190,23 @@ std::string ASStreamIterator<T>::nextLine(bool emptyLineWasDeleted)
 		{
 			if (peekCh == '\n')
 			{
+				lastOutputEOL.append(1, peekCh);
 				inStream->get();
-				eolWindows++;
 			}
-			else
-				eolMacOld++;
 		}
 		else                    // LF is Linux, allow for improbable LF/CR
 		{
 			if (peekCh == '\r')
 			{
+				lastOutputEOL.append(1, peekCh);
 				inStream->get();
-				eolWindows++;
 			}
-			else
-				eolLinux++;
 		}
 	}
 	else
 	{
 		inStream->clear();
 	}
-
-	// has not detected an input end of line
-	if (!eolWindows && !eolLinux && !eolMacOld)
-	{
-#ifdef _WIN32
-		eolWindows++;
-#else
-		eolLinux++;
-#endif
-	}
-
-	// set output end of line characters
-	if (eolWindows >= eolLinux)
-	{
-		if (eolWindows >= eolMacOld)
-			outputEOL = "\r\n";     // Windows (CR+LF)
-		else
-			outputEOL = "\r";       // MacOld (CR)
-	}
-	else if (eolLinux >= eolMacOld)
-		outputEOL = "\n";           // Linux (LF)
-	else
-		outputEOL = "\r";           // MacOld (CR)
 
 	return buffer;
 }
@@ -296,33 +275,6 @@ std::streamoff ASStreamIterator<T>::tellg()
 	return inStream->tellg();
 }
 
-// check for a change in line ends
-template<typename T>
-bool ASStreamIterator<T>::getLineEndChange(int lineEndFormat) const
-{
-	assert(lineEndFormat == LINEEND_DEFAULT
-	       || lineEndFormat == LINEEND_WINDOWS
-	       || lineEndFormat == LINEEND_LINUX
-	       || lineEndFormat == LINEEND_MACOLD);
-
-	bool lineEndChange = false;
-	if (lineEndFormat == LINEEND_WINDOWS)
-		lineEndChange = (eolLinux + eolMacOld != 0);
-	else if (lineEndFormat == LINEEND_LINUX)
-		lineEndChange = (eolWindows + eolMacOld != 0);
-	else if (lineEndFormat == LINEEND_MACOLD)
-		lineEndChange = (eolWindows + eolLinux != 0);
-	else
-	{
-		if (eolWindows > 0)
-			lineEndChange = (eolLinux + eolMacOld != 0);
-		else if (eolLinux > 0)
-			lineEndChange = (eolWindows + eolMacOld != 0);
-		else if (eolMacOld > 0)
-			lineEndChange = (eolWindows + eolLinux != 0);
-	}
-	return lineEndChange;
-}
 
 //-----------------------------------------------------------------------------
 // ASConsole class
@@ -349,7 +301,6 @@ ASConsole::ASConsole(ASFormatter& formatterArg) : formatter(formatterArg)
 	bypassBrowserOpen = false;
 	hasWildcard = false;
 	filesAreIdentical = true;
-	lineEndsMixed = false;
 	origSuffix = ".orig";
 	mainDirectoryLength = 0;
 	filesFormatted = 0;
@@ -357,92 +308,7 @@ ASConsole::ASConsole(ASFormatter& formatterArg) : formatter(formatterArg)
 	linesOut = 0;
 }
 
-// rewrite a stringstream converting the line ends
-void ASConsole::convertLineEnds(std::ostringstream& out, int lineEnd)
-{
-	assert(lineEnd == LINEEND_WINDOWS || lineEnd == LINEEND_LINUX || lineEnd == LINEEND_MACOLD);
-	const std::string& inStr = out.str();	// avoids strange looking syntax
-	std::string outStr;						// the converted output
-	int inLength = (int) inStr.length();
-	for (int pos = 0; pos < inLength; pos++)
-	{
-		if (inStr[pos] == '\r')
-		{
-			if (inStr[pos + 1] == '\n')
-			{
-				// CRLF
-				if (lineEnd == LINEEND_CR)
-				{
-					outStr += inStr[pos];		// Delete the LF
-					pos++;
-					continue;
-				}
-				if (lineEnd == LINEEND_LF)
-				{
-					outStr += inStr[pos + 1];	// Delete the CR
-					pos++;
-					continue;
-				}
-				outStr += inStr[pos];			// Do not change
-				outStr += inStr[pos + 1];
-				pos++;
-				continue;
-			}
-			else                                // NOLINT
-			{
-				// CR
-				if (lineEnd == LINEEND_CRLF)
-				{
-					outStr += inStr[pos];		// Insert the CR
-					outStr += '\n';				// Insert the LF
-					continue;
-				}
-				if (lineEnd == LINEEND_LF)
-				{
-					outStr += '\n';				// Insert the LF
-					continue;
-				}
-				outStr += inStr[pos];		// Do not change
-				continue;
-			}
-		}
-		else if (inStr[pos] == '\n')
-		{
-			// LF
-			if (lineEnd == LINEEND_CRLF)
-			{
-				outStr += '\r';				// Insert the CR
-				outStr += inStr[pos];		// Insert the LF
-				continue;
-			}
-			if (lineEnd == LINEEND_CR)
-			{
-				outStr += '\r';				// Insert the CR
-				continue;
-			}
-			outStr += inStr[pos];		// Do not change
-			continue;
-		}
-		else
-		{
-			outStr += inStr[pos];		// Write the current char
-		}
-	}
-	// replace the stream
-	out.str(outStr);
-}
 
-void ASConsole::correctMixedLineEnds(std::ostringstream& out)
-{
-	LineEndFormat lineEndFormat = LINEEND_DEFAULT;
-	if (outputEOL == "\r\n")
-		lineEndFormat = LINEEND_WINDOWS;
-	if (outputEOL == "\n")
-		lineEndFormat = LINEEND_LINUX;
-	if (outputEOL == "\r")
-		lineEndFormat = LINEEND_MACOLD;
-	convertLineEnds(out, lineEndFormat);
-}
 
 // check files for 16 or 32 bit encoding
 // the file must have a Byte Order Mark (BOM)
@@ -521,6 +387,13 @@ void ASConsole::formatCinToCout()
 	// Copying the input sequentially to a stringstream before
 	// formatting solves the problem for both.
 	std::istream* inStream = &std::cin;
+
+	// enforce binary mode to avoid auto conversion of \n to \r\n
+#ifdef _WIN32
+	_setmode( _fileno( stdout ),  _O_BINARY );
+	_setmode( _fileno( stdin ),  _O_BINARY );
+#endif
+
 	std::stringstream outStream;
 	char ch;
 	inStream->get(ch);
@@ -530,22 +403,21 @@ void ASConsole::formatCinToCout()
 		inStream->get(ch);
 	}
 	ASStreamIterator<std::stringstream> streamIterator(&outStream);
-	// Windows pipe or redirection always outputs Windows line-ends.
-	// Linux pipe or redirection will output any line end.
-#ifdef _WIN32
-	LineEndFormat lineEndFormat = LINEEND_DEFAULT;
-#else
-	LineEndFormat lineEndFormat = formatter.getLineEndFormat();
-#endif // _WIN32
-	initializeOutputEOL(lineEndFormat);
+
+	initializeOutputEOL(formatter.getLineEndFormat());
 	formatter.init(&streamIterator);
+
 
 	while (formatter.hasMoreLines())
 	{
 		std::cout << formatter.nextLine();
+
+		if (LINEEND_DEFAULT == formatter.getLineEndFormat()){
+			outputEOL = streamIterator.getLastOutputEOL();
+		}
+
 		if (formatter.hasMoreLines())
 		{
-			setOutputEOL(lineEndFormat, streamIterator.getOutputEOL());
 			std::cout << outputEOL;
 		}
 		else
@@ -553,7 +425,6 @@ void ASConsole::formatCinToCout()
 			// this can happen if the file if missing a closing brace and break-blocks is requested
 			if (formatter.getIsLineReady())
 			{
-				setOutputEOL(lineEndFormat, streamIterator.getOutputEOL());
 				std::cout << outputEOL;
 				std::cout << formatter.nextLine();
 			}
@@ -588,8 +459,8 @@ void ASConsole::formatFile(const std::string& fileName_)
 	// set line end format
 	std::string nextLine;				// next output line
 	filesAreIdentical = true;		// input and output files are identical
-	LineEndFormat lineEndFormat = formatter.getLineEndFormat();
-	initializeOutputEOL(lineEndFormat);
+
+	initializeOutputEOL(formatter.getLineEndFormat());
 	// do this AFTER setting the file mode
 	ASStreamIterator<std::stringstream> streamIterator(&in);
 	formatter.init(&streamIterator);
@@ -600,9 +471,13 @@ void ASConsole::formatFile(const std::string& fileName_)
 		nextLine = formatter.nextLine();
 		out << nextLine;
 		linesOut++;
+
+		if (LINEEND_DEFAULT == formatter.getLineEndFormat()){
+			outputEOL = streamIterator.getLastOutputEOL();
+		}
+
 		if (formatter.hasMoreLines())
 		{
-			setOutputEOL(lineEndFormat, streamIterator.getOutputEOL());
 			out << outputEOL;
 		}
 		else
@@ -611,7 +486,6 @@ void ASConsole::formatFile(const std::string& fileName_)
 			// this can happen if the file if missing a closing brace and break-blocks is requested
 			if (formatter.getIsLineReady())
 			{
-				setOutputEOL(lineEndFormat, streamIterator.getOutputEOL());
 				out << outputEOL;
 				nextLine = formatter.nextLine();
 				out << nextLine;
@@ -620,42 +494,30 @@ void ASConsole::formatFile(const std::string& fileName_)
 			}
 		}
 
-		if (filesAreIdentical)
-		{
-			if (streamIterator.checkForEmptyLine)
-			{
-				if (nextLine.find_first_not_of(" \t") != std::string::npos)
-					filesAreIdentical = false;
-			}
-			else if (!streamIterator.compareToInputBuffer(nextLine))
-				filesAreIdentical = false;
-			streamIterator.checkForEmptyLine = false;
+		if (filesAreIdentical) {
+			if (streamIterator.checkForEmptyLine) {
+				filesAreIdentical = (nextLine.find_first_not_of(" \t") == std::string::npos);
+			} else {
+				filesAreIdentical = streamIterator.compareToInputBuffer(nextLine) &&
+						(LINEEND_DEFAULT == formatter.getLineEndFormat() || streamIterator.getLastOutputEOL() == outputEOL);
+    		}
+    		streamIterator.checkForEmptyLine = false;
 		}
-	}
-	// correct for mixed line ends
-	if (lineEndsMixed)
-	{
-		correctMixedLineEnds(out);
-		filesAreIdentical = false;
 	}
 
 	// remove targetDirectory from filename if required by print
-	std::string displayName;
+	std::string displayName(fileName_);
 	if (hasWildcard)
 		displayName = fileName_.substr(targetDirectory.length() + 1);
-	else
-		displayName = fileName_;
 
 	// if file has changed, write the new file
-	if (!filesAreIdentical || streamIterator.getLineEndChange(lineEndFormat))
+	if (!filesAreIdentical)
 	{
 		if (!isDryRun)
 			writeFile(fileName_, encoding, out);
 		printMsg(_("Formatted  %s\n"), displayName);
 		filesFormatted++;
-	}
-	else
-	{
+	} else {
 		if (!isFormattedOnly)
 			printMsg(_("Unchanged  %s\n"), displayName);
 		filesUnchanged++;
@@ -800,10 +662,6 @@ bool ASConsole::getIsVerbose() const
 { return isVerbose; }
 
 // for unit testing
-bool ASConsole::getLineEndsMixed() const
-{ return lineEndsMixed; }
-
-// for unit testing
 bool ASConsole::getNoBackup() const
 { return noBackup; }
 
@@ -919,9 +777,7 @@ void ASConsole::initializeOutputEOL(LineEndFormat lineEndFormat)
 	       || lineEndFormat == LINEEND_LINUX
 	       || lineEndFormat == LINEEND_MACOLD);
 
-	outputEOL.clear();			// current line end
-	prevEOL.clear();			// previous line end
-	lineEndsMixed = false;		// output has mixed line ends, LINEEND_DEFAULT only
+	outputEOL = "\n";
 
 	if (lineEndFormat == LINEEND_WINDOWS)
 		outputEOL = "\r\n";
@@ -929,8 +785,6 @@ void ASConsole::initializeOutputEOL(LineEndFormat lineEndFormat)
 		outputEOL = "\n";
 	else if (lineEndFormat == LINEEND_MACOLD)
 		outputEOL = "\r";
-	else
-		outputEOL.clear();
 }
 
 // read a file into the stringstream 'in'
@@ -1022,28 +876,6 @@ void ASConsole::setStdPathIn(const std::string& path)
 void ASConsole::setStdPathOut(const std::string& path)
 { stdPathOut = path; }
 
-// set outputEOL variable
-void ASConsole::setOutputEOL(LineEndFormat lineEndFormat, const std::string& currentEOL)
-{
-	if (lineEndFormat == LINEEND_DEFAULT)
-	{
-		outputEOL = currentEOL;
-		if (prevEOL.empty())
-			prevEOL = outputEOL;
-		if (prevEOL != outputEOL)
-		{
-			lineEndsMixed = true;
-			filesAreIdentical = false;
-			prevEOL = outputEOL;
-		}
-	}
-	else
-	{
-		prevEOL = currentEOL;
-		if (prevEOL != outputEOL)
-			filesAreIdentical = false;
-	}
-}
 
 #ifdef _WIN32  // Windows specific
 
@@ -2245,6 +2077,9 @@ void ASConsole::printHelp() const
 	std::cout << "    --mode=ghc\n";
 	std::cout << "    Indent a GHC source file (experimental).\n";
 	std::cout << std::endl;
+	std::cout << "    --mode=gsc\n";
+	std::cout << "    Indent a GSC source file (experimental).\n";
+	std::cout << std::endl;
 	std::cout << "Objective-C Options:\n";
 	std::cout << "--------------------\n";
 	std::cout << "    --pad-method-prefix  OR  -xQ\n";
@@ -2577,8 +2412,7 @@ void ASConsole::processOptions(const std::vector<std::string>& argvOptions)
 			assert(strcmp(buf, "\xEF\xBB\xBF") == 0);
 		}
 		options.importOptions(optionsIn, fileOptionsVector);
-		ok = options.parseOptions(fileOptionsVector,
-		                          std::string(_("Invalid default options:")));
+		ok = options.parseOptions(fileOptionsVector);
 	}
 	else if (optionFileRequired)
 		error(_("Cannot open default option file"), optionFileName.c_str());
@@ -2604,8 +2438,7 @@ void ASConsole::processOptions(const std::vector<std::string>& argvOptions)
 			assert(strcmp(buf, "\xEF\xBB\xBF") == 0);
 		}
 		options.importOptions(projectOptionsIn, projectOptionsVector);
-		ok = options.parseOptions(projectOptionsVector,
-		                          std::string(_("Invalid project options:")));
+		ok = options.parseOptions(projectOptionsVector);
 	}
 
 	if (!ok)
@@ -2616,8 +2449,7 @@ void ASConsole::processOptions(const std::vector<std::string>& argvOptions)
 	}
 
 	// parse the command line options vector for errors
-	ok = options.parseOptions(optionsVector,
-	                          std::string(_("Invalid command line options:")));
+	ok = options.parseOptions(optionsVector);
 	if (!ok)
 	{
 		(*errorStream) << options.getOptionErrors();
@@ -3115,7 +2947,7 @@ ASOptions::ASOptions(ASFormatter& formatterArg, ASConsole& consoleArg)
  *
  * @return        true if no errors, false if errors
  */
-bool ASOptions::parseOptions(std::vector<std::string>& optionsVector, const std::string& errorInfo)
+bool ASOptions::parseOptions(std::vector<std::string>& optionsVector)
 {
 	std::vector<std::string>::iterator option;
 	std::string arg;
@@ -3127,7 +2959,7 @@ bool ASOptions::parseOptions(std::vector<std::string>& optionsVector, const std:
 		arg = *option;
 
 		if (arg.compare(0, 2, "--") == 0)
-			parseOption(arg.substr(2), errorInfo);
+			parseOption(arg.substr(2));
 		else if (arg[0] == '-')
 		{
 			size_t i;
@@ -3139,19 +2971,19 @@ bool ASOptions::parseOptions(std::vector<std::string>& optionsVector, const std:
 				        && arg[i - 1] != 'x')
 				{
 					// parse the previous option in subArg
-					parseOption(subArg, errorInfo);
+					parseOption(subArg);
 					subArg = "";
 				}
 				// append the current option to subArg
 				subArg.append(1, arg[i]);
 			}
 			// parse the last option
-			parseOption(subArg, errorInfo);
+			parseOption(subArg);
 			subArg = "";
 		}
 		else
 		{
-			parseOption(arg, errorInfo);
+			parseOption(arg);
 			subArg = "";
 		}
 	}
@@ -3160,9 +2992,11 @@ bool ASOptions::parseOptions(std::vector<std::string>& optionsVector, const std:
 	return true;
 }
 
-void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo)
+void ASOptions::parseOption(const std::string& arg)
 {
 	NegationPaddingMode negationPaddingMode = NEGATION_PAD_NO_CHANGE;
+	IncludeDirectivePaddingMode includeDirectivePaddingMode = INCLUDE_PAD_NO_CHANGE;
+
 	if (isOption(arg, "A1", "style=allman") || isOption(arg, "style=bsd") || isOption(arg, "style=break"))
 	{
 		formatter.setFormattingStyle(STYLE_ALLMAN);
@@ -3258,6 +3092,11 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		formatter.setGHCStyle();
 		formatter.setModeManuallySet(true);
 	}
+	else if (isOption(arg, "mode=gsc"))
+	{
+		formatter.setGSCStyle();
+		formatter.setModeManuallySet(true);
+	}
 	else if (isParamOption(arg, "t", "indent=tab="))
 	{
 		int spaceNum = 4;
@@ -3265,7 +3104,7 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		if (spaceNumParam.length() > 0)
 			spaceNum = atoi(spaceNumParam.c_str());
 		if (spaceNum < 2 || spaceNum > 20)
-			isOptionError(arg, errorInfo);
+			isOptionError(arg);
 		else
 		{
 			formatter.setTabIndentation(spaceNum, false);
@@ -3282,7 +3121,7 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		if (spaceNumParam.length() > 0)
 			spaceNum = atoi(spaceNumParam.c_str());
 		if (spaceNum < 2 || spaceNum > 20)
-			isOptionError(arg, errorInfo);
+			isOptionError(arg);
 		else
 		{
 			formatter.setTabIndentation(spaceNum, true);
@@ -3299,7 +3138,7 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		if (tabNumParam.length() > 0)
 			tabNum = atoi(tabNumParam.c_str());
 		if (tabNum < 2 || tabNum > 20)
-			isOptionError(arg, errorInfo);
+			isOptionError(arg);
 		else
 		{
 			formatter.setForceTabXIndentation(tabNum);
@@ -3316,7 +3155,7 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		if (spaceNumParam.length() > 0)
 			spaceNum = atoi(spaceNumParam.c_str());
 		if (spaceNum < 2 || spaceNum > 20)
-			isOptionError(arg, errorInfo);
+			isOptionError(arg);
 		else
 		{
 			formatter.setSpaceIndentation(spaceNum);
@@ -3333,9 +3172,9 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		if (contIndentParam.length() > 0)
 			contIndent = atoi(contIndentParam.c_str());
 		if (contIndent < 0)
-			isOptionError(arg, errorInfo);
+			isOptionError(arg);
 		else if (contIndent > 4)
-			isOptionError(arg, errorInfo);
+			isOptionError(arg);
 		else
 			formatter.setContinuationIndentation(contIndent);
 	}
@@ -3346,7 +3185,7 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		if (minIndentParam.length() > 0)
 			minIndent = atoi(minIndentParam.c_str());
 		if (minIndent >= MINCOND_END)
-			isOptionError(arg, errorInfo);
+			isOptionError(arg);
 		else
 			formatter.setMinConditionalIndentOption(minIndent);
 	}
@@ -3357,7 +3196,7 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		if (maxIndentParam.length() > 0)
 			maxIndent = atoi(maxIndentParam.c_str());
 		if (maxIndent < 40)
-			isOptionError(arg, errorInfo);
+			isOptionError(arg);
 		else
 			formatter.setMaxContinuationIndentLength(maxIndent);
 	}
@@ -3454,6 +3293,14 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 	{
 		negationPaddingMode = NEGATION_PAD_BEFORE;
 	}
+	else if (isOption(arg, "pad-include"))
+	{
+		includeDirectivePaddingMode = INCLUDE_PAD_AFTER;
+	}
+	else if (isOption(arg, "pad-include=none"))
+	{
+		includeDirectivePaddingMode = INCLUDE_PAD_NONE;
+	}
 	else if (isOption(arg, "xg", "pad-comma"))
 	{
 		formatter.setCommaPaddingMode(true);
@@ -3469,7 +3316,7 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		if (keepEmptyLinesParam.length() > 0)
 			keepEmptyLines = atoi(keepEmptyLinesParam.c_str());
 		if (keepEmptyLines < 1)
-			isOptionError(arg, errorInfo);
+			isOptionError(arg);
 		else
 			formatter.setSqueezeEmptyLinesNumber(keepEmptyLines);
 	}
@@ -3541,7 +3388,7 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		if (styleParam.length() > 0)
 			align = atoi(styleParam.c_str());
 		if (align < 1 || align > 3)
-			isOptionError(arg, errorInfo);
+			isOptionError(arg);
 		else if (align == 1)
 			formatter.setPointerAlignment(PTR_ALIGN_TYPE);
 		else if (align == 2)
@@ -3572,7 +3419,7 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		if (styleParam.length() > 0)
 			align = atoi(styleParam.c_str());
 		if (align < 0 || align > 3)
-			isOptionError(arg, errorInfo);
+			isOptionError(arg);
 		else if (align == 0)
 			formatter.setReferenceAlignment(REF_ALIGN_NONE);
 		else if (align == 1)
@@ -3589,9 +3436,9 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		if (maxLengthParam.length() > 0)
 			maxLength = atoi(maxLengthParam.c_str());
 		if (maxLength < 50)
-			isOptionError(arg, errorInfo);
+			isOptionError(arg);
 		else if (maxLength > 200)
-			isOptionError(arg, errorInfo);
+			isOptionError(arg);
 		else
 			formatter.setMaxCodeLength(maxLength);
 	}
@@ -3602,7 +3449,7 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		if (maxLengthParam.length() > 0)
 			maxLength = atoi(maxLengthParam.c_str());
 		if (maxLength > 200)
-			isOptionError(arg, errorInfo);
+			isOptionError(arg);
 		else
 			formatter.setMaxCodeLength(maxLength);
 	}
@@ -3651,12 +3498,13 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 		formatter.setAttachReturnTypeDecl(true);
 	}
 	// To avoid compiler limit of blocks nested too deep.
-	else if (!parseOptionContinued(arg, errorInfo))
+	else if (!parseOptionContinued(arg))
 	{
-		isOptionError(arg, errorInfo);
+		isOptionError(arg);
 	}
 
 	formatter.setNegationPaddingMode(negationPaddingMode);
+	formatter.setIncludeDirectivePaddingMode(includeDirectivePaddingMode);
 
 }	// End of parseOption function
 
@@ -3664,7 +3512,7 @@ void ASOptions::parseOption(const std::string& arg, const std::string& errorInfo
 // To avoid compiler limit of blocks nested too deep.
 // Return 'true' if the option was found and processed.
 // Return 'false' if the option was not found.
-bool ASOptions::parseOptionContinued(const std::string& arg, const std::string& errorInfo)
+bool ASOptions::parseOptionContinued(const std::string& arg)
 {
 	// Objective-C options
 	if (isOption(arg, "xQ", "pad-method-prefix"))
@@ -3794,7 +3642,7 @@ bool ASOptions::parseOptionContinued(const std::string& arg, const std::string& 
 		if (lineendParam.length() > 0)
 			lineendType = atoi(lineendParam.c_str());
 		if (lineendType < 1 || lineendType > 3)
-			isOptionError(arg, errorInfo);
+			isOptionError(arg);
 		else if (lineendType == 1)
 			formatter.setLineEndFormat(LINEEND_WINDOWS);
 		else if (lineendType == 2)
@@ -3909,10 +3757,10 @@ bool ASOptions::isOption(const std::string& arg, const char* op1, const char* op
 	return (isOption(arg, op1) || isOption(arg, op2));
 }
 
-void ASOptions::isOptionError(const std::string& arg, const std::string& errorInfo)
+void ASOptions::isOptionError(const std::string& arg)
 {
 	if (optionErrors.str().length() == 0)
-		optionErrors << errorInfo << std::endl;   // need main error message
+		optionErrors << "Invalid Artistic Style options:" << std::endl;   // need main error message
 	optionErrors << "\t" << arg << std::endl;
 }
 
