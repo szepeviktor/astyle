@@ -14,104 +14,111 @@
 
     <h1>Artistic Style Release Notes</h1>
 
+    <h3>Artistic Style 3.4.14 (April 2024)</h3>
+    <ul>
+        <li>Fix split references with "-k1" option (#565)</li>
+        <li>Fix "--align-pointer=type" option for fundamental types in lambda parameter lists (https://gitlab.com/saalen/astyle/-/issues/35)</li>
+        <li>Fix "--indent-after-parens" indent count (https://gitlab.com/saalen/astyle/-/issues/29)</li>
+    </ul>
+
     <h3>Artistic Style 3.4.13 (March 2024)</h3>
     <ul>
-        <li>fix comment indent after string macro with R suffix (https://gitlab.com/saalen/astyle/-/issues/39)</li>
-        <li>do not break single line block after enum in mozilla mode (https://gitlab.com/saalen/astyle/-/issues/38)</li>
-        <li>adjust cmake policy for new versions only (https://gitlab.com/saalen/astyle/-/issues/40)</li>
-        <li>update man page path</li>
-        <li>add support for scikit-build-core</li>
+        <li>Fix comment indent after string macro with R suffix (https://gitlab.com/saalen/astyle/-/issues/39)</li>
+        <li>Do not break single line block after enum in mozilla mode (https://gitlab.com/saalen/astyle/-/issues/38)</li>
+        <li>Adjust cmake policy for new versions only (https://gitlab.com/saalen/astyle/-/issues/40)</li>
+        <li>Update man page path</li>
+        <li>Add support for scikit-build-core</li>
     </ul>
 
     <h3>Artistic Style 3.4.12 (February 2024)</h3>
     <ul>
-        <li>added "--pad-brackets-in" and "--pad-brackets-out" options (https://gitlab.com/saalen/astyle/-/issues/33)</li>
-        <li>fixed indentation of initializer lists (https://gitlab.com/saalen/astyle/-/issues/28)</li>
-        <li>fixed crash with "--add-braces=nested" applied to if-else blocks (https://gitlab.com/saalen/astyle/-/issues/36)</li>
+        <li>Add "--pad-brackets-in" and "--pad-brackets-out" options (https://gitlab.com/saalen/astyle/-/issues/33)</li>
+        <li>Fix indentation of initializer lists (https://gitlab.com/saalen/astyle/-/issues/28)</li>
+        <li>Fix crash with "--add-braces=nested" applied to if-else blocks (https://gitlab.com/saalen/astyle/-/issues/36)</li>
     </ul>
 
     <h3>Artistic Style 3.4.11 (January 2024)</h3>
 
     <ul>
-        <li>added new option "--add-braces=nested" to add braces in nested single line statements (https://gitlab.com/saalen/astyle/-/issues/27)</li>
-        <li>fix indent after double template brackets (https://gitlab.com/saalen/astyle/-/issues/28)</li>
-        <li>fix indent after dot (https://gitlab.com/saalen/astyle/-/issues/28)</li>
-        <li>"--squeeze-lines=1" is no longer default with Linux builds (#559)</li>
-        <li>add experimental GHC mode (https://gitlab.com/saalen/astyle/-/issues/31)</li>
-        <li>fix indent after raw string (https://gitlab.com/saalen/astyle/-/issues/32)</li>
+        <li>Add new option "--add-braces=nested" to add braces in nested single line statements (https://gitlab.com/saalen/astyle/-/issues/27)</li>
+        <li>Fix indent after double template brackets (https://gitlab.com/saalen/astyle/-/issues/28)</li>
+        <li>Fix indent after dot (https://gitlab.com/saalen/astyle/-/issues/28)</li>
+        <li>Option "--squeeze-lines=1" is no longer default with Linux builds (#559)</li>
+        <li>Add experimental GHC mode (https://gitlab.com/saalen/astyle/-/issues/31)</li>
+        <li>Fix indent after raw string (https://gitlab.com/saalen/astyle/-/issues/32)</li>
     </ul>
 
     <h3>Artistic Style 3.4.10 (October 2023)</h3>
 
     <ul>
-        <li>fixed missing indent in function parameter list (https://gitlab.com/saalen/astyle/-/issues/16)</li>
+        <li>Fix missing indent in function parameter list (https://gitlab.com/saalen/astyle/-/issues/16)</li>
     </ul>
 
     <h3>Artistic Style 3.4.9 (October 2023)</h3>
 
     <ul>
-        <li>applied one wording for <span style="white-space: nowrap;">Objective-C</span> in the docs</li>
-        <li>fixed more CS regressions (https://gitlab.com/saalen/astyle/-/issues/16)</li>
-        <li>fixed inserting space with combined "--pad-oper" and "--align-pointer" options (#557)</li>
+        <li>Apply one wording for <span style="white-space: nowrap;">Objective-C</span> in the docs</li>
+        <li>Fix more CS regressions (https://gitlab.com/saalen/astyle/-/issues/16)</li>
+        <li>Fix inserting space with combined "--pad-oper" and "--align-pointer" options (#557)</li>
     </ul>
 
     <h3>Artistic Style 3.4.8 (September 2023)</h3>
 
     <ul>
-        <li>fixed lambda broken brace after auto keyword (#554)</li>
-        <li>fixed line break after comment in asm block (#226)</li>
-        <li>fixed padding of multiply operator (#126)</li>
-        <li>fixed indentation of method calls (#434)</li>
-        <li>fixed empty line after closing while block (https://gitlab.com/saalen/astyle/-/issues/18)</li>
-        <li>added outer padding for empty parens pairs (https://gitlab.com/saalen/astyle/-/issues/19) </li>
-        <li>fixed more CS regressions (https://gitlab.com/saalen/astyle/-/issues/16)</li>
+        <li>Fix lambda broken brace after auto keyword (#554)</li>
+        <li>Fix line break after comment in asm block (#226)</li>
+        <li>Fix padding of multiply operator (#126)</li>
+        <li>Fix indentation of method calls (#434)</li>
+        <li>Fix empty line after closing while block (https://gitlab.com/saalen/astyle/-/issues/18)</li>
+        <li>Add outer padding for empty parens pairs (https://gitlab.com/saalen/astyle/-/issues/19) </li>
+        <li>Fix more CS regressions (https://gitlab.com/saalen/astyle/-/issues/16)</li>
     </ul>
 
     <h3>Artistic Style 3.4.6 (August 2023)</h3>
 
     <ul>
-        <li>added VS2022 project files (https://gitlab.com/saalen/astyle/-/merge_requests/3)</li>
-        <li>fixed CS regressions (https://gitlab.com/saalen/astyle/-/issues/16)</li>
-        <li>added CS coalesce assignment operator (https://gitlab.com/saalen/astyle/-/issues/17)</li>
+        <li>Add VS2022 project files (https://gitlab.com/saalen/astyle/-/merge_requests/3)</li>
+        <li>Fix CS regressions (https://gitlab.com/saalen/astyle/-/issues/16)</li>
+        <li>Add CS coalesce assignment operator (https://gitlab.com/saalen/astyle/-/issues/17)</li>
     </ul>
 
     <h3>Artistic Style 3.4.1 (August 2023)</h3>
 
     <ul>
-        <li>fixed padding of &amp; following a comma (#552)</li>
-        <li>fixed indent of function declarations following access modifiers (#504)</li>
-        <li>fixed indent of C# allocation blocks (#464)</li>
-        <li>fixed indentation of comments after CS interpolation quotes (https://gitlab.com/saalen/astyle/-/issues/16)</li>
+        <li>Fix padding of &amp; following a comma (#552)</li>
+        <li>Fix indent of function declarations following access modifiers (#504)</li>
+        <li>Fix indent of C# allocation blocks (#464)</li>
+        <li>Fix indentation of comments after CS interpolation quotes (https://gitlab.com/saalen/astyle/-/issues/16)</li>
     </ul>
 
     <h3>Artistic Style 3.4 (June 2023)</h3>
 
     <ul>
-        <li>fixed formatting of CS interpolation literals (https://gitlab.com/saalen/astyle/-/issues/8).</li>
-        <li>fixed false lambda recognition (https://gitlab.com/saalen/astyle/-/issues/11)</li>
-        <li>fixed indentation of member declarations (https://gitlab.com/saalen/astyle/-/issues/10)</li>
-        <li>fixed indentation of struct assignments (https://gitlab.com/saalen/astyle/-/issues/12)</li>
-        <li>added new option "--indent-lambda" to enable new lambda recognition (https://gitlab.com/saalen/astyle/-/issues/7)</li>
-        <li>added link to astyle Python distribution projects (https://gitlab.com/saalen/astyle/-/issues/6)</li>
+        <li>Fix formatting of CS interpolation literals (https://gitlab.com/saalen/astyle/-/issues/8).</li>
+        <li>Fix false lambda recognition (https://gitlab.com/saalen/astyle/-/issues/11)</li>
+        <li>Fix indentation of member declarations (https://gitlab.com/saalen/astyle/-/issues/10)</li>
+        <li>Fix indentation of struct assignments (https://gitlab.com/saalen/astyle/-/issues/12)</li>
+        <li>Add new option "--indent-lambda" to enable new lambda recognition (https://gitlab.com/saalen/astyle/-/issues/7)</li>
+        <li>Add link to astyle Python distribution projects (https://gitlab.com/saalen/astyle/-/issues/6)</li>
     </ul>
 
     <h3>Artistic Style 3.3 (May 2023)</h3>
 
     <ul>
-        <li>added new option "--squeeze-ws" to remove superfluous whitespace (experimental)</li>
-        <li>added new option "--squeeze-lines" to remove superfluous empty lines (experimental, #19, #22, #43, #72, #84, #93, #105, #517)</li>
-        <li>added new options "--pad-brackets" and  "--unpad-brackets" to add or remove whitespace around square brackets (experimental)</li>
-        <li>fixed indent of lambda bodies in fct calls (#121)</li>
-        <li>fixed indent of struct names including &quot;struct&quot; (#526)</li>
-        <li>fixed indent of C++11 initializer lists (#516)</li>
-        <li>fixed padding of pointers separated by comma (#537)</li>
-        <li>refactored namespace std usage</li>
+        <li>Add new option "--squeeze-ws" to remove superfluous whitespace (experimental)</li>
+        <li>Add new option "--squeeze-lines" to remove superfluous empty lines (experimental, #19, #22, #43, #72, #84, #93, #105, #517)</li>
+        <li>Add new options "--pad-brackets" and  "--unpad-brackets" to add or remove whitespace around square brackets (experimental)</li>
+        <li>Fix indent of lambda bodies in fct calls (#121)</li>
+        <li>Fix indent of struct names including &quot;struct&quot; (#526)</li>
+        <li>Fix indent of C++11 initializer lists (#516)</li>
+        <li>Fix padding of pointers separated by comma (#537)</li>
+        <li>Refactor namespace std usage</li>
     </ul>
 
     <h3>Artistic Style 3.2.1 (March 2023)</h3>
 
     <ul>
-    <li>fixed struct recognition related to SF #534 (https://gitlab.com/saalen/astyle/-/issues/1)</li>
+    <li>Fix struct recognition related to SF #534 (https://gitlab.com/saalen/astyle/-/issues/1)</li>
     </ul>
 
     <h3>Artistic Style 3.2 (March 2023)</h3>

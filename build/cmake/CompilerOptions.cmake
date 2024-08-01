@@ -1,8 +1,8 @@
 # Set default compile options for supported compilers
 if(APPLE)
-    target_compile_options( astyle PRIVATE -W -Wall -fno-rtti -fno-exceptions -std=c++11 -stdlib=libc++)
+    target_compile_options( astyle PRIVATE -W -Wall -fno-rtti -fno-exceptions -std=c++17 -stdlib=libc++)
 elseif(NOT WIN32)   # Linux
-    target_compile_options(astyle PRIVATE -Wall -Wextra -fno-rtti -fno-exceptions -std=c++11)
+    target_compile_options(astyle PRIVATE -Wall -Wextra -fno-rtti -fno-exceptions -std=c++17)
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "gnu")
         execute_process(COMMAND ${CMAKE_CXX_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
         if (NOT (GCC_VERSION VERSION_GREATER 4.6 OR GCC_VERSION VERSION_EQUAL 4.6))
@@ -13,7 +13,7 @@ elseif(NOT WIN32)   # Linux
         target_compile_options(astyle PRIVATE -wd11074,11076)
     endif()
 elseif(MINGW)
-    target_compile_options(astyle PRIVATE -Wall -Wextra -fno-rtti -fno-exceptions -std=c++11)
+    target_compile_options(astyle PRIVATE -Wall -Wextra -fno-rtti -fno-exceptions -std=c++17)
 elseif(BORLAND)     # Release must be explicitly requested for Borland
     target_compile_options(astyle PRIVATE -q -w -x-)   # Cannot use no-rtti (-RT-)
 endif()

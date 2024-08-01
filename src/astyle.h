@@ -21,6 +21,7 @@
 #include <iostream>		// for cout
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #ifdef __GNUC__
@@ -52,7 +53,7 @@
 	#pragma clang diagnostic ignored "-Wshorten-64-to-32"
 #endif
 
-#define ASTYLE_VERSION "3.4.13"
+#define ASTYLE_VERSION "3.4.14"
 
 //-----------------------------------------------------------------------------
 // astyle namespace
@@ -315,19 +316,18 @@ protected:  // inline functions
 	bool isWhiteSpace(char ch) const { return (ch == ' ' || ch == '\t'); }
 
 protected:  // functions definitions are at the end of ASResource.cpp
-	const std::string* findHeader(const std::string& line, int i,
+	const std::string* findHeader(std::string_view line, int i,
 	                              const std::vector<const std::string*>* possibleHeaders) const;
-	bool findKeyword(const std::string& line, int i, const std::string& keyword) const;
-	const std::string* findOperator(const std::string& line, int i,
+	bool findKeyword(std::string_view  line, int i, std::string_view  keyword) const;
+	const std::string* findOperator(std::string_view  line, int i,
 	                                const std::vector<const std::string*>* possibleOperators) const;
-	std::string getCurrentWord(const std::string& line, size_t index) const;
+	std::string_view getCurrentWord(std::string_view, size_t index) const;
 	bool isDigit(char ch) const;
 	bool isLegalNameChar(char ch) const;
-	bool isCharPotentialHeader(const std::string& line, size_t i) const;
+	bool isCharPotentialHeader(std::string_view line, size_t i) const;
 	bool isCharPotentialOperator(char ch) const;
-	bool isDigitSeparator(const std::string& line, int i) const;
-	char peekNextChar(const std::string& line, int i) const;
-
+	bool isDigitSeparator(std::string_view line, int i) const;
+	char peekNextChar(std::string_view line, int i) const;
 };  // Class ASBase
 
 //-----------------------------------------------------------------------------
@@ -398,14 +398,14 @@ public:
 
 protected:
 	void deleteBeautifierVectors();
-	int  getNextProgramCharDistance(const std::string& line, int i) const;
+	int  getNextProgramCharDistance(std::string_view line, int i) const;
 	int  indexOf(const std::vector<const std::string*>& container, const std::string* element) const;
 	void setBlockIndent(bool state);
 	void setBraceIndent(bool state);
 	void setBraceIndentVtk(bool state);
-	std::string extractPreprocessorStatement(const std::string& line) const;
-	std::string trim(const std::string& str) const;
-	std::string rtrim(const std::string& str) const;
+	std::string extractPreprocessorStatement(std::string_view line) const;
+	std::string trim(std::string_view str) const;
+	std::string rtrim(std::string_view str) const;
 
 	// variables set by ASFormatter - must be updated in activeBeautifierStack
 	int  inLineNumber;
@@ -426,16 +426,16 @@ protected:
 
 
 private:  // functions
-	void adjustObjCMethodDefinitionIndentation(const std::string& line_);
-	void adjustObjCMethodCallIndentation(const std::string& line_);
+	void adjustObjCMethodDefinitionIndentation(std::string_view line_);
+	void adjustObjCMethodCallIndentation(std::string_view line_);
 	void adjustParsedLineIndentation(size_t iPrelim, bool isInExtraHeaderIndent);
-	void computePreliminaryIndentation(const std::string& line);
-	void parseCurrentLine(const std::string& line);
+	void computePreliminaryIndentation(std::string_view line);
+	void parseCurrentLine(std::string_view line);
 	void popLastContinuationIndent();
-	void processPreprocessor(const std::string& preproc, const std::string& line);
-	void registerContinuationIndent(const std::string& line, int i, int spaceIndentCount_,
+	void processPreprocessor(std::string_view preproc, std::string_view line);
+	void registerContinuationIndent(std::string_view line, int i, int spaceIndentCount_,
 	                                int tabIncrementIn, int minIndent, bool updateParenStack);
-	void registerContinuationIndentColon(const std::string& line, int i, int tabIncrementIn);
+	void registerContinuationIndentColon(std::string_view line, int i, int tabIncrementIn);
 	void initVectors();
 	void initTempStacksContainer(std::vector<std::vector<const std::string*>*>*& container,
 	                             std::vector<std::vector<const std::string*>*>* value);
@@ -443,20 +443,20 @@ private:  // functions
 	void deleteBeautifierContainer(std::vector<ASBeautifier*>*& container);
 	void deleteTempStacksContainer(std::vector<std::vector<const std::string*>*>*& container);
 	int  adjustIndentCountForBreakElseIfComments() const;
-	int  computeObjCColonAlignment(const std::string& line, int colonAlignPosition) const;
+	int  computeObjCColonAlignment(std::string_view line, int colonAlignPosition) const;
 	int  convertTabToSpaces(int i, int tabIncrementIn) const;
-	int  findObjCColonAlignment(const std::string& line) const;
-	int  getContinuationIndentAssign(const std::string& line, size_t currPos) const;
-	int  getContinuationIndentComma(const std::string& line, size_t currPos) const;
-	int  getObjCFollowingKeyword(const std::string& line, int bracePos) const;
-	bool isIndentedPreprocessor(const std::string& line, size_t currPos) const;
-	bool isLineEndComment(const std::string& line, int startPos) const;
-	bool isPreprocessorConditionalCplusplus(const std::string& line) const;
-	bool isInPreprocessorUnterminatedComment(const std::string& line);
+	int  findObjCColonAlignment(std::string_view line) const;
+	int  getContinuationIndentAssign(std::string_view line, size_t currPos) const;
+	int  getContinuationIndentComma(std::string_view line, size_t currPos) const;
+	int  getObjCFollowingKeyword(std::string_view line, int bracePos) const;
+	bool isIndentedPreprocessor(std::string_view line, size_t currPos) const;
+	bool isLineEndComment(std::string_view line, int startPos) const;
+	bool isPreprocessorConditionalCplusplus(std::string_view line) const;
+	bool isInPreprocessorUnterminatedComment(std::string_view line);
 	bool isTopLevel() const;
-	bool statementEndsWithComma(const std::string& line, int index) const;
-	const std::string& getIndentedLineReturn(const std::string& newLine, const std::string& originalLine) const;
-	std::string getIndentedSpaceEquivalent(const std::string& line_) const;
+	bool statementEndsWithComma(std::string_view line, int index) const;
+
+	std::string getIndentedSpaceEquivalent(std::string_view line_) const;
 	std::string preLineWS(int lineIndentCount, int lineSpaceIndentCount) const;
 	template<typename T> void deleteContainer(T& container);
 	template<typename T> void initContainer(T& container, T value);
@@ -602,6 +602,8 @@ private:  // variables
 // Class ASEnhancer
 //-----------------------------------------------------------------------------
 
+// TODO rewrite methods to return altered stings
+
 class ASEnhancer : protected ASBase
 {
 public:  // functions
@@ -613,11 +615,11 @@ public:  // functions
 private:  // functions
 	void   convertForceTabIndentToSpaces(std::string&  line) const;
 	void   convertSpaceIndentToForceTab(std::string& line) const;
-	size_t findCaseColon(const std::string&  line, size_t caseIndex) const;
+	size_t findCaseColon(std::string_view line, size_t caseIndex) const;
 	int    indentLine(std::string&  line, int indent) const;
-	bool   isBeginDeclareSectionSQL(const std::string&  line, size_t index) const;
-	bool   isEndDeclareSectionSQL(const std::string&  line, size_t index) const;
-	bool   isOneLineBlockReached(const std::string& line, int startChar) const;
+	bool   isBeginDeclareSectionSQL(std::string_view  line, size_t index) const;
+	bool   isEndDeclareSectionSQL(std::string_view  line, size_t index) const;
+	bool   isOneLineBlockReached(std::string_view line, int startChar) const;
 	void   parseCurrentLine(std::string& line, bool isInPreprocessor, bool isInSQL);
 	size_t processSwitchBlock(std::string&  line, size_t index);
 	int    unindentLine(std::string&  line, int unindent) const;
@@ -764,8 +766,8 @@ private:  // functions
 	char peekNextChar() const;
 	BraceType getBraceType();
 	bool adjustChecksumIn(int adjustment);
-	bool computeChecksumIn(const std::string& currentLine_);
-	bool computeChecksumOut(const std::string& beautifiedLine);
+	bool computeChecksumIn(std::string_view currentLine_);
+	bool computeChecksumOut(std::string_view beautifiedLine);
 	bool addBracesToStatement();
 	bool removeBracesFromStatement();
 	bool commentAndHeaderFollows();
@@ -781,22 +783,22 @@ private:  // functions
 	bool isClosingHeader(const std::string* header) const;
 	bool isCurrentBraceBroken() const;
 	bool isDereferenceOrAddressOf() const;
-	bool isExecSQL(const std::string& line, size_t index) const;
-	bool isEmptyLine(const std::string& line) const;
+	bool isExecSQL(std::string_view line, size_t index) const;
+	bool isEmptyLine(std::string_view line) const;
 	bool isExternC() const;
 	bool isMultiStatementLine() const;
 	bool isNextWordSharpNonParenHeader(int startChar) const;
 	bool isNonInStatementArrayBrace() const;
-	bool isNumericVariable(const std::string& word) const;
+	bool isNumericVariable(std::string_view word) const;
 	bool isOkToSplitFormattedLine();
 	bool isPointerOrReference() const;
 	bool isPointerOrReferenceCentered() const;
-	bool isPointerOrReferenceVariable(const std::string& word) const;
-	bool isPointerToPointer(const std::string& line, int currPos) const;
+	bool isPointerOrReferenceVariable(std::string_view word) const;
+	bool isPointerToPointer(std::string_view line, int currPos) const;
 	bool isSharpStyleWithParen(const std::string* header) const;
 	bool isStructAccessModified(const std::string& firstLine, size_t index) const;
 	bool isIndentablePreprocessorBlock(const std::string& firstLine, size_t index);
-	bool isNDefPreprocStatement(const std::string& nextLine_, const std::string& preproc) const;
+	bool isNDefPreprocStatement(std::string_view nextLine_, std::string_view preproc) const;
 	bool isUnaryOperator() const;
 	bool isUniformInitializerBrace() const;
 	bool isImmediatelyPostCast() const;
@@ -809,19 +811,19 @@ private:  // functions
 	int  findObjCColonAlignment() const;
 	int  getCurrentLineCommentAdjustment();
 	int  getNextLineCommentAdjustment();
-	int  isOneLineBlockReached(const std::string& line, int startChar) const;
+	int  isOneLineBlockReached(std::string_view line, int startChar) const;
 	void adjustComments();
 	void appendChar(char ch, bool canBreakLine);
 	void appendCharInsideComments();
 	void appendClosingHeader();
-	void appendOperator(const std::string& sequence, bool canBreakLine = true);
-	void appendSequence(const std::string& sequence, bool canBreakLine = true);
+	void appendOperator(std::string_view sequence, bool canBreakLine = true);
+	void appendSequence(std::string_view sequence, bool canBreakLine = true);
 	void appendSpacePad();
 	void appendSpaceAfter();
 	void breakLine(bool isSplitLine = false);
 	void buildLanguageVectors();
 	void updateFormattedLineSplitPoints(char appendedChar);
-	void updateFormattedLineSplitPointsOperator(const std::string& sequence);
+	void updateFormattedLineSplitPointsOperator(std::string_view sequence);
 	void checkIfTemplateOpener();
 	void clearFormattedLineSplitPoints();
 	void convertTabToSpaces();
@@ -863,11 +865,11 @@ private:  // functions
 	void trimContinuationLine();
 	void updateFormattedLineSplitPointsPointerOrReference(size_t index);
 	size_t findFormattedLineSplitPoint() const;
-	size_t findNextChar(const std::string& line, char searchChar, int searchStart = 0) const;
-	const std::string* checkForHeaderFollowingComment(const std::string& firstLine) const;
+	size_t findNextChar(std::string_view line, char searchChar, int searchStart = 0) const;
+	const std::string* checkForHeaderFollowingComment(std::string_view firstLine) const;
 	const std::string* getFollowingOperator() const;
 	std::string getPreviousWord(const std::string& line, int currPos) const;
-	std::string peekNextText(const std::string& firstLine,
+	std::string peekNextText(std::string_view firstLine,
 	                         bool endOnEmptyLine = false,
 	                         const std::shared_ptr<ASPeekStream>& streamArg = nullptr) const;
 
@@ -1110,8 +1112,10 @@ private:  // inline functions
 	{ appendChar(currentChar, canBreakLine); }
 
 	// check if a specific sequence exists in the current placement of the current line
-	bool isSequenceReached(const char* sequence) const
-	{ return currentLine.compare(charNum, strlen(sequence), sequence) == 0; }
+	bool isSequenceReached(std::string_view sequence) const
+	{
+    	return currentLine.compare(charNum, sequence.length(), sequence) == 0;
+	}
 
 	// call ASBase::findHeader for the current character
 	const std::string* findHeader(const std::vector<const std::string*>* headers_)
