@@ -3538,6 +3538,11 @@ bool ASFormatter::isDereferenceOrAddressOf() const
 		return false;
 	}
 
+
+	if (previousNonWSChar == '(' && currentChar == '&' && pointerAlignment == PTR_ALIGN_TYPE) {
+		return true;
+	}
+
 	// check first char on the line
 	if (charNum == (int) currentLine.find_first_not_of(" \t")
 	        && (isBraceType(braceTypeStack->back(), COMMAND_TYPE)
@@ -3631,6 +3636,7 @@ bool ASFormatter::isPointerOrReferenceVariable(std::string_view word) const
 	assert(currentChar == '*' || currentChar == '&' || currentChar == '^');
 	bool retval = true;
 
+	// to avoid problem with multiplications - we need LSP
 	for (char c: word){
 		if (!isLegalNameChar(c)) {
 			retval = false;
@@ -3738,7 +3744,11 @@ bool ASFormatter::isInExponent() const
 	assert(currentChar == '+' || currentChar == '-');
 	std::string prevWord = getPreviousWord(currentLine, charNum, true);
 
-	if (charNum >= 2 && prevWord.size()>2 && prevWord[0]=='0' && (prevWord[1]=='x' || prevWord[1]=='X'))
+	if (charNum && isDigit(prevWord[0])) {
+		return prevWord.find_first_not_of("0123456789.") != std::string::npos;
+	}
+
+	if (charNum > 2 && prevWord.size()>=2 && prevWord[0]=='0' && (prevWord[1]=='x' || prevWord[1]=='X'))
 	{
 		char prevPrevFormattedChar = currentLine[charNum - 2];
 		char prevFormattedChar = currentLine[charNum - 1];
