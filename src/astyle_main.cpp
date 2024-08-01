@@ -4213,7 +4213,7 @@ extern "C" EXPORT char* STDCALL AStyleMain(const char* pSourceIn,		// the source
 
 	options.importOptions(opt, optionsVector);
 
-	bool ok = options.parseOptions(optionsVector, "Invalid Artistic Style options:");
+	bool ok = options.parseOptions(optionsVector);
 	if (!ok)
 		fpErrorHandler(130, options.getOptionErrors().c_str());
 
@@ -4226,13 +4226,13 @@ extern "C" EXPORT char* STDCALL AStyleMain(const char* pSourceIn,		// the source
 	{
 		out << formatter.nextLine();
 		if (formatter.hasMoreLines())
-			out << streamIterator.getOutputEOL();
+			out << streamIterator.getLastOutputEOL();
 		else
 		{
 			// this can happen if the file if missing a closing brace and break-blocks is requested
 			if (formatter.getIsLineReady())
 			{
-				out << streamIterator.getOutputEOL();
+				out << streamIterator.getLastOutputEOL();
 				out << formatter.nextLine();
 			}
 		}

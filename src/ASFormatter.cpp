@@ -671,40 +671,8 @@ std::string ASFormatter::nextLine()
 				isInBraceRunIn = false;
 			}
 			processPreprocessor();
-			// if top level it is potentially indentable
-			if (shouldIndentPreprocBlock
-			        && (isBraceType(braceTypeStack->back(), NULL_TYPE)
-			            || isBraceType(braceTypeStack->back(), NAMESPACE_TYPE)
 
-			            /* #521 enables preprocessor indent within { ... } block, but disables indent of code between #ifdefs  */
-			            //|| getFileType() == C_TYPE
-			           )
-			        && !foundClassHeader
-			        && !isInClassInitializer
-			        && sourceIterator->tellg() > preprocBlockEnd)
-			{
-				// indent the #if preprocessor blocks
-				std::string preproc = ASBeautifier::extractPreprocessorStatement(currentLine);
-				if (preproc.length() >= 2 && preproc.substr(0, 2) == "if") // #if, #ifdef, #ifndef
-				{
-					if (isImmediatelyPostPreprocessor)
-						breakLine();
-					isIndentablePreprocessorBlck = isIndentablePreprocessorBlock(currentLine, charNum);
-					isIndentablePreprocessor = isIndentablePreprocessorBlck;
-				}
-			}
-			if (isIndentablePreprocessorBlck
-			        && charNum < (int) currentLine.length() - 1
-			        && isWhiteSpace(currentLine[charNum + 1]))
-			{
-				size_t nextText = currentLine.find_first_not_of(" \t", charNum + 1);
-				if (nextText != std::string::npos)
-					currentLine.erase(charNum + 1, nextText - charNum - 1);
-			}
-			if (isIndentablePreprocessorBlck
-			        && sourceIterator->tellg() >= preprocBlockEnd)
-				isIndentablePreprocessorBlck = false;
-			//  need to fall thru here to reset the variables
+
 		}
 
 		/* not in preprocessor ... */
@@ -5872,15 +5840,63 @@ void ASFormatter::processPreprocessor()
 	else if (currentLine.compare(preproc, 6, "define") == 0)
 		isInPreprocessorDefineDef = true;
 
+
 	//https://sourceforge.net/p/astyle/tickets/117/
-	else if (includeDirectivePaddingMode != INCLUDE_PAD_NO_CHANGE
-			&& currentLine.compare(preproc, 7, "include") == 0) {
-		currentLine.erase (std::remove (currentLine.begin(), currentLine.end(), ' '), currentLine.end());
-		if (includeDirectivePaddingMode == INCLUDE_PAD_AFTER && (currentLine[preproc+7]=='<' || currentLine[preproc+7]=='"')) {
-			currentLine.insert(preproc+7, 1, ' ');
+	const size_t preprocPos = currentLine.find_first_not_of(" \t", charNum + 1);
+
+	if (includeDirectivePaddingMode != INCLUDE_PAD_NO_CHANGE
+		&& currentLine.compare(preprocPos, 7, "include") == 0) {
+		size_t firstChar = currentLine.find_first_not_of(" \t", preprocPos + 7);
+		if (firstChar != std::string::npos) {
+			currentLine.erase (preprocPos + 7, firstChar - (preprocPos + 7));
+		}
+
+		if (includeDirectivePaddingMode == INCLUDE_PAD_AFTER && (currentLine[preprocPos+7]=='<' || currentLine[preprocPos+7]=='"')) {
+			currentLine.insert(preprocPos+7, 1, ' ');
 		}
 	}
 
+	// if top level it is potentially indentable
+	if (shouldIndentPreprocBlock
+		&& (isBraceType(braceTypeStack->back(), NULL_TYPE)
+		|| isBraceType(braceTypeStack->back(), NAMESPACE_TYPE)
+
+		/* #521 enables preprocessor indent within { ... } block, but disables indent of code between #ifdefs  */
+		//|| getFileType() == C_TYPE
+		)
+		&& !foundClassHeader
+		&& !isInClassInitializer
+		&& sourceIterator->tellg() > preprocBlockEnd)
+	{
+		std::string preproc = ASBeautifier::extractPreprocessorStatement(currentLine);
+
+		// indent the #if preprocessor blocks
+		if (preproc.length() >= 2 && preproc.substr(0, 2) == "if") // #if, #ifdef, #ifndef
+		{
+			if (isImmediatelyPostPreprocessor)
+				breakLine();
+			isIndentablePreprocessorBlck = isIndentablePreprocessorBlock(currentLine, charNum);
+			isIndentablePreprocessor = isIndentablePreprocessorBlck;
+		}
+	}
+
+	if (isIndentablePreprocessorBlck
+		&& charNum < (int) currentLine.length() - 1
+		&& isWhiteSpace(currentLine[charNum + 1]))
+	{
+		size_t nextText = currentLine.find_first_not_of(" \t", charNum + 1);
+		if (nextText != std::string::npos) {
+			std::cerr << "erase 2 " << currentLine<<"\n";
+			currentLine.erase(charNum + 1, nextText - charNum - 1);
+			std::cerr << "erase 3 " << currentLine<<"\n";
+		}
+
+	}
+
+	if (isIndentablePreprocessorBlck
+		&& sourceIterator->tellg() >= preprocBlockEnd)
+		isIndentablePreprocessorBlck = false;
+	//  need to fall thru here to reset the variables
 }
 
 /**
