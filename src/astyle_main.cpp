@@ -1340,6 +1340,7 @@ void ASConsole::getFileNames(const std::string& directory, const std::vector<std
 	{
 		// get file status
 		std::string entryFilepath = directory + g_fileSeparator + entry->d_name;
+
 		if (stat(entryFilepath.c_str(), &statbuf) != 0)
 		{
 			if (errno == EOVERFLOW)         // file over 2 GB is OK
@@ -1701,8 +1702,10 @@ void ASConsole::getFilePaths(const std::string& filePath)
 	}
 	else
 	{
+
 		// verify a single file is not a directory (needed on Linux)
 		std::string entryFilepath = targetDirectory + g_fileSeparator + targetFilename;
+
 		struct stat statbuf;
 		if (stat(entryFilepath.c_str(), &statbuf) == 0 && (statbuf.st_mode & S_IFREG))
 			fileName.emplace_back(entryFilepath);
@@ -2378,8 +2381,11 @@ void ASConsole::processFiles()
 		getFilePaths(fileNameVectorName);
 
 		// loop thru fileName vector formatting the files
-		for (const std::string& file : fileName)
-			formatFile(file);
+		for (const std::string& file : fileName) {
+			if (!stringEndsWith(file, origSuffix))
+				formatFile(file);
+		}
+
 	}
 
 	// files are processed, display stats
@@ -2801,7 +2807,7 @@ void ASConsole::sleep(int seconds) const
 	while (clock() < endwait) {}
 }
 
-bool ASConsole::stringEndsWith(const std::string& str, const std::string& suffix) const
+bool ASConsole::stringEndsWith(std::string_view str, std::string_view suffix) const
 {
 	int strIndex = (int) str.length() - 1;
 	int suffixIndex = (int) suffix.length() - 1;

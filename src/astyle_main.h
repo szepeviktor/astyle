@@ -309,7 +309,7 @@ public:     // functions
 	void setStdPathIn(const std::string& path);
 	void setStdPathOut(const std::string& path);
 	void standardizePath(std::string& path, bool removeBeginningSeparator = false) const;
-	bool stringEndsWith(const std::string& str, const std::string& suffix) const;
+	bool stringEndsWith(std::string_view str, std::string_view suffix) const;
 	void updateExcludeVector(const std::string& suffixParam);
 	std::vector<std::string> getExcludeVector() const;
 	std::vector<bool>   getExcludeHitsVector() const;

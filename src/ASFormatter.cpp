@@ -1424,6 +1424,7 @@ std::string ASFormatter::nextLine()
 					}
 				}
 
+				// #569
 				if (shouldBreakBlocks
 				        && isOkToBreakBlock(braceTypeStack->back())
 				        && !isHeaderInMultiStatementLine)
@@ -1534,7 +1535,7 @@ std::string ASFormatter::nextLine()
 						passedSemicolon = true;
 				}
 
-//is set in struct case? #518
+//is set in struct case? #518 #569
 				if (shouldBreakBlocks
 				        && currentHeader != nullptr
 				        && currentHeader != &AS_CASE
@@ -3266,11 +3267,7 @@ bool ASFormatter::isNumericVariable(std::string_view word) const
 	        || word == "float"
 	        || (word.length() >= 4     // check end of word for _t
 	            && word.compare(word.length() - 2, 2, "_t") == 0)
-// removed release 3.1
-//	        || word == "Int32"
-//	        || word == "UInt32"
-//	        || word == "Int64"
-//	        || word == "UInt64"
+
 	        || word == "BOOL"
 	        || word == "DWORD"
 	        || word == "HWND"
@@ -3297,18 +3294,9 @@ bool ASFormatter::isClassInitializer() const
 	// this should be similar to ASBeautifier::parseCurrentLine()
 	bool foundClassInitializer = false;
 
-	if (foundQuestionMark)
+	if (foundQuestionMark || parenStack->back() > 0 || isInEnum)
 	{
 		// do nothing special
-	}
-	else if (parenStack->back() > 0)
-	{
-		// found a 'for' loop or an objective-C statement
-		// so do nothing special
-	}
-	else if (isInEnum)
-	{
-		// found an enum with a base-type
 	}
 	else if (isCStyle()
 	         && !isInCase
@@ -3641,21 +3629,14 @@ bool ASFormatter::isPointerOrReferenceCentered() const
 bool ASFormatter::isPointerOrReferenceVariable(std::string_view word) const
 {
 	assert(currentChar == '*' || currentChar == '&' || currentChar == '^');
-	bool retval = false;
-	if (word == "char"
-	        || word == "std::string"
-	        || word == "String"
-	        || word == "NSString"
-	        || word == "int"
-	        || word == "void"
-	        || word == "short"
-	        || word == "long"
-	        || word == "double"
-	        || word == "float"
-	        || (word.length() >= 6     // check end of word for _t
-	            && word.compare(word.length() - 2, 2, "_t") == 0)
-		)
-		retval = true;
+	bool retval = true;
+
+	for (char c: word){
+		if (!isLegalNameChar(c)) {
+			retval = false;
+			break;
+		}
+	}
 
 	// check for C# object type "x is std::string"
 	if (retval && isSharpStyle())
@@ -3755,13 +3736,15 @@ bool ASFormatter::isInSwitchStatement() const
 bool ASFormatter::isInExponent() const
 {
 	assert(currentChar == '+' || currentChar == '-');
+	std::string prevWord = getPreviousWord(currentLine, charNum, true);
 
-	if (charNum >= 2)
+	if (charNum >= 2 && prevWord.size()>2 && prevWord[0]=='0' && (prevWord[1]=='x' || prevWord[1]=='X'))
 	{
 		char prevPrevFormattedChar = currentLine[charNum - 2];
 		char prevFormattedChar = currentLine[charNum - 1];
-		return ((prevFormattedChar == 'e' || prevFormattedChar == 'E')
-		        && (prevPrevFormattedChar == '.' || isDigit(prevPrevFormattedChar)));
+		//    double x = 0x1.23ffp-11;
+		return ((prevFormattedChar == 'e' || prevFormattedChar == 'E' || prevFormattedChar == 'p' || prevFormattedChar == 'P')
+		        && (prevPrevFormattedChar == '.' || std::isxdigit(prevPrevFormattedChar)));
 	}
 	return false;
 }
@@ -4220,6 +4203,7 @@ void ASFormatter::padOperators(const std::string* newOperator)
 	char nextNonWSChar = ASBase::peekNextChar(currentLine, charNum);
 	std::set<char> allowedChars = {'(', '[', '=', ',', ':', '{'};
 
+// #566
 	bool shouldPad = (newOperator != &AS_SCOPE_RESOLUTION
 	                  && newOperator != &AS_PLUS_PLUS
 	                  && newOperator != &AS_MINUS_MINUS
@@ -4399,7 +4383,7 @@ void ASFormatter::formatPointerOrReferenceToType()
 	}
 
 	// https://sourceforge.net/p/astyle/bugs/537/
-	if (previousNonWSChar == ',' && currentChar != ' ')
+	if ((previousNonWSChar == ',' || previousNonWSChar == '[') && currentChar != ' ')
 		appendSpacePad();
 
 	formattedLine.append(sequenceToInsert);
@@ -5320,10 +5304,13 @@ void ASFormatter::formatClosingBrace(BraceType braceType)
 		}
 		else {
 			// GH18
+			// #569
 			isAppendPostBlockEmptyLineRequested = !(shouldBreakBlocks && shouldAttachClosingWhile)
                                                     || currentHeader != &AS_DO;
 		}
 
+	} else {
+		isAppendPostBlockEmptyLineRequested = !currentHeader && shouldBreakBlocks;
 	}
 }
 
@@ -6522,7 +6509,7 @@ int ASFormatter::getCurrentLineCommentAdjustment()
  *
  * @return is the previous word or an empty std::string if none found.
  */
-std::string ASFormatter::getPreviousWord(const std::string& line, int currPos) const
+std::string ASFormatter::getPreviousWord(const std::string& line, int currPos, bool allowDots) const
 {
 	// get the last legal word (may be a number)
 	if (currPos == 0)
@@ -6535,7 +6522,7 @@ std::string ASFormatter::getPreviousWord(const std::string& line, int currPos) c
 	int start;          // start of the previous word
 	for (start = end; start > -1; start--)
 	{
-		if (!isLegalNameChar(line[start]) || line[start] == '.')
+		if (!isLegalNameChar(line[start]) || (!allowDots && line[start] == '.') )
 			break;
 	}
 	start++;

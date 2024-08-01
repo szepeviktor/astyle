@@ -111,7 +111,7 @@
         <a class="contents" href="#_indent=spaces">indent=spaces</a>
         <a class="contents" href="#_indent=tab">indent=tab</a>
         <a class="contents" href="#_indent=force-tab">indent=force-tab</a>
-        <a class="contents" href="#_indent=force-tab-x">--indent=force-tab-x</a>
+        <a class="contents" href="#_indent=force-tab-x">indent=force-tab-x</a>
     </p>
     <p class="contents1">
         <a  href="#_Brace_Modify_Options">Brace&nbsp;Modify&nbsp;Options</a></p>
@@ -402,7 +402,7 @@
     <h4>Redirection</h4>
 
     <p>
-        The < and > characters may be used to redirect the files into standard input (stdin) and out of standard output
+        The &lt; and &gt; characters may be used to redirect the files into standard input (stdin) and out of standard output
         (stdout) - don't forget them! With this option, only one file at a time can be formatted. Wildcards are not
         recognized, there are no console messages, and a backup is not created. On Windows, the output will always have
         Windows line ends. The options "stdin=" and "stdout=" can be used instead of redirection.</p>
@@ -416,7 +416,8 @@
         <pre>astyle --style=allman --stdin=<em>OriginalSourceFile</em> --stdout=<em>BeautifiedSourceFile</em>
 </pre>
     </div>
-    <div class="code">
+
+    <div class="code" style="margin-top:1em">
         <p class="code">
             The redirection option may be used to display the formatted file without updating:</p>
         <pre>astyle --style=allman &lt; <em>OriginalSourceFile</em> | less
@@ -1963,7 +1964,7 @@ string ^s1;</pre>
 char&amp; foo2;
 string^ s1;</pre>
     </div>
-    <div class="code">
+    <div class="code" style="margin-top:1em">
         <pre>char* foo1;
 char &amp; foo2;
 string ^s1;</pre>
@@ -1973,7 +1974,7 @@ string ^s1;</pre>
 char &amp; foo2;
 string ^ s1;</pre>
     </div>
-    <div class="code">
+    <div class="code" style="margin-top:1em">
         <pre>char* foo1;
 char &amp; foo2;
 string ^s1;</pre>
@@ -2001,14 +2002,14 @@ string ^s1;</pre>
             becomes (with align-reference=type):</p>
         <pre>char&amp; foo1;</pre>
     </div>
-    <div class="code">
+    <div class="code"> style="margin-top:1em"
         <pre>char&amp; foo2;</pre>
         <p class="code">
             becomes (with align-reference=middle):</p>
         <pre>char &amp; foo2;</pre>
     </div>
-    <div class="code">
-        <pre>char& foo3;</pre>
+    <div class="code" style="margin-top:1em">
+        <pre>char&amp; foo3;</pre>
         <p class="code">
             becomes (with align-reference=name):</p>
         <pre>char &amp;foo3;</pre>

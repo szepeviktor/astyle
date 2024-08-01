@@ -53,7 +53,7 @@
 	#pragma clang diagnostic ignored "-Wshorten-64-to-32"
 #endif
 
-#define ASTYLE_VERSION "3.4.14"
+#define ASTYLE_VERSION "3.4.15"
 
 //-----------------------------------------------------------------------------
 // astyle namespace
@@ -868,7 +868,7 @@ private:  // functions
 	size_t findNextChar(std::string_view line, char searchChar, int searchStart = 0) const;
 	const std::string* checkForHeaderFollowingComment(std::string_view firstLine) const;
 	const std::string* getFollowingOperator() const;
-	std::string getPreviousWord(const std::string& line, int currPos) const;
+	std::string getPreviousWord(const std::string& line, int currPos, bool allowDots = false) const;
 	std::string peekNextText(std::string_view firstLine,
 	                         bool endOnEmptyLine = false,
 	                         const std::shared_ptr<ASPeekStream>& streamArg = nullptr) const;
