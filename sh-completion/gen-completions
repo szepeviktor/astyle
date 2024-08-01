@@ -89,6 +89,9 @@ parser:flag "--pad-oper"
 parser:flag "--pad-comma"
    :description "Insert space padding after commas"
 
+parser:flag "--pad-negation"
+   :description "Insert space padding after negations"
+
 parser:flag "--pad-paren"
    :description "Insert space padding around parenthesis on both the outside and the inside"
 

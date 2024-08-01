@@ -72,7 +72,7 @@ ASBeautifier::ASBeautifier()
 	setPreprocDefineIndent(false);
 	setPreprocConditionalIndent(false);
 	setAlignMethodColon(false);
-	isInAssignment = isInInitializerList = false;
+	isInAssignment = isInInitializerList = isInMultiLineString = false;
 
 	// initialize ASBeautifier member vectors
 	beautifierFileType = INVALID_TYPE;		// reset to an invalid type
@@ -212,6 +212,8 @@ ASBeautifier::ASBeautifier(const ASBeautifier& other) : ASBase(other)
 	attemptLambdaIndentation = other.attemptLambdaIndentation;
 	isInAssignment = other.isInAssignment;
 	isInInitializerList = other.isInInitializerList;
+	isInMultiLineString = other.isInMultiLineString;
+
 	namespaceIndent = other.namespaceIndent;
 	braceIndent = other.braceIndent;
 	braceIndentVtk = other.braceIndentVtk;
@@ -2657,10 +2659,12 @@ void ASBeautifier::parseCurrentLine(std::string_view line)
 	char ch = ' ';
 	int tabIncrementIn = 0;
 
+
 	if (isInQuote
 	        && !haveLineContinuationChar
 	        && !isInVerbatimQuote
-	        && !isInAsm)
+	        && !isInAsm
+			&& !isInMultiLineString)
 		isInQuote = false;				// missing closing quote
 
 	haveLineContinuationChar = false;
@@ -2671,6 +2675,8 @@ void ASBeautifier::parseCurrentLine(std::string_view line)
 
 		if (isInBeautifySQL)
 			continue;
+
+		bool isTripleQuoteDelimiter = (isJavaStyle() || isSharpStyle() ) && line.length() > i + 2 && line[i + 1] == '"' && line[i + 2 ] == '"';
 
 		// handle special characters (i.e. backslash+character such as \n, \t, ...)
 		if (isInQuote && !isInVerbatimQuote)
@@ -2717,10 +2723,11 @@ void ASBeautifier::parseCurrentLine(std::string_view line)
 		        && (ch == '"'
 		            || (ch == '\'' && !isDigitSeparator(line, i))))
 		{
-			if (!isInQuote)
+			if (!isInQuote && !isInMultiLineString)
 			{
 				quoteChar = ch;
 				isInQuote = true;
+				isInMultiLineString = isTripleQuoteDelimiter;
 
 				char prevCh = i > 0 ? line[i - 1] : ' ';
 				char prevPrevCh = i > 1 ? line[i - 2] : ' ';
@@ -2767,6 +2774,13 @@ void ASBeautifier::parseCurrentLine(std::string_view line)
 						continue;
 					}
 				}
+			}
+			else if (isTripleQuoteDelimiter && isInMultiLineString)
+			{
+				isInMultiLineString = false;
+				isInQuote = false;
+				isContinuation = true;
+				continue;
 			}
 			else if (quoteChar == ch)
 			{

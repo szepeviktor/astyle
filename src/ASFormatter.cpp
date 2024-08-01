@@ -47,6 +47,7 @@ ASFormatter::ASFormatter()
 	isInStruct = false;
 	shouldPadCommas = false;
 	shouldPadOperators = false;
+	negationPadMode = NEGATION_PAD_NO_CHANGE;
 	shouldPadParensOutside = false;
 	shouldPadFirstParen = false;
 	shouldPadEmptyParens = false;
@@ -1896,7 +1897,7 @@ std::string ASFormatter::nextLine()
 			continue;
 		}
 
-		if (shouldPadOperators && newHeader != nullptr && !isOperatorPaddingDisabled())
+		if ((shouldPadOperators || negationPadMode!=NEGATION_PAD_NO_CHANGE) && newHeader != nullptr && !isOperatorPaddingDisabled())
 		{
 			padOperators(newHeader);
 			continue;
@@ -2228,6 +2229,15 @@ void ASFormatter::setMaxCodeLength(int max)
 void ASFormatter::setOperatorPaddingMode(bool state)
 {
 	shouldPadOperators = state;
+}
+
+/**
+ * set negation padding mode.
+ * @param state         the padding mode.
+ */
+void ASFormatter::setNegationPaddingMode(NegationPaddingMode mode)
+{
+	negationPadMode = mode;
 }
 
 /**
@@ -2819,6 +2829,12 @@ bool ASFormatter::getNextLine(bool emptyLineWasDeleted /*false*/)
 
 	if (currentLine.length() == 0)
 	{
+		//#574 avoid deletion of empüty lines after continuation
+		if (!isInComment && previousNonWSChar == '\\')
+		{
+			return false;
+		}
+
 		isInContinuedPreProc = false;
 		currentLine = std::string(" ");        // a null is inserted if this is not done
 	}
@@ -3380,8 +3396,14 @@ bool ASFormatter::isPointerOrReference() const
 		return false;
 
 	if ((foundCastOperator && nextChar == '>')
-	        || isPointerOrReferenceVariable(lastWord))
+	        || isPointerOrReferenceVariable(lastWord)) {
 		return true;
+	}
+
+	if (pointerAlignment == PTR_ALIGN_TYPE
+		&& !isPointerOrReferenceVariable(lastWord)) {
+		return false;
+	}
 
 	if (isInClassInitializer
 	        && previousNonWSChar != '('
@@ -3409,6 +3431,7 @@ bool ASFormatter::isPointerOrReference() const
 			return false;
 		return true;
 	}
+
 	if (nextChar == '*'
 	        || previousNonWSChar == '='
 	        || previousNonWSChar == '('
@@ -3418,8 +3441,10 @@ bool ASFormatter::isPointerOrReference() const
 	        || isCharImmediatelyPostTemplate
 	        || currentHeader == &AS_CATCH
 	        || currentHeader == &AS_FOREACH
-	        || currentHeader == &AS_QFOREACH)
+	        || currentHeader == &AS_QFOREACH) {
 		return true;
+	}
+
 
 	if (isBraceType(braceTypeStack->back(), ARRAY_TYPE)
 	        && isLegalNameChar(lastWord[0])
@@ -3442,8 +3467,10 @@ bool ASFormatter::isPointerOrReference() const
 		        && followingOperator != &AS_MULT
 		        && followingOperator != &AS_BIT_AND)
 		{
-			if (followingOperator == &AS_ASSIGN || followingOperator == &AS_COLON)
+			if (followingOperator == &AS_ASSIGN || followingOperator == &AS_COLON) {
 				return true;
+			}
+
 			return false;
 		}
 
@@ -3538,7 +3565,6 @@ bool ASFormatter::isDereferenceOrAddressOf() const
 		return false;
 	}
 
-
 	if (previousNonWSChar == '(' && currentChar == '&' && pointerAlignment == PTR_ALIGN_TYPE) {
 		return true;
 	}
@@ -3569,12 +3595,12 @@ bool ASFormatter::isDereferenceOrAddressOf() const
 	std::string lastWord = getPreviousWord(currentLine, charNum);
 	if (lastWord == "else" || lastWord == "delete")
 		return true;
-	if (isPointerOrReferenceVariable(lastWord))
-		return false;
+
 	bool isDA = (!(isLegalNameChar(previousNonWSChar) || previousNonWSChar == '>')          // TODO GH14
 	             || (nextText.length() > 0 && !isLegalNameChar(nextText[0]) && nextText[0] != '/')
 	             || (ispunct((unsigned char)previousNonWSChar) && previousNonWSChar != '.') // TODO GH14
-	             || isCharImmediatelyPostReturn);
+	             || isCharImmediatelyPostReturn
+	             || !isPointerOrReferenceVariable(lastWord));
 
 	return isDA;
 }
@@ -3634,14 +3660,27 @@ bool ASFormatter::isPointerOrReferenceCentered() const
 bool ASFormatter::isPointerOrReferenceVariable(std::string_view word) const
 {
 	assert(currentChar == '*' || currentChar == '&' || currentChar == '^');
-	bool retval = true;
+	bool retval = false;
 
 	// to avoid problem with multiplications - we need LSP
 	for (char c: word){
-		if (!isLegalNameChar(c)) {
-			retval = false;
+		if (isLegalNameChar(c)) {
+			retval = true;
 			break;
 		}
+	}
+
+	if (currentChar == '&' &&
+		(currentHeader == &AS_IF
+		|| currentHeader == &AS_ELSE
+		|| currentHeader == &AS_FOR
+		|| currentHeader == &AS_WHILE
+		|| currentHeader == &AS_DO)) {
+		retval = false;
+	}
+
+	if (pointerAlignment == PTR_ALIGN_TYPE) {
+		return retval;
 	}
 
 	// check for C# object type "x is std::string"
@@ -3655,6 +3694,7 @@ bool ASFormatter::isPointerOrReferenceVariable(std::string_view word) const
 		if (prevWord == "is")
 			retval = false;
 	}
+
 	return retval;
 }
 
@@ -4207,7 +4247,7 @@ void ASFormatter::appendCharInsideComments()
  */
 void ASFormatter::padOperators(const std::string* newOperator)
 {
-	assert(shouldPadOperators);
+	assert(shouldPadOperators || negationPadMode != NEGATION_PAD_NO_CHANGE);
 	assert(newOperator != nullptr);
 
 	char nextNonWSChar = ASBase::peekNextChar(currentLine, charNum);
@@ -4217,7 +4257,7 @@ void ASFormatter::padOperators(const std::string* newOperator)
 	bool shouldPad = (newOperator != &AS_SCOPE_RESOLUTION
 	                  && newOperator != &AS_PLUS_PLUS
 	                  && newOperator != &AS_MINUS_MINUS
-	                  && newOperator != &AS_NOT
+	                  && (newOperator != &AS_NOT || negationPadMode != NEGATION_PAD_NO_CHANGE)  // TODO 571
 	                  && newOperator != &AS_BIT_NOT
 	                  && newOperator != &AS_ARROW
 	                  && !(newOperator == &AS_COLON && !foundQuestionMark			// objC methods
@@ -4255,6 +4295,7 @@ void ASFormatter::padOperators(const std::string* newOperator)
 
 	// pad before operator
 	if (shouldPad
+	        && (newOperator != &AS_NOT || (newOperator == &AS_NOT && negationPadMode == NEGATION_PAD_BEFORE ) )
 	        && !(newOperator == &AS_COLON
 	             && (!foundQuestionMark && !isInEnum) && currentHeader != &AS_FOR)
 	        && !(newOperator == &AS_QUESTION && isSharpStyle() // check for C# nullable type (e.g. int?)

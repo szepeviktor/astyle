@@ -149,6 +149,7 @@
         <a class="contents" href="#_break-blocks=all">break-blocks=all</a>
         <a class="contents" href="#_pad-oper">pad-oper</a>
         <a class="contents" href="#_pad-comma">pad-comma</a>
+        <a class="contents" href="#_pad-negation">pad-negation</a>
         <a class="contents" href="#_pad-paren">pad-paren</a>
         <a class="contents" href="#_pad-paren-out">pad-paren-out</a>
         <a class="contents" href="#_pad-first-paren-out">pad-first-paren-out</a>
@@ -1674,6 +1675,41 @@ isBar = false;
     bar(a, b);
 </pre>
     </div>
+
+    <p>
+        &nbsp;</p>
+    <p id="_pad-negation">
+        <code class="title">--pad-negation</code><br />
+        Insert space padding after negations.
+    </p>
+    <div class="code">
+        <pre>if (!isFoo(a,b))
+    bar(a,b);
+</pre>
+        <p class="code">
+            becomes:</p>
+        <pre>if (! isFoo(a, b))
+    bar(a, b);
+</pre>
+    </div>
+
+    <p>
+        &nbsp;</p>
+    <p id="_pad-negation">
+        <code class="title">--pad-negation=before</code><br />
+        Insert space padding also before negations.
+    </p>
+    <div class="code">
+        <pre>if (!isFoo(a,b))
+    bar(a,b);
+</pre>
+        <p class="code">
+            becomes:</p>
+        <pre>if ( ! isFoo(a, b))
+    bar(a, b);
+</pre>
+    </div>
+
     <p>
         &nbsp;</p>
     <p id="_pad-paren">
@@ -2002,7 +2038,7 @@ string ^s1;</pre>
             becomes (with align-reference=type):</p>
         <pre>char&amp; foo1;</pre>
     </div>
-    <div class="code"> style="margin-top:1em"
+    <div class="code" style="margin-top:1em">
         <pre>char&amp; foo2;</pre>
         <p class="code">
             becomes (with align-reference=middle):</p>
@@ -2174,7 +2210,7 @@ else
     <p>
         &nbsp;</p>
     <p id="_break-return-type">
-        <code class="title">--break-return-type &nbsp;&nbsp; / -xB</code><br />
+        <code class="title">--break-return-type &nbsp;&nbsp;&nbsp;&nbsp; / -xB</code><br />
         <code class="title">--break-return-type-decl / -xD</code><br />
         Break the return type from the function name. The two options are for the function definitions (-xB), and the
         function declarations or signatures (-xD). If used with --attach-return-type, the result will be to break the
@@ -2189,7 +2225,7 @@ Foo(bool isFoo);</pre>
     <p>
         &nbsp;</p>
     <p id="_attach-return-type">
-        <code class="title">--attach-return-type &nbsp;&nbsp; / -xf</code><br />
+        <code class="title">--attach-return-type &nbsp;&nbsp;&nbsp;&nbsp; / -xf</code><br />
         <code class="title">--attach-return-type-decl / -xh</code><br />
         Attach the return type to the function name. The two options are for the function definitions (-xf), and the
         function declarations or signatures (-xh). They are intended to undo the --break-return-type options. If used
@@ -2316,10 +2352,14 @@ Foo(bool isFoo);</pre>
         <code class="title">--mode=js</code><br />
         <code class="title">--mode=java</code><br />
         <code class="title">--mode=objc</code><br />
-        Indent a C type, C#, Javascript, Java or <span style="white-space: nowrap;">Objective-C</span> file. C type files are C, C++, C++/CLI. The option is usually
-        set from the file extension for each file. You can override the setting with this entry. It will be used for all
-        files, regardless of the file extension. It allows the formatter to identify language specific syntax such as
-        C++ classes, templates, and keywords.</p>
+        <code class="title">--mode=js <i>(experimental)</i></code><br />
+        <code class="title">--mode=ghc <i>(experimental)</i></code><br />
+        Indent a C type, C#, Javascript, Java or <span style="white-space: nowrap;">Objective-C</span> file.
+        JS and GHC support is experimental.
+        C type files are C, C++, C++/CLI. The option is usually set from the file extension for each file.
+        You can override the setting with this entry. It will be used for all files, regardless of the file extension.
+        It allows the formatter to identify language specific syntax such as C++ classes, templates, and keywords.
+    </p>
     <p>
         &nbsp;</p>
     <hr />
@@ -2468,7 +2508,7 @@ Foo(bool isFoo);</pre>
         &nbsp;</p>
     <p id="_pad-method-colon">
         <code class="title">--pad-method-colon=none&nbsp;&nbsp; / -xP0<br />
-            --pad-method-colon=all  / -xP1<br />
+            --pad-method-colon=all&nbsp;&nbsp;&nbsp; / -xP1<br />
             --pad-method-colon=after&nbsp; / -xP2<br />
             --pad-method-colon=before / -xP3
         </code><br />

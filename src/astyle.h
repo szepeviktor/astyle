@@ -53,7 +53,7 @@
 	#pragma clang diagnostic ignored "-Wshorten-64-to-32"
 #endif
 
-#define ASTYLE_VERSION "3.4.16"
+#define ASTYLE_VERSION "3.5"
 
 //-----------------------------------------------------------------------------
 // astyle namespace
@@ -174,6 +174,13 @@ enum LineEndFormat
 	LINEEND_CRLF = LINEEND_WINDOWS,
 	LINEEND_LF   = LINEEND_LINUX,
 	LINEEND_CR   = LINEEND_MACOLD
+};
+
+enum NegationPaddingMode
+{
+	NEGATION_PAD_NO_CHANGE,
+	NEGATION_PAD_AFTER,
+	NEGATION_PAD_BEFORE
 };
 
 //-----------------------------------------------------------------------------
@@ -567,6 +574,7 @@ private:  // variables
 
 	bool isInAssignment;
 	bool isInInitializerList;
+	bool isInMultiLineString;
 
 	int  indentCount;
 	int  spaceIndentCount;
@@ -729,6 +737,8 @@ public:	// functions
 	void setMaxCodeLength(int max);
 	void setObjCColonPaddingMode(ObjCColonPad mode);
 	void setOperatorPaddingMode(bool state);
+	void setNegationPaddingMode(NegationPaddingMode mode);
+
 	void setParensOutsidePaddingMode(bool state);
 	void setParensFirstPaddingMode(bool state);
 
@@ -950,13 +960,14 @@ private:  // variables
 	ReferenceAlign referenceAlignment;
 	ObjCColonPad objCColonPadMode;
 	LineEndFormat lineEnd;
+	NegationPaddingMode negationPadMode;
+
 	bool isVirgin;
 	bool isInVirginLine;
 	bool shouldPadCommas;
 	bool shouldPadOperators;
 	bool shouldPadParensOutside;
 	bool shouldPadFirstParen;
-
 	bool shouldPadEmptyParens;
 	bool shouldPadParensInside;
 	bool shouldPadHeader;
