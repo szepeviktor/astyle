@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.8)
-cmake_policy(SET CMP0112 OLD)
+
+if(CMAKE_VERSION VERSION_GREATER "3.19.0")
+  cmake_policy(SET CMP0112 OLD)
+endif()
+
 project(astyle CXX)
 
 include( build/cmake/Options.cmake REQUIRED )

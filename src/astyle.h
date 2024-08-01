@@ -52,7 +52,7 @@
 	#pragma clang diagnostic ignored "-Wshorten-64-to-32"
 #endif
 
-#define ASTYLE_VERSION "3.4.12"
+#define ASTYLE_VERSION "3.4.13"
 
 //-----------------------------------------------------------------------------
 // astyle namespace
